@@ -1,0 +1,31 @@
+---
+
+- hosts: galaxyservers
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+  pre_tasks:
+    - name: Install Mercurial
+      pip: name=mercurial virtualenv={{ hg_virtualenv }}
+  roles:
+    # set up local galaxy clone and local config
+    - role: galaxyprojectdotorg.galaxy
+      galaxy_manage_database: no
+    # set up handler galaxy clone
+    - role: galaxyprojectdotorg.galaxy
+      galaxy_venv_dir: "{{ galaxy_handler_venv_dir }}"
+      galaxy_server_dir: "{{ galaxy_handler_server_dir }}"
+      galaxy_config_file: "{{ galaxy_handler_config_file }}"
+      galaxy_manage_static_setup: no
+      galaxy_manage_mutable_setup: no
+      galaxy_manage_database: no
+      galaxy_fetch_eggs: no
+      when: inventory_hostname in groups['galaxymasters']
+    # manage the database
+    - role: galaxyprojectdotorg.galaxy
+      galaxy_manage_clone: no
+      galaxy_manage_static_setup: no
+      galaxy_manage_mutable_setup: no
+      galaxy_fetch_eggs: no
+      when: inventory_hostname in groups['galaxymasters']
+    - role: usegalaxy
+    - role: usegalaxy_static

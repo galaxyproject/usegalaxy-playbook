@@ -1,0 +1,127 @@
+---
+# tasks file for natefoo.postgresql-objects
+
+# Some duplicated tasks here due to the inability to omit missing params,
+# should be fixed eventually:
+#   https://github.com/ansible/ansible/pull/8323
+
+# Revoke privs first so later user drop can succeed
+- name: Revoke extra privileges (grant_option set)
+  postgresql_privs: database={{ item.database }}
+                    roles={{ item.roles }}
+                    type={{ item.type | default( 'table' ) }}
+                    objs={{ item.objs | default( '' ) }}
+                    privs={{ item.privs | default( '' ) }}
+                    schema={{ item.schema | default( '' ) }}
+                    grant_option={{ item.grant_option }}
+                    state={{ item.state | default( 'present' ) }}
+                    login_host={{ postgresql_objects_login_host }}
+                    login_user={{ postgresql_objects_login_user }}
+                    login_password={{ postgresql_objects_login_password }}
+                    port={{ postgresql_objects_port }}
+  with_items: postgresql_objects_privileges
+  register: revoke
+  failed_when: "postgresql_objects_ignore_revoke_failure and revoke.failed is defined and ((revoke.failed and 'does not exist' not in revoke.msg) or (revoke.failed and ',' in item.roles))"
+  when: item.state is defined and item.state == 'absent' and item.grant_option is defined
+
+- name: Revoke extra privileges
+  postgresql_privs: database={{ item.database }}
+                    roles={{ item.roles }}
+                    type={{ item.type | default( 'table' ) }}
+                    objs={{ item.objs | default( '' ) }}
+                    privs={{ item.privs | default( '' ) }}
+                    schema={{ item.schema | default( '' ) }}
+                    state={{ item.state | default( 'present' ) }}
+                    login_host={{ postgresql_objects_login_host }}
+                    login_user={{ postgresql_objects_login_user }}
+                    login_password={{ postgresql_objects_login_password }}
+                    port={{ postgresql_objects_port }}
+  with_items: postgresql_objects_privileges
+  register: revoke
+  failed_when: "postgresql_objects_ignore_revoke_failure and revoke.failed is defined and ((revoke.failed and 'does not exist' not in revoke.msg) or (revoke.failed and ',' in item.roles))"
+  when: item.state is defined and item.state == 'absent' and item.grant_option is not defined
+
+# Drop databases first so later user drop can succeed
+- name: Drop databases
+  postgresql_db: name={{ item.name }}
+                    owner={{ item.owner | default( '' ) }}
+                    template={{ item.template | default( '' ) }}
+                    encoding={{ item.encoding | default( '' ) }}
+                    lc_collate={{ item.lc_collate | default( '' ) }}
+                    lc_ctype={{ item.lc_ctype | default( '' ) }}
+                    state={{ item.state }}
+                    login_host={{ postgresql_objects_login_host }}
+                    login_user={{ postgresql_objects_login_user }}
+                    login_password={{ postgresql_objects_login_password }}
+                    port={{ postgresql_objects_port }}
+  with_items: postgresql_objects_databases
+  when: item.state is defined and item.state == 'absent'
+
+- name: Create and drop users
+  postgresql_user: name={{ item.name }}
+                    password={{ item.password | default( 'NULL' ) }}
+                    role_attr_flags={{ item.role_attr_flags | default( '' ) }}
+                    encrypted={{ item.encrypted | default( 'no' ) }}
+                    state={{ item.state | default( 'present' ) }}
+                    login_host={{ postgresql_objects_login_host }}
+                    login_user={{ postgresql_objects_login_user }}
+                    login_password={{ postgresql_objects_login_password }}
+                    port={{ postgresql_objects_port }}
+  with_items: postgresql_objects_users
+
+- name: Create databases
+  postgresql_db: name={{ item.name }}
+                    owner={{ item.owner | default( '' ) }}
+                    template={{ item.template | default( '' ) }}
+                    encoding={{ item.encoding | default( '' ) }}
+                    lc_collate={{ item.lc_collate | default( '' ) }}
+                    lc_ctype={{ item.lc_ctype | default( '' ) }}
+                    state={{ item.state | default( 'present' ) }}
+                    login_host={{ postgresql_objects_login_host }}
+                    login_user={{ postgresql_objects_login_user }}
+                    login_password={{ postgresql_objects_login_password }}
+                    port={{ postgresql_objects_port }}
+  with_items: postgresql_objects_databases
+  when: item.state is not defined or (item.state is defined and item.state == 'present')
+
+- name: Grant user database privileges
+  postgresql_user: name={{ item.name }}
+                    db={{ item.db }}
+                    priv={{ item.priv }}
+                    login_host={{ postgresql_objects_login_host }}
+                    login_user={{ postgresql_objects_login_user }}
+                    login_password={{ postgresql_objects_login_password }}
+                    port={{ postgresql_objects_port }}
+  with_items: postgresql_objects_users
+  when: item.db is defined and item.priv is defined and not (item.state is defined and item.state == 'absent')
+
+- name: Grant extra privileges (grant_option set)
+  postgresql_privs: database={{ item.database }}
+                    roles={{ item.roles }}
+                    type={{ item.type | default( 'table' ) }}
+                    objs={{ item.objs | default( '' ) }}
+                    privs={{ item.privs | default( '' ) }}
+                    schema={{ item.schema | default( '' ) }}
+                    grant_option={{ item.grant_option }}
+                    state={{ item.state | default( 'present' ) }}
+                    login_host={{ postgresql_objects_login_host }}
+                    login_user={{ postgresql_objects_login_user }}
+                    login_password={{ postgresql_objects_login_password }}
+                    port={{ postgresql_objects_port }}
+  with_items: postgresql_objects_privileges
+  when: (item.state is not defined or (item.state is defined and item.state == 'present')) and item.grant_option is defined
+
+- name: Grant extra privileges
+  postgresql_privs: database={{ item.database }}
+                    roles={{ item.roles }}
+                    type={{ item.type | default( 'table' ) }}
+                    objs={{ item.objs | default( '' ) }}
+                    privs={{ item.privs | default( '' ) }}
+                    schema={{ item.schema | default( '' ) }}
+                    state={{ item.state | default( 'present' ) }}
+                    login_host={{ postgresql_objects_login_host }}
+                    login_user={{ postgresql_objects_login_user }}
+                    login_password={{ postgresql_objects_login_password }}
+                    port={{ postgresql_objects_port }}
+  with_items: postgresql_objects_privileges
+  when: (item.state is not defined or (item.state is defined and item.state == 'present')) and item.grant_option is not defined

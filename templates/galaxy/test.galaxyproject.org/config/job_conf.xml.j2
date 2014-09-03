@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<!--
+    This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+-->
+<job_conf>
+    <plugins workers="3">
+        <plugin id="dynamic" type="runner">
+            <!-- These live in the virtualenv -->
+            <param id="rules_module">usegalaxy.jobs.rules</param>
+        </plugin>
+        <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner">
+            <param id="invalidjobexception_retries">5</param>
+            <param id="internalexception_retries">5</param>
+        </plugin>
+        <plugin id="amqp_lwr_stampede" type="runner" load="galaxy.jobs.runners.lwr:LwrJobRunner">
+            <param id="url">{{ galaxy_job_conf_amqp_url }}</param>
+            <param id="galaxy_url">https://test.galaxyproject.org</param>
+            <param id="manager">stampede</param>
+            <param id="amqp_connect_ssl_ca_certs">{{ galaxy_config_dir }}/rabbitssl/cacert.pem</param>
+            <param id="amqp_connect_ssl_keyfile">{{ galaxy_config_dir }}/rabbitssl/key.pem</param>
+            <param id="amqp_connect_ssl_certfile">{{ galaxy_config_dir }}/rabbitssl/cert.pem</param>
+            <param id="amqp_connect_ssl_cert_reqs">cert_required</param>
+            <param id="amqp_consumer_timeout">2.0</param>
+            <param id="amqp_publish_retry">True</param>
+            <param id="amqp_publish_retry_max_retries">600</param>
+        </plugin>
+        <plugin id="amqp_lwr_blacklight" type="runner" load="galaxy.jobs.runners.lwr:LwrJobRunner">
+            <param id="url">{{ galaxy_job_conf_amqp_url }}</param>
+            <param id="galaxy_url">https://test.galaxyproject.org</param>
+            <param id="manager">blacklight</param>
+            <param id="amqp_connect_ssl_ca_certs">{{ galaxy_config_dir }}/rabbitssl/cacert.pem</param>
+            <param id="amqp_connect_ssl_keyfile">{{ galaxy_config_dir }}/rabbitssl/key.pem</param>
+            <param id="amqp_connect_ssl_certfile">{{ galaxy_config_dir }}/rabbitssl/cert.pem</param>
+            <param id="amqp_connect_ssl_cert_reqs">cert_required</param>
+            <param id="amqp_consumer_timeout">2.0</param>
+            <param id="amqp_publish_retry">True</param>
+            <param id="amqp_publish_retry_max_retries">600</param>
+        </plugin>
+    </plugins>
+    <handlers default="handlers">
+        <handler id="test_handler0" tags="handlers">
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="test_handler1" tags="handlers">
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="test_handler2">
+            <plugin id="amqp_lwr_stampede"/>
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="test_handler3">
+            <plugin id="amqp_lwr_blacklight"/>
+            <plugin id="slurm"/>
+        </handler>
+    </handlers>
+    <destinations default="reserved_single">
+
+        <!-- dynamic methods for selecting reserved node -->
+        <destination id="reserved_single" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">reserved_single</param>
+        </destination>
+        <destination id="reserved_multi" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">reserved_multi</param>
+        </destination>
+
+        <!-- dynamic method for setting roundup multi walltime, also handles the explicit Stampede resource selector -->
+        <destination id="roundup_multi_dynamic_walltime" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">roundup_multi_dynamic_walltime</param>
+        </destination>
+
+        <!-- roundup destinations -->
+        <destination id="roundup_single" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --exclusive --partition=nebula</param>
+        </destination>
+        <destination id="roundup_single_development" runner="slurm">
+            <param id="nativeSpecification">--time=00:30:00 --nodes=1 --ntasks=2 --partition=single --constraint=general</param>
+        </destination>
+        <destination id="roundup_multi" runner="slurm">
+            <!-- walltime is set dynamically, DO NOT USE THIS DESTINATION WITHOUT DYNAMIC -->
+            <param id="nativeSpecification">--nodes=1 --ntasks=4 --partition=single</param>
+            <resubmit condition="walltime_reached" destination="lwr_stampede" handler="test_handler2"/>
+        </destination>
+        <destination id="roundup_trackster_multi" runner="slurm">
+            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=4 --partition=single --constraint=general</param>
+        </destination>
+
+        <!-- stampede destinations -->
+        <destination id="lwr_stampede" runner="amqp_lwr_stampede">
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/work/galaxy/test/lwr_staging/</param>
+            <param id="remote_property_galaxy_home">/work/galaxy/test/server</param>
+            <param id="submit_native_specification">--time=48:00:00 --nodes=1 --ntasks=16 --partition=normal --account=TG-MCB110157</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/lwr_stampede_actions.json</param>
+        </destination>
+        <destination id="lwr_stampede_development" runner="amqp_lwr_stampede">
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/work/galaxy/test/lwr_staging/</param>
+            <param id="remote_property_galaxy_home">/work/galaxy/test/server</param>
+            <param id="submit_native_specification">--time=00:30:00 --nodes=1 --ntasks=16 --partition=development --account=TG-MCB110157</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/lwr_stampede_actions.json</param>
+        </destination>
+
+        <!-- blacklight destinations -->
+        <destination id="lwr_blacklight" runner="amqp_lwr_blacklight">
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/brashear/ndc/test/lwr_staging/</param>
+            <param id="remote_property_galaxy_home">/brashear/ndc/test/server</param>
+            <param id="submit_native_specification">-l walltime=48:00:00 -l ncpus=64 -W group_list=mc3bf0p</param>
+        </destination>
+        <destination id="lwr_blacklight_development" runner="amqp_lwr_blacklight">
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/brashear/ndc/test/lwr_staging/</param>
+            <param id="remote_property_galaxy_home">/brashear/ndc/test/server</param>
+            <param id="submit_native_specification">-q debug -l walltime=00:30:00 -l ncpus=16 -W group_list=mc3bf0p</param>
+        </destination>
+
+    </destinations>
+    <tools>
+        <!--
+        <tool id="bowtie2" destination="reserved_multi"/>
+        <tool id="bowtie_wrapper" destination="reserved_multi"/>
+        <tool id="bwa_wrapper" destination="reserved_multi"/>
+        <tool id="tophat" destination="reserved_multi"/>
+        <tool id="tophat2" destination="reserved_multi"/>
+        <tool id="megablast_wrapper" destination="reserved_multi"/>
+        <tool id="cuffdiff" destination="reserved_multi"/>
+        <tool id="cufflinks" destination="reserved_multi"/>
+        <tool id="cuffmerge" destination="reserved_multi"/>
+        <tool id="lastz_wrapper_2" destination="reserved_multi"/>
+        -->
+        <!-- explicit roundup multi jobs (these should go away) -->
+        <tool id="bowtie_color_wrapper" destination="reserved_multi"/>
+        <tool id="bwa_color_wrapper" destination="reserved_multi"/>
+        <!-- do these even exist anymore? -->
+        <tool id="generate_coverage_report" destination="reserved_multi"/>
+        <tool id="quality_score_distribution" destination="reserved_multi"/>
+        <!-- explicit stampede jobs -->
+        <tool id="megablast_wrapper" handler="test_handler2" destination="lwr_stampede" resources="stampede"/>
+        <tool id="lastz_wrapper_2" handler="test_handler2" destination="lwr_stampede" resources="stampede"/>
+        <!-- resubmit to stampede jobs -->
+        <tool id="bwa_wrapper" destination="roundup_multi_dynamic_walltime" handler="test_handler2" resources="roundup_or_stampede"/>
+        <tool id="bowtie_wrapper" destination="roundup_multi_dynamic_walltime" handler="test_handler2" resources="roundup_or_stampede"/>
+        <tool id="bowtie2" destination="roundup_multi_dynamic_walltime" handler="test_handler2" resources="roundup_or_stampede"/>
+        <tool id="tophat" destination="roundup_multi_dynamic_walltime" handler="test_handler2" resources="roundup_or_stampede"/>
+        <tool id="tophat2" destination="roundup_multi_dynamic_walltime" handler="test_handler2" resources="roundup_or_stampede"/>
+        <tool id="cuffdiff" destination="roundup_multi_dynamic_walltime" handler="test_handler2" resources="roundup_or_stampede"/>
+        <tool id="cufflinks" destination="roundup_multi_dynamic_walltime" handler="test_handler2" resources="roundup_or_stampede"/>
+        <tool id="cuffmerge" destination="roundup_multi_dynamic_walltime" handler="test_handler2" resources="roundup_or_stampede"/>
+        <!-- blacklight jobs -->
+        <tool id="random_lines1" destination="lwr_blacklight_development" handler="test_handler3"/>
+        <!-- trackster jobs -->
+        <tool id="cufflinks" destination="roundup_trackster_multi">
+            <param id="source">trackster</param>
+        </tool>
+        <!-- nagios checks -->
+        <tool id="echo_test_handler0" handler="test_handler0"/>
+        <tool id="echo_test_handler1" handler="test_handler1"/>
+    </tools>
+    <resources default="default">
+        <group id="default"></group>
+        <group id="roundup_or_stampede">tacc_compute_resource</group>
+        <group id="stampede">stampede_compute_resource</group>
+    </resources>
+    <limits>
+        <limit type="registered_user_concurrent_jobs">4</limit>
+        <limit type="anonymous_user_concurrent_jobs">1</limit>
+        <limit type="job_walltime">49:00:00</limit>
+        <limit type="output_size">50G</limit>
+        <!-- per-destination per-user limits -->
+        <limit type="destination_user_concurrent_jobs" id="roundup_trackster_multi">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="roundup_multi">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="roundup_single">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="roundup_single_development">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="lwr_stampede">3</limit>
+        <limit type="destination_user_concurrent_jobs" id="lwr_stampede_development">1</limit>
+        <!-- per-destination total limits -->
+        <limit type="destination_total_concurrent_jobs" id="lwr_stampede">50</limit>
+        <limit type="destination_total_concurrent_jobs" id="lwr_stampede_development">1</limit>
+    </limits>
+</job_conf>

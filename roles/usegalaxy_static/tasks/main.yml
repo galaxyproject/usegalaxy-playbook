@@ -1,0 +1,23 @@
+---
+
+- name: Create directories
+  file: path={{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/{{ item }} mode=0755 state=directory
+  with_items:
+    - static
+
+- name: Synchronize directories
+  synchronize: src=files/galaxy/{{ galaxy_instance_hostname }}/{{ item }}/
+    dest={{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/{{ item }}
+    archive=no delete=yes links=yes perms=yes times=yes recursive=yes
+  with_items:
+    - static/welcome_img
+
+- name: Copy files
+  copy: src=files/galaxy/{{ galaxy_instance_hostname }}/{{ item }} dest={{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/{{ item }} mode=0444
+  with_items:
+    - static/terms.html
+
+- name: Fill templates
+  template: src=templates/galaxy/{{ galaxy_instance_hostname }}/{{ item }}.j2 dest={{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/{{ item }} mode=0444
+  with_items:
+    - static/welcome.html

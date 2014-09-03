@@ -1,0 +1,167 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="style/base.css" type="text/css" />
+    <style type="text/css">
+        /* set border-box so that percents can be used for width, padding, etc (personal preference) */
+        .cycle-slideshow, .cycle-slideshow * { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+        .cycle-slideshow { width: 45%; min-width: 200px; max-width: 500px; margin: 10px auto; padding: 0; position: relative;
+            /*background: url(/static/welcome_img/spinner.gif) 50% 50% no-repeat;*/
+        }
+        /* in case script does not load */
+        .cycle-slideshow img:first-child {
+            position: static; z-index: 100;
+        }
+        /* pager */
+        .cycle-galaxy-pager { 
+            text-align: center; width: 100%; z-index: 500;  top: 10px; overflow: hidden; 
+        }
+        .cycle-galaxy-pager span { 
+            font-family: arial; font-size: 50px; width: 16px; height: 30px; line-height: 60%; 
+            display: inline-block; color: #ddd; cursor: pointer; 
+        }
+        .cycle-galaxy-pager span.cycle-pager-active { color: #D69746;}
+        .cycle-galaxy-pager > * { cursor: pointer;}
+
+        /* display paused text on top of paused slideshow */
+        .cycle-paused:after {
+            content: '||'; color: white; background: black; padding: 10px;
+            z-index: 500; position: absolute; bottom: 3px; right: 3px;
+            border-radius: 10px;
+        }
+        #toggleHelp:hover {
+            cursor: pointer;
+        }
+
+        #logos img {
+            max-width: 100%;
+        }
+</style>
+
+<script type="text/javascript" src="/static/welcome_img/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/static/welcome_img/jquery.cycle2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('img[delayedsrc]').each(function(){
+            $(this).attr('src', $(this).attr('delayedsrc'));
+            $(this).height(200);    
+            $(this).width(300);
+        });
+        $( "#toggleHelp" ).click(function() {
+            top.window.jQuery( top.document ).find( '.dropdown' ).children( 'a:contains("Help"):visible' ).click()
+        });
+    });
+</script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <p class="lead" style="margin-top: 1em; margin-bottom: 2em;">
+                <b>Galaxy</b> is an open source, web-based platform for data intensive biomedical research. 
+                If you are new to Galaxy <a href="http://usegalaxy.org/galaxy101" target="_blank">start here</a> 
+                or consult our <a id="toggleHelp">help resources</a>.
+            </p>
+        </div>
+
+        <div class="row">
+    
+            <div class="col-sm-6">
+
+                <div class="panel panel-default" style="border-color: #e8e8e8; max-width: 520px; margin-right: auto; margin-left: auto;">
+
+                    <div class="hidden-sm hidden-xs" style="height: 71px;"></div>
+
+                    <div id="cycle_box">
+                        <div align="center" 
+                             class="cycle-slideshow composite-example" 
+                             data-cycle-fx="scrollHorz" 
+                             data-cycle-slides="> a" 
+                             data-cycle-timeout="4000" 
+                             data-cycle-pager=".cycle-galaxy-pager"
+                             data-cycle-pause-on-hover="true"
+                             data-cycle-log="false"
+                             style="width: 300px"
+                             >
+                            <a target="_blank" href="http://usegalaxy.org/galaxy101"> <img src='#' delayedsrc="/static/welcome_img/welcome_images.001.png" width="300" height="200"></a>
+                            <a target="_blank" href="http://wiki.galaxyproject.org/Events"> <img src='#' delayedsrc="/static/welcome_img/EuropeFall2014.png" width="300" height="200"></a>
+                            <a target="_blank" href="https://biostar.usegalaxy.org/"><img src='#' delayedsrc="/static/welcome_img/GalaxyBiostar.png" width="300" height="200" alt="Galaxy-User is now Galaxy Biostar" /></a>
+                            <a target="_blank" href="https://vimeo.com/channels/usegalaxy"><img src='#' delayedsrc="/static/welcome_img/VideosAreBack.png" width="300" height="200" /></a>
+                            <a target="_blank" href="http://mbac.gmu.edu:8080/"><img src='#' delayedsrc="/static/welcome_img/MBAC.png" alt="Metabiome Portal @ MBAC" width="300" height="200" /></a>
+                            <a target="_blank" href="https://wiki.galaxyproject.org/Cloud"><img src='#' delayedsrc="/static/welcome_img/welcome_images.002.png" width="300" height="200"></a>
+                            <a target="_blank" href="http://wiki.galaxyproject.org/PublicGalaxyServers"><img src='#' delayedsrc="/static/welcome_img/50PlusPublic.png" width="300" height="200" /></a>
+                            <a target="_blank" href="https://wiki.galaxyproject.org/Admin/GetGalaxy"><img src='#' delayedsrc="/static/welcome_img/welcome_images.003.png" width="300" height="200"></a>
+                            <a target="_blank" href="https://wiki.galaxyproject.org/GalaxyIsHiring"><img src='#' delayedsrc="/static/welcome_img/GalaxyIsHiringCascade.png" width="300" height="200" /></a>
+                        </div>
+                        <div class="cycle-galaxy-pager"></div>
+                    </div>
+
+                    <div class="hidden-sm hidden-xs" style="height: 72px;"></div>
+
+                </div>
+
+            </div>
+
+            <div class="col-sm-6 text-center">
+
+                <div id="twitter_timeline" style="height:400px;">
+                    <a class="twitter-timeline" data-dnt="true" height="400" href="https://twitter.com/galaxyproject" data-widget-id="384667676347363329">Tweets by @galaxyproject</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                </div>
+    
+            </div>
+
+        </div>
+
+        <div style="height: 4em"></div>
+
+        <div class="row" id="logos">
+
+            <div class="col-sm-6 col-sm-push-6">
+
+                <div class="row" style="min-height: 100px">
+                    <div class="col-xs-6 text-center"><a href="https://www.tacc.utexas.edu/" target="_blank"><img src="./welcome_img/tacc_logo.png"></a></div>
+                    <div class="col-xs-6 text-center"><a href="http://www.iplantcollaborative.org/" target="_blank"><img src="./welcome_img/iplant_logo.png"></a></div>
+                </div>
+                <p></p>
+
+                <p>This instance of Galaxy is utilizing infrastructure generously provided by the <a href="http://www.iplantcollaborative.org">iPlant Collaborative</a> at the <a href="https://www.tacc.utexas.edu">Texas Advanced Computing Center</a>, with support from the <a href="http://www.nsf.gov">National Science Foundation</a>.</p>
+            </div>
+
+
+            <div class="col-sm-6 col-sm-pull-6">
+
+                <div class="row" style="min-height: 100px">
+                    <div class="col-xs-6 text-center"><img src="./welcome_img/psu_logo.png" alt="Penn State University"></div>
+                    <div class="col-xs-6 text-center"><img src="./welcome_img/jhu_logo.png" alt="Johns Hopkins University"></div>
+                </div>
+                <p></p>
+
+            	<p><a target="_blank" class="reference" href="http://wiki.galaxyproject.org/GalaxyTeam">The Galaxy Team</a> is a part of <a target="_blank" class="reference" href="http://www.bx.psu.edu">the Center for Comparative Genomics and Bioinformatics</a> at <a target="_blank" class="reference" href="http://www.psu.edu">Penn State</a>, and the <a target="_blank" class="reference" href="http://www.bio.jhu.edu/">Department of Biology</a> and at <a target="_blank" class="reference" href="http://www.jhu.edu/">Johns Hopkins University</a>.</p>
+
+            </div>
+
+        </div>
+
+        <div style="height: 4em"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <hr/>
+
+                <p><a target="_blank" class="reference" href="http://galaxyproject.org/">The Galaxy Project</a> is supported in part by <a target="_blank" class="reference" href="http://www.nsf.gov">NSF</a>, <a target="_blank" class="reference" href="http://www.genome.gov">NHGRI</a>, <a target="_blank" class="reference" href="http://www.huck.psu.edu">The Huck Institutes of the Life Sciences</a>, <a target="_blank" class="reference" href="http://www.ics.psu.edu">The Institute for CyberScience at Penn State</a>, and <a target="_blank" class="reference" href="http://www.jhu.edu/">Johns Hopkins University</a>.</p>
+
+
+                <p style="font-size: 90%;">This is a free, public, internet accessible resource. Data transfer and data storage are not encrypted. If there are restrictions on the way your research data can be stored and used, please consult your local institutional review board or the project PI before uploading it to any public site, including this Galaxy server.  If you have protected data, large data storage requirements, or short deadlines you are encouraged to setup your own <a href="http://getgalaxy.org/" target="_blank">local Galaxy instance</a> or run <a href="http://usegalaxy.org/cloud" target="_blank">Galaxy on the cloud</a>.</p>
+
+                <p class="text-center"><small>Galaxy changeset: <code><a href="https://bitbucket.org/galaxy/galaxy-central/commits/{{ galaxy_changeset_id }}" target="_blank">{{ galaxy_changeset_id }}</a></code></small></p>
+        
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+---
+
+# hacks because the object store config has to exist on the cluster for set_metadata
+- name: Stat master config
+  stat: path={{ galaxy_config_file }}
+  register: master
+  when: inventory_hostname in groups['galaxymasters']
+
+- name: Stat handler config
+  stat: path={{ galaxy_handler_config_file }}
+  register: repl
+  when: inventory_hostname in groups['galaxymasters']
+
+- name: Overwrite handler config
+  shell: cp -f {{ galaxy_config_file }} {{ galaxy_handler_config_file }}
+  when: inventory_hostname in groups['galaxymasters'] and master.stat.mtime > repl.stat.mtime
+
+- name: Fix repl config
+  ini_file: dest={{ galaxy_handler_config_file }} section='app:main' option=object_store_config_file value={{ galaxy_handler_config_file }}
+  when: inventory_hostname in groups['galaxymasters'] and master.stat.mtime > repl.stat.mtime
+
+# distribute mutable configs to non-masters (this is not in the public role because I doubt anyone else is doing it)
+- name: Fetch mutable configs from master host
+  synchronize: mode=pull src={{ item.dest }} dest=files/galaxy/{{ galaxy_instance_hostname }}/var/{{ item.dest | basename }}
+  with_items: galaxy_mutable_configs
+  when: inventory_hostname in groups['galaxymasters']
+
+- name: Distribute mutable configs to slave hosts
+  synchronize: src=files/galaxy/{{ galaxy_instance_hostname }}/var/{{ item.dest | basename }} dest={{ item.dest }}
+  with_items: galaxy_mutable_configs
+  when: inventory_hostname not in groups['galaxymasters']
+
+# set up dynamic rules (such hack wow)
+- name: Create dynamic rule directories
+  file: state=directory path="{{ galaxy_handler_venv_dir }}/lib/python2.7/site-packages/usegalaxy/jobs/rules"
+  when: inventory_hostname in groups['galaxymasters']
+
+- name: Create dynamic rule __init__.py files
+  file: state=directory path="{{ galaxy_handler_venv_dir }}/lib/python2.7/site-packages/{{ item }}/__init__.py"
+  with_items:
+    - usegalaxy
+    - usegalaxy/jobs
+    - usegalaxy/jobs/rules
+  when: inventory_hostname in groups['galaxymasters']
+
+- name: Copy dynamic rules
+  copy: src={{ item }} dest={{ galaxy_handler_venv_dir }}/lib/python2.7/site-packages/usegalaxy/jobs/rules/{{ item | basename }}
+  with_items: usegalaxy_dynamic_job_rules
+  when: inventory_hostname in groups['galaxymasters']
+
+# overwrite configs from samples (use rsync to force overwriting even if destination is newer, which cp -u would not do)
+- name: Force install sample configs
+  synchronize: src={{ item.name }} dest={{ item.dest }} archive=no perms=yes times=yes group=yes
+  delegate_to: "{{ inventory_hostname }}"
+  with_items: usegalaxy_sample_configs
+
+# install error documents
+- name: Create vhost directories
+  file: path={{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/{{ item }} mode=0755 state=directory
+  with_items:
+    - 413
+    - 502
+
+- name: Install nginx error documents
+  copy: src=files/galaxy/{{ galaxy_instance_hostname }}/error/{{ item }} dest={{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/{{ item }} mode=0444
+  with_items:
+    - content_bg.png
+    - error_message_icon.png
+    - masthead_bg.png
+    - 413/index.html
+    - 502/index.shtml
+
+- name: Create nginx error document links
+  file: path={{ item.path }} src={{ item.src }} state=link
+  with_items:
+    - { path: '{{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/502/maint', src: '/home/{{ galaxy_user }}/maint' }
