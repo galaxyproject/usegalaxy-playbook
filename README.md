@@ -25,7 +25,7 @@ We differ slightly from [Ansible best practices][ansiblebestpractices]:
 [ansiblegalaxy]: https://galaxy.ansible.com/
 [main]: https://usegalaxy.org/
 [test]: https://test.galaxyproject.org/
-[ansiblebestpractices][http://docs.ansible.com/playbooks_best_practices.html]
+[ansiblebestpractices]: http://docs.ansible.com/playbooks_best_practices.html
 
 Usage
 -----
