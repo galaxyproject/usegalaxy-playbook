@@ -5,6 +5,8 @@
 pulsar_git_repo: https://github.com/galaxyproject/pulsar
 pulsar_changeset_id: master
 pulsar_job_manager_name: _default_
+pulsar_job_managers_config: "{{ pulsar_config_dir }}/job_managers.ini"
+pulsar_job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
 
 pulsar_dependencies_dir: "{{ pulsar_server_dir }}/deps"  # {{ galaxy_instance_remote_dir }}/deps
 pulsar_venv_dir: "{{ pulsar_server_dir }}/.venv"

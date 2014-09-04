@@ -33,7 +33,7 @@ private_token = {{ pulsar_private_token }}
 {% endif %}
 
 ## Define job managers (setup queues with various settings, etc...).
-job_managers_config = job_managers.ini
+job_managers_config = {{ pulsar_job_managers_config }}
 
 ## Comment out to disable persistent mappings (probably don't want do
 ## do this). If user the LWR runs as cannot write to the LWR root
@@ -64,7 +64,7 @@ tool_dependency_dir = {{ pulsar_dependencies_dir }}
 ## Setup job metrics file. See Galaxy documentaiton for more
 ## information on job metrics. (If job_metrics.xml is present, 
 ## this will be used unless overridden by this option.
-job_metrics_config_file = job_metrics_conf.xml
+job_metrics_config_file = {{ pulsar_job_metrics_config_file }}
 
 ## *Experimental*. Bind the LWR to an AMQP endpoint. Ensure kombu
 ## Python library is available and start the LWR normally.
