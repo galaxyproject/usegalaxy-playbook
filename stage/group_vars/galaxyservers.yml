@@ -16,13 +16,13 @@
 
 
 ## used by: other vars in this vars file
-galaxy_home: /home/{{ galaxy_user }}
-galaxy_log_dir: "{{ galaxy_home }}/log"
+instance_root: /home/{{ galaxy_user }}
+galaxy_root: "{{ instance_root }}"
+galaxy_log_dir: "{{ galaxy_root }}/log"
 
 
 ## used by: the play itself
-deploy_env: stage
-hg_virtualenv: /home/g2test/hgenv
+hg_virtualenv: "{{ instance_root }}/hgenv"
 
 galaxy_user: g2test
 galaxy_handler_venv_dir: /galaxy-repl/test/venv
@@ -43,15 +43,12 @@ usegalaxy_dynamic_job_rules:
 
 ## used by: galaxyprojectdotorg.galaxy
 hg_executable: "{{ hg_virtualenv }}/bin/hg"
-galaxy_venv_dir: "{{ galaxy_home }}/venv"
-galaxy_server_dir: "{{ galaxy_home }}/server"
-galaxy_config_dir: "{{ galaxy_home }}/config"
-galaxy_mutable_config_dir: "{{ galaxy_home }}/var"
+galaxy_venv_dir: "{{ galaxy_root }}/venv"
+galaxy_server_dir: "{{ galaxy_root }}/server"
+galaxy_config_dir: "{{ galaxy_root }}/config"
+galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
-
-galaxy_repo: https://bitbucket.org/galaxy/galaxy-central/
-galaxy_changeset_id: e5e05b2b242a99ab7a1c2748057db1f71ebd70ae
 
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
