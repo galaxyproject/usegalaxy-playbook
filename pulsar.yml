@@ -1,0 +1,15 @@
+---
+
+- hosts: pulsarservers
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/pulsarservers.yml"
+  pre_tasks:
+    - name: Install Mercurial
+      pip: name=mercurial virtualenv={{ hg_virtualenv }} virtualenv_command={{ pip_virtualenv_command | default( 'virtualenv' ) }}
+  roles:
+    # set up pulsar
+    - role: galaxyprojectdotorg.pulsar
+    # set up galaxy clone
+    - role: galaxyprojectdotorg.galaxy
+      galaxy_manage_mutable_setup: no
+      galaxy_manage_database: no
