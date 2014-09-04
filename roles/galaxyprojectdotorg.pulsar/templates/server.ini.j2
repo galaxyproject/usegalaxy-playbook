@@ -1,0 +1,161 @@
+### server:main section used by paster web server. More advanced,
+### Python3 compatible circus setup configured using sections after
+### app:main (circus, watcher:web, socket:web).
+
+[server:main]
+use = egg:Paste#http
+## To use chaussette w/paster deploy (no circus), use follwoing: 
+# use = egg:chaussette#main
+
+## The port on which to listen.
+port = {{ pulsar_port }}
+## The hostname or IP address of the server.
+host = {{ pulsar_host }}
+
+## pem file to use to enable SSL. Set to * to generate one
+## automatically.
+{% if pulsar_ssl_pem is defined %}
+# ssl_pem = host.pem
+{% endif %}
+
+[app:main]
+paste.app_factory = pulsar.web.wsgi:app_factory
+
+## Directory to stage files to. This should likely be updated to point
+## to an absolute path, such as /tmp/lwr_staging or C:\\lwr_staging
+staging_directory = {{ pulsar_staging_dir }}
+
+## Private key or password that must be sent as part of the request to
+## authorize use. If security is important, please use this in
+## combination with SSL.
+{% if pulsar_private_token is defined %}
+private_token = {{ pulsar_private_token }}
+{% endif %}
+
+## Define job managers (setup queues with various settings, etc...).
+job_managers_config = job_managers.ini
+
+## Comment out to disable persistent mappings (probably don't want do
+## do this). If user the LWR runs as cannot write to the LWR root
+## directory, this should be updated to point to some directory which
+## it can write to.
+persistence_directory = {{ pulsar_persistence_dir }}
+
+## How are ids assigned. galaxy (default) just passes through ids as
+## is. Setting this uuid assigns each job a UUID, this is strongly
+## encouraged if multiple Galaxy servers are targetting one LWR server.
+#assign_ids = uuid
+
+## LWR-equivalent of Galaxy's tool_dependency_dir. The default directory
+## used by tool dependency resolves to find dependency scripts. Used
+## if Galaxy configures remote dependency resolution.
+tool_dependency_dir = {{ pulsar_dependencies_dir }}
+
+## LWR-equivalent of Galaxy's tool_dependency_resolves_conf.
+# dependency_resolvers_config_file = dependency_resolvers_conf.xml
+
+## Comma separated list of paths to toolbox files. If this is set, LWR
+## will use the information contained in the tools to lock down what
+## the LWR can execute. This absolutely *SHOULD* be enabled if the LWR
+## server is being opened to the world. See the documentation
+## (lwr.readthedocs.org) for more information about securing LWR.
+#tool_config_files = toolbox/conf.xml
+
+## Setup job metrics file. See Galaxy documentaiton for more
+## information on job metrics. (If job_metrics.xml is present, 
+## this will be used unless overridden by this option.
+job_metrics_config_file = job_metrics_conf.xml
+
+## *Experimental*. Bind the LWR to an AMQP endpoint. Ensure kombu
+## Python library is available and start the LWR normally.
+{% if pulsar_message_queue_url is defined %}
+message_queue_url = {{ pulsar_message_queue_url }}
+
+## The AMQP client can provide an SSL client certificate (e.g. for
+## validation), the following options configure that certificate
+## (see for reference:
+##   http://kombu.readthedocs.org/en/latest/reference/kombu.connection.html
+## ). If you simply want to use SSL but not use/validate a client
+## cert, just use the ?ssl=1 query on the amqp URL instead.
+#amqp_connect_ssl_ca_certs = /path/to/cacert.pem
+#amqp_connect_ssl_keyfile = /path/to/key.pem
+#amqp_connect_ssl_certfile = /path/to/cert.pem
+#amqp_connect_ssl_cert_reqs = cert_required
+
+amqp_consumer_timeout = 1.0
+amqp_publish_retry = True
+
+{% endif %}
+
+## *Experimental*. Enable file caching by specifing a directory here. 
+## Directory used to store incoming file cache. It works fine for HTTP
+## transfer, have not tested with staging by coping. Also there is no
+## mechanism for expiring cache so it will grow unbounded without
+## external clean up.
+#file_cache_dir = cache
+
+
+## Configure uWSGI (if used).
+[uwsgi]
+master = True
+paste-logger = True
+socket = {{ pulsar_server_dir }}/uwsgi.sock
+pidfile = {{ pulsar_server_dir }}/uwsgi.pid
+processes = 1
+enable-threads = True
+
+
+## Configure circus and chaussette (if used).
+[circus]
+endpoint = tcp://127.0.0.1:5555
+pubsub_endpoint = tcp://127.0.0.1:5556
+#stats_endpoint = tcp://127.0.0.1:5557                                                                                    
+
+[watcher:web]
+cmd = chaussette --fd $(circus.sockets.web) paste:server.ini
+use_sockets = True
+# LWR must be single-process for now...
+numprocesses = 1
+
+
+[socket:web]
+host = localhost
+port = 8913
+
+
+
+## Configure Python loggers (for both Pulsar and LWR - someday drop LWR :) )
+[loggers]
+keys = root,lwr,pulsar
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = INFO
+handlers = console
+
+[logger_lwr]
+level = DEBUG
+handlers = console
+qualname = lwr
+propagate = 0
+
+[logger_pulsar]
+level = DEBUG
+handlers = console
+qualname = pulsar
+propagate = 0
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = DEBUG
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s][%(threadName)s] %(message)s
+

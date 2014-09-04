@@ -1,0 +1,9 @@
+[manager:{{ pulsar_job_manager_name }}]
+{% if pulsar_manager_type is defined %}
+type = pulsar_job_manager_type
+{% elif pulsar_drmaa_library_path is defined %}
+type = queued_drmaa
+#native_specification = provided by galaxy
+{% else %}
+type = queued_python
+{% endif %}

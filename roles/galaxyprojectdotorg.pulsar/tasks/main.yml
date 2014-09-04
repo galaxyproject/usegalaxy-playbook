@@ -1,0 +1,27 @@
+---
+# tasks file for galaxyprojectdotorg.pulsar
+
+# Deploy a Pulsar server
+#   http://pulsar.readthedocs.org/
+
+- name: Install Pulsar
+  git: dest={{ pulsar_server_dir }} force=no repo={{ pulsar_git_repo }} version={{ pulsar_changeset_id }}
+
+- name: Install Pulsar dependencies (base)
+  pip: requirements={{ pulsar_server_dir }}/requirements.txt virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default( 'virtualenv' ) }}
+
+- name: Install Pulsar dependencies (optional)
+  pip: name={{ item }} virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default( 'virtualenv' ) }}
+  environment: pulsar_install_environments[item] if item in pulsar_install_environments else {}
+  with_items: pulsar_optional_dependencies
+
+- name: Create Pulsar config dir
+  file: state=directory path={{ pulsar_config_dir }}
+
+- name: Copy Pulsar config files
+  template: src={{ item }}.j2 dest={{ pulsar_config_dir }}/{{ item }} mode=0444 backup=yes
+  with_items:
+    - server.ini
+    - local_env.sh
+    - job_managers.ini
+    - job_metrics_conf.xml
