@@ -49,6 +49,63 @@ directory.
 
 [pass]: http://www.passwordstore.org/
 
+Build Notes
+-----------
+
+Building Pulsar's dependencies' dependencies as an unprivileged user on some
+HPC systems was a difficult manual process, so I made some notes, which may be
+helpful:
+
+Installed cURL by hand on Blacklight:
+
+    cd curl-7.37.0
+    ./configure --prefix=/brashear/ndc/test/curl --with-ssl=/brashear/ndc/openssl && make && make install
+
+libffi compiled and installed by hand on Stampede and Blacklight:
+
+    cd /work/galaxy/test/libffi/src/libffi-3.0.13
+    ./configure --prefix=/work/galaxy/test/libffi --libdir='${prefix}/lib64' && make && make install
+    sed -i -e 's/^Libs:.*/Libs: -L${libdir} -Wl,-rpath,${libdir} -lffi/' ../../lib64/pkgconfig/libffi.pc
+
+OpenSSL compiled and installed by hand on Blacklight (Reference:
+https://cryptography.io/en/latest/installation/#building-cryptography-on-linux):
+
+    cd /brashear/ndc/test/openssl/src/openssl-1.0.1h
+    cat <<EOF >opnessl.ld
+    OPENSSL_1.0.1H_CUSTOM {
+        global:
+            *;
+    };
+    EOF
+    ./config --prefix=/brashear/ndc/test/openssl -Wl,--version-script=openssl.ld -Wl,-Bsymbolic-functions -fPIC shared && make && make install
+
+slurm-drmaa compiled and installed by hand on Stampede (slurm-devel is not
+installed (or worse, some login nodes have mismatched versions), so I had to
+work around this):
+
+    cd slurm
+    mkdir -p include/slurm
+    cd src/slurm-2.6.3
+    ./configure --prefix=/usr
+    cp slurm/*.h ../../include/slurm
+    cd slurm-drmaa-1.0.7
+    ./configure --prefix=/work/galaxy/test/slurm-drmaa --with-slurm-inc=/work/galaxy/test/slurm/include && make && make install
+
+pbs-drmaa compiled and installed by hand on Blacklight:
+
+    cd pbs-drmaa-1.0.17
+    ./configure --prefix=/brashear/ndc/test/pbs-drmaa && make && make install
+
+Python + virtualenv compiled and installed by hand on Blacklight and Stampede:
+
+    cd /work/galaxy/test/python/src/Python-2.7.6
+    ./configure --prefix=/work/galaxy/test/python --enable-unicode=ucs4 && make && make install
+    cd ../virtualenv-1.11.5
+    /work/galaxy/test/python/bin/python setup.py install
+
+Certs on blacklight are all messed up, so for that, I had to manually assemble
+a CA cert chain for pypi.python.org and create ~/.pip/pip.conf to use it.
+
 License
 -------
 
@@ -59,10 +116,10 @@ License
 Credits
 -------
 
-[Nate Coraor](https://github.com/natefoo)  
-[John Chilton](https://github.com/jmchilton)
+[John Chilton](https://github.com/jmchilton)  
+[Nate Coraor](https://github.com/natefoo)
 
 ### Inspiration/Thanks ###
 
-[Peter van Heusden](https://github.com/pvanheus/)  
-[Lance Parsons](https://github.com/lparsons/)
+[Lance Parsons](https://github.com/lparsons/)  
+[Peter van Heusden](https://github.com/pvanheus/)
