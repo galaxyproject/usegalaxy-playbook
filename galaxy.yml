@@ -5,7 +5,7 @@
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   pre_tasks:
     - name: Install Mercurial
-      pip: name=mercurial virtualenv={{ hg_virtualenv }}
+      pip: name=mercurial virtualenv={{ hg_virtualenv }} virtualenv_command={{ pip_virtualenv_command | default( 'virtualenv' ) }}
   roles:
     # set up local galaxy clone and local config
     - role: galaxyprojectdotorg.galaxy
