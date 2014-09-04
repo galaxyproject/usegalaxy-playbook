@@ -16,7 +16,7 @@
   when: inventory_hostname in groups['galaxymasters'] and master.stat.mtime > repl.stat.mtime
 
 - name: Fix repl config
-  ini_file: dest={{ galaxy_handler_config_file }} section='app:main' option=object_store_config_file value={{ galaxy_handler_config_file }}
+  ini_file: dest={{ galaxy_handler_config_file }} section='app:main' option=object_store_config_file value={{ galaxy_handler_object_store_config_file }}
   when: inventory_hostname in groups['galaxymasters'] and master.stat.mtime > repl.stat.mtime
 
 # distribute mutable configs to non-masters (this is not in the public role because I doubt anyone else is doing it)
