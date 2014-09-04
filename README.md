@@ -43,6 +43,10 @@ It's advisable to use a password manager for the vault password. Anything
 secure will do, although I find [`pass(1)`][pass] to be incredibly useful in
 combination with Ansible Vaults.
 
+If you need to install Ansible and don't want to use the system packages for
+your OS (or want the latest version), see `bootstrap-ansible.bash` in the root
+directory.
+
 [pass]: http://www.passwordstore.org/
 
 License
