@@ -71,6 +71,6 @@
     - 502/index.shtml
 
 - name: Create nginx error document links
-  file: path={{ item.path }} src={{ item.src }} state=link
+  file: path={{ item.path }} src={{ item.src }} state=link force=yes
   with_items:
     - { path: '{{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/502/maint', src: '/home/{{ galaxy_user }}/maint' }
