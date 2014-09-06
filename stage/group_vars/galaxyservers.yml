@@ -25,6 +25,7 @@ galaxy_log_dir: "{{ galaxy_root }}/log"
 hg_virtualenv: "{{ instance_root }}/hgenv"
 
 galaxy_user: g2test
+
 galaxy_handler_venv_dir: /galaxy-repl/test/venv
 galaxy_handler_server_dir: /galaxy-repl/test/server
 galaxy_handler_config_file: /galaxy-repl/test/config/galaxy.ini
@@ -43,12 +44,14 @@ usegalaxy_dynamic_job_rules:
 
 ## used by: galaxyprojectdotorg.galaxy
 hg_executable: "{{ hg_virtualenv }}/bin/hg"
-galaxy_venv_dir: "{{ galaxy_root }}/venv"
-galaxy_server_dir: "{{ galaxy_root }}/server"
+
+# These "defaults" were moved to the inventory file because:
+# https://github.com/ansible/ansible/issues/8903
+#galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
+#galaxy_server_dir: "{{ galaxy_root }}/server"
+#galaxy_venv_dir: "{{ galaxy_root }}/venv"
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
-
-galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
 
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 

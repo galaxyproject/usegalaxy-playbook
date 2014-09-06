@@ -6,6 +6,10 @@
   pre_tasks:
     - name: Install Mercurial
       pip: name=mercurial virtualenv={{ hg_virtualenv }} virtualenv_command={{ pip_virtualenv_command | default( 'virtualenv' ) }}
+  vars:
+    galaxy_venv_dir: "{{ galaxy_web_venv_dir }}"
+    galaxy_server_dir: "{{ galaxy_web_server_dir }}"
+    galaxy_config_file: "{{ galaxy_web_config_file }}"
   roles:
     # set up local galaxy clone and local config
     - role: galaxyprojectdotorg.galaxy
