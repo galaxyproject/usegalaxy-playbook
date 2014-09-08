@@ -1,0 +1,19 @@
+<!--
+    This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+-->
+<parameters>
+    <param label="Compute Resource" name="tacc_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://wiki.galaxyproject.org/Main' target='_blank'&gt;in the Galaxy Wiki&lt;/a&gt;">
+        <option value="roundup_multi">Galaxy cluster (default)</option>
+        <!--
+        <option value="pulsar_stampede">TACC Stampede</option>
+        -->
+        <option value="roundup_single_development">Galaxy cluster test/development</option>
+        <!--
+        <option value="pulsar_stampede_development">TACC Stampede test/development</option>
+        -->
+    </param>
+    <param label="Compute Resource" name="stampede_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://wiki.galaxyproject.org/Main' target='_blank'&gt;in the Galaxy Wiki&lt;/a&gt;">
+        <option value="pulsar_stampede">TACC Stampede (default)</option>
+        <option value="pulsar_stampede_development">TACC Stampede test/development</option>
+    </param>
+</parameters>

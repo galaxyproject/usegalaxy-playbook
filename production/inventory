@@ -1,0 +1,15 @@
+[galaxyservers]
+galaxy-web-01.tacc.utexas.edu ansible_ssh_user=g2main
+galaxy-web-02.tacc.utexas.edu ansible_ssh_user=g2main
+
+[galaxyservers:vars]
+# https://github.com/ansible/ansible/issues/8903
+galaxy_web_server_dir = /home/g2main/server
+galaxy_web_venv_dir = /home/g2main/venv
+galaxy_web_config_file = /home/g2main/config/galaxy.ini
+
+[galaxymasters]
+galaxy-web-01.tacc.utexas.edu ansible_ssh_user=g2main
+
+[pulsarservers]
+login5.stampede.tacc.utexas.edu ansible_ssh_user=ndc

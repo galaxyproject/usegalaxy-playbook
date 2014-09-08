@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<object_store type="hierarchical">
+    <backends>
+        <object_store type="disk" id="corral-repl" order="0">
+            <files_dir path="/galaxy-repl/main/files"/>
+            <extra_dir type="temp" path="/galaxy-repl/main/scratch"/>
+            <extra_dir type="job_work" path="/galaxy-repl/main/jobdir"/>
+        </object_store>
+        <object_store type="disk" id="corral-repl-psu" order="1">
+            <files_dir path="/galaxy-repl/main/psufiles"/>
+            <extra_dir type="temp" path="/galaxy-repl/main/scratch"/>
+            <extra_dir type="job_work" path="/galaxy-repl/main/jobdir"/>
+        </object_store>
+    </backends>
+</object_store>

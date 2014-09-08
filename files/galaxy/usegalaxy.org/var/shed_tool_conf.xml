@@ -1,0 +1,2061 @@
+<?xml version="1.0"?>
+<toolbox tool_path="/galaxy/main/shed_tools">
+<section id="snpeff" name="snpEff" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/c052639fa666/snpeff/snpEff_2_1a/snpEff_2_1a/galaxy/snpSift_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpSift_filter/1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>snpeff</repository_name>
+        <repository_owner>pcingola</repository_owner>
+        <installed_changeset_revision>c052639fa666</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpSift_filter/1.0</id>
+        <version>1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/c052639fa666/snpeff/snpEff_2_1a/snpEff_2_1a/galaxy/snpEff.xml" guid="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpEff/1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>snpeff</repository_name>
+        <repository_owner>pcingola</repository_owner>
+        <installed_changeset_revision>c052639fa666</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpEff/1.0</id>
+        <version>1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/22c8c4f8d11c/check_snpeff_candidates/checkSnpEffCandidates.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>check_snpeff_candidates</repository_name>
+        <repository_owner>gregory-minevich</repository_owner>
+        <installed_changeset_revision>22c8c4f8d11c</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="bedtools" name="BEDTools" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/41bba3e648d1/bedtools/bedtools-galaxy/intersectBed_bam.xml" guid="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_intersectbed_bam/0.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bedtools</repository_name>
+        <repository_owner>aaronquinlan</repository_owner>
+        <installed_changeset_revision>41bba3e648d1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_intersectbed_bam/0.1.0</id>
+        <version>0.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/41bba3e648d1/bedtools/bedtools-galaxy/coverageBed_counts.xml" guid="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_coveragebed_counts/0.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bedtools</repository_name>
+        <repository_owner>aaronquinlan</repository_owner>
+        <installed_changeset_revision>41bba3e648d1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_coveragebed_counts/0.1.0</id>
+        <version>0.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/41bba3e648d1/bedtools/bedtools-galaxy/genomeCoverageBed_histogram.xml" guid="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_genomecoveragebed_histogram/0.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bedtools</repository_name>
+        <repository_owner>aaronquinlan</repository_owner>
+        <installed_changeset_revision>41bba3e648d1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_genomecoveragebed_histogram/0.1.0</id>
+        <version>0.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/41bba3e648d1/bedtools/bedtools-galaxy/genomeCoverageBed_bedgraph.xml" guid="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_genomecoveragebed_bedgraph/0.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bedtools</repository_name>
+        <repository_owner>aaronquinlan</repository_owner>
+        <installed_changeset_revision>41bba3e648d1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_genomecoveragebed_bedgraph/0.1.0</id>
+        <version>0.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/41bba3e648d1/bedtools/bedtools-galaxy/bamToBed.xml" guid="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_bamtobed/0.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bedtools</repository_name>
+        <repository_owner>aaronquinlan</repository_owner>
+        <installed_changeset_revision>41bba3e648d1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_bamtobed/0.1.0</id>
+        <version>0.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/41bba3e648d1/bedtools/bedtools-galaxy/unionBedGraphs.xml" guid="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_mergebedgraph/0.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bedtools</repository_name>
+        <repository_owner>aaronquinlan</repository_owner>
+        <installed_changeset_revision>41bba3e648d1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_mergebedgraph/0.1.0</id>
+        <version>0.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/41bba3e648d1/bedtools/bedtools-galaxy/multiIntersectBed.xml" guid="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_multiintersectbed/0.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bedtools</repository_name>
+        <repository_owner>aaronquinlan</repository_owner>
+        <installed_changeset_revision>41bba3e648d1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_multiintersectbed/0.1.0</id>
+        <version>0.1.0</version>
+    </tool>
+</section>
+
+<section id="samtools" name="NGS: SAM Tools" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/69e3ff62728f/bcftools_view/bcftools_view.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bcftools_view</repository_name>
+        <repository_owner>gregory-minevich</repository_owner>
+        <installed_changeset_revision>69e3ff62728f</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1</id>
+        <version>0.0.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/890d97772e2a/sam_pileup/sam_pileup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>sam_pileup</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>890d97772e2a</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.2</id>
+        <version>1.1.2</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/ab4c4e07eb3c/sam_to_bam/sam_to_bam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>sam_to_bam</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>ab4c4e07eb3c</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3</id>
+        <version>1.1.3</version>
+    </tool>
+</section>
+
+<section id="variant_detection" name="NGS: Variant Analysis" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/58a3878549ef/ems_variant_density_mapping/EMS_VariantDensityMapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/ems_variant_density_mapping/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>ems_variant_density_mapping</repository_name>
+        <repository_owner>gregory-minevich</repository_owner>
+        <installed_changeset_revision>58a3878549ef</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/ems_variant_density_mapping/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/snp_mapping_using_wgs/98d409af683c/snp_mapping_using_wgs/SNP_Mapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/snp_mapping_using_wgs/snp_mapping_using_wgs/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>snp_mapping_using_wgs</repository_name>
+        <repository_owner>gregory-minevich</repository_owner>
+        <installed_changeset_revision>98d409af683c</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/snp_mapping_using_wgs/snp_mapping_using_wgs/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/28e422c589ac/freebayes/freebayes.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.3">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>freebayes</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>28e422c589ac</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.3</id>
+        <version>0.0.3</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/2ce68f42fd3a/cloudmap_variant_discovery_mapping/VDM_Mapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cloudmap_variant_discovery_mapping</repository_name>
+        <repository_owner>gregory-minevich</repository_owner>
+        <installed_changeset_revision>2ce68f42fd3a</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/5389dc5a0be3/cloudmap_in_silico_complementation/CloudMap_InSilico.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cloudmap_in_silico_complementation</repository_name>
+        <repository_owner>gregory-minevich</repository_owner>
+        <installed_changeset_revision>5389dc5a0be3</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/13d534f2bcde/naive_variant_caller/tools/naive_variant_caller.xml" guid="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>naive_variant_caller</repository_name>
+        <repository_owner>blankenberg</repository_owner>
+        <installed_changeset_revision>13d534f2bcde</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.1</id>
+        <version>0.0.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/31361191d2d2/allele_counts/allele-counts.xml" guid="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>allele_counts</repository_name>
+        <repository_owner>nick</repository_owner>
+        <installed_changeset_revision>31361191d2d2</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.1</id>
+        <version>1.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/06d6e56e8c2b/phylorelatives/phylorelatives.xml" guid="toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>phylorelatives</repository_name>
+        <repository_owner>boris</repository_owner>
+        <installed_changeset_revision>06d6e56e8c2b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1</id>
+        <version>0.0.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/boris/hetbox/8d2c4c11fd8f/hetbox/hetbox.xml" guid="toolshed.g2.bx.psu.edu/repos/boris/hetbox/hetbox/1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>hetbox</repository_name>
+        <repository_owner>boris</repository_owner>
+        <installed_changeset_revision>8d2c4c11fd8f</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/boris/hetbox/hetbox/1.0</id>
+        <version>1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/c542b3075f29/getalleleseq/getalleleseq.xml" guid="toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>getalleleseq</repository_name>
+        <repository_owner>boris</repository_owner>
+        <installed_changeset_revision>c542b3075f29</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1</id>
+        <version>0.0.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/6f8cead3dc93/varscan_version_2/varscan_mpileup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>varscan_version_2</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>6f8cead3dc93</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1</id>
+        <version>0.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/9c75a9b5ecd2/table_annovar/table_annovar.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>table_annovar</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>9c75a9b5ecd2</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1</id>
+        <version>0.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/bc178c43e4fe/vcftools_annotate/vcftools_annotate.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcftools_annotate</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>bc178c43e4fe</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1</id>
+        <version>0.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/1363e5d4a8b8/vcftools_slice/vcftools_slice.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcftools_slice</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>1363e5d4a8b8</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1</id>
+        <version>0.1</version>
+    </tool>
+</section>
+
+<section id="genome_diversity" name="Genome Diversity" version="">
+  <label id="gd_init" text="Initial analysis" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/specify.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/coverage_distributions.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/phylogenetic_tree.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/filter_gd_snp.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/aggregate_gd_indivs.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_pop" text="Population structure" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/prepare_population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/pca.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/evaluate_population_numbers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/dpmix.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_fst_ss" text="FST and selective sweeps" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/average_fst.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/add_fst_column.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/find_intervals.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_kegg" text="KEGG pathways" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/map_ensembl_transcripts.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/rank_pathways.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/pathway_image.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_geno" text="Design genotyping studies" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/select_snps.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/specify_restriction_enzymes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/extract_flanking_dna.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/d6b961721037/genome_diversity/extract_primers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>d6b961721037</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_init" text="Initial analysis" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/specify.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/coverage_distributions.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/phylogenetic_tree.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/filter_gd_snp.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/aggregate_gd_indivs.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/nucleotide_diversity_pi.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/restore_attributes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_pop" text="Population structure" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/prepare_population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/pca.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/evaluate_population_numbers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/dpmix.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_fst_ss" text="FST and selective sweeps" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/average_fst.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/add_fst_column.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/find_intervals.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <label id="gd_kegg" text="KEGG and GO" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/map_ensembl_transcripts.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/rank_pathways.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/pathway_image.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/rank_terms.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_geno" text="Design genotyping studies" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/select_snps.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/specify_restriction_enzymes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/extract_flanking_dna.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/95a05c1ef5d5/genome_diversity/extract_primers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>95a05c1ef5d5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_init" text="Initial analysis" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/specify.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/coverage_distributions.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/phylogenetic_tree.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/filter_gd_snp.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/aggregate_gd_indivs.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/nucleotide_diversity_pi.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/restore_attributes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_pop" text="Population structure" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/prepare_population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/pca.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/evaluate_population_numbers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/dpmix.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <label id="gd_fst_ss" text="FST and selective sweeps" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/average_fst.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0</id>
+        <version>1.3.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/add_fst_column.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/find_intervals.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <label id="gd_kegg" text="KEGG and GO" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/map_ensembl_transcripts.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/rank_pathways.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/pathway_image.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/rank_terms.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_geno" text="Design genotyping studies" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/select_snps.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/specify_restriction_enzymes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/extract_flanking_dna.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/cba0d7a63b82/genome_diversity/extract_primers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>cba0d7a63b82</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_init" text="Basic analyses" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/make_gd_file.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_gd_file/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_gd_file/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/multiple_to_gd_genotype.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_multiple_to_gd_genotype/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_multiple_to_gd_genotype/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/specify.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/coverage_distributions.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/phylogenetic_tree.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/filter_gd_snp.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/aggregate_gd_indivs.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/nucleotide_diversity_pi.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/restore_attributes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <label id="gd_pop" text="Population structure" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/prepare_population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/pca.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/evaluate_population_numbers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/dpmix.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <label id="gd_fst_ss" text="FST and selective sweeps" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/average_fst.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0</id>
+        <version>1.3.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/add_fst_column.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/find_intervals.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <label id="gd_kegg" text="KEGG and GO" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/map_ensembl_transcripts.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/rank_pathways.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/pathway_image.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/rank_terms.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <label id="gd_geno" text="Design genotyping studies" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/select_snps.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/specify_restriction_enzymes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/extract_flanking_dna.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/4188853b940b/genome_diversity/extract_primers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>4188853b940b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_init" text="Basic analyses" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/make_gd_file.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_gd_file/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_gd_file/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/multiple_to_gd_genotype.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_multiple_to_gd_genotype/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_multiple_to_gd_genotype/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/specify.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/coverage_distributions.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/phylogenetic_tree.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/filter_gd_snp.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/aggregate_gd_indivs.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/nucleotide_diversity_pi.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/restore_attributes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/gd_snp2vcf.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_gd_snp2vcf/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_gd_snp2vcf/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <label id="gd_pop" text="Population structure" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/prepare_population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/pca.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/evaluate_population_numbers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/dpmix.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <label id="gd_fst_ss" text="FST and selective sweeps" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/average_fst.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0</id>
+        <version>1.3.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/add_fst_column.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/find_intervals.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <label id="gd_kin" text="Kinship" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/discover_familial_relationships.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_discover_familial_relationships/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_discover_familial_relationships/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/offspring_heterozygosity.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/offspring_heterozygosity_pedigree.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity_pedigree/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity_pedigree/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/assignment_of_optimal_breeding_pairs.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_assignment_of_optimal_breeding_pairs/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_assignment_of_optimal_breeding_pairs/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/inbreeding_and_kinship.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_inbreeding_and_kinship/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_inbreeding_and_kinship/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_kegg" text="KEGG and GO" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/map_ensembl_transcripts.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/rank_pathways.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/pathway_image.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/rank_terms.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/cluster_kegg.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_cluster_kegg/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_cluster_kegg/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_geno" text="Design genotyping studies" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/select_snps.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/specify_restriction_enzymes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/extract_flanking_dna.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/extract_primers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <label id="gd_mito" text="Mitochondria" version="" />
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/diversity_pi.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_diversity_pi/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_diversity_pi/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/draw_variants.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_draw_variants/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_draw_variants/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/reorder.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_reorder/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_reorder/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/make_phylip.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_phylip/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_phylip/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/f739a296a339/genome_diversity/raxml.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_raxml/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>f739a296a339</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_raxml/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/make_gd_file.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_gd_file/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_gd_file/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/specify.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/nucleotide_diversity_pi.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/offspring_heterozygosity_pedigree.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity_pedigree/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity_pedigree/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/assignment_of_optimal_breeding_pairs.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_assignment_of_optimal_breeding_pairs/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_assignment_of_optimal_breeding_pairs/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/extract_flanking_dna.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_flanking_dna/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/dpmix.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/make_phylip.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_phylip/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_make_phylip/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/diversity_pi.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_diversity_pi/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_diversity_pi/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/draw_variants.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_draw_variants/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_draw_variants/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/extract_primers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/specify_restriction_enzymes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/reorder.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_reorder/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_reorder/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/find_intervals.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/offspring_heterozygosity.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/inbreeding_and_kinship.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_inbreeding_and_kinship/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_inbreeding_and_kinship/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_population_structure/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/evaluate_population_numbers.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_evaluate_population_numbers/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/prepare_population_structure.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/aggregate_gd_indivs.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/raxml.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_raxml/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_raxml/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/gd_snp2vcf.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_gd_snp2vcf/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_gd_snp2vcf/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/average_fst.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0</id>
+        <version>1.3.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/pathway_image.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/discover_familial_relationships.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_discover_familial_relationships/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_discover_familial_relationships/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/pca.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/filter_gd_snp.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/coverage_distributions.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/phylogenetic_tree.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/rank_pathways.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/add_fst_column.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0</id>
+        <version>1.2.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/select_snps.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_select_snps/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/restore_attributes.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_restore_attributes/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/multiple_to_gd_genotype.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_multiple_to_gd_genotype/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_multiple_to_gd_genotype/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/rank_terms.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.1.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.1.0</id>
+        <version>1.1.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/map_ensembl_transcripts.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_new_oscar/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/884ccb07885b/genome_diversity/cluster_kegg.xml" guid="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_cluster_kegg/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>genome_diversity</repository_name>
+        <repository_owner>miller-lab</repository_owner>
+        <installed_changeset_revision>884ccb07885b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_cluster_kegg/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="ngs-rna-tools" name="NGS: RNA-seq" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/60a52f8460a1/cuffdiff/cuffdiff_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/0.0.6">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cuffdiff</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>60a52f8460a1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/0.0.6</id>
+        <version>0.0.6</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/67695d7ff787/cuffcompare/cuffcompare_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.6">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cuffcompare</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>67695d7ff787</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.6</id>
+        <version>0.0.6</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/604fa75232a2/cuffdiff/cuffdiff_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/0.0.7">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cuffdiff</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>604fa75232a2</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/0.0.7</id>
+        <version>0.0.7</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/9aab29e159a7/cufflinks/cufflinks_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.7">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cufflinks</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>9aab29e159a7</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.7</id>
+        <version>0.0.7</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/424d49834830/cuffmerge/cuffmerge_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/0.0.6">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cuffmerge</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>424d49834830</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/0.0.6</id>
+        <version>0.0.6</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/tophat_fusion_post/359d85c79c6c/tophat_fusion_post/tophat_fusion_post.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/tophat_fusion_post/tophat_fusion_post/0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>tophat_fusion_post</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>359d85c79c6c</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/tophat_fusion_post/tophat_fusion_post/0.1</id>
+        <version>0.1</version>
+    </tool>
+</section>
+
+<section id="hgv" name="Phenotype Association" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/dgidb_annotator/8c6dc9da6c89/dgidb_annotator/dgidb_annotator.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/dgidb_annotator/dgidb_annotator/0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>dgidb_annotator</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>8c6dc9da6c89</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/dgidb_annotator/dgidb_annotator/0.1</id>
+        <version>0.1</version>
+    </tool>
+</section>
+
+<section id="samtools" name="NGS: SAM Tools" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/2d4ae2f8231e/samtool_filter2/samtool_filter2.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.1.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>samtool_filter2</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>2d4ae2f8231e</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.1.1</id>
+        <version>1.1.1</version>
+    </tool>
+</section>
+
+<section id="bxops" name="Operate on Genomic Intervals" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/basecoverage/642849141ae9/basecoverage/basecoverage.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/basecoverage/gops_basecoverage_1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>basecoverage</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>642849141ae9</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/basecoverage/gops_basecoverage_1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="multReg" name="Multiple regression" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/best_regression_subsets/4f33ec73e445/best_regression_subsets/best_regression_subsets.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/best_regression_subsets/BestSubsetsRegression1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>best_regression_subsets</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>4f33ec73e445</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/best_regression_subsets/BestSubsetsRegression1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="bxops" name="Operate on Genomic Intervals" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cluster/9fcc3a1c3d26/cluster/cluster.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cluster/gops_cluster_1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cluster</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>9fcc3a1c3d26</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/cluster/gops_cluster_1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="bxops" name="Operate on Genomic Intervals" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/complement/67c4ed724bfd/complement/complement.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/complement/gops_complement_1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>complement</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>67c4ed724bfd</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/complement/gops_complement_1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="bxops" name="Operate on Genomic Intervals" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/coverage/16b62a897aac/coverage/coverage.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/coverage/gops_coverage_1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>coverage</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>16b62a897aac</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/coverage/gops_coverage_1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="bxops" name="Operate on Genomic Intervals" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/get_flanks/c3b1781c6fd1/get_flanks/get_flanks.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/get_flanks/get_flanks1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>get_flanks</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>c3b1781c6fd1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/get_flanks/get_flanks1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="regVar" name="Regional Variation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/getindels_2way/f1dc6f5fce6e/getindels_2way/getIndels_2way.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/getindels_2way/getIndels_2way/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>getindels_2way</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>f1dc6f5fce6e</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/getindels_2way/getIndels_2way/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="bxops" name="Operate on Genomic Intervals" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/intersect/81ad85f731b9/intersect/intersect.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/intersect/gops_intersect_1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>intersect</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>81ad85f731b9</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/intersect/gops_intersect_1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="bxops" name="Operate on Genomic Intervals" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/join/11a49f94d086/join/join.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>join</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>11a49f94d086</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="regVar" name="Regional Variation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/7852385470f3/microsats_alignment_level/microsats_alignment_level.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>microsats_alignment_level</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>7852385470f3</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="bxops" name="Operate on Genomic Intervals" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/subtract/7bf44b9d7a8b/subtract/subtract.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/subtract/gops_subtract_1/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>subtract</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>7bf44b9d7a8b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/subtract/gops_subtract_1/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="regVar" name="Regional Variation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/windowsplitter/75abda2290cc/windowsplitter/windowSplitter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/windowsplitter/winSplitter/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>windowsplitter</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>75abda2290cc</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/windowsplitter/winSplitter/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="gatk" name="NGS: GATK Tools (beta)" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/table_recalibration/30e1dd77e99c/table_recalibration/table_recalibration.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/table_recalibration/gatk_table_recalibration/0.0.5">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>table_recalibration</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>30e1dd77e99c</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/table_recalibration/gatk_table_recalibration/0.0.5</id>
+        <version>0.0.5</version>
+    </tool>
+</section>
+
+<section id="variant_detection" name="NGS: Variant Analysis" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/443ccd9208a0/freebayes/freebayes.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/freebayes-0.9.14">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>freebayes</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>443ccd9208a0</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/freebayes-0.9.14</id>
+        <version>freebayes-0.9.14</version>
+    </tool>
+</section>
+
+<section id="variant_detection" name="NGS: Variant Analysis" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/e65540a91b87/bamleftalign/bamleftalign.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bamleftalign</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>e65540a91b87</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfdistance/2c664ebd4af5/vcfdistance/vcfdistance.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfdistance/vcfdistance/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfdistance</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>2c664ebd4af5</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfdistance/vcfdistance/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfbedintersect/861438b972d9/vcfbedintersect/vcfbedintersect.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfbedintersect/vcfbedintersect/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfbedintersect</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>861438b972d9</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfbedintersect/vcfbedintersect/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfhethom/efba18d7b34b/vcfhethom/vcfhethom.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfhethom/vcfhethom/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfhethom</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>efba18d7b34b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfhethom/vcfhethom/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfgenotypes/ba8bf8f5d88a/vcfgenotypes/vcfgenotypes.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfgenotypes/vcfgenotypes/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfgenotypes</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>ba8bf8f5d88a</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfgenotypes/vcfgenotypes/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfsort/75465664959d/vcfsort/vcfsort.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfsort/vcfsort/0.0.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfsort</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>75465664959d</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfsort/vcfsort/0.0.1</id>
+        <version>0.0.1</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfcheck/fb8033dcb750/vcfcheck/vcfcheck.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfcheck/vcfcheck/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfcheck</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>fb8033dcb750</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfcheck/vcfcheck/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfannotategenotypes/846a4449a50a/vcfannotategenotypes/vcfannotategenotypes.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfannotategenotypes/vcfannotategenotypes/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfannotategenotypes</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>846a4449a50a</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfannotategenotypes/vcfannotategenotypes/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfvcfintersect/b8ab4ef85a5b/vcfvcfintersect/vcfvcfintersect.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfvcfintersect/vcfvcfintersect/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfvcfintersect</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>b8ab4ef85a5b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfvcfintersect/vcfvcfintersect/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfannotate/98961914308d/vcfannotate/vcfannotate.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfannotate/vcfannotate/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfannotate</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>98961914308d</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfannotate/vcfannotate/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfaddinfo/78f67ce56f34/vcfaddinfo/vcfaddinfo.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfaddinfo/vcfaddinfo/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfaddinfo</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>78f67ce56f34</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfaddinfo/vcfaddinfo/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcf2tsv/fc3c4fc09e28/vcf2tsv/vcf2tsv.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcf2tsv/vcf2tsv/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcf2tsv</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>fc3c4fc09e28</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcf2tsv/vcf2tsv/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfleftalign/42d8be06ca03/vcfleftalign/vcfleftalign.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfleftalign/vcfleftalign/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfleftalign</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>42d8be06ca03</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfleftalign/vcfleftalign/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfselectsamples/ca345cfe7119/vcfselectsamples/vcfselectsamples.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfselectsamples/vcfselectsamples/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfselectsamples</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>ca345cfe7119</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfselectsamples/vcfselectsamples/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfcommonsamples/4acc5abb5e8e/vcfcommonsamples/vcfcommonsamples.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfcommonsamples/vcfcommonsamples/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfcommonsamples</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>4acc5abb5e8e</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfcommonsamples/vcfcommonsamples/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfgeno2haplo/a6cd013745fd/vcfgeno2haplo/vcfgeno2haplo.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfgeno2haplo/vcfgeno2haplo/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfgeno2haplo</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>a6cd013745fd</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfgeno2haplo/vcfgeno2haplo/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfrandomsample/9c03ddb3ba52/vcfrandomsample/vcfrandomsample.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfrandomsample/vcfrandomsample/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfrandomsample</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>9c03ddb3ba52</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfrandomsample/vcfrandomsample/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcffilter/a1c14d64b003/vcffilter/vcffilter.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcffilter/vcffilter/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcffilter</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>a1c14d64b003</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcffilter/vcffilter/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfallelicprimitives/971da09d28aa/vcfallelicprimitives/vcfallelicprimitives.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfallelicprimitives/vcfallelicprimitives/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfallelicprimitives</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>971da09d28aa</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfallelicprimitives/vcfallelicprimitives/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfbreakcreatemulti/20eb11864500/vcfbreakcreatemulti/vcfbreakcreatemulti.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfbreakcreatemulti/vcfbreakcreatemulti/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfbreakcreatemulti</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>20eb11864500</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfbreakcreatemulti/vcfbreakcreatemulti/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfcombine/e00ef554b109/vcfcombine/vcfcombine.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfcombine/vcfcombine/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfcombine</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>e00ef554b109</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfcombine/vcfcombine/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcfprimers/47dd84123b42/vcfprimers/vcfprimers.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcfprimers/vcfprimers/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcfprimers</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>47dd84123b42</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcfprimers/vcfprimers/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+<section id="ngs:_vcf_manipulation" name="NGS: VCF Manipulation" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/anton/vcffixup/9f0d84b2deba/vcffixup/vcffixup.xml" guid="toolshed.g2.bx.psu.edu/repos/anton/vcffixup/vcffixup/0.0.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vcffixup</repository_name>
+        <repository_owner>anton</repository_owner>
+        <installed_changeset_revision>9f0d84b2deba</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/anton/vcffixup/vcffixup/0.0.2</id>
+        <version>0.0.2</version>
+    </tool>
+</section>
+
+</toolbox>
