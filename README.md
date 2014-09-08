@@ -32,12 +32,15 @@ Usage
 
 Galaxy Test is updated with:
 
-    % ansible-playbook -i development/inventory galaxy.yml --ask-vault-pass
+    % ansible-playbook -i stage/inventory galaxy.yml --ask-vault-pass
 
 The static content alone (e.g. welcome.html and its dependencies) can be
 updated without requiring a vault pass:
 
-    % ansible-playbook -i development/inventory galaxy_static.yml
+    % ansible-playbook -i stage/inventory galaxy_static.yml
+
+Galaxy Main is updated with the same commands as above, replacing `stage` with
+`production`.
 
 It's advisable to use a password manager for the vault password. Anything
 secure will do, although I find [`pass(1)`][pass] to be incredibly useful in
