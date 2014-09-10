@@ -89,6 +89,7 @@
 
         <!-- stampede destinations -->
         <destination id="pulsar_stampede" runner="amqp_pulsar_stampede">
+            <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
             <param id="remote_metadata">true</param>
@@ -96,10 +97,12 @@
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/work/galaxy/test/pulsar/var/staging/</param>
             <param id="remote_property_galaxy_home">/work/galaxy/test/galaxy/server</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">--time=48:00:00 --nodes=1 --ntasks=16 --partition=normal --account=TG-MCB140147</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
         </destination>
         <destination id="pulsar_stampede_development" runner="amqp_pulsar_stampede">
+            <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
             <param id="remote_metadata">true</param>
@@ -107,12 +110,14 @@
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/work/galaxy/test/pulsar/var/staging/</param>
             <param id="remote_property_galaxy_home">/work/galaxy/test/galaxy/server</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">--time=00:30:00 --nodes=1 --ntasks=16 --partition=development --account=TG-MCB140147</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
         </destination>
 
         <!-- blacklight destinations -->
         <destination id="pulsar_blacklight" runner="amqp_pulsar_blacklight">
+            <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
             <param id="remote_metadata">true</param>
@@ -120,9 +125,11 @@
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/brashear/ndc/test/pulsar/var/staging/</param>
             <param id="remote_property_galaxy_home">/brashear/ndc/test/galaxy/server</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/brashear/ndc/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">-l walltime=48:00:00 -l ncpus=64 -W group_list=mc3bf0p</param>
         </destination>
         <destination id="pulsar_blacklight_development" runner="amqp_pulsar_blacklight">
+            <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
             <param id="remote_metadata">true</param>
@@ -130,6 +137,7 @@
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/brashear/ndc/test/pulsar/var/staging/</param>
             <param id="remote_property_galaxy_home">/brashear/ndc/test/galaxy/server</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/brashear/ndc/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">-q debug -l walltime=00:30:00 -l ncpus=16 -W group_list=mc3bf0p</param>
         </destination>
 
