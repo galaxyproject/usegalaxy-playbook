@@ -109,6 +109,20 @@ Python + virtualenv compiled and installed by hand on Blacklight and Stampede:
 Certs on blacklight are all messed up, so for that, I had to manually assemble
 a CA cert chain for pypi.python.org and create ~/.pip/pip.conf to use it.
 
+Dependency Notes
+----------------
+
+Currently there's no good way to install dependencies for Pulsar. What I've
+done so far is:
+
+1. rsync the `tool_dependency_dir` from the Galaxy server to the Pulsar server.
+
+1. Use `find` and `sed` to alter paths in env.sh
+
+1. Recreate virtualenvs in deps using `{{ instance_root }}/python/bin/virtualenv venv`,
+   but this requires removing `include/python2.7`, `lib/python2.7`, and copying
+   site-packages from the old venv to the new venv. Obviously not a sustainable model.
+
 License
 -------
 
