@@ -2,7 +2,9 @@
 
 shared_root: /work/galaxy
 
-pulsar_job_manager_name: stampede
+pulsar_job_managers:
+  stampede:
+    type: queued_drmaa
 
 pulsar_install_environments:
   pyOpenSSL:
