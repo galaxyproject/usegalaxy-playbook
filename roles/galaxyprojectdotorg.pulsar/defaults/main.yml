@@ -4,7 +4,6 @@
 # High-level Pulsar configuration parameters
 pulsar_git_repo: https://github.com/galaxyproject/pulsar
 pulsar_changeset_id: master
-pulsar_job_manager_name: _default_
 pulsar_job_managers_config: "{{ pulsar_config_dir }}/job_managers.ini"
 pulsar_job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
 
@@ -20,6 +19,11 @@ pulsar_host: "localhost"
 pulsar_port: 8913
 # Optional ssl key for SSL web server
 # pulsar_ssl_pem:
+
+# job_managers.ini contents
+pulsar_job_managers:
+  _default_:
+    type: queued_python
 
 ## Target a drmaa library.
 # pulsar_drmaa_library_path: {{ galaxy_instance_remote_dir }}/slurm-drmaa/lib/libdrmaa.so

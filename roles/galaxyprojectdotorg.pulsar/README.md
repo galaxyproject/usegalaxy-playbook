@@ -76,11 +76,16 @@ documentation][pulsardocs] and `server.ini.sample`):
 
 - `pulsar_host` (default: `localhost`)
 - `pulsar_port` (default: `8913`)
-- `pulsar_job_manager_name` (default: `_default_`)
 - `pulsar_dependencies_dir` (default: `<pulsar_server_dir>/deps`)
-- `pulsar_persistence_dir` (default: `<pulsar_server_dir>/files/persisted_data`)
+- `pulsar_persistence_dir` (default:
+  `<pulsar_server_dir>/files/persisted_data`)
 - `pulsar_staging_dir` (default: `<pulsar_server_dir>/files/staging`)
 - `pulsar_drmaa_library_path`
+- `pulsar_job_managers` (default: `_default_`, type `queued_python`): The
+  contents of the job managers configuration file (job_managers.ini by default)
+  are controlled by this variable. It is a hash of hashes (or dictionaries)
+  that will be translated in to the configuration file. See the definition in
+  the defaults for syntax hints.
 
 ### pulsar_optional_dependencies ###
 
