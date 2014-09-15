@@ -1,0 +1,15 @@
+---
+
+shared_root: /work/galaxy
+
+pulsar_job_managers:
+  stampede:
+    type: queued_drmaa
+
+pulsar_install_environments:
+  pyOpenSSL:
+    PKG_CONFIG_PATH: "{{ instance_root }}/libffi/lib64/pkgconfig"
+    CFLAGS: "-I{{ instance_root }}/openssl/include"
+    LDFLAGS: "-L{{ instance_root }}/openssl/lib"
+  pycurl:
+    PYCURL_SSL_LIBRARY: "nss"

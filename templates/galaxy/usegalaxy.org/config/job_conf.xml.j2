@@ -10,17 +10,40 @@
             <param id="rules_module">usegalaxy.jobs.rules</param>
         </plugin>
         -->
-        <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
+        <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner">
+            <param id="invalidjobexception_retries">5</param>
+            <param id="internalexception_retries">5</param>
+        </plugin>
+        <plugin id="amqp_pulsar_stampede" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+            <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
+            <param id="galaxy_url">https://usegalaxy.org</param>
+            <param id="manager">stampede</param>
+            <param id="amqp_consumer_timeout">2.0</param>
+            <param id="amqp_publish_retry">True</param>
+            <param id="amqp_publish_retry_max_retries">600</param>
+        </plugin>
     </plugins>
     <handlers default="handlers">
-        <handler id="main_w1_handler0" tags="handlers"/>
-        <handler id="main_w1_handler1" tags="handlers"/>
-        <handler id="main_w2_handler0" tags="handlers"/>
-        <handler id="main_w2_handler1" tags="handlers"/>
-        <!-- a handler for old jobs, to inmprove startup times of other handlers -->
-        <handler id="main_w1_handler2"/>
-        <!-- a handler for multi jobs to avoid the concurrency limit race condition -->
-        <handler id="main_w2_handler2"/>
+        <handler id="main_w1_handler0" tags="handlers">
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="main_w1_handler1" tags="handlers">
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="main_w2_handler0" tags="handlers">
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="main_w2_handler1" tags="handlers">
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="main_w1_handler2">
+            <plugin id="slurm"/>
+        </handler>
+        <!-- stampede/multi handler -->
+        <handler id="main_w2_handler2">
+            <plugin id="slurm"/>
+            <plugin id="amqp_pulsar_stampede"/>
+        </handler>
     </handlers>
     <destinations default="reserved_single">
         <!-- dynamic methods for selecting reserved node -->
@@ -33,9 +56,24 @@
             <param id="function">reserved_multi</param>
         </destination>
 
+        <!-- dynamic method for setting roundup multi walltime, also handles the explicit Stampede resource selector -->
+        <destination id="roundup_multi_dynamic_walltime" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">roundup_multi_dynamic_walltime</param>
+        </destination>
+
+        <!-- until we do walltime resubmission, we'll use this one instead -->
+        <destination id="roundup_stampede_select" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">roundup_stampede_select</param>
+        </destination>
+
         <!-- roundup destinations -->
         <destination id="roundup_single" runner="slurm">
             <param id="nativeSpecification">--time=48:00:00 --nodes=1 --ntasks=1 --partition=single --constraint=general</param>
+        </destination>
+        <destination id="roundup_single_development" runner="slurm">
+            <param id="nativeSpecification">--time=00:30:00 --nodes=1 --ntasks=2 --partition=single --constraint=general</param>
         </destination>
         <destination id="roundup_multi" runner="slurm">
             <param id="nativeSpecification">--time=48:00:00 --nodes=1 --ntasks=8 --partition=multi</param>
@@ -54,22 +92,51 @@
         <destination id="slurm_trackster_multi" runner="slurm">
             <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=8 --partition=single --constraint=general</param>
         </destination>
+
+        <!-- stampede destinations -->
+        <destination id="pulsar_stampede" runner="amqp_pulsar_stampede">
+            <param id="transport">curl</param>
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/work/galaxy/main/pulsar/var/staging/</param>
+            <param id="remote_property_galaxy_home">/work/galaxy/main/galaxy/server</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/main/galaxy/config/datatypes_conf.xml</param>
+            <param id="submit_native_specification">--time=48:00:00 --nodes=1 --ntasks=16 --partition=normal --account=TG-MCB140147</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
+        </destination>
+        <destination id="pulsar_stampede_development" runner="amqp_pulsar_stampede">
+            <param id="transport">curl</param>
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/work/galaxy/main/pulsar/var/staging/</param>
+            <param id="remote_property_galaxy_home">/work/galaxy/main/galaxy/server</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/main/galaxy/config/datatypes_conf.xml</param>
+            <param id="submit_native_specification">--time=00:30:00 --nodes=1 --ntasks=16 --partition=development --account=TG-MCB140147</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
+        </destination>
+
     </destinations>
     <tools>
-        <tool id="bowtie2" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="bowtie_wrapper" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="bowtie_color_wrapper" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="bwa_wrapper" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="bwa_color_wrapper" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="lastz_wrapper_2" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="generate_coverage_report" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="quality_score_distribution" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="megablast_wrapper" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="cuffdiff" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="cufflinks" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="cuffmerge" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="tophat" destination="reserved_multi" handler="main_w2_handler2"/>
-        <tool id="tophat2" destination="reserved_multi" handler="main_w2_handler2"/>
+        <tool id="bowtie2" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="bowtie_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="bowtie_color_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="bwa_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="bwa_color_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="lastz_wrapper_2" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="generate_coverage_report" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="quality_score_distribution" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="megablast_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="cuffdiff" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="cufflinks" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="cuffmerge" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="tophat" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <tool id="tophat2" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
@@ -82,6 +149,11 @@
         <tool id="echo_main_w2_handler1" handler="main_w2_handler1"/>
         <tool id="echo_main_w2_handler2" handler="main_w2_handler2"/>
     </tools>
+    <resources default="default">
+        <group id="default"></group>
+        <group id="roundup_or_stampede">tacc_compute_resource</group>
+        <group id="stampede">stampede_compute_resource</group>
+    </resources>
     <limits>
         <limit type="registered_user_concurrent_jobs">6</limit>
         <limit type="anonymous_user_concurrent_jobs">1</limit>
@@ -91,6 +163,12 @@
         <limit type="destination_user_concurrent_jobs" id="roundup_trackster_multi">1</limit>
         <limit type="destination_user_concurrent_jobs" id="roundup_multi">2</limit>
         <limit type="destination_user_concurrent_jobs" id="roundup_single">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="roundup_single_development">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="pulsar_stampede">2</limit>
+        <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
+        <!-- per-destination total limits -->
+        <limit type="destination_total_concurrent_jobs" id="pulsar_stampede">50</limit>
+        <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_development">1</limit>
         <!-- remove after jobs have disappeared from old-named destinations -->
         <limit type="destination_user_concurrent_jobs" id="slurm_trackster_multi">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi">2</limit>
