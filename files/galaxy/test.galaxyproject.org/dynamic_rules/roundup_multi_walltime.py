@@ -8,6 +8,20 @@ from galaxy.jobs.mapper import JobMappingException
 
 log = logging.getLogger(__name__)
 
+# bwa_wrapper           params['genomeSource']['refGenomeSource']   'indexed'
+# bowtie2               params['reference_genome']['source']        'indexed'
+# bowtie_wrapper        params['refGenomeSource']['genomeSource']   'indexed'
+# tophat                params['refGenomeSource']['genomeSource']   'indexed'
+# tophat2               params['refGenomeSource']['genomeSource']   'indexed'
+
+# On Test, these are always sent to Stampede and thus use the stampede destination directly
+# lastz_wrapper_2       params['source']['ref_source']              'cached'
+# megablast_wrapper     no option, always cached
+
+PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2' )
+GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource' )
+GENOME_SOURCE_VALUES = ( 'indexed', )
+
 ROUNDUP_DESTINATION = 'roundup_multi'
 ROUNDUP_DEVELOPMENT_DESTINATION = 'roundup_single_development'
 STAMPEDE_DESTINATION = 'pulsar_stampede'
@@ -33,6 +47,10 @@ DEVS = 0
 def roundup_multi_dynamic_walltime( app, tool, job, user_email ):
     destination = None
     destination_id = ROUNDUP_DESTINATION
+    tool_id = tool.id
+    if '/' in tool.id:
+        # extract short tool id from tool shed id
+        tool_id = tool.id.split('/')[-2]
 
     if user_email is None:
         raise JobMappingException( 'Please log in to use this tool.' )
@@ -55,9 +73,28 @@ def roundup_multi_dynamic_walltime( app, tool, job, user_email ):
             log.warning('(%s) Stampede dynamic plugin got an invalid destination: %s', job.id, destination_id)
             raise JobMappingException( FAILURE_MESSAGE )
 
+    # Only allow stampede if a cached reference is selected
+    if destination_id in STAMPEDE_DESTINATIONS and tool_id in PUNT_TOOLS:
+        for p in GENOME_SOURCE_PARAMS:
+            subpd = param_dict.copy()
+            # walk the param dict
+            try:
+                for i in p.split('.'):
+                    subpd = subpd[i]
+                assert subpd in GENOME_SOURCE_VALUES
+                log.info('(%s) Stampede dynamic plugin detected indexed reference selected, job will be sent to Stampede', job.id)
+                break
+            except:
+                pass
+        else:
+            log.info('(%s) User requested Stampede but Stampede dynamic plugin did not detect selection of an indexed reference, job will be sent to Roundup instead', job.id)
+            if destination_id == STAMPEDE_DEVELOPMENT_DESTINATION:
+                destination_id = ROUNDUP_DEVELOPMENT_DESTINATION
+            else:
+                destination_id = ROUNDUP_DESTINATION
+
     # Set a walltime if the roundup_multi is the destination
     if destination_id == ROUNDUP_DESTINATION:
-        tool_id = tool.id.split('/')[-2]
         if tool_id not in RUNTIMES:
             log.error('(%s) Invalid tool for this dynamic rule: %s', job.id, tool_id)
             raise JobMappingException( FAILURE_MESSAGE )

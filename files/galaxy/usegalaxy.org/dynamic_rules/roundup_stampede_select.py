@@ -8,6 +8,18 @@ from galaxy.jobs.mapper import JobMappingException
 
 log = logging.getLogger(__name__)
 
+# bwa_wrapper           params['genomeSource']['refGenomeSource']   'indexed'
+# bowtie2               params['reference_genome']['source']        'indexed'
+# bowtie_wrapper        params['refGenomeSource']['genomeSource']   'indexed'
+# tophat                params['refGenomeSource']['genomeSource']   'indexed'
+# tophat2               params['refGenomeSource']['genomeSource']   'indexed'
+# lastz_wrapper_2       params['source']['ref_source']              'cached'
+# megablast_wrapper     no option, always cached
+
+PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2', 'lastz_wrapper_2' )
+GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource', 'source.ref_source' )
+GENOME_SOURCE_VALUES = ( 'indexed', 'cached' )
+
 ROUNDUP_DESTINATION = 'roundup_multi'
 ROUNDUP_DEVELOPMENT_DESTINATION = 'roundup_single_development'
 STAMPEDE_DESTINATION = 'pulsar_stampede'
@@ -20,6 +32,10 @@ FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in t
 def roundup_stampede_select( app, tool, job, user_email ):
     destination = None
     destination_id = ROUNDUP_DESTINATION
+    tool_id = tool.id
+    if '/' in tool.id:
+        # extract short tool id from tool shed id
+        tool_id = tool.id.split('/')[-2]
 
     if user_email is None:
         raise JobMappingException( 'Please log in to use this tool.' )
@@ -41,6 +57,26 @@ def roundup_stampede_select( app, tool, job, user_email ):
         if destination_id not in VALID_DESTINATIONS:
             log.warning('(%s) Stampede dynamic plugin got an invalid destination: %s', job.id, destination_id)
             raise JobMappingException( FAILURE_MESSAGE )
+
+    # Only allow stampede if a cached reference is selected
+    if destination_id in STAMPEDE_DESTINATIONS and tool_id in PUNT_TOOLS:
+        for p in GENOME_SOURCE_PARAMS:
+            subpd = param_dict.copy()
+            # walk the param dict
+            try:
+                for i in p.split('.'):
+                    subpd = subpd[i]
+                assert subpd in GENOME_SOURCE_VALUES
+                log.info('(%s) Stampede dynamic plugin detected indexed reference selected, job will be sent to Stampede', job.id)
+                break
+            except:
+                pass
+        else:
+            log.info('(%s) User requested Stampede but Stampede dynamic plugin did not detect selection of an indexed reference, job will be sent to Roundup instead', job.id)
+            if destination_id == STAMPEDE_DEVELOPMENT_DESTINATION:
+                destination_id = ROUNDUP_DEVELOPMENT_DESTINATION
+            else:
+                destination_id = ROUNDUP_DESTINATION
 
     log.debug("(%s) roundup_stampede_select dynamic plugin returning '%s' destination", job.id, destination_id)
     if destination is not None and 'nativeSpecification' in destination.params:
