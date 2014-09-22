@@ -4,12 +4,10 @@
 -->
 <job_conf>
     <plugins workers="8">
-        <!-- This will work after 9/22
         <plugin id="dynamic" type="runner">
-            <!- - These live in the virtualenv - ->
+            <!-- These live in the virtualenv -->
             <param id="rules_module">usegalaxy.jobs.rules</param>
         </plugin>
-        -->
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner">
             <param id="invalidjobexception_retries">5</param>
             <param id="internalexception_retries">5</param>
