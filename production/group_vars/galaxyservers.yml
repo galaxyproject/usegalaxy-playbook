@@ -135,6 +135,7 @@ galaxy_config:
     environment_setup_file: /galaxy/main/job_env.bash
 
     builds_file_path: "{{ galaxy_config_dir }}/builds.txt"
+    ucsc_build_sites: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
 
     # general stuff
 
@@ -199,6 +200,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/builds.txt
     dest: "{{ galaxy_config['app:main']['builds_file_path'] }}"
+  - src: files/galaxy/{{ galaxy_instance_hostname }}/config/ucsc_build_sites.txt
+    dest: "{{ galaxy_config['app:main']['ucsc_build_sites'] }}"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
