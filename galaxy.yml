@@ -33,3 +33,12 @@
       when: inventory_hostname in groups['galaxymasters']
     - role: usegalaxy
     - role: usegalaxy_static
+
+- hosts: pulsarservers
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/pulsarservers.yml"
+  roles:
+    # set up galaxy clone
+    - role: galaxyprojectdotorg.galaxy
+      galaxy_manage_mutable_setup: no
+      galaxy_manage_database: no
