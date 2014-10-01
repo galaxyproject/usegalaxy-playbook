@@ -73,7 +73,7 @@
 
         <!-- roundup destinations -->
         <destination id="roundup_single" runner="slurm">
-            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --exclusive --partition=nebula</param>
+            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=single --constraint=general</param>
         </destination>
         <destination id="roundup_single_development" runner="slurm">
             <param id="nativeSpecification">--time=00:30:00 --nodes=1 --ntasks=2 --partition=single --constraint=general</param>
