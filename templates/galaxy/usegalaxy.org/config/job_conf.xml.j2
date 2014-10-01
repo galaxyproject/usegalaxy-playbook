@@ -67,6 +67,9 @@
         </destination>
 
         <!-- roundup destinations -->
+        <destination id="nebula" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=nebula --constraint=general</param>
+        </destination>
         <destination id="roundup_single" runner="slurm">
             <param id="nativeSpecification">--time=48:00:00 --nodes=1 --ntasks=1 --partition=single --constraint=general</param>
         </destination>
@@ -121,6 +124,8 @@
 
     </destinations>
     <tools>
+        <tool id="upload1" destination="nebula"/>
+        <!-- multi/stampede jobs -->
         <tool id="bowtie2" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <tool id="bowtie_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <tool id="bowtie_color_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
@@ -157,6 +162,7 @@
         <limit type="job_walltime">49:00:00</limit>
         <limit type="output_size">150G</limit>
         <!-- per-destination per-user limits -->
+        <limit type="destination_user_concurrent_jobs" id="nebula">2</limit>
         <limit type="destination_user_concurrent_jobs" id="roundup_trackster_multi">1</limit>
         <limit type="destination_user_concurrent_jobs" id="roundup_multi">2</limit>
         <limit type="destination_user_concurrent_jobs" id="roundup_single">4</limit>
