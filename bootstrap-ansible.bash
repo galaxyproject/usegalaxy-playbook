@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: Update this to use virtualenv-burrito, which is pretty great.
+
 # If you want completely hands-off installation of Ansible you can use this
 # script to bootstrap an environment. Does not require root unless you need
 # python headers or a compiler.
