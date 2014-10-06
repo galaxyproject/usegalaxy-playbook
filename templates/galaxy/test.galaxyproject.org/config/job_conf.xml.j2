@@ -71,6 +71,11 @@
             <param id="function">roundup_multi_dynamic_walltime</param>
         </destination>
 
+        <!-- rodeo destinations -->
+        <destination id="rodeo_normal" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --cluster=rodeo --nodes=1 --ntasks=1 --partition=normal --constraint=general</param>
+        </destination>
+
         <!-- roundup destinations -->
         <destination id="roundup_single" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=single --constraint=general</param>
