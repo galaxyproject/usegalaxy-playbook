@@ -39,7 +39,8 @@ galaxy_instance_hostname: test.galaxyproject.org
 
 usegalaxy_dynamic_job_rules:
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/roundup_multi_walltime.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/stampede_select.py
 
 
 ## used by: galaxyprojectdotorg.galaxy

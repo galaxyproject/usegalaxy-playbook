@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 # tophat                params['refGenomeSource']['genomeSource']   'indexed'
 # tophat2               params['refGenomeSource']['genomeSource']   'indexed'
 
-# On Test, these are always sent to Stampede and thus use the stampede destination directly
+# On Test, these are always sent to Stampede
 # lastz_wrapper_2       params['source']['ref_source']              'cached'
 # megablast_wrapper     no option, always cached
 
@@ -22,13 +22,13 @@ PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2' )
 GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource' )
 GENOME_SOURCE_VALUES = ( 'indexed', )
 
-ROUNDUP_DESTINATION = 'roundup_multi'
-ROUNDUP_DEVELOPMENT_DESTINATION = 'roundup_single_development'
-STAMPEDE_DESTINATION = 'pulsar_stampede'
+ROUNDUP_DESTINATION = 'slurm_normal_multi'
+ROUNDUP_DEVELOPMENT_DESTINATION = 'slurm_development_multi'
+STAMPEDE_DESTINATION = 'pulsar_stampede_normal'
 STAMPEDE_DEVELOPMENT_DESTINATION = 'pulsar_stampede_development'
 STAMPEDE_DESTINATIONS = (STAMPEDE_DESTINATION, STAMPEDE_DEVELOPMENT_DESTINATION)
 VALID_DESTINATIONS = STAMPEDE_DESTINATIONS + (ROUNDUP_DESTINATION, ROUNDUP_DEVELOPMENT_DESTINATION) # WHY ARE WE SHOUTING
-RESOURCE_KEYS = ('tacc_compute_resource', 'stampede_compute_resource')
+RESOURCE_KEYS = ('tacc_compute_resource',)
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
 # in minutes
@@ -44,7 +44,7 @@ RUNTIMES = {
 }
 DEVS = 0
 
-def roundup_multi_dynamic_walltime( app, tool, job, user_email ):
+def multi_dynamic_walltime( app, tool, job, user_email ):
     destination = None
     destination_id = ROUNDUP_DESTINATION
     tool_id = tool.id
@@ -103,7 +103,7 @@ def roundup_multi_dynamic_walltime( app, tool, job, user_email ):
         destination = app.job_config.get_destination( ROUNDUP_DESTINATION ) 
         destination.params['nativeSpecification'] += ' --time=%s' % str(walltime).split('.')[0]
 
-    log.debug("(%s) slurm_multi_dynamic_walltime dynamic plugin returning '%s' destination", job.id, destination_id)
+    log.debug("(%s) multi_dynamic_walltime dynamic plugin returning '%s' destination", job.id, destination_id)
     if destination is not None and 'nativeSpecification' in destination.params:
         log.debug("     nativeSpecification is: %s", destination.params['nativeSpecification'])
     return destination or destination_id
