@@ -9,7 +9,7 @@ USERS = (
 def reserved_single( user_email ):
     if user_email in USERS:
         return 'roundup_single_reserved'
-    return 'roundup_single'
+    return 'rodeo_normal'
 
 def reserved_multi( user_email ):
     if user_email in USERS:

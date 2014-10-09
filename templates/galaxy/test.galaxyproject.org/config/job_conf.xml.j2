@@ -9,6 +9,7 @@
             <param id="rules_module">usegalaxy.jobs.rules</param>
         </plugin>
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner">
+            <param id="drmaa_library_path">/home/g2test/slurm-drmaa/lib/libdrmaa.so</param>
             <param id="invalidjobexception_retries">5</param>
             <param id="internalexception_retries">5</param>
         </plugin>
@@ -73,7 +74,7 @@
 
         <!-- rodeo destinations -->
         <destination id="rodeo_normal" runner="slurm">
-            <param id="nativeSpecification">--time=24:00:00 --cluster=rodeo --nodes=1 --ntasks=1 --partition=normal --constraint=general</param>
+            <param id="nativeSpecification">--time=24:00:00 --clusters=rodeo --nodes=1 --ntasks=1 --partition=normal --constraint=general</param>
         </destination>
 
         <!-- roundup destinations -->
