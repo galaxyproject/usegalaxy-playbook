@@ -67,14 +67,12 @@
         <destination id="rodeo_normal" runner="slurm">
            <param id="nativeSpecification">--time=48:00:00 --clusters=rodeo --nodes=1 --ntasks=1 --partition=normal</param>
         </destination>
+        <!-- FIXME: destination needs to be renamed everywhere (dynamic, resources, etc) -->
+        <destination id="roundup_single_development" runner="slurm">
+            <param id="nativeSpecification">--time=00:30:00 --clusters=rodeo --nodes=1 --ntasks=2 --partition=normal</param>
+        </destination>
 
         <!-- roundup destinations -->
-        <destination id="roundup_single" runner="slurm">
-            <param id="nativeSpecification">--time=48:00:00 --nodes=1 --ntasks=1 --partition=single --constraint=general</param>
-        </destination>
-        <destination id="roundup_single_development" runner="slurm">
-            <param id="nativeSpecification">--time=00:30:00 --nodes=1 --ntasks=2 --partition=single --constraint=general</param>
-        </destination>
         <destination id="roundup_multi" runner="slurm">
             <param id="nativeSpecification">--time=48:00:00 --nodes=1 --ntasks=8 --partition=multi</param>
         </destination>
@@ -162,7 +160,7 @@
         <!-- per-destination per-user limits -->
         <limit type="destination_user_concurrent_jobs" id="roundup_trackster_multi">1</limit>
         <limit type="destination_user_concurrent_jobs" id="roundup_multi">2</limit>
-        <limit type="destination_user_concurrent_jobs" id="roundup_single">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="rodeo_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="roundup_single_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede">2</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
