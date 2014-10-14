@@ -8,10 +8,5 @@ USERS = (
 
 def reserved_single( user_email ):
     if user_email in USERS:
-        return 'roundup_single_reserved'
-    return 'roundup_single'
-
-def reserved_multi( user_email ):
-    if user_email in USERS:
-        return 'roundup_multi_reserved'
-    return 'roundup_multi_static_walltime'
+        return 'rodeo_normal'
+    return 'rodeo_normal'
