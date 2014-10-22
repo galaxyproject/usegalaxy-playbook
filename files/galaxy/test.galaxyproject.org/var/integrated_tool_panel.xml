@@ -111,8 +111,6 @@
         <tool id="MAF_filter" />
     </section>
     <section id="scores" name="Get Genomic Scores" version="">
-        <tool id="wiggle2simple1" />
-        <tool id="aggregate_scores_in_intervals2" />
     </section>
     <section id="stats" name="Statistics" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/plot_from_lda/plot_for_lda_output1/1.0.1" />
@@ -130,20 +128,15 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/scatterplot_rpy/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/histogram/histogram_rpy/1.0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/XY_Plot_1/1.0.1" />
-        <tool id="barchart_gnuplot" />
         <tool id="qual_stats_boxplot" />
         <tool id="laj_1" />
         <tool id="vcf_to_maf_customtrack1" />
     </section>
     <section id="hyphy" name="Evolution" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/mutate_snp_codon/mutate_snp_codon_1/1.0.0" />
-        <tool id="hgv_codingSnps" />
-        <tool id="hgv_add_scores" />
     </section>
     <section id="motifs" name="Motif Tools" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/fubar/clustalw/clustalw/0.2" />
-        <tool id="meme_meme" />
-        <tool id="meme_fimo" />
     </section>
     <section id="NGS_QC" name="NGS: QC and manipulation" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0" />
@@ -164,15 +157,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/fastq_manipulation/1.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.0.4" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52" />
-        <label id="fastqcsambam" text="FastQC: fastq/sam/bam" version="" />
-        <label id="illumina" text="Illumina fastq" version="" />
-        <label id="454" text="Roche-454 data" version="" />
-        <label id="solid" text="AB-SOLiD data" version="" />
-        <tool id="solid2fastq" />
-        <tool id="solid_qual_stats" />
-        <tool id="solid_qual_boxplot" />
-        <label id="generic_fastq" text="Generic FASTQ manipulation" version="" />
-        <label id="fastx_toolkit" text="FASTX-Toolkit for FASTQ data" version="" />
     </section>
     <section id="solexa_tools" name="NGS: Mapping" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/megablast_xml_parser/megablast_xml_parser/1.0.0" />
@@ -186,10 +170,6 @@
         <tool id="testtoolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.03.52" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie_color_wrappers/bowtie_color_wrapper/1.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/nilshomer/tmap_wrapper/tmap_wrapper/0.0.19" />
-        <tool id="bfast_wrapper" />
-        <tool id="PerM" />
-        <tool id="srma_wrapper" />
-        <tool id="mosaik_wrapper" />
     </section>
     <section id="ngs-rna-tools" name="NGS: RNA Analysis" version="">
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.0.0" />
@@ -201,8 +181,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.7" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/0.0.7" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.6" />
-        <label id="rna_seq" text="RNA-seq" version="" />
-        <label id="filtering" text="Filtering" version="" />
     </section>
     <section id="samtools" name="NGS: SAM Tools" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/0.0.1" />
@@ -232,7 +210,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/bamtools/bamFilter/0.0.1" />
     </section>
     <section id="ngs-simulation" name="NGS: Simulation" version="">
-        <tool id="ngs_simulation" />
     </section>
     <section id="hgv" name="Phenotype Association" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcf2pgsnp/vcf2pgSnp/1.0.0" />
@@ -242,17 +219,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/divide_pg_snp/dividePgSnp/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ctd_batch/ctdBatch_1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/dgidb_annotator/dgidb_annotator/0.1" />
-        <tool id="hgv_codingSnps" />
-        <tool id="hgv_add_scores" />
-        <tool id="hgv_sift" />
-        <tool id="hgv_linkToGProfile" />
-        <tool id="hgv_david" />
-        <tool id="hgv_ldtools" />
-        <tool id="hgv_pass" />
-        <tool id="hgv_gpass" />
-        <tool id="hgv_beam" />
-        <tool id="hgv_lps" />
-        <tool id="master2pgSnp" />
     </section>
     <section id="bedtools" name="BEDtools" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/aaronquinlan/bedtools/bedtools_intersectbed_bam/0.1.0" />
@@ -519,7 +485,7 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/basecoverage/gops_basecoverage_1/1.0.0" />
     </section>
     <section id="multReg" name="Multiple regression" version="">
-        <tool id="testtoolshed.g2.bx.psu.edu/repos/fubar/rglasso_1_9_8/rglasso_cox/0.02" />
+        <tool id="testtoolshed.g2.bx.psu.edu/repos/fubar/rglasso_1_9_8/rglasso_cox/0.03" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/rcve/rcve1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/partialr_square/partialRsq/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/logistic_regression_vif/LogisticRegression/1.0.1" />
@@ -742,4 +708,5 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfrandomsample/vcfrandomsample/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfannotategenotypes/vcfannotategenotypes/0.0.2" />
     </section>
+    <tool id="echo_test_stampede" />
 </toolbox>
