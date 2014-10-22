@@ -87,6 +87,12 @@
             <param id="function">stampede_select</param>
         </destination>
 
+        <!-- dynamic method for setting required memory for singlethreaded jobs -->
+        <destination id="dynamic_single_dynamic_memory" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">single_dynamic_memory</param>
+        </destination>
+
         <!-- rodeo destinations -->
         <destination id="slurm_normal_single" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=rodeo --nodes=1 --ntasks=1 --partition=normal</param>
@@ -109,6 +115,10 @@
             <!-- walltime is set dynamically, DO NOT USE THIS DESTINATION WITHOUT DYNAMIC -->
             <param id="nativeSpecification">--nodes=1 --ntasks=4 --partition=multi</param>
             <resubmit condition="walltime_reached" destination="pulsar_stampede" handler="test_handler2"/>
+        </destination>
+
+        <destination id="slurm_normal_single_mem" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1</param>
         </destination>
 
         <!-- stampede destinations -->
@@ -204,6 +214,9 @@
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
         </tool>
+        <!-- dynamic memory tools -->
+        <tool id="wig_to_bigWig" destination="dynamic_single_dynamic_memory"/>
+        <tool id="bed_to_bigBed" destination="dynamic_single_dynamic_memory"/>
         <!-- nagios checks -->
         <tool id="echo_test_handler0" handler="test_handler0"/>
         <tool id="echo_test_handler1" handler="test_handler1"/>
@@ -224,6 +237,7 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_single">4</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_multi">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_development_multi">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_single_mem">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_normal">3</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
         <!-- per-destination total limits -->
