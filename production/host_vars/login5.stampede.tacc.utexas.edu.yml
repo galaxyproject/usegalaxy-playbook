@@ -13,6 +13,8 @@ pulsar_job_managers:
     postprocess_action_interval_start: 2
     postprocess_action_interval_step: 4
     postprocess_action_interval_max: 120
+  stampede_nagios:
+    type: queued_python
 
 pulsar_install_environments:
   pyOpenSSL:

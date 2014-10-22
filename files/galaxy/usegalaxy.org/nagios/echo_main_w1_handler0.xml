@@ -1,0 +1,10 @@
+<tool id="echo_main_w1_handler0" name="Echo">
+    <hidden>True</hidden>
+    <command>echo "$echo" &gt; "$output"</command>
+    <inputs>
+        <param name="echo" type="text" title="Text to echo"/>
+    </inputs>
+    <outputs>
+        <data name="output" format="txt" />
+    </outputs>
+</tool>

@@ -42,6 +42,11 @@ usegalaxy_dynamic_job_rules:
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/stampede_select.py
 
+usegalaxy_nagios_tools:
+  - echo_test_handler0
+  - echo_test_handler1
+  - echo_test_stampede
+
 
 ## used by: galaxyprojectdotorg.galaxy
 hg_executable: "{{ hg_virtualenv }}/bin/hg"

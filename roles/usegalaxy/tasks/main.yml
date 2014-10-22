@@ -19,6 +19,13 @@
   ini_file: dest={{ galaxy_handler_config_file }} section='app:main' option=object_store_config_file value={{ galaxy_handler_object_store_config_file }}
   when: inventory_hostname in groups['galaxymasters'] and master.stat.mtime > repl.stat.mtime
 
+- name: Create nagios tool directory
+  file: dest=/home/{{ galaxy_user }}/nagios state=directory
+
+- name: Copy nagios tools
+  copy: src=files/galaxy/{{ galaxy_instance_hostname }}/nagios/{{ item }}.xml dest=/home/{{ galaxy_user }}/nagios/{{ item }}.xml
+  with_items: usegalaxy_nagios_tools
+
 # distribute mutable configs to non-masters (this is not in the public role because I doubt anyone else is doing it)
 # the file must exist in the (local) destination, I can't get synchronize to create it if it does not exist.
 - name: Fetch mutable configs from master host

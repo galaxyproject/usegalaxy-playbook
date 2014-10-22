@@ -20,7 +20,7 @@ pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
 
 ## used by: galaxyprojectdotorg.pulsar
 hg_executable: "{{ hg_virtualenv }}/bin/hg"
-pulsar_changeset_id: 3039bcc2e949426887ecc926174c911962172606
+pulsar_changeset_id: 91ec064034a73c1f6948a226a09c96a7c7fbfa52
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_server_dir: "{{ pulsar_root }}/server"
 pulsar_config_dir: "{{ pulsar_root }}/config"
@@ -44,6 +44,11 @@ pulsar_optional_dependencies:
 galaxy_server_dir: "{{ galaxy_root }}/server"
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_venv_dir: "{{ galaxy_root }}/venv"
+galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
+
+galaxy_config_files:
+  - src: files/galaxy/{{ galaxy_instance_hostname }}/config/ucsc_build_sites.txt
+    dest: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
 
 galaxy_config_templates:
   - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/datatypes_conf.xml.j2

@@ -25,6 +25,18 @@
             <param id="amqp_publish_retry">True</param>
             <param id="amqp_publish_retry_max_retries">600</param>
         </plugin>
+        <plugin id="amqp_pulsar_stampede_nagios" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+            <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
+            <param id="galaxy_url">https://test.galaxyproject.org</param>
+            <param id="manager">stampede_nagios</param>
+            <param id="amqp_connect_ssl_ca_certs">{{ galaxy_config_dir }}/rabbitssl/cacert.pem</param>
+            <param id="amqp_connect_ssl_keyfile">{{ galaxy_config_dir }}/rabbitssl/key.pem</param>
+            <param id="amqp_connect_ssl_certfile">{{ galaxy_config_dir }}/rabbitssl/cert.pem</param>
+            <param id="amqp_connect_ssl_cert_reqs">cert_required</param>
+            <param id="amqp_consumer_timeout">2.0</param>
+            <param id="amqp_publish_retry">True</param>
+            <param id="amqp_publish_retry_max_retries">600</param>
+        </plugin>
         <plugin id="amqp_pulsar_blacklight" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
             <param id="galaxy_url">https://test.galaxyproject.org</param>
@@ -47,6 +59,7 @@
         </handler>
         <handler id="test_handler2">
             <plugin id="amqp_pulsar_stampede"/>
+            <plugin id="amqp_pulsar_stampede_nagios"/>
             <plugin id="slurm"/>
         </handler>
         <handler id="test_handler3">
@@ -108,6 +121,7 @@
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/work/galaxy/test/pulsar/var/staging/</param>
             <param id="remote_property_galaxy_home">/work/galaxy/test/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/work/galaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">--time=48:00:00 --nodes=1 --ntasks=16 --partition=normal --account=TG-MCB140147</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
@@ -121,8 +135,22 @@
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/work/galaxy/test/pulsar/var/staging/</param>
             <param id="remote_property_galaxy_home">/work/galaxy/test/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/work/galaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">--time=00:30:00 --nodes=1 --ntasks=16 --partition=development --account=TG-MCB140147</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
+        </destination>
+        <destination id="pulsar_stampede_nagios" runner="amqp_pulsar_stampede_nagios">
+            <param id="transport">curl</param>
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/work/galaxy/test/pulsar/var/staging/</param>
+            <param id="remote_property_galaxy_home">/work/galaxy/test/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/work/galaxy/test/galaxy/config/galaxy.ini</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/test/galaxy/config/datatypes_conf.xml</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
         </destination>
 
@@ -136,6 +164,7 @@
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/brashear/ndc/test/pulsar/var/staging/</param>
             <param id="remote_property_galaxy_home">/brashear/ndc/test/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/brashear/ndc/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/brashear/ndc/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">-l walltime=48:00:00 -l ncpus=64 -W group_list=mc3bf0p</param>
         </destination>
@@ -148,6 +177,7 @@
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/brashear/ndc/test/pulsar/var/staging/</param>
             <param id="remote_property_galaxy_home">/brashear/ndc/test/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/brashear/ndc/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/brashear/ndc/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">-q debug -l walltime=00:30:00 -l ncpus=16 -W group_list=mc3bf0p</param>
         </destination>
@@ -177,6 +207,7 @@
         <!-- nagios checks -->
         <tool id="echo_test_handler0" handler="test_handler0"/>
         <tool id="echo_test_handler1" handler="test_handler1"/>
+        <tool id="echo_test_stampede" destination="pulsar_stampede_nagios" handler="test_handler2"/>
     </tools>
     <resources default="default">
         <group id="default"></group>

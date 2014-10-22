@@ -41,6 +41,15 @@ usegalaxy_dynamic_job_rules:
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/roundup_stampede_select.py
 
+usegalaxy_nagios_tools:
+  - echo_main_w1_handler0
+  - echo_main_w1_handler1
+  - echo_main_w1_handler2
+  - echo_main_w2_handler0
+  - echo_main_w2_handler1
+  - echo_main_w2_handler2
+  - echo_main_stampede
+
 
 ## used by: galaxyprojectdotorg.galaxy
 hg_executable: "{{ hg_virtualenv }}/bin/hg"
