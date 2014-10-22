@@ -72,6 +72,12 @@
             <param id="function">roundup_stampede_select</param>
         </destination>
 
+        <!-- dynamic method for setting required memory for singlethreaded jobs -->
+        <destination id="dynamic_single_dynamic_memory" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">single_dynamic_memory</param>
+        </destination>
+
         <!-- rodeo destinations -->
         <destination id="rodeo_normal" runner="slurm">
            <param id="nativeSpecification">--time=48:00:00 --clusters=rodeo --nodes=1 --ntasks=1 --partition=normal</param>
@@ -87,6 +93,9 @@
         </destination>
         <destination id="roundup_trackster_multi" runner="slurm">
             <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=8 --partition=single --constraint=general</param>
+        </destination>
+        <destination id="slurm_normal_single_mem" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1</param>
         </destination>
 
         <!-- old roundup names, remove after all jobs have disappeared from here -->
@@ -163,6 +172,9 @@
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
         </tool>
+        <!-- dynamic memory tools -->
+        <tool id="wig_to_bigWig" destination="dynamic_single_dynamic_memory"/>
+        <tool id="bed_to_bigBed" destination="dynamic_single_dynamic_memory"/>
         <!-- nagios checks -->
         <tool id="echo_main_w1_handler0" handler="main_w1_handler0"/>
         <tool id="echo_main_w1_handler1" handler="main_w1_handler1"/>
@@ -187,6 +199,7 @@
         <limit type="destination_user_concurrent_jobs" id="roundup_multi">2</limit>
         <limit type="destination_user_concurrent_jobs" id="rodeo_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="roundup_single_development">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_single_mem">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede">2</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
         <!-- per-destination total limits -->

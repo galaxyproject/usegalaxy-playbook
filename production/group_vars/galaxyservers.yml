@@ -40,6 +40,7 @@ galaxy_instance_hostname: usegalaxy.org
 usegalaxy_dynamic_job_rules:
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/roundup_stampede_select.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/single_dynamic_memory.py
 
 usegalaxy_nagios_tools:
   - echo_main_w1_handler0
