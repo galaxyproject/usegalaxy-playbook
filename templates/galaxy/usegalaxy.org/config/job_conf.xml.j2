@@ -80,7 +80,7 @@
 
         <!-- rodeo destinations -->
         <destination id="rodeo_normal" runner="slurm">
-           <param id="nativeSpecification">--time=48:00:00 --clusters=rodeo --nodes=1 --ntasks=1 --partition=normal</param>
+           <param id="nativeSpecification">--time=36:00:00 --clusters=rodeo --nodes=1 --ntasks=1 --partition=normal</param>
         </destination>
         <!-- FIXME: destination needs to be renamed everywhere (dynamic, resources, etc) -->
         <destination id="roundup_single_development" runner="slurm">
@@ -89,7 +89,7 @@
 
         <!-- roundup destinations -->
         <destination id="roundup_multi" runner="slurm">
-            <param id="nativeSpecification">--time=48:00:00 --nodes=1 --ntasks=8 --partition=multi</param>
+            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=8 --partition=multi</param>
         </destination>
         <destination id="roundup_trackster_multi" runner="slurm">
             <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=8 --partition=single --constraint=general</param>
@@ -100,10 +100,10 @@
 
         <!-- old roundup names, remove after all jobs have disappeared from here -->
         <destination id="slurm_single" runner="slurm">
-            <param id="nativeSpecification">--time=48:00:00 --nodes=1 --ntasks=1 --partition=single --constraint=general</param>
+            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=1 --partition=single --constraint=general</param>
         </destination>
         <destination id="slurm_multi" runner="slurm">
-            <param id="nativeSpecification">--time=48:00:00 --nodes=1 --ntasks=8 --partition=multi</param>
+            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=8 --partition=multi</param>
         </destination>
         <destination id="slurm_trackster_multi" runner="slurm">
             <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=8 --partition=single --constraint=general</param>
