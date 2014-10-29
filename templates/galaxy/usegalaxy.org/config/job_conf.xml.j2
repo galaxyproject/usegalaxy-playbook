@@ -89,13 +89,13 @@
 
         <!-- roundup destinations -->
         <destination id="roundup_multi" runner="slurm">
-            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=8 --partition=multi</param>
+            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=6 --partition=multi</param>
         </destination>
         <destination id="roundup_trackster_multi" runner="slurm">
-            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=8 --partition=single --constraint=general</param>
+            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=6 --partition=single --constraint=general</param>
         </destination>
         <destination id="slurm_normal_single_mem" runner="slurm">
-            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1</param>
+            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
         </destination>
 
         <!-- old roundup names, remove after all jobs have disappeared from here -->
@@ -103,10 +103,10 @@
             <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=1 --partition=single --constraint=general</param>
         </destination>
         <destination id="slurm_multi" runner="slurm">
-            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=8 --partition=multi</param>
+            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=6 --partition=multi</param>
         </destination>
         <destination id="slurm_trackster_multi" runner="slurm">
-            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=8 --partition=single --constraint=general</param>
+            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=6 --partition=single --constraint=general</param>
         </destination>
 
         <!-- stampede destinations -->
@@ -173,8 +173,10 @@
             <param id="source">trackster</param>
         </tool>
         <!-- dynamic memory tools -->
-        <tool id="wig_to_bigWig" destination="dynamic_single_dynamic_memory"/>
+        <tool id="wig_to_bigWig" destination="slurm_normal_single_mem"/>
+        <!--
         <tool id="bed_to_bigBed" destination="dynamic_single_dynamic_memory"/>
+        -->
         <!-- nagios checks -->
         <tool id="echo_main_w1_handler0" handler="main_w1_handler0"/>
         <tool id="echo_main_w1_handler1" handler="main_w1_handler1"/>

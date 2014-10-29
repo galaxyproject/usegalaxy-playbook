@@ -25,7 +25,7 @@ def single_dynamic_memory( app, tool, job ):
         tool_id = tool.id.split('/')[-2]
 
     if tool_id == 'wig_to_bigWig':
-        memfactor = 2.5
+        memfactor = 2.75
     elif tool_id == 'bed_to_bigBed':
         memfactor = 0.5
     else:
