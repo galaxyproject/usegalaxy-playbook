@@ -80,11 +80,11 @@
 
         <!-- rodeo destinations -->
         <destination id="rodeo_normal" runner="slurm">
-           <param id="nativeSpecification">--time=36:00:00 --clusters=rodeo --nodes=1 --ntasks=1 --partition=normal</param>
+           <param id="nativeSpecification">--time=36:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=normal</param>
         </destination>
         <!-- FIXME: destination needs to be renamed everywhere (dynamic, resources, etc) -->
         <destination id="roundup_single_development" runner="slurm">
-            <param id="nativeSpecification">--time=00:30:00 --clusters=rodeo --nodes=1 --ntasks=2 --partition=normal</param>
+            <param id="nativeSpecification">--time=00:30:00 --clusters=rodeo,roundup --nodes=1 --ntasks=2 --partition=normal</param>
         </destination>
 
         <!-- roundup destinations -->
