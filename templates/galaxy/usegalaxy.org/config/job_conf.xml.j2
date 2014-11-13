@@ -86,6 +86,12 @@
         <destination id="roundup_single_development" runner="slurm">
             <param id="nativeSpecification">--time=00:30:00 --clusters=rodeo,roundup --nodes=1 --ntasks=2 --partition=normal</param>
         </destination>
+        <destination id="slurm_normal_single_16gb" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
+        </destination>
+        <destination id="slurm_normal_single_64gb" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
+        </destination>
 
         <!-- roundup destinations -->
         <destination id="roundup_multi" runner="slurm">
@@ -93,9 +99,6 @@
         </destination>
         <destination id="roundup_trackster_multi" runner="slurm">
             <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=6 --partition=single --constraint=general</param>
-        </destination>
-        <destination id="slurm_normal_single_mem" runner="slurm">
-            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
         </destination>
 
         <!-- old roundup names, remove after all jobs have disappeared from here -->
@@ -172,8 +175,14 @@
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
         </tool>
-        <!-- dynamic memory tools -->
-        <tool id="wig_to_bigWig" destination="slurm_normal_single_mem"/>
+        <!-- increased memory tools -->
+
+        <tool id="gops_join_1" destination="slurm_normal_single_16gb"/>
+        <tool id="gatk_unified_genotyper" destination="slurm_normal_single_16gb"/>
+        <tool id="gatk_realigner_target_creator" destination="slurm_normal_single_16gb"/>
+        <tool id="gatk_indel_realigner" destination="slurm_normal_single_16gb"/>
+        <tool id="gatk_depth_of_coverage" destination="slurm_normal_single_16gb"/>
+        <tool id="wig_to_bigWig" destination="slurm_normal_single_64gb"/>
         <!--
         <tool id="bed_to_bigBed" destination="dynamic_single_dynamic_memory"/>
         -->
@@ -201,7 +210,8 @@
         <limit type="destination_user_concurrent_jobs" id="roundup_multi">2</limit>
         <limit type="destination_user_concurrent_jobs" id="rodeo_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="roundup_single_development">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal_single_mem">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_single_16gb">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_single_64gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede">2</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
         <!-- per-destination total limits -->
