@@ -109,6 +109,15 @@ Python + virtualenv compiled and installed by hand on Blacklight and Stampede:
 Certs on blacklight are all messed up, so for that, I had to manually assemble
 a CA cert chain for pypi.python.org and create ~/.pip/pip.conf to use it.
 
+Updating
+--------
+This playbook is updated from the roles published at [Ansible
+Galaxy](https://galaxy.ansible.com/list#/roles/1615).  To pull published
+changes and update the galaxy playbook contained here, execute the following
+command in the root of this repository, and then commit changes:
+
+    ansible-galaxy install -f -p roles galaxyprojectdotorg.galaxy
+
 Dependency Notes
 ----------------
 
