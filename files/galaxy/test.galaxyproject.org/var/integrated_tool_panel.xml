@@ -183,12 +183,12 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.6" />
     </section>
     <section id="samtools" name="NGS: SAM Tools" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/1.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_merge/sam_merge2/1.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_bitwise_flag_filter/sam_bw_filter/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam2interval/sam2interval/1.0.1" />
@@ -239,17 +239,16 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1" />
-        <tool id="testtoolshed.g2.bx.psu.edu/repos/nick/allele_counts_1/allele_counts_1/1.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/ems_variant_density_mapping/1.0.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/snp_mapping_using_wgs/snp_mapping_using_wgs/1.0.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/boris/hetbox/hetbox/1.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_detector/naive_variant_detector/0.0.1" />
-        <tool id="testtoolshed.g2.bx.psu.edu/repos/nick/allele_counts_1/allele_counts_1/1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0" />
     </section>
     <section id="regVar" name="Regional Variation" version="">
+        <tool id="testtoolshed.g2.bx.psu.edu/repos/guru-ananda/rhmm/hmm_1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/weightedaverage/wtavg/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/substitutions/substitutions1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/substitution_rates/subRate1/1.0.0" />
@@ -269,8 +268,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/windowsplitter/winSplitter/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/getindels_2way/getIndels_2way/1.0.0" />
-        <tool id="testtoolshed.g2.bx.psu.edu/repos/guru-ananda/karyotype_plot/karyotype_Plot_1/1.0.0" />
-        <tool id="testtoolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0" />
     </section>
     <section id="genome_diversity" name="Genome Diversity" version="">
         <label id="gd_init" text="Basic analyses" version="" />
@@ -433,19 +430,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/jjohnson/mothur_toolsuite/mothur_chimera_uchime/1.22.0" />
     </section>
     <section id="picard_beta" name="NGS: Picard (beta)" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.56.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BamIndexStats/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardASMetrics/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardGCBiasMetrics/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgEstLibComp/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardInsertSize/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardHsMetrics/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ARRG/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReorderSam/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicFixMate/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicardMarkDups/1.56.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/devteam/picard1106/picard_ARRG/1.106.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/devteam/picard1106/picard_mergevcfs/1.106.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/devteam/picard1106/PicardASMetrics/1.106.0" />
@@ -514,6 +498,7 @@
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgpeakcall/2.0.10.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_refinepeak/2.0.10.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_predictd/2.0.10.0" />
+        <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/2.0.10.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_filterdup/2.0.10.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_randsample/2.0.10.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgdiff/2.0.10.0" />
@@ -525,7 +510,6 @@
     </section>
     <section id="anton-vcftoolset" name="anton-vcftoolset" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfselectsamples/vcfselectsamples/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfcombine/vcfcombine/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfleftalign/vcfleftalign/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfcommonsamples/vcfcommonsamples/0.0.1" />
@@ -546,7 +530,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfbedintersect/vcfbedintersect/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfvcfintersect/vcfvcfintersect/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfselectsamples/vcfselectsamples/0.0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/freebayes-0.9.14" />
     </section>
     <tool id="echo_test_handler0" />
     <tool id="echo_test_handler1" />

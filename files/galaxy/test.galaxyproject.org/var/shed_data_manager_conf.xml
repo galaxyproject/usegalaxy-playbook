@@ -1,3 +1,22 @@
 <?xml version="1.0"?>
 <data_managers>
+<data_manager guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_all_fasta/data_manager/fetch_genome_all_fasta/0.0.1" id="fetch_genome_all_fasta" shed_conf_file="/home/g2test/var/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_all_fasta/2ebc856bce29/data_manager_fetch_genome_all_fasta/data_manager/data_manager_fetch_genome_all_fasta.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_all_fasta/data_manager_fetch_genome_all_fasta/0.0.1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_fetch_genome_all_fasta</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>2ebc856bce29</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_all_fasta/data_manager_fetch_genome_all_fasta/0.0.1</id><version>0.0.1</version></tool><data_table name="all_fasta">
+            <output>
+                <column name="value" />
+                <column name="dbkey" />
+                <column name="name" />
+                <column name="path" output_ref="out_file">
+                    <move type="file">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">${dbkey}/seq/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/${dbkey}/seq/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+    
+
 </data_managers>
