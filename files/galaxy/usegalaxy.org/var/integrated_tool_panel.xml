@@ -252,6 +252,9 @@
     </section>
     <label id="ngs" text="NGS Toolbox Beta" version="" />
     <section id="hgv" name="Phenotype Association" version="">
+        <tool id="hgv_codingSnps" />
+        <tool id="hgv_add_scores" />
+        <tool id="hgv_sift" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcf2pgsnp/vcf2pgSnp/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/snpfreq/hgv_snpFreq/1.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/dgidb_annotator/dgidb_annotator/0.1" />
@@ -261,9 +264,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/divide_pg_snp/dividePgSnp/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ctd_batch/ctdBatch_1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.2" />
-        <tool id="hgv_codingSnps" />
-        <tool id="hgv_add_scores" />
-        <tool id="hgv_sift" />
         <tool id="hgv_linkToGProfile" />
         <tool id="hgv_david" />
         <tool id="hgv_ldtools" />
@@ -332,9 +332,9 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/0.0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/1.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_merge/sam_merge2/1.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_bitwise_flag_filter/sam_bw_filter/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam2interval/sam2interval/1.0.1" />
