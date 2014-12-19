@@ -141,6 +141,7 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/fubar/clustalw/clustalw/0.2" />
     </section>
     <section id="NGS_QC" name="NGS: QC and manipulation" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/quality_score_distribution/1.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0" />
@@ -161,6 +162,9 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52" />
     </section>
     <section id="solexa_tools" name="NGS: Mapping" version="">
+        <tool id="testtoolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.03.52" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/megablast_xml_parser/megablast_xml_parser/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/megablast_wrapper/megablast_wrapper/1.2.0" />
@@ -170,12 +174,11 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/lastz_paired_reads/lastz_paired_reads_wrapper/1.1.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.2.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.2" />
-        <tool id="testtoolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.03.52" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie_color_wrappers/bowtie_color_wrapper/1.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/nilshomer/tmap_wrapper/tmap_wrapper/0.0.19" />
     </section>
     <section id="ngs-rna-tools" name="NGS: RNA Analysis" version="">
-        <tool id="testtoolshed.g2.bx.psu.edu/repos/fubar/differential_count_models/rgdifferentialcount/0.27" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.7" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.6" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tophat/tophat/1.5.0" />
@@ -236,6 +239,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0" />
     </section>
     <section id="variant_detection" name="NGS: Variant Detection" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/bamleftalign/0.3" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1" />
@@ -694,4 +699,37 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfannotategenotypes/vcfannotategenotypes/0.0.2" />
     </section>
     <tool id="echo_test_stampede" />
+    <section id="ngs:_picard" name="NGS: Picard" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddCommentsToBam/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_DownsampleSam/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ValidateSamFile/1.122.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReorderSam/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_RevertSam/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_EstimateLibraryComplexity/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SortSam/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddOrReplaceReadGroups/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectRnaSeqMetrics/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CleanSam/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectInsertSizeMetrics/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MeanQualityByCycle/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectBaseDistributionByCycle/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectWgsMetrics/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CASM/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectGcBiasMetrics/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_NormalizeFasta/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FixMateInformation/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MergeSamFiles/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MergeBamAlignment/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_RevertOriginalBaseQualitiesAndAddMateCigar/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FilterSamReads/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BedToIntervalList/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_QualityScoreDistribution/1.126.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicatesWithMateCigar/1.126.0" />
+    </section>
+    <section id="ngs:_deeptools" name="NGS: DeepTools" version="">
+    </section>
 </toolbox>
