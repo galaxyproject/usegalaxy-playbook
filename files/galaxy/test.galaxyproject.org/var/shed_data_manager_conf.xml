@@ -19,4 +19,22 @@
     </data_manager>
     
 
+
+<data_manager guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_gemini_database_downloader/data_manager/data_manager_gemini_download/0.0.1" id="data_manager_gemini_download" shed_conf_file="/home/g2test/var/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_gemini_database_downloader/a580422f6f1d/data_manager_gemini_database_downloader/data_manager/data_manager_gemini_download.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_gemini_database_downloader/data_manager_gemini_download/0.10.0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_gemini_database_downloader</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>a580422f6f1d</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_gemini_database_downloader/data_manager_gemini_download/0.10.0</id><version>0.10.0</version></tool><data_table name="gemini_databases">  <!-- Defines a Data Table to be modified. -->
+            <output> <!-- Handle the output of the Data Manager Tool -->
+                <column name="value" /> <!-- columns that are going to be specified by the Data Manager Tool -->
+                <column name="dbkey" /> <!-- columns that are going to be specified by the Data Manager Tool -->
+                <column name="name" />  <!-- columns that are going to be specified by the Data Manager Tool -->
+                <column name="path" output_ref="out_file">
+                    <move relativize_symlinks="True" type="directory">
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">gemini/data/${dbkey}/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/gemini/data/${dbkey}/${value}/gemini/data/</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+
 </data_managers>
