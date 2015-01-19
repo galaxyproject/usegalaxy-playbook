@@ -1,6 +1,7 @@
 ---
 
 - hosts: pulsarservers
+  remote_user: "{{ galaxy_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/pulsarservers.yml"
   pre_tasks:

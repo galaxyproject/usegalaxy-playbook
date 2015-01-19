@@ -1,0 +1,8 @@
+---
+
+- hosts: galaxyservers
+  remote_user: root
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+  roles:
+    - supervisor

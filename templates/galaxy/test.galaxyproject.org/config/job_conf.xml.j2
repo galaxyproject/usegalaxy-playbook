@@ -66,6 +66,10 @@
             <plugin id="amqp_pulsar_blacklight"/>
             <plugin id="slurm"/>
         </handler>
+        <!-- the installer is a handler for data managers -->
+        <handler id="test_installer">
+            <plugin id="slurm"/>
+        </handler>
     </handlers>
     <destinations default="dynamic_reserved_single">
 
@@ -217,6 +221,8 @@
         <!-- dynamic memory tools -->
         <tool id="wig_to_bigWig" destination="dynamic_single_dynamic_memory"/>
         <tool id="bed_to_bigBed" destination="dynamic_single_dynamic_memory"/>
+        <!-- data managers -->
+        <tool id="data_manager_fetch_genome_all_fasta" handler="test_installer"/>
         <!-- nagios checks -->
         <tool id="echo_test_handler0" handler="test_handler0"/>
         <tool id="echo_test_handler1" handler="test_handler1"/>
