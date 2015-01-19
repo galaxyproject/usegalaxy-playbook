@@ -1,0 +1,29 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+[program:galaxy_{{ galaxy_instance_codename }}_uwsgi]
+command         = /usr/bin/sg {{ galaxy_group }} '{{ galaxy_web_venv_dir }}/bin/uwsgi --ini-paste {{ galaxy_config_dir }}/galaxy.ini'
+directory       = {{ galaxy_web_server_dir }}
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 15
+user            = {{ galaxy_user }}
+environment     = PYTHON_EGG_CACHE=/home/{{ galaxy_user }}/.python-eggs,PYTHONPATH={{ galaxy_web_server_dir }}/eggs/PasteDeploy-1.5.0-py2.7.egg
+numprocs        = 1
+stopsignal      = INT
+
+[program:{{ galaxy_host_codename }}_handler]
+command         = /usr/bin/sg {{ galaxy_group }} '{{ galaxy_handler_venv_dir }}/bin/python ./scripts/paster.py serve /galaxy/{{ galaxy_instance_codename }}/config/galaxy.ini --server-name={{ galaxy_host_codename }}_handler%(process_num)s --pid-file=/home/{{ galaxy_user }}/run/{{ galaxy_host_codename }}_handler%(process_num)s.pid --log-file=/home/{{ galaxy_user }}/log/{{ galaxy_host_codename }}_handler%(process_num)s.log'
+directory       = {{ galaxy_handler_server_dir }}
+process_name    = handler%(process_num)s
+numprocs        = {{ galaxy_handler_count }}
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 30
+user            = {{ galaxy_user }}
+environment     = PYTHON_EGG_CACHE=/home/{{ galaxy_user }}/.python-eggs
+stdout_logfile  = /var/log/supervisord/{{ galaxy_host_codename }}_handler%(process_num)s.stdout.log
+stderr_logfile  = /var/log/supervisord/{{ galaxy_host_codename }}_handler%(process_num)s.stderr.log

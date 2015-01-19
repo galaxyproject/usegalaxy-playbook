@@ -1,0 +1,32 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+; see `echo_supervisord_conf` for details
+
+[unix_http_server]
+file                            = /var/run/supervisor.sock
+
+[inet_http_server]
+port                            = {{ supervisord_inet_listen }}:{{ supervisord_inet_port }}
+username                        = {{ supervisord_inet_user }}
+password                        = {SHA}{{ supervisord_inet_pass_sha }}
+
+[supervisord]
+logfile                         = /var/log/supervisord.log
+logfile_maxbytes                = 50MB
+logfile_backups                 = 10
+loglevel                        = info
+pidfile                         = /var/run/supervisord.pid
+nodaemon                        = false
+minfds                          = 1024
+minprocs                        = 200
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl                       = unix:///var/run/supervisor.sock
+
+[include]
+files                           =  {{ supervisord_conf_dir }}/*.conf

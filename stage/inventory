@@ -1,5 +1,5 @@
 [galaxyservers]
-galaxy01.tacc.utexas.edu ansible_ssh_user=g2test
+galaxy01.tacc.utexas.edu
 
 [galaxyservers:vars]
 # https://github.com/ansible/ansible/issues/8903
@@ -8,7 +8,7 @@ galaxy_web_venv_dir = /home/g2test/venv
 galaxy_web_config_file = /home/g2test/config/galaxy.ini
 
 [galaxymasters]
-galaxy01.tacc.utexas.edu ansible_ssh_user=g2test
+galaxy01.tacc.utexas.edu
 
 [pulsarservers]
-login5.stampede.tacc.utexas.edu ansible_ssh_host=login1.stampede.tacc.utexas.edu ansible_ssh_user=xcgalaxy
+login5.stampede.tacc.utexas.edu ansible_ssh_host=login1.stampede.tacc.utexas.edu

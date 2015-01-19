@@ -1,0 +1,14 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+[program:{{ galaxy_host_codename }}_reports]
+command         = {{ galaxy_web_venv_dir }}/bin/python ./scripts/paster.py serve reports_wsgi.ini --server-name=main --pid-file=/home/{{ galaxy_user }}/run/%(program_name)s.pid --log-file=/home/{{ galaxy_user }}/log/%(program_name)s.log
+directory       = {{ galaxy_web_server_dir }}
+process_name    = reports
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 30
+user            = {{ galaxy_user }}
+environment     = PYTHON_EGG_CACHE=/home/{{ galaxy_user }}/.python-eggs

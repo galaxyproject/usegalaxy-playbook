@@ -1,0 +1,14 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+[program:{{ galaxy_host_codename }}_installer]
+command         = /usr/bin/sg {{ galaxy_group }} '{{ galaxy_handler_venv_dir }}/bin/python ./scripts/paster.py serve {{ galaxy_config_dir }}/installer.ini --server-name=%(program_name)s --pid-file=/home/{{ galaxy_user }}/run/%(program_name)s.pid --log-file=/home/{{ galaxy_user }}/log/%(program_name)s.log'
+directory       = {{ galaxy_handler_server_dir }}
+process_name	= installer
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 30
+user            = {{ galaxy_user }}
+environment     = PYTHON_EGG_CACHE=/home/{{ galaxy_user }}/.python-eggs,VIRTUAL_ENV={{ galaxy_handler_venv_dir }},PATH={{ galaxy_handler_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
