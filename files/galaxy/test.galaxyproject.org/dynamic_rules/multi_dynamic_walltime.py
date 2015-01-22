@@ -22,7 +22,7 @@ PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2' )
 GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource' )
 GENOME_SOURCE_VALUES = ( 'indexed', )
 
-ROUNDUP_DESTINATION = 'slurm_normal_multi'
+ROUNDUP_DESTINATION = 'slurm_normal_multi_dynamic_walltime'
 ROUNDUP_DEVELOPMENT_DESTINATION = 'slurm_development_multi'
 STAMPEDE_DESTINATION = 'pulsar_stampede_normal'
 STAMPEDE_DEVELOPMENT_DESTINATION = 'pulsar_stampede_development'

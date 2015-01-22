@@ -7,7 +7,7 @@ from galaxy.jobs.mapper import JobMappingException
 
 log = logging.getLogger(__name__)
 
-DESTINATION = 'slurm_normal_single_mem'
+DESTINATION = 'slurm_normal_single_dynamic_mem'
 RODEO_PARAMS = ' --clusters=rodeo --partition=normal'
 ROUNDUP_PARAMS = ' --partition=multi'
 MEM_DEFAULT = 7680
