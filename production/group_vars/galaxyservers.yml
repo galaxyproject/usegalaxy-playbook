@@ -25,11 +25,21 @@ galaxy_log_dir: "{{ galaxy_root }}/log"
 hg_virtualenv: "{{ instance_root }}/hgenv"
 
 galaxy_user: g2main
+galaxy_group: G-803372
 
 galaxy_handler_venv_dir: /galaxy-repl/main/venv
 galaxy_handler_server_dir: /galaxy-repl/main/server
 galaxy_handler_config_file: /galaxy-repl/main/config/galaxy.ini
 galaxy_handler_object_store_config_file: /galaxy-repl/main/config/object_store_conf.xml
+
+
+## used by: supervisor
+galaxy_instance_codename: main
+galaxy_handler_count: 3
+supervisord_group_configs:
+  - galaxy.conf
+  - galaxy_impersonate.conf
+  - galaxy_group.conf
 
 
 ## used by: usegalaxy, usegalaxy_static
