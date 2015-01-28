@@ -102,8 +102,9 @@ galaxy_config:
     threads: 4
     master: True
     logto: "{{ galaxy_log_dir }}/uwsgi.log"
-    "log-reopen": True
-    "touch-logreopen": "{{ galaxy_log_dir }}/uwsgi.logreopen"
+    # uWSGI has suddenly decided to start crashing with these set.
+    #"log-reopen": True
+    #"touch-logreopen": "{{ galaxy_log_dir }}/uwsgi.logreopen"
     pythonpath: lib
   "app:main":
 
