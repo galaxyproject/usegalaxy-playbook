@@ -101,6 +101,9 @@
         <destination id="slurm_normal_single" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=normal</param>
         </destination>
+        <destination id="slurm_normal_single_16gb" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
+        </destination>
         <destination id="slurm_reserved_single" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=reserved</param>
         </destination>
@@ -274,9 +277,6 @@
         <tool id="picard_RevertSam" destination="slurm_normal_single_16gb"/>
         <tool id="picard_SamToFastq" destination="slurm_normal_single_16gb"/>
         <tool id="picard_ValidateSamFile" destination="slurm_normal_single_16gb"/>
-<tool id="picard_SamToFastq" destination="slurm_normal_single_16gb"/>
-        
-        
     </tools>
     <resources default="default">
         <group id="default"></group>
