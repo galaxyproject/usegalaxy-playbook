@@ -246,6 +246,37 @@
         <tool id="echo_test_handler0" handler="test_handler0"/>
         <tool id="echo_test_handler1" handler="test_handler1"/>
         <tool id="echo_test_stampede" destination="pulsar_stampede_nagios" handler="test_handler2"/>
+        <!--Picard tools-->
+        <tool id="picard_AddCommentsToBam" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_AddOrReplaceReadGroups" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_BedToIntervalList" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_CleanSam" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_CASM" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_CollectBaseDistributionByCycle" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_CollectGcBiasMetrics" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_CollectInsertSizeMetrics" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_CollectRnaSeqMetrics" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_CollectWgsMetrics" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_DownsampleSam" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_EstimateLibraryComplexity" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_FilterSamReads" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_FixMateInformation" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_MarkDuplicates" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_MarkDuplicatesWithMateCigar" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_MeanQualityByCycle" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_MergeBamAlignment" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_MergeSamFiles" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_NormalizeFasta" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_QualityScoreDistribution" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_ReorderSam" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_ReplaceSamHeader" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_RevertOriginalBaseQualitiesAndAddMateCigar" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_RevertSam" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_SamToFastq" destination="slurm_normal_single_16gb"/>
+        <tool id="picard_ValidateSamFile" destination="slurm_normal_single_16gb"/>
+<tool id="picard_SamToFastq" destination="slurm_normal_single_16gb"/>
+        
+        
     </tools>
     <resources default="default">
         <group id="default"></group>
