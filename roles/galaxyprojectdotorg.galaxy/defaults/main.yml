@@ -4,6 +4,9 @@
 # Controls which tasks are included, in case you need to perform different
 # options on different hosts or server directories.
 galaxy_manage_clone: yes
+galaxy_vcs: hg
+# Download the Galaxy instead cloning, for throw away boxes (e.g. Docker)
+galaxy_manage_download: no
 galaxy_manage_static_setup: yes
 galaxy_manage_mutable_setup: yes
 galaxy_manage_database: yes
@@ -11,10 +14,14 @@ galaxy_fetch_eggs: yes
 
 # Where to clone Galaxy from
 galaxy_repo: https://bitbucket.org/galaxy/galaxy-dist
+galaxy_git_repo: https://github.com/galaxyproject/galaxy.git
 
 # This can be a tag (as shown here) but doing so will cause the revision check
 # task to always report "changed"
 galaxy_changeset_id: stable
+
+# Download URL (if used)
+galaxy_download_url: "{{ galaxy_repo }}/get/{{ galaxy_changeset_id }}.tar.gz"
 
 # This will automatically be used by run.sh
 galaxy_venv_dir: "{{ galaxy_server_dir }}/.venv"
@@ -55,6 +62,7 @@ galaxy_config_default:
     template_cache_path: "{{ galaxy_mutable_data_dir }}/template_cache"
     whoosh_index_dir: "{{ galaxy_mutable_data_dir }}/whoosh_cache"
     object_store_cache_path: "{{ galaxy_mutable_data_dir }}/object_store_cache"
+    openid_consumer_cache_path: "{{ galaxy_mutable_data_dir }}/openid_consumer_cache"
     citation_cache_data_dir: "{{ galaxy_mutable_data_dir }}/citations/data"
     citation_cache_lock_dir: "{{ galaxy_mutable_data_dir }}/citations/locks"
 
