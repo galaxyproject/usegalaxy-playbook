@@ -16,21 +16,25 @@
 
 
 ## used by: other vars in this vars file
-instance_root: /home/{{ galaxy_user }}
-galaxy_root: "{{ instance_root }}"
-galaxy_log_dir: "{{ galaxy_root }}/log"
+galaxy_log_dir: "{{ galaxy_web_root }}/log"
+
+# instance_root and galaxy_root are set in the play
+# these are the same on galaxy servers
+# on pulsar servers, galaxy_root is a subdirectory of instance_root
+#instance_root: 
+#galaxy_root: 
 
 
 ## used by: the play itself
-hg_virtualenv: "{{ instance_root }}/hgenv"
-
 galaxy_user: g2test
 galaxy_group: G-803372
 
-galaxy_handler_venv_dir: /galaxy-repl/test/venv
-galaxy_handler_server_dir: /galaxy-repl/test/server
-galaxy_handler_config_file: /galaxy-repl/test/config/galaxy.ini
-galaxy_handler_object_store_config_file: /galaxy-repl/test/config/object_store_conf.xml
+galaxy_web_root: /srv/galaxy/{{ galaxy_instance_codename }}
+galaxy_web_server_dir: "{{ galaxy_web_root }}/server"
+galaxy_web_eggs_path: "{{ galaxy_web_root }}/eggs"
+galaxy_handler_root: /galaxy-repl/instances/{{ galaxy_instance_codename }}
+galaxy_handler_server_dir: "{{ galaxy_handler_root }}/server"
+galaxy_handler_eggs_path: "{{ galaxy_handler_root }}/eggs"
 
 
 ## used by: supervisor
@@ -61,32 +65,23 @@ usegalaxy_nagios_tools:
 
 
 ## used by: galaxyprojectdotorg.galaxy
-hg_executable: "{{ hg_virtualenv }}/bin/hg"
+pip_virtualenv_command: "{{ galaxy_web_root }}/python/bin/virtualenv"
 
-# These "defaults" were moved to the inventory file because:
-# https://github.com/ansible/ansible/issues/8903
-#galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
-#galaxy_server_dir: "{{ galaxy_root }}/server"
-#galaxy_venv_dir: "{{ galaxy_root }}/venv"
-galaxy_config_dir: "{{ galaxy_root }}/config"
-galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
+# some things are always local
+galaxy_venv_dir: "{{ galaxy_web_root }}/venv"
+galaxy_config_dir: "{{ galaxy_web_root }}/config"
+galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
+galaxy_mutable_config_dir: "{{ galaxy_web_root }}/var"
+galaxy_mutable_data_dir: "{{ galaxy_web_root }}/var"
 
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 # galaxy.ini contents
 galaxy_config:
-  "server:test_handler0":
-    threadpool_workers: 5
-    port: 9880
-  "server:test_handler1":
-    threadpool_workers: 5
-    port: 9881
-  "server:test_handler2":
-    threadpool_workers: 5
-    port: 9882
-  "server:test_handler3":
-    threadpool_workers: 5
-    port: 9883
+  "server:test_installer":
+    threadpool_workers: 4
+    port: 9999
+
   uwsgi:
     socket: "127.0.0.1:4001"
     stats: "127.0.0.1:9191"
@@ -128,8 +123,6 @@ galaxy_config:
     library_import_dir: /galaxy-repl/test/import
     galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
 
-    template_cache_path: "{{ galaxy_mutable_config_dir }}/compiled_templates"
-
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
     tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
     datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
@@ -159,7 +152,7 @@ galaxy_config:
     error_email_to: galaxy-bugs@bx.psu.edu
     activation_email: "Galaxy Activation <activate@galaxyproject.org>"
     instance_resource_url: "http://wiki.galaxyproject.org/Support"
-    blacklist_file: config/disposable_email_blacklist.conf
+    blacklist_file: "{{ galaxy_config_dir }}/disposable_email_blacklist.conf"
     registration_warning_message: "Please register only one account. The {{ galaxy_instance_hostname }} service is provided free of charge and has limited computational and data storage resources. <strong>Registration and usage of multiple accounts is tracked and such accounts are subject to termination and data deletion.</strong>"
     user_activation_on: "True"
     activation_grace_period: 6
@@ -223,3 +216,7 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/job_conf.xml"
   - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/datatypes_conf.xml.j2
     dest: "{{ galaxy_config['app:main']['datatypes_config_file'] }}"
+  - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/disposable_email_blacklist.conf.j2
+    dest: "{{ galaxy_config['app:main']['blacklist_file'] }}"
+  - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/reports.ini.j2
+    dest: "{{ galaxy_config_dir }}/reports.ini"

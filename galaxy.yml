@@ -1,41 +1,80 @@
 ---
 
-- hosts: galaxyservers
-  remote_user: "{{ galaxy_user }}"
+# FIXME: can't notify for restart across plays
+
+- name: Galaxy web code and eggs, manage static configs
+  hosts: galaxyservers
+  remote_user: gxsrc
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
-  pre_tasks:
-    - name: Install Mercurial
-      pip: name=mercurial virtualenv={{ hg_virtualenv }} virtualenv_command={{ pip_virtualenv_command | default( 'virtualenv' ) }}
   vars:
-    galaxy_venv_dir: "{{ galaxy_web_venv_dir }}"
+    instance_root: "{{ galaxy_web_root }}"
+    galaxy_root: "{{ galaxy_web_root }}"
     galaxy_server_dir: "{{ galaxy_web_server_dir }}"
-    galaxy_config_file: "{{ galaxy_web_config_file }}"
+    galaxy_eggs_path: "{{ galaxy_web_eggs_path }}"
   roles:
     # set up local galaxy clone and local config
     - role: galaxyprojectdotorg.galaxy
+      galaxy_manage_clone: yes
+      galaxy_manage_static_setup: yes
+      galaxy_manage_mutable_setup: no
       galaxy_manage_database: no
+      galaxy_fetch_eggs: yes
+
+- name: Galaxy handler code and eggs
+  hosts: galaxymasters
+  remote_user: gxsrc
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+  vars:
+    instance_root: "{{ galaxy_handler_root }}"
+    galaxy_root: "{{ galaxy_handler_root }}"
+    galaxy_server_dir: "{{ galaxy_handler_server_dir }}"
+    galaxy_eggs_path: "{{ galaxy_handler_eggs_path }}"
+  roles:
     # set up handler galaxy clone
     - role: galaxyprojectdotorg.galaxy
-      galaxy_venv_dir: "{{ galaxy_handler_venv_dir }}"
-      galaxy_server_dir: "{{ galaxy_handler_server_dir }}"
-      galaxy_config_file: "{{ galaxy_handler_config_file }}"
+      galaxy_manage_clone: yes
       galaxy_manage_static_setup: no
       galaxy_manage_mutable_setup: no
       galaxy_manage_database: no
-      galaxy_fetch_eggs: no
-      when: inventory_hostname in groups['galaxymasters']
+      galaxy_fetch_eggs: yes
+
+- name: Galaxy database and mutable configs
+  hosts: galaxymasters
+  remote_user: "{{ galaxy_user }}"
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+  vars:
+    instance_root: "{{ galaxy_web_root }}"
+    galaxy_root: "{{ galaxy_web_root }}"
+    galaxy_server_dir: "{{ galaxy_web_server_dir }}"
+    galaxy_eggs_path: "{{ galaxy_web_eggs_path }}"
+  roles:
     # manage the database
     - role: galaxyprojectdotorg.galaxy
       galaxy_manage_clone: no
       galaxy_manage_static_setup: no
-      galaxy_manage_mutable_setup: no
+      galaxy_manage_mutable_setup: yes
+      galaxy_manage_database: yes
       galaxy_fetch_eggs: no
       when: inventory_hostname in groups['galaxymasters']
+    # fetch and distribute mutable configs (needs the galaxy_mutable_configs
+    # var set in galaxyprojectdotorg.galaxy)
     - role: usegalaxy
+
+- name: Galaxy privileged user tasks and static content setup
+  hosts: galaxyservers
+  remote_user: gxsrc
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+  roles:
+    - role: usegalaxy_privileged
+    # welcome page
     - role: usegalaxy_static
 
-- hosts: pulsarservers
+- name: Update Galaxy on Pulsar servers
+  hosts: pulsarservers
   remote_user: "{{ galaxy_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/pulsarservers.yml"

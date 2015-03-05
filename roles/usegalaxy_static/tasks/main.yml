@@ -17,6 +17,12 @@
   with_items:
     - static/terms.html
 
+- name: Fetch Galaxy version
+  command: "{{ galaxy_venv_dir }}/bin/python -c 'from galaxy.version import VERSION_MAJOR; print VERSION_MAJOR'"
+  environment:
+    PYTHONPATH: "{{ galaxy_web_server_dir }}/lib"
+  register: version_major
+
 - name: Fill templates
   template: src=templates/galaxy/{{ galaxy_instance_hostname }}/{{ item }}.j2 dest={{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/{{ item }} mode=0444
   with_items:

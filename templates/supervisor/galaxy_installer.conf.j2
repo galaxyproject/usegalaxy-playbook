@@ -3,7 +3,7 @@
 ;;
 
 [program:{{ galaxy_host_codename }}_installer]
-command         = /usr/bin/sg {{ galaxy_group }} '{{ galaxy_handler_venv_dir }}/bin/python ./scripts/paster.py serve {{ galaxy_config_dir }}/installer.ini --server-name=%(program_name)s --pid-file=/home/{{ galaxy_user }}/run/%(program_name)s.pid --log-file=/home/{{ galaxy_user }}/log/%(program_name)s.log'
+command         = /usr/bin/sg {{ galaxy_group }} '{{ galaxy_venv_dir }}/bin/python ./scripts/paster.py serve {{ galaxy_config_dir }}/galaxy.ini --server-name=%(program_name)s --pid-file={{ instance_root }}/var/run/%(program_name)s.pid'
 directory       = {{ galaxy_handler_server_dir }}
 process_name	= installer
 umask           = 022
@@ -11,4 +11,6 @@ autostart       = true
 autorestart     = true
 startsecs       = 30
 user            = {{ galaxy_user }}
-environment     = PYTHON_EGG_CACHE=/home/{{ galaxy_user }}/.python-eggs,VIRTUAL_ENV={{ galaxy_handler_venv_dir }},PATH={{ galaxy_handler_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+environment     = PYTHON_EGG_CACHE={{ instance_root }}/var/python-egg-cache-%(program_name)s,VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin,GALAXY_EGGS_PATH={{ galaxy_handler_eggs_path }}
+stdout_logfile  = {{ galaxy_log_dir }}/%(program_name)s.log
+redirect_stderr = true

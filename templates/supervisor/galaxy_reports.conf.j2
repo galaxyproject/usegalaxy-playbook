@@ -3,7 +3,7 @@
 ;;
 
 [program:{{ galaxy_host_codename }}_reports]
-command         = {{ galaxy_web_venv_dir }}/bin/python ./scripts/paster.py serve reports_wsgi.ini --server-name=main --pid-file=/home/{{ galaxy_user }}/run/%(program_name)s.pid --log-file=/home/{{ galaxy_user }}/log/%(program_name)s.log
+command         = {{ galaxy_venv_dir }}/bin/python ./scripts/paster.py serve {{ galaxy_config_dir }}/reports.ini --server-name=main --pid-file={{ instance_root }}/var/run/%(program_name)s.pid
 directory       = {{ galaxy_web_server_dir }}
 process_name    = reports
 umask           = 022
@@ -11,4 +11,6 @@ autostart       = true
 autorestart     = true
 startsecs       = 30
 user            = {{ galaxy_user }}
-environment     = PYTHON_EGG_CACHE=/home/{{ galaxy_user }}/.python-eggs
+environment     = PYTHON_EGG_CACHE={{ instance_root }}/var/python-egg-cache-%(program_name)s,GALAXY_EGGS_PATH={{ galaxy_handler_eggs_path }}
+stdout_logfile  = {{ galaxy_log_dir }}/%(program_name)s.log
+redirect_stderr = true

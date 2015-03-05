@@ -1,0 +1,47 @@
+---
+
+- name: Create nagios tool directory
+  file: dest=/srv/galaxy/{{ galaxy_instance_codename }}/nagios state=directory
+
+- name: Copy nagios tools
+  copy: src=files/galaxy/{{ galaxy_instance_hostname }}/nagios/{{ item }}.xml dest=/srv/galaxy/{{ galaxy_instance_codename }}/nagios/{{ item }}.xml
+  with_items: usegalaxy_nagios_tools
+
+# set up dynamic rules (such hack wow)
+- name: Create dynamic rule directories
+  file: state=directory path="{{ galaxy_venv_dir }}/lib/python2.7/site-packages/usegalaxy/jobs/rules"
+  when: inventory_hostname in groups['galaxymasters']
+
+- name: Create dynamic rule __init__.py files
+  file: state=directory path="{{ galaxy_venv_dir }}/lib/python2.7/site-packages/{{ item }}/__init__.py"
+  with_items:
+    - usegalaxy
+    - usegalaxy/jobs
+    - usegalaxy/jobs/rules
+  when: inventory_hostname in groups['galaxymasters']
+
+- name: Copy dynamic rules
+  copy: src={{ item }} dest={{ galaxy_venv_dir }}/lib/python2.7/site-packages/usegalaxy/jobs/rules/{{ item | basename }}
+  with_items: usegalaxy_dynamic_job_rules
+  when: inventory_hostname in groups['galaxymasters']
+
+# install error documents
+- name: Create vhost directories
+  file: path={{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/{{ item }} mode=0755 state=directory
+  with_items:
+    - 413
+    - 502
+
+- name: Install nginx error documents
+  copy: src=files/galaxy/{{ galaxy_instance_hostname }}/error/{{ item }} dest={{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/{{ item }} mode=0444
+  with_items:
+    - content_bg.png
+    - error_message_icon.png
+    - masthead_bg.png
+    - 413/index.html
+    - 502/index.shtml
+
+- name: Create nginx error document links
+  file: path={{ item.path }} src={{ item.src }} state=link force=yes
+  with_items:
+    - { path: '{{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/502/maint', src: '/home/{{ galaxy_user }}/maint' }

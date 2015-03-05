@@ -4,5 +4,7 @@
   remote_user: root
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+  vars:
+    instance_root: "{{ galaxy_web_root }}"
   roles:
     - supervisor
