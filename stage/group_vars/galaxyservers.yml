@@ -89,8 +89,9 @@ galaxy_config:
     threads: 4
     master: True
     logto: "{{ galaxy_log_dir }}/uwsgi.log"
-    "log-reopen": True
-    "touch-logreopen": "{{ galaxy_log_dir }}/uwsgi.logreopen"
+    # this causes an infinite loop waiting for the touch-logreopen file at uwsgi startup, why?
+    #"log-reopen": True
+    #"touch-logreopen": "{{ galaxy_log_dir }}/uwsgi.logreopen"
     pythonpath: lib
   "app:main":
 
