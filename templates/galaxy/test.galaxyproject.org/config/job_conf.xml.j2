@@ -212,6 +212,8 @@
         <tool id="megablast_wrapper" handler="test_handler2" destination="dynamic_stampede_select" resources="stampede"/>
         <tool id="lastz_wrapper_2" handler="test_handler2" destination="dynamic_stampede_select" resources="stampede"/>
         <!-- resubmit to stampede jobs -->
+        <tool id="bwa" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="bwa_mem" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="bwa_wrapper" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="bowtie_wrapper" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="bowtie2" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
