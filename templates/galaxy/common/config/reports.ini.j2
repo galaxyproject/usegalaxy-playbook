@@ -1,0 +1,79 @@
+# ---- HTTP Server ----------------------------------------------------------
+
+[server:main]
+
+use = egg:Paste#http
+port = 9001
+host = 0.0.0.0
+use_threadpool = true
+threadpool_workers = 10
+
+# ---- Galaxy Webapps Report Interface -------------------------------------------------
+
+[filter:proxy-prefix]
+use = egg:PasteDeploy#prefix
+prefix = /{{ galaxy_instance_codename }}/reports
+
+[app:main]
+
+filter-with = proxy-prefix
+
+# Specifies the factory for the universe WSGI application
+paste.app_factory = galaxy.webapps.reports.buildapp:app_factory
+log_level = DEBUG
+
+# Database connection
+# Galaxy reports are intended for production Galaxy instances, so sqlite is not supported.
+# You may use a SQLAlchemy connection string to specify an external database.
+database_connection = {{ galaxy_config_database_connection }}
+
+# Where dataset files are saved
+file_path = /tmp
+# Temporary storage for additional datasets, this should be shared through the cluster
+new_file_path = /tmp
+
+# Mako templates are compiled as needed and cached for reuse, this directory is
+# used for the cache
+template_cache_path = {{ galaxy_mutable_data_dir }}/reports-template_cache
+
+# Session support (beaker)
+use_beaker_session = True
+session_type = memory
+session_data_dir = {{ galaxy_mutable_data_dir }}/reports_beaker_sessions
+session_key = galaxysessions
+session_secret = {{ galaxy_config_id_secret }}
+
+# Configuration for debugging middleware
+# debug = true
+use_lint = false
+
+# NEVER enable this on a public site (even test or QA)
+# use_interactive = true
+
+# path to sendmail
+sendmail_path = /usr/sbin/sendmail
+
+# Address to join mailing list
+mailing_join_addr = galaxy-user-join@bx.psu.edu
+
+# Write thread status periodically to 'heartbeat.log' (careful, uses disk space rapidly!)
+## use_heartbeat = True
+
+# Profiling middleware (cProfile based)
+## use_profile = True
+
+# Mail
+# smtp_server = yourserver@yourfacility.edu
+# error_email_to = your_bugs@bx.psu.edu
+
+# Use the new iframe / javascript based layout
+use_new_layout = true
+
+# Serving static files (needed if running standalone)
+static_enabled = True
+static_cache_time = 360
+static_dir = {{ galaxy_web_server_dir }}/static/
+static_images_dir = {{ galaxy_web_server_dir }}/static/images
+static_favicon_dir = {{ galaxy_web_server_dir }}/static/favicon.ico
+static_scripts_dir = {{ galaxy_web_server_dir }}/static/scripts/
+static_style_dir = {{ galaxy_web_server_dir }}/static/style/blue

@@ -10,7 +10,6 @@
 # set up dynamic rules (such hack wow)
 - name: Create dynamic rule directories
   file: state=directory path="{{ galaxy_venv_dir }}/lib/python2.7/site-packages/usegalaxy/jobs/rules"
-  when: inventory_hostname in groups['galaxymasters']
 
 - name: Create dynamic rule __init__.py files
   file: state=directory path="{{ galaxy_venv_dir }}/lib/python2.7/site-packages/{{ item }}/__init__.py"
@@ -18,12 +17,10 @@
     - usegalaxy
     - usegalaxy/jobs
     - usegalaxy/jobs/rules
-  when: inventory_hostname in groups['galaxymasters']
 
 - name: Copy dynamic rules
   copy: src={{ item }} dest={{ galaxy_venv_dir }}/lib/python2.7/site-packages/usegalaxy/jobs/rules/{{ item | basename }}
   with_items: usegalaxy_dynamic_job_rules
-  when: inventory_hostname in groups['galaxymasters']
 
 # install error documents
 - name: Create vhost directories
