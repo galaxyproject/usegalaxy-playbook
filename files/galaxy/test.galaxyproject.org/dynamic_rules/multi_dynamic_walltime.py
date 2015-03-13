@@ -18,9 +18,9 @@ log = logging.getLogger(__name__)
 # lastz_wrapper_2       params['source']['ref_source']              'cached'
 # megablast_wrapper     no option, always cached
 
-PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2' )
-GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource' )
-GENOME_SOURCE_VALUES = ( 'indexed', )
+PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2', 'bwa', 'bwa_mem' )
+GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource', 'reference_source' )
+GENOME_SOURCE_VALUES = ( 'indexed', 'cached' )
 
 ROUNDUP_DESTINATION = 'slurm_normal_multi_dynamic_walltime'
 ROUNDUP_DEVELOPMENT_DESTINATION = 'slurm_development_multi'
@@ -35,6 +35,9 @@ FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in t
 RUNTIMES = {
     'bowtie_wrapper': {'runtime': 19.75, 'stddev': 65.27},
     'bwa_wrapper': {'runtime': 51.47, 'stddev': 157.78},
+    # FIXME: bwa and bwa_mem copied from bwa_wrapper, surely invalid
+    'bwa': {'runtime': 51.47, 'stddev': 157.78},
+    'bwa_mem': {'runtime': 51.47, 'stddev': 157.78},
     'bowtie2': {'runtime': 28.23, 'stddev': 45.48},
     'cuffdiff': {'runtime': 108.27, 'stddev': 258.30},
     'tophat': {'runtime': 152.69, 'stddev': 295.26},
