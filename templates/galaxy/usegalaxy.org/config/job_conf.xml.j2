@@ -158,12 +158,15 @@
     </destinations>
     <tools>
         <!-- multi/stampede jobs -->
+        <!--
         <tool id="bowtie2" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <tool id="bowtie_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <tool id="bowtie_color_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <tool id="bwa_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <tool id="bwa_color_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        -->
         <tool id="lastz_wrapper_2" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
+        <!--
         <tool id="quality_score_distribution" destination="roundup_multi" handler="main_w2_handler2"/>
         <tool id="megablast_wrapper" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <tool id="cuffdiff" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
@@ -171,13 +174,15 @@
         <tool id="cuffmerge" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <tool id="tophat" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
         <tool id="tophat2" destination="roundup_stampede_select" handler="main_w2_handler2" resources="roundup_or_stampede"/>
-        <!--
+        -->
         <tool id="bowtie2" destination="roundup_multi" handler="main_w2_handler2"/>
         <tool id="bowtie_wrapper" destination="roundup_multi" handler="main_w2_handler2"/>
         <tool id="bowtie_color_wrapper" destination="roundup_multi" handler="main_w2_handler2"/>
         <tool id="bwa_wrapper" destination="roundup_multi" handler="main_w2_handler2"/>
         <tool id="bwa_color_wrapper" destination="roundup_multi" handler="main_w2_handler2"/>
+        <!--
         <tool id="lastz_wrapper_2" destination="roundup_multi" handler="main_w2_handler2"/>
+        -->
         <tool id="quality_score_distribution" destination="roundup_multi" handler="main_w2_handler2"/>
         <tool id="megablast_wrapper" destination="roundup_multi" handler="main_w2_handler2"/>
         <tool id="cuffdiff" destination="roundup_multi" handler="main_w2_handler2"/>
@@ -185,7 +190,6 @@
         <tool id="cuffmerge" destination="roundup_multi" handler="main_w2_handler2"/>
         <tool id="tophat" destination="roundup_multi" handler="main_w2_handler2"/>
         <tool id="tophat2" destination="roundup_multi" handler="main_w2_handler2"/>
-        -->
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
