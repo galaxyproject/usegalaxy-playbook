@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
-<object_store type="hierarchical">
+<object_store type="distributed" id="primary" order="0">
     <backends>
-        <object_store type="disk" id="corral-repl" order="0">
+        <backend type="disk" id="corral-repl" weight="1">
             <files_dir path="/galaxy-repl/main/files"/>
             <extra_dir type="temp" path="/galaxy-repl/main/scratch"/>
             <extra_dir type="job_work" path="/galaxy-repl/main/jobdir"/>
-        </object_store>
-        <object_store type="disk" id="corral-repl-psu" order="1">
+        </backend>
+        <backend type="disk" id="corral-repl-psu" weight="0">
             <files_dir path="/galaxy-repl/main/psufiles"/>
             <extra_dir type="temp" path="/galaxy-repl/main/scratch"/>
             <extra_dir type="job_work" path="/galaxy-repl/main/jobdir"/>
-        </object_store>
+        </backend>
     </backends>
 </object_store>
