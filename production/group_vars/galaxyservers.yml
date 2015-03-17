@@ -81,7 +81,7 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 # galaxy.ini contents
 galaxy_config:
-  "server:main_installer":
+  "server:main_w1_installer":
     threadpool_workers: 5
     host: 0.0.0.0
     port: 9999
@@ -166,7 +166,7 @@ galaxy_config:
     wiki_url: "http://wiki.galaxyproject.org/"
     terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
     ga_code: "UA-45719423-10"
-    static_enabled: "False"
+    static_enabled: "True"
     enable_cloud_launch: "True"
     cloudlaunch_default_ami: ami-a7dbf6ce
     nginx_x_accel_redirect_base: /_x_accel_redirect
