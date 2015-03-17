@@ -20,6 +20,15 @@
       galaxy_manage_mutable_setup: no
       galaxy_manage_database: no
       galaxy_fetch_eggs: yes
+  post_tasks:
+    # create impersonation config on Main
+    - name: Set galaxy_config_allow_user_impersonation to "True"
+      set_fact: galaxy_config_allow_user_impersonation="True"
+      when: deploy_env == "production"
+
+    - name: Create Galaxy impersonation configuration file
+      template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/impersonate.ini backup=yes
+      when: deploy_env == "production"
 
 - name: Galaxy handler code and eggs
   hosts: galaxymasters

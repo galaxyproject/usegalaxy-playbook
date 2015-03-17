@@ -85,6 +85,14 @@ galaxy_config:
     threadpool_workers: 5
     host: 0.0.0.0
     port: 9999
+  "server:main_w1_impersonate":
+    threadpool_workers: 5
+    host: 0.0.0.0
+    port: 9480
+  "server:main_w2_impersonate":
+    threadpool_workers: 5
+    host: 0.0.0.0
+    port: 9480
   uwsgi:
     socket: "127.0.0.1:4001"
     stats: "127.0.0.1:9191"
@@ -188,7 +196,7 @@ galaxy_config:
     biostar_url: "https://biostar.usegalaxy.org"
     biostar_key_name: biostar-login
     biostar_enable_bug_reports: "False"
-    allow_user_impersonation: "False"
+    allow_user_impersonation: "{{ galaxy_config_allow_user_impersonation | default('False') }}"
     ga_code: "UA-45719423-10"
 
 # specifies config files to copy from the playbook
