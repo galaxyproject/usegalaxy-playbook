@@ -1,0 +1,25 @@
+---
+
+shared_root: /brashear/xcgalaxy
+
+pulsar_job_managers:
+  blacklight:
+    type: queued_drmaa
+    preprocess_action_max_retries: 30
+    preprocess_action_interval_start: 2
+    preprocess_action_interval_step: 2
+    preprocess_action_interval_max: 60
+    postprocess_action_max_retries: 720
+    postprocess_action_interval_start: 2
+    postprocess_action_interval_step: 4
+    postprocess_action_interval_max: 120
+  blacklight_nagios:
+    type: queued_python
+
+pulsar_install_environments:
+  pyOpenSSL:
+    PKG_CONFIG_PATH: "{{ instance_root }}/libffi/lib64/pkgconfig"
+    CFLAGS: "-I{{ instance_root }}/openssl/include"
+    LDFLAGS: "-L{{ instance_root }}/openssl/lib"
+  pycurl:
+    PYCURL_SSL_LIBRARY: "openssl"
