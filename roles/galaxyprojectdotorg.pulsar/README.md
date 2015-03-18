@@ -171,7 +171,7 @@ Install Pulsar with directory separation and also install Galaxy:
             dest: "{{ galaxy_config_dir }}/datatypes_conf.xml"
       pre_tasks:
         - name: Install Mercurial
-          pip: name=mercurial virtualenv={{ hg_virtualenv }} virtualenv_command={{ pip_virtualenv_command | default( 'virtualenv' ) }}
+          pip: name=mercurial virtualenv={{ hg_virtualenv }} virtualenv_command={{ pip_virtualenv_command | default(omit) }}
       roles:
         - role: galaxyprojectdotorg.pulsar
         # Install with:

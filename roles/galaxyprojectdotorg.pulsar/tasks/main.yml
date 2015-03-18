@@ -5,13 +5,13 @@
 #   http://pulsar.readthedocs.org/
 
 - name: Install Pulsar
-  git: dest={{ pulsar_server_dir }} force=no repo={{ pulsar_git_repo }} version={{ pulsar_changeset_id }}
+  git: dest={{ pulsar_server_dir }} force=no repo={{ pulsar_git_repo }} version={{ pulsar_changeset_id }} executable={{ git_executable | default(omit) }}
 
 - name: Install Pulsar dependencies (base)
-  pip: requirements={{ pulsar_server_dir }}/requirements.txt virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default( 'virtualenv' ) }}
+  pip: requirements={{ pulsar_server_dir }}/requirements.txt virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default(omit) }}
 
 - name: Install Pulsar dependencies (optional)
-  pip: name={{ item }} virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default( 'virtualenv' ) }}
+  pip: name={{ item }} virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default(omit) }}
   environment: pulsar_install_environments[item.split('=')[0]] if item.split('=')[0] in pulsar_install_environments else {}
   with_items: pulsar_optional_dependencies
 
