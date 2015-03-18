@@ -1,6 +1,9 @@
 ---
 
+git_executable: ~/git/bin/git
 shared_root: /brashear/xcgalaxy
+
+pulsar_drmaa_library_path: "{{ instance_root }}/pbs-drmaa/lib/libdrmaa.so"
 
 pulsar_job_managers:
   blacklight:
@@ -18,8 +21,10 @@ pulsar_job_managers:
 
 pulsar_install_environments:
   pyOpenSSL:
+    LD_LIBRARY_PATH: ""
     PKG_CONFIG_PATH: "{{ instance_root }}/libffi/lib64/pkgconfig"
     CFLAGS: "-I{{ instance_root }}/openssl/include"
     LDFLAGS: "-L{{ instance_root }}/openssl/lib"
   pycurl:
+    LD_LIBRARY_PATH: ""
     PYCURL_SSL_LIBRARY: "openssl"
