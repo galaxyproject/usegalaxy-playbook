@@ -8,15 +8,16 @@ from galaxy.jobs.mapper import JobMappingException
 
 log = logging.getLogger(__name__)
 
-BLACKLIGHT_DESTINATION = 'pulsar_blacklight_normal'
+BLACKLIGHT_NORMAL_DESTINATION = 'pulsar_blacklight_normal'
+BLACKLIGHT_NORMAL_DESTINATIONS = ('pulsar_blacklight_normal16', 'pulsar_blacklight_normal64', 'pulsar_blacklight_normal256')
 BLACKLIGHT_DEVELOPMENT_DESTINATION = 'pulsar_blacklight_development'
-BLACKLIGHT_DESTINATIONS = (BLACKLIGHT_DESTINATION, BLACKLIGHT_DEVELOPMENT_DESTINATION)
+BLACKLIGHT_DESTINATIONS = BLACKLIGHT_NORMAL_DESTINATIONS + (BLACKLIGHT_DEVELOPMENT_DESTINATION,)
 VALID_DESTINATIONS = BLACKLIGHT_DESTINATIONS
 RESOURCE_KEYS = ('blacklight_compute_resource',)
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
 def blacklight_select( app, tool, job, user_email ):
-    destination_id = BLACKLIGHT_DESTINATION
+    destination = None
     tool_id = tool.id
     if '/' in tool.id:
         # extract short tool id from tool shed id
@@ -42,5 +43,21 @@ def blacklight_select( app, tool, job, user_email ):
             log.warning('(%s) Blacklight dynamic plugin got an invalid destination: %s', job.id, destination_id)
             raise JobMappingException( FAILURE_MESSAGE )
 
-    log.debug("(%s) blacklight_select dynamic plugin returning '%s' destination", job.id, destination_id)
-    return destination_id
+        if destination_id in BLACKLIGHT_NORMAL_DESTINATIONS:
+            cpus = destination_id[len(BLACKLIGHT_NORMAL_DESTINATION):]
+            destination = app.job_config.get_destination(BLACKLIGHT_NORMAL_DESTINATION)
+            destination.params['submit_native_specification'] += ' -l ncpus=%s' % cpus
+        elif destination_id == BLACKLIGHT_DEVELOPMENT_DESTINATION:
+            destination = app.job_config.get_destination( BLACKLIGHT_DEVELOPMENT_DESTINATION )
+    else:
+        # default to 16 cpus in the regular queue
+        destination = app.job_config.get_destination(BLACKLIGHT_NORMAL_DESTINATION)
+        destination.params['submit_native_specification'] += ' -l ncpus=16'
+
+    if destination is None:
+        log.error('"(%s) blacklight_select dynamic plugin did not set a destination', job.id)
+        raise JobMappingException( FAILURE_MESSAGE )
+
+    log.debug("(%s) blacklight_select dynamic plugin returning '%s' destination", job.id, destination.id)
+    log.debug("     submit_native_specification is: %s", destination.params['submit_native_specification'])
+    return destination

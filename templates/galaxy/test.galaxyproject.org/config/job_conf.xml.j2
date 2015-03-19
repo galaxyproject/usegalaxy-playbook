@@ -189,7 +189,8 @@
             <param id="remote_property_galaxy_home">/brashear/xcgalaxy/test/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/brashear/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/brashear/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
-            <param id="submit_native_specification">-l walltime=48:00:00 -l ncpus=64</param>
+            <!-- -l ncpus is set dynamically -->
+            <param id="submit_native_specification">-l walltime=48:00:00</param>
             <env exec="eval `modulecmd sh purge`" />
         </destination>
         <destination id="pulsar_blacklight_development" runner="amqp_pulsar_blacklight">
@@ -252,6 +253,7 @@
         <tool id="cuffmerge" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <!-- blacklight jobs -->
         <tool id="trinity_blacklight" destination="dynamic_blacklight_select" handler="test_handler3" resources="blacklight"/>
+        <tool id="spades" destination="dynamic_blacklight_select" handler="test_handler3" resources="blacklight"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
