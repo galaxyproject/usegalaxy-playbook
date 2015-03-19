@@ -184,6 +184,7 @@
             <param id="remote_property_galaxy_config_file">/brashear/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/brashear/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">-l walltime=48:00:00 -l ncpus=64</param>
+            <env exec="eval `modulecmd sh purge`" />
         </destination>
         <destination id="pulsar_blacklight_development" runner="amqp_pulsar_blacklight">
             <param id="transport">curl</param>
@@ -197,6 +198,7 @@
             <param id="remote_property_galaxy_config_file">/brashear/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/brashear/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">-q debug -l walltime=00:30:00 -l ncpus=16</param>
+            <env exec="eval `modulecmd sh purge`" />
         </destination>
         <destination id="pulsar_blacklight_nagios" runner="amqp_pulsar_blacklight_nagios">
             <param id="transport">curl</param>
@@ -209,6 +211,7 @@
             <param id="remote_property_galaxy_home">/brashear/xcgalaxy/test/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/brashear/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/brashear/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
+            <env exec="eval `modulecmd sh purge`" />
         </destination>
 
     </destinations>
