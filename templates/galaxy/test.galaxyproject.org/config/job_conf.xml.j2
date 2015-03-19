@@ -100,6 +100,12 @@
             <param id="function">single_dynamic_memory</param>
         </destination>
 
+        <!-- dynamic memory rule for the naive variant caller -->
+        <destination id="dynamic_nvc_dynamic_memory" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">nvc_dynamic_memory</param>
+        </destination>
+
         <!-- static destinations -->
         <destination id="slurm_normal_single" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=normal</param>
@@ -261,6 +267,7 @@
         <!-- dynamic memory tools -->
         <tool id="wig_to_bigWig" destination="dynamic_single_dynamic_memory"/>
         <tool id="bed_to_bigBed" destination="dynamic_single_dynamic_memory"/>
+        <tool id="naive_variant_caller" destination="dynamic_nvc_dynamic_memory"/>
         <!-- data managers -->
         <tool id="data_manager_fetch_genome_all_fasta" handler="test_installer"/>
         <!-- nagios checks -->
@@ -269,7 +276,6 @@
         <tool id="echo_test_stampede" destination="pulsar_stampede_nagios" handler="test_handler2"/>
         <tool id="echo_test_blacklight" destination="pulsar_blacklight_nagios" handler="test_handler3"/>
         <!-- increased memory tools -->
-        <tool id="naive_variant_caller" destination="slurm_normal_single_16gb"/>
         <tool id="picard_AddCommentsToBam" destination="slurm_normal_single_16gb"/>
         <tool id="picard_AddOrReplaceReadGroups" destination="slurm_normal_single_16gb"/>
         <tool id="picard_BedToIntervalList" destination="slurm_normal_single_16gb"/>
@@ -315,7 +321,7 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_single">6</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_multi">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_development_multi">4</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal_single_mem">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_single_dynamic_mem">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_normal">3</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_blacklight_normal">1</limit>
