@@ -2,7 +2,7 @@
 
 # FIXME: can't notify for restart across plays
 
-- name: Galaxy web code and eggs, manage static configs
+- name: Galaxy static configs
   hosts: galaxyservers
   remote_user: gxsrc
   vars_files:
@@ -15,11 +15,11 @@
   roles:
     # set up local galaxy clone and local config
     - role: galaxyprojectdotorg.galaxy
-      galaxy_manage_clone: yes
+      galaxy_manage_clone: no
       galaxy_manage_static_setup: yes
       galaxy_manage_mutable_setup: no
       galaxy_manage_database: no
-      galaxy_fetch_eggs: yes
+      galaxy_fetch_eggs: no
   post_tasks:
     # create impersonation config on Main
     - name: Set galaxy_config_allow_user_impersonation to "True"
@@ -30,26 +30,7 @@
       template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/impersonate.ini backup=yes
       when: deploy_env == "production"
 
-- name: Galaxy handler code and eggs
-  hosts: galaxymasters
-  remote_user: gxsrc
-  vars_files:
-    - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
-  vars:
-    instance_root: "{{ galaxy_handler_root }}"
-    galaxy_root: "{{ galaxy_handler_root }}"
-    galaxy_server_dir: "{{ galaxy_handler_server_dir }}"
-    galaxy_eggs_path: "{{ galaxy_handler_eggs_path }}"
-  roles:
-    # set up handler galaxy clone
-    - role: galaxyprojectdotorg.galaxy
-      galaxy_manage_clone: yes
-      galaxy_manage_static_setup: no
-      galaxy_manage_mutable_setup: no
-      galaxy_manage_database: no
-      galaxy_fetch_eggs: yes
-
-- name: Galaxy database and mutable configs
+- name: Galaxy mutable configs
   hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
   vars_files:
@@ -60,35 +41,14 @@
     galaxy_server_dir: "{{ galaxy_web_server_dir }}"
     galaxy_eggs_path: "{{ galaxy_web_eggs_path }}"
   roles:
-    # manage the database
-    - role: galaxyprojectdotorg.galaxy
-      galaxy_manage_clone: no
-      galaxy_manage_static_setup: no
-      galaxy_manage_mutable_setup: yes
-      galaxy_manage_database: yes
-      galaxy_fetch_eggs: no
-      when: inventory_hostname in groups['galaxymasters']
     # fetch and distribute mutable configs (needs the galaxy_mutable_configs
     # var set in galaxyprojectdotorg.galaxy)
     - role: usegalaxy
 
-- name: Galaxy privileged user tasks and static content setup
+- name: Galaxy privileged user tasks
   hosts: galaxyservers
   remote_user: gxsrc
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   roles:
     - role: usegalaxy_privileged
-    # welcome page
-    - role: usegalaxy_static
-
-- name: Update Galaxy on Pulsar servers
-  hosts: pulsarservers
-  remote_user: "{{ galaxy_user }}"
-  vars_files:
-    - "{{ deploy_env }}/secret_vars/pulsarservers.yml"
-  roles:
-    # set up galaxy clone
-    - role: galaxyprojectdotorg.galaxy
-      galaxy_manage_mutable_setup: no
-      galaxy_manage_database: no
