@@ -52,7 +52,7 @@ persistence_directory = {{ pulsar_persistence_dir }}
 tool_dependency_dir = {{ pulsar_dependencies_dir }}
 
 ## LWR-equivalent of Galaxy's tool_dependency_resolves_conf.
-# dependency_resolvers_config_file = dependency_resolvers_conf.xml
+dependency_resolvers_config_file = {{ pulsar_dependency_resolvers_config_file }}
 
 ## Comma separated list of paths to toolbox files. If this is set, LWR
 ## will use the information contained in the tools to lock down what
