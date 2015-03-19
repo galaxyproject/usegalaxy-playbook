@@ -88,6 +88,12 @@
             <param id="function">stampede_select</param>
         </destination>
 
+        <!-- dynamic method for the blacklight-only selector -->
+        <destination id="dynamic_blacklight_select" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">blacklight_select</param>
+        </destination>
+
         <!-- dynamic method for setting required memory for singlethreaded jobs -->
         <destination id="dynamic_single_dynamic_memory" runner="dynamic">
             <param id="type">python</param>
@@ -245,7 +251,7 @@
         <tool id="cufflinks" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="cuffmerge" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <!-- blacklight jobs -->
-        <tool id="trinity_blacklight" destination="pulsar_blacklight_development" handler="test_handler3"/>
+        <tool id="trinity_blacklight" destination="dynamic_blacklight_select" handler="test_handler3" resources="blacklight"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
@@ -294,6 +300,7 @@
         <group id="default"></group>
         <group id="local_or_stampede">tacc_compute_resource</group>
         <group id="stampede">stampede_compute_resource</group>
+        <group id="blacklight">blacklight_compute_resource</group>
     </resources>
     <limits>
         <limit type="registered_user_concurrent_jobs">4</limit>
