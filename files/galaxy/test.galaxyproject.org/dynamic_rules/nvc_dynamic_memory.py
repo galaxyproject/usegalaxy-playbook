@@ -19,13 +19,11 @@ from pyBamParser.bam import Reader
 log = logging.getLogger(__name__)
 
 DESTINATION = 'slurm_normal_single_dynamic_mem'
-#RODEO_PARAMS = ' --clusters=rodeo --partition=normal'
-ROUNDUP_PARAMS = ' --partition=multi'
-#MEM_DEFAULT = 7680
-MEM_DEFAULT = 5120
-#RODEO_MAX_MEM = MEM_DEFAULT*2
-#ROUNDUP_MAX_MEM = MEM_DEFAULT*16
-ROUNDUP_MAX_MEM = MEM_DEFAULT*24
+NORMAL_PARAMS = ' --clusters=rodeo,roundup --partition=normal'
+MULTI_PARAMS = ' --partition=multi'
+MEM_DEFAULT = 7680
+NORMAL_MAX_MEM = MEM_DEFAULT*2
+MULTI_MAX_MEM = MEM_DEFAULT*16
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 SIZE_FAILURE_MESSAGE = 'This tool could not be run because the input is too large to run on the available resources'
 
@@ -34,7 +32,7 @@ def nvc_dynamic_memory( app, tool, job ):
     inp_data = dict( [ ( da.name, da.dataset ) for da in job.input_datasets ] )
     inp_data.update( [ ( da.name, da.dataset ) for da in job.input_library_datasets ] )
     params = job.get_param_values( app, ignore_errors=True )
-    bam_readers = map( lambda x: Reader( x.file_name, x.metadata.bam_index ), inp_data.values() )
+    bam_readers = map( lambda x: Reader( x.file_name, x.metadata.bam_index.file_name ), inp_data.values() )
     dtype = params.get( 'advanced_options', {} ).get( 'coverage_dtype', None )
     use_strand = str( params.get( 'use_strand', False ) )
     array_bytes = guess_array_memory_usage( bam_readers, dtype, use_strand=False )
@@ -43,19 +41,17 @@ def nvc_dynamic_memory( app, tool, job ):
     destination = app.job_config.get_destination( DESTINATION ) 
 
     if required_mb < MEM_DEFAULT:
-        #log.debug("(%s) nvc_dynamic_memory plugin sending %s job to rodeo with default (%s MB) mem-per-cpu (requires: %s MB)", job.id, tool.id, MEM_DEFAULT, required_mb)
-        #destination.params['nativeSpecification'] += RODEO_PARAMS
-        log.debug("(%s) nvc_dynamic_memory plugin sending %s job to roundup with default (%s MB) mem-per-cpu (requires: %s MB)", job.id, tool.id, MEM_DEFAULT, required_mb)
-        destination.params['nativeSpecification'] += ROUNDUP_PARAMS
-    #elif required_mb < RODEO_MAX_MEM:
-    #    log.debug("(%s) nvc_dynamic_memory plugin sending %s job to rodeo with --mem-per-cpu=%s MB", job.id, tool.id, required_mb)
-    #    destination.params['nativeSpecification'] += RODEO_PARAMS + ' --mem-per-cpu=%s' % required_mb
-    elif required_mb < ROUNDUP_MAX_MEM:
-        log.debug("(%s) nvc_dynamic_memory plugin sending %s job to roundup with --mem-per-cpu=%s MB", job.id, tool.id, required_mb)
-        destination.params['nativeSpecification'] += ROUNDUP_PARAMS + ' --mem-per-cpu=%s' % required_mb
+        log.debug("(%s) nvc_dynamic_memory plugin sending %s job to normal with default (%s MB) mem-per-cpu (requires: %s MB)", job.id, tool.id, MEM_DEFAULT, required_mb)
+        destination.params['nativeSpecification'] += NORMAL_PARAMS
+    elif required_mb < NORMAL_MAX_MEM:
+        log.debug("(%s) nvc_dynamic_memory plugin sending %s job to normal with --mem-per-cpu=%s MB", job.id, tool.id, required_mb)
+        destination.params['nativeSpecification'] += NORMAL_PARAMS + ' --mem-per-cpu=%s' % required_mb
+    elif required_mb < MULTI_MAX_MEM:
+        log.debug("(%s) nvc_dynamic_memory plugin sending %s job to multi with --mem-per-cpu=%s MB", job.id, tool.id, required_mb)
+        destination.params['nativeSpecification'] += MULTI_PARAMS + ' --mem-per-cpu=%s' % required_mb
     else:
-        log.debug("(%s) nvc_dynamic_memory plugin sending %s job to roundup with --mem-per-cpu=%s MB (trying MAX avialable)", job.id, tool.id, ROUNDUP_MAX_MEM)
-        destination.params['nativeSpecification'] += ROUNDUP_PARAMS + ' --mem-per-cpu=%s' % ROUNDUP_MAX_MEM
+        log.debug("(%s) nvc_dynamic_memory plugin sending %s job to multi with --mem-per-cpu=%s MB (trying MAX avialable)", job.id, tool.id, MULTI_MAX_MEM)
+        destination.params['nativeSpecification'] += MULTI_PARAMS + ' --mem-per-cpu=%s' % MULTI_MAX_MEM
 
     log.debug("(%s) nvc_dynamic_memory dynamic plugin returning '%s' destination", job.id, DESTINATION)
     log.debug("     nativeSpecification is: %s", destination.params['nativeSpecification'])
