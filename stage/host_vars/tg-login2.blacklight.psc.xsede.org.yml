@@ -8,11 +8,11 @@ pulsar_drmaa_library_path: "{{ instance_root }}/pbs-drmaa/lib/libdrmaa.so"
 pulsar_job_managers:
   blacklight:
     type: queued_drmaa
-    preprocess_action_max_retries: 30
+    preprocess_action_max_retries: 10
     preprocess_action_interval_start: 2
     preprocess_action_interval_step: 2
     preprocess_action_interval_max: 60
-    postprocess_action_max_retries: 720
+    postprocess_action_max_retries: 20
     postprocess_action_interval_start: 2
     postprocess_action_interval_step: 4
     postprocess_action_interval_max: 120
