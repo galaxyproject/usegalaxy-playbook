@@ -172,7 +172,7 @@
         </destination>
 
         <!-- blacklight destinations -->
-        <destination id="pulsar_blacklight" runner="amqp_pulsar_blacklight">
+        <destination id="pulsar_blacklight_normal" runner="amqp_pulsar_blacklight">
             <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
@@ -183,7 +183,7 @@
             <param id="remote_property_galaxy_home">/brashear/xcgalaxy/test/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/brashear/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/brashear/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
-            <param id="submit_native_specification">-l walltime=48:00:00 -l ncpus=64 -W group_list=mc3bf0p</param>
+            <param id="submit_native_specification">-l walltime=48:00:00 -l ncpus=64</param>
         </destination>
         <destination id="pulsar_blacklight_development" runner="amqp_pulsar_blacklight">
             <param id="transport">curl</param>
@@ -196,7 +196,7 @@
             <param id="remote_property_galaxy_home">/brashear/xcgalaxy/test/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/brashear/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/brashear/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
-            <param id="submit_native_specification">-q debug -l walltime=00:30:00 -l ncpus=16 -W group_list=mc3bf0p</param>
+            <param id="submit_native_specification">-q debug -l walltime=00:30:00 -l ncpus=16</param>
         </destination>
         <destination id="pulsar_blacklight_nagios" runner="amqp_pulsar_blacklight_nagios">
             <param id="transport">curl</param>
@@ -242,9 +242,7 @@
         <tool id="cufflinks" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="cuffmerge" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <!-- blacklight jobs -->
-        <!--
-        <tool id="random_lines1" destination="pulsar_blacklight_development" handler="test_handler3"/>
-        -->
+        <tool id="trinity_blacklight" destination="pulsar_blacklight_development" handler="test_handler3"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
@@ -307,8 +305,12 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_single_mem">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_normal">3</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="pulsar_blacklight_normal">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="pulsar_blacklight_development">1</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_normal">50</limit>
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_development">1</limit>
+        <limit type="destination_total_concurrent_jobs" id="pulsar_blacklight_normal">4</limit>
+        <limit type="destination_total_concurrent_jobs" id="pulsar_blacklight_development">1</limit>
     </limits>
 </job_conf>
