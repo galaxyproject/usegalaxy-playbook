@@ -194,8 +194,7 @@
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
         </tool>
-        <!-- increased memory tools -->
-
+        <!-- 16GB tools -->
         <tool id="join1" destination="slurm_normal_single_16gb"/>
         <tool id="gops_join_1" destination="slurm_normal_single_16gb"/>
         <tool id="gatk_unified_genotyper" destination="slurm_normal_single_16gb"/>
@@ -207,8 +206,7 @@
         <tool id="gatk_table_recalibration" destination="slurm_normal_single_16gb"/>
         <tool id="fastq_paired_end_joiner" destination="slurm_normal_single_16gb"/>
         <tool id="naive_variant_caller" destination="slurm_normal_single_16gb"/>
-        <tool id="wig_to_bigWig" destination="slurm_normal_single_64gb"/>
-        <tool id="CONVERTER_bedgraph_to_bigwig" destination="slurm_normal_single_64gb"/>
+        <tool id="bamtools" destination="slurm_normal_single_16gb"/>
         <tool id="picard_AddCommentsToBam" destination="slurm_normal_single_16gb"/>
         <tool id="picard_AddOrReplaceReadGroups" destination="slurm_normal_single_16gb"/>
         <tool id="picard_BedToIntervalList" destination="slurm_normal_single_16gb"/>
@@ -237,6 +235,9 @@
         <tool id="picard_SamToFastq" destination="slurm_normal_single_16gb"/>
         <tool id="picard_SortSam" destination="slurm_normal_single_16gb"/>
         <tool id="picard_ValidateSamFile" destination="slurm_normal_single_16gb"/>
+        <!-- 64GB tools -->
+        <tool id="wig_to_bigWig" destination="slurm_normal_single_64gb"/>
+        <tool id="CONVERTER_bedgraph_to_bigwig" destination="slurm_normal_single_64gb"/>
         <!--
         <tool id="bed_to_bigBed" destination="dynamic_single_dynamic_memory"/>
         -->
