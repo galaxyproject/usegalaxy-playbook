@@ -6,6 +6,7 @@ import sys
 import logging
 
 from galaxy import eggs
+from galaxy.util import string_as_bool
 from galaxy.jobs.mapper import JobMappingException
 
 sys.path.insert(0, '/galaxy-repl/test/deps/pyBamTools/0.0.1/blankenberg/package_pybamtools_0_0_1/84ac1c74b371/lib/python/pyBamTools-0.0.1-py2.7.egg')
@@ -34,8 +35,8 @@ def nvc_dynamic_memory( app, tool, job ):
     params = job.get_param_values( app, ignore_errors=True )
     bam_readers = map( lambda x: Reader( x.file_name, x.metadata.bam_index.file_name ), inp_data.values() )
     dtype = params.get( 'advanced_options', {} ).get( 'coverage_dtype', None )
-    use_strand = str( params.get( 'use_strand', False ) )
-    array_bytes = guess_array_memory_usage( bam_readers, dtype, use_strand=False )
+    use_strand = string_as_bool( params.get( 'use_strand', False ) )
+    array_bytes = guess_array_memory_usage( bam_readers, dtype, use_strand=use_strand )
     required_mb = ( array_bytes / 1024 / 1024 ) +  DEFAULT_OVERHEAD # this division will truncate, hopefully handled by overhead
     
     destination = app.job_config.get_destination( DESTINATION ) 
