@@ -133,7 +133,7 @@
         <destination id="slurm_normal_multi_dynamic_walltime" runner="slurm">
             <!-- walltime is set dynamically -->
             <param id="nativeSpecification">--nodes=1 --ntasks=4 --partition=multi</param>
-            <resubmit condition="walltime_reached" destination="pulsar_stampede" handler="test_handler2"/>
+            <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="test_handler2"/>
         </destination>
         <destination id="slurm_normal_single_dynamic_mem" runner="slurm">
             <!-- clusters and mem-per-cpu are set dynamically -->
