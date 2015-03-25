@@ -34,7 +34,9 @@ FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in t
 # in minutes
 RUNTIMES = {
     'bowtie_wrapper': {'runtime': 19.75, 'stddev': 65.27},
-    'bwa_wrapper': {'runtime': 51.47, 'stddev': 157.78},
+    #'bwa_wrapper': {'runtime': 51.47, 'stddev': 157.78},
+    # TESTING
+    'bwa_wrapper': {'runtime': 5.00, 'stddev': 1.00},
     # FIXME: bwa and bwa_mem copied from bwa_wrapper, surely invalid
     'bwa': {'runtime': 51.47, 'stddev': 157.78},
     'bwa_mem': {'runtime': 51.47, 'stddev': 157.78},
