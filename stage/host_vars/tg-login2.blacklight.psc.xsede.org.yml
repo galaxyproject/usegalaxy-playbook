@@ -25,6 +25,12 @@ pulsar_install_environments:
     PKG_CONFIG_PATH: "{{ instance_root }}/libffi/lib64/pkgconfig"
     CFLAGS: "-I{{ instance_root }}/openssl/include"
     LDFLAGS: "-L{{ instance_root }}/openssl/lib"
+    PATH: "/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin"
   pycurl:
     LD_LIBRARY_PATH: ""
     PYCURL_SSL_LIBRARY: "openssl"
+    CFLAGS: "-I{{ instance_root }}/curl/include -I{{ instance_root }}/openssl/include"
+    LDFLAGS: "-L{{ instance_root }}/curl/lib -L{{ instance_root }}/openssl/lib -Wl,-rpath,{{ instance_root }}/curl/lib -Wl,-rpath,{{ instance_root }}/openssl/lib"
+    PYCURL_CURL_CONFIG: "{{ instance_root }}/curl/bin/curl-config"
+    PATH: "/usr/bin:/bin:/usr/bin/X11:/usr/X11R6/bin:/usr/games:/usr/lib64/jvm/jre/bin:/usr/lib/mit/bin:/usr/lib/mit/sbin"
+
