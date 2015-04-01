@@ -1,0 +1,56 @@
+---
+# defaults file for galaxyprojectdotorg.galaxy_toolshed
+
+# Controls which tasks are included, in case you need to perform different
+# options on different hosts or server directories.
+galaxy_toolshed_manage_static_setup: yes
+galaxy_toolshed_manage_database: yes
+
+# This will automatically be used by run.sh
+galaxy_toolshed_venv_dir: "{{ galaxy_toolshed_server_dir }}/.venv"
+
+# By default, everything lives in the Galaxy clone
+galaxy_toolshed_config_dir: "{{ galaxy_toolshed_server_dir }}/config"
+galaxy_toolshed_mutable_config_dir: "{{ galaxy_toolshed_server_dir }}/config"
+galaxy_toolshed_mutable_data_dir: "{{ galaxy_toolshed_server_dir }}/database"
+galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tools_shed.ini"
+
+# The default Tool Shed configuration, ensures that Galaxy can find all of the
+# configs if galaxy_config_dir != galaxy_server_dir
+galaxy_toolshed_config_default:
+  "app:main":
+    "paste.app_factory": "galaxy.webapps.tool_shed.buildapp:app_factory"
+
+    hgweb_config_dir: "{{ galaxy_toolshed_mutable_config_dir }}/hgweb_config_dir"
+    #builds_file_path: "{{ galaxy_server_dir }}/tool-data/shared/ucsc/builds.txt.sample"
+    #data_manager_config_file: "{{ galaxy_server_dir }}/config/data_manager_conf.xml.sample"
+    #datatypes_config_file: "{{ galaxy_server_dir }}/config/datatypes_conf.xml.sample"
+    #external_service_type_config_file: "{{ galaxy_server_dir }}/config/external_service_types_conf.xml.sample"
+    #integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
+    #migrated_tools_config: "{{ galaxy_mutable_config_dir }}/migrated_tools_conf.xml"
+    #openid_config_file: "{{ galaxy_server_dir }}/config/openid_conf.xml.sample"
+    #shed_data_manager_config_file: "{{ galaxy_mutable_config_dir }}/shed_data_manager_conf.xml"
+    #shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
+    #tool_config_file: "{{ galaxy_server_dir }}/config/tool_conf.xml.sample,{{ galaxy_shed_tool_conf_file }}"
+    #tool_data_table_config_path: "{{ galaxy_server_dir }}/config/tool_data_table_conf.xml.sample"
+    #tool_sheds_config_file: "{{ galaxy_server_dir }}/config/tool_sheds_conf.xml.sample"
+    #ucsc_build_sites: "{{ galaxy_server_dir }}/tool-data/shared/ucsc/ucsc_build_sites.txt.sample"
+    #visualization_plugins_directory: "config/plugins/visualizations"
+
+    file_path: "{{ galaxy_toolshed_mutable_data_dir }}/tool_shed_files"
+    new_file_path: "{{ galaxy_toolshed_mutable_data_dir }}/tool_shed_tmp"
+    template_cache_path: "{{ galaxy_toolshed_mutable_data_dir }}/tool_shed_template_cache"
+    whoosh_index_dir: "{{ galaxy_toolshed_mutable_data_dir }}/tool_shed_whoosh_cache"
+    openid_consumer_cache_path: "{{ galaxy_toolshed_mutable_data_dir }}/tool_shed_openid_consumer_cache"
+    citation_cache_data_dir: "{{ galaxy_toolshed_mutable_data_dir }}/tool_shed_citations/data"
+    citation_cache_lock_dir: "{{ galaxy_toolshed_mutable_data_dir }}/tool_shed_citations/locks"
+
+# Automatically instantiate mutable config files if they don't exist (dest will
+# not be overwritten if it exists)
+galaxy_toolshed_mutable_configs: []
+
+# These are lists of hashes in the same format as galaxy_mutable_configs that
+# can be used to cause extra files and templates to be installed on the managed
+# host.
+galaxy_toolshed_config_files: []
+galaxy_toolshed_config_templates: []
