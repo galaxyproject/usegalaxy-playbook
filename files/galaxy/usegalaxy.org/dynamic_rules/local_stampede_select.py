@@ -20,19 +20,28 @@ PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2', 
 GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource', 'source.ref_source' )
 GENOME_SOURCE_VALUES = ( 'indexed', 'cached' )
 
-ROUNDUP_DESTINATION = 'roundup_multi'
-ROUNDUP_DEVELOPMENT_DESTINATION = 'roundup_single_development'
+LOCAL_DESTINATION = 'slurm_multi'
+LOCAL_DEVELOPMENT_DESTINATION = 'slurm_multi_development'
 STAMPEDE_DESTINATION = 'pulsar_stampede'
 STAMPEDE_DEVELOPMENT_DESTINATION = 'pulsar_stampede_development'
 STAMPEDE_DESTINATIONS = (STAMPEDE_DESTINATION, STAMPEDE_DEVELOPMENT_DESTINATION)
-VALID_DESTINATIONS = STAMPEDE_DESTINATIONS + (ROUNDUP_DESTINATION, ROUNDUP_DEVELOPMENT_DESTINATION) # WHY ARE WE SHOUTING
+VALID_DESTINATIONS = STAMPEDE_DESTINATIONS + (LOCAL_DESTINATION, LOCAL_DEVELOPMENT_DESTINATION) # WHY ARE WE SHOUTING
 RESOURCE_KEYS = ('tacc_compute_resource',)
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
-def roundup_stampede_select( app, tool, job, user_email ):
+RESERVED_USERS = (
+    'usinggalaxy2@gmail.com',
+)
+RESERVED_DESTINATION = 'reserved_multi'
+
+def dynamic_local_stampede_select( app, tool, job, user_email ):
     destination = None
-    destination_id = ROUNDUP_DESTINATION
+    destination_id = LOCAL_DESTINATION
     tool_id = tool.id
+
+    if user_email in RESERVED_USERS:
+        return RESERVED_DESTINATION
+
     if '/' in tool.id:
         # extract short tool id from tool shed id
         tool_id = tool.id.split('/')[-2]
@@ -74,11 +83,11 @@ def roundup_stampede_select( app, tool, job, user_email ):
         else:
             log.info('(%s) User requested Stampede but Stampede dynamic plugin did not detect selection of an indexed reference, job will be sent to Roundup instead', job.id)
             if destination_id == STAMPEDE_DEVELOPMENT_DESTINATION:
-                destination_id = ROUNDUP_DEVELOPMENT_DESTINATION
+                destination_id = LOCAL_DEVELOPMENT_DESTINATION
             else:
-                destination_id = ROUNDUP_DESTINATION
+                destination_id = LOCAL_DESTINATION
 
-    log.debug("(%s) roundup_stampede_select dynamic plugin returning '%s' destination", job.id, destination_id)
+    log.debug("(%s) dynamic_local_stampede_select dynamic plugin returning '%s' destination", job.id, destination_id)
     if destination is not None and 'nativeSpecification' in destination.params:
         log.debug("     nativeSpecification is: %s", destination.params['nativeSpecification'])
     return destination or destination_id
