@@ -1,0 +1,72 @@
+---
+
+- name: Create mountpoints
+  file: path={{ item.name }} state=directory owner={{ item.owner | default('root') }} group={{ item.group | default('root') }} mode={{ item.mode | default('0755') }}
+  with_items: filesystems
+  when: filesystems is defined
+
+- name: Mount filesystems
+  mount: name={{ item.name }} src={{ item.src }} fstype={{ item.fstype }} opts={{ item.opts | default(omit) }} state=mounted
+  with_items: filesystems
+  when: filesystems is defined
+
+- name: Set mountpoint permissions
+  file: path={{ item.name }} state=directory owner={{ item.owner | default('root') }} group={{ item.group | default('root') }} mode={{ item.mode | default('0755') }}
+  with_items: filesystems
+  when: filesystems is defined
+
+- name: Create ZFS filesystems
+  zfs: name={{ item.name }}
+    state={{ item.state | default("present") }}
+    aclinherit={{ item.aclinherit | default(omit) }}
+    aclmode={{ item.aclmode | default(omit) }}
+    atime={{ item.atime | default(omit) }}
+    canmount={{ item.canmount | default(omit) }}
+    casesensitivity={{ item.casesensitivity | default(omit) }}
+    checksum={{ item.checksum | default(omit) }}
+    compression={{ item.compression | default(omit) }}
+    copies={{ item.copies | default(omit) }}
+    dedup={{ item.dedup | default(omit) }}
+    devices={{ item.devices | default(omit) }}
+    exec={{ item.exec | default(omit) }}
+    jailed={{ item.jailed | default(omit) }}
+    logbias={{ item.logbias | default(omit) }}
+    mountpoint={{ item.mountpoint | default(omit) }}
+    nbmand={{ item.nbmand | default(omit) }}
+    normalization={{ item.normalization | default(omit) }}
+    primarycache={{ item.primarycache | default(omit) }}
+    quota={{ item.quota | default(omit) }}
+    readonly={{ item.readonly | default(omit) }}
+    recordsize={{ item.recordsize | default(omit) }}
+    refquota={{ item.refquota | default(omit) }}
+    refreservation={{ item.refreservation | default(omit) }}
+    reservation={{ item.reservation | default(omit) }}
+    secondarycache={{ item.secondarycache | default(omit) }}
+    setuid={{ item.setuid | default(omit) }}
+    shareiscsi={{ item.shareiscsi | default(omit) }}
+    sharenfs={{ item.sharenfs | default(omit) }}
+    snapdir={{ item.snapdir | default(omit) }}
+    sync={{ item.sync | default(omit) }}
+    utf8only={{ item.utf8only | default(omit) }}
+    volblocksize={{ item.volblocksize | default(omit) }}
+    volsize={{ item.volsize | default(omit) }}
+    vscan={{ item.vscan | default(omit) }}
+    xattr={{ item.xattr | default(omit) }}
+    zoned={{ item.zoned | default(omit) }}
+  with_items: zfs_filesystems
+  when: zfs_filesystems is defined
+
+- name: Set ZFS mountpoint permissions
+  file: path={{ item.mountpoint | default("/" + item.name ) }} state=directory owner={{ item.owner | default('root') }} group={{ item.group | default('root') }} mode={{ item.mode | default('0755') }}
+  with_items: zfs_filesystems
+  when: zfs_filesystems is defined
+
+- name: Create directories
+  file: path={{ item.path }}
+    owner={{ item.owner | default(omit) }}
+    group={{ item.group | default(omit) }}
+    recurse={{ item.recurse | default(omit) }}
+    mode={{ item.mode | default(omit) }}
+    state="directory"
+  with_items: directories
+  when: directories is defined
