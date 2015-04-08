@@ -1,8 +1,5 @@
 ---
 
-- name: Create nagios tool directory
-  file: dest=/srv/galaxy/{{ galaxy_instance_codename }}/nagios state=directory
-
 - name: Copy nagios tools
   copy: src=files/galaxy/{{ galaxy_instance_hostname }}/nagios/{{ item }}.xml dest=/srv/galaxy/{{ galaxy_instance_codename }}/nagios/{{ item }}.xml
   with_items: usegalaxy_nagios_tools
@@ -22,6 +19,10 @@
   copy: src={{ item }} dest={{ galaxy_venv_dir }}/lib/python2.7/site-packages/usegalaxy/jobs/rules/{{ item | basename }}
   with_items: usegalaxy_dynamic_job_rules
 
+- name: Install uWSGI log archival script
+  template: src=archive_logs.sh.j2 dest={{ galaxy_root }}/bin/archive_logs.sh mode=0555
+
+# TODO: move this over to the errdocs role
 # install error documents
 - name: Create vhost directories
   file: path={{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/{{ item }} mode=0755 state=directory

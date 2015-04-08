@@ -1,0 +1,26 @@
+---
+# Admin tasks requiring root
+
+- name: Ensure necessary directories exist
+  file: path={{ item.path }} mode={{ item.mode | default(0755) }} owner={{ item.owner | default(galaxy_user) }} state=directory
+  with_items:
+    - { path: "{{ galaxy_root }}", owner: "{{ galaxy_privileged_user }}" }
+    - { path: "{{ galaxy_root }}/bin", owner: "{{ galaxy_privileged_user }}" }
+    - { path: "{{ galaxy_root }}/config", owner: "{{ galaxy_privileged_user }}" }
+    - { path: "{{ galaxy_root }}/log", mode: '0750' }
+    - { path: "{{ galaxy_root }}/nagios", owner: "{{ galaxy_privileged_user }}" }
+    - { path: "{{ galaxy_root }}/var", mode: '0750' }
+
+# rotate conf/script are copied in usegalaxy_privileged role
+
+- name: Remove rotation of standalone/paste logs (rotated by supervisor)
+  cron: name="Galaxy Log Rotation"
+    cron_file="ansible_galaxy_logrotate_{{ galaxy_instance_codename }}"
+    state="absent"
+
+- name: Schedule archival of log files
+  cron: name="Galaxy uWSGI Log Archival"
+    cron_file="ansible_galaxy_uwsgi_logarchive_{{ galaxy_instance_codename }}"
+    user="{{ galaxy_user }}"
+    hour="2" minute="10"
+    job="{{ galaxy_root }}/bin/archive_uwsgi_log.sh"
