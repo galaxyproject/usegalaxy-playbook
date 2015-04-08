@@ -1,0 +1,16 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+[Unit]
+Description=Run a set of applications as daemons
+After=local-fs.target remote-fs.target network.target
+
+[Service]
+ExecStart={{ supervisord_venv_dir }}/bin/supervisord -c {{ supervisord_conf_path }} -n
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

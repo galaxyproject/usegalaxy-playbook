@@ -28,8 +28,19 @@
   notify:
     - update supervisord
 
-- name: Install init script
+- name: Detect systemd
+  command: /usr/bin/pgrep -u root systemd
+  register: systemd
+  failed_when: False
+  changed_when: False
+
+- name: Install init script (SysV init)
   template: src={{ ansible_distribution | lower }}.init.j2 dest=/etc/init.d/supervisor mode=0755
+  when: systemd.rc != 0
+
+- name: Install init script (systemd)
+  template: src=systemd.init.j2 dest=/etc/systemd/system/supervisor.service mode=0755
+  when: systemd.rc == 0
 
 - name: Enable and start supervisord
   service: name=supervisor enabled=yes state=started
