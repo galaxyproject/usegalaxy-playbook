@@ -1,0 +1,20 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# Disable SSLv3
+ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+# Enable Forward Secrecy
+{% if ansible_distribution != "Debian" or ansible_distribution_major_version | int < 8 %}
+ssl_prefer_server_ciphers on;
+{% endif %}
+ssl_ciphers {{ nginx_conf_ssl_ciphers | default("EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:EDH+aRSA:!RC4:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS") }};
+
+# Enable session reuse
+ssl_session_cache shared:SSL:8m;
+ssl_session_timeout 5m;
+
+# Cert/Key
+ssl_certificate {{ nginx_conf_ssl_certificate }};
+ssl_certificate_key {{ nginx_conf_ssl_certificate_key }};

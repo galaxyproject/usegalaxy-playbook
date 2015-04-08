@@ -1,0 +1,17 @@
+---
+# defaults file for galaxyprojectdotorg.nginx
+
+# Where should the role find ssl certificates to copy to the remote host
+# (relative from where ansible-playbook is called if not
+# absolute).
+nginx_ssl_src_dir: files/ssl
+
+# "flavor" of nginx to install
+nginx_flavor: full
+
+# where to install nginx configs
+nginx_conf_dir: /etc/nginx
+nginx_local_conf_dir: /etc/nginx
+
+# additional nginx config files to install
+nginx_configs: [ ]
