@@ -1,0 +1,13 @@
+---
+
+# Password auth is disabled in the EC2 Ubuntu AMIs
+- name: Enable SSH Password Authentication
+  lineinfile: dest=/etc/ssh/sshd_config state=present line="PasswordAuthentication yes" regexp="^PasswordAuthentication " backup=yes
+  notify:
+    - reload sshd
+
+# Cloud instances typically have this set to no or without-password
+- name: Enable SSH Root Logins
+  lineinfile: dest=/etc/ssh/sshd_config state=present line="PermitRootLogin yes" regexp="^PermitRootLogin " backup=yes
+  notify:
+    - reload sshd
