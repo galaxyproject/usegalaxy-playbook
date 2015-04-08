@@ -46,6 +46,9 @@ supervisord_group_configs:
   - galaxy_reports.conf
   - galaxy_group.conf
 
+# supervisor template
+galaxy_installer_venv_dir: "/galaxy-repl/test/venv"
+
 
 ## used by: usegalaxy, usegalaxy_static
 nginx_srv: /srv/nginx
