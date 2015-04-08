@@ -1,0 +1,18 @@
+---
+
+- name: Set timezone (Debian)
+  copy: content='{{ timezone }}\n' dest=/etc/timezone mode=0444 backup=yes
+  notify:
+    - persist timezone on debian
+  when: timezone is defined and ansible_os_family == "Debian"
+
+- name: Set timezone name (RedHat)
+  copy:
+    content: 'ZONE="{{ timezone }}"'
+    dest: /etc/sysconfig/clock
+    mode: 0444
+  when: timezone is defined and ansible_os_family == "RedHat"
+
+- name: Set timezone zoneinfo (RedHat)
+  file: dest=/etc/localtime src=/usr/share/zoneinfo/{{ timezone }} state=link force=yes
+  when: timezone is defined and ansible_os_family == "RedHat"
