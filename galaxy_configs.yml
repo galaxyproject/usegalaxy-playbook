@@ -4,7 +4,7 @@
 
 - name: Galaxy static configs
   hosts: galaxyservers
-  remote_user: gxsrc
+  remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
@@ -50,8 +50,10 @@
 
 - name: Galaxy privileged user tasks
   hosts: galaxyservers
-  remote_user: gxsrc
+  remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+  vars:
+    galaxy_root: "{{ galaxy_web_root }}"
   roles:
     - role: usegalaxy_privileged

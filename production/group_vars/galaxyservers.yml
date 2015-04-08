@@ -28,6 +28,8 @@ galaxy_log_dir: "{{ galaxy_web_root }}/log"
 ## used by: the play itself
 galaxy_user: g2main
 galaxy_group: G-803372
+# also by usegalaxy_admin
+galaxy_privileged_user: gxsrc
 
 galaxy_web_root: /srv/galaxy/{{ galaxy_instance_codename }}
 galaxy_web_server_dir: "{{ galaxy_web_root }}/server"
@@ -68,6 +70,10 @@ usegalaxy_nagios_tools:
   - echo_main_w2_handler1
   - echo_main_w2_handler2
   - echo_main_stampede
+
+
+## used by: usegalaxy_admin
+galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
 
 
 ## used by: galaxyprojectdotorg.galaxy
@@ -189,9 +195,8 @@ galaxy_config_hash:
     threads: 4
     master: True
     logto: "{{ galaxy_log_dir }}/uwsgi.log"
-    # uWSGI has suddenly decided to start crashing with these set.
-    #"log-reopen": True
-    #"touch-logreopen": "{{ galaxy_log_dir }}/uwsgi.logreopen"
+    "single-interpreter": True
+    "log-maxsize": 134217728 # 128MB
     pythonpath: lib
   "app:main":
     <<: *BASE_APP_MAIN

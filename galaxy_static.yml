@@ -2,6 +2,6 @@
 # Deploy static content (this does not require any vaulted secrets)
 
 - hosts: galaxyservers
-  remote_user: gxsrc
+  remote_user: "{{ galaxy_privileged_user }}"
   roles:
     - role: usegalaxy_static

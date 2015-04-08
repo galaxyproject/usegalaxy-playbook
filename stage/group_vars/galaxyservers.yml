@@ -28,6 +28,8 @@ galaxy_log_dir: "{{ galaxy_web_root }}/log"
 ## used by: the play itself
 galaxy_user: g2test
 galaxy_group: G-803372
+# alsu by usegalaxy_admin
+galaxy_privileged_user: gxsrc
 
 galaxy_web_root: /srv/galaxy/{{ galaxy_instance_codename }}
 galaxy_web_server_dir: "{{ galaxy_web_root }}/server"
@@ -70,6 +72,10 @@ usegalaxy_nagios_tools:
   - echo_test_blacklight
 
 
+## used by: usegalaxy_admin
+galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
+
+
 ## used by: galaxyprojectdotorg.galaxy
 pip_virtualenv_command: "{{ galaxy_web_root }}/python/bin/virtualenv"
 
@@ -95,9 +101,8 @@ galaxy_config_hash:
     threads: 4
     master: True
     logto: "{{ galaxy_log_dir }}/uwsgi.log"
-    # this causes an infinite loop waiting for the touch-logreopen file at uwsgi startup, why?
-    #"log-reopen": True
-    #"touch-logreopen": "{{ galaxy_log_dir }}/uwsgi.logreopen"
+    "single-interpreter": True
+    "log-maxsize": 134217728 # 128MB
     pythonpath: lib
   "app:main":
 

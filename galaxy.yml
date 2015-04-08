@@ -4,7 +4,7 @@
 
 - name: Galaxy web code and eggs, manage static configs
   hosts: galaxyservers
-  remote_user: gxsrc
+  remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
@@ -34,7 +34,7 @@
 
 - name: Galaxy handler code and eggs
   hosts: galaxymasters
-  remote_user: gxsrc
+  remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
@@ -78,9 +78,11 @@
 
 - name: Galaxy privileged user tasks and static content setup
   hosts: galaxyservers
-  remote_user: gxsrc
+  remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+  vars:
+    galaxy_root: "{{ galaxy_web_root }}"
   roles:
     - role: usegalaxy_privileged
     # welcome page
