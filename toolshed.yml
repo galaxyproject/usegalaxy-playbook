@@ -1,0 +1,33 @@
+---
+
+- name: Tool Shed code and eggs, manage static configs
+  hosts: toolshedservers
+  remote_user: gxsrc
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/toolshedservers.yml"
+  roles:
+    - role: galaxyprojectdotorg.galaxy
+      galaxy_manage_clone: yes
+      galaxy_manage_static_setup: no
+      galaxy_manage_mutable_setup: no
+      galaxy_manage_database: no
+      galaxy_fetch_eggs: no
+    - role: galaxyprojectdotorg.galaxy_toolshed
+      galaxy_toolshed_manage_static_setup: yes
+      galaxy_toolshed_manage_database: no
+    - role: galaxyprojectdotorg.galaxy
+      galaxy_manage_clone: no
+      galaxy_manage_static_setup: no
+      galaxy_manage_mutable_setup: no
+      galaxy_manage_database: no
+      galaxy_fetch_eggs: yes
+
+- name: Tool Shed database
+  hosts: toolshedservers
+  remote_user: shed
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/toolshedservers.yml"
+  roles:
+    - role: galaxyprojectdotorg.galaxy_toolshed
+      galaxy_toolshed_manage_static_setup: no
+      galaxy_toolshed_manage_database: yes

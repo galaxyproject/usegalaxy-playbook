@@ -1,0 +1,20 @@
+---
+
+host_packages:
+  - python-virtualenv
+  - python-psycopg2
+  - uwsgi
+  - uwsgi-plugin-python
+
+nginx_flavor: full
+
+nginx_configs:
+  - testtoolshed
+
+nginx_conf_ssl_certificate: /etc/nginx/ssl/montana.galaxyproject.org_cert.pem
+nginx_conf_ssl_certificate_key: /etc/nginx/ssl/montana.galaxyproject.org_privatekey.pem
+
+nginx_conf_http:
+  server_names_hash_bucket_size: 128
+  client_max_body_size: 1g
+  proxy_read_timeout: 3600

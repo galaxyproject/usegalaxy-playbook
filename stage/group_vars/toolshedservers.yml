@@ -1,0 +1,95 @@
+---
+
+# Tool Shed version
+galaxy_changeset_id: 087b8b5e6e6a37f7e31d43dc6bba2b2b716b7965
+
+## these vars are defined in the vaulted (secret) vars file
+#
+# used by: galaxyprojectdotorg.galaxy (templating job_conf.xml)
+#galaxy_job_conf_amqp_url
+#
+# used by: galaxy_toolshed_config var
+#galaxy_toolshed_config_admin_users
+#galaxy_toolshed_config_id_secret
+
+
+## used by: other vars in this vars file
+galaxy_toolshed_root: "/srv/toolshed/{{ galaxy_toolshed_instance_codename }}"
+galaxy_toolshed_server_dir: "{{ galaxy_toolshed_root }}/server"
+galaxy_toolshed_log_dir: "{{ galaxy_toolshed_root }}/log"
+galaxy_toolshed_eggs_path: "{{ galaxy_toolshed_root }}/eggs"
+
+
+## used by: supervisor
+galaxy_toolshed_instance_codename: test
+supervisord_group_configs:
+  - toolshed.conf
+
+
+## used by: galaxyprojectdotorg.nginx
+nginx_srv: /srv/nginx
+
+# used by the toolshed vhost template (and below)
+galaxy_toolshed_instance_hostname: testtoolshed.g2.bx.psu.edu
+
+## used by: errdocs
+errdocs_src: "files/toolshed/{{ galaxy_toolshed_instance_hostname }}/error"
+errdocs_dest: "{{ nginx_srv }}/{{ galaxy_toolshed_instance_hostname }}/error"
+errdocs_user: shed
+
+
+## used by: galaxyprojectdotorg.galaxy_toolshed
+galaxy_toolshed_venv_dir: "{{ galaxy_toolshed_root }}/venv"
+galaxy_toolshed_config_dir: "{{ galaxy_toolshed_root }}/config"
+galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tool_shed.ini"
+galaxy_toolshed_mutable_config_dir: "{{ galaxy_toolshed_root }}/var"
+galaxy_toolshed_mutable_data_dir: "{{ galaxy_toolshed_root }}/var/data"
+
+
+## used by: galaxyprojectdotorg.galaxy
+#pip_virtualenv_command: "{{ galaxy_shed_root }}/python/bin/virtualenv"
+galaxy_server_dir: "{{ galaxy_toolshed_server_dir }}"
+galaxy_venv_dir: "{{ galaxy_toolshed_venv_dir }}"
+galaxy_eggs_path: "{{ galaxy_toolshed_eggs_path }}"
+galaxy_config_file: "{{ galaxy_toolshed_config_file }}" # to fetch the correct eggs
+
+
+# tool_shed.ini contents
+galaxy_toolshed_config:
+  uwsgi:
+    socket: "{{ galaxy_toolshed_mutable_config_dir }}/uwsgi.sock"
+    stats: "127.0.0.1:9191"
+    processes: 4
+    threads: 4
+    master: True
+    logto: "{{ galaxy_toolshed_log_dir }}/uwsgi.log"
+    chmod-socket: 664
+    chown-socket: "shed:www-data"
+    # this causes an infinite loop waiting for the touch-logreopen file at uwsgi startup, why?
+    #"log-reopen": True
+    #"touch-logreopen": "{{ galaxy_log_dir }}/uwsgi.logreopen"
+    pythonpath: lib
+  "app:main":
+    # secrets
+
+    id_secret: "{{ galaxy_toolshed_config_id_secret }}"
+    admin_users: "{{ galaxy_toolshed_config_admin_users }}"
+
+    # paths
+
+    file_path: "{{ galaxy_toolshed_mutable_data_dir }}/repos"
+    new_file_path: "{{ galaxy_toolshed_mutable_data_dir }}/tmp"
+    tool_data_path: "{{ galaxy_toolshed_mutable_data_dir }}/tool-data"
+
+    # general stuff
+
+    database_connection: "postgresql:///galaxy_testtoolshed?host=/var/run/postgresql"
+    log_level: "DEBUG"
+    ga_code: "UA-45719423-12"
+    debug: "False"
+    use_lint: "False"
+    num_tool_test_results_saved: "5"
+    support_url: "https://wiki.galaxyproject.org/Support"
+    smtp_server: "smtp.psu.edu"
+    email_from: "galaxy-no-reply@toolshed.g2.bx.psu.edu"
+    use_new_layout: "True"

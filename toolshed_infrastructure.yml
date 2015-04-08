@@ -1,0 +1,32 @@
+---
+
+- name: Manage packages
+  hosts: toolsheddbservers
+  remote_user: root
+  roles:
+    - packages
+
+- name: Install and configure PostgreSQL
+  hosts: toolsheddbservers
+  remote_user: root
+  roles:
+    - galaxyprojectdotorg.postgresql
+
+- name: Manage PostgreSQL users, groups, databases, and permissions
+  hosts: toolsheddbservers
+  remote_user: root
+  sudo: yes
+  sudo_user: postgres
+  roles:
+    - natefoo.postgresql_objects
+
+- name: Install and configure nginx and supervisor
+  hosts: toolshedservers
+  remote_user: root
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/toolshedservers.yml"
+    - "{{ deploy_env }}/secret_vars/ssl.yml"
+  roles:
+    - galaxyprojectdotorg.nginx
+    - supervisor
+    - errordocs

@@ -1,0 +1,17 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+[program:toolshed_{{ galaxy_toolshed_instance_codename }}_uwsgi]
+command         = /usr/bin/uwsgi --plugin python --ini-paste {{ galaxy_toolshed_config_file }}
+directory       = {{ galaxy_toolshed_server_dir }}
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 15
+user            = shed
+environment     = PYTHON_EGG_CACHE={{ galaxy_toolshed_root }}/var/python-egg-cache_uwsgi,GALAXY_EGGS_PATH={{ galaxy_toolshed_eggs_path }},PYTHONPATH={{ galaxy_toolshed_eggs_path }}/PasteDeploy-1.5.0-py2.7.egg
+numprocs        = 1
+stopsignal      = INT
+stdout_logfile  = /var/log/supervisord/{{ galaxy_toolshed_instance_codename }}_uwsgi.stdout.log
+stderr_logfile  = /var/log/supervisord/{{ galaxy_toolshed_instance_codename }}_uwsgi.stderr.log

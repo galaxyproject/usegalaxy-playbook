@@ -1,0 +1,56 @@
+---
+
+local_users:
+  - name: shed
+    comment: 'Galaxy Tool Shed'
+    system: 'yes'
+    shell: '/bin/bash'
+    groups: 'www-data'
+  - name: gxsrc
+    comment: 'Galaxy Code'
+    system: 'yes'
+    shell: '/bin/bash'
+
+authorized_key_users:
+  - name: shed
+    authorized:
+      - nate
+      - james
+      - carl
+      - dave_b
+      - dave_c
+      - marten
+      - dannon
+      - jeremy
+      - dan
+      - anton
+      - enis
+      - jen
+      - jmchilton
+      - nturaga
+      - guerler
+  - name: gxsrc
+    authorized:
+      - nate
+      - james
+      - carl
+      - dave_b
+      - dave_c
+      - marten
+      - dannon
+      - jeremy
+      - dan
+      - anton
+      - enis
+      - jen
+      - jmchilton
+      - nturaga
+      - guerler
+
+directories:
+  - path: /srv/toolshed/test
+    owner: gxsrc
+    group: gxsrc
+  - path: /srv/toolshed/test/var
+    owner: shed
+    group: shed

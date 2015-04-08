@@ -1,0 +1,26 @@
+---
+
+- name: Create dynamic OS groups
+  hosts: all
+  remote_user: root
+  tasks:
+    - name: Group by OS family
+      group_by: key=all_{{ ansible_os_family | lower }}_based_hosts
+      changed_when: False
+
+- name: Tasks for virtalized hosts
+  hosts: virtualhosts
+  remote_user: root
+  roles:
+    - virtual
+
+- name: Manage users, packages, and other system configurations
+  hosts: all
+  remote_user: root
+  roles:
+    - requiretty
+    - ssh
+    - timezone
+    - users
+    - paths
+    - packages
