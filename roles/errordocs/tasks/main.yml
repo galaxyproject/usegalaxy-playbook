@@ -1,0 +1,21 @@
+---
+
+- name: Create vhost directories
+  file: path={{ errdocs_dest }}/{{ item }} mode=0755 state=directory
+  with_items:
+    - 413
+    - 502
+
+- name: Install nginx error documents
+  copy: src={{ errdocs_src }}/{{ item }} dest={{ errdocs_dest }}/{{ item }} mode=0444
+  with_items:
+    - content_bg.png
+    - error_message_icon.png
+    - masthead_bg.png
+    - 413/index.html
+    - 502/index.shtml
+
+- name: Create maintenance message links
+  file: path={{ item.path }} src={{ item.src }} state=link force=yes
+  with_items:
+    - { path: '{{ errdocs_dest }}/502/maint', src: '~{{ errdocs_user }}/maint' }
