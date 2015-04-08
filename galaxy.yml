@@ -12,6 +12,7 @@
     galaxy_root: "{{ galaxy_web_root }}"
     galaxy_server_dir: "{{ galaxy_web_server_dir }}"
     galaxy_eggs_path: "{{ galaxy_web_eggs_path }}"
+    galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # set up local galaxy clone and local config
     - role: galaxyprojectdotorg.galaxy
@@ -22,8 +23,9 @@
       galaxy_fetch_eggs: yes
   post_tasks:
     # create impersonation config on Main
-    - name: Set galaxy_config_allow_user_impersonation to "True"
-      set_fact: galaxy_config_allow_user_impersonation="True"
+    - name: Set galaxy_config to impersonate_config_hash
+      set_fact:
+        galaxy_config: "{{ impersonate_config_hash }}"
       when: deploy_env == "production"
 
     - name: Create Galaxy impersonation configuration file
@@ -40,6 +42,7 @@
     galaxy_root: "{{ galaxy_handler_root }}"
     galaxy_server_dir: "{{ galaxy_handler_server_dir }}"
     galaxy_eggs_path: "{{ galaxy_handler_eggs_path }}"
+    galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # set up handler galaxy clone
     - role: galaxyprojectdotorg.galaxy
@@ -59,6 +62,7 @@
     galaxy_root: "{{ galaxy_web_root }}"
     galaxy_server_dir: "{{ galaxy_web_server_dir }}"
     galaxy_eggs_path: "{{ galaxy_web_eggs_path }}"
+    galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # manage the database
     - role: galaxyprojectdotorg.galaxy
