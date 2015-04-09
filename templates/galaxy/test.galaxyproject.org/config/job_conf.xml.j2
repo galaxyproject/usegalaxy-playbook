@@ -230,9 +230,6 @@
     </destinations>
     <tools>
         <!-- explicit roundup jobs -->
-        <tool id="stringtie" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="cuffnorm" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="cuffquant" destination="slurm_normal_multi" handler="test_handler2" />
         <tool id="gemini_load" destination="slurm_normal_multi" handler="test_handler2" />
         <tool id="deeptools_bamCompare" destination="slurm_normal_multi" handler="test_handler2" />
         <tool id="deeptools_bamCorrelate" destination="slurm_normal_multi" handler="test_handler2" />
@@ -257,6 +254,9 @@
         <tool id="cuffdiff" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="cufflinks" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="cuffmerge" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="cuffnorm" destination="dynamic_multi_dynamic_walltime" handler="test_handler2"  resources="local_or_stampede"/>
+        <tool id="cuffquant" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="stringtie" destination="dynamic_multi_dynamic_walltime" handler="test_handler2"  resources="local_or_stampede"/>
         <!-- blacklight jobs -->
         <tool id="trinity_blacklight" destination="dynamic_blacklight_select" handler="test_handler3" resources="blacklight"/>
         <tool id="spades" destination="dynamic_blacklight_select" handler="test_handler3" resources="blacklight"/>

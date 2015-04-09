@@ -36,16 +36,21 @@ RUNTIMES = {
     'bowtie_wrapper': {'runtime': 19.75, 'stddev': 65.27},
     #'bwa_wrapper': {'runtime': 51.47, 'stddev': 157.78},
     # TESTING
-    'bwa_wrapper': {'runtime': 5.00, 'stddev': 1.00},
+    'bwa_wrapper': {'runtime': 1.00, 'stddev': 1.00},
     # FIXME: bwa and bwa_mem copied from bwa_wrapper, surely invalid
     'bwa': {'runtime': 51.47, 'stddev': 157.78},
     'bwa_mem': {'runtime': 51.47, 'stddev': 157.78},
     'bowtie2': {'runtime': 28.23, 'stddev': 45.48},
-    'cuffdiff': {'runtime': 108.27, 'stddev': 258.30},
     'tophat': {'runtime': 152.69, 'stddev': 295.26},
     'tophat2': {'runtime': 165.47, 'stddev': 286.19},
     'cufflinks': {'runtime': 44.73, 'stddev': 157.20},
-    'cuffmerge': {'runtime': 35.07, 'stddev': 181.65}
+    'cuffdiff': {'runtime': 108.27, 'stddev': 258.30},
+    'cuffmerge': {'runtime': 35.07, 'stddev': 181.65},
+    # FIXME: cuffnorm and cuffquant copied from cufflinks
+    'cuffnorm': {'runtime': 44.73, 'stddev': 157.20},
+    'cuffquant': {'runtime': 44.73, 'stddev': 157.20},
+    # FIXME: stringtie copied from tophat2
+    'stringtie': {'runtime': 165.47, 'stddev': 286.19},
 }
 DEVS = 0
 
