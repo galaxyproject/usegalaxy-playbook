@@ -1,0 +1,44 @@
+---
+
+# postgresql_objects_users contains passwords and is located in secret_vars
+
+postgresql_objects_groups:
+  - name: galaxy_team
+    users:
+      - name: jxtx
+      - name: dbaker
+      - name: dblank
+      - name: dbouvier
+      - name: jgoecks
+      - name: marten
+      - name: nekrut
+      - name: fubar
+      - name: eberhard
+      - name: clements
+      - name: jchilton
+      - name: jen
+      - name: ndc
+
+postgresql_objects_databases:
+  - name: galaxy_main
+    owner: g2main
+
+postgresql_objects_privileges:
+  - database: galaxy_main
+    objs: ALL_IN_SCHEMA
+    roles: galaxy_team
+    privs: SELECT
+  - database: galaxy_main
+    objs: ALL_IN_SCHEMA
+    roles: g2main
+    privs: ALL
+  - database: galaxy_main
+    objs: ALL_IN_SCHEMA
+    roles: galaxy_team
+    privs: SELECT
+    type: sequence
+  - database: galaxy_main
+    objs: ALL_IN_SCHEMA
+    roles: g2main
+    privs: ALL
+    type: sequence

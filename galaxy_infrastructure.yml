@@ -1,6 +1,17 @@
 ---
 
-- hosts: galaxyservers
+- name: Manage PostgreSQL users, groups, databases, and permissions
+  hosts: galaxydbservers
+  remote_user: root
+  sudo: yes
+  sudo_user: postgres
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/galaxydbservers.yml"
+  roles:
+    - natefoo.postgresql_objects
+
+- name: Manage supervisor and root tasks
+  hosts: galaxyservers
   remote_user: root
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
