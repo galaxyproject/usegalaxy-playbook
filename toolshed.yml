@@ -31,3 +31,6 @@
     - role: galaxyprojectdotorg.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: no
       galaxy_toolshed_manage_database: yes
+  tasks:
+    - name: Set hgweb archive types
+      ini_file: dest=~/.hgrc backup=yes section=web option=allow_archive value="bz2, gz, zip"
