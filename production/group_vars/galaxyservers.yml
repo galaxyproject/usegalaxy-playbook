@@ -117,6 +117,7 @@ base_app_main: &BASE_APP_MAIN
   job_working_directory: /galaxy/main/jobdir
   tool_data_path: /galaxy-repl/main/tool_data
   nginx_upload_store: /galaxy-repl/main/upload
+  nginx_upload_job_files_store: /galaxy-repl/main/upload_job_files
   ftp_upload_dir: /galaxy/main/ftp
   library_import_dir: /galaxy-repl/main/import
   galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
@@ -163,6 +164,7 @@ base_app_main: &BASE_APP_MAIN
   cloudlaunch_default_ami: ami-a7dbf6ce
   nginx_x_accel_redirect_base: /_x_accel_redirect
   nginx_upload_path: /_upload
+  nginx_upload_job_files_path: /_job_files
   log_events: "False"
   log_actions: "False"
   debug: "False"
