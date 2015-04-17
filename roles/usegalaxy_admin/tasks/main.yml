@@ -18,9 +18,14 @@
     cron_file="ansible_galaxy_logrotate_{{ galaxy_instance_codename }}"
     state="absent"
 
-- name: Schedule archival of log files
+- name: Remove errantly named uwsgi log archival cron job
   cron: name="Galaxy uWSGI Log Archival"
     cron_file="ansible_galaxy_uwsgi_logarchive_{{ galaxy_instance_codename }}"
+    state="absent"
+
+- name: Schedule archival of log files
+  cron: name="Galaxy Log Archival"
+    cron_file="ansible_galaxy_logarchive_{{ galaxy_instance_codename }}"
     user="{{ galaxy_user }}"
     hour="2" minute="10"
-    job="{{ galaxy_root }}/bin/archive_uwsgi_log.sh"
+    job="{{ galaxy_root }}/bin/archive_logs.sh"
