@@ -1,7 +1,7 @@
 ---
 
 # Tool Shed version
-galaxy_changeset_id: 6345e1b3aa49c4a99c1393f443b793b3c5827827
+galaxy_changeset_id: 20f131efaea31757f158d8db64d678650e1cd38c
 
 ## these vars are defined in the vaulted (secret) vars file
 #
@@ -11,6 +11,7 @@ galaxy_changeset_id: 6345e1b3aa49c4a99c1393f443b793b3c5827827
 # used by: galaxy_toolshed_config var
 #galaxy_toolshed_config_admin_users
 #galaxy_toolshed_config_id_secret
+#galaxy_toolshed_config_sentry_dsn
 
 
 ## used by: other vars in this vars file
@@ -94,3 +95,4 @@ galaxy_toolshed_config:
     email_from: "galaxy-no-reply@toolshed.g2.bx.psu.edu"
     use_new_layout: "True"
     brand: '(sandbox for testing)'
+    sentry_dsn: "{{ galaxy_toolshed_config_sentry_dsn }}"
