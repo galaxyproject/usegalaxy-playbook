@@ -182,7 +182,6 @@
     </destinations>
     <tools>
         <!-- multi/stampede jobs -->
-        <!--
         <tool id="bowtie2" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
         <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
         <tool id="bowtie_color_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
@@ -190,16 +189,14 @@
         <tool id="bwa_mem" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
         <tool id="bwa_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
         <tool id="bwa_color_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        -->
         <tool id="lastz_wrapper_2" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <!--
         <tool id="megablast_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
         <tool id="cuffdiff" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
         <tool id="cufflinks" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
         <tool id="cuffmerge" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
         <tool id="tophat" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
         <tool id="tophat2" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        -->
+        <!--
         <tool id="bowtie2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bowtie_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bowtie_color_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
@@ -207,9 +204,7 @@
         <tool id="bwa_mem" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bwa_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bwa_color_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <!--
         <tool id="lastz_wrapper_2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        -->
         <tool id="quality_score_distribution" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="megablast_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="cuffdiff" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
@@ -217,6 +212,7 @@
         <tool id="cuffmerge" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="tophat" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="tophat2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
+        -->
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
