@@ -24,3 +24,11 @@
     - users
     - paths
     - packages
+
+- name: Manage nginx
+  hosts: webservers
+  remote_user: root
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/ssl.yml"
+  roles:
+    - galaxyprojectdotorg.nginx

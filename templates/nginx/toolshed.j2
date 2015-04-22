@@ -1,0 +1,67 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# Galaxy Tool Shed
+
+server {
+    listen          *:80;
+    server_name {{ galaxy_toolshed_instance_hostname }};
+
+    return 307 https://{{ galaxy_toolshed_instance_hostname }}$request_uri;
+}
+
+server {
+    listen       *:443 ssl;
+    server_name {{ galaxy_toolshed_instance_hostname }};
+
+    # Enable HSTS (age is 180 days)
+    #add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
+
+    access_log  /var/log/nginx/{{ galaxy_toolshed_instance_hostname }}.access.log;
+    error_log   /var/log/nginx/{{ galaxy_toolshed_instance_hostname }}.error.log;
+
+    location / {
+        uwsgi_pass  unix:/srv/toolshed/{{ galaxy_toolshed_instance_codename }}/var/uwsgi.sock;
+        uwsgi_param UWSGI_SCHEME    $scheme;
+        include     uwsgi_params;
+    }
+
+    location /static {
+        alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static;
+        gzip on;
+        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
+        expires 24h;
+    }
+
+    location /static/style {
+        alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/style/blue;
+        gzip on;
+        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
+        expires 24h;
+    }
+
+    location /static/scripts {
+        alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/scripts/packed;
+        gzip on;
+        gzip_types text/plain text/javascript application/x-javascript;
+        expires 24h;
+    }
+
+    location /robots.txt {
+        alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/robots.txt;
+    }
+
+    location /favicon.ico {
+        alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/favicon.ico;
+    }
+
+    # error docs
+    error_page  502 503 504 /error/502/index.shtml;
+    error_page  413         /error/413/index.html;
+    location /error {
+        ssi on;
+        root {{ nginx_srv }}/{{ galaxy_toolshed_instance_hostname }};
+    }
+}
+

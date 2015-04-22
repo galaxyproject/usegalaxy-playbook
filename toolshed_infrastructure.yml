@@ -20,12 +20,11 @@
   roles:
     - natefoo.postgresql_objects
 
-- name: Install and configure nginx and supervisor
+- name: Install and configure supervisor and nginx vhosts and error documents
   hosts: toolshedservers
   remote_user: root
   vars_files:
     - "{{ deploy_env }}/secret_vars/toolshedservers.yml"
-    - "{{ deploy_env }}/secret_vars/ssl.yml"
   roles:
     - galaxyprojectdotorg.nginx
     - supervisor

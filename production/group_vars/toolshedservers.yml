@@ -1,7 +1,7 @@
 ---
 
 # Tool Shed version
-galaxy_changeset_id: e44c8db9dea56b8d1a2f941ce572b0f14e999d4c
+galaxy_changeset_id: 86880990a8fba725dd6354f05be7ba46cd337886
 
 ## these vars are defined in the vaulted (secret) vars file
 #
@@ -22,13 +22,13 @@ galaxy_toolshed_eggs_path: "{{ galaxy_toolshed_root }}/eggs"
 
 
 ## used by: supervisor
-galaxy_toolshed_instance_codename: test
+galaxy_toolshed_instance_codename: main
 supervisord_group_configs:
-  - testtoolshed.conf
+  - toolshed.conf
 
 
 # used by the toolshed vhost template (and below)
-galaxy_toolshed_instance_hostname: testtoolshed.g2.bx.psu.edu
+galaxy_toolshed_instance_hostname: toolshed.g2.bx.psu.edu
 
 ## used by: errdocs
 errdocs_src: "files/toolshed/{{ galaxy_toolshed_instance_hostname }}/error"
@@ -63,9 +63,6 @@ galaxy_toolshed_config:
     logto: "{{ galaxy_toolshed_log_dir }}/uwsgi.log"
     chmod-socket: 664
     chown-socket: "shed:www-data"
-    # this causes an infinite loop waiting for the touch-logreopen file at uwsgi startup, why?
-    #"log-reopen": True
-    #"touch-logreopen": "{{ galaxy_log_dir }}/uwsgi.logreopen"
     pythonpath: lib
   "app:main":
     # secrets
@@ -81,9 +78,9 @@ galaxy_toolshed_config:
 
     # general stuff
 
-    database_connection: "postgresql:///galaxy_testtoolshed?host=/var/run/postgresql"
+    database_connection: "postgresql:///galaxy_toolshed?host=/var/run/postgresql"
     log_level: "DEBUG"
-    ga_code: "UA-45719423-8"
+    ga_code: "UA-45719423-12"
     debug: "False"
     use_lint: "False"
     num_tool_test_results_saved: "5"
@@ -91,5 +88,4 @@ galaxy_toolshed_config:
     smtp_server: "smtp.psu.edu"
     email_from: "galaxy-no-reply@toolshed.g2.bx.psu.edu"
     use_new_layout: "True"
-    brand: '(sandbox for testing)'
-    sentry_dsn: "{{ galaxy_toolshed_config_sentry_dsn }}"
+    #sentry_dsn: "{{ galaxy_toolshed_config_sentry_dsn }}"
