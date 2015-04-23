@@ -51,17 +51,24 @@ directories:
   - path: /srv/toolshed/test
     owner: gxsrc
     group: gxsrc
+  - path: /srv/toolshed/test/log
+    owner: shed
+    group: shed
   - path: /srv/toolshed/test/var
     owner: shed
     group: shed
   - path: /srv/toolshed/main
     owner: gxsrc
     group: gxsrc
+  - path: /srv/toolshed/main/log
+    owner: shed
+    group: shed
   - path: /srv/toolshed/main/var
     owner: shed
     group: shed
 
 host_packages:
+  - xfsprogs
   - python-virtualenv
   - python-psycopg2
   - uwsgi

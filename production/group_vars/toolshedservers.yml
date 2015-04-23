@@ -56,7 +56,7 @@ galaxy_config_file: "{{ galaxy_toolshed_config_file }}" # to fetch the correct e
 galaxy_toolshed_config:
   uwsgi:
     socket: "{{ galaxy_toolshed_mutable_config_dir }}/uwsgi.sock"
-    stats: "127.0.0.1:9191"
+    stats: "127.0.0.1:9192"
     processes: 4
     threads: 4
     master: True
