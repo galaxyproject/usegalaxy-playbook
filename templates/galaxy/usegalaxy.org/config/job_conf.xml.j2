@@ -92,29 +92,29 @@
 
         <!-- reserved destinations -->
         <destination id="reserved" runner="slurm">
-           <param id="nativeSpecification">--time=36:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=reserved</param>
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved</param>
         </destination>
         <destination id="reserved_16gb" runner="slurm">
-           <param id="nativeSpecification">--time=36:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=15360</param>
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=15360</param>
         </destination>
         <destination id="reserved_64gb" runner="slurm">
-           <param id="nativeSpecification">--time=36:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=61440</param>
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=61440</param>
         </destination>
         <destination id="reserved_multi" runner="slurm">
-           <param id="nativeSpecification">--time=36:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=4 --partition=reserved --mem-per-cpu=5120</param>
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=4 --partition=reserved --mem-per-cpu=5120</param>
         </destination>
 
         <!-- FIXME: destination needs to be renamed everywhere (dynamic, resources, etc) -->
         <destination id="slurm_multi_development" runner="slurm">
-            <param id="nativeSpecification">--time=00:30:00 --clusters=rodeo,roundup --nodes=1 --ntasks=2 --partition=normal</param>
+            <param id="nativeSpecification">--time=00:30:00 --clusters=roundup --nodes=1 --ntasks=2 --partition=normal</param>
         </destination>
 
         <!-- normal destinations -->
         <destination id="slurm_normal" runner="slurm">
-           <param id="nativeSpecification">--time=36:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=normal</param>
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal</param>
         </destination>
         <destination id="slurm_normal_16gb" runner="slurm">
-            <param id="nativeSpecification">--time=24:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
+            <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
         </destination>
         <destination id="slurm_normal_64gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
@@ -130,7 +130,7 @@
 
         <!-- FIXME: should be getting rid of these -->
         <destination id="rodeo_normal" runner="slurm">
-           <param id="nativeSpecification">--time=36:00:00 --clusters=rodeo,roundup --nodes=1 --ntasks=1 --partition=normal</param>
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal</param>
         </destination>
         <destination id="roundup_multi" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=6 --partition=multi</param>
@@ -285,10 +285,10 @@
         <limit type="job_walltime">49:00:00</limit>
         <limit type="output_size">150G</limit>
         <!-- per-destination per-user limits -->
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_64gb">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_multi">2</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede">2</limit>
