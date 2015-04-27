@@ -6,12 +6,6 @@
   roles:
     - packages
 
-- name: Install and configure PostgreSQL
-  hosts: toolsheddbservers
-  remote_user: root
-  roles:
-    - galaxyprojectdotorg.postgresql
-
 - name: Manage PostgreSQL users, groups, databases, and permissions
   hosts: toolsheddbservers
   remote_user: root

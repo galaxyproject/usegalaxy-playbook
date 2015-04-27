@@ -68,11 +68,19 @@ directories:
     group: shed
 
 host_packages:
+  - nfs-common
   - xfsprogs
   - python-virtualenv
   - python-psycopg2
   - uwsgi
   - uwsgi-plugin-python
+
+postgresql_pgdata: /var/lib/postgresql/9.4/main
+postgresql_backup_local_dir: /var/lib/postgresql/backup
+postgresql_backup_active_dir: /var/lib/postgresql/backup/active
+postgresql_conf_dir: /etc/postgresql/9.4/main
+postgresql_backup_dir: /nfs/thumper.galaxyproject.org/toolshed/pgbackup
+postgresql_backup_mail_recipient: nate@bx.psu.edu
 
 nginx_flavor: full
 
