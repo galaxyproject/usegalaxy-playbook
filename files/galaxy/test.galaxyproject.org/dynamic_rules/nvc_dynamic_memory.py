@@ -19,7 +19,7 @@ from pyBamParser.bam import Reader
 
 log = logging.getLogger(__name__)
 
-DESTINATION = 'slurm_normal_single_dynamic_mem'
+DESTINATION = 'slurm_normal_dynamic_mem'
 NORMAL_PARAMS = ' --clusters=rodeo,roundup --partition=normal'
 MULTI_PARAMS = ' --partition=multi'
 MEM_DEFAULT = 7680

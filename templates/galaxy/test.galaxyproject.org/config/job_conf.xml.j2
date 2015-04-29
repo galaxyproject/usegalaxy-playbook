@@ -68,36 +68,41 @@
             <plugin id="slurm"/>
         </handler>
     </handlers>
-    <destinations default="dynamic_reserved_single">
-
-        <!-- dynamic method for selecting reserved node -->
-        <destination id="dynamic_reserved_single" runner="dynamic">
+    <destinations default="dynamic_normal_reserved">
+        <!-- dynamic methods for selecting reserved nodes -->
+        <destination id="dynamic_normal_reserved" runner="dynamic">
             <param id="type">python</param>
-            <param id="function">reserved_single</param>
+            <param id="function">dynamic_normal_reserved</param>
+        </destination>
+        <destination id="dynamic_normal_reserved_16gb" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_normal_reserved_16gb</param>
+        </destination>
+        <destination id="dynamic_normal_reserved_64gb" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_normal_reserved_64gb</param>
+        </destination>
+        <destination id="dynamic_multi_reserved" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_multi_reserved</param>
         </destination>
 
         <!-- dynamic method for setting roundup multi walltime, also handles the explicit Stampede resource selector -->
-        <destination id="dynamic_multi_dynamic_walltime" runner="dynamic">
+        <destination id="dynamic_local_stampede_select_dynamic_walltime" runner="dynamic">
             <param id="type">python</param>
-            <param id="function">multi_dynamic_walltime</param>
+            <param id="function">dynamic_local_stampede_select_dynamic_walltime</param>
         </destination>
 
         <!-- dynamic method for the stampede-only selector -->
         <destination id="dynamic_stampede_select" runner="dynamic">
             <param id="type">python</param>
-            <param id="function">stampede_select</param>
+            <param id="function">dynamic_stampede_select</param>
         </destination>
 
         <!-- dynamic method for the blacklight-only selector -->
         <destination id="dynamic_blacklight_select" runner="dynamic">
             <param id="type">python</param>
-            <param id="function">blacklight_select</param>
-        </destination>
-
-        <!-- dynamic method for setting required memory for singlethreaded jobs -->
-        <destination id="dynamic_single_dynamic_memory" runner="dynamic">
-            <param id="type">python</param>
-            <param id="function">single_dynamic_memory</param>
+            <param id="function">dynamic_blacklight_select</param>
         </destination>
 
         <!-- dynamic memory rule for the naive variant caller -->
@@ -106,36 +111,48 @@
             <param id="function">nvc_dynamic_memory</param>
         </destination>
 
-        <!-- static destinations -->
-        <destination id="slurm_normal_single" runner="slurm">
+        <!-- reserved destinations -->
+        <destination id="reserved" runner="slurm">
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved</param>
+        </destination>
+        <destination id="reserved_16gb" runner="slurm">
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=15360</param>
+        </destination>
+        <destination id="reserved_64gb" runner="slurm">
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=61440</param>
+        </destination>
+        <destination id="reserved_multi" runner="slurm">
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=4 --partition=reserved --mem-per-cpu=5120</param>
+        </destination>
+
+        <!-- normal destinations -->
+        <destination id="slurm_normal" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal</param>
         </destination>
         <destination id="slurm_normal_single_16gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
         </destination>
-        <destination id="slurm_reserved_single" runner="slurm">
-            <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved</param>
+        <destination id="slurm_normal_64gb" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
         </destination>
-        <destination id="slurm_normal_multi" runner="slurm">
+
+        <destination id="slurm_multi" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=4 --partition=multi</param>
         </destination>
-        <destination id="slurm_reserved_multi" runner="slurm">
-            <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=4 --partition=reserved</param>
+        <destination id="slurm_multi_trackster" runner="slurm">
+            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=6 --partition=single</param>
         </destination>
-        <destination id="slurm_trackster_multi" runner="slurm">
-            <param id="nativeSpecification">--time=00:05:00 --clusters=roundup --nodes=1 --ntasks=2 --partition=normal</param>
-        </destination>
-        <destination id="slurm_development_multi" runner="slurm">
+        <destination id="slurm_multi_development" runner="slurm">
             <param id="nativeSpecification">--time=00:30:00 --clusters=roundup --nodes=1 --ntasks=2 --partition=normal</param>
         </destination>
 
-        <!-- dynamic destinations: do not use directly (without dynamic) -->
-        <destination id="slurm_normal_multi_dynamic_walltime" runner="slurm">
+        <!-- dynamic modified destinations: do not use directly -->
+        <destination id="slurm_multi_dynamic_walltime" runner="slurm">
             <!-- walltime is set dynamically -->
             <param id="nativeSpecification">--nodes=1 --ntasks=4 --partition=multi</param>
             <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="test_handler2"/>
         </destination>
-        <destination id="slurm_normal_single_dynamic_mem" runner="slurm">
+        <destination id="slurm_normal_dynamic_mem" runner="slurm">
             <!-- clusters and mem-per-cpu are set dynamically -->
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1</param>
         </destination>
@@ -229,83 +246,86 @@
 
     </destinations>
     <tools>
-        <!-- explicit roundup jobs -->
-        <tool id="gemini_load" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="deeptools_bamCompare" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="deeptools_bamCorrelate" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="deeptools_bamCoverage" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="deeptools_bamFingerprint" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="deeptools_bamPEFragmentSize" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="deeptools_bigwigCompare" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="deeptools_computeGCBias" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="deeptools_computeMatrix" destination="slurm_normal_multi" handler="test_handler2" />
-        <tool id="deeptools_correctGCBias" destination="slurm_normal_multi" handler="test_handler2" />
+        <!-- explicit local multi jobs -->
+        <tool id="gemini_load" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="deeptools_bamCompare" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="deeptools_bamCorrelate" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="deeptools_bamCoverage" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="deeptools_bamFingerprint" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="deeptools_bamPEFragmentSize" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="deeptools_bigwigCompare" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="deeptools_computeGCBias" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="deeptools_computeMatrix" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="deeptools_correctGCBias" destination="dynamic_multi_reserved" handler="test_handler2" />
         <!-- explicit stampede jobs -->
-        <tool id="megablast_wrapper" handler="test_handler2" destination="dynamic_stampede_select" resources="stampede"/>
-        <tool id="lastz_wrapper_2" handler="test_handler2" destination="dynamic_stampede_select" resources="stampede"/>
+        <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
+        <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
+        <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
+        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <!-- resubmit to stampede jobs -->
-        <tool id="bwa" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="bwa_mem" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="bwa_wrapper" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="bowtie_wrapper" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="bowtie2" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="tophat" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="tophat2" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="cuffdiff" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="cufflinks" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="cuffmerge" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="cuffnorm" destination="dynamic_multi_dynamic_walltime" handler="test_handler2"  resources="local_or_stampede"/>
-        <tool id="cuffquant" destination="dynamic_multi_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
-        <tool id="stringtie" destination="dynamic_multi_dynamic_walltime" handler="test_handler2"  resources="local_or_stampede"/>
+        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="tophat" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="tophat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="cuffdiff" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="cufflinks" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="cuffmerge" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="cuffnorm" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2"  resources="local_or_stampede"/>
+        <tool id="cuffquant" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2"  resources="local_or_stampede"/>
         <!-- blacklight jobs -->
         <tool id="trinity_blacklight" destination="dynamic_blacklight_select" handler="test_handler3" resources="blacklight"/>
         <tool id="spades" destination="dynamic_blacklight_select" handler="test_handler3" resources="blacklight"/>
         <!-- trackster jobs -->
-        <tool id="cufflinks" destination="slurm_trackster_multi">
+        <tool id="cufflinks" destination="slurm_multi_trackster">
             <param id="source">trackster</param>
         </tool>
         <!-- dynamic memory tools -->
-        <tool id="wig_to_bigWig" destination="dynamic_single_dynamic_memory"/>
-        <tool id="bed_to_bigBed" destination="dynamic_single_dynamic_memory"/>
         <tool id="naive_variant_caller" destination="dynamic_nvc_dynamic_memory"/>
         <!-- data managers -->
         <tool id="data_manager_fetch_genome_all_fasta" handler="test_installer"/>
+        <!-- 16GB tools -->
+        <tool id="bamtools" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="varscan" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_AddCommentsToBam" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_AddOrReplaceReadGroups" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_BedToIntervalList" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_CleanSam" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_CASM" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_CollectBaseDistributionByCycle" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_CollectGcBiasMetrics" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_CollectInsertSizeMetrics" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_CollectRnaSeqMetrics" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_CollectWgsMetrics" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_DownsampleSam" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_EstimateLibraryComplexity" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_FilterSamReads" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_FixMateInformation" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_MarkDuplicates" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_MarkDuplicatesWithMateCigar" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_MeanQualityByCycle" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_MergeBamAlignment" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_MergeSamFiles" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_NormalizeFasta" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_QualityScoreDistribution" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_ReorderSam" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_ReplaceSamHeader" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_RevertOriginalBaseQualitiesAndAddMateCigar" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_RevertSam" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_SamToFastq" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_SortSam" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="picard_ValidateSamFile" destination="dynamic_normal_reserved_16gb"/>
+        <!-- 64GB tools -->
+        <tool id="wig_to_bigWig" destination="dynamic_normal_reserved_64gb"/>
+        <tool id="CONVERTER_bedgraph_to_bigwig" destination="dynamic_normal_reserved_64gb"/>
         <!-- nagios checks -->
         <tool id="echo_test_handler0" handler="test_handler0"/>
         <tool id="echo_test_handler1" handler="test_handler1"/>
         <tool id="echo_test_stampede" destination="pulsar_stampede_nagios" handler="test_handler2"/>
         <tool id="echo_test_blacklight" destination="pulsar_blacklight_nagios" handler="test_handler3"/>
-        <!-- increased memory tools -->
-        <tool id="bamtools" destination="slurm_normal_single_16gb"/>
-        <tool id="varscan" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_AddCommentsToBam" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_AddOrReplaceReadGroups" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_BedToIntervalList" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_CleanSam" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_CASM" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_CollectBaseDistributionByCycle" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_CollectGcBiasMetrics" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_CollectInsertSizeMetrics" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_CollectRnaSeqMetrics" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_CollectWgsMetrics" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_DownsampleSam" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_EstimateLibraryComplexity" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_FilterSamReads" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_FixMateInformation" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_MarkDuplicates" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_MarkDuplicatesWithMateCigar" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_MeanQualityByCycle" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_MergeBamAlignment" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_MergeSamFiles" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_NormalizeFasta" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_QualityScoreDistribution" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_ReorderSam" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_ReplaceSamHeader" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_RevertOriginalBaseQualitiesAndAddMateCigar" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_RevertSam" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_SamToFastq" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_SortSam" destination="slurm_normal_single_16gb"/>
-        <tool id="picard_ValidateSamFile" destination="slurm_normal_single_16gb"/>
     </tools>
     <resources default="default">
         <group id="default"></group>
@@ -319,11 +339,13 @@
         <limit type="job_walltime">49:00:00</limit>
         <limit type="output_size">50G</limit>
         <!-- per-destination per-user limits -->
-        <limit type="destination_user_concurrent_jobs" id="slurm_trackster_multi">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal_single">6</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal_multi">2</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_development_multi">4</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal_single_dynamic_mem">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_64gb">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_normal">3</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_blacklight_normal">1</limit>

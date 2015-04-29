@@ -16,7 +16,7 @@ VALID_DESTINATIONS = BLACKLIGHT_DESTINATIONS
 RESOURCE_KEYS = ('blacklight_compute_resource',)
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
-def blacklight_select( app, tool, job, user_email ):
+def dynamic_blacklight_select( app, tool, job, user_email ):
     destination = None
     tool_id = tool.id
     if '/' in tool.id:
