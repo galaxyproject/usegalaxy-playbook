@@ -73,21 +73,9 @@
         </destination>
 
         <!-- dynamic method for setting roundup multi walltime, also handles the explicit Stampede resource selector -->
-        <destination id="roundup_multi_dynamic_walltime" runner="dynamic">
+        <destination id="dynamic_local_stampede_select_dynamic_walltime" runner="dynamic">
             <param id="type">python</param>
-            <param id="function">roundup_multi_dynamic_walltime</param>
-        </destination>
-
-        <!-- until we do walltime resubmission, we'll use this one instead -->
-        <destination id="dynamic_local_stampede_select" runner="dynamic">
-            <param id="type">python</param>
-            <param id="function">dynamic_local_stampede_select</param>
-        </destination>
-
-        <!-- dynamic method for setting required memory for singlethreaded jobs -->
-        <destination id="dynamic_single_dynamic_memory" runner="dynamic">
-            <param id="type">python</param>
-            <param id="function">single_dynamic_memory</param>
+            <param id="function">dynamic_local_stampede_select_dynamic_walltime</param>
         </destination>
 
         <!-- reserved destinations -->
@@ -102,11 +90,6 @@
         </destination>
         <destination id="reserved_multi" runner="slurm">
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=4 --partition=reserved --mem-per-cpu=5120</param>
-        </destination>
-
-        <!-- FIXME: destination needs to be renamed everywhere (dynamic, resources, etc) -->
-        <destination id="slurm_multi_development" runner="slurm">
-            <param id="nativeSpecification">--time=00:30:00 --clusters=roundup --nodes=1 --ntasks=2 --partition=normal</param>
         </destination>
 
         <!-- normal destinations -->
@@ -125,19 +108,21 @@
             <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=6 --partition=multi</param>
         </destination>
         <destination id="slurm_trackster_multi" runner="slurm">
-            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=6 --partition=single</param>
+            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=4 --partition=normal</param>
+        </destination>
+        <destination id="slurm_multi_development" runner="slurm">
+            <param id="nativeSpecification">--time=00:30:00 --clusters=roundup --nodes=1 --ntasks=2 --partition=normal</param>
         </destination>
 
-        <!-- FIXME: should be getting rid of these -->
-        <destination id="rodeo_normal" runner="slurm">
-           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal</param>
-        </destination>
-        <destination id="roundup_multi" runner="slurm">
-            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=6 --partition=multi</param>
+        <!-- dynamic modified destinations: do not use directly -->
+        <destination id="slurm_multi_dynamic_walltime" runner="slurm">
+            <!-- walltime is set dynamically -->
+            <param id="nativeSpecification">--nodes=1 --ntasks=6 --partition=multi</param>
+            <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="main_w2_handler2"/>
         </destination>
 
         <!-- stampede destinations -->
-        <destination id="pulsar_stampede" runner="amqp_pulsar_stampede">
+        <destination id="pulsar_stampede_normal" runner="amqp_pulsar_stampede">
             <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
@@ -182,21 +167,22 @@
     </destinations>
     <tools>
         <!-- multi/stampede jobs -->
-        <tool id="bowtie2" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bowtie_color_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bwa" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bwa_mem" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bwa_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bwa_color_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="lastz_wrapper_2" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="megablast_wrapper" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="cuffdiff" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="cufflinks" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="cuffmerge" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="tophat" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="tophat2" destination="dynamic_local_stampede_select" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <!--
+        <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="cuffdiff" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="cufflinks" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="cuffmerge" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="tophat" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="tophat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <!-- explicit stampede jobs -->
+        <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
+        <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
+        <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
+        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
+        <!-- use these to disable stampede
         <tool id="bowtie2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bowtie_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bowtie_color_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
@@ -205,7 +191,6 @@
         <tool id="bwa_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bwa_color_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="lastz_wrapper_2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="quality_score_distribution" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="megablast_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="cuffdiff" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="cufflinks" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
@@ -262,9 +247,6 @@
         <!-- 64GB tools -->
         <tool id="wig_to_bigWig" destination="dynamic_normal_reserved_64gb"/>
         <tool id="CONVERTER_bedgraph_to_bigwig" destination="dynamic_normal_reserved_64gb"/>
-        <!--
-        <tool id="bed_to_bigBed" destination="dynamic_single_dynamic_memory"/>
-        -->
         <!-- nagios checks -->
         <tool id="echo_main_w1_handler0" handler="main_w1_handler0"/>
         <tool id="echo_main_w1_handler1" handler="main_w1_handler1"/>
@@ -285,19 +267,17 @@
         <limit type="job_walltime">49:00:00</limit>
         <limit type="output_size">150G</limit>
         <!-- per-destination per-user limits -->
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal">2</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_64gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="pulsar_stampede">2</limit>
+        <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
         <!-- per-destination total limits -->
-        <limit type="destination_total_concurrent_jobs" id="pulsar_stampede">50</limit>
+        <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_normal">50</limit>
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_development">1</limit>
-        <!-- remove these old destinations -->
-        <limit type="destination_user_concurrent_jobs" id="rodeo_normal">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="roundup_multi">1</limit>
     </limits>
 </job_conf>
