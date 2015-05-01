@@ -8,6 +8,7 @@
             <!-- These live in the virtualenv -->
             <param id="rules_module">usegalaxy.jobs.rules</param>
         </plugin>
+        <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner">
             <param id="drmaa_library_path">/home/g2test/slurm-drmaa-debug/lib/libdrmaa.so</param>
             <param id="invalidjobexception_retries">5</param>
@@ -48,9 +49,11 @@
     </plugins>
     <handlers default="handlers">
         <handler id="test_handler0" tags="handlers">
+            <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
         <handler id="test_handler1" tags="handlers">
+            <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
         <handler id="test_handler2">
@@ -190,7 +193,6 @@
             <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
-            <param id="remote_metadata">true</param>
             <param id="use_remote_datatypes">true</param>
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/work/galaxy/test/pulsar/var/staging/</param>
@@ -234,7 +236,6 @@
             <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
-            <param id="remote_metadata">true</param>
             <param id="use_remote_datatypes">true</param>
             <param id="rewrite_parameters">true</param>
             <param id="jobs_directory">/brashear/xcgalaxy/test/pulsar/var/staging/</param>
@@ -243,6 +244,9 @@
             <param id="remote_property_galaxy_datatypes_config_file">/brashear/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
             <env exec="eval `modulecmd sh purge`" />
         </destination>
+
+        <!-- local destination for nagios handler checks -->
+        <destination id="local" runner="local"/>
 
     </destinations>
     <tools>
@@ -322,8 +326,11 @@
         <tool id="wig_to_bigWig" destination="dynamic_normal_reserved_64gb"/>
         <tool id="CONVERTER_bedgraph_to_bigwig" destination="dynamic_normal_reserved_64gb"/>
         <!-- nagios checks -->
-        <tool id="echo_test_handler0" handler="test_handler0"/>
-        <tool id="echo_test_handler1" handler="test_handler1"/>
+        <!-- run wherever it lands
+        <tool id="echo_test_cluster"/>
+        -->
+        <tool id="echo_test_handler0" destination="local" handler="test_handler0"/>
+        <tool id="echo_test_handler1" destination="local" handler="test_handler1"/>
         <tool id="echo_test_stampede" destination="pulsar_stampede_nagios" handler="test_handler2"/>
         <tool id="echo_test_blacklight" destination="pulsar_blacklight_nagios" handler="test_handler3"/>
     </tools>
