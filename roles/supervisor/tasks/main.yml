@@ -1,5 +1,9 @@
 ---
 
+- name: Install virtualenv
+  yum: name=python-virtualenv
+  when: ansible_os_family == "RedHat"
+
 - name: Install supervisor
   pip: name=supervisor virtualenv={{ supervisord_venv_dir }} extra_args=--pre
 

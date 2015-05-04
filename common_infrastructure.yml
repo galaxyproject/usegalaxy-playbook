@@ -25,6 +25,14 @@
     - paths
     - packages
 
+- name: Install supervisor
+  hosts: supervisorusers
+  remote_user: root
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/supervisorusers.yml"
+  roles:
+    - supervisor
+
 - name: Manage PostgreSQL
   hosts: dbservers
   remote_user: root
