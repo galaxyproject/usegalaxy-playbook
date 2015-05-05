@@ -85,6 +85,12 @@
             <param id="function">dynamic_local_stampede_select_dynamic_walltime</param>
         </destination>
 
+        <!-- dynamic method for the stampede-only selector -->
+        <destination id="dynamic_stampede_select" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_stampede_select</param>
+        </destination>
+
         <!-- reserved destinations -->
         <destination id="reserved" runner="slurm">
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved</param>
