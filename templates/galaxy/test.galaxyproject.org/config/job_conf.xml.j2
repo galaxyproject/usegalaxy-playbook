@@ -148,6 +148,9 @@
         <destination id="slurm_multi_development" runner="slurm">
             <param id="nativeSpecification">--time=00:30:00 --clusters=roundup --nodes=1 --ntasks=2 --partition=normal</param>
         </destination>
+        <destination id="slurm_multi_16c_128gb" runner="slurm">
+            <param id="nativeSpecification">--nodes=1 --ntasks=16 --mem-per-cpu=7680 --partition=multi</param>
+        </destination>
 
         <!-- dynamic modified destinations: do not use directly -->
         <destination id="slurm_multi_dynamic_walltime" runner="slurm">
@@ -291,6 +294,7 @@
         <tool id="naive_variant_caller" destination="dynamic_nvc_dynamic_memory"/>
         <!-- data managers -->
         <tool id="data_manager_fetch_genome_all_fasta" handler="test_installer"/>
+        <tool id="kraken_database_builder" destination="slurm_multi_16c_128gb" handler="test_installer"/>
         <!-- 16GB tools -->
         <tool id="bamtools" destination="dynamic_normal_reserved_16gb"/>
         <tool id="varscan" destination="dynamic_normal_reserved_16gb"/>
