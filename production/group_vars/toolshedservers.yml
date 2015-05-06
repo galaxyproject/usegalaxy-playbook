@@ -1,7 +1,7 @@
 ---
 
 # Tool Shed version
-galaxy_changeset_id: 86880990a8fba725dd6354f05be7ba46cd337886
+galaxy_changeset_id: e462b409211f606f769220767032a2c6ea9b846f
 
 ## these vars are defined in the vaulted (secret) vars file
 #
@@ -88,4 +88,4 @@ galaxy_toolshed_config:
     smtp_server: "smtp.psu.edu"
     email_from: "galaxy-no-reply@toolshed.g2.bx.psu.edu"
     use_new_layout: "True"
-    #sentry_dsn: "{{ galaxy_toolshed_config_sentry_dsn }}"
+    sentry_dsn: "{{ galaxy_toolshed_config_sentry_dsn }}"
