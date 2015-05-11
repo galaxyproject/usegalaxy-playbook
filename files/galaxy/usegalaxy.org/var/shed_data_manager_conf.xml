@@ -1,3 +1,22 @@
 <?xml version="1.0"?>
 <data_managers>
+<data_manager guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_sam_fasta_index_builder/data_manager/sam_fasta_index_builder/0.0.1" id="sam_fasta_index_builder" shed_conf_file="/srv/galaxy/main/var/shed_tool_conf.xml" version="0.0.1">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_sam_fasta_index_builder/cf875cbe2df4/data_manager_sam_fasta_index_builder/data_manager/data_manager_sam_fasta_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_sam_fasta_index_builder/sam_fasta_index_builder/0.0.2"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_sam_fasta_index_builder</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>cf875cbe2df4</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_sam_fasta_index_builder/sam_fasta_index_builder/0.0.2</id><version>0.0.2</version></tool><data_table name="fasta_indexes">
+            <output>
+                <column name="value" />
+                <column name="dbkey" />
+                <column name="name" />
+                <column name="path" output_ref="out_file">
+                    <move relativize_symlinks="True" type="directory">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">${dbkey}/sam_indexes/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/${dbkey}/sam_indexes/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+    
+
 </data_managers>
