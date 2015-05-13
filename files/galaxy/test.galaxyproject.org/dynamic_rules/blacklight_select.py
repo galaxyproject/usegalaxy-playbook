@@ -9,7 +9,11 @@ from galaxy.jobs.mapper import JobMappingException
 log = logging.getLogger(__name__)
 
 BLACKLIGHT_NORMAL_DESTINATION = 'pulsar_blacklight_normal'
-BLACKLIGHT_NORMAL_DESTINATIONS = ('pulsar_blacklight_normal16', 'pulsar_blacklight_normal64', 'pulsar_blacklight_normal256')
+BLACKLIGHT_NORMAL_DESTINATIONS = (
+        'pulsar_blacklight_normal16',
+        'pulsar_blacklight_normal64',
+        'pulsar_blacklight_normal128',
+        'pulsar_blacklight_normal256')
 BLACKLIGHT_DEVELOPMENT_DESTINATION = 'pulsar_blacklight_development'
 BLACKLIGHT_DESTINATIONS = BLACKLIGHT_NORMAL_DESTINATIONS + (BLACKLIGHT_DEVELOPMENT_DESTINATION,)
 VALID_DESTINATIONS = BLACKLIGHT_DESTINATIONS
