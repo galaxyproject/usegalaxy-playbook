@@ -41,6 +41,12 @@ RESERVED_USERS = (
 )
 RESERVED_DESTINATION = 'reserved_multi'
 
+TEAM_USERS = (
+    'nate@bx.psu.edu',
+    'anton@bx.psu.edu'
+)
+TEAM_DESTINATION = 'reserved_dynamic'
+
 # collected with:
 # python runtime_stats.py -c ./galaxy.ini -m 120 -M $((34 * 60 * 60)) --source=metrics --like
 
@@ -88,6 +94,8 @@ def __rule( app, tool, job, user_email, resource ):
                     destination_id = param_dict['__job_resource'][resource_key]
                     if destination_id in RESOURCES[resource_key]:
                         break
+                    elif destination_id == TEAM_DESTINATION:
+                        break
                     else:
                         log.warning('(%s) Destination/walltime dynamic plugin got an invalid destination: %s', job.id, destination_id)
                         raise JobMappingException( FAILURE_MESSAGE )
@@ -102,6 +110,15 @@ def __rule( app, tool, job, user_email, resource ):
     else:
         log.warning('(%s) Destination/walltime dynamic plugin did not receive the __job_resource param, keys were: %s', job.id, param_dict.keys())
         raise JobMappingException( FAILURE_MESSAGE )
+
+    if destination_id == TEAM_DESTINATION:
+        if user_email in TEAM_USERS:
+            destination_id = TEAM_DESTINATION
+            destination = app.job_config.get_destination( TEAM_DESTINATION )
+            destination.params['nativeSpecification'] += ' --ntasks=%s' % param_dict['__job_resource']['team_cpus']
+        else:
+            log.warning("(%s) Unauthorized user '%s' selected team development destination", job.id, user_email)
+            destination_id = LOCAL_DESTINATION
 
     # Only allow stampede if a cached reference is selected
     if destination_id in STAMPEDE_DESTINATIONS and tool_id in PUNT_TOOLS:
