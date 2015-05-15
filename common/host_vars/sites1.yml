@@ -1,0 +1,47 @@
+---
+
+local_users:
+  - name: launch
+    comment: 'Galaxy Cloud Launch'
+    system: 'yes'
+    shell: '/bin/bash'
+    groups: 'www-data'
+
+authorized_key_users:
+  - name: root
+    authorized:
+      - nate
+  - name: launch
+    authorized:
+      - nate
+      - enis
+
+directories:
+  - path: /srv/cloudlaunch
+    owner: launch
+    group: launch
+
+#host_packages:
+#  - nfs-common
+#  - xfsprogs
+#  - python-virtualenv
+#  - python-psycopg2
+#  - uwsgi
+#  - uwsgi-plugin-python
+#
+#postgresql_pgdata: /var/lib/postgresql/9.4/main
+#postgresql_backup_local_dir: /var/lib/postgresql/backup
+#postgresql_backup_active_dir: /var/lib/postgresql/backup/active
+#postgresql_conf_dir: /etc/postgresql/9.4/main
+#postgresql_backup_dir: /nfs/thumper.galaxyproject.org/toolshed/pgbackup
+#postgresql_backup_mail_recipient: nate@bx.psu.edu
+
+nginx_flavor: full
+
+#nginx_conf_ssl_certificate: /etc/nginx/ssl/montana.galaxyproject.org_cert.pem
+#nginx_conf_ssl_certificate_key: /etc/nginx/ssl/montana.galaxyproject.org_privatekey.pem
+
+nginx_conf_http:
+  server_names_hash_bucket_size: 128
+  client_max_body_size: 1g
+  proxy_read_timeout: 3600
