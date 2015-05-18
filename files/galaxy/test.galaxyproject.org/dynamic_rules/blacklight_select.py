@@ -54,7 +54,7 @@ def dynamic_blacklight_select( app, tool, job, user_email ):
             else:
                 walltime = '48:00:00'
             destination = app.job_config.get_destination(BLACKLIGHT_NORMAL_DESTINATION)
-            destination.params['submit_native_specification'] += '-l walltime=%s -l ncpus=%s' % (walltime, cpus)
+            destination.params['submit_native_specification'] += ' -l walltime=%s -l ncpus=%s' % (walltime, cpus)
         elif destination_id == BLACKLIGHT_DEVELOPMENT_DESTINATION:
             destination = app.job_config.get_destination( BLACKLIGHT_DEVELOPMENT_DESTINATION )
     else:
