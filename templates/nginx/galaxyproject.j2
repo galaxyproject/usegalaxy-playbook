@@ -1,0 +1,48 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+server {
+    listen      *:80 default_server;
+    server_name galaxyproject.org www.galaxyproject.org;
+
+    return 307 https://$host$request_uri;
+}
+
+server {
+    listen      *:443 ssl default_server;
+    server_name galaxyproject.org www.galaxyproject.org;
+
+    access_log  /var/log/nginx/galaxyproject.org_access.log;
+    error_log   /var/log/nginx/galaxyproject.org_error.log;
+
+    client_max_body_size 256M;
+
+    root        /srv/nginx/galaxyproject.org/root;
+
+    rewrite     ^/wiki(.*)          https://wiki.galaxyproject.org$1;
+    rewrite     ^/bushman.*         https://usegalaxy.org/bushman;
+    rewrite     (?i)^/GCC2012.*     https://wiki.galaxyproject.org/Events/GCC2012;
+    rewrite     (?i)^/GCC2013.*     https://wiki.galaxyproject.org/Events/GCC2013;
+    rewrite     (?i)^/GCC2014.*     https://wiki.galaxyproject.org/Events/GCC2014;
+    rewrite     (?i)^/GCC2015.*     http://gcc2015.tsl.ac.uk/;
+    rewrite     (?i)^/GCC2016.*     https://wiki.galaxyproject.org/Events/GCC2016;
+
+    location ~ ^/trello$ {
+        return 307 /trello/;
+    }
+
+    location /trello/static {
+        alias /srv/trello_card_creator/source/static;
+    }
+
+    location /trello {
+        include         uwsgi_params;
+        uwsgi_param     SCRIPT_NAME /trello;
+        uwsgi_modifier1 30;
+        uwsgi_pass      unix:/srv/trello_card_creator/run/uwsgi.sock;
+    }
+
+}
+
+# vim: set filetype=nginx

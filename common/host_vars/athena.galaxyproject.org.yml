@@ -6,6 +6,11 @@ local_users:
     system: 'yes'
     shell: '/bin/bash'
     groups: 'www-data'
+  - name: sites
+    comment: 'Web sites'
+    system: 'yes'
+    shell: '/bin/bash'
+    groups: 'www-data'
 
 authorized_key_users:
   - name: root
@@ -19,26 +24,19 @@ authorized_key_users:
     authorized:
       - nate
       - enis
+  - name: sites
+    authorized:
+      - nate
+      - anton
+      - dave_c
 
 directories:
   - path: /srv/cloudlaunch
     owner: launch
     group: launch
-
-#host_packages:
-#  - nfs-common
-#  - xfsprogs
-#  - python-virtualenv
-#  - python-psycopg2
-#  - uwsgi
-#  - uwsgi-plugin-python
-#
-#postgresql_pgdata: /var/lib/postgresql/9.4/main
-#postgresql_backup_local_dir: /var/lib/postgresql/backup
-#postgresql_backup_active_dir: /var/lib/postgresql/backup/active
-#postgresql_conf_dir: /etc/postgresql/9.4/main
-#postgresql_backup_dir: /nfs/thumper.galaxyproject.org/toolshed/pgbackup
-#postgresql_backup_mail_recipient: nate@bx.psu.edu
+  - path: /srv/nginx
+    owner: sites
+    group: sites
 
 nginx_flavor: full
 
@@ -52,4 +50,5 @@ nginx_conf_http:
 
 nginx_srv: /srv/nginx
 nginx_configs:
+  - galaxyproject
   - cloudlaunch
