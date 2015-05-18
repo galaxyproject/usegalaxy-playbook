@@ -1,0 +1,38 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+upstream cl_app_server {
+    server localhost:8000;
+}
+
+server {
+    listen   *:80;
+    server_name cloudlaunch.usegalaxy.org launch.usegalaxy.org;
+
+    return 307 https://$host$request_uri;
+}
+
+server {
+    listen   *:443 ssl;
+    server_name cloudlaunch.usegalaxy.org launch.usegalaxy.org;
+
+    client_max_body_size    4G;
+    keepalive_timeout       60s;
+
+    access_log  /var/log/nginx/cloudlaunch.access.log;
+
+    location /static/ {
+        alias   /srv/cloudlaunch/media/;
+    }
+    location / {
+        proxy_pass          http://cl_app_server;
+        proxy_redirect      off;
+        proxy_set_header    Host            $host;
+        proxy_set_header    X-Real-IP       $remote_addr;
+        proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    # what to serve if upstream is not available or crashes
+    error_page 500 502 503 504 /media/50x.html;
+}
