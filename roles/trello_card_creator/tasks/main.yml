@@ -1,0 +1,29 @@
+---
+
+- name: Install dependencies
+  apt: pkg={{ item }}
+  with_items:
+    - uwsgi
+    - uwsgi-plugin-python
+    - python-bottle
+
+- name: Create socket directory
+  file: path=/srv/trello_card_creator/run state=directory owner=www-data
+
+- name: Install trello_card_creator
+  git: repo=https://github.com/Dannon/trello_card_creator.git dest=/srv/trello_card_creator/source force=no
+  notify:
+    - restart trello_card_creator uwsgi
+
+- name: Install trello_card_creator uWSGI config
+  template: src=trello_card_creator.ini.j2 dest=/etc/uwsgi/apps-available/trello_card_creator.ini mode=0440
+  notify:
+    - restart trello_card_creator uwsgi
+
+- name: Link trello_card_creator uWSGI config
+  file: dest=/etc/uwsgi/apps-enabled/trello_card_creator.ini src=/etc/uwsgi/apps-available/trello_card_creator.ini state=link
+  notify:
+    - restart trello_card_creator uwsgi
+
+- name: Enable uWSGI is running
+  service: name=uwsgi enabled=yes state=started

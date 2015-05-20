@@ -1,0 +1,10 @@
+---
+
+- name: Manage Trello card creation app
+  hosts: trellocardcreatorservers
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/trellocardcreatorservers.yml"
+  user: root
+  roles:
+    - trello_card_creator
+  tags: trello
