@@ -57,9 +57,10 @@ nginx_srv: /srv/nginx
 
 galaxy_instance_hostname: usegalaxy.org
 
-usegalaxy_dynamic_job_rules:
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
+#usegalaxy_dynamic_job_rules:
+#  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
+#  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
+usegalaxy_dynamic_job_rules: []
 
 usegalaxy_nagios_tools:
   - echo_main_w1_handler0

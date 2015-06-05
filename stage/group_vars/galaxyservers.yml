@@ -58,8 +58,8 @@ nginx_srv: /srv/nginx
 galaxy_instance_hostname: test.galaxyproject.org
 
 usegalaxy_dynamic_job_rules:
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
+  #- files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
+  #- files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/blacklight_select.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/nvc_dynamic_memory.py
 

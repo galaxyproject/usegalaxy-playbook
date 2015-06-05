@@ -37,8 +37,8 @@ RESOURCES = {'tacc_compute_resource':VALID_DESTINATIONS, 'stampede_compute_resou
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
 RESERVED_USERS = (
-    'usinggalaxy2@gmail.com',
 )
+NORM_RESERVED_USERS = [ u.lower() for u in RESERVED_USERS ]
 RESERVED_DESTINATION = 'reserved_multi'
 
 TEAM_USERS = (
@@ -72,7 +72,7 @@ def __rule( app, tool, job, user_email, resource ):
     destination_id = LOCAL_DESTINATION
     tool_id = tool.id
 
-    if user_email in RESERVED_USERS:
+    if user_email.lower() in NORM_RESERVED_USERS:
         return RESERVED_DESTINATION
 
     if '/' in tool.id:
