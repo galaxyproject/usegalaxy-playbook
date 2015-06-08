@@ -40,28 +40,24 @@
             <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
-        <handler id="main_w2_handler0" tags="disabledhandlers">
+        <handler id="main_w1_handler2" tags="handlers">
             <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
-        <handler id="main_w2_handler1" tags="disabledhandlers">
+        <handler id="main_w2_handler0" tags="handlers">
             <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
-        <handler id="main_w1_handler2">
+        <handler id="main_w2_handler1" tags="handlers">
             <plugin id="local"/>
             <plugin id="slurm"/>
-            <plugin id="amqp_pulsar_stampede"/>
-            <plugin id="amqp_pulsar_stampede_nagios"/>
         </handler>
         <!-- stampede/multi handler -->
         <handler id="main_w2_handler2">
             <plugin id="local"/>
             <plugin id="slurm"/>
-            <!--
             <plugin id="amqp_pulsar_stampede"/>
             <plugin id="amqp_pulsar_stampede_nagios"/>
-            -->
         </handler>
     </handlers>
     <destinations default="dynamic_normal_reserved">
@@ -135,7 +131,7 @@
         <destination id="slurm_multi_dynamic_walltime" runner="slurm">
             <!-- walltime is set dynamically -->
             <param id="nativeSpecification">--nodes=1 --ntasks=6 --partition=multi</param>
-            <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="main_w1_handler2"/>
+            <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="main_w2_handler2"/>
         </destination>
 
         <!-- stampede destinations -->
@@ -186,21 +182,21 @@
     </destinations>
     <tools>
         <!-- multi/stampede jobs -->
-        <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
-        <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
-        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
-        <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
-        <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
-        <tool id="cuffdiff" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
-        <tool id="cufflinks" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
-        <tool id="cuffmerge" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
-        <tool id="tophat" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
-        <tool id="tophat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w1_handler2" resources="local_or_stampede"/>
+        <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="cuffdiff" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="cufflinks" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="cuffmerge" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="tophat" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="tophat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
         <!-- explicit stampede jobs -->
-        <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="main_w1_handler2" resources="stampede"/>
-        <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="main_w1_handler2" resources="stampede"/>
-        <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="main_w1_handler2" resources="stampede"/>
-        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="main_w1_handler2" resources="stampede"/>
+        <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
+        <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
+        <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
+        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
         <!-- use these to disable stampede
         <tool id="bowtie2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bowtie_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
@@ -276,7 +272,7 @@
         <tool id="echo_main_w2_handler0" destination="local" handler="main_w2_handler0"/>
         <tool id="echo_main_w2_handler1" destination="local" handler="main_w2_handler1"/>
         <tool id="echo_main_w2_handler2" destination="local" handler="main_w2_handler2"/>
-        <tool id="echo_main_stampede" destination="pulsar_stampede_nagios" handler="main_w1_handler2"/>
+        <tool id="echo_main_stampede" destination="pulsar_stampede_nagios" handler="main_w2_handler2"/>
     </tools>
     <resources default="default">
         <group id="default"></group>
