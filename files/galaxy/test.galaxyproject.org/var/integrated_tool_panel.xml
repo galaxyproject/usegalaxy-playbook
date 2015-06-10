@@ -142,8 +142,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/nilshomer/tmap_wrapper/tmap_wrapper/0.0.19" />
     </section>
     <section id="ngs-rna-tools" name="NGS: RNA Analysis" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2.2.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/cummeRbund/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2.2.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/2.2.1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.9" />
@@ -729,12 +729,27 @@
     <section id="peak_calling" name="NGS: Peak Calling" version="">
     </section>
     <section id="gatk" name="NGS: GATK Tools (beta)" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/unified_genotyper/gatk_unified_genotyper/0.0.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/indel_realigner/gatk_indel_realigner/0.0.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variants_validate/gatk_validate_variants/0.0.4" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variant_select/gatk_variant_select/0.0.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variant_filtration/gatk_variant_filtration/0.0.5" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variant_annotator/gatk_variant_annotator/0.0.5" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variant_recalibrator/gatk_variant_recalibrator/0.0.4" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variant_eval/gatk_variant_eval/0.0.8" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variant_combine/gatk_variant_combine/0.0.4" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variant_apply_recalibration/gatk_variant_apply_recalibration/0.0.4" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/table_recalibration/gatk_variant_recalibrator/0.0.4" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/realigner_target_creator/gatk_realigner_target_creator/0.0.4" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/print_reads/gatk_print_reads/0.0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/depth_of_coverage/gatk_depth_of_coverage/0.0.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/analyze_covariates/gatk_analyze_covariates/0.0.5" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/count_covariates/gatk_count_covariates/0.0.5" />
     </section>
     <section id="ngs:_fastq_screen_beta_test" name="NGS: fastq screen beta test" version="">
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/fastq_screen/fastq_screen/0.4.2" />
     </section>
     <section id="anton-vcftoolset" name="anton-vcftoolset" version="">
-        <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/1.0" />
     </section>
     <section id="ncbi_blast_plus_tools" name="NCBI BLAST+" version="">
     </section>
