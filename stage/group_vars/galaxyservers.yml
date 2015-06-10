@@ -93,16 +93,6 @@ galaxy_config_hash:
     threadpool_workers: 5
     port: 9999
 
-  uwsgi:
-    socket: "127.0.0.1:4001"
-    stats: "127.0.0.1:9191"
-    processes: 8
-    threads: 4
-    master: True
-    logto: "{{ galaxy_log_dir }}/uwsgi.log"
-    "single-interpreter": True
-    "log-maxsize": 134217728 # 128MB
-    pythonpath: lib
   "app:main":
 
     # message box
@@ -234,3 +224,5 @@ galaxy_config_templates:
     dest: "{{ galaxy_config['app:main']['blacklist_file'] }}"
   - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/reports.ini.j2
     dest: "{{ galaxy_config_dir }}/reports.ini"
+  - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/uwsgi.ini.j2
+    dest: "{{ galaxy_config_dir }}/uwsgi.ini"

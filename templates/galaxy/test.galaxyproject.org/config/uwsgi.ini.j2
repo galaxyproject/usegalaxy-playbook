@@ -1,0 +1,13 @@
+[uwsgi]
+processes = 8
+stats = 127.0.0.1:9191
+socket = 127.0.0.1:4001
+master = True
+logto = {{ galaxy_log_dir }}/uwsgi.log
+pythonpath = lib
+threads = 4
+log-maxsize = 134217728
+single-interpreter = True
+module = galaxy.webapps.galaxy.buildapp:uwsgi_app_factory()
+set = galaxy_config_file={{ galaxy_config_dir }}/galaxy.ini
+set = galaxy_root={{ galaxy_server_dir }}
