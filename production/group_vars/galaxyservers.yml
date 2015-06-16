@@ -57,10 +57,9 @@ nginx_srv: /srv/nginx
 
 galaxy_instance_hostname: usegalaxy.org
 
-#usegalaxy_dynamic_job_rules:
-#  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
-#  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
-usegalaxy_dynamic_job_rules: []
+usegalaxy_dynamic_job_rules:
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
 
 usegalaxy_nagios_tools:
   - echo_main_w1_handler0
@@ -184,6 +183,7 @@ base_app_main: &BASE_APP_MAIN
   biostar_key_name: biostar-login
   biostar_enable_bug_reports: "False"
   ga_code: "UA-45719423-10"
+  max_metadata_value_size: 5000000
 
 # galaxy.ini contents
 galaxy_config_hash: 
