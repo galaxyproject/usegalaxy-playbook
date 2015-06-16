@@ -6,7 +6,7 @@ server {
     listen      *:80 default_server;
     server_name galaxyproject.org www.galaxyproject.org;
 
-    return 307 https://$host$request_uri;
+    return 302 https://$host$request_uri;
 }
 
 server {
