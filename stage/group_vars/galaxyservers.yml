@@ -58,8 +58,8 @@ nginx_srv: /srv/nginx
 galaxy_instance_hostname: test.galaxyproject.org
 
 usegalaxy_dynamic_job_rules:
-  #- files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
-  #- files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/blacklight_select.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/nvc_dynamic_memory.py
 
@@ -187,6 +187,7 @@ galaxy_config_hash:
     biostar_enable_bug_reports: "False"
     allow_user_impersonation: "True"
     ga_code: "UA-45719423-9"
+    max_metadata_value_size: 5000000
     # brand: 'Test'
 
 # specifies config files to copy from the playbook
