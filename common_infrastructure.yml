@@ -15,7 +15,7 @@
     - virtual
 
 - name: Manage users, packages, and other system configurations
-  hosts: all
+  hosts: all:!tacc-vms
   remote_user: root
   roles:
     - requiretty
