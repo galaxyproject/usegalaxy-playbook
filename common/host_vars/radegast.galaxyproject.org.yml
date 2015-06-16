@@ -75,12 +75,28 @@ host_packages:
   - uwsgi
   - uwsgi-plugin-python
 
+crontabs:
+  - id: test_shed_backup
+    name: Test Toolshed Backup
+    user: shed
+    hour: 23
+    minute: 0
+    job: rsync -av /srv/toolshed/test/var /srv/toolshed/test/log /nfs/westvleteren.galaxyproject.org/backup/radegast/testshed
+  - id: main_shed_backup
+    name: Main Toolshed Backup
+    user: shed
+    hour: 0
+    minute: 0
+    job: rsync -av /srv/toolshed/main/var /srv/toolshed/main/log /nfs/westvleteren.galaxyproject.org/backup/radegast/mainshed
+
+
 postgresql_pgdata: /var/lib/postgresql/9.4/main
 postgresql_backup_local_dir: /var/lib/postgresql/backup
 postgresql_backup_active_dir: /var/lib/postgresql/backup/active
 postgresql_conf_dir: /etc/postgresql/9.4/main
-postgresql_backup_dir: /nfs/thumper.galaxyproject.org/toolshed/pgbackup
+postgresql_backup_dir: /nfs/westvleteren.galaxyproject.org/backup/radegast/postgres
 postgresql_backup_mail_recipient: nate@bx.psu.edu
+postgresql_backup_rotate: false
 
 nginx_flavor: full
 

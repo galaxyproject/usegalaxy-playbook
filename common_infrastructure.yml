@@ -24,6 +24,7 @@
     - users
     - paths
     - packages
+    - cron
 
 - name: Install supervisor
   hosts: supervisorusers
@@ -36,6 +37,8 @@
 - name: Manage PostgreSQL
   hosts: dbservers
   remote_user: root
+  vars_files:
+    - [ "{{ deploy_env }}/group_vars/{{ ansible_os_family | lower }}_dbservers.yml", "/dev/null" ]
   roles:
     - galaxyprojectdotorg.postgresql
 
