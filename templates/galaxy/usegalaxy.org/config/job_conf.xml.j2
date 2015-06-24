@@ -131,7 +131,9 @@
         <destination id="slurm_multi_dynamic_walltime" runner="slurm">
             <!-- walltime is set dynamically -->
             <param id="nativeSpecification">--nodes=1 --ntasks=6 --partition=multi</param>
+            <!-- disabled 2015-06-24, all jobs set to 36h in dynamic rule
             <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="main_w2_handler2"/>
+            -->
         </destination>
 
         <!-- stampede destinations -->
@@ -197,7 +199,7 @@
         <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
         <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
         <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
-        <!-- use these to disable stampede
+        <!-- use these to disable stampede resource selection
         <tool id="bowtie2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bowtie_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
         <tool id="bowtie_color_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
@@ -289,7 +291,7 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_64gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">4</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_normal">4</limit>
