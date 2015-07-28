@@ -72,6 +72,14 @@ usegalaxy_nagios_tools:
   - echo_main_stampede
 
 
+## used by the sysctl task in the galaxy_infrastructure playbook
+sysctl_conf:
+  - name: net.core.rmem_max
+    value: 15990784
+  - name: net.core.wmem_max
+    value: 15990784
+
+
 ## used by: usegalaxy_admin
 galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
 
@@ -191,16 +199,6 @@ galaxy_config_hash:
     threadpool_workers: 5
     host: 0.0.0.0
     port: 9999
-  uwsgi:
-    socket: "127.0.0.1:4001"
-    stats: "127.0.0.1:9191"
-    processes: 8
-    threads: 4
-    master: True
-    logto: "{{ galaxy_log_dir }}/uwsgi.log"
-    "single-interpreter": True
-    "log-maxsize": 134217728 # 128MB
-    pythonpath: lib
   "app:main":
     <<: *BASE_APP_MAIN
     allow_user_impersonation: "False"
@@ -255,3 +253,5 @@ galaxy_config_templates:
     dest: "{{ galaxy_config['app:main']['blacklist_file'] }}"
   - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/reports.ini.j2
     dest: "{{ galaxy_config_dir }}/reports.ini"
+  - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/uwsgi.ini.j2
+    dest: "{{ galaxy_config_dir }}/uwsgi.ini"
