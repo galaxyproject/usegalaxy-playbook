@@ -21,3 +21,12 @@
   roles:
     - usegalaxy_admin
     - supervisor
+
+- name: Set sysctl values for uWSGI
+  hosts: galaxyservers
+  remote_user: root
+  tasks:
+    - name: Set sysctl values
+      sysctl: name={{ item.name }} value={{ item.value }} reload=no sysctl_set=yes
+      with_items: sysctl_conf
+      
