@@ -1,5 +1,0 @@
----
-
-- name: Disable sudo requiretty for Ansible pipelining
-  lineinfile: dest=/etc/sudoers regexp="^Defaults(\s+)(.*)requiretty(.*)" line="#Defaults\1\2requiretty\3" backrefs=yes
-
