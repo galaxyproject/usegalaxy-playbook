@@ -81,22 +81,24 @@ crontabs:
     user: shed
     hour: 23
     minute: 0
-    job: rsync -av /srv/toolshed/test/var /srv/toolshed/test/log /nfs/westvleteren.galaxyproject.org/backup/radegast/testshed
+    job: rsync -av --delete /srv/toolshed/test/var /srv/toolshed/test/log zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/testshed && ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/bin/zfs snapshot zones/westvleteren/backup/radegast/testshed@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
   - id: main_shed_backup
     name: Main Toolshed Backup
     user: shed
     hour: 0
     minute: 0
-    job: rsync -av /srv/toolshed/main/var /srv/toolshed/main/log /nfs/westvleteren.galaxyproject.org/backup/radegast/mainshed
+    job: rsync -av --delete /srv/toolshed/main/var /srv/toolshed/main/log zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/mainshed && ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/bin/zfs snapshot zones/westvleteren/backup/radegast/mainshed@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
 
 
 postgresql_pgdata: /var/lib/postgresql/9.4/main
 postgresql_backup_local_dir: /var/lib/postgresql/backup
-postgresql_backup_active_dir: /var/lib/postgresql/backup/active
+postgresql_backup_active_dir: zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/postgres/active
 postgresql_conf_dir: /etc/postgresql/9.4/main
-postgresql_backup_dir: /nfs/westvleteren.galaxyproject.org/backup/radegast/postgres
+postgresql_backup_dir: zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/postgres
 postgresql_backup_mail_recipient: nate@bx.psu.edu
 postgresql_backup_rotate: false
+postgresql_backup_remote_rsync_path: /opt/local/bin/rsync
+postgresql_backup_post_command: ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/bin/zfs snapshot zones/westvleteren/backup/radegast/postgres/current@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
 
 nginx_flavor: full
 
