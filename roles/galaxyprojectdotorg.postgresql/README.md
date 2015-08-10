@@ -96,7 +96,14 @@ Role Variables
 ### Backups ###
 
 - `postgresql_backup_dir`: If set, enables [PITR][postgresql_pitr] backups. Set
-  this to a directory where your database will be backed up.
+  this to a directory where your database will be backed up (this can be any
+  format supported by rsync, e.g. `user@host:/path`). The most recent backup
+  will be in a subdirectory named `current`.
+
+- `postgresql_backup_rotate`: Boolean, defaults to `true`, which will cause the
+  `current` directory to be renamed prior to creating a new backup. If set to
+  `false`, `current` will be deleted (this is useful if you are using snapshots
+  or some other means to archive previous backups).
 
 - `postgresql_backup_local_dir`: Filesystem path on the PostgreSQL server where
   backup scripts will be placed and working WALs will be written prior to a WAL
@@ -110,6 +117,11 @@ Role Variables
 
 - `postgresql_backup_mail_recipient`: User or address that should receive mail
   from the backup scripts.
+
+- `postgresql_backup_remote_rsync_path`: Path to `rsync` on the remote system.
+
+- `postgresql_backup_post_command`: Arbitrary command to run after successful
+  completion of a scheduled backup.
 
 Dependencies
 ------------
