@@ -81,13 +81,13 @@ crontabs:
     user: shed
     hour: 23
     minute: 0
-    job: rsync -av --delete /srv/toolshed/test/var /srv/toolshed/test/log zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/testshed && ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/bin/zfs snapshot zones/westvleteren/backup/radegast/testshed@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
+    job: rsync -av --delete /srv/toolshed/test/var /srv/toolshed/test/log zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/testshed && ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/sbin/zfs snapshot zones/westvleteren/backup/radegast/testshed@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
   - id: main_shed_backup
     name: Main Toolshed Backup
     user: shed
     hour: 0
     minute: 0
-    job: rsync -av --delete /srv/toolshed/main/var /srv/toolshed/main/log zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/mainshed && ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/bin/zfs snapshot zones/westvleteren/backup/radegast/mainshed@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
+    job: rsync -av --delete /srv/toolshed/main/var /srv/toolshed/main/log zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/mainshed && ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/sbin/zfs snapshot zones/westvleteren/backup/radegast/mainshed@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
 
 
 postgresql_pgdata: /var/lib/postgresql/9.4/main
