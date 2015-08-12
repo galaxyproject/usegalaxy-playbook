@@ -98,7 +98,7 @@ postgresql_backup_dir: zfsdump-radegast@westvleteren.galaxyproject.org:/zones/we
 postgresql_backup_mail_recipient: nate@bx.psu.edu
 postgresql_backup_rotate: false
 postgresql_backup_remote_rsync_path: /opt/local/bin/rsync
-postgresql_backup_post_command: ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/bin/zfs snapshot zones/westvleteren/backup/radegast/postgres/current@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
+postgresql_backup_post_command: ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/sbin/zfs snapshot zones/westvleteren/backup/radegast/postgres/current@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
 
 nginx_flavor: full
 
