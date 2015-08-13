@@ -155,10 +155,11 @@ License
 Credits
 -------
 
-[John Chilton](https://github.com/jmchilton)
+[Enis Afgan](https://github.com/afgane)  
+[John Chilton](https://github.com/jmchilton)  
 [Nate Coraor](https://github.com/natefoo)
 
 ### Inspiration/Thanks ###
 
-[Lance Parsons](https://github.com/lparsons/)
+[Lance Parsons](https://github.com/lparsons/)  
 [Peter van Heusden](https://github.com/pvanheus/)
