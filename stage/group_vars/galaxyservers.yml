@@ -21,8 +21,8 @@ galaxy_log_dir: "{{ galaxy_web_root }}/log"
 # instance_root and galaxy_root are set in the play
 # these are the same on galaxy servers
 # on pulsar servers, galaxy_root is a subdirectory of instance_root
-#instance_root: 
-#galaxy_root: 
+#instance_root:
+#galaxy_root:
 
 
 ## used by: the play itself
@@ -81,6 +81,11 @@ sysctl_conf:
 
 ## used by: usegalaxy_admin
 galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
+
+
+## used by: galaxyprojectdotorg.tools
+galaxy_instance_url: "{{ galaxy_instance_hostname }}"
+tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
 
 
 ## used by: galaxyprojectdotorg.galaxy
