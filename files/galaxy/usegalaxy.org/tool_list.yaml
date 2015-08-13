@@ -1,5 +1,3 @@
-api_key: <Galaxy Admin user API key>
-galaxy_instance: <IP address for target Galaxy instance>
 tools:
 - name: 'column_maker'
   owner: 'devteam'
@@ -1016,6 +1014,12 @@ tools:
   tool_panel_section_id: 'gatk'
   revisions:
   - '30e1dd77e99c'
+# Packages installed without tools
+- name: 'package_bcftools_1_2'
+  owner: 'iuc'
+  tool_panel_section_id: 'xyzzy'
+  revisions:
+  - '70a313a2366f'
 # Cloud-only tools
 - name: ncbi_sra_toolkit
   owner: 'matt-shirley'
