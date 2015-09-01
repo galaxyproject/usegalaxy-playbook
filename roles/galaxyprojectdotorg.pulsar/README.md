@@ -54,6 +54,8 @@ Role Variables
 You can control various things about where you get Pulsar from, what version
 you use, and where its configuration files will be placed:
 
+- `pulsar_yaml_config`: a YAML dictionary whose contents will be used to create
+  Pulsar's app.yml
 - `pulsar_git_repo` (default: `https://github.com/galaxyproject/pulsar`):
   Upstream git repository from which Pulsar should be cloned.
 - `pulsar_changeset_id` (default: `master`): A changeset id, tag, branch, or
@@ -76,6 +78,10 @@ documentation][pulsardocs] and `server.ini.sample`):
 
 - `pulsar_host` (default: `localhost`)
 - `pulsar_port` (default: `8913`)
+
+Legacy options (if `pulsar_yaml_config` is unset, these will be used to
+populate the `[app:main]` section of `server.ini`):
+
 - `pulsar_dependencies_dir` (default: `<pulsar_server_dir>/deps`)
 - `pulsar_persistence_dir` (default:
   `<pulsar_server_dir>/files/persisted_data`)
