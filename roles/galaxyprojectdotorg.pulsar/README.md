@@ -46,25 +46,35 @@ Role Variables
 
 ### Required variables ###
 
-- `pulsar_server_dir`: Filesystem path where the Pulsar server code will be
-  installed (cloned).
+- `pulsar_server_dir`: Filesystem path where the Pulsar server will be
+  installed.
+
+**Although not required, you are strongly encouraged to set
+`pulsar_pip_install` to `true` (see below).**
 
 ### Optional variables ###
 
 You can control various things about where you get Pulsar from, what version
 you use, and where its configuration files will be placed:
 
+- `pulsar_pip_install` (default: `false`): For legacy reasons, this role will
+  install Pulsar by cloning it from git. If set to `true`, Pulsar will be
+  installed from pip instead.
 - `pulsar_yaml_config`: a YAML dictionary whose contents will be used to create
   Pulsar's app.yml
 - `pulsar_git_repo` (default: `https://github.com/galaxyproject/pulsar`):
   Upstream git repository from which Pulsar should be cloned.
 - `pulsar_changeset_id` (default: `master`): A changeset id, tag, branch, or
   other valid git identifier for which changeset Pulsar should be updated to.
-- `pulsar_venv_dir` (default: `<pulsar_server_dir>/.venv`): The role will
-  create a [virtualenv][virtualenv] from which Pulsar will run, this controls
-  where the virtualenv will be placed.
-- `pulsar_config_dir` (default: `<pulsar_server_dir>`): Directory that will be
-  used for Pulsar configuration files.
+  This is also possible when installing from pip (pulsar will be installed
+  using the `git+https://` pip scheme).
+- `pulsar_venv_dir` (default: `<pulsar_server_dir>/venv` if installing via pip,
+  `<pulsar_server_dir>/.venv` if not): The role will create a
+  [virtualenv][virtualenv] from which Pulsar will run, this controls where the
+  virtualenv will be placed.
+- `pulsar_config_dir` (default: `<pulsar_server_dir>/config` if installing via
+  pip, `<pulsar_server_dir>` if not): Directory that will be used for Pulsar
+  configuration files.
 - `pulsar_optional_dependencies` (default: None): List of optional dependency
   modules to install. Whether or not you need these depends on what features
   you are enabling.

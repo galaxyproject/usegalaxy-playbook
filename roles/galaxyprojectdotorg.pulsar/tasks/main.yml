@@ -4,11 +4,20 @@
 # Deploy a Pulsar server
 #   http://pulsar.readthedocs.org/
 
-- name: Install Pulsar
-  git: dest={{ pulsar_server_dir }} force=no repo={{ pulsar_git_repo }} version={{ pulsar_changeset_id }} executable={{ git_executable | default(omit) }}
+- name: Install Pulsar (pip)
+  pip:
+    name: "{{ 'git+' ~ pulsar_git_repo ~ '@' ~ pulsar_changeset_id ~ '#egg=pulsar' if pulsar_changeset_id is defined else 'pulsar' }}"
+    virtualenv: "{{ pulsar_venv_dir }}"
+    virtualenv_command: "{{ pip_virtualenv_command | default(omit) }}"
+  when: pulsar_pip_install == true
 
-- name: Install Pulsar dependencies (base)
+- name: Install Pulsar (source)
+  git: dest={{ pulsar_server_dir }} force=no repo={{ pulsar_git_repo }} version={{ pulsar_changeset_id | default('master') }} executable={{ git_executable | default(omit) }}
+  when: pulsar_pip_install == false
+
+- name: Install Pulsar base dependencies for source install
   pip: requirements={{ pulsar_server_dir }}/requirements.txt virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default(omit) }}
+  when: pulsar_pip_install == false
 
 - name: Install Pulsar dependencies (optional)
   pip: name={{ item }} virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default(omit) }}

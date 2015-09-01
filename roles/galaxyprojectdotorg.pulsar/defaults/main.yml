@@ -2,16 +2,16 @@
 # defaults file for galaxyprojectdotorg.pulsar
 
 # High-level Pulsar configuration parameters
+pulsar_pip_install: false
 pulsar_git_repo: https://github.com/galaxyproject/pulsar
-pulsar_changeset_id: master
 pulsar_job_managers_config: "{{ pulsar_config_dir }}/job_managers.ini"
 pulsar_job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
 
 pulsar_dependencies_dir: "{{ pulsar_server_dir }}/deps"  # {{ galaxy_instance_remote_dir }}/deps
-pulsar_venv_dir: "{{ pulsar_server_dir }}/.venv"
+pulsar_venv_dir: "{{ pulsar_server_dir ~ '/venv' if pulsar_pip_install == true else pulsar_server_dir ~ '/.venv' }}"
 pulsar_persistence_dir: "{{ pulsar_server_dir }}/files/persisted_data"  # {{ galaxy_instance_remote_dir }}/lwr_persisted_data
 pulsar_staging_dir: "{{ pulsar_server_dir }}/files/staging"  # {{ galaxy_instance_remote_dir }}/lwr_staging
-pulsar_config_dir: "{{ pulsar_server_dir }}"
+pulsar_config_dir: "{{ pulsar_server_dir ~ '/config' if pulsar_pip_install == true else pulsar_server_dir }}"
 # Optional message queue configuration
 # pulsar_message_queue_url:
 
