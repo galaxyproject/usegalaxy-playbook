@@ -60,7 +60,7 @@ galaxy_instance_hostname: test.galaxyproject.org
 usegalaxy_dynamic_job_rules:
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/blacklight_select.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/greenfield_select.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/nvc_dynamic_memory.py
 
 usegalaxy_nagios_tools:
@@ -68,7 +68,7 @@ usegalaxy_nagios_tools:
   - echo_test_handler1
   - echo_test_cluster
   - echo_test_stampede
-  - echo_test_blacklight
+  - echo_test_greenfield
 
 
 ## used by the sysctl task in the galaxy_infrastructure playbook

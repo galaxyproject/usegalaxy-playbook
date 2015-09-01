@@ -30,18 +30,18 @@
             <param id="amqp_publish_retry">True</param>
             <param id="amqp_publish_retry_max_retries">600</param>
         </plugin>
-        <plugin id="amqp_pulsar_blacklight" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+        <plugin id="amqp_pulsar_greenfield" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
             <param id="galaxy_url">https://test.galaxyproject.org</param>
-            <param id="manager">blacklight</param>
+            <param id="manager">greenfield</param>
             <param id="amqp_consumer_timeout">2.0</param>
             <param id="amqp_publish_retry">True</param>
             <param id="amqp_publish_retry_max_retries">600</param>
         </plugin>
-        <plugin id="amqp_pulsar_blacklight_nagios" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+        <plugin id="amqp_pulsar_greenfield_nagios" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
             <param id="galaxy_url">https://test.galaxyproject.org</param>
-            <param id="manager">blacklight_nagios</param>
+            <param id="manager">greenfield_nagios</param>
             <param id="amqp_consumer_timeout">2.0</param>
             <param id="amqp_publish_retry">True</param>
             <param id="amqp_publish_retry_max_retries">600</param>
@@ -62,8 +62,8 @@
             <plugin id="slurm"/>
         </handler>
         <handler id="test_handler3">
-            <plugin id="amqp_pulsar_blacklight"/>
-            <plugin id="amqp_pulsar_blacklight_nagios"/>
+            <plugin id="amqp_pulsar_greenfield"/>
+            <plugin id="amqp_pulsar_greenfield_nagios"/>
             <plugin id="slurm"/>
         </handler>
         <!-- the installer is a handler for data managers -->
@@ -102,10 +102,10 @@
             <param id="function">dynamic_stampede_select</param>
         </destination>
 
-        <!-- dynamic method for the blacklight-only selector -->
-        <destination id="dynamic_blacklight_select" runner="dynamic">
+        <!-- dynamic method for the greenfield-only selector -->
+        <destination id="dynamic_greenfield_select" runner="dynamic">
             <param id="type">python</param>
-            <param id="function">dynamic_blacklight_select</param>
+            <param id="function">dynamic_greenfield_select</param>
         </destination>
 
         <!-- dynamic memory rule for the naive variant caller -->
@@ -181,6 +181,7 @@
             <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">--time=48:00:00 --nodes=1 --ntasks=16 --partition=normal --account=TG-MCB140147</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
+            <param id="submit_user_email">$__user_email__</param>
         </destination>
         <destination id="pulsar_stampede_development" runner="amqp_pulsar_stampede">
             <param id="transport">curl</param>
@@ -195,6 +196,7 @@
             <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/test/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">--time=00:30:00 --nodes=1 --ntasks=16 --partition=development --account=TG-MCB140147</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
+            <param id="submit_user_email">$__user_email__</param>
         </destination>
         <destination id="pulsar_stampede_nagios" runner="amqp_pulsar_stampede_nagios">
             <param id="transport">curl</param>
@@ -209,46 +211,48 @@
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
         </destination>
 
-        <!-- blacklight destinations -->
-        <destination id="pulsar_blacklight_normal" runner="amqp_pulsar_blacklight">
+        <!-- greenfield destinations -->
+        <destination id="pulsar_greenfield_normal" runner="amqp_pulsar_greenfield">
             <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
             <param id="remote_metadata">true</param>
             <param id="use_remote_datatypes">true</param>
             <param id="rewrite_parameters">true</param>
-            <param id="jobs_directory">/bl2/xcgalaxy/test/pulsar/var/staging/</param>
-            <param id="remote_property_galaxy_home">/bl2/xcgalaxy/test/galaxy/server</param>
-            <param id="remote_property_galaxy_config_file">/bl2/xcgalaxy/test/galaxy/config/galaxy.ini</param>
-            <param id="remote_property_galaxy_datatypes_config_file">/bl2/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
+            <param id="jobs_directory">/crucible/mc48nsp/xcgalaxy/test/pulsar/var/staging/</param>
+            <param id="remote_property_galaxy_home">/home/xcgalaxy/test/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/home/xcgalaxy/test/galaxy/config/galaxy.ini</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/home/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
             <!-- -l ncpus is set dynamically -->
-            <param id="submit_native_specification">-q bl2</param>
+            <param id="submit_native_specification">-l walltime=72:00:00 -l nodes=1:ppn=15</param>
+            <param id="submit_user_email">$__user_email__</param>
             <env exec="eval `modulecmd sh purge`" />
         </destination>
-        <destination id="pulsar_blacklight_development" runner="amqp_pulsar_blacklight">
+        <destination id="pulsar_greenfield_development" runner="amqp_pulsar_greenfield">
             <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
             <param id="remote_metadata">true</param>
             <param id="use_remote_datatypes">true</param>
             <param id="rewrite_parameters">true</param>
-            <param id="jobs_directory">/bl2/xcgalaxy/test/pulsar/var/staging/</param>
-            <param id="remote_property_galaxy_home">/bl2/xcgalaxy/test/galaxy/server</param>
-            <param id="remote_property_galaxy_config_file">/bl2/xcgalaxy/test/galaxy/config/galaxy.ini</param>
-            <param id="remote_property_galaxy_datatypes_config_file">/bl2/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
-            <param id="submit_native_specification">-q debug -l walltime=00:30:00 -l ncpus=16</param>
+            <param id="jobs_directory">/crucible/mc48nsp/xcgalaxy/test/pulsar/var/staging/</param>
+            <param id="remote_property_galaxy_home">/home/xcgalaxy/test/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/home/xcgalaxy/test/galaxy/config/galaxy.ini</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/home/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
+            <param id="submit_native_specification">-q debug -l walltime=00:30:00 -l nodes=1:ppn=15</param>
+            <param id="submit_user_email">$__user_email__</param>
             <env exec="eval `modulecmd sh purge`" />
         </destination>
-        <destination id="pulsar_blacklight_nagios" runner="amqp_pulsar_blacklight_nagios">
+        <destination id="pulsar_greenfield_nagios" runner="amqp_pulsar_greenfield_nagios">
             <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
             <param id="dependency_resolution">remote</param>
             <param id="use_remote_datatypes">true</param>
             <param id="rewrite_parameters">true</param>
-            <param id="jobs_directory">/bl2/xcgalaxy/test/pulsar/var/staging/</param>
-            <param id="remote_property_galaxy_home">/bl2/xcgalaxy/test/galaxy/server</param>
-            <param id="remote_property_galaxy_config_file">/bl2/xcgalaxy/test/galaxy/config/galaxy.ini</param>
-            <param id="remote_property_galaxy_datatypes_config_file">/bl2/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
+            <param id="jobs_directory">/crucible/mc48nsp/xcgalaxy/test/pulsar/var/staging/</param>
+            <param id="remote_property_galaxy_home">/home/xcgalaxy/test/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/home/xcgalaxy/test/galaxy/config/galaxy.ini</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/home/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
             <env exec="eval `modulecmd sh purge`" />
         </destination>
 
@@ -287,9 +291,9 @@
         <tool id="cuffnorm" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2"  resources="local_or_stampede"/>
         <tool id="cuffquant" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2"  resources="local_or_stampede"/>
-        <!-- blacklight jobs -->
-        <tool id="trinity_blacklight" destination="dynamic_blacklight_select" handler="test_handler3" resources="blacklight"/>
-        <tool id="spades" destination="dynamic_blacklight_select" handler="test_handler3" resources="blacklight"/>
+        <!-- greenfield jobs -->
+        <tool id="trinity_psc" destination="dynamic_greenfield_select" handler="test_handler3" resources="greenfield"/>
+        <tool id="spades" destination="dynamic_greenfield_select" handler="test_handler3" resources="greenfield"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_multi_trackster">
             <param id="source">trackster</param>
@@ -340,13 +344,13 @@
         <tool id="echo_test_handler0" destination="local" handler="test_handler0"/>
         <tool id="echo_test_handler1" destination="local" handler="test_handler1"/>
         <tool id="echo_test_stampede" destination="pulsar_stampede_nagios" handler="test_handler2"/>
-        <tool id="echo_test_blacklight" destination="pulsar_blacklight_nagios" handler="test_handler3"/>
+        <tool id="echo_test_greenfield" destination="pulsar_greenfield_nagios" handler="test_handler3"/>
     </tools>
     <resources default="default">
         <group id="default"></group>
         <group id="local_or_stampede">tacc_compute_resource,team_cpus</group>
         <group id="stampede">stampede_compute_resource</group>
-        <group id="blacklight">blacklight_compute_resource</group>
+        <group id="greenfield">greenfield_compute_resource</group>
     </resources>
     <limits>
         <limit type="registered_user_concurrent_jobs">4</limit>
@@ -367,12 +371,12 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_normal">3</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="pulsar_blacklight_normal">3</limit>
-        <limit type="destination_user_concurrent_jobs" id="pulsar_blacklight_development">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="pulsar_greenfield_normal">3</limit>
+        <limit type="destination_user_concurrent_jobs" id="pulsar_greenfield_development">1</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_normal">50</limit>
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_development">1</limit>
-        <limit type="destination_total_concurrent_jobs" id="pulsar_blacklight_normal">10</limit>
-        <limit type="destination_total_concurrent_jobs" id="pulsar_blacklight_development">1</limit>
+        <limit type="destination_total_concurrent_jobs" id="pulsar_greenfield_normal">10</limit>
+        <limit type="destination_total_concurrent_jobs" id="pulsar_greenfield_development">1</limit>
     </limits>
 </job_conf>
