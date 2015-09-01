@@ -37,9 +37,7 @@ RESOURCES = {'tacc_compute_resource':VALID_DESTINATIONS, 'stampede_compute_resou
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
 RESERVED_USERS = (
-    'nate@bx.psu.edu',
-    'clements@galaxyproject.org',
-    'outreach@galaxyproject.org'
+    'outreach@galaxyproject.org',
 )
 NORM_RESERVED_USERS = [ u.lower() for u in RESERVED_USERS ]
 RESERVED_DESTINATION = 'reserved_multi'
