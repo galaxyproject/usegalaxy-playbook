@@ -150,6 +150,7 @@
             <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/main/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">--time=48:00:00 --nodes=1 --ntasks=16 --partition=normal --account=TG-MCB140147</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
+            <param id="submit_user_email">$__user_email__</param>
         </destination>
         <destination id="pulsar_stampede_development" runner="amqp_pulsar_stampede">
             <param id="transport">curl</param>
@@ -164,6 +165,7 @@
             <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/main/galaxy/config/datatypes_conf.xml</param>
             <param id="submit_native_specification">--time=00:30:00 --nodes=1 --ntasks=16 --partition=development --account=TG-MCB140147</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
+            <param id="submit_user_email">$__user_email__</param>
         </destination>
         <destination id="pulsar_stampede_nagios" runner="amqp_pulsar_stampede_nagios">
             <param id="transport">curl</param>
