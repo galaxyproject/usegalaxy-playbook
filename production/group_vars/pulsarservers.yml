@@ -20,14 +20,11 @@ pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
 
 ## used by: galaxyprojectdotorg.pulsar
 hg_executable: "{{ hg_virtualenv }}/bin/hg"
-pulsar_changeset_id: 86f95ce056a1e3b2acd372c4fe3a49450b96b633
+pulsar_pip_install: true
+pulsar_changeset_id: 473edc0600de09e0210b0c9b425bbf9abbe48706
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
-pulsar_server_dir: "{{ pulsar_root }}/server"
+pulsar_server_dir: /does/not/matter
 pulsar_config_dir: "{{ pulsar_root }}/config"
-pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
-pulsar_staging_dir: "/scratch/03166/xcgalaxy/main/staging"
-pulsar_dependencies_dir: "{{ instance_root }}/deps"
-pulsar_drmaa_library_path: "{{ instance_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_optional_dependencies:
   - pyOpenSSL
