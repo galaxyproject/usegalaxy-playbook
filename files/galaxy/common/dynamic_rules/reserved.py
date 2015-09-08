@@ -4,6 +4,8 @@
 
 USERS = (
     'outreach@galaxyproject.org',
+    'anton@bx.psu.edu',
+    'nate@bx.psu.edu',
 )
 
 NORM_USERS = [ u.lower() for u in USERS ]
