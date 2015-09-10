@@ -38,8 +38,7 @@ FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in t
 
 RESERVED_USERS = (
     'outreach@galaxyproject.org',
-    'anton@bx.psu.edu',
-    'nate@bx.psu.edu',
+    'jen@bx.psu.edu',
 )
 NORM_RESERVED_USERS = [ u.lower() for u in RESERVED_USERS ]
 RESERVED_DESTINATION = 'reserved_multi'
