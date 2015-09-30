@@ -1,46 +1,5 @@
 ---
 
-local_users:
-  - name: launch
-    comment: 'Galaxy Cloud Launch'
-    system: 'yes'
-    shell: '/bin/bash'
-    groups: 'www-data'
-  - name: sites
-    comment: 'Web sites'
-    system: 'yes'
-    shell: '/bin/bash'
-    groups: 'www-data'
-
-authorized_key_users:
-  - name: root
-    authorized:
-      - nate
-      - dannon
-  - name: launch
-    authorized:
-      - nate
-      - enis
-      - dannon
-  - name: ubuntu
-    authorized:
-      - nate
-      - enis
-      - dannon
-  - name: sites
-    authorized:
-      - nate
-      - anton
-      - dave_c
-
-directories:
-  - path: /srv/cloudlaunch
-    owner: launch
-    group: launch
-  - path: /srv/nginx
-    owner: sites
-    group: sites
-
 nginx_flavor: full
 
 nginx_conf_ssl_certificate: /etc/nginx/ssl/athena.galaxyproject.org_cert.pem
