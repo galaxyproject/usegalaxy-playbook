@@ -1,0 +1,9 @@
+---
+
+- hosts: localhost
+  connection: local
+  vars_files:
+    - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+    - "{{ deploy_env }}/group_vars/galaxyservers.yml"
+  roles:
+    - galaxyprojectdotorg.tools

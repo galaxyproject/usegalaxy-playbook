@@ -21,6 +21,10 @@ host = {{ pulsar_host }}
 [app:main]
 paste.app_factory = pulsar.web.wsgi:app_factory
 
+{% if pulsar_yaml_config is defined %}
+app_config={{ pulsar_config_dir }}/app.yml
+{% else %}
+
 ## Directory to stage files to. This should likely be updated to point
 ## to an absolute path, such as /tmp/lwr_staging or C:\\lwr_staging
 staging_directory = {{ pulsar_staging_dir }}
@@ -52,7 +56,7 @@ persistence_directory = {{ pulsar_persistence_dir }}
 tool_dependency_dir = {{ pulsar_dependencies_dir }}
 
 ## LWR-equivalent of Galaxy's tool_dependency_resolves_conf.
-dependency_resolvers_config_file = {{ pulsar_dependency_resolvers_config_file }}
+# dependency_resolvers_config_file = dependency_resolvers_conf.xml
 
 ## Comma separated list of paths to toolbox files. If this is set, LWR
 ## will use the information contained in the tools to lock down what
@@ -94,6 +98,8 @@ amqp_publish_retry = True
 ## external clean up.
 #file_cache_dir = cache
 
+{% endif %}
+
 
 ## Configure uWSGI (if used).
 [uwsgi]
@@ -126,7 +132,7 @@ port = 8913
 
 ## Configure Python loggers (for both Pulsar and LWR - someday drop LWR :) )
 [loggers]
-keys = root,lwr,pulsar
+keys = root,pulsar
 
 [handlers]
 keys = console
@@ -137,12 +143,6 @@ keys = generic
 [logger_root]
 level = INFO
 handlers = console
-
-[logger_lwr]
-level = DEBUG
-handlers = console
-qualname = lwr
-propagate = 0
 
 [logger_pulsar]
 level = DEBUG

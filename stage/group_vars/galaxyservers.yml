@@ -21,8 +21,8 @@ galaxy_log_dir: "{{ galaxy_web_root }}/log"
 # instance_root and galaxy_root are set in the play
 # these are the same on galaxy servers
 # on pulsar servers, galaxy_root is a subdirectory of instance_root
-#instance_root: 
-#galaxy_root: 
+#instance_root:
+#galaxy_root:
 
 
 ## used by: the play itself
@@ -60,7 +60,7 @@ galaxy_instance_hostname: test.galaxyproject.org
 usegalaxy_dynamic_job_rules:
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/blacklight_select.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/greenfield_select.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/nvc_dynamic_memory.py
 
 usegalaxy_nagios_tools:
@@ -68,7 +68,7 @@ usegalaxy_nagios_tools:
   - echo_test_handler1
   - echo_test_cluster
   - echo_test_stampede
-  - echo_test_blacklight
+  - echo_test_greenfield
 
 
 ## used by the sysctl task in the galaxy_infrastructure playbook
@@ -81,6 +81,11 @@ sysctl_conf:
 
 ## used by: usegalaxy_admin
 galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
+
+
+## used by: galaxyprojectdotorg.tools
+galaxy_instance_url: "{{ galaxy_instance_hostname }}"
+tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
 
 
 ## used by: galaxyprojectdotorg.galaxy
@@ -196,7 +201,7 @@ galaxy_config_hash:
     allow_user_impersonation: "True"
     ga_code: "UA-45719423-9"
     max_metadata_value_size: 1000000
-    # brand: 'Test'
+    brand: 'Test'
 
 # specifies config files to copy from the playbook
 galaxy_config_files:

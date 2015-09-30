@@ -21,12 +21,12 @@ pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
 
 ## used by: galaxyprojectdotorg.pulsar
 hg_executable: "{{ hg_virtualenv }}/bin/hg"
-pulsar_changeset_id: 86f95ce056a1e3b2acd372c4fe3a49450b96b633
+pulsar_pip_install: true
+pulsar_changeset_id: 7ceb537296ef04dc0b1aa81cb4c98c4a14479e6b
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
-pulsar_server_dir: "{{ pulsar_root }}/server"
+# Need to update the server.ini template so this is unnecessary
+pulsar_server_dir: /does/not/matter
 pulsar_config_dir: "{{ pulsar_root }}/config"
-pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
-pulsar_dependencies_dir: "{{ instance_root }}/deps"
 
 pulsar_optional_dependencies:
   - pyOpenSSL
