@@ -129,6 +129,9 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools/deeptools_bamPEFragmentSize/1.5.9.1.0" />
     </section>
     <section id="solexa_tools" name="NGS: Mapping" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.3.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.3.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.2.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.2.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.2.1" />
@@ -147,7 +150,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/nilshomer/tmap_wrapper/tmap_wrapper/0.0.19" />
     </section>
     <section id="ngs-rna-tools" name="NGS: RNA Analysis" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/cummeRbund/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/nate/trinity_psc/trinity_psc/0.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/hisat/hisat/1.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2.2.1.2" />
@@ -213,6 +215,35 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.1" />
     </section>
     <section id="ngs:_picard" name="NGS: Picard" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ValidateSamFile/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MergeSamFiles/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FixMateInformation/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_RevertOriginalBaseQualitiesAndAddMateCigar/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MeanQualityByCycle/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FilterSamReads/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectGcBiasMetrics/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CASM/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddCommentsToBam/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_EstimateLibraryComplexity/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MergeBamAlignment/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BedToIntervalList/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicatesWithMateCigar/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReorderSam/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectBaseDistributionByCycle/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_DownsampleSam/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CleanSam/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_NormalizeFasta/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectRnaSeqMetrics/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_QualityScoreDistribution/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_RevertSam/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectInsertSizeMetrics/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddOrReplaceReadGroups/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectWgsMetrics/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SortSam/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.136.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.136.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.126.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddCommentsToBam/1.126.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.126.0" />
