@@ -93,6 +93,8 @@ you use, and where its configuration files will be placed:
       that task from reporting **changed** on every run, and
     - using a real changeset hash is the only way to explicitly lock Galaxy at
       a specific version.
+- `galaxy_force_checkout` (default: `no`): If `yes`, any modified files in the
+  Galaxy repository will be discarded.
 - `galaxy_venv_dir` (default: `<galaxy_server_dir>/.venv`): The role will
   create a [virtualenv][virtualenv] from which Galaxy will run, this controls
   where the virtualenv will be placed.
@@ -108,14 +110,14 @@ you use, and where its configuration files will be placed:
   Galaxy's primary configuration file.
 - `galaxy_shed_tool_conf_file` (default:
   `<galaxy_mutable_config_dir>/shed_tool_conf.xml`): Configuration file for
-  tools installed from the Galaxy Tool Shed. 
+  tools installed from the Galaxy Tool Shed.
 - `galaxy_config`: The contents of the Galaxy configuration file
   (`galaxy.ini` by default) are controlled by this variable. It is a hash of
   hashes (or dictionaries) that will be translated in to the configuration
   file. See the Example Playbooks below for usage.
 - `galaxy_config_files`: List of hashes (with `src` and `dest` keys) of files
   to copy from the control machine.
-- `galaxy_config_template`: List of hashes (with `src` and `dest` keys) of
+- `galaxy_config_templates`: List of hashes (with `src` and `dest` keys) of
   templates to fill from the control machine.
 - `galaxy_admin_email_to`: If set, email this address when Galaxy has been
   updated. Assumes mail is properly configured on the managed host.
@@ -219,7 +221,10 @@ License
 Author Information
 ------------------
 
+This role was written and contributed to by the following people:
+
 [Enis Afgan](https://github.com/afgane)  
 [Dannon Baker](https://github.com/dannon)  
+[Simon Belluzzo](https://github.com/simonalpha)  
 [John Chilton](https://github.com/jmchilton)  
 [Nate Coraor](https://github.com/natefoo)  
