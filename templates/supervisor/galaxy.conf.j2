@@ -17,7 +17,7 @@ stdout_logfile  = /var/log/supervisord/{{ galaxy_host_codename }}_uwsgi.stdout.l
 stderr_logfile  = /var/log/supervisord/{{ galaxy_host_codename }}_uwsgi.stderr.log
 
 [program:{{ galaxy_host_codename }}_handler]
-command         = /usr/bin/sg {{ galaxy_group }} '{{ galaxy_venv_dir }}/bin/python ./lib/galaxy/main.py -c {{ galaxy_config_dir }}/galaxy.ini --server-name={{ galaxy_host_codename }}_handler%(process_num)s'
+command         = /usr/bin/sg {{ galaxy_group }} '{{ galaxy_venv_dir }}/bin/python ./scripts/galaxy-main -c {{ galaxy_config_dir }}/galaxy.ini --server-name={{ galaxy_host_codename }}_handler%(process_num)s'
 directory       = {{ galaxy_handler_server_dir }}
 process_name    = handler%(process_num)s
 numprocs        = {{ galaxy_handler_count }}
