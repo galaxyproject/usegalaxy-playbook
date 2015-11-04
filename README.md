@@ -34,6 +34,9 @@ Galaxy Test is updated with:
 
     % ansible-playbook -i stage/inventory galaxy.yml --ask-vault-pass
 
+After which Galaxy Test can be restarted (as g2test) with:
+    % `~/bin/galaxy graceful`
+
 The static content alone (e.g. welcome.html and its dependencies) can be
 updated without requiring a vault pass:
 
