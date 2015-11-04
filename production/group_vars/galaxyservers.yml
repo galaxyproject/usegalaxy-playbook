@@ -146,7 +146,7 @@ base_app_main: &BASE_APP_MAIN
 
   migrated_tools_config: "{{ galaxy_mutable_config_dir }}/migrated_tools_conf.xml"
   shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
-  sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/migrated_tools_conf.xml"
+  sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
 
   environment_setup_file: /galaxy/main/job_env.bash
 
