@@ -289,10 +289,12 @@
         <tool id="deeptools_computeGCBias" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="deeptools_computeMatrix" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="deeptools_correctGCBias" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="kraken" destination="dynamic_multi_reserved" handler="test_handler2" />
         <!-- explicit stampede jobs -->
         <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
+        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <!-- resubmit to stampede jobs -->
         <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
