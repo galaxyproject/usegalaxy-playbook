@@ -1,0 +1,25 @@
+---
+
+- name: Create ~.docker for SSL
+  file:
+    state: directory
+    dest: "~/.docker"
+    mode: 0750
+
+- name: Install docker client SSL CA certificate
+  copy:
+    content: "{{ interactive_environments_ssl.ca_cert }}"
+    dest: "~/.docker/ca.pem"
+    mode: 0440
+
+- name: Install docker client SSL certificate
+  copy:
+    content: "{{ interactive_environments_ssl.cert }}"
+    dest: "~/.docker/cert.pem"
+    mode: 0440
+
+- name: Install docker client SSL private key
+  copy:
+    content: "{{ interactive_environments_ssl.key }}"
+    dest: "~/.docker/key.pem"
+    mode: 0400

@@ -1,0 +1,22 @@
+---
+
+- name: Create supervisor config dir if needed and possible
+  file:
+    dest: "{{ interactive_environments_supervisor_conf_dir }}"
+    state: directory
+  ignore_errors: true
+
+- name: Stat supervisor config dir
+  stat:
+    path: "{{ interactive_environments_supervisor_conf_dir }}"
+  register: supervisor_conf_dir_stat
+
+- name: Create IE supervisor config
+  template:
+    src: proxy_supervisor.conf.j2
+    dest: "{{ interactive_environments_supervisor_conf_dir }}/galaxy_ie_{{ interactive_environments_supervisor_program_name }}.conf"
+  # FIXME: this doesn't work when the deploy user != supervisor user
+  #notify:
+  #  - supervisorctl restart gie_proxy
+  # stat.isuid should work here but in testing it returned false =/
+  when: supervisor_conf_dir_stat.stat.exists and supervisor_conf_dir_stat.stat.pw_name == ansible_user_id

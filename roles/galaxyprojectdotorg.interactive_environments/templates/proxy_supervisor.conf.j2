@@ -1,0 +1,15 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+[program:{{ interactive_environments_supervisor_program_name }}]
+command         = {{ interactive_environments_node_executable | default('node') }} {{ interactive_environments_proxy_path }}/lib/main.js --ip {{ interactive_environments_proxy_ip }} --port {{ interactive_environments_proxy_port }} --sessions {{ interactive_environments_session_map }} --cookie galaxysession --verbose
+directory       = {{ interactive_environments_proxy_path }}
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 5
+user            = {{ interactive_environments_proxy_user | default(ansible_user_id) }}
+numprocs        = 1
+stdout_logfile  = {{ interactive_environments_access_log_path | default('access.log') }}
+stderr_logfile  = {{ interactive_environments_error_log_path | default('error.log') }}

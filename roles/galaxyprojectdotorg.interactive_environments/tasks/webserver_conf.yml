@@ -1,0 +1,13 @@
+---
+
+- name: Create web server config dir if needed and possible
+  file:
+    dest: "{{ interactive_environments_web_conf_dir }}"
+    state: directory
+
+- name: Create web server config snippet for IE proxy
+  template:
+    src: "{{ interactive_environments_web_conf_templates[item.key] }}.j2"
+    dest: "{{ interactive_environments_web_conf_dir }}/{{ interactive_environments_web_conf_templates[item.key] }}"
+  when: item.key in interactive_environments_web_conf_templates
+  with_dict: interactive_environments_config_files
