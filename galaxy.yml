@@ -2,7 +2,7 @@
 
 # FIXME: can't notify for restart across plays
 
-- name: Galaxy web code and eggs, manage static configs
+- name: Galaxy web code and dependencies, manage static configs
   hosts: galaxyservers
   remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
@@ -32,7 +32,7 @@
       template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/impersonate.ini backup=yes
       when: deploy_env == "production"
 
-- name: Galaxy handler code and eggs
+- name: Galaxy handler code and dependencies
   hosts: galaxymasters
   remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
@@ -75,6 +75,8 @@
     # fetch and distribute mutable configs (needs the galaxy_mutable_configs
     # var set in galaxyprojectdotorg.galaxy)
     - role: usegalaxy
+    # Set up interactive environments
+    - role: galaxyprojectdotorg.interactive_environments
 
 - name: Galaxy privileged user tasks and static content setup
   hosts: galaxyservers

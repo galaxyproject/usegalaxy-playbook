@@ -88,6 +88,28 @@ galaxy_instance_url: "{{ galaxy_instance_hostname }}"
 tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
 
 
+## used by: galaxyprojectdotorg.interactive_environments
+interactive_environments_install_method: copy
+interactive_environments_plugins_local_path: "{{ deploy_env }}/files/interactive_environments/plugins"
+interactive_environments_proxy_local_path: "{{ deploy_env }}/files/interactive_environments/proxy"
+interactive_environments_plugins_path: "{{ galaxy_web_root }}/interactive_environments/plugins"
+interactive_environments_proxy_path: "{{ galaxy_web_root }}/interactive_environments/proxy"
+interactive_environments_config_files:
+  ipython:
+    file: ipython.ini
+    contents:
+      docker:
+        command: "docker -H tcp://iedocker.galaxyproject.org:2376 --tlsverify {docker_args}"
+        image: "bgruening/docker-ipython-notebook:15.10.1"
+        galaxy_url: "https://test.galaxyproject.org"
+        docker_hostname: "iedocker.galaxyproject.org"
+interactive_environments_supervisor_conf_dir: "{{ galaxy_web_root }}/supervisor/etc/supervisord.conf.d"
+interactive_environments_nginx_conf_dir: "{{ galaxy_web_root }}/nginx.conf.d"
+interactive_environments_proxy_user: "{{ galaxy_user }}"
+interactive_environments_access_log_path: "{{ galaxy_log_dir }}/gie_proxy-access.log"
+interactive_environments_error_log_path: "{{ galaxy_log_dir }}/gie_proxy-error.log"
+
+
 ## used by: galaxyprojectdotorg.galaxy
 pip_virtualenv_command: "{{ galaxy_web_root }}/python/bin/virtualenv"
 
@@ -157,7 +179,7 @@ galaxy_config_hash:
     ucsc_build_sites: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
 
     # interactive environments
-    interactive_environment_plugins_directory: config/plugins/interactive_environments
+    interactive_environment_plugins_directory: "{{ interactive_environments_plugins_path }}"
     dynamic_proxy_manage: "False"
     dynamic_proxy_session_map: /srv/galaxy/test/var/gie_proxy_session_map.sqlite
     dynamic_proxy_bind_port: 4280
