@@ -50,6 +50,26 @@
         <tool id="liftOver1" />
     </section>
     <section id="textutil" name="Text Manipulation" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tac/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cut_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_replace_in_line/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_uniq_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_text_file_with_recurring_lines/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_unfold_column_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_replace_in_column/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_find_and_replace/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6" />
@@ -87,6 +107,9 @@
         <tool id="gtf_filter_by_attribute_values_list" />
     </section>
     <section id="NGS_QC" name="NGS: QC and manipulation" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/pear/iuc_pear/0.9.6.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/fastq_join/1.1.2-484" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0" />
@@ -826,6 +849,16 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/microsatellite_ngs/heteroprob/2.0.0" />
     </section>
     <section id="metagenomics" name="Metagenomics" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond_makedb/0.6.13" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/0.1.6.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/1.1.3.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/1.1.3.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_masking/1.1.3.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/1.1.3.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_sorting/1.1.3.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_shuffling/1.1.3.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_dereplication/1.1.3.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_alignment/1.1.3.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/1.1.2" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/1.1.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/1.1" />
@@ -864,5 +897,10 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/find_diag_hits/1.0.0" />
     </section>
     <section id="ngs:_chromosome_conformation" name="NGS: Chromosome Conformation" version="">
+    </section>
+    <section id="ngs:_duplexnovo" name="NGS: DuplexNovo" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/duplex/align_families/0.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/duplex/duplex/0.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/duplex/make_families/0.2" />
     </section>
 </toolbox>
