@@ -33,6 +33,7 @@
     - "{{ deploy_env }}/secret_vars/supervisorusers.yml"
   roles:
     - supervisor
+  tags: supervisor
 
 - name: Manage PostgreSQL
   hosts: dbservers
