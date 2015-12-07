@@ -73,9 +73,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/agordon/datamash_wrapper/DatamashReverse/1.0.6" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/agordon/datamash_wrapper/DatamashOps/1.0.6" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/agordon/datamash_wrapper/DatamashTranspose/1.0.6" />
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/unique/bg_uniq/0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/dna_filtering/histogram_rpy/1.0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/column_maker/Add_a_column1/1.1.0" />
@@ -157,6 +154,7 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools/deeptools_bamCoverage/1.5.11.0" />
     </section>
     <section id="solexa_tools" name="NGS: Mapping" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.2.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.4.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.4.1" />
@@ -311,6 +309,10 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicatesWithMateCigar/1.126.0" />
     </section>
     <section id="ngs:_variant_analysis" name="NGS: Variant Analysis" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_databases/4.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/4.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.1" />
@@ -375,6 +377,7 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0" />
     </section>
     <section id="ngs:_chip-seq" name="NGS: ChIP-seq" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.0.2" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_predictd/2.1.0.20140616.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgpeakcall/2.1.0.20140616.0" />
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/2.1.0.20140616.0" />
