@@ -5,6 +5,7 @@
     module: uri
     url: https://api.github.com/repos/galaxyproject/galaxy/commits/{{ ie_component_version }}
     return_content: yes
+  run_once: true
   # Don't have 40 character branch or tag names...
   when: ie_component_version | length != 40
   register: galaxy_sha
@@ -13,18 +14,21 @@
   local_action:
     module: set_fact
     ie_component_version: "{{ galaxy_sha.json.sha }}"
+  run_once: true
   when: not (galaxy_sha | skipped)
 
 - name: Check for local IE component
   local_action:
     module: stat
     path: "{{ ie_component_local_path ~ '/.ansible_ie_role_current_version' }}"
+  run_once: true
   register: ie_current_component_version_stat
 
 - name: Check IE component local version
   local_action:
     module: set_fact
     ie_current_component_version: "{{ lookup( 'file', ie_current_component_version_stat.stat.path ) }}"
+  run_once: true
   when: ie_current_component_version_stat.stat.exists
 
 - name: Set variable indicating whether local IE component should be updated
@@ -34,11 +38,13 @@
       {{ not ie_current_component_version_stat.stat.exists or
           ( ie_current_component_version_stat.stat.exists and
             ie_current_component_version != ie_component_version ) }}
+  run_once: true
 
 # Checks if it's already created in a previous include of these tasks
 - name: Create temporary directory for Galaxy clone
   local_action:
     module: command mktemp -d
+  run_once: true
   register: galaxy_clone_tempdir_cmd
   when: galaxy_clone_tempdir is undefined and ie_update_component | bool
 
@@ -46,6 +52,7 @@
   local_action:
     module: set_fact
     galaxy_clone_tempdir: "{{ galaxy_clone_tempdir_cmd.stdout }}"
+  run_once: true
   when: not galaxy_clone_tempdir_cmd.skipped | default(false)
 
 - name: Clone Galaxy source to update local IE component
@@ -53,6 +60,7 @@
     module: git
     repo: "{{ interactive_environments_galaxy_repo }}"
     dest: "{{ galaxy_clone_tempdir }}"
+  run_once: true
   when: galaxy_clone_tempdir is defined and ie_update_component | bool
 
 # clone: no requires Ansible 1.9
@@ -62,6 +70,7 @@
     clone: no
     repo: "{{ galaxy_clone_tempdir }}"
     version: "{{ ie_component_version }}"
+  run_once: true
   when: galaxy_clone_tempdir is defined and ie_update_component | bool
 
 - name: Create IE component local directory
@@ -69,6 +78,7 @@
     module: file
     dest: "{{ ie_component_local_path }}"
     state: directory
+  run_once: true
 
 - name: Extract IE components
   local_action:
@@ -77,6 +87,7 @@
     delete: yes
     src: "{{ galaxy_clone_tempdir }}/{{ ie_component_repo_path }}"
     dest: "{{ ie_component_local_path }}"
+  run_once: true
   when: galaxy_clone_tempdir is defined and ie_update_component | bool
   register: components_extracted
 
@@ -85,4 +96,5 @@
     module: copy
     content: "{{ ie_component_version }}"
     dest: "{{ ie_component_local_path ~ '/.ansible_ie_role_current_version' }}"
+  run_once: true
   when: ie_update_component | bool and components_extracted.changed

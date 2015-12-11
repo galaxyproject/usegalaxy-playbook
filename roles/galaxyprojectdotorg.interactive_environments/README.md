@@ -145,7 +145,7 @@ Example Playbook
           docker:
             command: "docker -H tcp://docker.example.org:2376 --tlsverify {docker_args}"
             image: "bgruening/docker-ipython-notebook:15.10.1"
-            galaxy_url: "https://docker.example.org"
+            galaxy_url: "https://galaxy.example.org"
             docker_hostname: "docker.example.org"
     interactive_environments_supervisor_conf_dir: "/srv/galaxy/supervisor/etc/supervisord.conf.d"
     interactive_environments_nginx_conf_dir: "/srv/galaxy/nginx.conf.d"

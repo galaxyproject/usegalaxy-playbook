@@ -19,6 +19,7 @@
     module: file
     path: "{{ galaxy_clone_tempdir }}"
     state: absent
+  run_once: true
   when: galaxy_clone_tempdir is defined
 
 - name: Ensure plugins parent directory exists
