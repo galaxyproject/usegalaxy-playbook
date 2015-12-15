@@ -3,14 +3,14 @@
 ;;
 
 [program:toolshed_{{ galaxy_toolshed_instance_codename }}_uwsgi]
-command         = /usr/bin/uwsgi --plugin python --pythonpath {{ galaxy_venv_dir }}/lib/python2.7/site-packages --ini-paste {{ galaxy_toolshed_config_file }}
+command         = /usr/bin/uwsgi --plugin python --virtualenv {{ galaxy_venv_dir }} --ini-paste {{ galaxy_toolshed_config_file }}
 directory       = {{ galaxy_toolshed_server_dir }}
 umask           = 022
 autostart       = true
 autorestart     = true
 startsecs       = 15
 user            = shed
-environment     = HOME=/home/shed,VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+environment     = HOME=/home/shed
 numprocs        = 1
 stopsignal      = INT
 stdout_logfile  = /var/log/supervisord/{{ galaxy_toolshed_instance_codename }}_uwsgi.stdout.log
