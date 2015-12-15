@@ -27,21 +27,7 @@ server {
     rewrite     (?i)^/GCC2014.*     https://wiki.galaxyproject.org/Events/GCC2014;
     rewrite     (?i)^/GCC2015.*     http://gcc2015.tsl.ac.uk/;
     rewrite     (?i)^/GCC2016.*     https://gcc2016.iu.edu/;
-
-    location ~ ^/trello$ {
-        return 307 /trello/;
-    }
-
-    location /trello/static {
-        alias /srv/trello_card_creator/source/static;
-    }
-
-    location /trello {
-        include         uwsgi_params;
-        uwsgi_param     SCRIPT_NAME /trello;
-        uwsgi_modifier1 30;
-        uwsgi_pass      unix:/srv/trello_card_creator/run/uwsgi.sock;
-    }
+    rewrite     (?i)^/trello.*      https://github.com/galaxyproject/galaxy/issues/;
 
 }
 
