@@ -141,7 +141,7 @@
         </destination>
         <!-- dynamic must append ntasks -->
         <destination id="reserved_dynamic" runner="slurm">
-            <param id="nativeSpecification">--time=48:00:00 --clusters=roundup --nodes=1 --partition=reserved --mem-per-cpu=7680</param>
+            <param id="nativeSpecification">--time=144:00:00 --clusters=roundup --nodes=1 --partition=reserved --mem-per-cpu=5120</param>
         </destination>
 
         <!-- normal destinations -->
@@ -294,6 +294,7 @@
         <tool id="deeptools_computeMatrix" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="deeptools_correctGCBias" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="kraken" destination="dynamic_multi_reserved" handler="test_handler2" />
+        <tool id="align_families" destination="dynamic_stampede_select" handler="test_handler2" resources="local_or_stampede"/>
         <!-- explicit stampede jobs -->
         <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
