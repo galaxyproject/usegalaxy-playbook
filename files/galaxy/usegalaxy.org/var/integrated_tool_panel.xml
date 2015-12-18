@@ -58,6 +58,11 @@
         <tool id="wc_gnu" />
         <tool id="secure_hash_message_digest" />
     </section>
+    <section id="datamash" name="Datamash" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6" />
+    </section>
     <section id="convert" name="Convert Formats" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.0" />
@@ -300,6 +305,36 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfhethom/vcfhethom/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfbedintersect/vcfbedintersect/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfdistance/vcfdistance/0.0.2" />
+    </section>
+    <section id="peak_calling" name="NGS: Peak Calling" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/macs/peakcalling_macs/1.0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/0.0.1" />
+    </section>
+    <section id="variant_detection" name="NGS: Variant Analysis" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/bamleftalign/0.4" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/freebayes-0.9.14" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.3" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/boris/hetbox/hetbox/1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1" />
+    </section>
+    <section id="ngs_rna_structure" name="NGS: RNA Structure" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/iterative_map_pipeline/1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/get_read_pipeline/1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/react_cal_pipeline/1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/predict_pipeline/1.0" />
     </section>
     <section id="features" name="Extract Features" version="">
     </section>
@@ -613,51 +648,6 @@
     <section id="motifs" name="Motif Tools" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/weblogo3/rgweblogo3/0.4" />
     </section>
-    <section id="peak_calling" name="NGS: Peak Calling" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/macs/peakcalling_macs/1.0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/0.0.1" />
-    </section>
-    <section id="variant_detection" name="NGS: Variant Analysis" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/bamleftalign/0.4" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/freebayes-0.9.14" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.3" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/boris/hetbox/hetbox/1.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1" />
-    </section>
-    <section id="picard_beta" name="NGS: Picard (beta)" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.56.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BamIndexStats/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardASMetrics/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardGCBiasMetrics/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgEstLibComp/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardInsertSize/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardHsMetrics/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ARRG/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReorderSam/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicFixMate/1.56.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicardMarkDups/1.56.0" />
-    </section>
-    <section id="rna_structure_prediction" name="RNA Structure Prediction" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/iterative_map_pipeline/1.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/get_read_pipeline/1.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/react_cal_pipeline/1.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/predict_pipeline/1.0" />
-    </section>
     <label id="deprecated" text="DEPRECATED" version="" />
     <section id="gatk" name="NGS: GATK Tools (beta)" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variants_validate/gatk_validate_variants/0.0.4" />
@@ -677,6 +667,21 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/analyze_covariates/gatk_analyze_covariates/0.0.5" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/table_recalibration/gatk_table_recalibration/0.0.5" />
     </section>
+    <section id="picard_beta" name="NGS: Picard (beta)" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.56.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BamIndexStats/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardASMetrics/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardGCBiasMetrics/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgEstLibComp/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardInsertSize/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardHsMetrics/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ARRG/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReorderSam/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicFixMate/1.56.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicardMarkDups/1.56.0" />
+    </section>
     <tool id="echo_main_w1_handler0" />
     <tool id="echo_main_w1_handler1" />
     <tool id="echo_main_w1_handler2" />
@@ -685,9 +690,4 @@
     <tool id="echo_main_w2_handler2" />
     <tool id="echo_main_stampede" />
     <tool id="echo_main_cluster" />
-    <section id="datamash" name="Datamash" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6" />
-    </section>
 </toolbox>
