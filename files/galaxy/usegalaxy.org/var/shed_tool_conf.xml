@@ -17,14 +17,6 @@
         <id>toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpEff/1.0</id>
         <version>1.0</version>
     </tool>
-    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/22c8c4f8d11c/check_snpeff_candidates/checkSnpEffCandidates.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0">
-      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>check_snpeff_candidates</repository_name>
-        <repository_owner>gregory-minevich</repository_owner>
-        <installed_changeset_revision>22c8c4f8d11c</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0</id>
-        <version>1.0.0</version>
-    </tool>
 </section>
 
 <section id="bedtools" name="BEDTools" version="">
@@ -113,7 +105,23 @@
     </tool>
 </section>
 
-<section id="variant_detection" name="NGS: Variant Analysis" version="">
+<section id="cloudmap" name="CloudMap" version="">
+    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/2ce68f42fd3a/cloudmap_variant_discovery_mapping/VDM_Mapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cloudmap_variant_discovery_mapping</repository_name>
+        <repository_owner>gregory-minevich</repository_owner>
+        <installed_changeset_revision>2ce68f42fd3a</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/5389dc5a0be3/cloudmap_in_silico_complementation/CloudMap_InSilico.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>cloudmap_in_silico_complementation</repository_name>
+        <repository_owner>gregory-minevich</repository_owner>
+        <installed_changeset_revision>5389dc5a0be3</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
   <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/58a3878549ef/ems_variant_density_mapping/EMS_VariantDensityMapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/ems_variant_density_mapping/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>ems_variant_density_mapping</repository_name>
@@ -130,6 +138,16 @@
         <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/snp_mapping_using_wgs/snp_mapping_using_wgs/1.0.0</id>
         <version>1.0.0</version>
     </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/22c8c4f8d11c/check_snpeff_candidates/checkSnpEffCandidates.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>check_snpeff_candidates</repository_name>
+        <repository_owner>gregory-minevich</repository_owner>
+        <installed_changeset_revision>22c8c4f8d11c</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+<section id="variant_detection" name="NGS: Variant Analysis" version="">
     <tool file="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/28e422c589ac/freebayes/freebayes.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.3" hidden="true">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>freebayes</repository_name>
@@ -137,22 +155,6 @@
         <installed_changeset_revision>28e422c589ac</installed_changeset_revision>
         <id>toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.3</id>
         <version>0.0.3</version>
-    </tool>
-    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/2ce68f42fd3a/cloudmap_variant_discovery_mapping/VDM_Mapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0">
-      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>cloudmap_variant_discovery_mapping</repository_name>
-        <repository_owner>gregory-minevich</repository_owner>
-        <installed_changeset_revision>2ce68f42fd3a</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0</id>
-        <version>1.0.0</version>
-    </tool>
-    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/5389dc5a0be3/cloudmap_in_silico_complementation/CloudMap_InSilico.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0">
-      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>cloudmap_in_silico_complementation</repository_name>
-        <repository_owner>gregory-minevich</repository_owner>
-        <installed_changeset_revision>5389dc5a0be3</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0</id>
-        <version>1.0.0</version>
     </tool>
     <tool file="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/31361191d2d2/allele_counts/allele-counts.xml" guid="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
