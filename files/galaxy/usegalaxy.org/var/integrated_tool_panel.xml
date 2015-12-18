@@ -287,13 +287,13 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfbedintersect/vcfbedintersect/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfdistance/vcfdistance/0.0.2" />
     </section>
-    <label id="ngs" text="NGS Toolbox Beta" version="" />
     <section id="features" name="Extract Features" version="">
         <tool id="gene2exon1" />
     </section>
     <section id="fetchSeq" name="Fetch Sequences" version="">
         <tool id="Extract genomic DNA 1" />
     </section>
+    <label id="deprecated" text="DEPRECATED" version="" />
     <section id="fetchAlign" name="Fetch Alignments" version="">
         <tool id="Interval2Maf_pairwise1" />
         <tool id="Interval2Maf1" />
@@ -647,6 +647,12 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicFixMate/1.56.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicardMarkDups/1.56.0" />
     </section>
+    <section id="rna_structure_prediction" name="RNA Structure Prediction" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/iterative_map_pipeline/1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/get_read_pipeline/1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/react_cal_pipeline/1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/predict_pipeline/1.0" />
+    </section>
     <section id="gatk" name="NGS: GATK Tools (beta)" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variants_validate/gatk_validate_variants/0.0.4" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/variant_select/gatk_variant_select/0.0.2" />
@@ -672,11 +678,5 @@
     <tool id="echo_main_w2_handler1" />
     <tool id="echo_main_w2_handler2" />
     <tool id="echo_main_stampede" />
-    <section id="rna_structure_prediction" name="RNA Structure Prediction" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/iterative_map_pipeline/1.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/get_read_pipeline/1.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/react_cal_pipeline/1.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/predict_pipeline/1.0" />
-    </section>
     <tool id="echo_main_cluster" />
 </toolbox>
