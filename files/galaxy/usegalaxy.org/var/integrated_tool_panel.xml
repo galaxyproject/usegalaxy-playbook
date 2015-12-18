@@ -91,6 +91,20 @@
         <tool id="comp1" />
         <tool id="Grouping1" />
     </section>
+    <section id="fetchAlignSeq" name="Fetch Alignments/Sequences" version="">
+        <tool id="Interval2Maf_pairwise1" />
+        <tool id="Interval2Maf1" />
+        <tool id="Interval_Maf_Merged_Fasta2" />
+        <tool id="GeneBed_Maf_Fasta2" />
+        <tool id="maf_stats1" />
+        <tool id="MAF_Thread_For_Species1" />
+        <tool id="MAF_Limit_To_Species1" />
+        <tool id="maf_limit_size1" />
+        <tool id="maf_by_block_number1" />
+        <tool id="MAF_filter" />
+        <tool id="MAF_Reverse_Complement_1" />
+        <tool id="Extract genomic DNA 1" />
+    </section>
     <section id="cshl_library_information" name="NGS: QC and manipulation" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63" />
@@ -128,6 +142,8 @@
         <label id="solid" text="AB-SOLiD data" version="" />
     </section>
     <section id="ngs_mapping" name="NGS: Mapping" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.4.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.4.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.4" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.1" />
@@ -286,29 +302,17 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfdistance/vcfdistance/0.0.2" />
     </section>
     <section id="features" name="Extract Features" version="">
-        <tool id="gene2exon1" />
     </section>
     <section id="fetchSeq" name="Fetch Sequences" version="">
-        <tool id="Extract genomic DNA 1" />
     </section>
     <section id="fetchAlign" name="Fetch Alignments" version="">
-        <tool id="Interval2Maf_pairwise1" />
-        <tool id="Interval2Maf1" />
-        <tool id="Interval_Maf_Merged_Fasta2" />
-        <tool id="GeneBed_Maf_Fasta2" />
-        <tool id="maf_stats1" />
-        <tool id="MAF_Thread_For_Species1" />
-        <tool id="MAF_Limit_To_Species1" />
-        <tool id="maf_limit_size1" />
-        <tool id="maf_by_block_number1" />
-        <tool id="MAF_filter" />
-        <tool id="MAF_Reverse_Complement_1" />
     </section>
     <section id="scores" name="Get Genomic Scores" version="">
     </section>
     <section id="bxops" name="Operate on Genomic Intervals" version="">
         <tool id="wiggle2simple1" />
         <tool id="aggregate_scores_in_intervals2" />
+        <tool id="gene2exon1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/annotation_profiler/Annotation_Profiler_0/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/merge/gops_merge_1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/4.0.1" />
@@ -614,6 +618,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/0.0.1" />
     </section>
     <section id="variant_detection" name="NGS: Variant Analysis" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/bamleftalign/0.4" />
@@ -679,4 +685,9 @@
     <tool id="echo_main_w2_handler2" />
     <tool id="echo_main_stampede" />
     <tool id="echo_main_cluster" />
+    <section id="datamash" name="Datamash" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6" />
+    </section>
 </toolbox>

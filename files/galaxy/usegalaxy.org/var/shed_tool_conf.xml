@@ -106,7 +106,7 @@
 </section>
 
 <section id="cloudmap" name="CloudMap" version="">
-    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/2ce68f42fd3a/cloudmap_variant_discovery_mapping/VDM_Mapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0">
+  <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/2ce68f42fd3a/cloudmap_variant_discovery_mapping/VDM_Mapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>cloudmap_variant_discovery_mapping</repository_name>
         <repository_owner>gregory-minevich</repository_owner>
@@ -122,7 +122,7 @@
         <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0</id>
         <version>1.0.0</version>
     </tool>
-  <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/58a3878549ef/ems_variant_density_mapping/EMS_VariantDensityMapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/ems_variant_density_mapping/1.0.0">
+    <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/58a3878549ef/ems_variant_density_mapping/EMS_VariantDensityMapping.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/ems_variant_density_mapping/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>ems_variant_density_mapping</repository_name>
         <repository_owner>gregory-minevich</repository_owner>
@@ -147,8 +147,9 @@
         <version>1.0.0</version>
     </tool>
 </section>
+
 <section id="variant_detection" name="NGS: Variant Analysis" version="">
-    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/28e422c589ac/freebayes/freebayes.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.3" hidden="true">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/28e422c589ac/freebayes/freebayes.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.3" hidden="true">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>freebayes</repository_name>
         <repository_owner>devteam</repository_owner>
@@ -3869,6 +3870,88 @@
         <installed_changeset_revision>820754ab8901</installed_changeset_revision>
         <id>toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.1</id>
         <version>2.1</version>
+    </tool>
+</section>
+
+<section id="ngs_mapping" name="NGS: Mapping" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bwa/7bee165c3a44/bwa/bwa-mem.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.4.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bwa</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>7bee165c3a44</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.4.2</id>
+        <version>0.4.2</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bwa/7bee165c3a44/bwa/bwa.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.4.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>bwa</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>7bee165c3a44</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.4.2</id>
+        <version>0.4.2</version>
+    </tool>
+</section>
+
+<section id="datamash" name="Datamash" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/24b9a80cac40/datamash_reverse/datamash-reverse.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>datamash_reverse</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>24b9a80cac40</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6</id>
+        <version>1.0.6</version>
+    </tool>
+</section>
+
+<section id="datamash" name="Datamash" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/60e287a6d17d/datamash_transpose/datamash-transpose.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>datamash_transpose</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>60e287a6d17d</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6</id>
+        <version>1.0.6</version>
+    </tool>
+</section>
+
+<section id="datamash" name="Datamash" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/c4611129661b/datamash_ops/datamash-ops.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>datamash_ops</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>c4611129661b</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6</id>
+        <version>1.0.6</version>
+    </tool>
+</section>
+
+<section id="variant_detection" name="NGS: Variant Analysis" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/99684adf84de/freebayes/freebayes.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>freebayes</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>99684adf84de</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4.1</id>
+        <version>0.4.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/99684adf84de/freebayes/leftalign.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/bamleftalign/0.4">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>freebayes</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>99684adf84de</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/freebayes/bamleftalign/0.4</id>
+        <version>0.4</version>
+    </tool>
+</section>
+
+<section id="variant_detection" name="NGS: Variant Analysis" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/a72277535a2c/allele_counts/allele-counts.xml" guid="toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>allele_counts</repository_name>
+        <repository_owner>nick</repository_owner>
+        <installed_changeset_revision>a72277535a2c</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.2</id>
+        <version>1.2</version>
     </tool>
 </section>
 
