@@ -122,122 +122,130 @@ galaxy_mutable_data_dir: "{{ galaxy_web_root }}/var"
 
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
+base_app_main: &BASE_APP_MAIN
+
+  # message box
+
+  #message_box_visible: "True"
+  #message_box_content: 'Galaxy will be unavailable between 10:45 AM - 1:30 PM EST (UTC -0500) on Tuesday, December 16th due to <a target="_blank" href="https://portal.tacc.utexas.edu/user-news/-/news/101689">scheduled filesystem maintenance</a>. Running jobs may be interrupted during this period.'
+  #message_box_class: warning
+
+  # secrets
+
+  database_connection: "{{ galaxy_config_database_connection }}"
+  install_database_connection: "{{ galaxy_config_install_database_connection }}"
+  id_secret: "{{ galaxy_config_id_secret }}"
+  admin_users: "{{ galaxy_config_admin_users }}"
+  biostar_key: "{{ galaxy_config_biostar_key }}"
+  sentry_dsn: "{{ galaxy_config_sentry_dsn }}"
+  amqp_internal_connection: "{{ galaxy_config_amqp_internal_connection }}"
+
+  # paths
+
+  tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_conf.xml,{{ galaxy_config_dir }}/nagios_tool_conf.xml"
+  tool_dependency_dir: /galaxy/test/deps
+  job_working_directory: /galaxy/test/jobdir
+  tool_data_path: /galaxy-repl/test/tool_data
+  nginx_upload_store: /galaxy-repl/test/upload
+  nginx_upload_job_files_store: /galaxy-repl/test/upload_job_files
+  ftp_upload_dir: /galaxy/test/ftp
+  user_library_import_dir: /galaxy/test/ftp
+  library_import_dir: /galaxy-repl/test/import
+  galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
+
+  tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
+  tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+  datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
+  object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+  job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
+  job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
+  data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
+  job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
+
+  migrated_tools_config: "{{ galaxy_mutable_config_dir }}/migrated_tools_conf.xml"
+  shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
+  sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
+
+  environment_setup_file: /galaxy/test/job_env.bash
+
+  builds_file_path: "{{ galaxy_config_dir }}/builds.txt"
+  ucsc_build_sites: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
+
+  # interactive environments
+  interactive_environment_plugins_directory: "{{ interactive_environments_plugins_path }}"
+  dynamic_proxy_manage: "False"
+  dynamic_proxy_session_map: /srv/galaxy/test/var/gie_proxy_session_map.sqlite
+  dynamic_proxy_bind_port: 4280
+  dynamic_proxy_bind_ip: 0.0.0.0
+  dynamic_proxy_debug: "True"
+  dynamic_proxy_external_proxy: "True"
+  dynamic_proxy_prefix: gie_proxy
+  galaxy_infrastructure_url: https://test.galaxyproject.org
+  trust_ipython_notebook_conversion: "True"
+
+  # general stuff
+
+  database_engine_option_pool_size: 10
+  database_engine_option_max_overflow: 20
+  database_engine_option_server_side_cursors: "True"
+  manage_dependency_relationships: "False"
+  len_file_path: /galaxy-repl/localdata/chrom
+  collect_outputs_from: job_working_directory
+  smtp_server: localhost
+  error_email_to: galaxy-bugs@bx.psu.edu
+  activation_email: "Galaxy Activation <activate@galaxyproject.org>"
+  instance_resource_url: "http://wiki.galaxyproject.org/Support"
+  blacklist_file: "{{ galaxy_config_dir }}/disposable_email_blacklist.conf"
+  registration_warning_message: "Please register only one account. The {{ galaxy_instance_hostname }} service is provided free of charge and has limited computational and data storage resources. <strong>Registration and usage of multiple accounts is tracked and such accounts are subject to termination and data deletion.</strong>"
+  user_activation_on: "True"
+  activation_grace_period: 6
+  inactivity_box_content: "Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address."
+  wiki_url: "http://wiki.galaxyproject.org/"
+  terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
+  ga_code: "UA-45719423-9"
+  static_enabled: "False"
+  enable_cloud_launch: "True"
+  cloudlaunch_default_ami: ami-a7dbf6ce
+  nginx_x_accel_redirect_base: /_x_accel_redirect
+  nginx_upload_path: /_upload
+  nginx_upload_job_files_path: /_job_files
+  log_events: "False"
+  log_actions: "False"
+  debug: "False"
+  use_interactive: "False"
+  use_pbkdf2: "False"
+  allow_user_deletion: "True"
+  allow_user_dataset_purge: "True"
+  enable_openid: "True"
+  ftp_upload_site: "{{ galaxy_instance_hostname }}"
+  enable_quotas: "True"
+  track_jobs_in_database: "True"
+  retry_metadata_internally: "False"
+  retry_job_output_collection: 5
+  cleanup_job: never
+  biostar_url: "https://biostar.galaxyproject.org"
+  biostar_key_name: biostar-login
+  biostar_enable_bug_reports: "False"
+  allow_user_impersonation: "True"
+  ga_code: "UA-45719423-9"
+  max_metadata_value_size: 1000000
+  brand: 'Test'
+  enable_beta_tool_command_isolation: "True"
+
 # galaxy.ini contents
 galaxy_config_hash:
+  "app:main":
+    <<: *BASE_APP_MAIN
+    new_file_path: /galaxy/test/scratch
+
+installer_config_hash:
   "server:test_installer":
     threadpool_workers: 5
     port: 9999
 
   "app:main":
-
-    # message box
-
-    #message_box_visible: "True"
-    #message_box_content: 'Galaxy will be unavailable between 10:45 AM - 1:30 PM EST (UTC -0500) on Tuesday, December 16th due to <a target="_blank" href="https://portal.tacc.utexas.edu/user-news/-/news/101689">scheduled filesystem maintenance</a>. Running jobs may be interrupted during this period.'
-    #message_box_class: warning
-
-    # secrets
-
-    database_connection: "{{ galaxy_config_database_connection }}"
-    install_database_connection: "{{ galaxy_config_install_database_connection }}"
-    id_secret: "{{ galaxy_config_id_secret }}"
-    admin_users: "{{ galaxy_config_admin_users }}"
-    biostar_key: "{{ galaxy_config_biostar_key }}"
-    sentry_dsn: "{{ galaxy_config_sentry_dsn }}"
-    amqp_internal_connection: "{{ galaxy_config_amqp_internal_connection }}"
-
-    # paths
-
-    tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_mutable_config_dir }}/shed_tool_conf.xml,{{ galaxy_config_dir }}/nagios_tool_conf.xml"
-    new_file_path: /galaxy/test/scratch
-    tool_dependency_dir: /galaxy/test/deps
-    job_working_directory: /galaxy/test/jobdir
-    tool_data_path: /galaxy-repl/test/tool_data
-    nginx_upload_store: /galaxy-repl/test/upload
-    nginx_upload_job_files_store: /galaxy-repl/test/upload_job_files
-    ftp_upload_dir: /galaxy/test/ftp
-    user_library_import_dir: /galaxy/test/ftp
-    library_import_dir: /galaxy-repl/test/import
-    galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
-
-    tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
-    tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
-    datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
-    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
-    job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
-    job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
-    data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
-    job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
-
-    migrated_tools_config: "{{ galaxy_mutable_config_dir }}/migrated_tools_conf.xml"
-    shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
-    sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
-
-    environment_setup_file: /galaxy/test/job_env.bash
-
-    builds_file_path: "{{ galaxy_config_dir }}/builds.txt"
-    ucsc_build_sites: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
-
-    # interactive environments
-    interactive_environment_plugins_directory: "{{ interactive_environments_plugins_path }}"
-    dynamic_proxy_manage: "False"
-    dynamic_proxy_session_map: /srv/galaxy/test/var/gie_proxy_session_map.sqlite
-    dynamic_proxy_bind_port: 4280
-    dynamic_proxy_bind_ip: 0.0.0.0
-    dynamic_proxy_debug: "True"
-    dynamic_proxy_external_proxy: "True"
-    dynamic_proxy_prefix: gie_proxy
-    galaxy_infrastructure_url: https://test.galaxyproject.org
-    trust_ipython_notebook_conversion: "True"
-
-    # general stuff
-
-    database_engine_option_pool_size: 10
-    database_engine_option_max_overflow: 20
-    database_engine_option_server_side_cursors: "True"
-    manage_dependency_relationships: "False"
-    len_file_path: /galaxy-repl/localdata/chrom
-    collect_outputs_from: job_working_directory
-    smtp_server: localhost
-    error_email_to: galaxy-bugs@bx.psu.edu
-    activation_email: "Galaxy Activation <activate@galaxyproject.org>"
-    instance_resource_url: "http://wiki.galaxyproject.org/Support"
-    blacklist_file: "{{ galaxy_config_dir }}/disposable_email_blacklist.conf"
-    registration_warning_message: "Please register only one account. The {{ galaxy_instance_hostname }} service is provided free of charge and has limited computational and data storage resources. <strong>Registration and usage of multiple accounts is tracked and such accounts are subject to termination and data deletion.</strong>"
-    user_activation_on: "True"
-    activation_grace_period: 6
-    inactivity_box_content: "Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address."
-    wiki_url: "http://wiki.galaxyproject.org/"
-    terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
-    ga_code: "UA-45719423-9"
-    static_enabled: "False"
-    enable_cloud_launch: "True"
-    cloudlaunch_default_ami: ami-a7dbf6ce
-    nginx_x_accel_redirect_base: /_x_accel_redirect
-    nginx_upload_path: /_upload
-    nginx_upload_job_files_path: /_job_files
-    log_events: "False"
-    log_actions: "False"
-    debug: "False"
-    use_interactive: "False"
-    use_pbkdf2: "False"
-    allow_user_deletion: "True"
-    allow_user_dataset_purge: "True"
-    enable_openid: "True"
-    ftp_upload_site: "{{ galaxy_instance_hostname }}"
-    enable_quotas: "True"
-    track_jobs_in_database: "True"
-    retry_metadata_internally: "False"
-    retry_job_output_collection: 5
-    cleanup_job: never
-    biostar_url: "https://biostar.galaxyproject.org"
-    biostar_key_name: biostar-login
-    biostar_enable_bug_reports: "False"
-    allow_user_impersonation: "True"
-    ga_code: "UA-45719423-9"
-    max_metadata_value_size: 1000000
-    brand: 'Test'
-    enable_beta_tool_command_isolation: "True"
+    <<: *BASE_APP_MAIN
+    new_file_path: /srv/galaxy/test/var/installer_tmp
 
 # specifies config files to copy from the playbook
 galaxy_config_files:

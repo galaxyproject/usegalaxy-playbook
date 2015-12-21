@@ -32,6 +32,14 @@
       template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/impersonate.ini backup=yes
       when: deploy_env == "production"
 
+    # create installer config
+    - name: Set galaxy_config to installer_config_hash
+      set_fact:
+        galaxy_config: "{{ installer_config_hash }}"
+
+    - name: Create Galaxy installer configuration file
+      template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/installer.ini backup=yes
+
 - name: Galaxy mutable configs
   hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
