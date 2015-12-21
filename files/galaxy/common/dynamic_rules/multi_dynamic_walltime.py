@@ -75,9 +75,6 @@ def __rule( app, tool, job, user_email, resource ):
     destination_id = LOCAL_DESTINATION
     tool_id = tool.id
 
-    if user_email is not None and user_email.lower() in NORM_RESERVED_USERS:
-        return RESERVED_DESTINATION
-
     if '/' in tool.id:
         # extract short tool id from tool shed id
         tool_id = tool.id.split('/')[-2]
@@ -107,6 +104,9 @@ def __rule( app, tool, job, user_email, resource ):
                 raise JobMappingException( FAILURE_MESSAGE )
         elif param_dict['__job_resource']['__job_resource__select'] == 'no':
             destination_id = RESOURCES[resource][0]
+            if user_email.lower() in NORM_RESERVED_USERS:
+                log.info("(%s) Destination/walltime dynamic plugin returning default reserved destination for '%s'", job.id, user_email)
+                return RESERVED_DESTINATION
         else:
             log.warning('(%s) Destination/walltime dynamic plugin did not find a valid resource key, keys were: %s', job.id, param_dict['__job_resource'].keys())
             raise JobMappingException( FAILURE_MESSAGE )

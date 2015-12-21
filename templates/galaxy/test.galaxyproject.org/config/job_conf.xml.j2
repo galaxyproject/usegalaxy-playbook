@@ -294,7 +294,7 @@
         <tool id="deeptools_computeMatrix" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="deeptools_correctGCBias" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="kraken" destination="dynamic_multi_reserved" handler="test_handler2" />
-        <tool id="align_families" destination="dynamic_stampede_select" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <!-- explicit stampede jobs -->
         <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
