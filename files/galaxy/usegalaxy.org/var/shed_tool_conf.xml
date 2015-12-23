@@ -4530,7 +4530,7 @@
     </tool>
 </section>
 
-<section id="samtools" name="NGS: SAMtools" version="">
+<section id="peak_calling" name="NGS: Peak Calling" version="">
   <tool file="toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/8187a729d9f4/ngsutils_bam_filter/bam_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/ngsutils_bam_filter/0.5.7.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>ngsutils_bam_filter</repository_name>
@@ -4706,6 +4706,84 @@
         <installed_changeset_revision>bfe57d6e0c4c</installed_changeset_revision>
         <id>toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgbroadcall/2.1.0.20140616.0</id>
         <version>2.1.0.20140616.0</version>
+    </tool>
+</section>
+
+<section id="plots" name="Graph/Display Data" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/peterjc/venn_list/26e35d5133a1/venn_list/tools/venn_list/venn_list.xml" guid="toolshed.g2.bx.psu.edu/repos/peterjc/venn_list/venn_list/0.0.9">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>venn_list</repository_name>
+        <repository_owner>peterjc</repository_owner>
+        <installed_changeset_revision>26e35d5133a1</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/peterjc/venn_list/venn_list/0.0.9</id>
+        <version>0.0.9</version>
+    </tool>
+</section>
+
+<section id="tax_manipulation" name="Metagenomic analyses" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/f29e21388219/vsearch/search.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/1.1.3.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vsearch</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>f29e21388219</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/1.1.3.1</id>
+        <version>1.1.3.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/f29e21388219/vsearch/clustering.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/1.1.3.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vsearch</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>f29e21388219</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/1.1.3.2</id>
+        <version>1.1.3.2</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/f29e21388219/vsearch/masking.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_masking/1.1.3.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vsearch</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>f29e21388219</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_masking/1.1.3.1</id>
+        <version>1.1.3.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/f29e21388219/vsearch/chimera.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/1.1.3.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vsearch</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>f29e21388219</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/1.1.3.1</id>
+        <version>1.1.3.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/f29e21388219/vsearch/sorting.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_sorting/1.1.3.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vsearch</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>f29e21388219</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_sorting/1.1.3.2</id>
+        <version>1.1.3.2</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/f29e21388219/vsearch/shuffling.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_shuffling/1.1.3.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vsearch</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>f29e21388219</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_shuffling/1.1.3.1</id>
+        <version>1.1.3.1</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/f29e21388219/vsearch/dereplication.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_dereplication/1.1.3.2">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vsearch</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>f29e21388219</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_dereplication/1.1.3.2</id>
+        <version>1.1.3.2</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/f29e21388219/vsearch/alignment.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_alignment/1.1.3.1">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>vsearch</repository_name>
+        <repository_owner>iuc</repository_owner>
+        <installed_changeset_revision>f29e21388219</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_alignment/1.1.3.1</id>
+        <version>1.1.3.1</version>
     </tool>
 </section>
 
