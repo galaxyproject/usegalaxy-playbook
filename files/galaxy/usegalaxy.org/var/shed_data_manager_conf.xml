@@ -19,4 +19,21 @@
     </data_manager>
     
 
+
+<data_manager guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_build_kraken_database/data_manager/kraken_database_builder/1.0.0" id="kraken_database_builder" shed_conf_file="/srv/galaxy/main/var/shed_tool_conf.xml" version="1.0.0">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_build_kraken_database/c3276afba416/data_manager_build_kraken_database/data_manager/kraken_database_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_build_kraken_database/kraken_database_builder/1.0.0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_build_kraken_database</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>c3276afba416</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_build_kraken_database/kraken_database_builder/1.0.0</id><version>1.0.0</version></tool><data_table name="kraken_databases">
+            <output>
+                <column name="value" />
+                <column name="name" />
+                <column name="path" output_ref="out_file">
+                    <move relativize_symlinks="True" type="directory">
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">kraken_database/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/kraken_database/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+
 </data_managers>

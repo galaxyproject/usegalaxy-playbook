@@ -150,6 +150,7 @@
         <label id="solid" text="AB-SOLiD data" version="" />
     </section>
     <section id="ngs_mapping" name="NGS: Mapping" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.4.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.4.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.4" />
@@ -368,6 +369,12 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/get_read_pipeline/1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/react_cal_pipeline/1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/predict_pipeline/1.0" />
+    </section>
+    <section id="ngs:_duplexnovo" name="NGS: DuplexNovo" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/sequence_content_trimmer/sequence_content_trimmer/0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/duplex/align_families/0.3" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/duplex/make_families/0.3" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/duplex/duplex/0.3" />
     </section>
     <section id="features" name="Extract Features" version="">
     </section>
@@ -699,6 +706,16 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/0.1" />
     </section>
     <section id="tax_manipulation" name="Metagenomic Analysis" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/1.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/1.1.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/kraken_report/kraken-mpa-report/1.1.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/kraken_translate/kraken-translate/1.1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/kraken_report/kraken-mpa-report/1.1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/kraken_report/kraken-report/1.1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/1.1.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/kraken_filter/kraken-filter/1.1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vegan_fisher_alpha/vegan_fisher_alpha/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vegan_rarefaction/vegan_rarefaction/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vegan_diversity/vegan_diversity/0.0.2" />
@@ -789,10 +806,4 @@
     <tool id="echo_main_w2_handler2" />
     <tool id="echo_main_stampede" />
     <tool id="echo_main_cluster" />
-    <section id="ngs:_duplexnovo" name="NGS: DuplexNovo" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/nick/sequence_content_trimmer/sequence_content_trimmer/0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/nick/duplex/align_families/0.3" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/nick/duplex/make_families/0.3" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/nick/duplex/duplex/0.3" />
-    </section>
 </toolbox>
