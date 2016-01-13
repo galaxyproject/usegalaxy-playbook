@@ -95,12 +95,12 @@ interactive_environments_proxy_local_path: "{{ deploy_env }}/files/interactive_e
 interactive_environments_plugins_path: "{{ galaxy_web_root }}/interactive_environments/plugins"
 interactive_environments_proxy_path: "{{ galaxy_web_root }}/interactive_environments/proxy"
 interactive_environments_config_files:
-  ipython:
-    file: ipython.ini
+  jupyter:
+    file: jupyter.ini
     contents:
       docker:
         command: "docker -H tcp://iedocker.galaxyproject.org:2376 --tlsverify {docker_args}"
-        image: "bgruening/docker-ipython-notebook:15.10.1"
+        image: "bgruening/docker-jupyter-notebook:16.01"
         galaxy_url: "https://test.galaxyproject.org"
         docker_hostname: "iedocker.galaxyproject.org"
 interactive_environments_supervisor_conf_dir: "{{ galaxy_web_root }}/supervisor/etc/supervisord.conf.d"

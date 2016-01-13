@@ -8,7 +8,7 @@ function message_failed_auth(password){
 
 function message_failed_connection(){
     toastr.error(
-        "Could not connect to IPython Notebook. Please contact your administrator. <a href='https://github.com/bgruening/galaxy-ipython/wiki/Could-not-connect-to-IPython-Notebook' target='_blank'>More details ...</a>",
+        "Could not connect to Jupyter Notebook. Please contact your administrator. <a href='https://github.com/bgruening/galaxy-ipython/wiki/Could-not-connect-to-IPython-Notebook' target='_blank'>More details ...</a>",
     "Security warning",
         {'closeButton': true, 'timeOut': 20000, 'tapToDismiss': true}
     );
@@ -42,6 +42,44 @@ function load_notebook(password, notebook_login_url, notebook_access_url){
         });
     });
 }
+
+
+function keep_alive(){
+    /**
+    * This is needed to keep the container alive. If the user leaves this site
+    * this function is not constantly pinging the container, the container will
+    * terminate itself.
+    */
+
+    var request_count = 0;
+    interval = setInterval(function(){
+        $.ajax({
+            url: notebook_access_url,
+            xhrFields: {
+                withCredentials: true
+            },
+            type: "GET",
+            timeout: 500,
+            success: function(){
+                console.log("Connected to IE, returning");
+            },
+            error: function(jqxhr, status, error){
+                request_count++;
+                console.log("Request " + request_count);
+                if(request_count > 30){
+                    clearInterval(interval);
+                    clear_main_area();
+                    toastr.error(
+                        "Could not connect to IE, contact your administrator",
+                        "Error",
+                        {'closeButton': true, 'timeOut': 20000, 'tapToDismiss': false}
+                    );
+                }
+            }
+        });
+    }, 30000);
+}
+
 
 /**
  * Must be implemented by IEs
