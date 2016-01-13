@@ -1,7 +1,6 @@
 [main]
 # Following options are ignored if using the Galaxy dynamic proxy but
 # are useful if mapping a range of ports for environment consumption.
-#apache_urls = False
 #password_auth = False
 #ssl = False
 
@@ -17,10 +16,10 @@
 #command = docker {docker_args}
 
 # The docker image name that should be started.
-image = bgruening/docker-ipython-notebook:15.10.1
+image = bgruening/docker-jupyter-notebook:16.01
 
 # Additional arguments that are passed to the `docker run` command.
-#command_inject = --sig-proxy=true -e DEBUG=false
+command_inject = --sig-proxy=true -e DEBUG=false -e DEFAULT_CONTAINER_RUNTIME=120
 
 # URL to access the Galaxy API with from the spawn Docker containter, if empty
 # this falls back to galaxy.ini's galaxy_infrastructure_url and finally to the

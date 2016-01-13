@@ -7,7 +7,7 @@ import hashlib
 
 # Sets ID and sets up a lot of other variables
 ie_request.load_deploy_config()
-ie_request.attr.docker_port = 6789
+ie_request.attr.docker_port = 8888
 ie_request.attr.import_volume = False
 
 if ie_request.attr.PASSWORD_AUTH:
@@ -17,7 +17,7 @@ if ie_request.attr.PASSWORD_AUTH:
 else:
     PASSWORD = "none"
 
-## IPython Specific
+## Jupyter Notbook Specific
 if hda.datatype.__class__.__name__ == "Ipynb":
     DATASET_HID = hda.hid
 else:
@@ -47,11 +47,22 @@ var notebook_login_url = '${ notebook_login_url }';
 var notebook_access_url = '${ notebook_access_url }';
 ${ ie.plugin_require_config() }
 
+// Keep container running
+requirejs(['interactive_environments', 'plugin/jupyter'], function(){
+    keep_alive();
+});
+
+
 // Load notebook
 
-requirejs(['interactive_environments', 'plugin/ipython'], function(){
+requirejs(['interactive_environments', 'plugin/jupyter'], function(){
     load_notebook(ie_password, notebook_login_url, notebook_access_url);
 });
+
+
+
+
+
 </script>
 <div id="main" width="100%" height="100%">
 </div>
