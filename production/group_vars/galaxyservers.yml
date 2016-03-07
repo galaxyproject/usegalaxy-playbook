@@ -266,6 +266,11 @@ installer_config_hash:
     allow_user_impersonation: "False"
     new_file_path: /srv/galaxy/main/var/installer_tmp
 
+datamanager_config_hash:
+  "app:main":
+    <<: *BASE_APP_MAIN
+    new_file_path: /galaxy-repl/main/scratch
+
 # specifies config files to copy from the playbook
 galaxy_config_files:
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/tool_data_table_conf.xml

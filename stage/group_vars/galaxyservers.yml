@@ -45,11 +45,13 @@ galaxy_handler_count: 4
 supervisord_group_configs:
   - galaxy.conf
   - galaxy_installer.conf
+  - galaxy_datamanager.conf
   - galaxy_reports.conf
   - galaxy_group.conf
 
 # supervisor template
 galaxy_installer_venv_dir: "/galaxy-repl/test/venv"
+galaxy_datamanager_venv_dir: "/galaxy-repl/test/venv"
 
 
 ## used by: usegalaxy, usegalaxy_static
@@ -254,6 +256,15 @@ installer_config_hash:
   "app:main":
     <<: *BASE_APP_MAIN
     new_file_path: /srv/galaxy/test/var/installer_tmp
+
+datamanager_config_hash:
+  "server:test_datamanager":
+    threadpool_workers: 5
+    port: 9998
+
+  "app:main":
+    <<: *BASE_APP_MAIN
+    new_file_path: /galaxy-repl/test/data-scratch
 
 # specifies config files to copy from the playbook
 galaxy_config_files:

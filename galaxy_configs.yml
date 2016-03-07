@@ -40,6 +40,14 @@
     - name: Create Galaxy installer configuration file
       template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/installer.ini backup=yes
 
+    # create data manager config
+    - name: Set galaxy_config to datamanager_config_hash
+      set_fact:
+        galaxy_config: "{{ datamanager_config_hash }}"
+
+    - name: Create Galaxy data manager configuration file
+      template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/datamanager.ini backup=yes
+
 - name: Galaxy mutable configs
   hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
