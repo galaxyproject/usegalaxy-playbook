@@ -43,11 +43,11 @@ galaxy_handler_eggs_path: "{{ galaxy_handler_root }}/eggs"
 galaxy_instance_codename: test
 galaxy_handler_count: 4
 supervisord_group_configs:
-  - galaxy.conf
-  - galaxy_installer.conf
-  - galaxy_datamanager.conf
-  - galaxy_reports.conf
-  - galaxy_group.conf
+  - galaxy
+  - galaxy_installer
+  - galaxy_datamanager
+  - galaxy_reports
+  - galaxy_group
 
 # supervisor template
 galaxy_installer_venv_dir: "/galaxy-repl/test/venv"
