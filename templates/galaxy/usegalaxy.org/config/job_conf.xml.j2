@@ -10,7 +10,7 @@
         </plugin>
         <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner">
-            <param id="drmaa_library_path">/home/g2main/slurm-drmaa-debug/lib/libdrmaa.so</param>
+            <param id="drmaa_library_path">/usr/lib64/libdrmaa.so</param>
             <param id="invalidjobexception_retries">5</param>
             <param id="internalexception_retries">5</param>
         </plugin>
