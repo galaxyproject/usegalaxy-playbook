@@ -1,0 +1,6 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+[group:galaxy_{{ galaxy_instance_codename }}]
+programs = {{ galaxy_host_codename }}_handler{{ "," ~ galaxy_host_codename ~ "_impersonate" if ("galaxy_impersonate" in supervisord_group_configs + supervisord_host_configs) else "" }}{{ "," ~ galaxy_host_codename ~ "_reports" if ("galaxy_reports" in supervisord_group_configs + supervisord_host_configs) else "" }}{{ "," ~ galaxy_host_codename ~ "_installer" if ("galaxy_installer" in supervisord_group_configs + supervisord_host_configs) else "" }}{{ "," ~ galaxy_host_codename ~ "_datamanager" if ("galaxy_datamanager" in supervisord_group_configs + supervisord_host_configs) else "" }}

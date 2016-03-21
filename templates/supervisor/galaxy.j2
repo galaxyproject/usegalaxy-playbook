@@ -10,7 +10,7 @@ autostart       = true
 autorestart     = true
 startsecs       = 15
 user            = {{ galaxy_user }}
-environment     = PYTHON_EGG_CACHE={{ instance_root }}/var/python-egg-cache-{{ galaxy_host_codename }}_uwsgi,GALAXY_EGGS_PATH={{ galaxy_web_eggs_path }},HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+environment     = HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 numprocs        = 1
 stopsignal      = INT
 stdout_logfile  = /var/log/supervisord/{{ galaxy_host_codename }}_uwsgi.stdout.log
@@ -26,7 +26,7 @@ autostart       = true
 autorestart     = true
 startsecs       = 30
 user            = {{ galaxy_user }}
-environment     = PYTHON_EGG_CACHE={{ instance_root }}/var/python-egg-cache-{{ galaxy_host_codename }}_handler%(process_num)s,GALAXY_EGGS_PATH={{ galaxy_handler_eggs_path }},HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+environment     = HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 stdout_logfile  = {{ galaxy_log_dir }}/{{ galaxy_host_codename }}_handler%(process_num)s.log
 stdout_logfile_maxbytes = 128MB
 stdout_logfile_backups = 64

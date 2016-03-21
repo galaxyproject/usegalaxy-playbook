@@ -42,7 +42,6 @@
         <tool id="hbvar" />
         <tool id="genomespace_file_browser_prod" />
         <tool id="genomespace_importer" />
-        <tool id="fix_errors" />
     </section>
     <section id="send" name="Send Data" version="">
         <tool id="genomespace_exporter" />
@@ -143,6 +142,31 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0" />
     </section>
     <section id="ngs:_deeptools" name="NGS: DeepTools" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_coverage/deeptools_plot_coverage/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bigwig_compare/deeptools_bigwig_compare/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_multi_bam_summary/deeptools_multi_bam_summary/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_multi_bigwig_summary/deeptools_multi_bigwig_summary/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_correlation/deeptools_plot_correlation/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_pca/deeptools_plot_pca/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_gc_bias/deeptools_compute_gc_bias/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/2.1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_pe_fragmentsize/deeptools_bam_pe_fragmentsize/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_correlation/deeptools_plot_correlation/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_pca/deeptools_plot_pca/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_profile/deeptools_plot_profile/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_correct_gc_bias/deeptools_correct_gc_bias/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_gc_bias/deeptools_compute_gc_bias/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_multi_bigwig_summary/deeptools_multi_bigwig_summary/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bigwig_compare/deeptools_bigwig_compare/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_multi_bam_summary/deeptools_multi_bam_summary/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_coverage/deeptools_plot_coverage/2.2.2.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/2.2.2.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_profile/deeptools_plot_profile/2.1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_pe_fragmentsize/deeptools_bam_pe_fragmentsize/2.1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/2.1.0.0" />
@@ -396,18 +420,9 @@
         <tool id="Grouping1" />
     </section>
     <section id="bxops" name="Operate on Genomic Intervals" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/subtract/gops_subtract_1/1.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/intersect/gops_intersect_1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/get_flanks/get_flanks1/1.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/coverage/gops_coverage_1/1.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/complement/gops_complement_1/1.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cluster/gops_cluster_1/1.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/basecoverage/gops_basecoverage_1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/annotation_profiler/Annotation_Profiler_0/1.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/merge/gops_merge_1/1.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/4.0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/concat/gops_concat_1/1.0.1" />
     </section>
     <section id="bedtools" name="BEDtools" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_nucbed/2.22.0" />
@@ -935,14 +950,4 @@
     </section>
     <section id="tax_manipulation" name="Metagenomic Analysis" version="">
     </section>
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/2.1.0.0" />
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_coverage/deeptools_plot_coverage/2.1.0.0" />
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bigwig_compare/deeptools_bigwig_compare/2.1.0.0" />
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_multi_bam_summary/deeptools_multi_bam_summary/2.1.0.0" />
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_multi_bigwig_summary/deeptools_multi_bigwig_summary/2.1.0.0" />
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_correlation/deeptools_plot_correlation/2.1.0.0" />
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/2.1.0.0" />
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_pca/deeptools_plot_pca/2.1.0.0" />
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_gc_bias/deeptools_compute_gc_bias/2.1.0.0" />
-    <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/2.1.0.0" />
 </toolbox>

@@ -78,8 +78,7 @@
             <plugin id="amqp_pulsar_greenfield_nagios"/>
             <plugin id="slurm"/>
         </handler>
-        <!-- the installer is a handler for data managers -->
-        <handler id="test_installer">
+        <handler id="test_datamanager">
             <plugin id="slurm"/>
         </handler>
     </handlers>
@@ -328,11 +327,11 @@
         -->
         <tool id="naive_variant_caller" destination="slurm_normal_64gb"/>
         <!-- data managers -->
-        <tool id="data_manager_fetch_genome_all_fasta" destination="reserved" handler="test_installer"/>
-        <tool id="data_manager_bowtie2_index_builder" destination="reserved" handler="test_installer"/>
-        <tool id="data_manager_bowtie_index_builder" destination="reserved" handler="test_installer"/>
-        <tool id="data_manager_hisat2_index_builder" destination="reserved_16gb" handler="test_installer"/>
-        <tool id="kraken_database_builder" destination="slurm_multi_16c_128gb" handler="test_installer"/>
+        <tool id="data_manager_fetch_genome_all_fasta" destination="reserved" handler="test_datamanager"/>
+        <tool id="data_manager_bowtie2_index_builder" destination="reserved" handler="test_datamanager"/>
+        <tool id="data_manager_bowtie_index_builder" destination="reserved" handler="test_datamanager"/>
+        <tool id="data_manager_hisat2_index_builder" destination="reserved_16gb" handler="test_datamanager"/>
+        <tool id="kraken_database_builder" destination="slurm_multi_16c_128gb" handler="test_datamanager"/>
         <!-- 16GB tools -->
         <tool id="bamtools" destination="dynamic_normal_reserved_16gb"/>
         <tool id="varscan" destination="dynamic_normal_reserved_16gb"/>

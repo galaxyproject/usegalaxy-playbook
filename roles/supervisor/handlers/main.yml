@@ -1,8 +1,0 @@
----
-# file: roles/supervisor/handlers/main.yml
-
-- name: update supervisord
-  command: "{{ supervisord_venv_dir }}/bin/supervisorctl update"
-
-- name: restart supervisord
-  command: "{{ supervisord_venv_dir }}/bin/supervisorctl reload"

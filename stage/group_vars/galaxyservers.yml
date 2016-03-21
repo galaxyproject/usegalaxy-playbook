@@ -43,13 +43,15 @@ galaxy_handler_eggs_path: "{{ galaxy_handler_root }}/eggs"
 galaxy_instance_codename: test
 galaxy_handler_count: 4
 supervisord_group_configs:
-  - galaxy.conf
-  - galaxy_installer.conf
-  - galaxy_reports.conf
-  - galaxy_group.conf
+  - galaxy
+  - galaxy_installer
+  - galaxy_datamanager
+  - galaxy_reports
+  - galaxy_group
 
 # supervisor template
 galaxy_installer_venv_dir: "/galaxy-repl/test/venv"
+galaxy_datamanager_venv_dir: "/galaxy-repl/test/venv"
 
 
 ## used by: usegalaxy, usegalaxy_static
@@ -235,7 +237,6 @@ base_app_main: &BASE_APP_MAIN
   biostar_key_name: biostar-login
   biostar_enable_bug_reports: "False"
   allow_user_impersonation: "True"
-  ga_code: "UA-45719423-9"
   max_metadata_value_size: 1000000
   brand: 'Test'
   enable_beta_tool_command_isolation: "True"
@@ -254,6 +255,15 @@ installer_config_hash:
   "app:main":
     <<: *BASE_APP_MAIN
     new_file_path: /srv/galaxy/test/var/installer_tmp
+
+datamanager_config_hash:
+  "server:test_datamanager":
+    threadpool_workers: 5
+    port: 9998
+
+  "app:main":
+    <<: *BASE_APP_MAIN
+    new_file_path: /galaxy-repl/test/data-scratch
 
 # specifies config files to copy from the playbook
 galaxy_config_files:

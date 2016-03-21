@@ -1,7 +1,7 @@
 ---
 
 # Tool Shed version
-galaxy_changeset_id: fa8beb225004d27da24065f8f633c7917b5be942
+galaxy_changeset_id: 19bf334c7763c2418408083b9a7369386e50ad66
 
 ## these vars are defined in the vaulted (secret) vars file
 #
@@ -24,7 +24,7 @@ galaxy_toolshed_eggs_path: "{{ galaxy_toolshed_root }}/eggs"
 ## used by: supervisor
 galaxy_toolshed_instance_codename: main
 supervisord_group_configs:
-  - toolshed.conf
+  - toolshed
 
 
 # used by the toolshed vhost template (and below)
