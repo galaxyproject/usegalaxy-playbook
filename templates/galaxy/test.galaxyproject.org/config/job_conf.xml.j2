@@ -10,7 +10,7 @@
         </plugin>
         <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner">
-            <param id="drmaa_library_path">/home/g2test/slurm-drmaa-debug/lib/libdrmaa.so</param>
+            <param id="drmaa_library_path">/usr/lib64/libdrmaa.so</param>
             <param id="invalidjobexception_retries">5</param>
             <param id="internalexception_retries">5</param>
         </plugin>
@@ -328,6 +328,7 @@
         <tool id="naive_variant_caller" destination="slurm_normal_64gb"/>
         <!-- data managers -->
         <tool id="data_manager_fetch_genome_all_fasta" destination="reserved" handler="test_datamanager"/>
+        <tool id="bwa_mem_index_builder_data_manager" destination="reserved_16gb" handler="test_datamanager"/>
         <tool id="data_manager_bowtie2_index_builder" destination="reserved" handler="test_datamanager"/>
         <tool id="data_manager_bowtie_index_builder" destination="reserved" handler="test_datamanager"/>
         <tool id="data_manager_hisat2_index_builder" destination="reserved_16gb" handler="test_datamanager"/>
