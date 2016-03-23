@@ -101,7 +101,7 @@ interactive_environments_config_files:
     contents:
       docker:
         command: "docker -H tcp://iedocker.galaxyproject.org:2376 --tlsverify {docker_args}"
-        image: "bgruening/docker-jupyter-notebook:16.01"
+        image: "quay.io/bgruening/docker-jupyter-notebook:16.01.1"
         galaxy_url: "https://usegalaxy.org"
         docker_hostname: "iedocker.galaxyproject.org"
 interactive_environments_proxy_user: "{{ galaxy_user }}"
