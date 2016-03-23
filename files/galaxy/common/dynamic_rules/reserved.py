@@ -20,6 +20,11 @@ def dynamic_normal_reserved_16gb( user_email ):
         return 'reserved_16gb'
     return 'slurm_normal_16gb'
 
+def dynamic_normal_reserved_32gb( user_email ):
+    if user_email is not None and user_email.lower() in NORM_USERS:
+        return 'reserved_32gb'
+    return 'slurm_normal_32gb'
+
 def dynamic_normal_reserved_64gb( user_email ):
     if user_email is not None and user_email.lower() in NORM_USERS:
         return 'reserved_64gb'

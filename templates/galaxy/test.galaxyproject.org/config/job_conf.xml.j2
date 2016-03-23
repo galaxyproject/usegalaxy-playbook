@@ -92,6 +92,10 @@
             <param id="type">python</param>
             <param id="function">dynamic_normal_reserved_16gb</param>
         </destination>
+        <destination id="dynamic_normal_reserved_32gb" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_normal_reserved_32gb</param>
+        </destination>
         <destination id="dynamic_normal_reserved_64gb" runner="dynamic">
             <param id="type">python</param>
             <param id="function">dynamic_normal_reserved_64gb</param>
@@ -132,6 +136,9 @@
         <destination id="reserved_16gb" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=15360</param>
         </destination>
+        <destination id="reserved_32gb" runner="slurm">
+            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=30720</param>
+        </destination>
         <destination id="reserved_64gb" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=61440</param>
         </destination>
@@ -149,6 +156,9 @@
         </destination>
         <destination id="slurm_normal_16gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
+        </destination>
+        <destination id="slurm_normal_32gb" runner="slurm">
+            <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=30720</param>
         </destination>
         <destination id="slurm_normal_64gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
@@ -176,6 +186,10 @@
         <destination id="slurm_normal_dynamic_mem" runner="slurm">
             <!-- clusters and mem-per-cpu are set dynamically -->
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1</param>
+        </destination>
+
+        <destination id="jetstream_test" runner="slurm">
+            <param id="nativeSpecification">--clusters=jetstream</param>
         </destination>
 
         <!-- stampede destinations -->
@@ -281,6 +295,8 @@
 
     </destinations>
     <tools>
+        <!-- jetstream test -->
+        <tool id="tp_tac" destination="jetstream_test" handler="test_handler2" />
         <!-- explicit local multi jobs -->
         <tool id="gemini_load" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="deeptools_bamCompare" destination="dynamic_multi_reserved" handler="test_handler2" />
@@ -328,7 +344,7 @@
         <tool id="naive_variant_caller" destination="slurm_normal_64gb"/>
         <!-- data managers -->
         <tool id="data_manager_fetch_genome_all_fasta" destination="reserved" handler="test_datamanager"/>
-        <tool id="bwa_mem_index_builder_data_manager" destination="reserved_16gb" handler="test_datamanager"/>
+        <tool id="bwa_mem_index_builder_data_manager" destination="reserved_64gb" handler="test_datamanager"/>
         <tool id="data_manager_bowtie2_index_builder" destination="reserved" handler="test_datamanager"/>
         <tool id="data_manager_bowtie_index_builder" destination="reserved" handler="test_datamanager"/>
         <tool id="data_manager_hisat2_index_builder" destination="reserved_16gb" handler="test_datamanager"/>
