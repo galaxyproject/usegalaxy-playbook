@@ -177,6 +177,10 @@
             <param id="nativeSpecification">--nodes=1 --ntasks=16 --mem-per-cpu=7680 --partition=multi</param>
         </destination>
 
+        <destination id="jetstream_large" runner="slurm">
+            <param id="nativeSpecification">--clusters=jetstream --nodes=1 --partition=large</param>
+        </destination>
+
         <!-- dynamic modified destinations: do not use directly -->
         <destination id="slurm_multi_dynamic_walltime" runner="slurm">
             <!-- walltime is set dynamically -->
@@ -295,8 +299,6 @@
 
     </destinations>
     <tools>
-        <!-- jetstream test -->
-        <tool id="tp_tac" destination="jetstream_test" handler="test_handler2" />
         <!-- explicit local multi jobs -->
         <tool id="gemini_load" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="deeptools_bamCompare" destination="dynamic_multi_reserved" handler="test_handler2" />
@@ -420,6 +422,7 @@
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_greenfield_normal">6</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_greenfield_development">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="jetstream_large">4</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_normal">50</limit>
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_development">1</limit>
