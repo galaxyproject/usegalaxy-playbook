@@ -132,53 +132,69 @@
         <!-- reserved destinations -->
         <destination id="reserved" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_16gb" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=15360</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_32gb" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=30720</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_64gb" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=61440</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_multi" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=4 --partition=reserved --mem-per-cpu=5120</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <!-- dynamic must append ntasks -->
         <destination id="reserved_dynamic" runner="slurm">
             <param id="nativeSpecification">--time=144:00:00 --clusters=roundup --nodes=1 --partition=reserved --mem-per-cpu=5120</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
 
         <!-- normal destinations -->
         <destination id="slurm_normal" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_normal_16gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_normal_32gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=30720</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_normal_64gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
 
         <destination id="slurm_multi" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=4 --partition=multi</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_multi_trackster" runner="slurm">
             <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=6 --partition=single</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_multi_development" runner="slurm">
             <param id="nativeSpecification">--time=00:30:00 --clusters=roundup --nodes=1 --ntasks=2 --partition=normal</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_multi_16c_128gb" runner="slurm">
             <param id="nativeSpecification">--nodes=1 --ntasks=16 --mem-per-cpu=7680 --partition=multi</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
 
+        <!-- (IU) jetstream destinations -->
         <destination id="jetstream_large" runner="slurm">
             <param id="nativeSpecification">--clusters=jetstream --nodes=1 --partition=large</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
 
         <!-- dynamic modified destinations: do not use directly -->
@@ -186,14 +202,12 @@
             <!-- walltime is set dynamically -->
             <param id="nativeSpecification">--nodes=1 --ntasks=4 --partition=multi</param>
             <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="test_handler2"/>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_normal_dynamic_mem" runner="slurm">
             <!-- clusters and mem-per-cpu are set dynamically -->
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1</param>
-        </destination>
-
-        <destination id="jetstream_test" runner="slurm">
-            <param id="nativeSpecification">--clusters=jetstream</param>
+            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
 
         <!-- stampede destinations -->
@@ -299,6 +313,8 @@
 
     </destinations>
     <tools>
+        <!-- testing -->
+        <tool id="tp_tac" handler="test_datamanager" />
         <!-- explicit local multi jobs -->
         <tool id="gemini_load" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="deeptools_bamCompare" destination="dynamic_multi_reserved" handler="test_handler2" />

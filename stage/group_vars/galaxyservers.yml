@@ -16,7 +16,7 @@
 
 
 ## used by: other vars in this vars file
-galaxy_log_dir: "{{ galaxy_web_root }}/log"
+galaxy_log_dir: "{{ galaxy_root }}/log"
 
 # instance_root and galaxy_root are set in the play
 # these are the same on galaxy servers
@@ -27,16 +27,17 @@ galaxy_log_dir: "{{ galaxy_web_root }}/log"
 
 ## used by: the play itself
 galaxy_user: g2test
-galaxy_group: G-803372
+# As of Ansible 2.0, a variable name matching a word used in a with_items loop
+# (as in supervisord_group_configs) will be expanded, despite the fact that
+# bare word expansion is deprecated. D=
+galaxy_system_group: G-803372
 # alsu by usegalaxy_admin
 galaxy_privileged_user: gxsrc
 
-galaxy_web_root: /srv/galaxy/{{ galaxy_instance_codename }}
-galaxy_web_server_dir: "{{ galaxy_web_root }}/server"
-galaxy_web_eggs_path: "{{ galaxy_web_root }}/eggs"
-galaxy_handler_root: /galaxy-repl/instances/{{ galaxy_instance_codename }}
-galaxy_handler_server_dir: "{{ galaxy_handler_root }}/server"
-galaxy_handler_eggs_path: "{{ galaxy_handler_root }}/eggs"
+galaxy_root: /srv/galaxy/{{ galaxy_instance_codename }}
+galaxy_server_dir: "/cvmfs/test.galaxyproject.org/galaxy"
+# FIXME: temp until Main is also on CVMFS
+galaxy_web_server_dir: "/cvmfs/test.galaxyproject.org/galaxy"
 
 
 ## used by: supervisor
@@ -50,8 +51,8 @@ supervisord_group_configs:
   - galaxy_group
 
 # supervisor template
-galaxy_installer_venv_dir: "/galaxy-repl/test/venv"
-galaxy_datamanager_venv_dir: "/galaxy-repl/test/venv"
+galaxy_installer_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
+galaxy_datamanager_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
 
 
 ## used by: usegalaxy, usegalaxy_static
@@ -71,6 +72,11 @@ usegalaxy_nagios_tools:
   - echo_test_cluster
   - echo_test_stampede
   - echo_test_greenfield
+
+
+## used by usegalaxy_privileged
+# this didn't work...
+#galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
 
 
 ## used by the sysctl task in the galaxy_infrastructure playbook
@@ -94,8 +100,8 @@ tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
 interactive_environments_install_method: copy
 interactive_environments_plugins_local_path: "{{ deploy_env }}/files/interactive_environments/plugins"
 interactive_environments_proxy_local_path: "{{ deploy_env }}/files/interactive_environments/proxy"
-interactive_environments_plugins_path: "{{ galaxy_web_root }}/interactive_environments/plugins"
-interactive_environments_proxy_path: "{{ galaxy_web_root }}/interactive_environments/proxy"
+interactive_environments_plugins_path: "{{ galaxy_root }}/interactive_environments/plugins"
+interactive_environments_proxy_path: "{{ galaxy_root }}/interactive_environments/proxy"
 interactive_environments_config_files:
   jupyter:
     file: jupyter.ini
@@ -113,22 +119,22 @@ interactive_environments_config_files:
         image: "qiaoy/iobio-bundle.bam-iobio:1.0-ondemand"
         galaxy_url: "https://test.galaxyproject.org"
         docker_hostname: "iedocker.galaxyproject.org"
-interactive_environments_supervisor_conf_dir: "{{ galaxy_web_root }}/supervisor/etc/supervisord.conf.d"
-interactive_environments_nginx_conf_dir: "{{ galaxy_web_root }}/nginx.conf.d"
+interactive_environments_supervisor_conf_dir: "{{ galaxy_root }}/supervisor/etc/supervisord.conf.d"
+interactive_environments_nginx_conf_dir: "{{ galaxy_root }}/nginx.conf.d"
 interactive_environments_proxy_user: "{{ galaxy_user }}"
 interactive_environments_access_log_path: "{{ galaxy_log_dir }}/gie_proxy-access.log"
 interactive_environments_error_log_path: "{{ galaxy_log_dir }}/gie_proxy-error.log"
 
 
 ## used by: galaxyprojectdotorg.galaxy
-pip_virtualenv_command: "{{ galaxy_web_root }}/python/bin/virtualenv"
+pip_virtualenv_command: "{{ galaxy_root }}/python/bin/virtualenv"
 
 # some things are always local
-galaxy_venv_dir: "{{ galaxy_web_root }}/venv"
-galaxy_config_dir: "{{ galaxy_web_root }}/config"
+galaxy_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
+galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
-galaxy_mutable_config_dir: "{{ galaxy_web_root }}/var"
-galaxy_mutable_data_dir: "{{ galaxy_web_root }}/var"
+galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
+galaxy_mutable_data_dir: "{{ galaxy_root }}/var"
 
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
@@ -176,7 +182,7 @@ base_app_main: &BASE_APP_MAIN
   shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
   sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
 
-  environment_setup_file: /galaxy/test/job_env.bash
+  #environment_setup_file: /galaxy/test/job_env.bash
 
   builds_file_path: "{{ galaxy_config_dir }}/builds.txt"
   ucsc_build_sites: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"

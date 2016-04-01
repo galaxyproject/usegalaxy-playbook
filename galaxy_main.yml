@@ -101,6 +101,7 @@
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
     galaxy_root: "{{ galaxy_web_root }}"
+    galaxy_server_dir: "{{ galaxy_web_server_dir }}"
   roles:
     - role: usegalaxy_privileged
     # welcome page

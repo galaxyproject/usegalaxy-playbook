@@ -4,20 +4,20 @@
   copy: src=files/galaxy/{{ galaxy_instance_hostname }}/nagios/{{ item }}.xml dest=/srv/galaxy/{{ galaxy_instance_codename }}/nagios/{{ item }}.xml
   with_items: usegalaxy_nagios_tools
 
-# set up dynamic rules (such hack wow)
-- name: Create dynamic rule directories
-  file: state=directory path="{{ galaxy_venv_dir }}/lib/python2.7/site-packages/usegalaxy/jobs/rules"
-
-- name: Create dynamic rule __init__.py files
-  file: state=directory path="{{ galaxy_venv_dir }}/lib/python2.7/site-packages/{{ item }}/__init__.py"
-  with_items:
-    - usegalaxy
-    - usegalaxy/jobs
-    - usegalaxy/jobs/rules
-
-- name: Copy dynamic rules
-  copy: src={{ item }} dest={{ galaxy_venv_dir }}/lib/python2.7/site-packages/usegalaxy/jobs/rules/{{ item | basename }}
-  with_items: usegalaxy_dynamic_job_rules
+## set up dynamic rules (such hack wow)
+#- name: Create dynamic rule directories
+#  file: state=directory path="{{ galaxy_dynamic_rule_dir }}/usegalaxy/jobs/rules"
+#
+#- name: Create dynamic rule __init__.py files
+#  file: state=directory path="{{ galaxy_dynamic_rule_dir }}/{{ item }}/__init__.py"
+#  with_items:
+#    - usegalaxy
+#    - usegalaxy/jobs
+#    - usegalaxy/jobs/rules
+#
+#- name: Copy dynamic rules
+#  copy: src={{ item }} dest={{ galaxy_dynamic_rule_dir }}/usegalaxy/jobs/rules/{{ item | basename }}
+#  with_items: usegalaxy_dynamic_job_rules
 
 - name: Install uWSGI log archival script
   template: src=archive_logs.sh.j2 dest={{ galaxy_root }}/bin/archive_logs.sh mode=0555

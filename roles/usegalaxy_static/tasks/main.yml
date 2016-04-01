@@ -20,7 +20,7 @@
 - name: Fetch Galaxy version
   command: "{{ galaxy_venv_dir }}/bin/python -c 'from galaxy.version import VERSION; print VERSION'"
   environment:
-    PYTHONPATH: "{{ galaxy_web_server_dir }}/lib"
+    PYTHONPATH: "{{ galaxy_server_dir }}/lib"
   register: version_major
 
 - name: Fill templates

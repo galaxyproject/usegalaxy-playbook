@@ -16,8 +16,7 @@
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
-    instance_root: "{{ galaxy_web_root }}"
-    galaxy_root: "{{ galaxy_web_root }}"
+    instance_root: "{{ galaxy_root }}"
   roles:
     - usegalaxy_admin
     - supervisor
