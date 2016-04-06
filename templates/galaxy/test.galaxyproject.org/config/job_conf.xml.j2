@@ -14,6 +14,9 @@
             <param id="invalidjobexception_retries">5</param>
             <param id="internalexception_retries">5</param>
         </plugin>
+        <plugin id="pulsar_jetstream_iu" type="runner" load="galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner">
+            <param id="pulsar_config">/srv/galaxy/test/config/pulsar_jetstream_iu.yml</param>
+        </plugin>
         <plugin id="amqp_pulsar_stampede" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
             <param id="galaxy_url">https://test.galaxyproject.org</param>
@@ -77,6 +80,10 @@
             <plugin id="amqp_pulsar_greenfield"/>
             <plugin id="amqp_pulsar_greenfield_nagios"/>
             <plugin id="slurm"/>
+        </handler>
+        <handler id="test_handler4">
+            <plugin id="amqp_pulsar_stampede"/>
+            <plugin id="pulsar_jetstream_iu"/>
         </handler>
         <handler id="test_datamanager">
             <plugin id="slurm"/>
@@ -192,8 +199,13 @@
         </destination>
 
         <!-- (IU) jetstream destinations -->
-        <destination id="jetstream_large" runner="slurm">
-            <param id="nativeSpecification">--clusters=jetstream --nodes=1 --partition=large</param>
+        <destination id="jetstream_large" runner="pulsar_jetstream_iu">
+            <param id="submit_native_specification">--clusters=jetstream --nodes=1 --partition=large</param>
+            <param id="default_file_action">copy</param>
+            <param id="remote_metadata">false</param>
+            <param id="jobs_directory">/jetstream/iu-scratch0/test/jobs/</param>
+            <param id="remote_property_galaxy_home">/cvmfs/test.galaxyproject.org/galaxy</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_iu_actions.yml</param>
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
 
@@ -313,8 +325,6 @@
 
     </destinations>
     <tools>
-        <!-- testing -->
-        <tool id="tp_tac" handler="test_datamanager" />
         <!-- explicit local multi jobs -->
         <tool id="gemini_load" destination="dynamic_multi_reserved" handler="test_handler2" />
         <tool id="deeptools_bamCompare" destination="dynamic_multi_reserved" handler="test_handler2" />
@@ -335,7 +345,7 @@
         <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <!-- resubmit to stampede jobs -->
-        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
+        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
         <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
@@ -368,6 +378,7 @@
         <tool id="data_manager_hisat2_index_builder" destination="reserved_16gb" handler="test_datamanager"/>
         <tool id="kraken_database_builder" destination="slurm_multi_16c_128gb" handler="test_datamanager"/>
         <!-- 16GB tools -->
+        <tool id="sailfish" destination="dynamic_normal_reserved_16gb"/>
         <tool id="bamtools" destination="dynamic_normal_reserved_16gb"/>
         <tool id="varscan" destination="dynamic_normal_reserved_16gb"/>
         <tool id="scatterplot_rpy" destination="dynamic_normal_reserved_16gb"/>

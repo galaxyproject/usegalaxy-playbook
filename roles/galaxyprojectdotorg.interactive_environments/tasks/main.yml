@@ -20,12 +20,21 @@
   npm:
     path: "{{ interactive_environments_proxy_path }}"
 
-- name: Create IE config files
+- name: Create IE ini config files
   template:
     src: config.ini.j2
-    dest: "{{ interactive_environments_plugins_path }}/{{ item.key }}/config/{{ item.value.file }}"
+    dest: "{{ interactive_environments_plugins_path }}/{{ item.ie_name }}/config/{{ item.file }}"
     backup: yes
-  with_dict: interactive_environments_config_files
+  with_items: "{{ interactive_environments_config_files }}"
+  when: "(item.file | splitext)[1] == '.ini'"
+
+- name: Create IE yaml config files
+  copy:
+    content: "{{ item.contents | to_nice_yaml }}"
+    dest: "{{ interactive_environments_plugins_path }}/{{ item.ie_name }}/config/{{ item.file }}"
+    backup: yes
+  with_items: "{{ interactive_environments_config_files }}"
+  when: "(item.file | splitext)[1] in ('.yml', '.yaml')"
 
 - name: Include tasks for supervisor config
   include: supervisor.yml

@@ -32,10 +32,10 @@
     archive: true
     delete: true
     rsync_opts:
-      - "--exclude={{ item.key }}/config/*.ini"
+      - "--exclude={{ item }}/config/*.ini"
     dest: "{{ interactive_environments_plugins_path }}"
-    src: "{{ interactive_environments_plugins_local_path }}/{{ item.key }}"
-  with_dict: interactive_environments_config_files
+    src: "{{ interactive_environments_plugins_local_path }}/{{ item }}"
+  with_items: "{{ interactive_environments_enabled }}"
 
 - name: Synchronize IE proxy
   synchronize:

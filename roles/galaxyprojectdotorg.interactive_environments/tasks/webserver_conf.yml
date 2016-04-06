@@ -7,7 +7,7 @@
 
 - name: Create web server config snippet for IE proxy
   template:
-    src: "{{ interactive_environments_web_conf_templates[item.key] }}.j2"
-    dest: "{{ interactive_environments_web_conf_dir }}/{{ interactive_environments_web_conf_templates[item.key] }}"
-  when: item.key in interactive_environments_web_conf_templates
-  with_dict: interactive_environments_config_files
+    src: "{{ interactive_environments_web_conf_templates[item] }}.j2"
+    dest: "{{ interactive_environments_web_conf_dir }}/{{ interactive_environments_web_conf_templates[item] }}"
+  with_items: "{{ interactive_environments_enabled }}"
+  when: item in interactive_environments_web_conf_templates

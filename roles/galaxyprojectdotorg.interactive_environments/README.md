@@ -48,32 +48,51 @@ For the copy method, set the following variables:
 - `interactive_environments_install_method` to `copy`
 - `interactive_environments_plugins_path`: path on Galaxy server where the IE plugins should be installed
 - `interactive_environments_proxy_path`: path on Galaxy server where the Node-based IE proxy should be installed
-- `interactive_environments_config_files`: a hash, the keys of which specify which plugins will be installed (it is explained in greater detail below)
+- `interactive_environments_enabled`: a list of names of IEs that will be installed
+- `interactive_environments_config_files`: a list of config files that will be installed (the format is explained in greater detail below)
 
 #### Additional required variables
 
-Each plugin's config file is created from the values in the `interactive_environments_config_files` hash. An example of that hash for the IPython plugin can be found below:
+Each plugin's config file(s) are created from the values in the `interactive_environments_config_files` list. An example of that list for the Jupyter plugin can be found below:
 
 ```yaml
 interactive_environments_config_files:
-  ipython:
-    file: ipython.ini
+  - ie_name: jupyter
+    file: jupyter.ini
     contents:
       docker:
         command: "docker -H tcp://docker.example.org:2376 --tlsverify {docker_args}"
-        image: "bgruening/docker-ipython-notebook:15.10.1"
-        galaxy_url: "https://galaxy.example.org"
+        galaxy_url: "https://example.galaxyproject.org"
         docker_hostname: "docker.example.org"
+  - ie_name: jupyter
+    file: allowed_images.yml
+    contents:
+      - image: "bgruening/docker-jupyter-notebook:16.01.1"
+        description: >
+          The Jupyter notebook is the next iteration of IPython, allowing
+          analysis in many different languages. This image features the Python,
+          R, Julia, Haskell, Bash kernels and many scientific analysis stacks for
+          each.
 ```
 
-This will create `<interactive_environments_plugins_path>/ipython/config/ipython.ini` with the following contents:
+This will create `<interactive_environments_plugins_path>/jupyter/config/jupyter.ini` with the following contents:
 
 ```ini
 [docker]
 command = docker -H tcp://docker.example.org:2376 --tlsverify {docker_args}
-image = bgruening/docker-ipython-notebook:15.10.1
 galaxy_url = https://galaxy.example.org
 docker_hostname = docker.example.org
+```
+
+And `<interactive_environments_plugins_path>/jupyter/config/allowed_images.yml`:
+
+```yaml
+-   description: 'The Jupyter notebook is the next iteration of IPython, allowing
+        analysis in many different languages. This image features the Python, R, Julia,
+        Haskell, Bash kernels and many scientific analysis stacks for each.
+
+        '
+    image: quay.io/bgruening/docker-jupyter-notebook:16.01.1
 ```
 
 ## Optional Variables
@@ -138,14 +157,33 @@ Example Playbook
     interactive_environments_install_method: copy
     interactive_environments_plugins_path: "/srv/galaxy/interactive_environments/plugins"
     interactive_environments_proxy_path: "/srv/galaxy/interactive_environments/proxy"
+    interactive_environments_enabled:
+      - jupyter
+      - bam_iobio
     interactive_environments_config_files:
-      ipython:
-        file: ipython.ini
+      - ie_name: jupyter
+        file: jupyter.ini
         contents:
           docker:
             command: "docker -H tcp://docker.example.org:2376 --tlsverify {docker_args}"
-            image: "bgruening/docker-ipython-notebook:15.10.1"
-            galaxy_url: "https://galaxy.example.org"
+            galaxy_url: "https://example.galaxyproject.org"
+            docker_hostname: "docker.example.org"
+      - ie_name: jupyter
+        file: allowed_images.yml
+        contents:
+          - image: "bgruening/docker-jupyter-notebook:16.01.1"
+            description: >
+              The Jupyter notebook is the next iteration of IPython, allowing
+              analysis in many different languages. This image features the Python,
+              R, Julia, Haskell, Bash kernels and many scientific analysis stacks for
+              each.
+      - ie_name: bam_iobio
+        file: bam_iobio.ini
+        contents:
+          docker:
+            command: "docker -H tcp://docker.example.org:2376 --tlsverify {docker_args}"
+            image: "qiaoy/iobio-bundle.bam-iobio:1.0-ondemand"
+            galaxy_url: "https://example.galaxyproject.org"
             docker_hostname: "docker.example.org"
     interactive_environments_supervisor_conf_dir: "/srv/galaxy/supervisor/etc/supervisord.conf.d"
     interactive_environments_nginx_conf_dir: "/srv/galaxy/nginx.conf.d"
