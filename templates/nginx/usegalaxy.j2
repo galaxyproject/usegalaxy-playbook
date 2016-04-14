@@ -1,0 +1,188 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+server {
+    listen          *:80;
+    listen         *:443 ssl;
+    server_name  www.usegalaxy.org;
+
+    return 307 https://usegalaxy.org$request_uri;
+}
+
+server {
+    listen          *:80;
+    server_name  usegalaxy.org galaxy-web-01.tacc.utexas.edu galaxy-web-01.galaxyproject.org galaxy-web-02.tacc.utexas.edu galaxy-web-02;
+
+    include {{ nginx_conf_dir }}/usegalaxy_rewrites.conf;
+
+    return 307 https://usegalaxy.org$request_uri;
+}
+
+# To display the status page for all requests, use this
+#server {
+#    listen          *:443 ssl;
+#    server_name  usegalaxy.org _;
+#
+#    include {{ nginx_conf_dir }}/usegalaxy_rewrites.conf;
+#
+#    access_log  /var/log/nginx/main.access.log;
+#    error_log   /var/log/nginx/main.error.log;
+#
+#    location / {
+#        proxy_pass https://status.galaxyproject.org;
+#        proxy_redirect     off;
+#        proxy_set_header   Host              $host;
+#        proxy_set_header   X-Real-IP         $remote_addr;
+#        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+#    }
+#}
+
+server {
+    listen          *:443 ssl default_server;
+    server_name  usegalaxy.org galaxy-web-01.tacc.utexas.edu galaxy-web-01.galaxyproject.org galaxy-web-02.tacc.utexas.edu galaxy-web-02;
+
+    # Enable HSTS (age is 180 days)
+    add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
+
+    include {{ nginx_conf_dir }}/usegalaxy_rewrites.conf;
+
+    access_log  /var/log/nginx/main.access.log;
+    error_log   /var/log/nginx/main.error.log;
+
+    location / {
+        uwsgi_pass 127.0.0.1:4001;
+        uwsgi_param UWSGI_SCHEME $scheme;
+        include uwsgi_params;
+    }
+
+    location /admin_toolshed {
+        proxy_pass http://galaxy-web-01.tacc.utexas.edu:9999;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_set_header X-URL-SCHEME https;
+    }
+
+    # FIXME: should not be manually placed in /home/ndc
+    location /googlef23b5e42aa873e7d.html {
+        alias /home/ndc/googlef23b5e42aa873e7d.html;
+    }
+
+    location /static {
+        alias {{ galaxy_server_dir }}/static;
+        gzip on;
+        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
+        expires 24h;
+    }
+
+    location /static/style {
+        alias {{ galaxy_server_dir }}/static/style/blue;
+        gzip on;
+        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
+        expires 24h;
+    }
+
+    location /static/scripts {
+        alias {{ galaxy_server_dir }}/static/scripts;
+        gzip on;
+        gzip_types text/plain text/javascript application/x-javascript;
+        expires 24h;
+    }
+
+    location ~ ^/plugins/interactive_environments/(?<vis_name>.+?)/static/(?<static_file>.*?)$ {
+        alias {{ interactive_environments_plugins_path }}/$plug_type/$vis_name/static/$static_file;
+    }
+
+    location ~ ^/plugins/(?<plug_type>.+?)/(?<vis_name>.+?)/static/(?<static_file>.*?)$ {
+        alias {{ galaxy_server_dir }}/config/plugins/$plug_type/$vis_name/static/$static_file;
+    }
+
+    location /robots.txt {
+        alias {{ galaxy_server_dir }}/static/robots.txt;
+    }
+
+    location /favicon.ico {
+        alias {{ galaxy_server_dir }}/static/favicon.ico;
+    }
+
+    location /_x_accel_redirect {
+        internal;
+        alias /;
+    }
+
+    location /_upload {
+        upload_store /galaxy-repl/main/upload;
+        upload_store_access user:rw; # group:rw all:rw;
+        upload_pass_form_field "";
+        upload_set_form_field "__${upload_field_name}__is_composite" "true";
+        upload_set_form_field "__${upload_field_name}__keys" "name path";
+        upload_set_form_field "${upload_field_name}_name" "$upload_file_name";
+        upload_set_form_field "${upload_field_name}_path" "$upload_tmp_path";
+        upload_pass_args on;
+        upload_pass /_upload_done;
+    }
+
+    location /_upload_done {
+        set $dst /api/tools;
+        if ($args ~ nginx_redir=([^&]+)) {
+            set $dst $1;
+        }
+        rewrite "" $dst;
+    }
+
+    location /_job_files {
+        if ($request_method != POST) {
+            rewrite "" /api/jobs/$arg_job_id/files last;
+        }
+        upload_store /galaxy-repl/main/upload_job_files;
+        upload_store_access user:rw;
+        upload_pass_form_field "";
+        upload_set_form_field "__${upload_field_name}_path" "$upload_tmp_path";
+        upload_pass_args on;
+        upload_pass /_upload_job_files_done;
+    }
+
+    location /_upload_job_files_done {
+        internal;
+        rewrite "" /api/jobs/$arg_job_id/files;
+    }
+
+    # regular proxy
+    location /gie_proxy/ipython {
+        proxy_pass http://galaxy-web-01.tacc.utexas.edu:4280/gie_proxy/ipython;
+        proxy_redirect off;
+    }
+
+    # websocket for kernels
+    location /gie_proxy/ipython/api/kernels {
+        proxy_pass http://galaxy-web-01.tacc.utexas.edu:4280/gie_proxy/ipython/api/kernels;
+        proxy_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+
+    # overridden static content
+    location /static/terms.html {
+        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/terms.html;
+    }
+
+    location /static/welcome.html {
+        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome.html;
+    }
+
+    location /static/welcome_img {
+        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome_img;
+    }
+
+    # error docs
+    error_page  502 503 504 /error/502/index.shtml;
+    error_page  413         /error/413/index.html;
+    location /error {
+        ssi on;
+        root {{ nginx_srv }}/{{ galaxy_instance_hostname }};
+    }
+
+}
+
+# vim: set filetype=nginx

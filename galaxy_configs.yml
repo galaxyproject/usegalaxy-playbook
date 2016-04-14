@@ -8,10 +8,7 @@
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
-    instance_root: "{{ galaxy_web_root }}"
-    galaxy_root: "{{ galaxy_web_root }}"
-    galaxy_server_dir: "{{ galaxy_web_server_dir }}"
-    galaxy_eggs_path: "{{ galaxy_web_eggs_path }}"
+    instance_root: "{{ galaxy_root }}"
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # set up local galaxy clone and local config
@@ -54,10 +51,7 @@
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
-    instance_root: "{{ galaxy_web_root }}"
-    galaxy_root: "{{ galaxy_web_root }}"
-    galaxy_server_dir: "{{ galaxy_web_server_dir }}"
-    galaxy_eggs_path: "{{ galaxy_web_eggs_path }}"
+    instance_root: "{{ galaxy_root }}"
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # fetch and distribute mutable configs (needs the galaxy_mutable_configs
@@ -69,7 +63,5 @@
   remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
-  vars:
-    galaxy_root: "{{ galaxy_web_root }}"
   roles:
     - role: usegalaxy_privileged

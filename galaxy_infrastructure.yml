@@ -10,17 +10,28 @@
   roles:
     - natefoo.postgresql_objects
 
-- name: Manage supervisor and root tasks
+- name: Manage supervisor, nginx and root tasks
   hosts: galaxyservers
   remote_user: root
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
     instance_root: "{{ galaxy_root }}"
+  pre_tasks:
+    - name: Configure Galaxy yum repository
+      copy:
+        content: |
+          [galaxy]
+          name=Galaxy Packages for Enterprise Linux $releasever - $basearch
+          baseurl=https://depot.galaxyproject.org/yum/el/$releasever/$basearch/
+          enabled=1
+          gpgcheck=0
+        dest: /etc/yum.repos.d/galaxy.repo
   roles:
+    - galaxyprojectdotorg.nginx
     - usegalaxy_admin
     - supervisor
-  tags: supervisor
+  tags: supervisor,nginx
 
 - name: Set sysctl values for uWSGI
   hosts: galaxyservers

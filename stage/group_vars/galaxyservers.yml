@@ -36,8 +36,6 @@ galaxy_privileged_user: gxsrc
 
 galaxy_root: /srv/galaxy/{{ galaxy_instance_codename }}
 galaxy_server_dir: "/cvmfs/test.galaxyproject.org/galaxy"
-# FIXME: temp until Main is also on CVMFS
-galaxy_web_server_dir: "/cvmfs/test.galaxyproject.org/galaxy"
 
 
 ## used by: supervisor
@@ -54,6 +52,34 @@ supervisord_group_configs:
 galaxy_installer_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
 galaxy_datamanager_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
 
+
+## used by: galaxyprojectdotorg.nginx
+nginx_flavor: galaxy
+nginx_default_redirect_uri: https://test.galaxyproject.org$request_uri
+
+nginx_conf_http:
+  server_names_hash_bucket_size: 128
+  gzip_vary: 'on'
+  gzip_proxied: any
+  gzip_comp_level: 6
+  gzip_buffers: 16 8k
+  gzip_http_version: 1.1
+  gzip_types: text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript
+  client_max_body_size: 10g
+  proxy_read_timeout: 600
+  uwsgi_read_timeout: 300
+
+nginx_configs:
+  - galaxy_test
+  - galaxy_main_installer
+
+nginx_conf_user: g2test
+nginx_conf_group: G-803372
+nginx_conf_worker_processes: 4
+nginx_conf_ssl_certificate: "{{ nginx_conf_dir }}/ssl/wildcard_cert.pem"
+nginx_conf_ssl_certificate_key: "{{ nginx_conf_dir }}/ssl/wildcard_privatekey.pem"
+nginx_enable_default_ipv6: false
+nginx_supervisor: true
 
 ## used by: usegalaxy, usegalaxy_static
 nginx_srv: /srv/nginx
@@ -249,6 +275,10 @@ base_app_main: &BASE_APP_MAIN
   max_metadata_value_size: 1000000
   brand: 'Test'
   enable_beta_tool_command_isolation: "True"
+
+  # stats
+  statsd_host: "galaxy06.tacc.utexas.edu"
+  statsd_port: "8125"
 
 # galaxy.ini contents
 galaxy_config_hash:

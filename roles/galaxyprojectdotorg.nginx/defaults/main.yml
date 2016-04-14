@@ -11,7 +11,13 @@ nginx_flavor: full
 
 # where to install nginx configs
 nginx_conf_dir: /etc/nginx
-nginx_local_conf_dir: /etc/nginx
+
+# whether nginx will run from supervisor
+nginx_supervisor: false
+nginx_supervisor_service_name: nginx
+
+# enable ipv6 for the default vhost?
+nginx_enable_default_ipv6: true
 
 # additional nginx config files to install
 nginx_configs: [ ]

@@ -8,19 +8,16 @@
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
-    instance_root: "{{ galaxy_web_root }}"
-    galaxy_root: "{{ galaxy_web_root }}"
-    galaxy_server_dir: "{{ galaxy_web_server_dir }}"
-    galaxy_eggs_path: "{{ galaxy_web_eggs_path }}"
+    instance_root: "{{ galaxy_root }}"
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # set up local galaxy clone and local config
     - role: galaxyprojectdotorg.galaxy
-      galaxy_manage_clone: yes
+      galaxy_manage_clone: no
       galaxy_manage_static_setup: yes
       galaxy_manage_mutable_setup: no
       galaxy_manage_database: no
-      galaxy_fetch_eggs: yes
+      galaxy_fetch_dependencies: no
   post_tasks:
     # create impersonation config on Main
     - name: Set galaxy_config to impersonate_config_hash
@@ -48,36 +45,13 @@
     - name: Create Galaxy data manager configuration file
       template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/datamanager.ini backup=yes
 
-- name: Galaxy handler code and dependencies
-  hosts: galaxymasters
-  remote_user: "{{ galaxy_privileged_user }}"
-  vars_files:
-    - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
-  vars:
-    instance_root: "{{ galaxy_handler_root }}"
-    galaxy_root: "{{ galaxy_handler_root }}"
-    galaxy_server_dir: "{{ galaxy_handler_server_dir }}"
-    galaxy_eggs_path: "{{ galaxy_handler_eggs_path }}"
-    galaxy_config: "{{ galaxy_config_hash }}"
-  roles:
-    # set up handler galaxy clone
-    - role: galaxyprojectdotorg.galaxy
-      galaxy_manage_clone: yes
-      galaxy_manage_static_setup: no
-      galaxy_manage_mutable_setup: no
-      galaxy_manage_database: no
-      galaxy_fetch_eggs: yes
-
 - name: Galaxy database and mutable configs
   hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
   vars:
-    instance_root: "{{ galaxy_web_root }}"
-    galaxy_root: "{{ galaxy_web_root }}"
-    galaxy_server_dir: "{{ galaxy_web_server_dir }}"
-    galaxy_eggs_path: "{{ galaxy_web_eggs_path }}"
+    instance_root: "{{ galaxy_root }}"
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # manage the database
@@ -99,9 +73,6 @@
   remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
-  vars:
-    galaxy_root: "{{ galaxy_web_root }}"
-    galaxy_server_dir: "{{ galaxy_web_server_dir }}"
   roles:
     - role: usegalaxy_privileged
     # welcome page

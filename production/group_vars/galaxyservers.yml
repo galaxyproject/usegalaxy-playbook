@@ -16,7 +16,7 @@
 
 
 ## used by: other vars in this vars file
-galaxy_log_dir: "{{ galaxy_web_root }}/log"
+galaxy_log_dir: "{{ galaxy_root }}/log"
 
 # instance_root and galaxy_root are set in the play
 # these are the same on galaxy servers
@@ -31,12 +31,8 @@ galaxy_system_group: G-803372
 # also by usegalaxy_admin
 galaxy_privileged_user: gxsrc
 
-galaxy_web_root: /srv/galaxy/{{ galaxy_instance_codename }}
-galaxy_web_server_dir: "{{ galaxy_web_root }}/server"
-galaxy_web_eggs_path: "{{ galaxy_web_root }}/eggs"
-galaxy_handler_root: /galaxy-repl/instances/{{ galaxy_instance_codename }}
-galaxy_handler_server_dir: "{{ galaxy_handler_root }}/server"
-galaxy_handler_eggs_path: "{{ galaxy_handler_root }}/eggs"
+galaxy_root: /srv/galaxy/{{ galaxy_instance_codename }}
+galaxy_server_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy"
 
 
 ## used by: supervisor
@@ -49,7 +45,39 @@ supervisord_group_configs:
   - galaxy_group
 
 # supervisor template
-galaxy_installer_venv_dir: "/galaxy-repl/main/venv"
+galaxy_installer_venv_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv"
+
+
+## used by: galaxyprojectdotorg.nginx
+nginx_flavor: galaxy
+nginx_default_redirect_uri: https://usegalaxy.org$request_uri
+
+nginx_conf_http:
+  server_names_hash_bucket_size: 128
+  gzip_vary: 'on'
+  gzip_proxied: any
+  gzip_comp_level: 6
+  gzip_buffers: 16 8k
+  gzip_http_version: 1.1
+  gzip_types: text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript
+  client_max_body_size: 50g
+  proxy_read_timeout: 600
+  uwsgi_read_timeout: 300
+
+nginx_configs:
+  - usegalaxy
+  - galaxy_bx
+
+nginx_extra_configs:
+  - usegalaxy_rewrites.conf
+
+nginx_conf_user: g2main
+nginx_conf_group: G-803372
+nginx_conf_worker_processes: 8
+nginx_conf_ssl_certificate: "{{ nginx_conf_dir }}/ssl/usegalaxy.org_cert.pem"
+nginx_conf_ssl_certificate_key: "{{ nginx_conf_dir }}/ssl/usegalaxy.org_privatekey.pem"
+nginx_enable_default_ipv6: false
+nginx_supervisor: true
 
 
 ## used by: usegalaxy, usegalaxy_static
@@ -93,40 +121,51 @@ tool_list_file: files/galaxy/usegalaxy.org/tool_list.yaml
 interactive_environments_install_method: copy
 interactive_environments_plugins_local_path: "{{ deploy_env }}/files/interactive_environments/plugins"
 interactive_environments_proxy_local_path: "{{ deploy_env }}/files/interactive_environments/proxy"
-interactive_environments_plugins_path: "{{ galaxy_web_root }}/interactive_environments/plugins"
-interactive_environments_proxy_path: "{{ galaxy_web_root }}/interactive_environments/proxy"
+interactive_environments_plugins_path: "{{ galaxy_root }}/interactive_environments/plugins"
+interactive_environments_proxy_path: "{{ galaxy_root }}/interactive_environments/proxy"
+interactive_environments_enabled:
+  - jupyter
 interactive_environments_config_files:
-  jupyter:
+  - ie_name: jupyter
     file: jupyter.ini
     contents:
       docker:
         command: "docker -H tcp://iedocker.galaxyproject.org:2376 --tlsverify {docker_args}"
-        image: "quay.io/bgruening/docker-jupyter-notebook:16.01.1"
         galaxy_url: "https://usegalaxy.org"
         docker_hostname: "iedocker.galaxyproject.org"
+  - ie_name: jupyter
+    file: allowed_images.yml
+    contents:
+      - image: "quay.io/bgruening/docker-jupyter-notebook:16.01.1"
+        description: >
+          The Jupyter notebook is the next iteration of IPython, allowing
+          analysis in many different languages. This image features the Python,
+          R, Julia, Haskell, Bash kernels and many scientific analysis stacks for
+          each.
 interactive_environments_proxy_user: "{{ galaxy_user }}"
 interactive_environments_access_log_path: "{{ galaxy_log_dir }}/gie_proxy-access.log"
 interactive_environments_error_log_path: "{{ galaxy_log_dir }}/gie_proxy-error.log"
 
 
 ## used by: galaxyprojectdotorg.galaxy
-pip_virtualenv_command: "{{ galaxy_web_root }}/python/bin/virtualenv"
+pip_virtualenv_command: "{{ galaxy_root }}/python/bin/virtualenv"
 
 # some things are always local
-galaxy_venv_dir: "{{ galaxy_web_root }}/venv"
-galaxy_config_dir: "{{ galaxy_web_root }}/config"
+galaxy_venv_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv"
+galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
-galaxy_mutable_config_dir: "{{ galaxy_web_root }}/var"
-galaxy_mutable_data_dir: "{{ galaxy_web_root }}/var"
+galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
+galaxy_mutable_data_dir: "{{ galaxy_root }}/var"
 
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 base_app_main: &BASE_APP_MAIN
 
   # message box
-  #message_box_visible: "True"
+  message_box_visible: "True"
   #message_box_content: 'Galaxy will be unavailable between 12:00 PM - 6:00 PM EST (UTC -0500) <strong>today</strong>, Tuesday, November 10th due to <a target="_blank" href="https://portal.tacc.utexas.edu/user-news/-/news/101798">filesystem maintenance</a>. Running jobs may be interrupted during this period.'
-  #message_box_class: warning
+  message_box_content: 'We have updated Galaxy to the forthcoming 16.04 release and made some configuration and deployment changes, so you may encounter a few problems. We are working on these, and please feel free to report any errors you encounter.'
+  message_box_class: warning
 
   # this can be removed after 9/22 and the datatypes_conf.xml update
   gbrowse_display_sites: wormbase,tair,modencode_worm,modencode_fly
@@ -168,7 +207,7 @@ base_app_main: &BASE_APP_MAIN
   shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
   sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
 
-  environment_setup_file: /galaxy/main/job_env.bash
+  #environment_setup_file: /galaxy/main/job_env.bash
 
   builds_file_path: "{{ galaxy_config_dir }}/builds.txt"
   ucsc_build_sites: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
@@ -228,7 +267,6 @@ base_app_main: &BASE_APP_MAIN
   biostar_url: "https://biostar.usegalaxy.org"
   biostar_key_name: biostar-login
   biostar_enable_bug_reports: "False"
-  ga_code: "UA-45719423-10"
   max_metadata_value_size: 1000000
 
 # galaxy.ini contents
