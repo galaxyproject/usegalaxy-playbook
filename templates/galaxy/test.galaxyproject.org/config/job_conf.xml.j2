@@ -88,6 +88,7 @@
             <plugin id="amqp_pulsar_stampede"/>
             <plugin id="pulsar_jetstream_iu"/>
             <plugin id="pulsar_jetstream_tacc"/>
+            <plugin id="slurm"/>
         </handler>
         <handler id="test_datamanager">
             <plugin id="slurm"/>
@@ -203,27 +204,24 @@
         </destination>
 
         <!-- Jetstream destinations -->
-        <destination id="dynamic_jetstream_large" runner="dynamic">
-            <param id="type">python</param>
-            <param id="function">dynamic_jetstream_large</param>
-            <param id="native_specification">--nodes=1 --partition=large</param>
-        </destination>
-        <destination id="jetstream_iu_large" runner="pulsar_jetstream_iu" tags="jetstream,jetstream_large">
-            <param id="submit_native_specification">--clusters=jetstream-iu --nodes=1 --partition=large</param>
+        <destination id="jetstream_iu_multi" runner="pulsar_jetstream_iu" tags="jetstream,jetstream_multi">
+            <param id="submit_native_specification">--clusters=jetstream-iu --nodes=1 --partition=multi</param>
             <param id="default_file_action">copy</param>
             <param id="remote_metadata">false</param>
             <param id="jobs_directory">/jetstream/iu-scratch0/test/jobs/</param>
             <param id="remote_property_galaxy_home">/cvmfs/test.galaxyproject.org/galaxy</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
+            <param id="staging_directory">/jetstream/iu-scratch0/test/jobs</param>
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
-        <destination id="jetstream_tacc_large" runner="pulsar_jetstream_tacc" tags="jetstream,jetstream_large">
-            <param id="submit_native_specification">--clusters=jetstream-tacc --nodes=1 --partition=large</param>
+        <destination id="jetstream_tacc_multi" runner="pulsar_jetstream_tacc" tags="jetstream,jetstream_multi">
+            <param id="submit_native_specification">--clusters=jetstream-tacc --nodes=1 --partition=multi</param>
             <param id="default_file_action">copy</param>
             <param id="remote_metadata">false</param>
             <param id="jobs_directory">/jetstream/tacc-scratch0/test/jobs/</param>
             <param id="remote_property_galaxy_home">/cvmfs/test.galaxyproject.org/galaxy</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
+            <param id="staging_directory">/jetstream/tacc-scratch0/test/jobs</param>
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
 
@@ -363,7 +361,7 @@
         <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="test_handler2" resources="stampede"/>
         <!-- resubmit to stampede jobs -->
-        <tool id="bwa" destination="dynamic_jetstream_large" handler="test_handler4" />
+        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede" />
         <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
         <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler2" resources="local_or_stampede"/>
@@ -467,7 +465,7 @@
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_greenfield_normal">6</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_greenfield_development">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="jetstream_large">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="jetstream_multi">4</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_normal">50</limit>
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_development">1</limit>
