@@ -1,11 +1,16 @@
 ## Directory to stage files to. This should likely be updated to point
 ## to an absolute path, such as /tmp/pulsar_staging or C:\\pulsar_staging
-staging_directory: /jetstream/tacc-scratch0/test/jobs
+#staging_directory: files/staging
 
-## Configure one or more named managers.
+## Configure one or more named managers (more information on configuring managers
+## can be found at http://pulsar.readthedocs.org/en/latest/job_managers.html).
 managers:
-  _default_:
+  jetstream_iu:
     type: queued_drmaa
+    staging_directory: /jetstream/iu-scratch0/main/jobs
+  jetstream_tacc:
+    type: queued_drmaa
+    staging_directory: /jetstream/tacc-scratch0/main/jobs
 
 
 ## Mode to create job releated directories with. If unset
@@ -21,7 +26,7 @@ managers:
 ## user the Pulsar runs as cannot write to the Pulsar root directory this
 ## should be updated to point to some directory which it can write to. Set this
 ## value to __none__ to disable persisting jobs all together.
-persistence_directory: /srv/galaxy/test/var/jetstream-iu-jobs
+persistence_directory: /srv/galaxy/main/var/jetstream-iu-jobs
 
 ## How are ids assigned. galaxy (default) just passes through ids as
 ## is. Setting this uuid assigns each job a UUID, this is strongly
@@ -31,7 +36,7 @@ persistence_directory: /srv/galaxy/test/var/jetstream-iu-jobs
 ## Pulsar-equivalent of Galaxy's tool_dependency_dir. The default directory
 ## used by tool dependency resolves to find dependency scripts. Used
 ## if Galaxy configures remote dependency resolution.
-tool_dependency_dir: /cvmfs/test.galaxyproject.org/deps
+tool_dependency_dir: /cvmfs/main.galaxyproject.org/deps
 
 ## Pulsar-equivalent of Galaxy's tool_dependency_resolves_conf.
 # dependency_resolvers_config_file: dependency_resolvers_conf.xml

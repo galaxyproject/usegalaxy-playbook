@@ -91,7 +91,6 @@ usegalaxy_dynamic_job_rules:
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/greenfield_select.py
   - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/nvc_dynamic_memory.py
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/jetstream.py
 
 usegalaxy_nagios_tools:
   - echo_test_handler0
@@ -267,6 +266,7 @@ base_app_main: &BASE_APP_MAIN
   track_jobs_in_database: "True"
   retry_metadata_internally: "False"
   retry_job_output_collection: 5
+  #cleanup_job: onsuccess
   cleanup_job: never
   biostar_url: "https://biostar.galaxyproject.org"
   biostar_key_name: biostar-login
@@ -324,10 +324,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config['app:main']['job_resource_params_file'] }}"
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/pulsar_stampede_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
-  - src: files/galaxy/{{ galaxy_instance_hostname }}/config/pulsar_jetstream_iu.yml
-    dest: "{{ galaxy_config_dir }}/pulsar_jetstream_iu.yml"
-  - src: files/galaxy/{{ galaxy_instance_hostname }}/config/pulsar_jetstream_tacc.yml
-    dest: "{{ galaxy_config_dir }}/pulsar_jetstream_tacc.yml"
+  - src: files/galaxy/{{ galaxy_instance_hostname }}/config/pulsar_jetstream.yml
+    dest: "{{ galaxy_config_dir }}/pulsar_jetstream.yml"
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/pulsar_jetstream_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml"
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/builds.txt
