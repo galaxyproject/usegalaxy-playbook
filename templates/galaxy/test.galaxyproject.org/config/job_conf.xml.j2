@@ -207,7 +207,12 @@
         <destination id="jetstream_iu_multi" runner="pulsar_jetstream" tags="jetstream">
             <param id="manager">jetstream_iu</param>
             <param id="submit_native_specification">--clusters=jetstream-iu --time=36:00:00 --nodes=1 --partition=multi</param>
+            <param id="use_remote_datatypes">true</param>
             <param id="remote_metadata">true</param>
+            <!-- not working currently, see https://github.com/galaxyproject/pulsar/issues/110
+                 temporarily fixed with a symlink at /cvmfs/test.galaxyproject.org/galaxy/datatypes_conf.xml
+            -->
+            <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/test.galaxyproject.org/galaxy/config/datatypes_conf.xml.sample</param>
             <param id="remote_property_galaxy_home">/cvmfs/test.galaxyproject.org/galaxy</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
@@ -219,7 +224,12 @@
         <destination id="jetstream_tacc_multi" runner="pulsar_jetstream" tags="jetstream">
             <param id="manager">jetstream_tacc</param>
             <param id="submit_native_specification">--clusters=jetstream-tacc --time=36:00:00 --nodes=1 --partition=multi</param>
+            <param id="use_remote_datatypes">true</param>
             <param id="remote_metadata">true</param>
+            <!-- not working currently, see https://github.com/galaxyproject/pulsar/issues/110
+                 temporarily fixed with a symlink at /cvmfs/test.galaxyproject.org/galaxy/datatypes_conf.xml
+            <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/test.galaxyproject.org/galaxy/config/datatypes_conf.xml.sample</param>
+            -->
             <param id="remote_property_galaxy_home">/cvmfs/test.galaxyproject.org/galaxy</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />

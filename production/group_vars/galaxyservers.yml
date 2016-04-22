@@ -195,7 +195,7 @@ base_app_main: &BASE_APP_MAIN
   galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
 
   tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
-  tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+  tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
   datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
   object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
   job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
@@ -263,11 +263,16 @@ base_app_main: &BASE_APP_MAIN
   track_jobs_in_database: "True"
   retry_metadata_internally: "False"
   retry_job_output_collection: 5
-  cleanup_job: onsuccess
+  # FIXME: reenable onsuccess after this is fixed: https://github.com/galaxyproject/pulsar/issues/111
+  #cleanup_job: onsuccess
+  cleanup_job: never
   biostar_url: "https://biostar.usegalaxy.org"
   biostar_key_name: biostar-login
   biostar_enable_bug_reports: "False"
   max_metadata_value_size: 1000000
+  use_heartbeat: "True"
+  heartbeat_interval: -1
+  heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}.log"
 
 # galaxy.ini contents
 galaxy_config_hash:
@@ -312,7 +317,7 @@ datamanager_config_hash:
 # specifies config files to copy from the playbook
 galaxy_config_files:
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/tool_data_table_conf.xml
-    dest: "{{ galaxy_config['app:main']['tool_data_table_config_path'] }}"
+    dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/tool_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/nagios_tool_conf.xml
