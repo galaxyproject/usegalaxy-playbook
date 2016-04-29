@@ -273,6 +273,9 @@ base_app_main: &BASE_APP_MAIN
   use_heartbeat: "True"
   heartbeat_interval: -1
   heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}.log"
+  tool_search_limit: 30
+  tool_name_boost: 12
+  tool_section_boost: 5
 
 # galaxy.ini contents
 galaxy_config_hash:
