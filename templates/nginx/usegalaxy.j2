@@ -147,15 +147,24 @@ server {
         rewrite "" /api/jobs/$arg_job_id/files;
     }
 
+{% if inventory_hostname == 'galaxy-web-02.tacc.utexas.edu' %}
+    # web-02 needs to proxy this request to web-01 or else the gie proxy
+    # session database will be created on web-02 (the proxy runs on web-01)
+    location /plugins/interactive_environments/jupyter/show {
+        proxy_pass https://galaxy-web-01.galaxyproject.org;
+        proxy_redirect off;
+    }
+{% endif %}
+
     # regular proxy
-    location /gie_proxy/ipython {
-        proxy_pass http://galaxy-web-01.tacc.utexas.edu:4280/gie_proxy/ipython;
+    location /gie_proxy/jupyter {
+        proxy_pass http://galaxy-web-01.tacc.utexas.edu:4280/gie_proxy/jupyter;
         proxy_redirect off;
     }
 
     # websocket for kernels
-    location /gie_proxy/ipython/api/kernels {
-        proxy_pass http://galaxy-web-01.tacc.utexas.edu:4280/gie_proxy/ipython/api/kernels;
+    location /gie_proxy/jupyter/ipython/api/kernels {
+        proxy_pass http://galaxy-web-01.tacc.utexas.edu:4280/gie_proxy/jupyter/ipython/api/kernels;
         proxy_redirect off;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
