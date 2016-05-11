@@ -72,17 +72,19 @@
             <plugin id="slurm"/>
         </handler>
         <handler id="test_handler2">
-            <plugin id="amqp_pulsar_stampede"/>
-            <plugin id="amqp_pulsar_stampede_nagios"/>
-            <plugin id="slurm"/>
-        </handler>
-        <handler id="test_handler3">
             <plugin id="amqp_pulsar_greenfield"/>
             <plugin id="amqp_pulsar_greenfield_nagios"/>
             <plugin id="slurm"/>
         </handler>
-        <handler id="test_handler4">
+        <handler id="test_handler3" tags="multi_handlers">
             <plugin id="amqp_pulsar_stampede"/>
+            <plugin id="amqp_pulsar_stampede_nagios"/>
+            <plugin id="pulsar_jetstream"/>
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="test_handler4" tags="multi_handlers">
+            <plugin id="amqp_pulsar_stampede"/>
+            <plugin id="amqp_pulsar_stampede_nagios"/>
             <plugin id="pulsar_jetstream"/>
             <plugin id="slurm"/>
         </handler>
@@ -356,42 +358,42 @@
     </destinations>
     <tools>
         <!-- explicit local multi jobs -->
-        <tool id="gemini_load" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="deeptools_bamCompare" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="deeptools_bamCorrelate" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="deeptools_bamCoverage" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="deeptools_bamFingerprint" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="deeptools_bamPEFragmentSize" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="deeptools_bigwigCompare" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="deeptools_computeGCBias" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="deeptools_computeMatrix" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="deeptools_correctGCBias" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="kraken" destination="dynamic_multi_reserved" handler="test_handler4" />
-        <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
+        <tool id="gemini_load" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="deeptools_bamCompare" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="deeptools_bamCorrelate" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="deeptools_bamCoverage" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="deeptools_bamFingerprint" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="deeptools_bamPEFragmentSize" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="deeptools_bigwigCompare" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="deeptools_computeGCBias" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="deeptools_computeMatrix" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="deeptools_correctGCBias" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="kraken" destination="dynamic_multi_reserved" handler="multi_handlers" />
+        <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <!-- explicit stampede jobs -->
-        <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="test_handler4" resources="stampede"/>
-        <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="test_handler4" resources="stampede"/>
-        <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="test_handler4" resources="stampede"/>
-        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="test_handler4" resources="stampede"/>
-        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="test_handler4" resources="stampede"/>
+        <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
+        <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
+        <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
+        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
+        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
         <!-- resubmit to stampede jobs -->
-        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede" />
-        <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="tophat" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="tophat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="cuffdiff" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="cufflinks" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="cuffmerge" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="cuffnorm" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4"  resources="local_or_stampede"/>
-        <tool id="cuffquant" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4" resources="local_or_stampede"/>
-        <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4"  resources="local_or_stampede"/>
-        <tool id="hisat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="test_handler4"  resources="local_or_stampede"/>
+        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede" />
+        <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="tophat" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="tophat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="cuffdiff" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="cufflinks" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="cuffmerge" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="cuffnorm" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
+        <tool id="cuffquant" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
+        <tool id="hisat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <!-- greenfield jobs -->
-        <tool id="trinity_psc" destination="dynamic_greenfield_select" handler="test_handler3" resources="greenfield"/>
-        <tool id="spades" destination="dynamic_greenfield_select" handler="test_handler3" resources="greenfield"/>
+        <tool id="trinity_psc" destination="dynamic_greenfield_select" handler="test_handler2" resources="greenfield"/>
+        <tool id="spades" destination="dynamic_greenfield_select" handler="test_handler2" resources="greenfield"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_multi_trackster">
             <param id="source">trackster</param>
@@ -450,8 +452,8 @@
         -->
         <tool id="echo_test_handler0" destination="local" handler="test_handler0"/>
         <tool id="echo_test_handler1" destination="local" handler="test_handler1"/>
-        <tool id="echo_test_stampede" destination="pulsar_stampede_nagios" handler="test_handler2"/>
-        <tool id="echo_test_greenfield" destination="pulsar_greenfield_nagios" handler="test_handler3"/>
+        <tool id="echo_test_stampede" destination="pulsar_stampede_nagios" handler="multi_handlers"/>
+        <tool id="echo_test_greenfield" destination="pulsar_greenfield_nagios" handler="test_handler2"/>
     </tools>
     <resources default="default">
         <group id="default"></group>
