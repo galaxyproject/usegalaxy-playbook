@@ -49,9 +49,12 @@
             <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
-        <handler id="main_w1_handler2" tags="handlers">
+        <handler id="main_w1_handler2" tags="multi_handlers">
             <plugin id="local"/>
             <plugin id="slurm"/>
+            <plugin id="pulsar_jetstream"/>
+            <plugin id="amqp_pulsar_stampede"/>
+            <plugin id="amqp_pulsar_stampede_nagios"/>
         </handler>
         <handler id="main_w2_handler0" tags="handlers">
             <plugin id="local"/>
@@ -62,7 +65,7 @@
             <plugin id="slurm"/>
         </handler>
         <!-- stampede/multi handler -->
-        <handler id="main_w2_handler2">
+        <handler id="main_w2_handler2" tags="multi_handlers">
             <plugin id="local"/>
             <plugin id="slurm"/>
             <plugin id="pulsar_jetstream"/>
@@ -105,9 +108,11 @@
         <destination id="reserved" runner="slurm">
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved</param>
            <!-- FIXME -->
+           <!-- cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -117,7 +122,8 @@
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=15360</param>
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -127,7 +133,8 @@
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=61440</param>
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -137,7 +144,8 @@
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=4 --partition=reserved --mem-per-cpu=5120</param>
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -149,7 +157,8 @@
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal</param>
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -159,7 +168,8 @@
            <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -169,7 +179,8 @@
            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -181,7 +192,8 @@
            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=6 --partition=multi</param>
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -191,7 +203,8 @@
            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=4 --partition=normal</param>
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -201,7 +214,8 @@
            <param id="nativeSpecification">--time=00:30:00 --clusters=roundup --nodes=1 --ntasks=2 --partition=normal</param>
            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
-           <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
@@ -214,13 +228,14 @@
             <param id="nativeSpecification">--nodes=1 --ntasks=6 --partition=multi</param>
             <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="FONTCONFIG_FILE">/galaxy/main/fontconfig/fonts.conf</env>
+            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
             <env id="TEMP">/galaxy-repl/main/scratch</env>
             <env id="TMPDIR">/galaxy-repl/main/scratch</env>
             <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
             <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate" />
             <!-- disabled 2015-06-24, all jobs set to 36h in dynamic rule
-            <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="main_w2_handler2"/>
+            <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="multi_handlers"/>
             -->
         </destination>
 
@@ -321,41 +336,52 @@
     </destinations>
     <tools>
         <!-- multi/stampede jobs -->
-        <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="cuffdiff" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="cufflinks" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="cuffmerge" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="cuffnorm" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="cuffquant" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="tophat" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="tophat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="hisat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
-        <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="main_w2_handler2" resources="local_or_stampede"/>
+        <tool id="bowtie2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="bowtie_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="bwa" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="bwa_mem" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="bwa_wrapper" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="cuffdiff" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="cufflinks" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="cuffmerge" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="cuffnorm" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="cuffquant" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="tophat" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="tophat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="hisat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_bam_compare" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_bam_coverage" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_bam_pe_fragmentsize" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_bigwig_compare" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_compute_gc_bias" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_compute_matrix" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_correct_gc_bias" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_multi_bam_summary" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_multi_bigwig_summary" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_plot_coverage" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="deeptools_plot_fingerprint" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <!-- explicit stampede jobs -->
-        <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
-        <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
-        <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
-        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="main_w2_handler2" resources="stampede"/>
+        <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
+        <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
+        <tool id="bwa_color_wrapper" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
+        <tool id="bowtie_color_wrapper" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
         <!-- use these to disable stampede resource selection
-        <tool id="bowtie2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="bowtie_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="bowtie_color_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="bwa" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="bwa_mem" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="bwa_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="bwa_color_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="lastz_wrapper_2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="megablast_wrapper" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="cuffdiff" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="cufflinks" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="cuffmerge" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="tophat" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
-        <tool id="tophat2" destination="dynamic_multi_reserved" handler="main_w2_handler2"/>
+        <tool id="bowtie2" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="bowtie_wrapper" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="bowtie_color_wrapper" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="bwa" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="bwa_mem" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="bwa_wrapper" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="bwa_color_wrapper" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="lastz_wrapper_2" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="megablast_wrapper" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="cuffdiff" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="cufflinks" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="cuffmerge" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="tophat" destination="dynamic_multi_reserved" handler="multi_handlers"/>
+        <tool id="tophat2" destination="dynamic_multi_reserved" handler="multi_handlers"/>
         -->
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
@@ -417,7 +443,7 @@
         <tool id="echo_main_w2_handler0" destination="local" handler="main_w2_handler0"/>
         <tool id="echo_main_w2_handler1" destination="local" handler="main_w2_handler1"/>
         <tool id="echo_main_w2_handler2" destination="local" handler="main_w2_handler2"/>
-        <tool id="echo_main_stampede" destination="pulsar_stampede_nagios" handler="main_w2_handler2"/>
+        <tool id="echo_main_stampede" destination="pulsar_stampede_nagios" handler="multi_handlers"/>
     </tools>
     <resources default="default">
         <group id="default"></group>
