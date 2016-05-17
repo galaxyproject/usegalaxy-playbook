@@ -152,6 +152,10 @@ server {
     # session database will be created on web-02 (the proxy runs on web-01)
     location /plugins/interactive_environments/jupyter/show {
         proxy_pass https://galaxy-web-01.galaxyproject.org;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
         proxy_redirect off;
     }
 {% endif %}
