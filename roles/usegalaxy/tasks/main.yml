@@ -8,14 +8,14 @@
   when: inventory_hostname in groups['galaxymasters']
 
 - name: Fetch tool panel layout
-  synchronize: mode=pull src={{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml dest=files/galaxy/{{ galaxy_instance_hostname }}/var/integrated_tool_panel.xml
+  synchronize: mode=pull src={{ galaxy_config['app:main']['integrated_tool_panel_config'] }} dest=files/galaxy/{{ galaxy_instance_hostname }}/var/integrated_tool_panel.xml
   when: inventory_hostname in groups['galaxymasters']
 
-- name: Distribute mutable configs to slave hosts
-  synchronize: src=files/galaxy/{{ galaxy_instance_hostname }}/var/{{ item.dest | basename }} dest={{ item.dest }}
-  with_items: galaxy_mutable_configs
-  when: inventory_hostname not in groups['galaxymasters']
-
-- name: Distribute tool panel layout
-  synchronize: src=files/galaxy/{{ galaxy_instance_hostname }}/var/integrated_tool_panel.xml  dest={{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml
-  when: inventory_hostname not in groups['galaxymasters']
+#- name: Distribute mutable configs to slave hosts
+#  synchronize: src=files/galaxy/{{ galaxy_instance_hostname }}/var/{{ item.dest | basename }} dest={{ item.dest }}
+#  with_items: galaxy_mutable_configs
+#  when: inventory_hostname not in groups['galaxymasters']
+#
+#- name: Distribute tool panel layout
+#  synchronize: src=files/galaxy/{{ galaxy_instance_hostname }}/var/integrated_tool_panel.xml  dest={{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml
+#  when: inventory_hostname not in groups['galaxymasters']
