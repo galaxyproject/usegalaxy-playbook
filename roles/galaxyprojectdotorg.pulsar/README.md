@@ -88,6 +88,11 @@ documentation][pulsardocs] and `server.ini.sample`):
 
 - `pulsar_host` (default: `localhost`)
 - `pulsar_port` (default: `8913`)
+- `pulsar_uwsgi_socket` (default: if unset, uWSGI will be configured to listen
+  for HTTP requests on `pulsar_host` port `pulsar_port`): If set, uWSGI will
+  listen for uWSGI protocol connections on this socket.
+- `pulsar_uwsgi_options` (default: empty hash): Hash (dictionary) of additional
+  uWSGI options to place in the `[uwsgi]` section of `server.ini`
 
 Legacy options (if `pulsar_yaml_config` is unset, these will be used to
 populate the `[app:main]` section of `server.ini`):
@@ -97,11 +102,8 @@ populate the `[app:main]` section of `server.ini`):
   `<pulsar_server_dir>/files/persisted_data`)
 - `pulsar_staging_dir` (default: `<pulsar_server_dir>/files/staging`)
 - `pulsar_drmaa_library_path`
-- `pulsar_job_managers` (default: `_default_`, type `queued_python`): The
-  contents of the job managers configuration file (job_managers.ini by default)
-  are controlled by this variable. It is a hash of hashes (or dictionaries)
-  that will be translated in to the configuration file. See the definition in
-  the defaults for syntax hints.
+- `pulsar_job_managers` (default: None): The contents of the legacy job
+  managers configuration file (job_managers.ini by default).
 
 ### pulsar_optional_dependencies ###
 

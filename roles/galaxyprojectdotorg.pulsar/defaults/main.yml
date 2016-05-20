@@ -15,15 +15,18 @@ pulsar_config_dir: "{{ pulsar_server_dir ~ '/config' if pulsar_pip_install == tr
 # Optional message queue configuration
 # pulsar_message_queue_url:
 
+# Additional options for uWSGI
+pulsar_uwsgi_options: {}
+
 pulsar_host: "localhost"
 pulsar_port: 8913
 # Optional ssl key for SSL web server
 # pulsar_ssl_pem:
 
 # job_managers.ini contents
-pulsar_job_managers:
-  _default_:
-    type: queued_python
+#pulsar_job_managers:
+#  _default_:
+#    type: queued_python
 
 ## Target a drmaa library.
 # pulsar_drmaa_library_path: {{ galaxy_instance_remote_dir }}/slurm-drmaa/lib/libdrmaa.so
