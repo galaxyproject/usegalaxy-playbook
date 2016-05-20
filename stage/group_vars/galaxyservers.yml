@@ -39,7 +39,6 @@ galaxy_server_dir: "/cvmfs/test.galaxyproject.org/galaxy"
 
 
 ## used by: supervisor
-galaxy_instance_codename: test
 galaxy_handler_count: 5
 supervisord_group_configs:
   - galaxy
@@ -209,6 +208,7 @@ base_app_main: &BASE_APP_MAIN
 
   migrated_tools_config: "{{ galaxy_mutable_config_dir }}/migrated_tools_conf.xml"
   shed_tool_data_table_config: "{{ galaxy_mutable_config_dir }}/shed_tool_data_table_conf.xml"
+  integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
   sanitize_whitelist_file: /galaxy-repl/test/config/sanitize_whitelist.txt
 
   #environment_setup_file: /galaxy/test/job_env.bash

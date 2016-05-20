@@ -1,0 +1,53 @@
+---
+
+shared_root: /srv/pulsar
+galaxy_user: g2test
+
+pulsar_drmaa_library_path: "/usr/lib64/libdrmaa.so"
+
+pulsar_host: 0.0.0.0
+pulsar_port: 8913
+
+pulsar_uwsgi_options:
+  buffer-size: 65536
+
+pulsar_yaml_config:
+  staging_directory: "/jetstream/scratch0/{{ galaxy_instance_codename }}/jobs"
+  persistence_directory: "{{ pulsar_root }}/var/persisted_data"
+  tool_dependency_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps"
+  job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
+  managers:
+    jetstream:
+      type: queued_drmaa
+      preprocess_action_max_retries: 10
+      preprocess_action_interval_start: 2
+      preprocess_action_interval_step: 2
+      preprocess_action_interval_max: 60
+      postprocess_action_max_retries: 20
+      postprocess_action_interval_start: 2
+      postprocess_action_interval_step: 4
+      postprocess_action_interval_max: 120
+      min_polling_interval: 15
+      galaxy_home: /cvmfs/test.galaxyproject.org/galaxy
+      galaxy_datatypes_config_file: /cvmfs/test.galaxyproject.org/config/datatypes_conf.xml
+    jetstream_nagios:
+      type: queued_python
+      min_polling_interval: 5
+      galaxy_home: /cvmfs/test.galaxyproject.org/galaxy
+      galaxy_datatypes_config_file: /cvmfs/test.galaxyproject.org/config/datatypes_conf.xml
+
+pulsar_install_environments:
+  pycurl:
+    PYCURL_SSL_LIBRARY: "nss"
+
+pulsar_optional_dependencies:
+  - pyOpenSSL
+  - pycurl==7.19.3.1 # https://github.com/pycurl/pycurl/issues/201
+  - uwsgi
+  - drmaa
+  - requests
+  - poster
+  - psutil
+  - PasteDeploy
+  - galaxy-lib
+  - PyYAML

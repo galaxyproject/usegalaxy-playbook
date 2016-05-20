@@ -1,6 +1,8 @@
 ---
 
 shared_root: /home/xcgalaxy
+galaxy_user: xcgalaxy
+pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
 
 pulsar_drmaa_library_path: "{{ instance_root }}/pbs-drmaa/lib/libdrmaa.so"
 
@@ -33,3 +35,13 @@ pulsar_yaml_config:
     greenfield_nagios:
       type: queued_python
       min_polling_interval: 5
+
+pulsar_optional_dependencies:
+  - pyOpenSSL
+  - pycurl==7.19.3.1 # https://github.com/pycurl/pycurl/issues/201
+  - uwsgi
+  - drmaa
+  - kombu
+  - requests
+  - poster
+  - psutil

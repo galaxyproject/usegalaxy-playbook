@@ -1,6 +1,8 @@
 ---
 
 shared_root: /work/galaxy
+galaxy_user: xcgalaxy
+pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
 
 pulsar_drmaa_library_path: "{{ instance_root }}/slurm-drmaa/lib/libdrmaa.so"
 
@@ -40,3 +42,13 @@ pulsar_install_environments:
     LDFLAGS: "-L{{ instance_root }}/openssl/lib"
   pycurl:
     PYCURL_SSL_LIBRARY: "nss"
+
+pulsar_optional_dependencies:
+  - pyOpenSSL
+  - pycurl==7.19.3.1 # https://github.com/pycurl/pycurl/issues/201
+  - uwsgi
+  - drmaa
+  - kombu
+  - requests
+  - poster
+  - psutil
