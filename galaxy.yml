@@ -2,50 +2,88 @@
 
 # FIXME: can't notify for restart across plays
 
-- name: Galaxy web code and dependencies, manage static configs
+- name: Update Galaxy on CVMFS stratum 0 server
+  hosts: cvmfsstratum0servers
+  remote_user: "{{ galaxy_user }}"
+  tasks:
+    - name: Begin CVMFS transaction
+      command: /usr/bin/cvmfs_server transaction {{ galaxy_instance_codename }}.galaxyproject.org
+
+    - name: Restart docker
+      service:
+        name: docker
+        state: restarted
+
+    - name: Fetch Galaxy commit
+      command: "/usr/bin/git rev-parse HEAD"
+      args:
+        chdir: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      register: galaxy_commit_old
+
+    - name: Update Galaxy
+      # TODO: use docker_container maybe?
+      command: docker run --rm -v /cvmfs:/cvmfs galaxy/update /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/bin/update_galaxy.sh
+
+    # TODO: store these somewhere in the playbook
+    - name: Fetch Galaxy version
+      command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy/lib galaxy/update /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/python -c 'from galaxy.version import VERSION; print VERSION'"
+      register: galaxy_version
+
+    - name: Fetch Galaxy commit
+      command: "/usr/bin/git rev-parse HEAD"
+      args:
+        chdir: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      register: galaxy_commit
+
+    - name: Fetch Galaxy short commit
+      command: "/usr/bin/git rev-parse --short HEAD"
+      args:
+        chdir: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      register: galaxy_commit_short
+
+    - name: Abort CVMFS transaction
+      command: /usr/bin/cvmfs_server abort -f {{ galaxy_instance_codename }}.galaxyproject.org
+      when: galaxy_commit_old.stdout == galaxy_commit.stdout
+
+    - name: Exit if no changes
+      fail:
+        msg: Galaxy commit ID did not change after updating, transaction aborted
+      when: galaxy_commit_old.stdout == galaxy_commit.stdout
+
+    - name: Store updated version information
+      local_action:
+        module: copy
+        # Fixme: should probably use to_nice_yaml
+        content: |
+          ---
+          galaxy_version: {{ galaxy_version.stdout }}
+          galaxy_commit: {{ galaxy_commit.stdout }}
+          galaxy_commit_short: {{ galaxy_commit_short.stdout }}
+        dest: "{{ deploy_env }}/galaxy_version.yml"
+
+    - name: Publish CVMFS transaction
+      command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version.stdout }}_{{ galaxy_commit_short.stdout }}" -m "Update Galaxy to version {{ galaxy_version.stdout }} commit {{ galaxy_commit.stdout }} via Ansible" {{ galaxy_instance_codename }}.galaxyproject.org
+
+- name: Snapshot CVMFS changes on stratum 1 servers
+  hosts: cvmfsstratum1servers
+  remote_user: "{{ galaxy_user }}"
+  tasks:
+    - name: CVMFS snapshot
+      command: /usr/bin/cvmfs_server snapshot {{ galaxy_instance_codename }}.galaxyproject.org
+
+    - name: Clear squid cache (restart)
+      service:
+        name: squid
+        state: restarted
+
+- name: Wipe CVMFS cache on Galaxy servers
   hosts: galaxyservers
-  remote_user: "{{ galaxy_privileged_user }}"
-  vars_files:
-    - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
-  vars:
-    instance_root: "{{ galaxy_root }}"
-    galaxy_config: "{{ galaxy_config_hash }}"
-  roles:
-    # set up local galaxy clone and local config
-    - role: galaxyprojectdotorg.galaxy
-      galaxy_manage_clone: no
-      galaxy_manage_static_setup: yes
-      galaxy_manage_mutable_setup: no
-      galaxy_manage_database: no
-      galaxy_fetch_dependencies: no
-  post_tasks:
-    # create impersonation config on Main
-    - name: Set galaxy_config to impersonate_config_hash
-      set_fact:
-        galaxy_config: "{{ impersonate_config_hash }}"
-      when: deploy_env == "production"
+  remote_user: "{{ galaxy_user }}"
+  tasks:
+    - name: Wipe CVMFS cache
+      command: /usr/local/bin/cvmfs_wipecache
 
-    - name: Create Galaxy impersonation configuration file
-      template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/impersonate.ini backup=yes
-      when: deploy_env == "production"
-
-    # create installer config
-    - name: Set galaxy_config to installer_config_hash
-      set_fact:
-        galaxy_config: "{{ installer_config_hash }}"
-
-    - name: Create Galaxy installer configuration file
-      template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/installer.ini backup=yes
-
-    # create data manager config
-    - name: Set galaxy_config to datamanager_config_hash
-      set_fact:
-        galaxy_config: "{{ datamanager_config_hash }}"
-
-    - name: Create Galaxy data manager configuration file
-      template: src=roles/galaxyprojectdotorg.galaxy/templates/galaxy.ini.j2 dest={{ galaxy_config_dir }}/datamanager.ini backup=yes
-
-- name: Galaxy database and mutable configs
+- name: Galaxy database and interactive environments
   hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
   vars_files:
@@ -58,24 +96,25 @@
     - role: galaxyprojectdotorg.galaxy
       galaxy_manage_clone: no
       galaxy_manage_static_setup: no
-      galaxy_manage_mutable_setup: yes
+      galaxy_manage_mutable_setup: no
       galaxy_manage_database: yes
       galaxy_fetch_eggs: no
       when: inventory_hostname in groups['galaxymasters']
-    # fetch and distribute mutable configs (needs the galaxy_mutable_configs
-    # var set in galaxyprojectdotorg.galaxy)
-    - role: usegalaxy
     # Set up interactive environments
+    # FIXME: clone the version in galaxy_version.yml
     - role: galaxyprojectdotorg.interactive_environments
+  post_tasks:
+    # FIXME: still need to kill hung uWSGI workers
+    - name: Restart Galaxy
+      command: /home/g2{{ galaxy_instance_codename }}/bin/galaxy graceful
 
-- name: Galaxy privileged user tasks and static content setup
+- name: Update version in welcome.html
   hosts: galaxyservers
   remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
+    - "{{ deploy_env }}/galaxy_version.yml"
   roles:
-    - role: usegalaxy_privileged
-    # welcome page
     - role: usegalaxy_static
 
 - name: Update Galaxy on Pulsar servers
