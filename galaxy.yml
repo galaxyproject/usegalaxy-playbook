@@ -87,6 +87,8 @@
 - name: Galaxy database and interactive environments
   hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
+  tags:
+    - no-update
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
     - "{{ deploy_env }}/galaxy_version.yml"
