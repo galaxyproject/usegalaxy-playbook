@@ -64,6 +64,8 @@
 - name: Snapshot CVMFS changes on stratum 1 servers
   hosts: cvmfsstratum1servers
   remote_user: "{{ galaxy_user }}"
+  tags:
+    - no-update
   tasks:
     - name: CVMFS snapshot
       command: /usr/bin/cvmfs_server snapshot {{ galaxy_instance_codename }}.galaxyproject.org
@@ -76,6 +78,8 @@
 - name: Wipe CVMFS cache on Galaxy servers
   hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
+  tags:
+    - no-update
   tasks:
     - name: Wipe CVMFS cache
       command: /usr/local/bin/cvmfs_wipecache
@@ -110,6 +114,8 @@
 - name: Update version in welcome.html
   hosts: galaxyservers
   remote_user: "{{ galaxy_privileged_user }}"
+  tags:
+    - no-update
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
     - "{{ deploy_env }}/galaxy_version.yml"
