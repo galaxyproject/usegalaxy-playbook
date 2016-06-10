@@ -14,7 +14,10 @@
             <param id="invalidjobexception_retries">5</param>
             <param id="internalexception_retries">5</param>
         </plugin>
-        <plugin id="pulsar_jetstream" type="runner" load="galaxy.jobs.runners.pulsar:PulsarRESTJobRunner"/>
+        <plugin id="pulsar_jetstream" type="runner" load="galaxy.jobs.runners.pulsar:PulsarRESTJobRunner">
+            <param id="transport">curl</param>
+            <param id="transport_timeout">60</param>
+        </plugin>
         <plugin id="amqp_pulsar_stampede" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
             <param id="galaxy_url">https://usegalaxy.org</param>
