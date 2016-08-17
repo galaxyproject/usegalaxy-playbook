@@ -21,25 +21,3 @@
 
 - name: Install uWSGI log archival script
   template: src=archive_logs.sh.j2 dest={{ galaxy_root }}/bin/archive_logs.sh mode=0555
-
-# TODO: move this over to the errdocs role
-# install error documents
-- name: Create vhost directories
-  file: path={{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/{{ item }} mode=0755 state=directory
-  with_items:
-    - 413
-    - 502
-
-- name: Install nginx error documents
-  copy: src=files/galaxy/{{ galaxy_instance_hostname }}/error/{{ item }} dest={{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/{{ item }} mode=0444
-  with_items:
-    - content_bg.png
-    - error_message_icon.png
-    - masthead_bg.png
-    - 413/index.html
-    - 502/index.shtml
-
-- name: Create nginx error document links
-  file: path={{ item.path }} src={{ item.src }} state=link force=yes
-  with_items:
-    - { path: '{{ nginx_srv }}/{{ galaxy_instance_hostname }}/error/502/maint', src: '/home/{{ galaxy_user }}/maint' }

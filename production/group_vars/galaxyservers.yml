@@ -34,58 +34,8 @@ galaxy_root: /srv/galaxy/{{ galaxy_instance_codename }}
 galaxy_server_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy"
 
 
-## used by: supervisor
-galaxy_handler_count: 3
-supervisord_group_configs:
-  - galaxy
-  - galaxy_impersonate
-  - galaxy_reports
-  - galaxy_group
-
-# supervisor template
-galaxy_installer_venv_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv"
-
-
-## used by: galaxyprojectdotorg.nginx
-nginx_flavor: galaxy
-nginx_default_redirect_uri: https://usegalaxy.org$request_uri
-
-nginx_conf_http:
-  server_names_hash_bucket_size: 128
-  gzip_vary: 'on'
-  gzip_proxied: any
-  gzip_comp_level: 6
-  gzip_buffers: 16 8k
-  gzip_http_version: 1.1
-  gzip_types: text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript
-  client_max_body_size: 50g
-  proxy_read_timeout: 600
-  uwsgi_read_timeout: 300
-
-nginx_configs:
-  - usegalaxy
-  - galaxy_bx
-
-nginx_extra_configs:
-  - usegalaxy_rewrites.conf
-
-nginx_conf_user: g2main
-nginx_conf_group: G-803372
-nginx_conf_worker_processes: 8
-nginx_conf_ssl_certificate: "{{ nginx_conf_dir }}/ssl/usegalaxy.org_cert.pem"
-nginx_conf_ssl_certificate_key: "{{ nginx_conf_dir }}/ssl/usegalaxy.org_privatekey.pem"
-nginx_enable_default_ipv6: false
-nginx_supervisor: true
-
-
 ## used by: usegalaxy, usegalaxy_static
-nginx_srv: /srv/nginx
-
 galaxy_instance_hostname: usegalaxy.org
-
-usegalaxy_dynamic_job_rules:
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
-  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
 
 usegalaxy_nagios_tools:
   - echo_main_w1_handler0
@@ -98,51 +48,8 @@ usegalaxy_nagios_tools:
   - echo_main_stampede
 
 
-## used by the sysctl task in the galaxy_infrastructure playbook
-sysctl_conf:
-  - name: net.core.rmem_max
-    value: 15990784
-  - name: net.core.wmem_max
-    value: 15990784
-
-
 ## used by: usegalaxy_admin
 galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
-
-
-## used by: galaxyprojectdotorg.tools
-galaxy_instance_url: "{{ galaxy_instance_hostname }}"
-tool_list_file: files/galaxy/usegalaxy.org/tool_list.yaml
-
-
-## used by: galaxyprojectdotorg.interactive_environments
-interactive_environments_install_method: copy
-interactive_environments_plugins_local_path: "{{ deploy_env }}/files/interactive_environments/plugins"
-interactive_environments_proxy_local_path: "{{ deploy_env }}/files/interactive_environments/proxy"
-interactive_environments_plugins_path: "{{ galaxy_root }}/interactive_environments/plugins"
-interactive_environments_proxy_path: "{{ galaxy_root }}/interactive_environments/proxy"
-interactive_environments_enabled:
-  - jupyter
-interactive_environments_config_files:
-  - ie_name: jupyter
-    file: jupyter.ini
-    contents:
-      docker:
-        command: "docker -H tcp://iedocker.galaxyproject.org:2376 --tlsverify {docker_args}"
-        galaxy_url: "https://usegalaxy.org"
-        docker_hostname: "iedocker.galaxyproject.org"
-  - ie_name: jupyter
-    file: allowed_images.yml
-    contents:
-      - image: "quay.io/bgruening/docker-jupyter-notebook:16.01.1"
-        description: >
-          The Jupyter notebook is the next iteration of IPython, allowing
-          analysis in many different languages. This image features the Python,
-          R, Julia, Haskell, Bash kernels and many scientific analysis stacks for
-          each.
-interactive_environments_proxy_user: "{{ galaxy_user }}"
-interactive_environments_access_log_path: "{{ galaxy_log_dir }}/gie_proxy-access.log"
-interactive_environments_error_log_path: "{{ galaxy_log_dir }}/gie_proxy-error.log"
 
 
 ## used by: galaxyprojectdotorg.galaxy
@@ -213,7 +120,7 @@ base_app_main: &BASE_APP_MAIN
   ucsc_build_sites: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
 
   # interactive environments
-  interactive_environment_plugins_directory: "{{ interactive_environments_plugins_path }}"
+  interactive_environment_plugins_directory: "{{ galaxy_root }}/interactive_environments/plugins"
   dynamic_proxy_manage: "False"
   dynamic_proxy_session_map: /srv/galaxy/main/var/gie_proxy_session_map.sqlite
   dynamic_proxy_bind_port: 4280
@@ -223,6 +130,7 @@ base_app_main: &BASE_APP_MAIN
   dynamic_proxy_prefix: gie_proxy
   galaxy_infrastructure_url: https://usegalaxy.org
   #trust_ipython_notebook_conversion: "True"
+
 
   # general stuff
 
@@ -274,7 +182,6 @@ base_app_main: &BASE_APP_MAIN
   tool_search_limit: 30
   tool_name_boost: 12
   tool_section_boost: 5
-
 
   # stats
   statsd_host: "galaxy06.tacc.utexas.edu"

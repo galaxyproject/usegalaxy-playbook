@@ -41,6 +41,7 @@ galaxy_server_dir: "/cvmfs/test.galaxyproject.org/galaxy"
 galaxy_handler_count: 5
 supervisord_group_configs:
   - galaxy
+  - galaxy_handler
   - galaxy_installer
   - galaxy_datamanager
   - galaxy_reports
@@ -83,6 +84,7 @@ nginx_supervisor: true
 ## used by: usegalaxy, usegalaxy_static
 nginx_srv: /srv/nginx
 
+
 galaxy_instance_hostname: test.galaxyproject.org
 
 usegalaxy_dynamic_job_rules:
@@ -97,6 +99,12 @@ usegalaxy_nagios_tools:
   - echo_test_cluster
   - echo_test_stampede
   - echo_test_greenfield
+
+
+## used by: errdocs
+errdocs_src: "files/galaxy/{{ galaxy_instance_hostname }}/error"
+errdocs_dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/error"
+errdocs_user: gxsrc
 
 
 ## used by usegalaxy_privileged

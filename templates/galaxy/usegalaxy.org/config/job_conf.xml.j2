@@ -42,31 +42,62 @@
         </plugin>
     </plugins>
     <handlers default="handlers">
-        <handler id="main_w1_handler0" tags="handlers">
+        <handler id="main_w1_handler0">
             <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
-        <handler id="main_w1_handler1" tags="handlers">
+        <handler id="main_w1_handler1">
             <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
-        <handler id="main_w1_handler2" tags="multi_handlers">
+        <handler id="main_w1_handler2">
             <plugin id="local"/>
             <plugin id="slurm"/>
             <plugin id="pulsar_jetstream"/>
             <plugin id="amqp_pulsar_stampede"/>
             <plugin id="amqp_pulsar_stampede_nagios"/>
         </handler>
-        <handler id="main_w2_handler0" tags="handlers">
+        <handler id="main_w2_handler0">
             <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
-        <handler id="main_w2_handler1" tags="handlers">
+        <handler id="main_w2_handler1">
             <plugin id="local"/>
             <plugin id="slurm"/>
         </handler>
         <!-- stampede/multi handler -->
-        <handler id="main_w2_handler2" tags="multi_handlers">
+        <handler id="main_w2_handler2">
+            <plugin id="local"/>
+            <plugin id="slurm"/>
+            <plugin id="pulsar_jetstream"/>
+            <plugin id="amqp_pulsar_stampede"/>
+            <plugin id="amqp_pulsar_stampede_nagios"/>
+        </handler>
+        <handler id="main_w3_handler0" tags="handlers">
+            <plugin id="local"/>
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="main_w3_handler1" tags="handlers">
+            <plugin id="local"/>
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="main_w3_handler2" tags="multi_handlers">
+            <plugin id="local"/>
+            <plugin id="slurm"/>
+            <plugin id="pulsar_jetstream"/>
+            <plugin id="amqp_pulsar_stampede"/>
+            <plugin id="amqp_pulsar_stampede_nagios"/>
+        </handler>
+        <handler id="main_w4_handler0" tags="handlers">
+            <plugin id="local"/>
+            <plugin id="slurm"/>
+        </handler>
+        <handler id="main_w4_handler1" tags="handlers">
+            <plugin id="local"/>
+            <plugin id="slurm"/>
+        </handler>
+        <!-- stampede/multi handler -->
+        <handler id="main_w4_handler2" tags="multi_handlers">
             <plugin id="local"/>
             <plugin id="slurm"/>
             <plugin id="pulsar_jetstream"/>

@@ -85,7 +85,7 @@
       command: /usr/local/bin/cvmfs_wipecache
 
 - name: Galaxy database and interactive environments
-  hosts: galaxyservers
+  hosts: galaxywebservers
   remote_user: "{{ galaxy_user }}"
   tags:
     - no-update
@@ -109,12 +109,11 @@
     # Set up interactive environments
     - role: galaxyprojectdotorg.interactive_environments
   post_tasks:
-    # FIXME: still need to kill hung uWSGI workers
     - name: Restart Galaxy
       command: /home/g2{{ galaxy_instance_codename }}/bin/galaxy graceful
 
 - name: Update version in welcome.html
-  hosts: galaxyservers
+  hosts: galaxywebservers
   remote_user: "{{ galaxy_privileged_user }}"
   tags:
     - no-update

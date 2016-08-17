@@ -12,7 +12,7 @@ server {
 
 server {
     listen          *:80;
-    server_name  usegalaxy.org galaxy-web-01.tacc.utexas.edu galaxy-web-01.galaxyproject.org galaxy-web-02.tacc.utexas.edu galaxy-web-02;
+    server_name  usegalaxy.org galaxy-web-01.tacc.utexas.edu galaxy-web-01.galaxyproject.org galaxy-web-02.tacc.utexas.edu galaxy-web-02.galaxyproject.org;
 
     include {{ nginx_conf_dir }}/usegalaxy_rewrites.conf;
 
@@ -40,7 +40,7 @@ server {
 
 server {
     listen          *:443 ssl default_server;
-    server_name  usegalaxy.org galaxy-web-01.tacc.utexas.edu galaxy-web-01.galaxyproject.org galaxy-web-02.tacc.utexas.edu galaxy-web-02;
+    server_name  usegalaxy.org galaxy-web-01.tacc.utexas.edu galaxy-web-01.galaxyproject.org galaxy-web-02.tacc.utexas.edu galaxy-web-02.galaxyproject.org;
 
     # Enable HSTS (age is 180 days)
     add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
