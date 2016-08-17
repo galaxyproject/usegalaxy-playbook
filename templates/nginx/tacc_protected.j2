@@ -8,12 +8,12 @@ upstream impersonate_main {
 }
 
 upstream reports_main {
-    server galaxy-web-01.tacc.utexas.edu:9001;
-    server galaxy-web-02.tacc.utexas.edu:9001;
+    server galaxy-web-01.tacc.utexas.edu:18001;
+    server galaxy-web-02.tacc.utexas.edu:18001;
 }
 
 upstream reports_test {
-    server galaxy01.tacc.utexas.edu:9001;
+    server galaxy01.tacc.utexas.edu:18001;
 }
 
 server {
@@ -65,19 +65,19 @@ server {
     }
 
     location /galaxy01/supervisor/ {
-        proxy_pass         http://galaxy01.tacc.utexas.edu:18001/;
+        proxy_pass         http://galaxy01.tacc.utexas.edu:9001/;
         proxy_redirect     off;
         proxy_set_header   Authorization "Basic {{ supervisord_http_auth['galaxy01'] }}";
     }
 
     location /galaxy-web-01/supervisor/ {
-        proxy_pass         http://galaxy-web-01.tacc.utexas.edu:18001/;
+        proxy_pass         http://galaxy-web-01.tacc.utexas.edu:9001/;
         proxy_redirect     off;
         proxy_set_header   Authorization "Basic {{ supervisord_http_auth['galaxy-web-01'] }}";
     }
 
     location /galaxy-web-02/supervisor/ {
-        proxy_pass         http://galaxy-web-02.tacc.utexas.edu:18001/;
+        proxy_pass         http://galaxy-web-02.tacc.utexas.edu:9001/;
         proxy_redirect     off;
         proxy_set_header   Authorization "Basic {{ supervisord_http_auth['galaxy-web-02'] }}";
     }

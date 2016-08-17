@@ -2,6 +2,10 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
+upstream test_installer {
+    server localhost:9999;
+}
+
 upstream test_datamanager {
     server localhost:9998;
 }
