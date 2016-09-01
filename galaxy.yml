@@ -108,9 +108,6 @@
       when: inventory_hostname in groups['galaxymasters']
     # Set up interactive environments
     - role: galaxyprojectdotorg.interactive_environments
-  post_tasks:
-    - name: Restart Galaxy
-      command: /home/g2{{ galaxy_instance_codename }}/bin/galaxy graceful
 
 - name: Update version in welcome.html
   hosts: galaxywebservers
@@ -122,6 +119,13 @@
     - "{{ deploy_env }}/galaxy_version.yml"
   roles:
     - role: usegalaxy_static
+
+- name: Restart Galaxy
+  hosts: galaxyservers
+  remote_user: "{{ galaxy_user }}"
+  tasks:
+    - name: Restart Galaxy
+      command: /home/{{ galaxy_user }}/bin/galaxy graceful
 
 - name: Update Galaxy on Pulsar servers
   hosts: pulsargalaxyservers

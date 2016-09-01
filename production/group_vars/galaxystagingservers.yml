@@ -1,0 +1,47 @@
+---
+
+## used by: supervisor
+supervisord_group_configs:
+  - galaxy
+  - galaxy_handler
+  - galaxy_group
+
+
+## used by: galaxyprojectdotorg.nginx
+nginx_flavor: galaxy
+nginx_default_redirect_uri: https://usegalaxy.org$request_uri
+
+nginx_conf_http:
+  server_names_hash_bucket_size: 128
+  gzip_vary: 'on'
+  gzip_proxied: any
+  gzip_comp_level: 6
+  gzip_buffers: 16 8k
+  gzip_http_version: 1.1
+  gzip_types: text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript
+  client_max_body_size: 50g
+  proxy_read_timeout: 600
+  uwsgi_read_timeout: 300
+
+nginx_configs:
+  - usegalaxy_staging
+
+nginx_conf_user: g2main
+nginx_conf_group: G-803372
+nginx_conf_worker_processes: 8
+nginx_conf_ssl_certificate: "{{ nginx_conf_dir }}/ssl/wildcard_cert.pem"
+nginx_conf_ssl_certificate_key: "{{ nginx_conf_dir }}/ssl/wildcard_privatekey.pem"
+nginx_enable_default_ipv6: false
+nginx_supervisor: true
+
+
+## used by: usegalaxy, usegalaxy_static
+nginx_srv: /srv/nginx
+
+
+## used by the sysctl task in the galaxy_infrastructure playbook
+sysctl_conf:
+  - name: net.core.rmem_max
+    value: 15990784
+  - name: net.core.wmem_max
+    value: 15990784

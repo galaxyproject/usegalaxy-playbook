@@ -17,6 +17,7 @@
         <plugin id="pulsar_jetstream" type="runner" load="galaxy.jobs.runners.pulsar:PulsarRESTJobRunner">
             <param id="transport">curl</param>
             <param id="transport_timeout">60</param>
+            <param id="galaxy_url">https://{{ inventory_hostname_short }}.galaxyproject.org</param>
         </plugin>
         <plugin id="amqp_pulsar_stampede" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>

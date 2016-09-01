@@ -1,0 +1,48 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+server {
+    listen          *:443 ssl default_server;
+    server_name     galaxy-web-03.galaxyproject.org galaxy-web-04.galaxyproject.org;
+
+    # Enable HSTS (age is 180 days)
+    add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
+
+    access_log  /var/log/nginx/galaxy-staging.access.log;
+    error_log   /var/log/nginx/galaxy-staging.error.log;
+
+    location / {
+        return 302 https://usegalaxy.org;
+    }
+
+    location ~ ^/api/jobs/.+/files$ {
+        uwsgi_pass 127.0.0.1:4001;
+        uwsgi_param UWSGI_SCHEME $scheme;
+        include uwsgi_params;
+    }
+
+    location /_x_accel_redirect {
+        internal;
+        alias /;
+    }
+
+    location /_job_files {
+        if ($request_method != POST) {
+            rewrite "" /api/jobs/$arg_job_id/files last;
+        }
+        upload_store /galaxy-repl/main/upload_job_files;
+        upload_store_access user:rw;
+        upload_pass_form_field "";
+        upload_set_form_field "__${upload_field_name}_path" "$upload_tmp_path";
+        upload_pass_args on;
+        upload_pass /_upload_job_files_done;
+    }
+
+    location /_upload_job_files_done {
+        internal;
+        rewrite "" /api/jobs/$arg_job_id/files;
+    }
+}
+
+# vim: set filetype=nginx
