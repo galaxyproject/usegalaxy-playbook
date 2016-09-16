@@ -7,7 +7,6 @@
 #
 # used by: galaxy_config var
 #galaxy_config_database_connection
-#galaxy_config_install_database_connection
 #galaxy_config_admin_users
 #galaxy_config_id_secret
 #galaxy_config_biostar_key
@@ -184,7 +183,7 @@ base_app_main: &BASE_APP_MAIN
   # secrets
 
   database_connection: "{{ galaxy_config_database_connection }}"
-  install_database_connection: "{{ galaxy_config_install_database_connection }}"
+  install_database_connection: "sqlite:////cvmfs/test.galaxyproject.org/var/galaxy_test_install.sqlite?isolation_level=IMMEDIATE"
   id_secret: "{{ galaxy_config_id_secret }}"
   admin_users: "{{ galaxy_config_admin_users }}"
   biostar_key: "{{ galaxy_config_biostar_key }}"
