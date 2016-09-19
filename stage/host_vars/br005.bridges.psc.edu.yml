@@ -1,13 +1,13 @@
 ---
 
-shared_root: /home/xcgalaxy
+shared_root: /pylon2/mc48nsp/xcgalaxy
 galaxy_user: xcgalaxy
 pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
 
-pulsar_drmaa_library_path: "{{ instance_root }}/pbs-drmaa/lib/libdrmaa.so"
+pulsar_drmaa_library_path: "{{ instance_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_yaml_config:
-  staging_directory: "/crucible/mc48nsp/xcgalaxy/test/pulsar/var/staging"
+  staging_directory: "/pylon1/mc48nsp/xcgalaxy/test_staging"
   persistence_directory: "{{ pulsar_root }}/var/persisted_data"
   tool_dependency_dir: "{{ instance_root }}/deps"
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
@@ -21,7 +21,7 @@ pulsar_yaml_config:
   amqp_publish_retry_interval_step: 10
   amqp_publish_retry_interval_max: 60
   managers:
-    greenfield:
+    bridges:
       type: queued_drmaa
       preprocess_action_max_retries: 10
       preprocess_action_interval_start: 2
@@ -32,13 +32,14 @@ pulsar_yaml_config:
       postprocess_action_interval_step: 4
       postprocess_action_interval_max: 120
       min_polling_interval: 15
-    greenfield_nagios:
+    bridges_nagios:
       type: queued_python
       min_polling_interval: 5
 
 pulsar_optional_dependencies:
   - pyOpenSSL
-  - pycurl==7.19.3.1 # https://github.com/pycurl/pycurl/issues/201
+  #- pycurl==7.19.3.1 # https://github.com/pycurl/pycurl/issues/201
+  - pycurl
   - uwsgi
   - drmaa
   - kombu
