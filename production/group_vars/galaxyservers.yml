@@ -79,7 +79,7 @@ base_app_main: &BASE_APP_MAIN
   # secrets
 
   database_connection: "{{ galaxy_config_database_connection }}"
-  install_database_connection: "{{ galaxy_config_install_database_connection }}"
+  install_database_connection: "sqlite:////cvmfs/main.galaxyproject.org/var/galaxy_main_install.sqlite?isolation_level=IMMEDIATE"
   id_secret: "{{ galaxy_config_id_secret }}"
   admin_users: "{{ galaxy_config_admin_users }}"
   biostar_key: "{{ galaxy_config_biostar_key }}"
