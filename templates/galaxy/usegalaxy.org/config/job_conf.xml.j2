@@ -41,6 +41,28 @@
             <param id="amqp_publish_retry">True</param>
             <param id="amqp_publish_retry_max_retries">600</param>
         </plugin>
+        <plugin id="amqp_pulsar_bridges" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+            <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
+            <param id="galaxy_url">https://usegalaxy.org</param>
+            <param id="manager">bridges</param>
+            <param id="persistence_directory">/srv/galaxy/main/var/pulsar_amqp_ack</param>
+            <param id="amqp_acknowledge">True</param>
+            <param id="amqp_ack_republish_time">180</param>
+            <param id="amqp_consumer_timeout">2.0</param>
+            <param id="amqp_publish_retry">True</param>
+            <param id="amqp_publish_retry_max_retries">600</param>
+        </plugin>
+        <plugin id="amqp_pulsar_bridges_nagios" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+            <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
+            <param id="galaxy_url">https://usegalaxy.org</param>
+            <param id="manager">bridges_nagios</param>
+            <param id="persistence_directory">/srv/galaxy/main/var/pulsar_amqp_ack</param>
+            <param id="amqp_acknowledge">True</param>
+            <param id="amqp_ack_republish_time">180</param>
+            <param id="amqp_consumer_timeout">2.0</param>
+            <param id="amqp_publish_retry">True</param>
+            <param id="amqp_publish_retry_max_retries">600</param>
+        </plugin>
     </plugins>
     <handlers default="handlers">
         <handler id="main_w1_handler0">
@@ -88,6 +110,8 @@
             <plugin id="pulsar_jetstream"/>
             <plugin id="amqp_pulsar_stampede"/>
             <plugin id="amqp_pulsar_stampede_nagios"/>
+            <plugin id="amqp_pulsar_bridges"/>
+            <plugin id="amqp_pulsar_bridges_nagios"/>
         </handler>
         <handler id="main_w4_handler0" tags="handlers">
             <plugin id="local"/>
@@ -104,6 +128,8 @@
             <plugin id="pulsar_jetstream"/>
             <plugin id="amqp_pulsar_stampede"/>
             <plugin id="amqp_pulsar_stampede_nagios"/>
+            <plugin id="amqp_pulsar_bridges"/>
+            <plugin id="amqp_pulsar_bridges_nagios"/>
         </handler>
     </handlers>
     <destinations default="dynamic_normal_reserved">
@@ -135,6 +161,12 @@
         <destination id="dynamic_stampede_select" runner="dynamic">
             <param id="type">python</param>
             <param id="function">dynamic_stampede_select</param>
+        </destination>
+
+        <!-- dynamic method for the bridges-only selector -->
+        <destination id="dynamic_bridges_select" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_bridges_select</param>
         </destination>
 
         <!-- reserved destinations -->
@@ -364,6 +396,55 @@
             <env file="/work/galaxy/main/galaxy/venv/bin/activate" />
         </destination>
 
+        <!-- bridges destinations -->
+        <destination id="pulsar_bridges_normal" runner="amqp_pulsar_bridges">
+            <param id="transport">curl</param>
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/pylon1/mc48nsp/xcgalaxy/main_staging/</param>
+            <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/main/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/galaxy.ini</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/datatypes_conf.xml</param>
+            <!-- 983040 MB == 960 GB (20 cores) -->
+            <param id="submit_native_specification">-p LM -t 48:00:00 --mem=983040</param>
+            <param id="submit_user_email">$__user_email__</param>
+            <env exec="eval `modulecmd sh purge`" />
+            <env file="/pylon2/mc48nsp/xcgalaxy/main/galaxy/venv/bin/activate" />
+        </destination>
+        <destination id="pulsar_bridges_development" runner="amqp_pulsar_bridges">
+            <param id="transport">curl</param>
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/pylon1/mc48nsp/xcgalaxy/main_staging/</param>
+            <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/main/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/galaxy.ini</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/datatypes_conf.xml</param>
+            <!-- 131072 MB == 128 GB (1 core) (this is the minimum for LM) -->
+            <param id="submit_native_specification">-p LM -t 00:30:00 --mem=131072</param>
+            <param id="submit_user_email">$__user_email__</param>
+            <env exec="eval `modulecmd sh purge`" />
+            <env file="/pylon2/mc48nsp/xcgalaxy/main/galaxy/venv/bin/activate" />
+        </destination>
+        <destination id="pulsar_bridges_nagios" runner="amqp_pulsar_bridges_nagios">
+            <param id="transport">curl</param>
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="jobs_directory">/pylon1/mc48nsp/xcgalaxy/main_staging/</param>
+            <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/main/galaxy/server</param>
+            <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/galaxy.ini</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/datatypes_conf.xml</param>
+            <env exec="eval `modulecmd sh purge`" />
+            <env file="/pylon2/mc48nsp/xcgalaxy/main/galaxy/venv/bin/activate" />
+        </destination>
+
         <!-- local destination for nagios handler checks -->
         <destination id="local" runner="local"/>
 
@@ -417,6 +498,9 @@
         <tool id="tophat" destination="dynamic_multi_reserved" handler="multi_handlers"/>
         <tool id="tophat2" destination="dynamic_multi_reserved" handler="multi_handlers"/>
         -->
+        <!-- bridges jobs -->
+        <tool id="trinity_psc" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
+        <tool id="spades" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
@@ -478,11 +562,13 @@
         <tool id="echo_main_w2_handler1" destination="local" handler="main_w2_handler1"/>
         <tool id="echo_main_w2_handler2" destination="local" handler="main_w2_handler2"/>
         <tool id="echo_main_stampede" destination="pulsar_stampede_nagios" handler="multi_handlers"/>
+        <tool id="echo_main_bridges" destination="pulsar_bridges_nagios" handler="multi_handlers"/>
     </tools>
     <resources default="default">
         <group id="default"></group>
         <group id="local_or_stampede">tacc_compute_resource</group>
         <group id="stampede">stampede_compute_resource</group>
+        <group id="bridges">bridges_compute_resource</group>
     </resources>
     <limits>
         <limit type="registered_user_concurrent_jobs">6</limit>
@@ -499,9 +585,13 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="pulsar_bridges_normal">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="pulsar_bridges_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="jetstream">4</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_normal">50</limit>
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_development">1</limit>
+        <limit type="destination_total_concurrent_jobs" id="pulsar_bridges_normal">10</limit>
+        <limit type="destination_total_concurrent_jobs" id="pulsar_bridges_development">1</limit>
     </limits>
 </job_conf>
