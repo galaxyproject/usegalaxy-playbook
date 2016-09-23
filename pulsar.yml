@@ -6,4 +6,5 @@
     - [ "{{ deploy_env }}/secret_host_vars/{{ inventory_hostname }}.yml", "{{ deploy_env }}/secret_host_vars/default.yml" ]
   roles:
     # set up pulsar
-    - role: galaxyprojectdotorg.pulsar
+    - galaxyprojectdotorg.pulsar
+    - copy
