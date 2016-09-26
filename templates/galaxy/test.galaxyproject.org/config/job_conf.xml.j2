@@ -319,8 +319,8 @@
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/test/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
-            <!-- 983040 MB == 960 GB (20 cores) -->
-            <param id="submit_native_specification">-p LM -t 48:00:00 --mem=983040</param>
+            <!-- walltime and mem are set dynamically -->
+            <param id="submit_native_specification">-p LM</param>
             <param id="submit_user_email">$__user_email__</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
@@ -336,8 +336,8 @@
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/test/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
-            <!-- 131072 MB == 128 GB (1 core) (this is the minimum for LM) -->
-            <param id="submit_native_specification">-p LM -t 00:30:00 --mem=131072</param>
+            <!-- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) -->
+            <param id="submit_native_specification">-p LM -t 00:30:00 --mem=147456</param>
             <param id="submit_user_email">$__user_email__</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
