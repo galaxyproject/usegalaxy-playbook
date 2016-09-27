@@ -499,8 +499,8 @@
         <tool id="tophat2" destination="dynamic_multi_reserved" handler="multi_handlers"/>
         -->
         <!-- bridges jobs -->
-        <tool id="trinity_psc" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
-        <tool id="spades" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
+        <tool id="trinity_psc" destination="dynamic_bridges_select" handler="multi_handlers" resources="bridges"/>
+        <tool id="spades" destination="dynamic_bridges_select" handler="multi_handlers" resources="bridges"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
