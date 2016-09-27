@@ -54,3 +54,7 @@ pulsar_optional_dependencies:
   - requests
   - poster
   - psutil
+
+host_files:
+  - src: files/pulsar/{{ galaxy_instance_hostname }}/config/bridges_dependency_resolvers_conf.xml
+    dest: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
