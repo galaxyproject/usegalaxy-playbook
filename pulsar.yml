@@ -3,7 +3,7 @@
 - hosts: pulsarservers
   remote_user: "{{ galaxy_user }}"
   vars_files:
-    - [ "{{ deploy_env }}/secret_host_vars/{{ inventory_hostname }}.yml", "{{ deploy_env }}/secret_host_vars/default.yml" ]
+    - "{{ deploy_env }}/secret_vars/pulsarservers.yml"
   roles:
     # set up pulsar
     - galaxyprojectdotorg.pulsar
