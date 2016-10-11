@@ -57,6 +57,7 @@ nginx_default_redirect_uri: https://test.galaxyproject.org$request_uri
 
 nginx_conf_http:
   server_names_hash_bucket_size: 128
+  gzip: 'on'
   gzip_vary: 'on'
   gzip_proxied: any
   gzip_comp_level: 6

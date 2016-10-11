@@ -62,22 +62,16 @@ server {
 
     location /static {
         alias {{ galaxy_server_dir }}/static;
-        gzip on;
-        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
         expires 24h;
     }
 
     location /static/style {
         alias {{ galaxy_server_dir }}/static/style/blue;
-        gzip on;
-        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
         expires 24h;
     }
 
     location /static/scripts {
         alias {{ galaxy_server_dir }}/static/scripts/packed;
-        gzip on;
-        gzip_types text/plain text/javascript application/x-javascript;
         expires 24h;
     }
 
@@ -191,22 +185,16 @@ server {
 
     location /static {
         alias {{ galaxy_server_dir }}/static;
-        gzip on;
-        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
         expires 24h;
     }
 
     location /static/style {
         alias {{ galaxy_server_dir }}/static/style/blue;
-        gzip on;
-        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
         expires 24h;
     }
 
     location /static/scripts {
         alias {{ galaxy_server_dir }}/static/scripts/packed;
-        gzip on;
-        gzip_types text/plain text/javascript application/x-javascript;
         expires 24h;
     }
 }
@@ -236,22 +224,16 @@ server {
 
     location /static {
         alias {{ galaxy_server_dir }}/static;
-        gzip on;
-        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
         expires 24h;
     }
 
     location /static/style {
         alias {{ galaxy_server_dir }}/static/style/blue;
-        gzip on;
-        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
         expires 24h;
     }
 
     location /static/scripts {
         alias {{ galaxy_server_dir }}/static/scripts/packed;
-        gzip on;
-        gzip_types text/plain text/javascript application/x-javascript;
         expires 24h;
     }
 }

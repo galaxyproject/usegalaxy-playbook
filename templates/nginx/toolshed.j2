@@ -29,22 +29,16 @@ server {
 
     location /static {
         alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static;
-        gzip on;
-        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
         expires 24h;
     }
 
     location /static/style {
         alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/style/blue;
-        gzip on;
-        gzip_types text/plain text/xml text/javascript text/css application/x-javascript;
         expires 24h;
     }
 
     location /static/scripts {
         alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/scripts/packed;
-        gzip on;
-        gzip_types text/plain text/javascript application/x-javascript;
         expires 24h;
     }
 
