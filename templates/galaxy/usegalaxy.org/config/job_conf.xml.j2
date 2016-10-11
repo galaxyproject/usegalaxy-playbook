@@ -25,10 +25,32 @@
             <param id="amqp_publish_retry">True</param>
             <param id="amqp_publish_retry_max_retries">60</param>
         </plugin>
+        <plugin id="pulsar_jetstream_iu_nagios" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+            <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
+            <param id="galaxy_url">https://{{ inventory_hostname_short }}.galaxyproject.org</param>
+            <param id="manager">jetstream_iu_nagios</param>
+            <param id="persistence_directory">/srv/galaxy/main/var/pulsar_amqp_ack</param>
+            <param id="amqp_acknowledge">True</param>
+            <param id="amqp_ack_republish_time">180</param>
+            <param id="amqp_consumer_timeout">2.0</param>
+            <param id="amqp_publish_retry">True</param>
+            <param id="amqp_publish_retry_max_retries">60</param>
+        </plugin>
         <plugin id="pulsar_jetstream_tacc" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
             <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
             <param id="galaxy_url">https://{{ inventory_hostname_short }}.galaxyproject.org</param>
             <param id="manager">jetstream_tacc</param>
+            <param id="persistence_directory">/srv/galaxy/main/var/pulsar_amqp_ack</param>
+            <param id="amqp_acknowledge">True</param>
+            <param id="amqp_ack_republish_time">180</param>
+            <param id="amqp_consumer_timeout">2.0</param>
+            <param id="amqp_publish_retry">True</param>
+            <param id="amqp_publish_retry_max_retries">60</param>
+        </plugin>
+        <plugin id="pulsar_jetstream_tacc_nagios" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
+            <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
+            <param id="galaxy_url">https://{{ inventory_hostname_short }}.galaxyproject.org</param>
+            <param id="manager">jetstream_tacc_nagios</param>
             <param id="persistence_directory">/srv/galaxy/main/var/pulsar_amqp_ack</param>
             <param id="amqp_acknowledge">True</param>
             <param id="amqp_ack_republish_time">180</param>
@@ -119,7 +141,9 @@
             <plugin id="local"/>
             <plugin id="slurm"/>
             <plugin id="pulsar_jetstream_iu"/>
+            <plugin id="pulsar_jetstream_iu_nagios"/>
             <plugin id="pulsar_jetstream_tacc"/>
+            <plugin id="pulsar_jetstream_tacc_nagios"/>
             <plugin id="amqp_pulsar_stampede"/>
             <plugin id="amqp_pulsar_stampede_nagios"/>
             <plugin id="amqp_pulsar_bridges"/>
@@ -138,7 +162,9 @@
             <plugin id="local"/>
             <plugin id="slurm"/>
             <plugin id="pulsar_jetstream_iu"/>
+            <plugin id="pulsar_jetstream_iu_nagios"/>
             <plugin id="pulsar_jetstream_tacc"/>
+            <plugin id="pulsar_jetstream_tacc_nagios"/>
             <plugin id="amqp_pulsar_stampede"/>
             <plugin id="amqp_pulsar_stampede_nagios"/>
             <plugin id="amqp_pulsar_bridges"/>
@@ -340,6 +366,23 @@
             <env id="TMPDIR">"$PWD"</env>
             <env id="_JAVA_OPTIONS">-Djava.io.tmpdir="$PWD"</env>
         </destination>
+        <destination id="jetstream_iu_nagios" runner="pulsar_jetstream_iu_nagios" tags="jetstream">
+            <param id="transport">curl</param>
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/config/datatypes_conf.xml</param>
+            <param id="jobs_directory">/jetstream/scratch0/{{ galaxy_instance_codename }}/jobs</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
+            <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate" />
+            <env id="LC_ALL">C</env>
+            <env id="TEMP">"$PWD"</env>
+            <env id="TMPDIR">"$PWD"</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir="$PWD"</env>
+        </destination>
         <destination id="jetstream_tacc_multi" runner="pulsar_jetstream_tacc" tags="jetstream">
             <param id="transport">curl</param>
             <param id="default_file_action">remote_transfer</param>
@@ -351,6 +394,23 @@
             <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/config/datatypes_conf.xml</param>
             <param id="jobs_directory">/jetstream/scratch0/{{ galaxy_instance_codename }}/jobs</param>
             <param id="submit_native_specification">--time=48:00:00 --nodes=1 --partition=multi</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
+            <env file="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate" />
+            <env id="LC_ALL">C</env>
+            <env id="TEMP">`dirname ${BASH_SOURCE[0]}`/working</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP</env>
+        </destination>
+        <destination id="jetstream_tacc_nagios" runner="pulsar_jetstream_tacc_nagios" tags="jetstream">
+            <param id="transport">curl</param>
+            <param id="default_file_action">remote_transfer</param>
+            <param id="dependency_resolution">remote</param>
+            <param id="remote_metadata">true</param>
+            <param id="use_remote_datatypes">true</param>
+            <param id="rewrite_parameters">true</param>
+            <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/config/datatypes_conf.xml</param>
+            <param id="jobs_directory">/jetstream/scratch0/{{ galaxy_instance_codename }}/jobs</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <env file="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate" />
             <env id="LC_ALL">C</env>
@@ -422,7 +482,8 @@
             <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/datatypes_conf.xml</param>
             <!-- walltime and mem are set dynamically -->
-            <param id="submit_native_specification">-p LM</param>
+            <!-- use constraint to avoid running on xl nodes, which do not mount /pylon1 -->
+            <param id="submit_native_specification">-p LM --constraint=LM</param>
             <param id="submit_user_email">$__user_email__</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/main/galaxy/venv/bin/activate" />
@@ -574,6 +635,8 @@
         <tool id="echo_main_w2_handler0" destination="local" handler="main_w2_handler0"/>
         <tool id="echo_main_w2_handler1" destination="local" handler="main_w2_handler1"/>
         <tool id="echo_main_w2_handler2" destination="local" handler="main_w2_handler2"/>
+        <tool id="echo_main_jetstream_iu" destination="jetstream_iu_nagios" handler="multi_handlers"/>
+        <tool id="echo_main_jetstream_tacc" destination="jetstream_tacc_nagios" handler="multi_handlers"/>
         <tool id="echo_main_stampede" destination="pulsar_stampede_nagios" handler="multi_handlers"/>
         <tool id="echo_main_bridges" destination="pulsar_bridges_nagios" handler="multi_handlers"/>
     </tools>

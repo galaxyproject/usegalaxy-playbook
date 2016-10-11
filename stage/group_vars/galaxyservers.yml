@@ -96,8 +96,10 @@ usegalaxy_nagios_tools:
   - echo_test_handler0
   - echo_test_handler1
   - echo_test_cluster
+  - echo_test_jetstream_iu
+  - echo_test_jetstream_tacc
   - echo_test_stampede
-  - echo_test_greenfield
+  - echo_test_bridges
 
 
 ## used by: errdocs
@@ -282,6 +284,8 @@ base_app_main: &BASE_APP_MAIN
   max_metadata_value_size: 1000000
   brand: 'Test'
   enable_beta_tool_command_isolation: "True"
+
+  conda_copy_dependencies: "True"
 
   # stats
   statsd_host: "galaxy06.tacc.utexas.edu"

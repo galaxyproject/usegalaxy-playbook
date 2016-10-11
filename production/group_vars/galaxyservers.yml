@@ -45,7 +45,10 @@ usegalaxy_nagios_tools:
   - echo_main_w2_handler1
   - echo_main_w2_handler2
   - echo_main_cluster
+  - echo_main_jetstream_iu
+  - echo_main_jetstream_tacc
   - echo_main_stampede
+  - echo_main_bridges
 
 
 ## used by: usegalaxy_admin
@@ -182,6 +185,8 @@ base_app_main: &BASE_APP_MAIN
   tool_search_limit: 30
   tool_name_boost: 12
   tool_section_boost: 5
+
+  conda_copy_dependencies: "True"
 
   # stats
   statsd_host: "galaxy06.tacc.utexas.edu"

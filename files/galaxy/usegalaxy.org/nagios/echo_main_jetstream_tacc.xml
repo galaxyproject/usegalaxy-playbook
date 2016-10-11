@@ -1,0 +1,11 @@
+<tool id="echo_main_jetstream_tacc" name="Echo on jetstream_tacc_nagios">
+    <hidden>True</hidden>
+    <command>echo "$echo" &gt; "$output"</command>
+    <inputs>
+        <param name="echo" type="text" title="Text to echo"/>
+    </inputs>
+    <outputs>
+        <data name="output" format="txt" />
+    </outputs>
+</tool>
+
