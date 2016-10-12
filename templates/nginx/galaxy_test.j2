@@ -148,6 +148,7 @@ server {
 
     location /static/welcome_img {
         alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome_img;
+        expires 2h;
     }
 
     # error docs
