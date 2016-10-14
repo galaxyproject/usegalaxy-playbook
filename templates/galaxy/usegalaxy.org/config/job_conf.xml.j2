@@ -219,7 +219,7 @@
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
-           <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
+           <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch -Xmx7680m -Xms256m</env>
            <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_16gb" runner="slurm">
@@ -230,7 +230,7 @@
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
-           <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
+           <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch -Xmx15872m -Xms256m</env>
            <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_64gb" runner="slurm">
@@ -241,7 +241,7 @@
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
            <env id="TEMP">/galaxy-repl/main/scratch</env>
            <env id="TMPDIR">/galaxy-repl/main/scratch</env>
-           <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch</env>
+           <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/main/scratch -Xmx65024m -Xms256m</env>
            <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_multi" runner="slurm">
