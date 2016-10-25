@@ -213,7 +213,7 @@
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved</param>
            <!-- FIXME -->
            <!-- cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -224,7 +224,7 @@
         </destination>
         <destination id="reserved_16gb" runner="slurm">
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=15360</param>
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -235,7 +235,7 @@
         </destination>
         <destination id="reserved_64gb" runner="slurm">
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=61440</param>
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -246,7 +246,7 @@
         </destination>
         <destination id="reserved_multi" runner="slurm">
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=4 --partition=reserved --mem-per-cpu=5120</param>
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -259,7 +259,7 @@
         <!-- normal destinations -->
         <destination id="slurm_normal" runner="slurm">
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal</param>
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -270,7 +270,7 @@
         </destination>
         <destination id="slurm_normal_16gb" runner="slurm">
            <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -281,7 +281,7 @@
         </destination>
         <destination id="slurm_normal_64gb" runner="slurm">
            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -294,7 +294,7 @@
         <!-- multi destinations -->
         <destination id="slurm_multi" runner="slurm">
            <param id="nativeSpecification">--time=36:00:00 --nodes=1 --ntasks=6 --partition=multi</param>
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -305,7 +305,7 @@
         </destination>
         <destination id="slurm_trackster_multi" runner="slurm">
            <param id="nativeSpecification">--time=00:05:00 --nodes=1 --ntasks=4 --partition=normal</param>
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -316,7 +316,7 @@
         </destination>
         <destination id="slurm_multi_development" runner="slurm">
            <param id="nativeSpecification">--time=00:30:00 --clusters=roundup --nodes=1 --ntasks=2 --partition=normal</param>
-           <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
            <env id="LC_ALL">C</env>
            <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
            <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
@@ -330,7 +330,7 @@
         <destination id="slurm_multi_dynamic_walltime" runner="slurm">
             <!-- walltime is set dynamically -->
             <param id="nativeSpecification">--nodes=1 --ntasks=6 --partition=multi</param>
-            <env id="PATH">/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+            <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
             <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
             <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
