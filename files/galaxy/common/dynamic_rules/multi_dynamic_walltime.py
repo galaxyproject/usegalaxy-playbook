@@ -68,6 +68,38 @@ JETSTREAM_DESTINATION_MAPS = {
     },
 }
 
+'''
+JETSTREAM_DESTINATION_MAPS = {
+    LOCAL_DESTINATION: {
+        'clusters': ['jetstream-tacc', 'roundup'],
+        'cluster_prefixes': ['jetstream-tacc-large', 'roundup'],
+        'destination_prefixes': ['jetstream_tacc', 'slurm'],
+        'partition': 'multi',
+    },
+    'jetstream_multi': {
+        'clusters': ['jetstream-tacc',],
+        'cluster_prefixes': ['jetstream-tacc-large',],
+        'destination_prefixes': ['jetstream_tacc',],
+        'partition': 'multi',
+    },
+}
+
+JETSTREAM_DESTINATION_MAPS = {
+    LOCAL_DESTINATION: {
+        'clusters': ['roundup'],
+        'cluster_prefixes': ['roundup'],
+        'destination_prefixes': ['slurm'],
+        'partition': 'multi',
+    },
+    'jetstream_multi': {
+        'clusters': ['jetstream-iu', 'jetstream-tacc'],
+        'cluster_prefixes': ['jetstream-iu-large', 'jetstream-tacc-large'],
+        'destination_prefixes': ['jetstream_iu', 'jetstream_tacc'],
+        'partition': 'multi',
+    },
+}
+'''
+
 # Just needs to be a shell script, does not matter what it is
 TEST_SCRIPT = '/usr/bin/ldd'
 
