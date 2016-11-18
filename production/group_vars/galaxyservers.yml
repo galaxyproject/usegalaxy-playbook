@@ -70,10 +70,11 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 base_app_main: &BASE_APP_MAIN
 
   # message box
-  #message_box_visible: "True"
+  message_box_visible: "True"
+  message_box_content: 'Galaxy will be unavailable between 10:00 AM - 5:00 PM EST (UTC -0500) <strong>Monday, Nocember 21st</strong> due to filesystem maintenance. Running jobs may be interrupted during this period.'
   #message_box_content: 'Galaxy will be unavailable between 12:00 PM - 6:00 PM EST (UTC -0500) <strong>today</strong>, Tuesday, November 10th due to <a target="_blank" href="https://portal.tacc.utexas.edu/user-news/-/news/101798">filesystem maintenance</a>. Running jobs may be interrupted during this period.'
   #message_box_content: 'Galaxy now runs some (larger, multicore) jobs on <a target="_blank" href="http://jetstream-cloud.org/">Jetstream</a>, you may encounter a few problems related to this. We are working on these, and please feel free to report any errors you encounter.'
-  #message_box_class: warning
+  message_box_class: warning
 
   # this can be removed after 9/22 and the datatypes_conf.xml update
   gbrowse_display_sites: wormbase,tair,modencode_worm,modencode_fly
