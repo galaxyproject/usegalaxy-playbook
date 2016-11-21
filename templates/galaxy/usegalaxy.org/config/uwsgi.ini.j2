@@ -1,17 +1,49 @@
 [uwsgi]
+; basic settings
+master = true
 processes = 8
-stats = 127.0.0.1:9191
-socket = 127.0.0.1:4001
-master = True
-thunder-lock = True
-logto = {{ galaxy_log_dir }}/uwsgi.log
-py-tracebacker = {{ galaxy_mutable_data_dir }}/uwsgi_py_tracebacker.worker
-harakiri = 600
-pythonpath = lib
 threads = 4
+
+; uwsgi performance/robustness features
+single-interpreter = true
+thunder-lock = true
+harakiri = 600
+
+; logging
 log-maxsize = 134217728
-single-interpreter = True
 log-master-bufsize = 15865856
+
+; application
+pythonpath = lib
 module = galaxy.webapps.galaxy.buildapp:uwsgi_app_factory()
 set = galaxy_config_file={{ galaxy_config_dir }}/galaxy.ini
 set = galaxy_root={{ galaxy_server_dir }}
+
+; zerg mode
+; http://lists.unbit.it/pipermail/uwsgi/2014-October/007683.html
+; this plugin was manually built into the test/main virtualenvs with:
+;   {{ galaxy_venv_dir }}/bin/uwsgi --build-plugin spinningfifo.c
+;   mkdir -p {{ galaxy_venv_dir }}/lib/uwsgi/plugins
+;   mv spinningfifo_plugin.so {{ galaxy_venv_dir }}/lib/uwsgi/plugins
+plugins-dir = {{ galaxy_venv_dir }}/lib/uwsgi/plugins
+plugin = spinningfifo
+
+; fifo '0'
+master-fifo = {{ galaxy_mutable_data_dir }}/zerg-new.fifo
+; fifo '1'
+master-fifo = {{ galaxy_mutable_data_dir }}/zerg-run.fifo
+; fifo '2'
+master-fifo = {{ galaxy_mutable_data_dir }}/zerg-old.fifo
+
+; attach to zerg
+zerg = {{ galaxy_mutable_data_dir }}/zergpool.sock
+
+; we do not kill the old sleeping instance since supervisor is managing the start/stop
+; force the currently running instance to became sleeping (slot 2) and place it in pause mode
+if-exists = {{ galaxy_mutable_data_dir }}/zerg-run.fifo
+  hook-accepting1-once = writefifo:{{ galaxy_mutable_data_dir }}/zerg-run.fifo 2p
+endif =
+; force this instance to became the running one (slot 1)
+hook-accepting1-once = spinningfifo:{{ galaxy_mutable_data_dir }}/zerg-new.fifo 1
+
+; perform restarts with `echo q >{{ galaxy_mutable_data_dir }}/zerg-old.fifo`
