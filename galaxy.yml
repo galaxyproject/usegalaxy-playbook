@@ -66,6 +66,7 @@
   remote_user: "{{ galaxy_user }}"
   tags:
     - no-update
+    - no-restart
   tasks:
     - name: CVMFS snapshot
       command: /usr/bin/cvmfs_server snapshot {{ galaxy_instance_codename }}.galaxyproject.org
@@ -80,6 +81,7 @@
   remote_user: "{{ galaxy_user }}"
   tags:
     - no-update
+    - no-restart
   tasks:
     - name: Wipe CVMFS cache
       command: /usr/local/bin/cvmfs_wipecache
@@ -89,6 +91,8 @@
   remote_user: "{{ galaxy_user }}"
   tags:
     - no-update
+    - no-restart
+    - no-cvmfs
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
     - "{{ deploy_env }}/galaxy_version.yml"
@@ -114,6 +118,8 @@
   remote_user: "{{ galaxy_privileged_user }}"
   tags:
     - no-update
+    - no-restart
+    - no-cvmfs
   vars_files:
     - "{{ deploy_env }}/secret_vars/galaxyservers.yml"
     - "{{ deploy_env }}/galaxy_version.yml"
@@ -123,6 +129,9 @@
 - name: Restart Galaxy
   hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
+  tags:
+    - no-update
+    - no-cvmfs
   tasks:
     - name: Restart Galaxy
       command: /home/{{ galaxy_user }}/bin/galaxy graceful
@@ -130,6 +139,9 @@
 - name: Update Galaxy on Pulsar servers
   hosts: pulsargalaxyservers
   remote_user: "{{ galaxy_user }}"
+  tags:
+    - no-update
+    - no-cvmfs
   vars_files:
     - "{{ deploy_env }}/secret_vars/pulsarservers.yml"
     - "{{ deploy_env }}/galaxy_version.yml"

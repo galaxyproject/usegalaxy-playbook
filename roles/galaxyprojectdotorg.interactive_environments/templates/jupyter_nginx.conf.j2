@@ -7,14 +7,14 @@
 {% from '_prefix.j2' import prefix with context %}
 
 # regular proxy
-location {{ prefix() }}/ipython {
-    proxy_pass http://localhost:{{ interactive_environments_proxy_port }}{{ prefix() }}/ipython;
+location {{ prefix() }}/jupyter {
+    proxy_pass http://localhost:{{ interactive_environments_proxy_port }}{{ prefix() }}/jupyter;
     proxy_redirect off;
 }
 
 # websocket for kernels
-location {{ prefix() }}/ipython/api/kernels {
-    proxy_pass http://localhost:{{ interactive_environments_proxy_port }}{{ prefix() }}/ipython/api/kernels;
+location {{ prefix() }}/jupyter/api/kernels {
+    proxy_pass http://localhost:{{ interactive_environments_proxy_port }}{{ prefix() }}/jupyter/api/kernels;
     proxy_redirect off;
     proxy_http_version 1.1;
     proxy_set_header Upgrade $http_upgrade;
