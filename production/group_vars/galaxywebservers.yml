@@ -78,6 +78,7 @@ interactive_environments_config_files:
     contents:
       docker:
         command: "docker -H tcp://iedocker.galaxyproject.org:2376 --tlsverify {docker_args}"
+        command_inject: "--memory=16g"
         galaxy_url: "https://usegalaxy.org"
         docker_hostname: "iedocker.galaxyproject.org"
   - ie_name: jupyter
