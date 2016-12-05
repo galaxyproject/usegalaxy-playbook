@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<toolbox>
+<toolbox monitor="true">
   <section id="getext" name="Get Data">
     <tool file="data_source/upload.xml" />
     <tool file="data_source/ucsc_tablebrowser.xml" />
@@ -57,11 +57,13 @@
     <tool file="stats/filtering.xml" />
     <tool file="filters/sorter.xml" />
     <tool file="filters/grep.xml" />
-    
+
     <label id="gff" text="GFF" />
     <tool file="filters/gff/extract_GFF_Features.xml" />
+    <!--
     <tool file="filters/gff/gff_filter_by_attribute.xml" />
     <tool file="filters/gff/gff_filter_by_feature_count.xml" />
+  -->
     <tool file="filters/gff/gtf_filter_by_attribute_values_list.xml" />
   </section>
   <section id="group" name="Join, Subtract and Group">
