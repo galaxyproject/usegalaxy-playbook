@@ -7,11 +7,12 @@ logdir='{{ galaxy_log_dir }}'
 archivedir='{{ galaxy_log_archive_dir }}/{{ ansible_hostname }}'
 otherlogs="cleanup.log"
 
-for logfile in ${logdir}/uwsgi.log.*; do 
-    if [ "${logfile}" != "${logdir}/uwsgi.log.*" ]; then
+for logfile in ${logdir}/uwsgi*.log.*; do 
+    if [ "${logfile}" != "${logdir}/uwsgi*.log.*" ]; then
+        base=`basename ${logfile} | awk -F. '{print $1}'` &&
         stamp=`basename ${logfile} | awk -F. '{print $NF}'` &&
         ymdhms=`date -d @${stamp} +'%Y%m%d-%H%M%S'` &&
-        cat ${logfile} | gzip > ${archivedir}/uwsgi.log.${ymdhms}.gz &&
+        cat ${logfile} | gzip > ${archivedir}/${base}.log.${ymdhms}.gz &&
         rm -f ${logfile}
     fi
 done
