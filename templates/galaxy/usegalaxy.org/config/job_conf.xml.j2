@@ -651,7 +651,9 @@
         <group id="bridges">bridges_compute_resource</group>
     </resources>
     <limits>
+        <!--
         <limit type="registered_user_concurrent_jobs">6</limit>
+        -->
         <limit type="anonymous_user_concurrent_jobs">1</limit>
         <limit type="job_walltime">49:00:00</limit>
         <limit type="output_size">200G</limit>
@@ -665,13 +667,17 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_stampede_development">1</limit>
+        <!--
         <limit type="destination_user_concurrent_jobs" id="pulsar_bridges_normal">1</limit>
         <limit type="destination_user_concurrent_jobs" id="pulsar_bridges_development">1</limit>
+        -->
         <limit type="destination_user_concurrent_jobs" id="jetstream">4</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_normal">50</limit>
         <limit type="destination_total_concurrent_jobs" id="pulsar_stampede_development">1</limit>
+        <!--
         <limit type="destination_total_concurrent_jobs" id="pulsar_bridges_normal">10</limit>
         <limit type="destination_total_concurrent_jobs" id="pulsar_bridges_development">1</limit>
+        -->
     </limits>
 </job_conf>
