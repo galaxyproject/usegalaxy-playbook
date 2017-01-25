@@ -20,10 +20,10 @@
 
     - name: Update Galaxy
       # TODO: use docker_container maybe?
-      command: docker run --rm -v /cvmfs:/cvmfs galaxy/update /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/bin/update_galaxy.sh
+      command: docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/bin/update_galaxy.sh
 
     - name: Fetch Galaxy version
-      command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy/lib galaxy/update /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/python -c 'from galaxy.version import VERSION; print VERSION'"
+      command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy/lib galaxy/update su - {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/python -c 'from galaxy.version import VERSION; print VERSION'\""
       register: galaxy_version
 
     - name: Fetch Galaxy commit
