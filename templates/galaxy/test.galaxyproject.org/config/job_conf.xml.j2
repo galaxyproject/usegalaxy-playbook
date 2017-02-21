@@ -193,45 +193,50 @@
             <!-- cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch -Xmx7680m -Xms256m</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx7680m -Xms256m</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_16gb" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=15360</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch -Xmx15872m -Xms256m</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx15872m -Xms256m</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_32gb" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=30720</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch -Xmx32256m -Xms256m</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx32256m -Xms256m</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_64gb" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=61440</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch -Xmx65024m -Xms256m</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx65024m -Xms256m</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_multi" runner="slurm">
             <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=4 --partition=reserved --mem-per-cpu=5120</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <!-- dynamic must append ntasks -->
@@ -245,36 +250,40 @@
             <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch -Xmx7680m -Xms256m</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx7680m -Xms256m</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_normal_16gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=15360</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch -Xmx15872m -Xms256m</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx15872m -Xms256m</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_normal_32gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=normal --mem-per-cpu=30720</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch -Xmx32256m -Xms256m</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx32256m -Xms256m</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_normal_64gb" runner="slurm">
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=61440</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch -Xmx65024m -Xms256m</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx65024m -Xms256m</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
 
@@ -282,9 +291,10 @@
             <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=4 --partition=multi</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
-            <env id="TEMP">/galaxy-repl/test/scratch</env>
-            <env id="TMPDIR">/galaxy-repl/test/scratch</env>
-            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=/galaxy-repl/test/scratch</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+            <env id="TMPDIR">$TEMP</env>
+            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP</env>
+            <env exec="mkdir -p $TEMP" />
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="slurm_multi_trackster" runner="slurm">
@@ -319,7 +329,7 @@
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <env file="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate" />
             <env id="LC_ALL">C</env>
-            <env id="TEMP">`dirname ${BASH_SOURCE[0]}`/working</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/working</env>
             <env id="TMPDIR">$TEMP</env>
             <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP</env>
         </destination>
@@ -336,7 +346,7 @@
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <env file="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate" />
             <env id="LC_ALL">C</env>
-            <env id="TEMP">`dirname ${BASH_SOURCE[0]}`/working</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/working</env>
             <env id="TMPDIR">$TEMP</env>
             <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP</env>
         </destination>
@@ -354,7 +364,7 @@
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <env file="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate" />
             <env id="LC_ALL">C</env>
-            <env id="TEMP">`dirname ${BASH_SOURCE[0]}`/working</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/working</env>
             <env id="TMPDIR">$TEMP</env>
             <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP</env>
         </destination>
@@ -371,7 +381,7 @@
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <env file="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate" />
             <env id="LC_ALL">C</env>
-            <env id="TEMP">`dirname ${BASH_SOURCE[0]}`/working</env>
+            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/working</env>
             <env id="TMPDIR">$TEMP</env>
             <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP</env>
         </destination>
