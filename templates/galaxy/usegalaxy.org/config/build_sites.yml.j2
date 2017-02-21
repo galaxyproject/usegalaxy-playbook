@@ -1,0 +1,16 @@
+---
+
+- type: ucsc
+  file: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
+  display: [main,archaea,ucla]
+- type: gbrowse
+  file: "{{ galaxy_server_dir }}/tool-data/shared/gbrowse/gbrowse_build_sites.txt"
+  display: [wormbase,tair,modencode_worm,modencode_fly]
+- type: ensembl
+  file: "{{ galaxy_server_dir }}/tool-data/shared/ensembl/ensembl_sites.txt"
+- type: ensembl_data_url
+  file: "{{ galaxy_server_dir }}/tool-data/shared/ensembl/ensembl_sites_data_URL.txt"
+- type: igv
+  file: "{{ galaxy_server_dir }}/tool-data/shared/igv/igv_build_sites.txt.sample"
+- type: rviewer
+  file: "{{ galaxy_server_dir }}/tool-data/shared/rviewer/rviewer_build_sites.txt.sample"

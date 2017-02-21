@@ -105,7 +105,8 @@ base_app_main: &BASE_APP_MAIN
 
   tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
   tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
-  datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
+  build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
+  #datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
   object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
   job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
   job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
@@ -271,8 +272,8 @@ galaxy_config_files:
 galaxy_config_templates:
   - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/job_conf.xml.j2
     dest: "{{ galaxy_config_dir }}/job_conf.xml"
-  - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/datatypes_conf.xml.j2
-    dest: "{{ galaxy_config['app:main']['datatypes_config_file'] }}"
+  - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/build_sites.yml.j2
+    dest: "{{ galaxy_config['app:main']['build_sites_config_file'] }}"
   - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/reports.ini.j2
     dest: "{{ galaxy_config_dir }}/reports.ini"
   - src: templates/galaxy/{{ galaxy_instance_hostname }}/config/uwsgi.ini.j2
