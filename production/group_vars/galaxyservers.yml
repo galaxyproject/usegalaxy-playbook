@@ -202,7 +202,7 @@ galaxy_config_hash:
   "app:main":
     <<: *BASE_APP_MAIN
     allow_user_impersonation: "False"
-    new_file_path: /galaxy/main/scratch
+    new_file_path: /galaxy-repl/main/scratch2
 
 impersonate_config_hash:
   "server:main_w1_impersonate":
@@ -220,7 +220,7 @@ impersonate_config_hash:
     <<: *BASE_APP_MAIN
     allow_user_impersonation: "True"
     "filter-with": proxy-prefix
-    new_file_path: /galaxy/main/scratch
+    new_file_path: /galaxy-repl/main/scratch2
 
 installer_config_hash:
   "server:main_w1_installer":
@@ -235,7 +235,7 @@ installer_config_hash:
 datamanager_config_hash:
   "app:main":
     <<: *BASE_APP_MAIN
-    new_file_path: /galaxy-repl/main/scratch
+    new_file_path: /galaxy-repl/main/scratch2
 
 # specifies config files to copy from the playbook
 galaxy_config_files:
