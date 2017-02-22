@@ -37,6 +37,15 @@ galaxy_server_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/gala
 ## used by: usegalaxy, usegalaxy_static
 galaxy_instance_hostname: usegalaxy.org
 
+
+# FIXME: remove web-01 and web-02 handlers and move these to galaxyjobservers
+usegalaxy_dynamic_job_rules:
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/reserved.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/multi_dynamic_walltime.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/bridges_select.py
+  - files/galaxy/{{ galaxy_instance_hostname }}/dynamic_rules/nvc_dynamic_memory.py
+
+
 usegalaxy_nagios_tools:
   - echo_main_w1_handler0
   - echo_main_w1_handler1
@@ -49,6 +58,10 @@ usegalaxy_nagios_tools:
   - echo_main_jetstream_tacc
   - echo_main_stampede
   - echo_main_bridges
+
+
+## used by usegalaxy_privileged
+galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
 
 
 ## used by: usegalaxy_admin
