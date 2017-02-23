@@ -18,21 +18,22 @@ stopsignal      = INT
 stdout_logfile  = /var/log/supervisord/{{ galaxy_host_codename }}_uwsgi_zergpool.log
 redirect_stderr = true
 
-[program:galaxy_{{ galaxy_instance_codename }}_uwsgi_zergling]
-command         = /usr/bin/sg {{ galaxy_system_group }} '{{ galaxy_venv_dir }}/bin/uwsgi --ini {{ galaxy_config_dir }}/uwsgi.ini --stats 127.0.0.1:919%(process_num)s --logto {{ galaxy_log_dir }}/uwsgi_zergling%(process_num)s.log'
+{% for i in [ 0, 1 ] %}
+[program:galaxy_{{ galaxy_instance_codename }}_uwsgi_zergling{{ i }}]
+command         = /usr/bin/sg {{ galaxy_system_group }} '{{ galaxy_venv_dir }}/bin/uwsgi --ini {{ galaxy_config_dir }}/uwsgi.ini --stats 127.0.0.1:919{{ i }} --logto {{ galaxy_log_dir }}/uwsgi_zergling{{ i }}.log'
 directory       = {{ galaxy_server_dir }}
-process_name    = zergling%(process_num)s
+process_name    = zergling{{ i }}
 priority        = 999
 umask           = 022
-autostart       = true
-autorestart     = true
-startsecs       = 15
+autostart       = {{ "true" if i == 0 else "false" }}
+autorestart     = unexpected
+startsecs       = 10
 user            = {{ galaxy_user }}
 environment     = HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
-numprocs        = 2
 stopsignal      = INT
-stdout_logfile  = /var/log/supervisord/{{ galaxy_host_codename }}_uwsgi_zergling%(process_num)s.log
+stdout_logfile  = /var/log/supervisord/{{ galaxy_host_codename }}_uwsgi_zergling{{ i }}.log
 redirect_stderr = true
 
+{% endfor %}
 [group:galaxy_{{ galaxy_instance_codename }}_uwsgi]
-programs        = galaxy_{{ galaxy_instance_codename }}_uwsgi_zergpool,galaxy_{{ galaxy_instance_codename }}_uwsgi_zergling
+programs        = galaxy_{{ galaxy_instance_codename }}_uwsgi_zergpool,galaxy_{{ galaxy_instance_codename }}_uwsgi_zergling0,galaxy_{{ galaxy_instance_codename }}_uwsgi_zergling1
