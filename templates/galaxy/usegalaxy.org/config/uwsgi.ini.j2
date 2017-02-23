@@ -41,7 +41,7 @@ zerg = {{ galaxy_mutable_data_dir }}/zergpool.sock
 ; we do not kill the old sleeping instance since supervisor is managing the start/stop
 ; force the currently running instance to became sleeping (slot 2) and place it in pause mode
 if-exists = {{ galaxy_mutable_data_dir }}/zerg-run.fifo
-  hook-accepting1-once = writefifo:{{ galaxy_mutable_data_dir }}/zerg-run.fifo 2p
+  hook-accepting1-once = writefifo:{{ galaxy_mutable_data_dir }}/zerg-run.fifo 2q
 endif =
 ; force this instance to became the running one (slot 1)
 hook-accepting1-once = spinningfifo:{{ galaxy_mutable_data_dir }}/zerg-new.fifo 1
