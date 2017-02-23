@@ -60,6 +60,8 @@
 
     - name: Publish CVMFS transaction
       command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version.stdout }}_{{ galaxy_commit_short.stdout }}" -m "Update Galaxy to version {{ galaxy_version.stdout }} commit {{ galaxy_commit.stdout }} via Ansible" {{ galaxy_instance_codename }}.galaxyproject.org
+  tags:
+    - no-restart
 
 - name: Snapshot CVMFS changes on stratum 1 servers
   hosts: cvmfsstratum1servers
