@@ -31,6 +31,7 @@ startsecs       = 10
 user            = {{ galaxy_user }}
 environment     = HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 stopsignal      = INT
+stopwaitsecs    = 65
 stdout_logfile  = /var/log/supervisord/{{ galaxy_host_codename }}_uwsgi_zergling{{ i }}.log
 redirect_stderr = true
 
