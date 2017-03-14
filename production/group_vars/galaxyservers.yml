@@ -161,15 +161,15 @@ base_app_main: &BASE_APP_MAIN
   smtp_server: localhost
   error_email_to: galaxy-bugs@bx.psu.edu
   activation_email: "Galaxy Activation <activate@galaxyproject.org>"
-  instance_resource_url: "http://wiki.galaxyproject.org/Support"
+  instance_resource_url: "https://galaxyproject.org/support"
   screencasts_url: "https://vimeo.com/galaxyproject"
-  search_url: "http://galaxyproject.org/search/usegalaxy/"
+  search_url: "https://galaxyproject.org/search/"
   blacklist_file: "{{ galaxy_config_dir }}/disposable_email_blacklist.conf"
   registration_warning_message: "Please register only one account. The {{ galaxy_instance_hostname }} service is provided free of charge and has limited computational and data storage resources. <strong>Registration and usage of multiple accounts is tracked and such accounts are subject to termination and data deletion.</strong>"
   user_activation_on: "True"
   activation_grace_period: 6
   inactivity_box_content: "Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address."
-  wiki_url: "http://wiki.galaxyproject.org/"
+  wiki_url: "https://galaxyproject.org/"
   terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
   ga_code: "UA-45719423-10"
   static_enabled: "True"
