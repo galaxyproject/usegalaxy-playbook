@@ -25,14 +25,14 @@
         rewrite ^/u/guru@psu.edu/h/error-rates-files?$ https://usegalaxy.org/u/chai/h/error-rates-files;
 
         # other redirects
-        rewrite ^/cloud/?$ http://wiki.galaxyproject.org/Admin/Cloud;
+        rewrite ^/cloud/?$ https://galaxyproject.org/cloudman/;
         rewrite ^/cloudlaunch/?$ http://launch.usegalaxy.org;
-        rewrite ^/production/?$ http://wiki.galaxyproject.org/Admin/Config/Performance/ProductionServer;
+        rewrite ^/production/?$ https://galaxyproject.org/admin/config/performance/production-server/;
         rewrite ^/toolshed$ http://toolshed.g2.bx.psu.edu;
         rewrite ^/toolshed/(.*)$ http://toolshed.g2.bx.psu.edu/$1;
         #rewrite ^/dev2010/?$ http://bitbucket.org/galaxy/galaxy-central/wiki/DevConf2010;
         rewrite ^/vm/?$ https://s3.amazonaws.com/usegalaxy/index.html;
-        rewrite ^/screencast/?$ http://wiki.galaxyproject.org/Learn/Screencasts; 
+        rewrite ^/screencast/?$ http://vimeo.com/galaxyproject; 
         rewrite ^/contamination?$ https://usegalaxy.org/u/aun1/p/controlling-for-contamination-in-resequencing;
         rewrite ^/duplex?$ https://github.com/galaxyproject/dunovo/wiki;
 
