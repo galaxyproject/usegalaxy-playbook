@@ -29,5 +29,5 @@ exoerimental implementation and you are likely to experience many issues.
 
 [ts]: http://genomebiology.com/2014/15/2/403
 [bb]: http://bioblend.readthedocs.org/en/latest/api_docs/galaxy/all.html#module-bioblend.galaxy.toolshed
-[dm]: https://galaxyproject.org/admin/tools/data-managers/
+[dm]: https://wiki.galaxyproject.org/Admin/Tools/DataManagers
 [gm]: https://usegalaxy.org/
