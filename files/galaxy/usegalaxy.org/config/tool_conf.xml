@@ -26,12 +26,12 @@
   <section id="liftOver" name="Lift-Over">
     <tool file="extract/liftOver_wrapper.xml" />
   </section>
-  <section id="collection_operations" name="Collection Operations" version="">
-    <tool id="__UNZIP_COLLECTION__" labels="new" />
-    <tool id="__ZIP_COLLECTION__" labels="new" />
-    <tool id="__FILTER_FAILED_DATASETS__" labels="new" />
-    <tool id="__FLATTEN__" labels="new" />
-    <tool id="__MERGE_COLLECTION__" labels="new" />
+  <section id="collection_operations" name="Collection Operations">
+    <tool file="${model_tools_path}/unzip_collection.xml" labels="new" />
+    <tool file="${model_tools_path}/zip_collection.xml" labels="new" />
+    <tool file="${model_tools_path}/filter_failed_collection.xml" labels="new" />
+    <tool file="${model_tools_path}/flatten_collection.xml" labels="new" />
+    <tool file="${model_tools_path}/merge_collection.xml" labels="new" />
   </section>
   <section id="textutil" name="Text Manipulation">
     <tool file="filters/fixedValueColumn.xml" />
