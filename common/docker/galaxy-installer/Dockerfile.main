@@ -1,0 +1,26 @@
+# For updating Galaxy
+
+FROM galaxy/update
+
+RUN yum install -y mercurial
+RUN yum clean all
+
+VOLUME /cvmfs
+
+ENV GALAXY_INSTANCE main
+
+RUN mkdir -p /galaxy-repl/${GALAXY_INSTANCE}
+RUN ln -s /cvmfs/${GALAXY_INSTANCE}.galaxyproject.org/migrated_tools /galaxy-repl/${GALAXY_INSTANCE}/migrated_tools
+RUN ln -s /cvmfs/${GALAXY_INSTANCE}.galaxyproject.org/shed_tools /galaxy-repl/${GALAXY_INSTANCE}/shed_tools
+RUN ln -s /cvmfs/${GALAXY_INSTANCE}.galaxyproject.org/deps /galaxy-repl/${GALAXY_INSTANCE}/deps
+RUN ln -s /galaxy-repl /galaxy
+
+RUN mkdir -p /srv/galaxy/${GALAXY_INSTANCE}/var
+RUN chown g2${GALAXY_INSTANCE}:803372 /srv/galaxy/${GALAXY_INSTANCE}/var
+
+EXPOSE 8888
+
+COPY run_main.sh /run.sh
+COPY galaxy_main.ini /srv/galaxy/main/config/galaxy.ini
+
+ENTRYPOINT ["su", "-", "g2main", "-c", "/bin/sh /run.sh"]
