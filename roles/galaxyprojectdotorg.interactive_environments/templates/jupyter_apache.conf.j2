@@ -6,9 +6,5 @@
 
 {% from '_prefix.j2' import prefix with context %}
 
-# IPython specific. Other IEs may require their own routes.
+# Jupyter specific. Other IEs may require their own routes.
 ProxyPass        {{ prefix() }}/jupyter/ipython/api/kernels ws://localhost:{{ interactive_environments_proxy_port }}{{ prefix() }}/jupyter/ipython/api/kernels
-
-# Global GIE configuration
-ProxyPass        {{ prefix() }} http://localhost:8800{{ prefix() }}
-ProxyPassReverse {{ prefix() }} http://localhost:8800{{ prefix() }}

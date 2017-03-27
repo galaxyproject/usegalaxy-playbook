@@ -6,12 +6,6 @@
 
 {% from '_prefix.j2' import prefix with context %}
 
-# regular proxy
-location {{ prefix() }}/jupyter {
-    proxy_pass http://localhost:{{ interactive_environments_proxy_port }}{{ prefix() }}/jupyter;
-    proxy_redirect off;
-}
-
 # websocket for kernels
 location ~ ^{{ prefix() }}/jupyter/(?<jupyter_plugin>.+?)/api/kernels {
     proxy_pass http://localhost:{{ interactive_environments_proxy_port }}{{ prefix() }}/jupyter/$jupyter_plugin/api/kernels;

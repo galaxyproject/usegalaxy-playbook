@@ -34,7 +34,7 @@
 - name: Set variable indicating whether local IE component should be updated
   local_action:
     module: set_fact
-    ie_update_component: |
+    ie_update_component: >-
       {{ not ie_current_component_version_stat.stat.exists or
           ( ie_current_component_version_stat.stat.exists and
             ie_current_component_version != ie_component_version ) }}
@@ -82,11 +82,7 @@
 
 - name: Extract IE components
   local_action:
-    module: synchronize
-    archive: yes
-    delete: yes
-    src: "{{ galaxy_clone_tempdir }}/{{ ie_component_repo_path }}"
-    dest: "{{ ie_component_local_path }}"
+    module: command rsync --archive --delete-after --exclude=.ansible_ie_role_current_version "{{ galaxy_clone_tempdir }}/{{ ie_component_repo_path }}" "{{ ie_component_local_path }}"
   run_once: true
   when: galaxy_clone_tempdir is defined and ie_update_component | bool
   register: components_extracted

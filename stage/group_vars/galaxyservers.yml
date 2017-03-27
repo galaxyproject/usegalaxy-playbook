@@ -138,6 +138,7 @@ interactive_environments_plugins_path: "{{ galaxy_root }}/interactive_environmen
 interactive_environments_proxy_path: "{{ galaxy_root }}/interactive_environments/proxy"
 interactive_environments_enabled:
   - jupyter
+  - ethercalc
 interactive_environments_config_files:
   - ie_name: jupyter
     file: jupyter.ini
@@ -156,6 +157,16 @@ interactive_environments_config_files:
           analysis in many different languages. This image features the Python,
           R, Julia, Haskell, Bash kernels and many scientific analysis stacks for
           each.
+  - ie_name: ethercalc
+    file: ethercalc.ini
+    contents:
+      docker:
+        command: "docker -H tcp://iedocker.galaxyproject.org:2376 --tlsverify {docker_args}"
+        command_inject: "--memory=16g"
+        image: shiltemann/ethercalc-galaxy-ie:17.05
+        galaxy_url: "https://test.galaxyproject.org"
+        docker_hostname: "iedocker.galaxyproject.org"
+        docker_connect_port: "80"
 interactive_environments_supervisor_conf_dir: "{{ galaxy_root }}/supervisor/etc/supervisord.conf.d"
 interactive_environments_nginx_conf_dir: "{{ galaxy_root }}/nginx.conf.d"
 interactive_environments_proxy_user: "{{ galaxy_user }}"
