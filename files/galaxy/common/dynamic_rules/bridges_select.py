@@ -91,10 +91,10 @@ def dynamic_bridges_select( app, tool, job, user_email ):
                     mem = 960 * 1024 # 20 * 48 GB
                     walltime = '96:00:00'
 
-        elif tool_id == 'spades':
+        elif tool_id in ('spades', 'rnaspades'):
             # nothing to go off of yet so we'll just guess
-            mem = 240 * 1024
-            walltime = '24:00:00'
+            mem = 480 * 1024
+            walltime = '48:00:00'
 
         destination.params['submit_native_specification'] += ' --time=%s' % walltime
         destination.params['submit_native_specification'] += ' --mem=%s' % mem

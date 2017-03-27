@@ -6,13 +6,14 @@
      package definitions, but by default look in the directory specified by tool_dependency_dir
      in Galaxy's config/galaxy.ini -->
   <galaxy_packages />
+  <modules modulecmd="/usr/bin/modulecmd" />
+  <conda auto_install="True" auto_init="True" />
+
   <galaxy_packages versionless="true" />
-  <conda />
+  <modules modulecmd="/usr/bin/modulecmd" versionless="true" default_indicator="default" />
   <conda versionless="true" />
 
 <!-- Example configuration of modules dependency resolver, uses Environment Modules -->
-  <modules modulecmd="/usr/bin/modulecmd" />
-  <modules modulecmd="/usr/bin/modulecmd" versionless="true" default_indicator="default" />
 <!--
 Attributes are:
 * modulecmd - path to modulecmd
