@@ -1,10 +1,5 @@
 [main]
-# This CANNOT be changed. Eventually will be deprecated
-password_auth = True
-# Following options are ignored if using the Galaxy dynamic proxy but
-# are useful if mapping a range of ports for environment consumption.
-#apache_urls = False
-#ssl = False
+# Unused
 
 [docker]
 # Command to launch docker container. For example `sudo docker` or `docker-lxc`.
@@ -16,8 +11,6 @@ password_auth = True
 # command and will likely cause errors if it is extensively modified, past the
 # usual group/sudo changes.
 #command = docker {docker_args}
-
-# The image argument was moved to "allowed_images.yml.sample"
 
 # Additional arguments that are passed to the `docker run` command.
 #command_inject = --sig-proxy=true -e DEBUG=false
@@ -31,7 +24,7 @@ password_auth = True
 # host than Galaxy.
 #docker_hostname = localhost
 
-# Try to set the tempdirectory to world execute - this can fix the issue 
+# Try to set the tempdirectory to world execute - this can fix the issue
 # where 'sudo docker' is not able to mount the folder otherwise.
 # "finalize namespace chdir to /import permission denied"
 #wx_tempdir = False
@@ -45,12 +38,4 @@ password_auth = True
 # If your Docker container exposes more then one port, Galaxy needs to know to
 # which ports it needs to connect. With this option you can specify the port number
 # inside your container to which Galaxy should connect the UI.
-#docker_connect_port = None
-
-# To run containers in Docker Swarm mode on (an existing swarm), set the
-# following option to True *and*:
-# - set docker_connect_port above. For erasche/docker-rstudio-notebook the port
-#   should most likely be 80.
-# - If command_inject is uncommented and includes `--sig-proxy`, that option should
-#   be removed.
-#swarm_mode = False
+docker_connect_port = 80

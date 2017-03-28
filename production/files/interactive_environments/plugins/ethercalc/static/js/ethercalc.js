@@ -1,15 +1,10 @@
 function load_notebook(url){
-    test_ie_availability(url, function(){
-        append_notebook(url)
+    $( document ).ready(function() {
+        test_ie_availability(url, function(){
+            append_notebook(url)
+        });
     });
 }
-
-function append_notebook(url){
-    clear_main_area();
-    $('#main').append('<iframe frameBorder="0" seamless="seamless" style="width: 100%; height: 100%; overflow:auto;" scrolling="yes" src="'+ url +'"></iframe>'
-    );
-}
-
 
 function keep_alive(notebook_access_url){
     /**
@@ -46,4 +41,3 @@ function keep_alive(notebook_access_url){
         });
     }, 10000);
 }
-
