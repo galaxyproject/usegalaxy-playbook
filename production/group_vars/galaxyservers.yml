@@ -186,7 +186,7 @@ base_app_main: &BASE_APP_MAIN
   allow_user_deletion: "True"
   allow_user_dataset_purge: "True"
   enable_openid: "True"
-  ftp_upload_site: "{{ galaxy_instance_hostname }}"
+  ftp_upload_site: "ftp://{{ galaxy_instance_hostname }}"
   enable_quotas: "True"
   track_jobs_in_database: "True"
   retry_metadata_internally: "False"
