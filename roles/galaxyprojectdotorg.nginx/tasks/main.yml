@@ -7,6 +7,9 @@
 - include: yum.yml
   when: ansible_os_family == "RedHat"
 
+- include: pkgin.yml
+  when: ansible_pkg_mgr == "pkgin"
+
 - name: Create supervisor config
   template:
     src: supervisord.conf.j2
@@ -21,7 +24,7 @@
     dest: "{{ nginx_conf_dir }}/sites-available/{{ item }}"
     mode: 0444
     backup: yes
-  with_items: nginx_configs
+  with_items: "{{ nginx_configs }}"
   notify:
     - reload nginx
     - supervisorctl reload nginx
@@ -31,7 +34,7 @@
     src: "{{ nginx_conf_dir }}/sites-available/{{ item }}"
     dest: "{{ nginx_conf_dir }}/sites-enabled/{{ item }}"
     state: link
-  with_items: nginx_configs
+  with_items: "{{ nginx_configs }}"
   notify:
     - reload nginx
     - supervisorctl reload nginx

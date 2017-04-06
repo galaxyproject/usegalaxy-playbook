@@ -30,11 +30,11 @@ pre-task in the same play as this role:
         pre_tasks:
           - name: Install psycopg2
             apt: pkg=python-psycopg2 state=installed
-            sudo: yes
+            become: yes
             when: ansible_os_family = 'Debian'
           - name: Install psycopg2
             yum: pkg=python-psycopg2 state=installed
-            sudo: yes
+            become: yes
             when: ansible_os_family = 'RedHat'
         roles:
           - postgresql_objects
@@ -110,8 +110,8 @@ mechanism to control what database to connect to as the login user):
             owner: pgadmin
       roles:
         - role: postgresql_objects
-          sudo: yes
-          sudo_user: postgres
+          become: yes
+          become_user: postgres
 
 Create a passwordless user (for use with unix domain socket connections) with a
 database of the same name:
@@ -145,8 +145,8 @@ SELECT privileges to `baz` on sequence `bar_quux_seq` in database `foo`:
             privs: SELECT
       roles:
         - role: postgresql_objects
-          sudo: yes
-          sudo_user: postgres
+          become: yes
+          become_user: postgres
 
 Create a group `plugh` and add `foo` and `baz` to this group:
 
@@ -159,8 +159,8 @@ Create a group `plugh` and add `foo` and `baz` to this group:
               - name: baz
       roles:
         - role: postgresql_objects
-          sudo: yes
-          sudo_user: postgres
+          become: yes
+          become_user: postgres
 
 Revoke specific privileges for user `foo`, remove user `baz` from group
 `plugh`, and delete user `baz`:
@@ -195,8 +195,8 @@ Revoke specific privileges for user `foo`, remove user `baz` from group
             state: absent
       roles:
         - role: postgresql_objects
-          sudo: yes
-          sudo_user: postgres
+          become: yes
+          become_user: postgres
 
 Dependencies
 ------------
@@ -206,11 +206,9 @@ None
 License
 -------
 
-[Academic Free License ("AFL") v. 3.0][afl]
-
-[afl]: http://opensource.org/licenses/AFL-3.0
+[MIT](https://opensource.org/licenses/MIT)
 
 Author Information
 ------------------
 
-[Nate Coraor](https://github.com/natefoo)
+[Contributors on GitHub](https://github.com/natefoo/ansible-postgresql-objects/graphs/contributors)

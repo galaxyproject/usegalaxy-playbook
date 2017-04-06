@@ -1,0 +1,53 @@
+---
+
+- name: Include pkgin-specific variables
+  include_vars: pkgin.yml
+
+- name: Install nginx
+  pkgin:
+    pkg: nginx
+  notify:
+    - restart nginx
+    - supervisorctl restart nginx
+
+- name: Set permissions on temporary directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ nginx_conf_user | default('www') }}"
+    group: "{{ nginx_conf_group | default('www') }}"
+    mode: 0700
+  with_items:
+    - /var/db/nginx
+
+- name: Template nginx config file
+  template:
+    src: pkgin-nginx.conf.j2
+    dest: "/opt/local/etc/nginx/nginx.conf"
+    backup: yes
+  notify:
+    - restart nginx
+    - supervisorctl restart nginx
+
+- name: Create local config directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ nginx_conf_dir }}/conf.d"
+    - "{{ nginx_conf_dir }}/sites-available"
+    - "{{ nginx_conf_dir }}/sites-enabled"
+  notify:
+    - reload nginx
+    - supervisorctl reload nginx
+
+- name: Create config including virtual hosts
+  copy:
+    dest: "{{ nginx_conf_dir }}/conf.d/sites-enabled.conf"
+    content: |
+      ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+      include {{ nginx_conf_dir }}/sites-enabled/*;
+  notify:
+    - reload nginx
+    - supervisorctl reload nginx

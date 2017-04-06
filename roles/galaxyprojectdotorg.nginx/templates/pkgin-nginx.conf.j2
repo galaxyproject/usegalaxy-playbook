@@ -1,0 +1,34 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+user {{ nginx_conf_user | default('  www') }} {{ nginx_conf_group | default(' www') }};
+worker_processes {{ nginx_conf_worker_processes | default('1') }};
+
+events {
+    # After increasing this value You probably should increase limit
+    # of file descriptors (for example in start_precmd in startup script)
+    worker_connections  {{ nginx_conf_worker_connections | default('1024') }};
+}
+
+
+http {
+    include       /opt/local/etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    include /etc/opt/local/nginx/conf.d/*.conf;
+}
