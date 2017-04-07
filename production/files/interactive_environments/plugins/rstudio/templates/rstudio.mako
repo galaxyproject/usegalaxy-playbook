@@ -64,9 +64,7 @@ requirejs([
     'crypto/base64',
     'plugin/rstudio'
 ], function(){
-    load_when_ready(ie_readiness_url, function(){
-        load_notebook(notebook_login_url, notebook_access_url, notebook_pubkey_url, "${ USERNAME }");
-    });
+    load_notebook(notebook_login_url, notebook_access_url, notebook_pubkey_url, "${ USERNAME }");
 });
 </script>
 <div id="main">
