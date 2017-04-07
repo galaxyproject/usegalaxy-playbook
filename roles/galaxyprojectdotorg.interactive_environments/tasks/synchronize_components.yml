@@ -33,6 +33,7 @@
     delete: true
     rsync_opts:
       - "--exclude={{ item }}/config/*.ini"
+      - "--exclude={{ item }}/config/*.yml"
     dest: "{{ interactive_environments_plugins_path }}"
     src: "{{ interactive_environments_plugins_local_path }}/{{ item }}"
   with_items: "{{ interactive_environments_enabled }}"

@@ -15,7 +15,9 @@ var updateFromJson = function(path, map) {
     var keyToSession = JSON.parse(content);
     var newSessions = {};
     for(var key in keyToSession) {
-        newSessions[key] = {'target': {'host': keyToSession[key]['host'], 'port': parseInt(keyToSession[key]['port'])}};
+        var hostAndPort = key.split(":");
+        // 'host': hostAndPort[0],
+        newSessions[keyToSession[key]] = {'target': {'host': hostAndPort[0], 'port': parseInt(hostAndPort[1])}};
     }
     for(var oldSession in map) {
         if(!(oldSession in newSessions)) {
@@ -30,10 +32,12 @@ var updateFromJson = function(path, map) {
 var updateFromSqlite = function(path, map) {
     var newSessions = {};
     var loadSessions = function() {
-        db.each("SELECT key, host, port FROM gxproxy2", function(err, row) {
+        db.each("SELECT key, secret FROM gxproxy", function(err, row) {
             var key = row['key'];
-            var target = {'host': row['host'], 'port': parseInt(row['port'])};
-            newSessions[key] = {'target': target};
+            var secret = row['secret'];
+            var hostAndPort = key.split(":");
+            var target = {'host': hostAndPort[0], 'port': parseInt(hostAndPort[1])};
+            newSessions[secret] = {'target': target};
         }, finish);
     };
 
