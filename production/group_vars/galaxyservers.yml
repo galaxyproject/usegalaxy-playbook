@@ -130,7 +130,7 @@ base_app_main: &BASE_APP_MAIN
   shed_tool_data_table_config: "/cvmfs/main.galaxyproject.org/config/shed_tool_data_table_conf.xml"
   shed_data_manager_config_file: "/cvmfs/main.galaxyproject.org/config/shed_data_manager_conf.xml"
   integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
-  sanitize_whitelist_file: /galaxy-repl/main/config/sanitize_whitelist.txt
+  sanitize_whitelist_file: "{{ galaxy_mutable_config_dir }}/sanitize_whitelist.txt"
 
   #environment_setup_file: /galaxy/main/job_env.bash
 
