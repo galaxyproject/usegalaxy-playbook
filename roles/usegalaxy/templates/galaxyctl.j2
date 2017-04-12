@@ -1,0 +1,64 @@
+#!/bin/sh
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+INSTANCE="{{ galaxy_instance_codename }}"
+RUN=/srv/galaxy/$INSTANCE/var/run
+HANDLERS="{%- for i in range(0, galaxy_handler_count) -%}galaxy_{{ galaxy_instance_codename }}:handler{{ i }} {% endfor %}"
+
+
+graceful_uwsgi() {
+    case $($HOME/bin/supervisorctl status | grep "^galaxy_${INSTANCE}_uwsgi:zergling" | awk 'BEGIN {count=0} $2 ~ /RUNNING|STARTING/ {count++} END {print count}') in
+        0)
+            $HOME/bin/supervisorctl start "galaxy_${INSTANCE}_uwsgi:zergling0"
+            echo "uwsgi: WARNING: no zerglings were running, started zergling0"
+            ;;
+        1)
+            stopped_zergling=$($HOME/bin/supervisorctl status | grep "^galaxy_${INSTANCE}_uwsgi:zergling" | awk '$2 ~ /EXITED|STOPPED/ {print $1}')
+            if [ -z "$stopped_zergling" ]; then
+                $HOME/bin/supervisorctl status | grep "^galaxy_${INSTANCE}_uwsgi:zergling"
+                echo "uwsgi: ERROR: unable to parse zergling states, exiting"
+                exit 1
+            fi
+            $HOME/bin/supervisorctl start $stopped_zergling
+            ;;
+        *)
+            $HOME/bin/supervisorctl status | grep "^galaxy_${INSTANCE}_uwsgi:zergling"
+            echo "uwsgi: ERROR: multiple zerglings running, exiting"
+            exit 1
+            ;;
+    esac
+}
+
+
+case "$1" in
+    restarthandlers)
+        $HOME/bin/supervisorctl restart $HANDLERS
+        ;;
+    restart)
+        $HOME/bin/supervisorctl stop "galaxy_${INSTANCE}_uwsgi:*"
+        $HOME/bin/supervisorctl restart "galaxy_${INSTANCE}:*"
+        $HOME/bin/supervisorctl start "galaxy_${INSTANCE}_uwsgi:zergpool"
+        $HOME/bin/supervisorctl start "galaxy_${INSTANCE}_uwsgi:zergling0"
+        ;;
+    gracefuluwsgi)
+        graceful_uwsgi
+        ;;
+    graceful)
+        graceful_uwsgi
+        $HOME/bin/supervisorctl restart "galaxy_${INSTANCE}:*"
+        ;;
+    start)
+        $HOME/bin/supervisorctl start "galaxy_${INSTANCE}_uwsgi:zergpool"
+        $HOME/bin/supervisorctl start "galaxy_${INSTANCE}_uwsgi:zergling0"
+        $HOME/bin/supervisorctl start "galaxy_${INSTANCE}:*"
+        ;;
+    stop)
+        $HOME/bin/supervisorctl stop "galaxy_${INSTANCE}:*"
+        $HOME/bin/supervisorctl stop "galaxy_${INSTANCE}_uwsgi:*"
+        ;;
+    *)
+        echo "usage: $0 <start|stop|graceful|restart|restarthandlers>"
+        ;;
+esac

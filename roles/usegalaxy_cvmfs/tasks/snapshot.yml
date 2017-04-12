@@ -1,0 +1,9 @@
+---
+
+- name: CVMFS snapshot
+  command: /usr/bin/cvmfs_server snapshot {{ galaxy_cvmfs_repo }}
+
+- name: Clear squid cache (restart)
+  service:
+    name: squid
+    state: restarted

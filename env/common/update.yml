@@ -1,0 +1,49 @@
+---
+
+- name: Update Galaxy on CVMFS stratum 0 server
+  hosts: cvmfsstratum0servers
+  remote_user: "{{ galaxy_user }}"
+  roles:
+    - role: usegalaxy_cvmfs
+      galaxy_cvmfs_update: yes
+  tags:
+    - no-restart
+
+- name: Include snapshot plays
+  include: _inc_snapshot.yml
+
+- name: Galaxy database, interactive environments, and error documents
+  hosts: galaxywebservers
+  remote_user: "{{ galaxy_user }}"
+  tags:
+    - no-cvmfs
+    - no-restart
+  vars_files:
+    - "{{ galaxy_version_file }}"
+  vars:
+    instance_root: "{{ galaxy_root }}"
+    galaxy_config: "{{ galaxy_config_hash }}"
+    interactive_environments_plugins_version: "{{ galaxy_commit }}"
+    interactive_environments_proxy_version: "{{ galaxy_commit }}"
+  roles:
+    # manage the database
+    - role: galaxyprojectdotorg.galaxy
+      galaxy_manage_clone: no
+      galaxy_manage_static_setup: no
+      galaxy_manage_mutable_setup: no
+      galaxy_manage_database: yes
+      galaxy_fetch_eggs: no
+      when: inventory_hostname in groups['galaxymasters']
+    # Set up interactive environments
+    - role: galaxyprojectdotorg.interactive_environments
+
+- name: Include static content plays
+  include: _inc_static.yml
+  tags:
+    - no-cvmfs
+    - no-restart
+
+- name: Include restart plays
+  include: _inc_restart.yml
+  tags:
+    - no-cvmfs

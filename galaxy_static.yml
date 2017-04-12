@@ -1,9 +1,0 @@
----
-# Deploy static content (this does not require any vaulted secrets)
-
-- hosts: galaxywebservers
-  remote_user: "{{ galaxy_privileged_user }}"
-  vars_files:
-    - "{{ deploy_env }}/galaxy_version.yml"
-  roles:
-    - role: usegalaxy_static

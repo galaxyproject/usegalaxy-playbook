@@ -5,6 +5,12 @@
 # options on different hosts or server directories.
 galaxy_toolshed_manage_static_setup: yes
 galaxy_toolshed_manage_database: yes
+# When creating the shed use bootstrapping approach against an existing
+# shed instead of creating from scratch.
+galaxy_toolshed_bootstrap: no
+galaxy_toolshed_bootstrap_username: devteam
+galaxy_toolshed_bootstrap_password: devteam
+galaxy_toolshed_bootstrap_email: devteam@test.com
 
 # This will automatically be used by run.sh
 galaxy_toolshed_venv_dir: "{{ galaxy_toolshed_server_dir }}/.venv"
@@ -13,7 +19,7 @@ galaxy_toolshed_venv_dir: "{{ galaxy_toolshed_server_dir }}/.venv"
 galaxy_toolshed_config_dir: "{{ galaxy_toolshed_server_dir }}/config"
 galaxy_toolshed_mutable_config_dir: "{{ galaxy_toolshed_server_dir }}/config"
 galaxy_toolshed_mutable_data_dir: "{{ galaxy_toolshed_server_dir }}/database"
-galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tools_shed.ini"
+galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tool_shed.ini"
 
 # The default Tool Shed configuration, ensures that Galaxy can find all of the
 # configs if galaxy_config_dir != galaxy_server_dir

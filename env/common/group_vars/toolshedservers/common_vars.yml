@@ -1,0 +1,18 @@
+---
+
+# used by: supervisor role
+supervisord_inet_user: "{{ vault_supervisord_inet_user }}"
+supervisord_inet_port: "{{ vault_supervisord_inet_port }}"
+supervisord_inet_pass: "{{ vault_supervisord_inet_pass }}"
+supervisord_inet_pass_sha: "{{ vault_supervisord_inet_pass_sha }}"
+
+
+## used by: natefoo.postgresql_objects
+postgresql_objects_users:
+  - name: shed
+  - name: nate
+
+postgresql_objects_groups:
+  - name: galaxy_team
+    users:
+      - name: nate

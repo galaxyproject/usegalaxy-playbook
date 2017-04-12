@@ -1,0 +1,46 @@
+---
+
+- name: Galaxy static configs
+  hosts: galaxyservers
+  remote_user: "{{ galaxy_privileged_user }}"
+  vars:
+    instance_root: "{{ galaxy_root }}"
+    galaxy_config: "{{ galaxy_config_hash }}"
+  roles:
+    # set up local galaxy clone and local config
+    - role: galaxyprojectdotorg.galaxy
+      galaxy_manage_clone: no
+      galaxy_manage_static_setup: yes
+      galaxy_manage_mutable_setup: no
+      galaxy_manage_database: no
+      galaxy_fetch_eggs: no
+  post_tasks:
+    # create impersonation config on Main
+    - name: Include config post-tasks
+      include: _inc_config_post_tasks.yml
+  tags:
+    - no-restart
+
+- name: Galaxy mutable configs
+  hosts: galaxyservers
+  remote_user: "{{ galaxy_user }}"
+  vars:
+    instance_root: "{{ galaxy_root }}"
+    galaxy_config: "{{ galaxy_config_hash }}"
+  roles:
+    # fetch and distribute mutable configs (needs the galaxy_mutable_configs
+    # var set in galaxyprojectdotorg.galaxy)
+    - role: usegalaxy
+  tags:
+    - no-restart
+
+- name: Galaxy privileged user tasks
+  hosts: galaxyservers
+  remote_user: "{{ galaxy_privileged_user }}"
+  roles:
+    - role: usegalaxy_privileged
+  tags:
+    - no-restart
+
+- name: Include restart plays
+  include: _inc_restart.yml

@@ -4,8 +4,20 @@
 # rotate conf/script are copied in usegalaxy_privileged role
 
 - name: Schedule archival of log files
-  cron: name="Galaxy Log Archival"
-    cron_file="ansible_galaxy_logarchive_{{ galaxy_instance_codename }}"
-    user="{{ galaxy_user }}"
-    hour="2" minute="10"
-    job="{{ galaxy_root }}/bin/archive_logs.sh"
+  cron:
+    name: "Galaxy Log Archival"
+    cron_file: "ansible_galaxy_logarchive_{{ galaxy_instance_codename }}"
+    user: "{{ galaxy_user }}"
+    hour: "2"
+    minute: "10"
+    job: "{{ galaxy_root }}/bin/archive_logs.sh"
+  when: galaxy_log_dir is defined and galaxy_log_archive_dir is defined
+
+- name: Create error document directory
+  file:
+    path: "{{ galaxy_errordocs_dest }}"
+    state: directory
+    owner: "{{ galaxy_privileged_user }}"
+    group: "{{ galaxy_system_group }}"
+    mode: "0755"
+  when: galaxy_errordocs_dest is defined

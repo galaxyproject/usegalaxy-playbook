@@ -1,0 +1,7 @@
+---
+
+# clouds_yaml is in secret_vars
+
+swarm_manager_root: "/srv/galaxy/{{ galaxy_instance_codename }}/swarm_manager"
+
+clouds_yaml: "{{ vault_clouds_yaml }}"

@@ -1,0 +1,51 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# Options from proftpd_galaxy_default_options
+{% for pair in proftpd_galaxy_default_options -%}
+{% for key in pair -%}
+{{ key }} {{ pair[key] }}
+{% endfor %}
+{% endfor %}
+
+# Options from proftpd_galaxy_options
+{% for pair in proftpd_galaxy_options | default([]) -%}
+{% for key in pair -%}
+{{ key }} {{ pair[key] }}
+{% endfor %}
+{% endfor %}
+
+# Allow users to overwrite and resume uploads
+AllowOverwrite      on
+AllowStoreRestart   on
+
+# Deny use of commands that allow modifying modification times and retrieving files
+<Limit SITE_CHMOD SITE_UTIME RETR MDTM MFMT MFCT MFF>
+    DenyAll
+</Limit>
+
+# Basic module setup
+SQLEngine           on
+SQLPasswordEngine   on
+SQLLogFile          /var/log/proftpd/sql.log
+SQLBackend          postgres
+SQLAuthenticate     users
+
+# Database connection info
+SQLConnectInfo      {{ proftpd_sql_db }} {{ proftpd_sql_user | default(galaxy_user) }} {{ proftpd_sql_password | default('') }}
+
+# Authenticat with PBKDF2, fall back to SHA1
+SQLAuthTypes        PBKDF2 SHA1
+SQLPasswordPBKDF2   SHA256 10000 24
+SQLPasswordEncoding base64
+
+# Set uid and gid of Galaxy user
+SQLDefaultUID       {{ galaxy_user_uid }}
+SQLDefaultGID       {{ galaxy_user_gid }}
+
+# Define named queries for user/salt lookups
+SQLUserInfo         custom:/LookupGalaxyUser
+SQLPasswordUserSalt sql:/GetUserSalt
+SQLNamedQuery       LookupGalaxyUser  SELECT "email, (CASE WHEN substring(password from 1 for 6) = 'PBKDF2' THEN substring(password from 38) ELSE encode(decode(password, 'hex'), 'base64') END),'{{ galaxy_user }}','{{ galaxy_user }}','{{ galaxy_ftp_upload_dir }}/%U','/bin/bash' FROM galaxy_user WHERE email='%U'"
+SQLNamedQuery       GetUserSalt SELECT "(CASE WHEN SUBSTRING (password from 1 for 6) = 'PBKDF2' THEN SUBSTRING (password from 21 for 16) END) FROM galaxy_user WHERE email='%U'"

@@ -1,0 +1,1 @@
+../../../../common/files/galaxy/dynamic_rules/nvc_dynamic_memory.py
