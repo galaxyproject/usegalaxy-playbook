@@ -13,7 +13,8 @@
       galaxy_manage_static_setup: yes
       galaxy_manage_mutable_setup: no
       galaxy_manage_database: no
-      galaxy_fetch_eggs: no
+      galaxy_fetch_dependencies: no
+      galaxy_manage_errordocs: yes
   post_tasks:
     # create impersonation config on Main
     - name: Include config post-tasks

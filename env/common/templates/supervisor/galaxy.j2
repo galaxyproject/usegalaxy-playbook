@@ -36,5 +36,5 @@ stdout_logfile  = {{ supervisord_log_dir }}/zergling{{ i }}.log
 redirect_stderr = true
 
 {% endfor %}
-[group:galaxy_{{ galaxy_instance_codename }}uwsgi]
+[group:galaxy_{{ galaxy_instance_codename }}_uwsgi]
 programs        = galaxy_uwsgi_zergpool,galaxy_uwsgi_zergling0,galaxy_uwsgi_zergling1
