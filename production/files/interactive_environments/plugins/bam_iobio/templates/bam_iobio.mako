@@ -46,9 +46,7 @@ root = h.url_for( '/' )
         var startup = function(){
             // Load notebook
             requirejs(['interactive_environments', 'plugin/bam_iobio'], function(){
-                load_when_ready(ie_readiness_url, function(){
-                    load_notebook(notebook_access_url);
-                });
+                load_notebook(notebook_access_url);
             });
 
         };

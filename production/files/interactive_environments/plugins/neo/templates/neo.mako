@@ -33,9 +33,7 @@
 
 
     requirejs(['interactive_environments', 'plugin/neo'], function () {
-        load_when_ready(ie_readiness_url, function(){
-            load_notebook(url);
-        });
+        load_notebook(url);
     });
 
 </script>

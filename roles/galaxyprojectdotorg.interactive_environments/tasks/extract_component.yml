@@ -68,7 +68,8 @@
   local_action:
     module: git
     clone: no
-    repo: "{{ galaxy_clone_tempdir }}"
+    repo: "{{ interactive_environments_galaxy_repo }}"
+    dest: "{{ galaxy_clone_tempdir }}"
     version: "{{ ie_component_version }}"
   run_once: true
   when: galaxy_clone_tempdir is defined and ie_update_component | bool
