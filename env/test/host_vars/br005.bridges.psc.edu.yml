@@ -7,7 +7,7 @@ pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
 pulsar_drmaa_library_path: "{{ instance_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_yaml_config:
-  staging_directory: "/pylon1/mc48nsp/xcgalaxy/test_staging"
+  staging_directory: "/pylon5/mc48nsp/xcgalaxy/test_staging"
   persistence_directory: "{{ pulsar_root }}/var/persisted_data"
   tool_dependency_dir: "{{ instance_root }}/deps"
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
