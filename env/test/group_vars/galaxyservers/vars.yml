@@ -97,15 +97,14 @@ interactive_environments_config_files:
   - ie_name: jupyter
     file: jupyter.ini
     contents:
+      main: {}
       docker:
-        command: "docker -H tcp://iedocker.galaxyproject.org:2376 --tlsverify {docker_args}"
-        command_inject: "--memory=16g"
         galaxy_url: "https://test.galaxyproject.org"
-        docker_hostname: "iedocker.galaxyproject.org"
+        docker_connect_port: "8888"
   - ie_name: jupyter
     file: allowed_images.yml
     contents:
-      - image: "quay.io/bgruening/docker-jupyter-notebook:16.01.1"
+      - image: "bgruening/docker-jupyter-notebook:16.01.1"
         description: >
           The Jupyter notebook is the next iteration of IPython, allowing
           analysis in many different languages. This image features the Python,
@@ -114,12 +113,9 @@ interactive_environments_config_files:
   - ie_name: ethercalc
     file: ethercalc.ini
     contents:
+      main: {}
       docker:
-        command: "docker -H tcp://iedocker.galaxyproject.org:2376 --tlsverify {docker_args}"
-        command_inject: "--memory=16g"
-        image: shiltemann/ethercalc-galaxy-ie:17.05
         galaxy_url: "https://test.galaxyproject.org"
-        docker_hostname: "iedocker.galaxyproject.org"
         docker_connect_port: "80"
 # moved to a static config in host_vars to avoid the double-supervisor
 interactive_environments_supervisor_conf_dir: "{{ galaxy_root }}/supervisor/etc/supervisord.conf.d"
@@ -131,6 +127,16 @@ interactive_environments_error_log_path: "{{ galaxy_log_dir }}/gie_proxy-error.l
 
 ## used by: galaxyprojectdotorg.galaxy
 pip_virtualenv_command: "{{ galaxy_root }}/python/bin/virtualenv"
+
+
+## used by: play
+containers_yaml:
+  containers:
+    _default_:
+      type: docker_swarm
+      host: tcp://jetstream-tacc0.galaxyproject.org:2376
+      force_tlsverify: yes
+      #cpus: 0.25
 
 # some things are always local
 galaxy_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
@@ -187,6 +193,9 @@ base_app_main: &BASE_APP_MAIN
   shed_data_manager_config_file: "/cvmfs/test.galaxyproject.org/config/shed_data_manager_conf.xml"
   integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
   sanitize_whitelist_file: /galaxy-repl/test/config/sanitize_whitelist.txt
+
+  containers_config_file: "{{ galaxy_config_dir }}/containers.yml"
+  enable_beta_containers_interface: "True"
 
   #environment_setup_file: /galaxy/test/job_env.bash
 

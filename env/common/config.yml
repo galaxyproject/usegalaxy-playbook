@@ -19,6 +19,14 @@
     # create impersonation config on Main
     - name: Include config post-tasks
       include: _inc_config_post_tasks.yml
+    # FIXME: add arbitrary yaml config support to the galaxy role
+    - name: Create containers.yml
+      copy:
+        content: |
+          ---
+          {{ containers_yaml | to_nice_yaml }}
+        dest: "{{ galaxy_config_dir }}/containers.yml"
+      when: containers_yaml is defined
   tags:
     - no-restart
 
