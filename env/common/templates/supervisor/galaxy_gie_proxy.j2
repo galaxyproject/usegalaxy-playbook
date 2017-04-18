@@ -3,7 +3,7 @@
 ;;
 
 [program:galaxy_{{ galaxy_instance_codename }}_gie_proxy]
-command         = node /srv/galaxy/{{ galaxy_instance_codename }}/interactive_environments/proxy/lib/main.js --ip 0.0.0.0 --port 4280 --sessions /srv/galaxy/{{ galaxy_instance_codename }}/var/gie_proxy_session_map.sqlite --cookie galaxysession --verbose
+command         = node /srv/galaxy/{{ galaxy_instance_codename }}/interactive_environments/proxy/lib/main.js --ip 0.0.0.0 --port 8800 --sessions /srv/galaxy/{{ galaxy_instance_codename }}/var/gie_proxy_session_map.sqlite --cookie galaxysession --verbose
 directory       = /srv/galaxy/{{ galaxy_instance_codename }}/interactive_environments/proxy
 umask           = 022
 autostart       = true
