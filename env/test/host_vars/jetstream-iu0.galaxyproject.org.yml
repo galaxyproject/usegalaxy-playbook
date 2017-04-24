@@ -60,6 +60,6 @@ pulsar_optional_dependencies:
   - webob
   - PyYAML
 
-host_files:
-  - src: files/pulsar/config/jetstream_dependency_resolvers_conf.xml
+host_templates:
+  - src: templates/pulsar/config/jetstream_dependency_resolvers_conf.xml.j2
     dest: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
