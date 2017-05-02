@@ -101,10 +101,11 @@ interactive_environments_config_files:
       docker:
         galaxy_url: "https://test.galaxyproject.org"
         docker_connect_port: "8888"
+        use_volumes: "False"
   - ie_name: jupyter
     file: allowed_images.yml
     contents:
-      - image: "bgruening/docker-jupyter-notebook:16.01.1"
+      - image: "quay.io/bgruening/docker-jupyter-notebook:17.05"
         description: >
           The Jupyter notebook is the next iteration of IPython, allowing
           analysis in many different languages. This image features the Python,
@@ -117,6 +118,8 @@ interactive_environments_config_files:
       docker:
         galaxy_url: "https://test.galaxyproject.org"
         docker_connect_port: "80"
+        use_volumes: "False"
+
 # moved to a static config in host_vars to avoid the double-supervisor
 interactive_environments_supervisor_conf_dir: "{{ galaxy_root }}/supervisor/etc/supervisord.conf.d"
 interactive_environments_nginx_conf_dir: "{{ galaxy_root }}/nginx.conf.d"
