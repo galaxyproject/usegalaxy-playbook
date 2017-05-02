@@ -4,6 +4,7 @@
 
 import datetime
 import logging
+import re
 import subprocess
 from galaxy.jobs.mapper import JobMappingException
 
@@ -123,6 +124,22 @@ RUNTIMES = {
     #'stringtie': {'runtime': 165.47, 'stddev': 286.19, 'devs': 2},
 }
 
+# Override the destination's walltime on a per-tool basis
+WALLTIMES = {
+    'align_families': '96:00:00',
+}
+
+
+def _set_walltime(tool_id, native_spec):
+    walltime = WALLTIMES.get(tool_id, None)
+    if walltime:
+        if '--time=' in native_spec:
+            native_spec = re.sub(r'--time=[^\s]+', '--time=' + walltime, native_spec)
+        else:
+            native_spec += ' --time=' + walltime
+    return native_spec
+
+
 def __rule(app, tool, job, user_email, resource):
     destination = None
     destination_id = None
@@ -202,29 +219,13 @@ def __rule(app, tool, job, user_email, resource):
         log.info('(%s) Default destination requested and tool is not in Jetstream-approved list, job will be sent to local cluster', job.id)
         destination_id = default_destination_id
 
-    # Only allow jetstream if a cached reference is not selected
-    #if destination_id in JETSTREAM_DESTINATIONS + (None,) and tool_id in PUNT_TOOLS:
-    #    for p in GENOME_SOURCE_PARAMS:
-    #        subpd = param_dict.copy()
-    #        # walk the param dict
-    #        try:
-    #            for i in p.split('.'):
-    #                subpd = subpd[i]
-    #            assert subpd not in GENOME_SOURCE_VALUES
-    #            log.info('(%s) Destination/walltime dynamic plugin detected history reference selected, job will be allowed on Jetstream', job.id)
-    #            break
-    #        except:
-    #            pass
-    #    else:
-    #        log.info('(%s) User requested Jetstream or default but destination/walltime dynamic plugin did not detect selection of a history reference, job will be sent to local cluster instead', job.id)
-    #        destination_id = default_destination_id
-
     # Need to explicitly pick a destination because of staging. Otherwise we
     # could just submit with --clusters=a,b,c and let slurm sort it out
     if destination_id in JETSTREAM_DESTINATIONS + (None,) and default_destination_id == LOCAL_DESTINATION:
         test_destination_id = destination_id or default_destination_id
         clusters = ','.join(JETSTREAM_DESTINATION_MAPS[test_destination_id]['clusters'])
         native_specification = app.job_config.get_destination(test_destination_id).params.get('nativeSpecification', '')
+        native_specification = _set_walltime(tool_id, native_specification)
         sbatch_test_cmd = ['sbatch', '--test-only', '--clusters=%s' % clusters] + native_specification.split() + [TEST_SCRIPT]
         log.debug('Testing job submission to determine suitable cluster: %s', ' '.join(sbatch_test_cmd))
 
@@ -250,6 +251,7 @@ def __rule(app, tool, job, user_email, resource):
 
         destination_id = '%s_%s' % (destination_prefix, JETSTREAM_DESTINATION_MAPS[default_destination_id]['partition'])
         destination = app.job_config.get_destination(destination_id)
+        destination.params['nativeSpecification'] = _set_walltime(tool_id, destination.params.get('nativeSpecification', ''))
 
     if destination_id is None:
         destination_id = default_destination_id
