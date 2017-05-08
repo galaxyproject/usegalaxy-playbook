@@ -271,6 +271,11 @@ base_app_main: &BASE_APP_MAIN
   conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"
   conda_copy_dependencies: "True"
 
+  # For handler heartbeats
+  use_heartbeat: "True"
+  heartbeat_interval: "-1"
+  heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}.log"
+
   # stats
   statsd_host: "galaxy06.tacc.utexas.edu"
   statsd_port: "8125"
