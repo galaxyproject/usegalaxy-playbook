@@ -2,10 +2,21 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
+{% set proftpd_galaxy_option_keys = [] -%}
+{% for pair in proftpd_galaxy_options | default([]) -%}
+{% for key in pair -%}
+{# apparently Ansible's Jinja2 doesn't support the 'do' expression statement #}
+{% if proftpd_galaxy_option_keys.append(key) -%}
+{% endif -%}
+{% endfor -%}
+{% endfor -%}
+
 # Options from proftpd_galaxy_default_options
 {% for pair in proftpd_galaxy_default_options -%}
 {% for key in pair -%}
+{% if key not in proftpd_galaxy_option_keys %}
 {{ key }} {{ pair[key] }}
+{% endif %}
 {% endfor %}
 {% endfor %}
 

@@ -51,5 +51,6 @@
   template:
     src: galaxy_auth.conf.j2
     dest: "{{ proftpd_config_include_dir }}/10_galaxy_auth.conf"
+    backup: yes
   notify:
     - reload proftpd

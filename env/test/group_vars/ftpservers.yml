@@ -33,6 +33,7 @@ proftpd_conf_ssl_ca_certificate: /etc/pki/tls/certs/incommon_chain.pem
 proftpd_galaxy_options:
   - MaxStoreFileSize: 50 Gb
   - PassivePorts: 30000 31000
+  - CreateHome: on dirmode 700 NoRootPrivs
 
 proftpd_galaxy_auth: yes
 proftpd_sql_db: galaxy_test@/tmp
