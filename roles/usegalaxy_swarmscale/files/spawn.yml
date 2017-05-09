@@ -1,0 +1,59 @@
+---
+
+- name: Set up for spawn
+  hosts: instances
+  connection: local
+  vars_files:
+    - clouds.yaml
+  tasks:
+    - name: Randomly select cloud for spawn
+      set_fact:
+        cloud_id: "{{ clouds.keys() | random }}"
+        volume_name: "{{ inventory_hostname }}"
+      delegate_to: localhost
+
+- name: Docker volume snapshot discovery
+  hosts: instances
+  connection: local
+  environment:
+     OS_CLOUD: "{{ cloud_id }}"
+     OS_IDENTITY_API_VERSION: '3'
+  tasks:
+    - name: Collect docker volume snapshot id
+      command: "openstack volume snapshot list -f value -c ID --volume {{ docker_snapshot_name }}"
+      register: docker_snapshot_id_out
+      delegate_to: localhost
+    - name: Set volume snapshot id fact
+      set_fact:
+        volume_snapshot_id: "{{ docker_snapshot_id_out.stdout }}"
+
+- name: Include spawn play
+  include: inc_spawn.yml
+
+- name: Update inventory for deletion
+  hosts: instances
+  connection: local
+  tasks:
+    - name: Update inventory
+      ini_file:
+        dest: inventory
+        section: instances
+        option: "{{ inventory_hostname }} ansible_user"
+        value: "centos ansible_host={{ ansible_host }} cloud_id={{ cloud_id }}"
+        no_extra_spaces: yes
+      delegate_to: localhost
+
+- name: Configure worker(s)
+  hosts: instances
+  become: yes
+  tasks:
+    - name: Restart docker service to ensure correct node hostname
+      service:
+        name: docker
+        state: restarted
+    - name: Acquire worker join token
+      command: docker swarm join-token -q worker
+      delegate_to: "{{ groups[cloud_id][0] }}"
+      register: worker_join_token_out
+    - name: Join docker swarm
+      command: "docker swarm join --advertise-addr {{ floating_ip }} --token {{ worker_join_token_out.stdout }} {{ docker_swarm_manager }}"

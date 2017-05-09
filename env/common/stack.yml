@@ -52,6 +52,13 @@
     - usegalaxy_admin
   tags: galaxy
 
+- name: Install swarm scale playbook
+  hosts: galaxyswarmscaleservers
+  remote_user: root
+  roles:
+    - usegalaxy_swarmscale
+  tags: galaxy
+
 - name: Manage supervisor and root tasks
   hosts: supervisorservers
   remote_user: root

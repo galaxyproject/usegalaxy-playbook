@@ -1,0 +1,53 @@
+---
+
+- name: Spawn instance(s)
+  hosts: instances
+  connection: local
+  environment:
+     OS_CLOUD: "{{ cloud_id }}"
+     OS_IDENTITY_API_VERSION: '3'
+  tasks:
+    - name: Create volume
+      os_volume:
+        cloud: "{{ cloud_id }}"
+        size: "{{ volume_size }}"
+        display_name: "{{ volume_name }}"
+        snapshot_id: "{{ volume_snapshot_id | default(omit) }}"
+      when: volume_name is defined
+      delegate_to: localhost
+    - name: Spawn new instance
+      os_server:
+        cloud: "{{ cloud_id }}"
+        name: "{{ inventory_hostname }}"
+        image: "{{ image }}"
+        flavor: "{{ flavor }}"
+        key_name: "{{ key_name }}"
+        nics: "{{ nics }}"
+        security_groups: "{{ security_groups }}"
+        volumes: "{{ volume_name | default(omit) }}"
+        auto_ip: "{{ auto_ip }}"
+      delegate_to: localhost
+      register: spawned_out
+    #- name: Inspect spawned_out
+    #  debug:
+    #    var: spawned_out
+    #  delegate_to: localhost
+    - name: Update inventory with spawned instance IP
+      set_fact:
+        ansible_host: "{{ spawned_out.server.private_v4 }}"
+        ansible_ssh_common_args: "-F {{ inventory_dir }}/ssh_config.{{ spawned_out.server.cloud }}"
+        cloud_id: "{{ spawned_out.server.cloud }}"
+        volume_dev: "{{ spawned_out.server.volumes[0].device }}"
+        floating_ip: "{{ spawned_out.server.public_v4 }}"
+      delegate_to: localhost
+    - name: Spin waiting for instance to become accessible
+      command: >
+        ssh -o BatchMode=yes -o UserKnownHostsFile=/dev/null
+        -o StrictHostKeyChecking=no -o ConnectTimeout=10
+        {{ ansible_ssh_common_args }}
+        {{ ansible_user }}@{{ ansible_host }} /bin/true
+      register: alive
+      until: alive | success
+      retries: 60
+      delay: 5
+      delegate_to: localhost
