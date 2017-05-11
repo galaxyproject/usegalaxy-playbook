@@ -4,7 +4,7 @@
   hosts: dbservers
   remote_user: root
   roles:
-    - galaxyprojectdotorg.postgresql
+    - galaxyproject.postgresql
   tasks:
     - name: Install psycopg2 for postgresql_objects
       action:
@@ -35,14 +35,14 @@
   hosts: webservers
   remote_user: root
   roles:
-    - galaxyprojectdotorg.nginx
+    - galaxyproject.nginx
   tags: nginx
 
 - name: Install and manage ProFTPD
   hosts: ftpservers
   remote_user: root
   roles:
-    - galaxyprojectdotorg.proftpd
+    - galaxyproject.proftpd
   tags: proftpd
 
 - name: Manage galaxy root tasks

@@ -8,7 +8,7 @@
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # set up local galaxy clone and local config
-    - role: galaxyprojectdotorg.galaxy
+    - role: galaxyproject.galaxy
       galaxy_manage_clone: no
       galaxy_manage_static_setup: yes
       galaxy_manage_mutable_setup: no
@@ -38,7 +38,7 @@
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # fetch and distribute mutable configs (needs the galaxy_mutable_configs
-    # var set in galaxyprojectdotorg.galaxy)
+    # var set in galaxyproject.galaxy)
     - role: usegalaxy
   tags:
     - no-restart
