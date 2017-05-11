@@ -45,7 +45,7 @@
     interactive_environments_proxy_version: "{{ galaxy_commit }}"
   roles:
     # Set up interactive environments
-    - role: galaxyprojectdotorg.interactive_environments
+    - role: galaxyproject.interactive_environments
 
 - name: Include static content plays
   include: _inc_static.yml
