@@ -1,1 +1,0 @@
-../../common/dynamic_rules/multi_dynamic_walltime.py

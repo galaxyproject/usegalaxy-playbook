@@ -13,21 +13,22 @@ galaxy_config_biostar_key: "{{ vault_galaxy_config_biostar_key }}"
 galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
 galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_connection }}"
 
-## used by: proftpd template and this vars file
+
+## used by: proftpd template and this vars file:
 galaxy_ftp_upload_dir: /galaxy-repl/{{ galaxy_instance_codename }}/ftp
 
-
-## used by: galaxy supervisor templates
-galaxy_host_codename: test
 
 ## used by: other vars in this vars file
 galaxy_log_dir: "{{ galaxy_root }}/log"
 
+# instance_root and galaxy_root are set in the play
+# these are the same on galaxy servers
+# on pulsar servers, galaxy_root is a subdirectory of instance_root
+#instance_root:
+#galaxy_root:
+
 
 ## used by: galaxyproject.galaxy and the play itself
-# As of Ansible 2.0, a variable name matching a word used in a with_items loop
-# (as in supervisord_group_configs) will be expanded, despite the fact that
-# bare word expansion is deprecated. D=
 galaxy_system_group: G-803372
 
 galaxy_root: /srv/galaxy/{{ galaxy_instance_codename }}
@@ -37,117 +38,52 @@ galaxy_shed_tool_conf_file: /cvmfs/{{ galaxy_cvmfs_repo }}/config/shed_tool_conf
 galaxy_venv_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/venv
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
-galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 galaxy_mutable_data_dir: "{{ galaxy_root }}/var"
+galaxy_mutable_config_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/config"
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
-
-## used by: supervisor
-galaxy_handler_count: 5
-supervisord_group_configs:
-  - galaxy
-  - galaxy_handler
-  - galaxy_datamanager
-  - galaxy_reports
-  - galaxy_group
-
-# supervisor template
-galaxy_installer_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
-galaxy_datamanager_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
-
-
+## used by: usegalaxy_privileged
 usegalaxy_nagios_tools:
-  - echo_test_handler0
-  - echo_test_handler1
-  - echo_test_cluster
-  - echo_test_jetstream_iu
-  - echo_test_jetstream_tacc
-  - echo_test_stampede
-  - echo_test_bridges
+  - echo_main_w1_handler0
+  - echo_main_w1_handler1
+  - echo_main_w1_handler2
+  - echo_main_w2_handler0
+  - echo_main_w2_handler1
+  - echo_main_w2_handler2
+  - echo_main_cluster
+  - echo_main_jetstream_iu
+  - echo_main_jetstream_tacc
+  - echo_main_stampede
+  - echo_main_bridges
 
 
-## used by usegalaxy_privileged
+## used by usegalaxy_privileged and templating job_conf.xml
 galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
-
-usegalaxy_dynamic_job_rules:
-  - reserved.py
-  - multi_dynamic_walltime.py
-  - bridges_select.py
-  - nvc_dynamic_memory.py
 
 
 ## used by: usegalaxy_admin
 galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
 
 
-## used by: galaxyprojectdotorg.tools
-galaxy_instance_url: "{{ galaxy_instance_hostname }}"
-tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
-
-
-## used by: galaxyprojectdotorg.interactive_environments
-interactive_environments_install_method: copy
-interactive_environments_plugins_local_path: "{{ inventory_dir }}/files/interactive_environments/plugins"
-interactive_environments_proxy_local_path: "{{ inventory_dir }}/files/interactive_environments/proxy"
-interactive_environments_enabled:
-  - jupyter
-  - ethercalc
-interactive_environments_config_files:
-  - ie_name: jupyter
-    file: jupyter.ini
-    contents:
-      main: {}
-      docker:
-        galaxy_url: "https://test.galaxyproject.org"
-        docker_connect_port: "8888"
-        use_volumes: "False"
-  - ie_name: jupyter
-    file: allowed_images.yml
-    contents:
-      - image: "quay.io/bgruening/docker-jupyter-notebook:17.05"
-        description: >
-          The Jupyter notebook is the next iteration of IPython, allowing
-          analysis in many different languages. This image features the Python,
-          R, Julia, Haskell, Bash kernels and many scientific analysis stacks for
-          each.
-  - ie_name: ethercalc
-    file: ethercalc.ini
-    contents:
-      main: {}
-      docker:
-        galaxy_url: "https://test.galaxyproject.org"
-        docker_connect_port: "80"
-        use_volumes: "False"
-
-interactive_environments_nginx_conf_dir: "{{ galaxy_root }}/nginx.conf.d"
-interactive_environments_proxy_user: "{{ galaxy_user }}"
-interactive_environments_access_log_path: "{{ galaxy_log_dir }}/gie_proxy-access.log"
-interactive_environments_error_log_path: "{{ galaxy_log_dir }}/gie_proxy-error.log"
-
-
-## used by: play
-containers_yaml:
-  containers:
-    _default_:
-      type: docker_swarm
-      host: tcp://jetstream-tacc0.galaxyproject.org:2376
-      force_tlsverify: yes
-      #cpus: 0.25
-
 
 ## used by: galaxyproject.galaxy
 base_app_main: &BASE_APP_MAIN
 
   # message box
-
   #message_box_visible: "True"
-  #message_box_content: 'Galaxy will be unavailable between 10:45 AM - 1:30 PM EST (UTC -0500) on Tuesday, December 16th due to <a target="_blank" href="https://portal.tacc.utexas.edu/user-news/-/news/101689">scheduled filesystem maintenance</a>. Running jobs may be interrupted during this period.'
+  #message_box_content: 'Galaxy will be unavailable between 10:00 AM - 5:00 PM EST (UTC -0500) <strong>Monday, November 21st</strong> due to filesystem maintenance. Running jobs may be interrupted during this period.'
+  #message_box_content: 'Galaxy will be unavailable between 12:00 PM - 6:00 PM EST (UTC -0500) <strong>today</strong>, Tuesday, November 10th due to <a target="_blank" href="https://portal.tacc.utexas.edu/user-news/-/news/101798">filesystem maintenance</a>. Running jobs may be interrupted during this period.'
+  #message_box_content: 'Galaxy now runs some (larger, multicore) jobs on <a target="_blank" href="http://jetstream-cloud.org/">Jetstream</a>, you may encounter a few problems related to this. We are working on these, and please feel free to report any errors you encounter.'
   #message_box_class: warning
+
+  # this can be removed after 9/22 and the datatypes_conf.xml update
+  gbrowse_display_sites: wormbase,tair,modencode_worm,modencode_fly
+  ucsc_display_sites: main,archaea,ucla
 
   # secrets
 
   database_connection: "{{ galaxy_config_database_connection }}"
-  install_database_connection: "sqlite:////cvmfs/test.galaxyproject.org/var/galaxy_test_install.sqlite?isolation_level=IMMEDIATE"
+  install_database_connection: "sqlite:////cvmfs/main.galaxyproject.org/var/galaxy_main_install.sqlite?isolation_level=IMMEDIATE"
   id_secret: "{{ galaxy_config_id_secret }}"
   admin_users: "{{ galaxy_config_admin_users }}"
   biostar_key: "{{ galaxy_config_biostar_key }}"
@@ -157,18 +93,18 @@ base_app_main: &BASE_APP_MAIN
   # paths
 
   tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }},{{ galaxy_config_dir }}/nagios_tool_conf.xml"
-  tool_dependency_dir: /galaxy/test/deps
-  job_working_directory: /galaxy/test/jobdir
-  tool_data_path: /galaxy-repl/test/tool_data
-  nginx_upload_store: /galaxy-repl/test/upload
-  nginx_upload_job_files_store: /galaxy-repl/test/upload_job_files
+  tool_dependency_dir: /galaxy/main/deps
+  job_working_directory: /galaxy/main/jobdir
+  tool_data_path: /galaxy-repl/main/tool_data
+  nginx_upload_store: /galaxy-repl/main/upload
+  nginx_upload_job_files_store: /galaxy-repl/main/upload_job_files
   ftp_upload_dir: "{{ galaxy_ftp_upload_dir }}"
-  user_library_import_dir: /galaxy/test/ftp
-  library_import_dir: /galaxy-repl/test/import
+  user_library_import_dir: /galaxy/main/ftp
+  library_import_dir: /galaxy-repl/main/import
   galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
 
   tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
-  tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+  tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
   build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
   #datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
   object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
@@ -177,31 +113,32 @@ base_app_main: &BASE_APP_MAIN
   data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
   job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
 
-  migrated_tools_config: "/cvmfs/test.galaxyproject.org/config/migrated_tools_conf.xml"
-  shed_tool_data_table_config: "/cvmfs/test.galaxyproject.org/config/shed_tool_data_table_conf.xml"
-  shed_data_manager_config_file: "/cvmfs/test.galaxyproject.org/config/shed_data_manager_conf.xml"
+  migrated_tools_config: "/cvmfs/main.galaxyproject.org/config/migrated_tools_conf.xml"
+  shed_tool_data_table_config: "/cvmfs/main.galaxyproject.org/config/shed_tool_data_table_conf.xml"
+  shed_data_manager_config_file: "/cvmfs/main.galaxyproject.org/config/shed_data_manager_conf.xml"
   integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
-  sanitize_whitelist_file: /galaxy-repl/test/config/sanitize_whitelist.txt
+  sanitize_whitelist_file: /galaxy-repl/main/config/sanitize_whitelist.txt
 
   containers_config_file: "{{ galaxy_config_dir }}/containers.yml"
   enable_beta_containers_interface: "True"
 
-  #environment_setup_file: /galaxy/test/job_env.bash
+  #environment_setup_file: /galaxy/main/job_env.bash
 
   builds_file_path: "{{ galaxy_config_dir }}/builds.txt"
   ucsc_build_sites: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
 
   # interactive environments
-  interactive_environment_plugins_directory: "{{ interactive_environments_plugins_path }}"
+  interactive_environment_plugins_directory: "{{ galaxy_root }}/interactive_environments/plugins"
   dynamic_proxy_manage: "False"
-  dynamic_proxy_session_map: /srv/galaxy/test/var/gie_proxy_session_map.sqlite
+  dynamic_proxy_session_map: /srv/galaxy/main/var/gie_proxy_session_map.sqlite
   dynamic_proxy_bind_port: 4280
   dynamic_proxy_bind_ip: 0.0.0.0
   dynamic_proxy_debug: "True"
   dynamic_proxy_external_proxy: "True"
   dynamic_proxy_prefix: gie_proxy
-  galaxy_infrastructure_url: https://test.galaxyproject.org
+  galaxy_infrastructure_url: https://usegalaxy.org
   #trust_ipython_notebook_conversion: "True"
+
 
   # general stuff
 
@@ -224,8 +161,8 @@ base_app_main: &BASE_APP_MAIN
   inactivity_box_content: "Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address."
   wiki_url: "https://galaxyproject.org/"
   terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
-  ga_code: "UA-45719423-9"
-  static_enabled: "False"
+  ga_code: "UA-45719423-10"
+  static_enabled: "True"
   enable_cloud_launch: "True"
   cloudlaunch_default_ami: ami-a7dbf6ce
   nginx_x_accel_redirect_base: /_x_accel_redirect
@@ -244,17 +181,18 @@ base_app_main: &BASE_APP_MAIN
   track_jobs_in_database: "True"
   retry_metadata_internally: "False"
   retry_job_output_collection: 5
-  #cleanup_job: onsuccess
-  cleanup_job: never
-  biostar_url: "https://biostar.galaxyproject.org"
+  cleanup_job: onsuccess
+  biostar_url: "https://biostar.usegalaxy.org"
   biostar_key_name: biostar-login
   biostar_enable_bug_reports: "False"
-  allow_user_impersonation: "True"
   max_metadata_value_size: 1000000
-  brand: 'Test'
-  enable_beta_tool_command_isolation: "True"
+  use_heartbeat: "True"
+  heartbeat_interval: -1
+  heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}.log"
+  tool_search_limit: 30
+  tool_name_boost: 12
+  tool_section_boost: 5
 
-  conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"
   conda_copy_dependencies: "True"
 
   # For handler heartbeats
@@ -265,36 +203,37 @@ base_app_main: &BASE_APP_MAIN
   # stats
   statsd_host: "galaxy06.tacc.utexas.edu"
   statsd_port: "8125"
-  statsd_prefix: "test"
+  statsd_prefix: "main"
 
 # galaxy.ini contents
 galaxy_config_hash:
   "app:main":
     <<: *BASE_APP_MAIN
-    new_file_path: /galaxy/test/scratch
+    allow_user_impersonation: "False"
+    new_file_path: /galaxy-repl/main/scratch2
 
-installer_config_hash:
-  "server:test_installer":
+impersonate_config_hash:
+  "server:main_w1_impersonate":
     threadpool_workers: 5
-    port: 9999
-
+    host: 0.0.0.0
+    port: 9480
+  "server:main_w2_impersonate":
+    threadpool_workers: 5
+    host: 0.0.0.0
+    port: 9480
+  "filter:proxy-prefix":
+    use: "egg:PasteDeploy#prefix"
+    prefix: /main/impersonate
   "app:main":
     <<: *BASE_APP_MAIN
-    new_file_path: /srv/galaxy/test/var/installer_tmp
-
-datamanager_config_hash:
-  "server:galaxy_datamanager":
-    threadpool_workers: 5
-    port: 9998
-
-  "app:main":
-    <<: *BASE_APP_MAIN
-    new_file_path: /galaxy-repl/test/data-scratch
+    allow_user_impersonation: "True"
+    "filter-with": proxy-prefix
+    new_file_path: /galaxy-repl/main/scratch2
 
 # specifies config files to copy from the playbook
 galaxy_config_files:
   - src: files/galaxy/config/tool_data_table_conf.xml
-    dest: "{{ galaxy_config['app:main']['tool_data_table_config_path'] }}"
+    dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
   - src: files/galaxy/config/tool_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
   - src: files/galaxy/config/nagios_tool_conf.xml

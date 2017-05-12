@@ -7,10 +7,10 @@ pulsar_message_queue_url: "{{ vault_pulsar_message_queue_url }}"
 
 
 ## used by: other vars in this vars file
-instance_root: "{{ shared_root }}/test"
+instance_root: "{{ shared_root }}/main"
 pulsar_root: "{{ instance_root }}/pulsar"
 galaxy_root: "{{ instance_root }}/galaxy"
-galaxy_instance_hostname: test.galaxyproject.org
+galaxy_instance_hostname: usegalaxy.org
 
 
 ## used by: galaxyprojectdotorg.pulsar
@@ -27,5 +27,5 @@ galaxy_venv_dir: "{{ galaxy_root }}/venv"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
 
 galaxy_config_files:
-  - src: files/galaxy/{{ galaxy_instance_hostname }}/config/ucsc_build_sites.txt
+  - src: files/galaxy/config/ucsc_build_sites.txt
     dest: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"

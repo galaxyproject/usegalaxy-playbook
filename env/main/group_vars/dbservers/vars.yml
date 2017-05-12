@@ -1,0 +1,26 @@
+---
+
+postgresql_version: 9.5
+postgresql_backup_dir: /galaxy-repl/pgsql/backup/{{ inventory_hostname }}
+postgresql_backup_active_dir: /var/lib/pgsql/backup/active
+postgresql_backup_mail_recipient: root@galaxyproject.org
+
+postgresql_archive_wal_rsync_args: '--ignore-existing -ptg'
+
+postgresql_conf:
+  listen_addresses: "'*'"
+  max_connections: 500
+  shared_buffers: 2048MB
+  temp_buffers: 64MB
+  max_prepared_transactions: 100
+  work_mem: 64MB
+  maintenance_work_mem: 64MB
+  checkpoint_completion_target: 0.9
+  log_checkpoints: "on"
+
+# variables in vault.yml
+postgresql_pg_hba_conf: "{{ vault_postgresql_pg_hba_conf }}"
+postgresql_objects_users: "{{ vault_postgresql_objects_users }}"
+postgresql_objects_groups: "{{ vault_postgresql_objects_groups }}"
+postgresql_objects_databases: "{{ vault_postgresql_objects_databases }}"
+postgresql_objects_privileges: "{{ vault_postgresql_objects_privileges }}"

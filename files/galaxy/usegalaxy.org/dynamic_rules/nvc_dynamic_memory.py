@@ -1,1 +1,0 @@
-../../common/dynamic_rules/nvc_dynamic_memory.py

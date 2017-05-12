@@ -1,0 +1,1 @@
+../../../../common/files/galaxy/dynamic_rules/bridges_select.py

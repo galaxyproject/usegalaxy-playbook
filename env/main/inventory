@@ -34,25 +34,28 @@ galaxyservers
 # galaxy stuff here
 
 [galaxyservers]
-galaxy07.tacc.utexas.edu
+[galaxyservers:children]
+galaxywebservers
+galaxyjobservers
+galaxystagingservers
 
 [galaxymasters]
-galaxy07.tacc.utexas.edu
+galaxy-web-05.tacc.utexas.edu
 
 [galaxywebservers]
-galaxy07.tacc.utexas.edu
+galaxy-web-04.tacc.utexas.edu
+galaxy-web-05.tacc.utexas.edu
 
 [galaxyjobservers]
-galaxy07.tacc.utexas.edu
+galaxy-web-03.tacc.utexas.edu
+galaxy-web-04.tacc.utexas.edu
 
 [galaxystagingservers]
-galaxy07.tacc.utexas.edu
-
-[galaxyswarmscaleservers]
-galaxy07.tacc.utexas.edu
+galaxy-web-03.tacc.utexas.edu
+galaxy-web-04.tacc.utexas.edu
 
 [galaxydbservers]
-galaxy07.tacc.utexas.edu
+galaxy-db-02.tacc.utexas.edu
 
 [pulsarservers]
 login5.stampede.tacc.utexas.edu ansible_ssh_host=login1.stampede.tacc.utexas.edu ansible_ssh_user=xcgalaxy
