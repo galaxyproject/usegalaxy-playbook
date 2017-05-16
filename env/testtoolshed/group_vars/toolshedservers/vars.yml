@@ -27,7 +27,7 @@ galaxy_toolshed_server_dir: "{{ galaxy_toolshed_root }}/server"
 galaxy_toolshed_log_dir: "{{ galaxy_toolshed_root }}/log"
 
 
-## used by: galaxyprojectdotorg.galaxy and usegalaxy_admin, the update play
+## used by: galaxyproject.galaxy and usegalaxy_admin, the update play
 toolshed_user: shed
 toolshed_privileged_user: gxsrc
 galaxy_user: "{{ toolshed_user }}"
@@ -66,12 +66,12 @@ postgresql_objects_privileges:
     type: sequence
 
 
-## used by: galaxyprojectdotorg.nginx
+## used by: galaxyproject.nginx
 nginx_configs:
   - testtoolshed
 
 
-## used by: galaxyprojectdotorg.galaxy_toolshed
+## used by: galaxyproject.galaxy_toolshed
 galaxy_toolshed_venv_dir: "{{ galaxy_toolshed_root }}/venv"
 galaxy_toolshed_config_dir: "{{ galaxy_toolshed_root }}/config"
 galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tool_shed.ini"
@@ -79,7 +79,7 @@ galaxy_toolshed_mutable_config_dir: "{{ galaxy_toolshed_root }}/var"
 galaxy_toolshed_mutable_data_dir: "{{ galaxy_toolshed_root }}/var/data"
 
 
-## used by: galaxyprojectdotorg.galaxy
+## used by: galaxyproject.galaxy
 #pip_virtualenv_command: "{{ galaxy_shed_root }}/python/bin/virtualenv"
 galaxy_server_dir: "{{ galaxy_toolshed_server_dir }}"
 galaxy_venv_dir: "{{ galaxy_toolshed_venv_dir }}"

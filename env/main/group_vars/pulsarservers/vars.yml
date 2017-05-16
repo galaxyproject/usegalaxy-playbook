@@ -2,7 +2,7 @@
 
 ## these vars are defined in vault.yml
 #
-# used by: galaxyprojectdotorg.pulsar (templating server.ini)
+# used by: galaxyproject.pulsar (templating server.ini)
 pulsar_message_queue_url: "{{ vault_pulsar_message_queue_url }}"
 
 
@@ -13,14 +13,14 @@ galaxy_root: "{{ instance_root }}/galaxy"
 galaxy_instance_hostname: usegalaxy.org
 
 
-## used by: galaxyprojectdotorg.pulsar
+## used by: galaxyproject.pulsar
 pulsar_pip_install: true
 pulsar_changeset_id: 2a94561ccc33254ece49e83ab3d9c17bf88e5c35
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_config_dir: "{{ pulsar_root }}/config"
 
 
-## used by: galaxyprojectdotorg.galaxy
+## used by: galaxyproject.galaxy
 galaxy_server_dir: "{{ galaxy_root }}/server"
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_venv_dir: "{{ galaxy_root }}/venv"

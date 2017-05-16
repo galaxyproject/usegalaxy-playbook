@@ -104,7 +104,7 @@ Install ProFTPD for Galaxy with TLS:
     proftpd_ssl_src_dir: files/ssl
 
   roles:
-    - galaxyprojectdotorg.proftpd
+    - galaxyproject.proftpd
 ```
 
 License

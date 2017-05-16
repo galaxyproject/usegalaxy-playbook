@@ -14,7 +14,7 @@ A supported version of Node (see the [IE proxy documentation](http://galaxy.read
 - hosts: galaxyservers
   remote_user: root
   tasks:
-    - include: roles/galaxyprojectdotorg.interactive_environments/tasks/install_dependencies.yml
+    - include: roles/galaxyproject.interactive_environments/tasks/install_dependencies.yml
 ```
 
 This is not included in the role's default tasks since the proper method for gaining root access for the package manager will vary by site.
@@ -199,9 +199,9 @@ Example Playbook
         galaxy_infrastructure_url: https://galaxy.example.org
   pre_tasks:
     - name: Include Interactive Environments package installation tasks
-      include: roles/galaxyprojectdotorg.interactive_environments/tasks/install_dependencies.yml
+      include: roles/galaxyproject.interactive_environments/tasks/install_dependencies.yml
   roles:
-    - galaxyprojectdotorg.interactive_environments
+    - galaxyproject.interactive_environments
 ```
 
 License

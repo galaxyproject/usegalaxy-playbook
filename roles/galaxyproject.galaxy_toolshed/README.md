@@ -43,7 +43,7 @@ you use, and where its configuration files will be placed:
 
 - `galaxy_toolshed_venv_dir` (default: `<galaxy_toolshed_server_dir>/.venv`):
   The role will use a python interpreter in this [virtualenv][virtualenv] to
-  manage the database. [galaxyprojectdotorg.galaxy][galaxyrole] will create it
+  manage the database. [galaxyproject.galaxy][galaxyrole] will create it
   for you and so setting this to the same as `galaxy_venv_dir` is a good idea.
 - `galaxy_toolshed_config_dir` (default:
   `<galaxy_toolshed_server_dir>/config`): Directory that will be used for
@@ -71,13 +71,13 @@ Dependencies
 ------------
 
 This module does not directly depend on any others, but most likely you will
-want to use [galaxyprojectdotorg.galaxy][galaxyrole] to install the Galaxy
+want to use [galaxyproject.galaxy][galaxyrole] to install the Galaxy
 (Tool Shed) code. It requires the variable:
 
 - `galaxy_server_dir`: Filesystem path where the Galaxy server code will be
   installed (cloned). Set this to `galaxy_toolshed_server_dir`.
 
-For additional optional variables, see the [galaxyprojectdotorg.galaxy
+For additional optional variables, see the [galaxyproject.galaxy
 documentation][galaxyrole]. Most notably, you probably want to set
 `galaxy_config_file` to the path to `tool_shed.ini` to cause the galaxy role to
 fetch the correct eggs.
@@ -102,16 +102,16 @@ Install the Tool Shed with code owned by a different user
     galaxy_venv_dir: "{{ galaxy_toolshed_venv_dir }}"
     galaxy_config_file: "{{ galaxy_toolshed_config_file }}"
   roles:
-    - role: galaxyprojectdotorg.galaxy
+    - role: galaxyproject.galaxy
       galaxy_manage_clone: yes
       galaxy_manage_static_setup: no
       galaxy_manage_mutable_setup: no
       galaxy_manage_database: no
       galaxy_fetch_eggs: no
-    - role: galaxyprojectdotorg.galaxy_toolshed
+    - role: galaxyproject.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: yes
       galaxy_toolshed_manage_database: no
-    - role: galaxyprojectdotorg.galaxy
+    - role: galaxyproject.galaxy
       galaxy_manage_clone: no
       galaxy_manage_static_setup: no
       galaxy_manage_mutable_setup: no
@@ -127,7 +127,7 @@ Install the Tool Shed with code owned by a different user
     galaxy_toolshed_config_dir: "/srv/toolshed/config"
     galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tool_shed.ini"
   roles:
-    - role: galaxyprojectdotorg.galaxy_toolshed
+    - role: galaxyproject.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: no
       galaxy_toolshed_manage_database: yes
 ```

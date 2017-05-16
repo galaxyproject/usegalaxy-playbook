@@ -84,7 +84,7 @@ Install nginx with SSL:
     nginx_conf_http:
       client_max_body_size: 1g
   roles:
-    - galaxyprojectdotorg.nginx
+    - galaxyproject.nginx
 ```
 
 License

@@ -4,17 +4,17 @@
   hosts: toolshedservers
   remote_user: "{{ toolshed_privileged_user }}"
   roles:
-    - role: galaxyprojectdotorg.galaxy
+    - role: galaxyproject.galaxy
       galaxy_manage_clone: yes
       galaxy_manage_static_setup: no
       galaxy_manage_mutable_setup: no
       galaxy_manage_database: no
       galaxy_fetch_dependencies: no
       galaxy_manage_errordocs: no
-    - role: galaxyprojectdotorg.galaxy_toolshed
+    - role: galaxyproject.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: yes
       galaxy_toolshed_manage_database: no
-    - role: galaxyprojectdotorg.galaxy
+    - role: galaxyproject.galaxy
       galaxy_manage_clone: no
       galaxy_manage_static_setup: no
       galaxy_manage_mutable_setup: no
@@ -26,7 +26,7 @@
   hosts: toolshedservers
   remote_user: "{{ toolshed_user }}"
   roles:
-    - role: galaxyprojectdotorg.galaxy_toolshed
+    - role: galaxyproject.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: no
       galaxy_toolshed_manage_database: yes
   tasks:

@@ -35,7 +35,7 @@ the same play as this role:
         - mercurial
         - python-virtualenv
   roles:
-    - galaxyprojectdotorg.galaxy
+    - galaxyproject.galaxy
 ```
 
 If your `git` executable is not on `$PATH`, you can specify its location with the `git_executable` variable. Likewise

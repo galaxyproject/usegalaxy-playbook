@@ -2,7 +2,7 @@
 
 ## these vars are defined in vault.yml
 #
-# used by: galaxyprojectdotorg.galaxy (templating job_conf.xml)
+# used by: galaxyproject.galaxy (templating job_conf.xml)
 galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
 
 # used by: galaxy_config var
@@ -80,12 +80,12 @@ usegalaxy_dynamic_job_rules:
 galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
 
 
-## used by: galaxyprojectdotorg.tools
+## used by: galaxyproject.tools
 galaxy_instance_url: "{{ galaxy_instance_hostname }}"
 tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
 
 
-## used by: galaxyprojectdotorg.interactive_environments
+## used by: galaxyproject.interactive_environments
 interactive_environments_install_method: copy
 interactive_environments_plugins_local_path: "{{ inventory_dir }}/files/interactive_environments/plugins"
 interactive_environments_proxy_local_path: "{{ inventory_dir }}/files/interactive_environments/proxy"
