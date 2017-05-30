@@ -264,6 +264,11 @@ def __rule(app, tool, job, user_email, resource):
         destination = app.job_config.get_destination( LOCAL_WALLTIME_DESTINATION ) 
         destination.params['nativeSpecification'] += ' --time=%s' % str(walltime).split('.')[0]
 
+    # Allow for overriding the walltime
+    if not destination:
+        destination = app.job_config.get_destination(destination_id)
+    destination.params['nativeSpecification'] = _set_walltime(tool_id, destination.params.get('nativeSpecification', ''))
+
     log.debug("(%s) Destination/walltime dynamic plugin returning '%s' destination", job.id, destination_id)
     if destination is not None and 'nativeSpecification' in destination.params:
         log.debug("     nativeSpecification is: %s", destination.params['nativeSpecification'])
