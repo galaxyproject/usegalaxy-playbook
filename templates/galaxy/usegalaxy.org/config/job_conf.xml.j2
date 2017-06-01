@@ -583,6 +583,7 @@
         <tool id="deeptools_plot_coverage" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <tool id="deeptools_plot_fingerprint" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <tool id="kraken" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="rna_star" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <!-- explicit stampede jobs -->
         <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
         <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
@@ -666,7 +667,6 @@
         <!-- 64GB tools -->
         <tool id="wig_to_bigWig" destination="dynamic_normal_reserved_64gb"/>
         <tool id="CONVERTER_bedgraph_to_bigwig" destination="dynamic_normal_reserved_64gb"/>
-        <tool id="rna_star" destination="dynamic_normal_reserved_64gb"/>
         <!-- tools with dynamic rules -->
         <tool id="naive_variant_caller" destination="dynamic_nvc_dynamic_memory"/>
         <!-- nagios checks -->
