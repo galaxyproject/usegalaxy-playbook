@@ -335,3 +335,15 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/reports.ini"
   - src: templates/galaxy/config/uwsgi.ini.j2
     dest: "{{ galaxy_config_dir }}/uwsgi.ini"
+
+# the defaults from galaxyproject.galaxy, but needed by the usegalaxy role,
+# which is not in the same play as the galaxy role... =(
+galaxy_mutable_configs:
+  - src: "{{ galaxy_server_dir }}/config/shed_tool_conf.xml.sample"
+    dest: "{{ galaxy_shed_tool_conf_file }}"
+  - src: "{{ galaxy_server_dir }}/config/migrated_tools_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['migrated_tools_config'] if galaxy_config is defined and 'app:main' in galaxy_config and 'migrated_tools_config' in galaxy_config['app:main'] else galaxy_config_default['app:main']['migrated_tools_config'] }}"
+  - src: "{{ galaxy_server_dir }}/config/shed_data_manager_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['shed_data_manager_config_file'] if galaxy_config is defined and 'app:main' in galaxy_config and 'shed_data_manager_config_file' in galaxy_config['app:main'] else galaxy_config_default['app:main']['shed_data_manager_config_file'] }}"
+  - src: "{{ galaxy_server_dir }}/config/shed_tool_data_table_conf.xml.sample"
+    dest: "{{ galaxy_config['app:main']['shed_tool_data_table_config'] if galaxy_config is defined and 'app:main' in galaxy_config and 'shed_tool_data_table_config' in galaxy_config['app:main'] else galaxy_config_default['app:main']['shed_tool_data_table_config'] }}"
