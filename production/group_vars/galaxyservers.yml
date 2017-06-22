@@ -270,6 +270,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config['app:main']['job_resource_params_file'] }}"
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/pulsar_stampede_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
+  - src: files/galaxy/{{ galaxy_instance_hostname }}/config/pulsar_bridges_actions.yml
+    dest: "{{ galaxy_config_dir }}/pulsar_bridges_actions.yml"
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/pulsar_jetstream.yml
     dest: "{{ galaxy_config_dir }}/pulsar_jetstream.yml"
   - src: files/galaxy/{{ galaxy_instance_hostname }}/config/pulsar_jetstream_actions.yml
