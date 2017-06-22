@@ -465,6 +465,7 @@
             <!-- use constraint to avoid running on xl nodes, which do not mount /pylon5 -->
             <param id="submit_native_specification">-p LM --constraint=LM</param>
             <param id="submit_user_email">$__user_email__</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
         </destination>
@@ -482,6 +483,7 @@
             <!-- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) -->
             <param id="submit_native_specification">-p LM -t 00:30:00 --mem=147456</param>
             <param id="submit_user_email">$__user_email__</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
         </destination>
@@ -541,11 +543,11 @@
         <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <tool id="hisat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <tool id="prokka" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
-        <tool id="rna_star" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <!-- bridges jobs -->
         <tool id="trinity_psc" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
         <tool id="spades" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
         <tool id="rnaspades" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
+        <tool id="rna_star" destination="dynamic_bridges_select" handler="test_handler2"  resources="bridges"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_multi_trackster">
             <param id="source">trackster</param>

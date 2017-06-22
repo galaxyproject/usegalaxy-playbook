@@ -91,7 +91,7 @@ def dynamic_bridges_select( app, tool, job, user_email ):
                     mem = 960 * 1024 # 20 * 48 GB
                     walltime = '96:00:00'
 
-        elif tool_id in ('spades', 'rnaspades'):
+        else:
             # nothing to go off of yet so we'll just guess
             mem = 480 * 1024
             walltime = '48:00:00'
