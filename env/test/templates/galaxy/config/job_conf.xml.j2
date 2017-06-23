@@ -115,6 +115,10 @@
         <handler id="test_handler2">
             <plugin id="amqp_pulsar_bridges"/>
             <plugin id="amqp_pulsar_bridges_nagios"/>
+            <plugin id="pulsar_jetstream_iu"/>
+            <plugin id="pulsar_jetstream_iu_nagios"/>
+            <plugin id="pulsar_jetstream_tacc"/>
+            <plugin id="pulsar_jetstream_tacc_nagios"/>
             <plugin id="slurm"/>
         </handler>
         <handler id="test_handler3" tags="multi_handlers">
@@ -166,6 +170,11 @@
         <destination id="dynamic_local_stampede_select_dynamic_walltime" runner="dynamic">
             <param id="type">python</param>
             <param id="function">dynamic_local_stampede_select_dynamic_walltime</param>
+        </destination>
+
+        <destination id="dynamic_multi_bridges_select" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_multi_bridges_select</param>
         </destination>
 
         <!-- dynamic method for the stampede-only selector -->
@@ -230,7 +239,7 @@
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
         <destination id="reserved_multi" runner="slurm">
-            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=4 --partition=reserved --mem-per-cpu=5120</param>
+            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=6 --partition=reserved --mem-per-cpu=5120</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
             <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
@@ -288,7 +297,7 @@
         </destination>
 
         <destination id="slurm_multi" runner="slurm">
-            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=4 --partition=multi</param>
+            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=6 --partition=multi</param>
             <env id="PATH">/galaxy/test/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
             <env id="LC_ALL">C</env>
             <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
@@ -389,7 +398,7 @@
         <!-- dynamic modified destinations: do not use directly -->
         <destination id="slurm_multi_dynamic_walltime" runner="slurm">
             <!-- walltime is set dynamically -->
-            <param id="nativeSpecification">--nodes=1 --ntasks=4 --partition=multi</param>
+            <param id="nativeSpecification">--nodes=1 --ntasks=6 --partition=multi</param>
             <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="test_handler4"/>
             <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
         </destination>
@@ -543,11 +552,12 @@
         <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <tool id="hisat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <tool id="prokka" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
+        <!-- roundup multi/jetstream/bridges jobs -->
+        <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="test_handler2"  resources="multi_or_bridges"/>
         <!-- bridges jobs -->
         <tool id="trinity_psc" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
         <tool id="spades" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
         <tool id="rnaspades" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
-        <tool id="rna_star" destination="dynamic_bridges_select" handler="test_handler2"  resources="bridges"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_multi_trackster">
             <param id="source">trackster</param>
@@ -615,6 +625,7 @@
     <resources default="default">
         <group id="default"></group>
         <group id="local_or_stampede">tacc_compute_resource,team_cpus</group>
+        <group id="multi_or_bridges">multi_bridges_compute_resource</group>
         <group id="stampede">stampede_compute_resource</group>
         <group id="bridges">bridges_compute_resource</group>
     </resources>
