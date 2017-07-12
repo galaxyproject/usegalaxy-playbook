@@ -6,6 +6,7 @@ import math
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 import uuid
 
@@ -49,17 +50,18 @@ def run_playbook(playbook, inventory, args=None):
     if not args:
         args = []
     cmd = ['ansible-playbook', '-i', inventory, playbook] + args
-    print('Running %s' % ' '.join(cmd))
-    subprocess.check_call(cmd, env=get_env())
+    print('Running %s' % ' '.join(cmd), file=sys.stderr)
+    subprocess.check_call(cmd, stdout=sys.stderr, env=get_env())
 
 
 def spawn(slots):
     nodes_needed = int(math.ceil(slots * SLOT_SIZE))
-    print('Need %s nodes' % nodes_needed)
+    print('Need %s nodes' % nodes_needed, file=sys.stderr)
     node_names = gen_node_names(nodes_needed)
     inventory = create_inventory(node_names)
     run_playbook('spawn.yml', inventory.name)
     inventory.close()
+    print(' '.join(node_names))
 
 
 def destroy(nodes):
