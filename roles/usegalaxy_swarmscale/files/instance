@@ -67,6 +67,7 @@ def spawn(slots):
 def destroy(nodes):
     limit_arg = ':'.join(nodes)
     run_playbook('delete.yml', 'inventory', args=['--limit', limit_arg])
+    print(' '.join(nodes))
 
 
 def get_args():
