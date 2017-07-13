@@ -26,6 +26,9 @@
         security_groups: "{{ security_groups }}"
         volumes: "{{ volume_name | default(omit) }}"
         auto_ip: "{{ auto_ip }}"
+        userdata: |
+          #cloud-config
+          package_upgrade: false
       delegate_to: localhost
       register: spawned_out
     #- name: Inspect spawned_out
