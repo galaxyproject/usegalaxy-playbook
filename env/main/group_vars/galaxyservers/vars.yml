@@ -186,9 +186,6 @@ base_app_main: &BASE_APP_MAIN
   biostar_key_name: biostar-login
   biostar_enable_bug_reports: "False"
   max_metadata_value_size: 1000000
-  use_heartbeat: "True"
-  heartbeat_interval: -1
-  heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}.log"
   tool_search_limit: 30
   tool_name_boost: 12
   tool_section_boost: 5

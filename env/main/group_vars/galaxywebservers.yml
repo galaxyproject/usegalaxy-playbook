@@ -41,8 +41,8 @@ sysctl_conf:
 
 ## used by: galaxygproject.interactive_environments
 interactive_environments_install_method: copy
-interactive_environments_plugins_local_path: "{{ inventory_dir }}/files/interactive_environments/plugins"
-interactive_environments_proxy_local_path: "{{ inventory_dir }}/files/interactive_environments/proxy"
+interactive_environments_plugins_path: "{{ galaxy_root }}/interactive_environments/plugins"
+interactive_environments_proxy_path: "{{ galaxy_root }}/interactive_environments/proxy"
 interactive_environments_enabled:
   - jupyter
 interactive_environments_config_files:
