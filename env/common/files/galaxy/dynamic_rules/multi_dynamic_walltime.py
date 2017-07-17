@@ -138,25 +138,33 @@ WALLTIMES = {
 }
 
 
-def _rnastar(app, param_dict):
+def _rnastar(app, param_dict, destination_id, explicit_destination):
     source = param_dict['refGenomeSource']['geneSource']
     if source == 'indexed':
         build = param_dict['refGenomeSource']['GTFconditional']['genomeDir']
         path = '%s/SA' % app.tool_data_tables.get('rnastar_index2').get_entry('value', build, 'path')
-        dest = None
+        destination_id = None if not explicit_destination else destination_id
+        need_mb = (os.stat(path).st_size / 1024 / 1024) * 1.3 + 2048
     else:
         # Avoid the expense of staging large genome files
         path = param_dict['refGenomeSource']['genomeFastaFiles'].get_file_name()
-        dest = LOCAL_DESTINATION
-    need_mb = (os.stat(path).st_size / 1024 / 1024) * 1.3 + 2048
+        destination_id = LOCAL_DESTINATION if not explicit_destination else destination_id
+        need_mb = (os.stat(path).st_size / 1024 / 1024) * 10.0 + 2048
     if need_mb < 8192:
         # In testing, very small jobs needed more than the formula above, so guarantee everyone gets at least 8 GB
         need_mb = 8192
-    elif need_mb > 40960:
+    elif need_mb > 40960 and not explicit_destination:
         # 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM)
-        dest = BRIDGES_DESTINATION
+        destination_id = BRIDGES_DESTINATION
         need_mb = 147456
-    return (dest, need_mb)
+    if explicit_destination:
+        if destination_id in (LOCAL_DESTINATION, LOCAL_DEVELOPMENT_DESTINATION, RESERVED_DESTINATION) and need_mb > 40960:
+            need_mb = 40960
+        elif destination_id in JETSTREAM_DESTINATIONS:
+            pass  # won't be set anyway
+        elif destination_id in BRIDGES_DESTINATIONS:
+            need_mb = 147456
+    return (destination_id, int(need_mb))
 
 
 def _set_walltime(tool_id, native_spec):
@@ -208,7 +216,8 @@ def __rule(app, tool, job, user_email, resource_params, resource):
         # if __job_resource is not passed or __job_resource_select is not set to a "yes-like" value, resource_params is an empty dict
         if user_email.lower() in NORM_RESERVED_USERS:
             log.info("(%s) Destination/walltime dynamic plugin returning default reserved destination for '%s'", job.id, user_email)
-            return RESERVED_DESTINATION
+            #return RESERVED_DESTINATION
+            destination_id = RESERVED_DESTINATION
 
     if destination_id == TEAM_DESTINATION:
         if user_email in TEAM_USERS:
@@ -251,13 +260,12 @@ def __rule(app, tool, job, user_email, resource_params, resource):
     if resource == 'multi_bridges_compute_resource' and tool_id == 'rna_star':
         # FIXME: special casing
         try:
-            _destination_id, mem_mb = _rnastar(app, param_dict)
+            _destination_id, mem_mb = _rnastar(app, param_dict, destination_id, explicit_destination)
             if not explicit_destination:
                 destination_id = _destination_id
                 if destination_id == BRIDGES_DESTINATION:
                     destination = app.job_config.get_destination(destination_id)
                     destination.params['submit_native_specification'] += ' --time=48:00:00'
-                    destination.params['submit_native_specification'] += ' --mem=%s' % mem_mb
         except:
             log.exception('(%s) Error determining parameters for STAR job', job.id)
             raise JobMappingException(FAILURE_MESSAGE)
@@ -296,7 +304,11 @@ def __rule(app, tool, job, user_email, resource_params, resource):
 
         destination_id = '%s_%s' % (destination_prefix, JETSTREAM_DESTINATION_MAPS[default_destination_id]['partition'])
         destination = app.job_config.get_destination(destination_id)
-        destination.params['nativeSpecification'] = _set_walltime(tool_id, destination.params.get('nativeSpecification', ''))
+        # FIXME: aaaaah i just need this to work for now
+        if destination_id.startswith('jetstream'):
+            destination.params['submit_native_specification'] = _set_walltime(tool_id, destination.params.get('submit_native_specification', ''))
+        else:
+            destination.params['nativeSpecification'] = _set_walltime(tool_id, destination.params.get('nativeSpecification', ''))
 
     if destination_id is None:
         destination_id = default_destination_id
@@ -304,7 +316,13 @@ def __rule(app, tool, job, user_email, resource_params, resource):
     if mem_mb:
         if destination is None:
             destination = app.job_config.get_destination(destination_id)
-        destination.params['nativeSpecification'] += ' --mem=%s' % mem_mb
+        # FIXME: and here wow such mess
+        if destination_id in (LOCAL_DESTINATION, LOCAL_DEVELOPMENT_DESTINATION, RESERVED_DESTINATION):
+            destination.params['nativeSpecification'] += ' --mem=%s' % mem_mb
+        elif destination_id.startswith('jetstream'):
+            pass  # don't set --mem, you get the whole node anyway
+        elif destination_id in BRIDGES_DESTINATIONS:
+            destination.params['submit_native_specification'] += ' --mem=%s' % mem_mb
 
     # Set a walltime if local is the destination and this is a dynamic walltime tool
     if destination_id == LOCAL_DESTINATION and tool_id in RUNTIMES:

@@ -181,6 +181,10 @@
             <param id="type">python</param>
             <param id="function">dynamic_normal_reserved_16gb</param>
         </destination>
+        <destination id="dynamic_normal_reserved_32gb" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_normal_reserved_32gb</param>
+        </destination>
         <destination id="dynamic_normal_reserved_64gb" runner="dynamic">
             <param id="type">python</param>
             <param id="function">dynamic_normal_reserved_64gb</param>
@@ -194,6 +198,11 @@
         <destination id="dynamic_local_stampede_select_dynamic_walltime" runner="dynamic">
             <param id="type">python</param>
             <param id="function">dynamic_local_stampede_select_dynamic_walltime</param>
+        </destination>
+
+        <destination id="dynamic_multi_bridges_select" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_multi_bridges_select</param>
         </destination>
 
         <!-- dynamic method for the stampede-only selector -->
@@ -273,6 +282,18 @@
            <env exec="mkdir -p $TEMP" />
            <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate" />
         </destination>
+        <destination id="reserved_32gb" runner="slurm">
+           <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=30720</param>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="LC_ALL">C</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
+           <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+           <env id="TMPDIR">$TEMP</env>
+           <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx32256m -Xms256m</env>
+           <env exec="mkdir -p $TEMP" />
+           <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate" />
+        </destination>
         <destination id="reserved_64gb" runner="slurm">
            <param id="nativeSpecification">--time=36:00:00 --clusters=roundup --nodes=1 --ntasks=1 --partition=reserved --mem-per-cpu=61440</param>
            <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
@@ -320,6 +341,18 @@
            <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
            <env id="TMPDIR">$TEMP</env>
            <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx15872m -Xms256m</env>
+           <env exec="mkdir -p $TEMP" />
+           <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate" />
+        </destination>
+        <destination id="slurm_normal_32gb" runner="slurm">
+           <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1 --partition=multi --mem-per-cpu=30720</param>
+           <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_manual/bin:/galaxy/main/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin</env>
+           <env id="LC_ALL">C</env>
+           <env id="FONTCONFIG_FILE">/cvmfs/main.galaxyproject.org/fontconfig/fonts.conf</env>
+           <env id="LD_LIBRARY_PATH">/cvmfs/main.galaxyproject.org/venv/lib</env>
+           <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_galaxy_tmp</env>
+           <env id="TMPDIR">$TEMP</env>
+           <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP -Xmx32256m -Xms256m</env>
            <env exec="mkdir -p $TEMP" />
            <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate" />
         </destination>
@@ -508,14 +541,15 @@
             <param id="remote_metadata">true</param>
             <param id="use_remote_datatypes">true</param>
             <param id="rewrite_parameters">true</param>
-            <param id="jobs_directory">/pylon1/mc48nsp/xcgalaxy/main_staging/</param>
+            <param id="jobs_directory">/pylon5/mc48nsp/xcgalaxy/main_staging/</param>
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/main/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/datatypes_conf.xml</param>
             <!-- walltime and mem are set dynamically -->
-            <!-- use constraint to avoid running on xl nodes, which do not mount /pylon1 -->
+            <!-- use constraint to avoid running on xl nodes, which do not mount /pylon5 -->
             <param id="submit_native_specification">-p LM --constraint=LM</param>
             <param id="submit_user_email">$__user_email__</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/main/galaxy/venv/bin/activate" />
         </destination>
@@ -526,13 +560,14 @@
             <param id="remote_metadata">true</param>
             <param id="use_remote_datatypes">true</param>
             <param id="rewrite_parameters">true</param>
-            <param id="jobs_directory">/pylon1/mc48nsp/xcgalaxy/main_staging/</param>
+            <param id="jobs_directory">/pylon5/mc48nsp/xcgalaxy/main_staging/</param>
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/main/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/datatypes_conf.xml</param>
             <!-- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) -->
             <param id="submit_native_specification">-p LM -t 00:30:00 --mem=147456</param>
             <param id="submit_user_email">$__user_email__</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/main/galaxy/venv/bin/activate" />
         </destination>
@@ -542,7 +577,7 @@
             <param id="dependency_resolution">remote</param>
             <param id="use_remote_datatypes">true</param>
             <param id="rewrite_parameters">true</param>
-            <param id="jobs_directory">/pylon1/mc48nsp/xcgalaxy/main_staging/</param>
+            <param id="jobs_directory">/pylon5/mc48nsp/xcgalaxy/main_staging/</param>
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/main/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/main/galaxy/config/datatypes_conf.xml</param>
@@ -583,7 +618,8 @@
         <tool id="deeptools_plot_coverage" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <tool id="deeptools_plot_fingerprint" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <tool id="kraken" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
-        <tool id="rna_star" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <!-- roundup multi/jetstream/bridges jobs -->
+        <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="multi_handlers"  resources="multi_or_bridges"/>
         <!-- explicit stampede jobs -->
         <tool id="lastz_wrapper_2" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
         <tool id="megablast_wrapper" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
@@ -628,7 +664,7 @@
         <tool id="scatterplot_rpy" destination="dynamic_normal_reserved_16gb"/>
         <tool id="htseq_count" destination="dynamic_normal_reserved_16gb"/>
         <tool id="flanking_features_1" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="Interval2Maf1" destination="dynamic_normal_reserved_16gb"/>
+        <tool id="Interval2Maf1" destination="dynamic_normal_reserved_32gb"/>
         <!-- picard tools may not actually need 16GB. Without -Xmx they were only using 2GB of their allocated memory
         <tool id="picard_AddCommentsToBam" destination="dynamic_normal_reserved_16gb"/>
         <tool id="picard_AddOrReplaceReadGroups" destination="dynamic_normal_reserved_16gb"/>
@@ -687,6 +723,7 @@
     <resources default="default">
         <group id="default"></group>
         <group id="local_or_stampede">tacc_compute_resource</group>
+        <group id="multi_or_bridges">multi_bridges_compute_resource</group>
         <group id="stampede">stampede_compute_resource</group>
         <group id="bridges">bridges_compute_resource</group>
     </resources>

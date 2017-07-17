@@ -57,7 +57,7 @@ interactive_environments_config_files:
   - ie_name: jupyter
     file: allowed_images.yml
     contents:
-      - image: "quay.io/bgruening/docker-jupyter-notebook:17.05"
+      - image: "quay.io/bgruening/docker-jupyter-notebook:17.05.1"
         description: >
           The Jupyter notebook is the next iteration of IPython, allowing
           analysis in many different languages. This image features the Python,
@@ -76,6 +76,9 @@ containers_yaml:
       type: docker_swarm
       host: tcp://jetstream-tacc0.galaxyproject.org:2376
       force_tlsverify: yes
-      #cpus: 0.25
-
-
+      cpus: 0.5
+      memory: 1073741824
+      node_prefix: swarm-
+      managed: yes
+      manager_autostart: no
+      #manager_conf: managed by test
