@@ -3,6 +3,10 @@
 - name: Install and manage PostgreSQL
   hosts: dbservers
   remote_user: root
+  pre_tasks:
+    - name: Install psycopg2
+      yum:
+        name: python-psycopg2
   roles:
     - galaxyproject.postgresql
   tasks:

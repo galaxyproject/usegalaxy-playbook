@@ -1,0 +1,13 @@
+---
+
+- name: Galaxy interactive environments
+  hosts: galaxywebservers
+  remote_user: "{{ galaxy_privileged_user }}"
+  vars_files:
+    - "{{ galaxy_version_file }}"
+  vars:
+    interactive_environments_plugins_version: "{{ galaxy_commit }}"
+    interactive_environments_proxy_version: "{{ galaxy_commit }}"
+  roles:
+    # Set up interactive environments
+    - role: galaxyproject.interactive_environments

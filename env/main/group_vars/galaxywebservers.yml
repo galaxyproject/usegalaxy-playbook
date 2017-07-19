@@ -9,26 +9,15 @@ supervisord_galaxywebservers_group_configs:
 
 
 ## used by: galaxygproject.nginx
+nginx_conf_ssl_certificate: "{{ nginx_conf_dir }}/ssl/usegalaxy.org_cert.pem"
+nginx_conf_ssl_certificate_key: "{{ nginx_conf_dir }}/ssl/usegalaxy.org_privatekey.pem"
+
 nginx_configs:
   - usegalaxy
   - galaxy_bx
 
 nginx_extra_configs:
   - usegalaxy_rewrites.conf
-
-
-## used by: galaxyproject.galaxy
-galaxy_errordocs_dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/error"
-galaxy_errordocs_502_message: |
-  You are seeing this message because a request to Galaxy timed out or was refused. This may be a temporary issue which
-  could be resolved by retrying the operation you were performing. If you receive this message repeatedly or for an
-  extended amount of time, please report it to the Galaxy Team at
-  <a href='mailto:galaxy-bugs@lists.galaxyproject.org'>galaxy-bugs@lists.galaxyproject.org</a>
-  with details on what you were trying to do and the URL in the address bar. More information on the current state of
-  Galaxy services may be available on the
-  <a href="https://status.galaxyproject.org/">Galaxy status page</a>
-  or the
-  <a href="https://twitter.com/galaxyproject">@galaxyproject Twitter feed</a>.
 
 
 ## used by the sysctl task in the galaxy_infrastructure playbook

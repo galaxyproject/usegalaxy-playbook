@@ -5,7 +5,7 @@
 
 INSTANCE="{{ galaxy_instance_codename }}"
 RUN=/srv/galaxy/$INSTANCE/var/run
-HANDLERS="{%- for i in range(0, galaxy_handler_count) -%}galaxy_{{ galaxy_instance_codename }}:handler{{ i }} {% endfor %}"
+HANDLERS="{%- for i in range(0, galaxy_handler_count | default(0)) -%}galaxy_{{ galaxy_instance_codename }}:handler{{ i }} {% endfor %}"
 
 
 graceful_uwsgi() {
