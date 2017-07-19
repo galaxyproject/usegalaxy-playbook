@@ -1,0 +1,22 @@
+---
+# tasks file for galaxyproject.proftpd
+
+- name: Install ProFTPD (yum)
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - proftpd
+    - proftpd-postgresql
+
+- name: Add include statement to proftpd.conf
+  lineinfile:
+    name: "{{ proftpd_config_file }}"
+    insertafter: EOF
+    line: "Include {{ proftpd_config_include_dir }}/*.conf"
+  notify:
+    - reload proftpd
+
+- name: Create proftpd.conf include directory
+  file:
+    name: "{{ proftpd_config_include_dir }}"
+    state: directory

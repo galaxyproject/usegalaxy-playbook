@@ -1,0 +1,22 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+{# sigh #}
+{%- set supervisord_configs = supervisord_group_configs | default([]) + supervisord_host_configs | default([]) + supervisord_galaxywebservers_group_configs | default([]) + supervisord_galaxystagingservers_group_configs | default([]) + supervisord_galaxyjobservers_group_configs | default([]) %}
+{%- set programs = [] %}
+{%- if "galaxy_handler" in supervisord_configs %}
+{%- set programs = programs + ["galaxy_handler"] %}
+{%- endif %}
+{%- if "galaxy_impersonate" in supervisord_configs %}
+{%- set programs = programs + ["galaxy_impersonate"] %}
+{%- endif %}
+{%- if "galaxy_reports" in supervisord_configs %}
+{%- set programs = programs + ["galaxy_reports"] %}
+{%- endif %}
+{%- if "galaxy_datamanager" in supervisord_configs %}
+{%- set programs = programs + ["galaxy_datamanager"] %}
+{%- endif %}
+
+[group:galaxy_{{ galaxy_instance_codename }}]
+programs = {{ programs | join(",") }}

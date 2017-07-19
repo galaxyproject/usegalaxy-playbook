@@ -1,0 +1,73 @@
+# generic stuff here
+
+[sslservers]
+[sslservers:children]
+sslwebservers
+tlsftpservers
+
+[webservers]
+[webservers:children]
+sslwebservers
+galaxywebservers
+
+[sslwebservers]
+[sslwebservers:children]
+galaxywebservers
+galaxystagingservers
+
+[dbservers]
+[dbservers:children]
+galaxydbservers
+
+[ftpservers]
+[ftpservers:children]
+tlsftpservers
+
+[tlsftpservers]
+[tlsftpservers:children]
+galaxywebservers
+
+[supervisorservers]
+[supervisorservers:children]
+galaxyservers
+
+# galaxy stuff here
+
+[galaxyservers]
+galaxy07.tacc.utexas.edu
+
+[galaxymasters]
+galaxy07.tacc.utexas.edu
+
+[galaxywebservers]
+galaxy07.tacc.utexas.edu
+
+[galaxyjobservers]
+galaxy07.tacc.utexas.edu
+
+[galaxystagingservers]
+galaxy07.tacc.utexas.edu
+
+[galaxyswarmscaleservers]
+galaxy07.tacc.utexas.edu
+
+[galaxydbservers]
+galaxy07.tacc.utexas.edu
+
+[pulsarservers]
+login5.stampede.tacc.utexas.edu ansible_ssh_host=login1.stampede.tacc.utexas.edu ansible_ssh_user=xcgalaxy
+br005.bridges.psc.edu ansible_ssh_user=xcgalaxy
+jetstream-tacc0.galaxyproject.org
+jetstream-iu0.galaxyproject.org
+
+[pulsargalaxyservers]
+login5.stampede.tacc.utexas.edu ansible_ssh_host=login1.stampede.tacc.utexas.edu ansible_ssh_user=xcgalaxy
+br005.bridges.psc.edu ansible_ssh_user=xcgalaxy
+
+[cvmfsstratum0servers]
+cvmfs0-tacc0.galaxyproject.org
+
+[cvmfsstratum1servers]
+cvmfs1-tacc0.galaxyproject.org
+cvmfs1-iu0.galaxyproject.org
+cvmfs1-psu0.galaxyproject.org

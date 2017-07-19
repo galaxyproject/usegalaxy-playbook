@@ -1,0 +1,39 @@
+---
+
+proftpd_options:
+  - ServerName: '"test.galaxyproject.org FTP"'
+  - ServerAdmin: galaxy-bugs@galaxyproject.org
+  - User: g2test
+  - Group: G-803372
+
+proftpd_display_connect: |
+  test.galaxyproject.org FTP
+
+  This FTP server allows users to upload large data to the Galaxy server at:
+
+    https://test.galaxyproject.org/
+
+  Your login uses the same credentials as your Galaxy login - email address and
+  password.
+
+  Once files are successfully uploaded, the list of files available for importing
+  in to a history will be displayed in the regular Upload tool.  For assistance,
+  please contact:
+
+    galaxy-bugs@galaxyproject.org
+
+  Files uploaded via FTP and not imported to a history within three days will be
+  deleted.
+
+# the cert file contains the whole chain but it's fine because ProFTPD only reads the first one
+proftpd_conf_ssl_certificate: /etc/pki/tls/certs/wildcard_cert.pem
+proftpd_conf_ssl_certificate_key: /etc/pki/tls/private/wildcard_privatekey.pem
+proftpd_conf_ssl_ca_certificate: /etc/pki/tls/certs/incommon_chain.pem
+
+proftpd_galaxy_options:
+  - MaxStoreFileSize: 50 Gb
+  - PassivePorts: 30000 31000
+  - CreateHome: on dirmode 700 NoRootPrivs
+
+proftpd_galaxy_auth: yes
+proftpd_sql_db: galaxy_test@/tmp

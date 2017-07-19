@@ -1,0 +1,16 @@
+---
+# defaults file for galaxyproject.proftpd
+
+proftpd_ssl_src_dir: files/ssl
+
+proftpd_galaxy_modules:
+  - mod_sql.c
+  - mod_sql_passwd.c
+  - mod_sql_postgres.c
+
+proftpd_galaxy_default_options:
+  - AuthOrder: mod_sql.c
+  - AuthPAM: 'off'
+  - Umask: '077'
+  - DefaultRoot: '~'
+  - CreateHome: on dirmode 700

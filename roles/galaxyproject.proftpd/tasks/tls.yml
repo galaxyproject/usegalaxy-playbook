@@ -1,0 +1,42 @@
+---
+# tasks file for galaxyproject.proftpd
+
+- name: Configure TLS options
+  template:
+    src: tls.conf.j2
+    dest: "{{ proftpd_config_include_dir }}/05_tls.conf"
+    backup: yes
+  notify:
+    - reload proftpd
+
+- name: Create TLS directories
+  file:
+    path: "{{ item | dirname }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ proftpd_conf_ssl_certificate | default('') }}"
+    - "{{ proftpd_conf_ssl_certificate_key | default('') }}"
+
+- name: Install TLS CA certificate chain
+  copy:
+    src: "{{ proftpd_ssl_src_dir }}/{{ proftpd_conf_ssl_ca_certificate | basename }}"
+    dest: "{{ proftpd_conf_ssl_ca_certificate }}"
+  when: proftpd_conf_ssl_ca_certificate is defined
+  notify:
+    - reload proftpd
+
+- name: Install TLS certificate
+  copy:
+    src: "{{ proftpd_ssl_src_dir }}/{{ proftpd_conf_ssl_certificate | basename }}"
+    dest: "{{ proftpd_conf_ssl_certificate }}"
+  notify:
+    - reload proftpd
+
+- name: Install TLS private key
+  copy:
+    content: "{{ sslkeys[proftpd_conf_ssl_certificate_key | basename] }}"
+    dest: "{{ proftpd_conf_ssl_certificate_key }}"
+    mode: 0400
+  notify:
+    - reload proftpd

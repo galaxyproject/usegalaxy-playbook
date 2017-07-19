@@ -1,0 +1,60 @@
+---
+
+shared_root: /pylon2/mc48nsp/xcgalaxy
+galaxy_user: xcgalaxy
+pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
+
+pulsar_drmaa_library_path: "{{ instance_root }}/slurm-drmaa/lib/libdrmaa.so"
+
+pulsar_yaml_config:
+  staging_directory: "/pylon5/mc48nsp/xcgalaxy/test_staging"
+  persistence_directory: "{{ pulsar_root }}/var/persisted_data"
+  tool_dependency_dir: "{{ instance_root }}/deps"
+  job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
+  message_queue_url: "{{ pulsar_message_queue_url }}"
+  dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
+  amqp_acknowledge: True
+  amqp_ack_republish_time: 180
+  amqp_publish_retry: True
+  amqp_publish_retry_max_retries: 5
+  amqp_publish_retry_interval_start: 10
+  amqp_publish_retry_interval_step: 10
+  amqp_publish_retry_interval_max: 60
+  managers:
+    bridges:
+      type: queued_drmaa
+      preprocess_action_max_retries: 10
+      preprocess_action_interval_start: 2
+      preprocess_action_interval_step: 2
+      preprocess_action_interval_max: 60
+      postprocess_action_max_retries: 20
+      postprocess_action_interval_start: 2
+      postprocess_action_interval_step: 4
+      postprocess_action_interval_max: 120
+      min_polling_interval: 15
+    bridges_nagios:
+      type: queued_python
+      min_polling_interval: 5
+
+pulsar_optional_dependencies:
+  # setup.py broken?
+  - paste
+  - pastescript
+  - pastedeploy
+  - webob
+  - six
+  - pyyaml
+  - galaxy-lib
+  # actual optional things
+  - pyOpenSSL
+  - pycurl
+  - uwsgi
+  - drmaa
+  - kombu
+  - requests
+  - poster
+  - psutil
+
+host_files:
+  - src: files/pulsar/config/bridges_dependency_resolvers_conf.xml
+    dest: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"

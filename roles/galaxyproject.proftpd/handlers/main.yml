@@ -1,0 +1,12 @@
+---
+# handlers file for galaxyproject.proftpd
+
+- name: reload proftpd
+  service:
+    name: proftpd
+    state: reloaded
+
+- name: restart proftpd
+  service:
+    name: proftpd
+    state: restarted

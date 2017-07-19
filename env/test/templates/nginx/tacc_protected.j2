@@ -1,0 +1,76 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+upstream impersonate_main {
+    server galaxy-web-01.tacc.utexas.edu:9480;
+    server galaxy-web-02.tacc.utexas.edu:9480;
+}
+
+upstream reports_main {
+    server galaxy-web-01.tacc.utexas.edu:18001;
+    server galaxy-web-02.tacc.utexas.edu:18001;
+}
+
+upstream reports_test {
+    server galaxy01.tacc.utexas.edu:18001;
+}
+
+server {
+    listen       *:80;
+    server_name tacc-protected.galaxyproject.org;
+
+    return 301 https://tacc-protected.galaxyproject.org$request_uri;
+}
+
+server {
+    listen       *:443 ssl;
+    server_name tacc-protected.galaxyproject.org;
+
+    access_log /var/log/nginx/protected.access.log;
+    error_log /var/log/nginx/protected.error.log;
+
+    auth_pam              "Galaxy Protected";
+    auth_pam_service_name "nginx_galaxy";
+
+    root /srv/nginx/tacc-protected.galaxyproject.org/root;
+
+    location /main/reports {
+        proxy_pass         http://reports_main;
+        proxy_redirect     off;
+        proxy_set_header   REMOTE_USER       $remote_user;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+
+    location /main/impersonate {
+        proxy_pass         http://impersonate_main;
+        proxy_redirect     off;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+
+    location /test/reports {
+        proxy_pass         http://reports_test;
+        proxy_redirect     off;
+        proxy_set_header   REMOTE_USER       $remote_user;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+    {% for host, authkey in supervisord_http_auth.iteritems() %}
+
+    location /{{ host }}/supervisor/ {
+        proxy_pass         http://{{ host }}.tacc.utexas.edu:9001/;
+        proxy_redirect     off;
+        proxy_set_header   Authorization "Basic {{ authkey }}";
+    }
+    {% endfor %}
+}
+
+# vim: set filetype=nginx

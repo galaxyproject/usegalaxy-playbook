@@ -1,0 +1,31 @@
+---
+
+## these vars are defined in vault.yml
+#
+# used by: galaxyproject.pulsar (templating server.ini)
+pulsar_message_queue_url: "{{ vault_pulsar_message_queue_url }}"
+
+
+## used by: other vars in this vars file
+instance_root: "{{ shared_root }}/main"
+pulsar_root: "{{ instance_root }}/pulsar"
+galaxy_root: "{{ instance_root }}/galaxy"
+galaxy_instance_hostname: usegalaxy.org
+
+
+## used by: galaxyproject.pulsar
+pulsar_pip_install: true
+pulsar_changeset_id: 2a94561ccc33254ece49e83ab3d9c17bf88e5c35
+pulsar_venv_dir: "{{ pulsar_root }}/venv"
+pulsar_config_dir: "{{ pulsar_root }}/config"
+
+
+## used by: galaxyproject.galaxy
+galaxy_server_dir: "{{ galaxy_root }}/server"
+galaxy_config_dir: "{{ galaxy_root }}/config"
+galaxy_venv_dir: "{{ galaxy_root }}/venv"
+galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
+
+galaxy_config_files:
+  - src: files/galaxy/config/ucsc_build_sites.txt
+    dest: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"

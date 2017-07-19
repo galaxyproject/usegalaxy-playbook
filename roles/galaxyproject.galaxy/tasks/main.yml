@@ -1,0 +1,32 @@
+---
+# main tasks file for galaxyproject.galaxy
+
+# Deploy a Galaxy server
+#   https://wiki.galaxyproject.org/
+
+- include: clone.yml
+  when: galaxy_manage_clone
+  tags:
+    - galaxy_manage_clone
+
+- include: download.yml
+  when: not galaxy_manage_clone and galaxy_manage_download
+  tags:
+    - galaxy_manage_download
+
+- include: static_setup.yml
+  when: galaxy_manage_static_setup
+  tags: 
+   - galaxy_config_files
+
+- include: dependencies.yml
+  when: galaxy_fetch_dependencies
+
+- include: mutable_setup.yml
+  when: galaxy_manage_mutable_setup
+
+- include: database.yml
+  when: galaxy_manage_database
+
+- include: errordocs.yml
+  when: galaxy_manage_errordocs

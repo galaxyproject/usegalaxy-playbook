@@ -1,0 +1,40 @@
+---
+# defaults file for galaxyproject.pulsar
+
+# High-level Pulsar configuration parameters
+pulsar_pip_install: false
+pulsar_git_repo: https://github.com/galaxyproject/pulsar
+pulsar_job_managers_config: "{{ pulsar_config_dir }}/job_managers.ini"
+pulsar_job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
+
+pulsar_dependencies_dir: "{{ pulsar_server_dir }}/deps"  # {{ galaxy_instance_remote_dir }}/deps
+pulsar_venv_dir: "{{ pulsar_server_dir ~ '/venv' if pulsar_pip_install == true else pulsar_server_dir ~ '/.venv' }}"
+pulsar_persistence_dir: "{{ pulsar_server_dir }}/files/persisted_data"  # {{ galaxy_instance_remote_dir }}/lwr_persisted_data
+pulsar_staging_dir: "{{ pulsar_server_dir }}/files/staging"  # {{ galaxy_instance_remote_dir }}/lwr_staging
+pulsar_config_dir: "{{ pulsar_server_dir ~ '/config' if pulsar_pip_install == true else pulsar_server_dir }}"
+# Optional message queue configuration
+# pulsar_message_queue_url:
+
+# Additional options for uWSGI
+pulsar_uwsgi_options: {}
+
+pulsar_host: "localhost"
+pulsar_port: 8913
+# Optional ssl key for SSL web server
+# pulsar_ssl_pem:
+
+# job_managers.ini contents
+#pulsar_job_managers:
+#  _default_:
+#    type: queued_python
+
+## Target a drmaa library.
+# pulsar_drmaa_library_path: {{ galaxy_instance_remote_dir }}/slurm-drmaa/lib/libdrmaa.so
+
+# List of optional dependency modules to install
+pulsar_optional_dependencies: []
+
+# If development packages dependent to the optional modules (e.g. curl,
+# OpenSSL, libffi) are not installed system wide on destination, environment
+# variables can be used to target other paths.
+pulsar_install_environments: []

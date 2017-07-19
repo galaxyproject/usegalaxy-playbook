@@ -1,0 +1,67 @@
+---
+
+- name: Install and manage PostgreSQL
+  hosts: dbservers
+  remote_user: root
+  roles:
+    - galaxyproject.postgresql
+  tasks:
+    - name: Install psycopg2 for postgresql_objects
+      action:
+        module: "{{ 'yum' if ansible_os_family == 'RedHat' else 'apt' }}"
+        name: python-psycopg2
+
+- name: Manage PostgreSQL users, groups, databases, and permissions
+  hosts: galaxydbservers
+  remote_user: root
+  become: yes
+  become_user: postgres
+  roles:
+    - natefoo.postgresql_objects
+
+- name: Set sysctl values for uWSGI
+  hosts: galaxywebservers:galaxystagingservers
+  remote_user: root
+  tasks:
+    - name: Set sysctl values
+      sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        reload: no
+        sysctl_set: yes
+      with_items: "{{ sysctl_conf }}"
+
+- name: Install and manage nginx
+  hosts: webservers
+  remote_user: root
+  roles:
+    - galaxyproject.nginx
+  tags: nginx
+
+- name: Install and manage ProFTPD
+  hosts: ftpservers
+  remote_user: root
+  roles:
+    - galaxyproject.proftpd
+  tags: proftpd
+
+- name: Manage galaxy root tasks
+  hosts: galaxyservers:toolshedservers
+  remote_user: root
+  roles:
+    - usegalaxy_admin
+  tags: galaxy
+
+- name: Install swarm scale playbook
+  hosts: galaxyswarmscaleservers
+  remote_user: root
+  roles:
+    - usegalaxy_swarmscale
+  tags: galaxy
+
+- name: Manage supervisor and root tasks
+  hosts: supervisorservers
+  remote_user: root
+  roles:
+    - supervisor
+  tags: supervisor

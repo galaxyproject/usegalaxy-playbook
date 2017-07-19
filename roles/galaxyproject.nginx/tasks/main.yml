@@ -1,0 +1,111 @@
+---
+# main tasks file for galaxyproject.nginx
+
+- include: apt.yml
+  when: ansible_os_family == "Debian"
+
+- include: yum.yml
+  when: ansible_os_family == "RedHat"
+
+- include: pkgin.yml
+  when: ansible_pkg_mgr == "pkgin"
+
+- name: Create supervisor config
+  template:
+    src: supervisord.conf.j2
+    dest: "{{ supervisord_conf_dir }}/nginx.conf"
+  notify:
+    - update supervisord
+  when: nginx_supervisor and supervisord_conf_dir is defined
+
+- name: Install vhost configs
+  template:
+    src: templates/nginx/{{ item }}.j2
+    dest: "{{ nginx_conf_dir }}/sites-available/{{ item }}"
+    mode: 0444
+    backup: yes
+  with_items: "{{ nginx_configs }}"
+  notify:
+    - reload nginx
+    - supervisorctl reload nginx
+
+- name: Enable vhosts
+  file:
+    src: "{{ nginx_conf_dir }}/sites-available/{{ item }}"
+    dest: "{{ nginx_conf_dir }}/sites-enabled/{{ item }}"
+    state: link
+  with_items: "{{ nginx_configs }}"
+  notify:
+    - reload nginx
+    - supervisorctl reload nginx
+
+- name: Set additional config options
+  template:
+    src: http_options.conf.j2
+    dest: "{{ nginx_conf_dir }}/conf.d/http_options.conf"
+    mode: 0444
+    backup: yes
+  when: nginx_conf_http is defined
+  notify:
+    - restart nginx
+    - supervisorctl restart nginx
+
+- name: Copy additional configs
+  template:
+    src: "templates/nginx/{{ item }}.j2"
+    dest: "{{ nginx_conf_dir }}/{{ item }}"
+    mode: 0444
+    backup: yes
+  with_items: "{{ nginx_extra_configs | default([]) }}"
+  when: nginx_extra_configs is defined
+
+- name: Configure server-wide SSL
+  template:
+    src: ssl.conf.j2
+    dest: "{{ nginx_conf_dir }}/conf.d/ssl.conf"
+    mode: 0444
+    backup: yes
+  when: nginx_conf_ssl_certificate is defined and nginx_conf_ssl_certificate_key is defined
+  notify:
+    - restart nginx
+    - supervisorctl restart nginx
+
+- name: Create SSL directories
+  file:
+    path: "{{ item | dirname }}"
+    state: directory
+    mode: 0755
+  with_items:
+    # it shouldn't be necessary to default these but Ansible templates these
+    # before checking the conditional below
+    - "{{ nginx_conf_ssl_certificate | default('') }}"
+    - "{{ nginx_conf_ssl_certificate_key | default('') }}"
+  when: nginx_conf_ssl_certificate is defined and nginx_conf_ssl_certificate_key is defined
+
+- name: Install SSL certificate
+  copy:
+    src: "{{ nginx_ssl_src_dir }}/{{ nginx_conf_ssl_certificate | basename }}"
+    dest: "{{ nginx_conf_ssl_certificate }}"
+  when: nginx_conf_ssl_certificate is defined
+
+- name: Install SSL private key
+  copy:
+    content: "{{ sslkeys[nginx_conf_ssl_certificate_key | basename] }}"
+    dest: "{{ nginx_conf_ssl_certificate_key }}"
+    mode: 0400
+  when: nginx_conf_ssl_certificate_key is defined
+
+- name: Enable nginx (supervisor)
+  supervisorctl:
+    name: "{{ nginx_supervisor_service_name }}"
+    state: started
+    config: "{{ supervisord_conf_path | default(omit) }}"
+    supervisorctl_path: "{{ supervisord_prefix }}/bin/supervisorctl"
+  when: nginx_supervisor and supervisord_prefix is defined
+
+- name: Enable nginx (service)
+  service:
+    name: nginx
+    state: started
+    enabled: true
+  when: not nginx_supervisor

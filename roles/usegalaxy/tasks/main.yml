@@ -2,14 +2,47 @@
 
 # distribute mutable configs to non-masters (this is not in the public role because I doubt anyone else is doing it)
 # the file must exist in the (local) destination, I can't get synchronize to create it if it does not exist.
+
+- name: Check for mutable config existence
+  stat:
+    path: "{{ item.dest }}"
+  with_items: "{{ galaxy_mutable_configs }}"
+  register: mutable_configs_stat_out
+
+- name: Push mutable configs from playbook if missing
+  synchronize:
+    mode: push
+    src: "files/galaxy/var/{{ item.1.dest | basename }}"
+    dest: "{{ item.1.dest }}"
+  with_indexed_items: "{{ galaxy_mutable_configs }}"
+  when: not mutable_configs_stat_out.results[item.0].stat.exists
+
 - name: Fetch mutable configs from master host
-  synchronize: mode=pull src={{ item.dest }} dest=files/galaxy/{{ galaxy_instance_hostname }}/var/{{ item.dest | basename }}
-  with_items: galaxy_mutable_configs
-  when: inventory_hostname in groups['galaxymasters']
+  synchronize:
+    mode: pull
+    src: "{{ item.dest }}"
+    dest: "files/galaxy/var/{{ item.dest | basename }}"
+  with_items: "{{ galaxy_mutable_configs }}"
+  when: inventory_hostname == groups['galaxyservers'][0]
+
+- name: Check for tool panel layout existence
+  stat:
+    path: "{{ galaxy_config['app:main']['integrated_tool_panel_config'] }}"
+  register: tool_panel_stat_out
+
+- name: Push tool panel layout from playbook if missing
+  synchronize:
+    mode: push
+    src: "files/galaxy/var/integrated_tool_panel.xml"
+    dest: "{{ galaxy_config['app:main']['integrated_tool_panel_config'] }}"
+  when: not tool_panel_stat_out.stat.exists
 
 - name: Fetch tool panel layout
-  synchronize: mode=pull src={{ galaxy_config['app:main']['integrated_tool_panel_config'] }} dest=files/galaxy/{{ galaxy_instance_hostname }}/var/integrated_tool_panel.xml
-  when: inventory_hostname in groups['galaxymasters']
+  synchronize:
+    mode: pull
+    src: "{{ galaxy_config['app:main']['integrated_tool_panel_config'] }}"
+    dest: "files/galaxy/var/integrated_tool_panel.xml"
+  when: inventory_hostname == groups['galaxyservers'][0]
 
 #- name: Distribute mutable configs to slave hosts
 #  synchronize: src=files/galaxy/{{ galaxy_instance_hostname }}/var/{{ item.dest | basename }} dest={{ item.dest }}
@@ -19,3 +52,27 @@
 #- name: Distribute tool panel layout
 #  synchronize: src=files/galaxy/{{ galaxy_instance_hostname }}/var/integrated_tool_panel.xml  dest={{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml
 #  when: inventory_hostname not in groups['galaxymasters']
+
+- name: Create ~/bin and ~/etc
+  file:
+    path: ~/{{ item }}
+    state: directory
+  with_items:
+    - bin
+    - etc
+
+- name: Distribute ~/bin files
+  template:
+    src: "{{ item }}.j2"
+    dest: ~/bin/{{ item }}
+    mode: "0555"
+  with_items:
+    - galaxyctl
+    - supervisorctl
+
+
+- name: Distribute ~/etc/supervisord.conf
+  template:
+    src: supervisord.conf.j2
+    dest: ~/etc/supervisord.conf
+    mode: 0400

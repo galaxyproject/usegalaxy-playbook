@@ -1,0 +1,43 @@
+---
+# tasks file for galaxyproject.pulsar
+
+# Deploy a Pulsar server
+#   http://pulsar.readthedocs.org/
+
+- name: Install Pulsar (pip)
+  pip:
+    name: "{{ 'git+' ~ pulsar_git_repo ~ '@' ~ pulsar_changeset_id ~ '#egg=pulsar' if pulsar_changeset_id is defined else 'pulsar' }}"
+    virtualenv: "{{ pulsar_venv_dir }}"
+    virtualenv_command: "{{ pip_virtualenv_command | default(omit) }}"
+  when: pulsar_pip_install == true
+
+- name: Install Pulsar (source)
+  git: dest={{ pulsar_server_dir }} force=no repo={{ pulsar_git_repo }} version={{ pulsar_changeset_id | default('master') }} executable={{ git_executable | default(omit) }}
+  when: pulsar_pip_install == false
+
+- name: Install Pulsar base dependencies for source install
+  pip: requirements={{ pulsar_server_dir }}/requirements.txt virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default(omit) }}
+  when: pulsar_pip_install == false
+
+- name: Install Pulsar dependencies (optional)
+  pip: name={{ item }} virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default(omit) }}
+  environment: "{{ pulsar_install_environments[item.split('=')[0]] if item.split('=')[0] in pulsar_install_environments else {} }}"
+  with_items: "{{ pulsar_optional_dependencies }}"
+
+- name: Create Pulsar config dir
+  file: state=directory path={{ pulsar_config_dir }}
+
+- name: Create Pulsar app configuration file
+  template: src=app.yml.j2 dest={{ pulsar_config_dir }}/app.yml mode=0444 backup=yes
+  when: pulsar_yaml_config is defined
+
+- name: Create Pulsar job manager configuration file
+  template: src=job_managers.ini.j2 dest={{ pulsar_job_managers_config }} mode=0444 backup=yes
+  when: pulsar_job_managers is defined
+
+- name: Create additional Pulsar config files
+  template: src={{ item }}.j2 dest={{ pulsar_config_dir }}/{{ item }} mode=0444 backup=yes
+  with_items:
+    - server.ini
+    - local_env.sh
+    - job_metrics_conf.xml

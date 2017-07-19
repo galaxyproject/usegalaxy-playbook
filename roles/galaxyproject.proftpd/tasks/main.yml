@@ -1,0 +1,53 @@
+---
+# tasks file for galaxyproject.proftpd
+
+- name: Set OS-specific variables
+  include_vars: "{{ ansible_os_family | lower }}.yml"
+
+- name: Include initial OS-specific tasks
+  include: "{{ ansible_os_family | lower}}.yml"
+
+- name: Comment base proftpd.conf options
+  lineinfile:
+    name: "{{ proftpd_config_file }}"
+    regexp: '^(\s*{{ item | first }}\s.*)'
+    backrefs: yes
+    line: '#\1 # commented by Ansible'
+    backup: yes
+  with_items: "{{ proftpd_options | default([]) }}"
+  notify:
+    - reload proftpd
+
+- name: Create base proftpd.conf options in include
+  template:
+    src: server.conf.j2
+    dest: "{{ proftpd_config_include_dir }}/00_server.conf"
+    backup: yes
+  notify:
+    - restart proftpd
+
+- name: Create DisplayConnect option in include if set
+  copy:
+    content: "DisplayConnect {{ proftpd_config_dir }}/proftpd_display_connect.txt\n"
+    dest: "{{ proftpd_config_include_dir }}/02_display_connect.conf"
+  when: proftpd_display_connect is defined
+
+- name: Copy DisplayConnect contents
+  copy:
+    content: "{{ proftpd_display_connect }}"
+    dest: "{{ proftpd_config_dir }}/proftpd_display_connect.txt"
+  when: proftpd_display_connect is defined
+
+- name: Include tasks for TLS configuration
+  include: tls.yml
+  when: proftpd_conf_ssl_certificate is defined and proftpd_conf_ssl_certificate_key is defined
+
+- name: Include tasks for Galaxy authentication
+  include: galaxy_auth.yml
+  when: proftpd_galaxy_auth is defined
+
+- name: Ensure ProFTPD is started and enabled
+  service:
+    name: proftpd
+    state: started
+    enabled: yes

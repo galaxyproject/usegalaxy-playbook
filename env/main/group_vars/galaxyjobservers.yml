@@ -1,0 +1,16 @@
+---
+
+## used by: supervisor
+galaxy_handler_count: 3
+
+supervisord_galaxyjobservers_group_configs:
+  - galaxy_handler
+  - galaxy_group
+
+
+## used by: usegalaxy_privileged
+usegalaxy_dynamic_job_rules:
+  - files/galaxy/dynamic_rules/reserved.py
+  - files/galaxy/dynamic_rules/multi_dynamic_walltime.py
+  - files/galaxy/dynamic_rules/bridges_select.py
+  - files/galaxy/dynamic_rules/nvc_dynamic_memory.py

@@ -1,0 +1,17 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# For inclusion in a server{} block
+
+{% from '_prefix.j2' import prefix with context %}
+
+# websocket for kernels
+location ~ ^{{ prefix() }}/jupyter/(?<nbtype>[^/]+)/api/kernels(?<rest>/.*)?$ {
+    proxy_pass http://localhost:{{ interactive_environments_proxy_port }}{{ prefix() }}/jupyter/$nbtype/api/kernels$rest;
+    proxy_redirect off;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+}
+

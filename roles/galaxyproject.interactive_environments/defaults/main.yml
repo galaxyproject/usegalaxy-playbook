@@ -1,0 +1,23 @@
+---
+# defaults file for galaxyproject.interactive_enviroments
+
+ie_gconf: "{{ galaxy_config | default({'app:main':{}}) }}"
+
+interactive_environments_install_method: inplace
+interactive_environments_proxy_ip: "{{ ie_gconf['app:main']['dynamic_proxy_bind_ip'] | default('0.0.0.0') }}"
+interactive_environments_proxy_port: "{{ ie_gconf['app:main']['dynamic_proxy_bind_port'] | default(8800) }}"
+interactive_environments_proxy_prefix: "{{ ie_gconf['app:main']['dynamic_proxy_prefix'] | default('gie_proxy') }}"
+interactive_environments_session_map: "{{ ie_gconf['app:main']['dynamic_proxy_session_map'] | default('session_map.sqlite') }}"
+interactive_environments_plugins_version: "{{ galaxy_changeset_id | default('master') }}"
+interactive_environments_proxy_version: "{{ galaxy_changeset_id | default('master') }}"
+interactive_environments_galaxy_proxy_prefix: "{{ ie_gconf['app:main']['cookie_path'] | default('/') }}"
+interactive_environments_galaxy_repo: "{{ galaxy_git_repo | default('https://github.com/galaxyproject/galaxy.git') }}"
+interactive_environments_plugins_local_path: files/interactive_environments/plugins
+interactive_environments_proxy_local_path: files/interactive_environments/proxy
+interactive_environments_supervisor_program_name: gie_proxy
+
+interactive_environments_nginx_conf_templates:
+  jupyter: jupyter_nginx.conf
+
+interactive_environments_apache_conf_templates:
+  jupyter: jupyter_apache.conf

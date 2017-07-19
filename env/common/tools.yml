@@ -1,0 +1,8 @@
+---
+
+- hosts: galaxyservers
+  connection: local
+  delegate_to: localhost
+  run_once: true
+  roles:
+    - galaxyproject.tools

@@ -1,0 +1,33 @@
+# generic stuff here
+
+[sslservers]
+[sslservers:children]
+sslwebservers
+
+[webservers]
+[webservers:children]
+sslwebservers
+toolshedwebservers
+
+[sslwebservers]
+[sslwebservers:children]
+toolshedwebservers
+
+[dbservers]
+[dbservers:children]
+toolsheddbservers
+
+[supervisorservers]
+[supervisorservers:children]
+toolshedservers
+
+# toolshed stuff here
+
+[toolshedservers]
+radegast.galaxyproject.org
+
+[toolshedwebservers]
+radegast.galaxyproject.org
+
+[toolsheddbservers]
+radegast.galaxyproject.org

@@ -1,0 +1,9 @@
+---
+
+supervisord_install: package
+
+supervisord_inet_user: "{{ vault_supervisord_inet_user }}"
+supervisord_inet_listen: "{{ vault_supervisord_inet_listen }}"
+supervisord_inet_port: "{{ vault_supervisord_inet_port }}"
+supervisord_inet_pass: "{{ vault_supervisord_inet_pass }}"
+supervisord_inet_pass_sha: "{{ vault_supervisord_inet_pass_sha }}"

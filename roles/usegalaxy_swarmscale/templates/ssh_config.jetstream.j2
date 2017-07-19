@@ -1,0 +1,13 @@
+Host 10.*
+    User centos
+    IdentityFile swarm_kp.pem
+    UserKnownHostsFile /dev/null
+    StrictHostKeyChecking no
+    ProxyCommand ssh -W %h:%p -F ssh_config.{{ item }} {{ item | replace('_', '-') }}0.galaxyproject.org
+
+Host {{ item | replace('_', '-') }}0.galaxyproject.org
+    User swarm
+    IdentityFile swarm_kp.pem
+    ControlMaster auto
+    ControlPath ~/.ssh/ansible-%r@%h:%p
+    ControlPersist 5m

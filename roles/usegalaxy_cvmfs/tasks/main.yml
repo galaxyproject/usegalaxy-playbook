@@ -1,0 +1,13 @@
+---
+
+- name: Include tasks for updating Galaxy
+  include: update.yml
+  when: galaxy_cvmfs_update is defined and galaxy_cvmfs_update
+
+- name: Include tasks for updating stratum 1 snapshots
+  include: snapshot.yml
+  when: galaxy_cvmfs_snapshot is defined and galaxy_cvmfs_snapshot
+
+- name: Include tasks for wiping client caches
+  include: wipecache.yml
+  when: galaxy_cvmfs_wipecache is defined and galaxy_cvmfs_wipecache

@@ -1,1 +1,0 @@
-../../common/dynamic_rules/bridges_select.py

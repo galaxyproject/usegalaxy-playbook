@@ -1,0 +1,8 @@
+---
+
+- name: Restart Galaxy
+  hosts: galaxyservers
+  remote_user: "{{ galaxy_user }}"
+  tasks:
+    - name: Restart Galaxy
+      command: /home/{{ galaxy_user }}/bin/galaxyctl graceful
