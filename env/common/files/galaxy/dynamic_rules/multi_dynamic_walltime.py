@@ -157,7 +157,7 @@ def _rnastar(app, param_dict, destination_id, explicit_destination, job_id):
         ref_mb = os.stat(path).st_size / 1024 / 1024
         factor = 10.0
     need_mb = ref_mb * factor + constant
-    log.debug("(%s) _rnsastar source '%s'; index size = %s MB, factor = %s, constant = %s, need = %s MB, ref path = %s", job_id, source, ref_mb, factor, constant, need_mb, path)
+    log.debug("(%s) _rnastar source '%s'; index size = %s MB, factor = %s, constant = %s, need = %s MB, ref path = %s", job_id, source, ref_mb, factor, constant, need_mb, path)
     if need_mb < 8192:
         # In testing, very small jobs needed more than the formula above, so guarantee everyone gets at least 8 GB
         need_mb = 8192
