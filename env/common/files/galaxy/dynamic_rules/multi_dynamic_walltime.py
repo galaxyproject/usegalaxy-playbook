@@ -138,32 +138,45 @@ WALLTIMES = {
 }
 
 
-def _rnastar(app, param_dict, destination_id, explicit_destination):
+def _rnastar(app, param_dict, destination_id, explicit_destination, job_id):
     source = param_dict['refGenomeSource']['geneSource']
+    path = None
+    ref_mb = 1
+    factor = 1.0
+    constant = 2048
     if source == 'indexed':
         build = param_dict['refGenomeSource']['GTFconditional']['genomeDir']
         path = '%s/SA' % app.tool_data_tables.get('rnastar_index2').get_entry('value', build, 'path')
         destination_id = None if not explicit_destination else destination_id
-        need_mb = (os.stat(path).st_size / 1024 / 1024) * 1.3 + 2048
+        ref_mb = os.stat(path).st_size / 1024 / 1024
+        factor = 1.3
     else:
         # Avoid the expense of staging large genome files
         path = param_dict['refGenomeSource']['genomeFastaFiles'].get_file_name()
         destination_id = LOCAL_DESTINATION if not explicit_destination else destination_id
-        need_mb = (os.stat(path).st_size / 1024 / 1024) * 10.0 + 2048
+        ref_mb = os.stat(path).st_size / 1024 / 1024
+        factor = 10.0
+    need_mb = ref_mb * factor + constant
+    log.debug("(%s) _rnsastar source '%s'; index size = %s MB, factor = %s, constant = %s, need = %s MB, ref path = %s", job_id, source, ref_mb, factor, constant, need_mb, path)
     if need_mb < 8192:
         # In testing, very small jobs needed more than the formula above, so guarantee everyone gets at least 8 GB
         need_mb = 8192
+        log.debug("(%s) _rnastar: need increased to minimum = %s MB", job_id, need_mb)
     elif need_mb > 40960 and not explicit_destination:
         # 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM)
         destination_id = BRIDGES_DESTINATION
         need_mb = 147456
+        log.debug("(%s) _rnastar: sending to bridges with need = %s MB", job_id, need_mb)
     if explicit_destination:
         if destination_id in (LOCAL_DESTINATION, LOCAL_DEVELOPMENT_DESTINATION, RESERVED_DESTINATION) and need_mb > 40960:
             need_mb = 40960
+            log.debug("(%s) _rnastar destination explicit '%s': need decreased to maximum = %s MB", job_id, destnation_id, need_mb)
         elif destination_id in JETSTREAM_DESTINATIONS:
-            pass  # won't be set anyway
+            log.debug("(%s) _rnastar destination explicit '%s': need will be ignored", job_id, destnation_id)
+            #pass  # won't be set anyway
         elif destination_id in BRIDGES_DESTINATIONS:
             need_mb = 147456
+            log.debug("(%s) _rnastar destination explicit '%s': need set to = %s MB", job_id, destnation_id, need_mb)
     return (destination_id, int(need_mb))
 
 
@@ -260,7 +273,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
     if resource == 'multi_bridges_compute_resource' and tool_id == 'rna_star':
         # FIXME: special casing
         try:
-            _destination_id, mem_mb = _rnastar(app, param_dict, destination_id, explicit_destination)
+            _destination_id, mem_mb = _rnastar(app, param_dict, destination_id, explicit_destination, job.id)
             if not explicit_destination:
                 destination_id = _destination_id
                 if destination_id == BRIDGES_DESTINATION:
@@ -280,7 +293,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
         if mem_mb:
             native_specification += ' --mem=%s' % mem_mb
         sbatch_test_cmd = ['sbatch', '--test-only', '--clusters=%s' % clusters] + native_specification.split() + [TEST_SCRIPT]
-        log.debug('Testing job submission to determine suitable cluster: %s', ' '.join(sbatch_test_cmd))
+        log.debug('(%s) Testing job submission to determine suitable cluster: %s', job.id, ' '.join(sbatch_test_cmd))
 
         try:
             p = subprocess.Popen(sbatch_test_cmd, stderr=subprocess.PIPE)
@@ -339,7 +352,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
 
     log.debug("(%s) Destination/walltime dynamic plugin returning '%s' destination", job.id, destination_id)
     if destination is not None and 'nativeSpecification' in destination.params:
-        log.debug("     nativeSpecification is: %s", destination.params['nativeSpecification'])
+        log.debug("(%s)     nativeSpecification is: %s", job.id, destination.params['nativeSpecification'])
     return destination or destination_id
 
 def dynamic_local_stampede_select_dynamic_walltime(app, tool, job, user_email, resource_params):
