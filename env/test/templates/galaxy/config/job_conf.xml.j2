@@ -552,13 +552,13 @@
         <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <tool id="hisat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <tool id="prokka" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
-        <tool id="unicycler" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <!-- roundup multi/jetstream/bridges jobs -->
         <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="test_handler2"  resources="multi_or_bridges"/>
         <!-- bridges jobs -->
         <tool id="trinity_psc" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
         <tool id="spades" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
         <tool id="rnaspades" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
+        <tool id="unicycler" destination="dynamic_bridges_select" handler="test_handler2"  resources="bridges"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_multi_trackster">
             <param id="source">trackster</param>
