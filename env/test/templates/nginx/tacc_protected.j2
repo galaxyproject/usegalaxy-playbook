@@ -3,17 +3,17 @@
 ##
 
 upstream impersonate_main {
-    server galaxy-web-01.tacc.utexas.edu:9480;
-    server galaxy-web-02.tacc.utexas.edu:9480;
+    server galaxy-web-05.tacc.utexas.edu:9480;
+    server galaxy-web-06.tacc.utexas.edu:9480;
 }
 
 upstream reports_main {
-    server galaxy-web-01.tacc.utexas.edu:18001;
-    server galaxy-web-02.tacc.utexas.edu:18001;
+    server galaxy-web-05.tacc.utexas.edu:18001;
+    server galaxy-web-06.tacc.utexas.edu:18001;
 }
 
 upstream reports_test {
-    server galaxy01.tacc.utexas.edu:18001;
+    server galaxy07.tacc.utexas.edu:18001;
 }
 
 server {

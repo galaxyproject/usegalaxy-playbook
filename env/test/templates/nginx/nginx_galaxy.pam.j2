@@ -1,0 +1,18 @@
+#%PAM-1.0
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+## pam stack for nginx's auth_pam
+auth       required     pam_sepermit.so
+auth       substack     password-auth
+
+# only allow users in /etc/users.allow to login
+account    required     pam_listfile.so item=user sense=allow file={{ nginx_users_allow_path }} onerr=fail
+account    required     pam_nologin.so
+# Could use /etc/security/access.conf if the nginx user could read it
+#account    required     pam_access.so
+account    include      password-auth
+
+session    required     pam_loginuid.so
+session    include      password-auth

@@ -40,6 +40,8 @@
   remote_user: root
   roles:
     - galaxyproject.nginx
+    - paths   # for tacc_protected in test env
+    - copy    # for tacc_protected in test env
   tags: nginx
 
 - name: Install and manage ProFTPD

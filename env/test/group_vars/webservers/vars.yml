@@ -16,9 +16,37 @@ nginx_conf_http:
   proxy_read_timeout: 600
   uwsgi_read_timeout: 300
 
+# used below and in the pam conf template
+nginx_users_allow_path: /etc/nginx/users.allow
+
 nginx_configs:
   - galaxy_test
   - tacc_protected
+
+# might be better to make a usegalaxy_protected role?
+directories:
+  - path: /srv/nginx/tacc-protected.galaxyproject.org/root
+    mode: "0755"
+
+group_files:
+  - content: |
+      ##
+      ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+      #$
+      {% for name in vault_tacc_protected_users %}
+      {{ name }}
+      {% endfor %}
+    dest: "{{ nginx_users_allow_path }}"
+    mode: "0444"
+    backup: yes
+  - src: files/nginx/tacc-protected/index.html
+    dest: "/srv/nginx/tacc-protected.galaxyproject.org/root/index.html"
+    mode: "0444"
+
+group_templates:
+  - src: templates/nginx/nginx_galaxy.pam.j2
+    dest: /etc/pam.d/nginx_galaxy
+    mode: "0444"
 
 ## used by: the tacc_protected template
 supervisord_http_auth: "{{ vault_supervisord_http_auth }}"
