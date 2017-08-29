@@ -14,6 +14,7 @@
       action:
         module: "{{ 'yum' if ansible_os_family == 'RedHat' else 'apt' }}"
         name: python-psycopg2
+  tags: postgres
 
 - name: Manage PostgreSQL users, groups, databases, and permissions
   hosts: galaxydbservers
@@ -22,6 +23,7 @@
   become_user: postgres
   roles:
     - natefoo.postgresql_objects
+  tags: postgres
 
 - name: Set sysctl values for uWSGI
   hosts: galaxywebservers:galaxystagingservers
