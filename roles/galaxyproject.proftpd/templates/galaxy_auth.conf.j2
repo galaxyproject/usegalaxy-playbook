@@ -2,21 +2,14 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
-{% set proftpd_galaxy_option_keys = [] -%}
-{% for pair in proftpd_galaxy_options | default([]) -%}
-{% for key in pair -%}
-{# apparently Ansible's Jinja2 doesn't support the 'do' expression statement #}
-{% if proftpd_galaxy_option_keys.append(key) -%}
-{% endif -%}
-{% endfor -%}
-{% endfor -%}
+{% if proftpd_galaxy_auth_context == 'global' %}
+<Global>
+{% endif %}
 
 # Options from proftpd_galaxy_default_options
 {% for pair in proftpd_galaxy_default_options -%}
 {% for key in pair -%}
-{% if key not in proftpd_galaxy_option_keys %}
 {{ key }} {{ pair[key] }}
-{% endif %}
 {% endfor %}
 {% endfor %}
 
@@ -46,7 +39,7 @@ SQLAuthenticate     users
 # Database connection info
 SQLConnectInfo      {{ proftpd_sql_db }} {{ proftpd_sql_user | default(galaxy_user) }} {{ proftpd_sql_password | default('') }}
 
-# Authenticat with PBKDF2, fall back to SHA1
+# Authenticate with PBKDF2, fall back to SHA1
 SQLAuthTypes        PBKDF2 SHA1
 SQLPasswordPBKDF2   SHA256 10000 24
 SQLPasswordEncoding base64
@@ -60,3 +53,7 @@ SQLUserInfo         custom:/LookupGalaxyUser
 SQLPasswordUserSalt sql:/GetUserSalt
 SQLNamedQuery       LookupGalaxyUser  SELECT "email, (CASE WHEN substring(password from 1 for 6) = 'PBKDF2' THEN substring(password from 38) ELSE encode(decode(password, 'hex'), 'base64') END),'{{ galaxy_user }}','{{ galaxy_user }}','{{ galaxy_ftp_upload_dir }}/%U','/bin/bash' FROM galaxy_user WHERE email='%U'"
 SQLNamedQuery       GetUserSalt SELECT "(CASE WHEN SUBSTRING (password from 1 for 6) = 'PBKDF2' THEN SUBSTRING (password from 21 for 16) END) FROM galaxy_user WHERE email='%U'"
+
+{% if proftpd_galaxy_auth_context == 'global' %}
+</Global>
+{% endif %}

@@ -1,5 +1,5 @@
 ---
-# defaults file for galaxyproject.proftpd
+# defaults file for galaxyprojectdotorg.proftpd
 
 proftpd_ssl_src_dir: files/ssl
 
@@ -14,3 +14,9 @@ proftpd_galaxy_default_options:
   - Umask: '077'
   - DefaultRoot: '~'
   - CreateHome: on dirmode 700
+
+proftpd_virtualhosts: []
+
+proftpd_display_connect_context: 'server'
+proftpd_tls_context: 'server'
+proftpd_galaxy_auth_context: 'server'

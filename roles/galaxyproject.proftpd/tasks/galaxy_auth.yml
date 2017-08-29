@@ -1,5 +1,5 @@
 ---
-# tasks file for galaxyproject.proftpd
+# tasks file for galaxyprojectdotorg.proftpd
 
 - name: Comment Galaxy proftpd.conf options
   lineinfile:
@@ -51,6 +51,5 @@
   template:
     src: galaxy_auth.conf.j2
     dest: "{{ proftpd_config_include_dir }}/10_galaxy_auth.conf"
-    backup: yes
   notify:
     - reload proftpd

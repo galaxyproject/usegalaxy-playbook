@@ -2,6 +2,14 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
+# Enable session reuse (must be in the server context)
+LoadModule mod_tls_shmcache.c
+TLSSessionCache shm:/file={{ proftpd_tls_sesscache_path }}&size=8388608 300
+
+{% if proftpd_tls_context == 'global' %}
+<Global>
+{% endif %}
+
 # Enable TLS
 TLSEngine on
 TLSLog {{ proftpd_log_dir | default('/var/log/proftpd') }}/tls.log
@@ -16,11 +24,11 @@ TLSRequired {{ proftpd_tls_required | default('on') }}
 TLSServerCipherPreference on
 TLSCipherSuite {{ proftpd_tls_cipher_suite | default('EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:EDH+aRSA:!RC4:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS') }}
 
-# Enable session reuse
-LoadModule mod_tls_shmcache.c
-TLSSessionCache shm:/file={{ proftpd_tls_sesscache_path }}&size=8388608 300
-
 # Cert/Key
 {{ 'TLSCertificateChainFile ' + proftpd_conf_ssl_ca_certificate if proftpd_conf_ssl_ca_certificate is defined else '' }}
 TLSRSACertificateFile {{ proftpd_conf_ssl_certificate }}
 TLSRSACertificateKeyFile {{ proftpd_conf_ssl_certificate_key }}
+
+{% if proftpd_tls_context == 'global' %}
+</Global>
+{% endif %}

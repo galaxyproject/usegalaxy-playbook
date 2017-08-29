@@ -1,0 +1,11 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+<VirtualHost {{ item.address }}>
+{% for pair in item.options -%}
+{% for key in pair -%}
+    {{ key }} {{ pair[key] }}
+{% endfor %}
+{% endfor %}
+</VirtualHost>
