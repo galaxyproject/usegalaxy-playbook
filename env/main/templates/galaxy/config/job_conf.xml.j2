@@ -605,6 +605,7 @@
         <tool id="tophat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <tool id="stringtie" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <tool id="hisat2" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="prokka" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers"  resources="local_or_stampede"/>
         <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <tool id="deeptools_bam_compare" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <tool id="deeptools_bam_coverage" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
@@ -644,6 +645,7 @@
         <!-- bridges jobs -->
         <tool id="trinity_psc" destination="dynamic_bridges_select" handler="multi_handlers" resources="bridges"/>
         <tool id="spades" destination="dynamic_bridges_select" handler="multi_handlers" resources="bridges"/>
+        <tool id="unicycler" destination="dynamic_bridges_select" handler="multi_handlers" resources="bridges"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
