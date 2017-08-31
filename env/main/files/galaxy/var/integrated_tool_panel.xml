@@ -141,6 +141,7 @@
         <tool id="Extract genomic DNA 1" />
     </section>
     <section id="cshl_library_information" name="NGS: QC and manipulation" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.3.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.69" />
         <tool id="toolshed.g2.bx.psu.edu/repos/engineson/multiqc/multiqc/1.0.0.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.68" />
@@ -652,6 +653,10 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/predict_pipeline/1.0" />
     </section>
     <section id="ngs:_duplexnovo" name="NGS: Du Novo" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/0.7.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/0.7.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/0.7.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/0.7.6" />
         <tool id="toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/0.7" />
         <tool id="toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/0.7" />
         <tool id="toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/0.7" />
@@ -1437,10 +1442,16 @@
     <section id="ncbi_sra_tools" name="NCBI SRA Tools" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/2.8.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sra_pileup/2.8.1.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/2.8.1.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/2.8.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/2.8.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sra_pileup/2.8.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/2.8.0" />
+    </section>
+    <section id="iwtomics" name="IWTomics" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/iwtomics_loadandplot/iwtomics_loadandplot/1.0.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/iwtomics_testandplot/iwtomics_testandplot/1.0.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/iwtomics_plotwithscale/iwtomics_plotwithscale/1.0.0.0" />
     </section>
     <label id="deprecated" text="DEPRECATED" version="" />
     <section id="gatk" name="NGS: GATK Tools (beta)" version="">
@@ -1496,9 +1507,4 @@
     <tool id="echo_main_jetstream_iu" />
     <tool id="echo_main_jetstream_tacc" />
     <tool id="echo_main_bridges" />
-    <section id="iwtomics" name="IWTomics" version="">
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/iwtomics_testandplot/iwtomics_testandplot/1.0.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/iwtomics_plotwithscale/iwtomics_plotwithscale/1.0.0.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/iwtomics_loadandplot/iwtomics_loadandplot/1.0.0.0" />
-    </section>
 </toolbox>
