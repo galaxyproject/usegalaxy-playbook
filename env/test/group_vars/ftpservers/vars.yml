@@ -48,7 +48,9 @@ proftpd_galaxy_options:
   - CreateHome: on dirmode 700 NoRootPrivs
   - VRootEngine: 'on'           # standard chroot() fails when DefaultRoot is in a VirtualHost
 
-proftpd_sql_db: galaxy_test@galaxy07 g2ftp {{ vault_galaxy_ftp_password }}
+proftpd_sql_db: galaxy_test@galaxy07
+proftpd_sql_user: g2ftp
+proftpd_sql_password: "{{ vault_galaxy_ftp_password }}"
 
 proftpd_virtualhosts:
   - id: tls_explicit
