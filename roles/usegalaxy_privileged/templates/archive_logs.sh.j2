@@ -2,10 +2,13 @@
 ##
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
+set -e
 
 logdir='{{ galaxy_log_dir }}'
 archivedir='{{ galaxy_log_archive_dir }}/{{ ansible_hostname }}'
 otherlogs="cleanup.log"
+
+[ ! -d "${archivedir}" ] && mkdir "${archivedir}"
 
 for logfile in ${logdir}/uwsgi*.log.*; do 
     if [ "${logfile}" != "${logdir}/uwsgi*.log.*" ]; then
@@ -17,7 +20,7 @@ for logfile in ${logdir}/uwsgi*.log.*; do
     fi
 done
 
-for logfile in ${logdir}/{{ galaxy_instance_codename }}_*.log.*; do
+for logfile in ${logdir}/{{ galaxy_instance_codename }}_*.log.* ${logdir}/handler*.log.*; do
     if  [ "${logfile}" != "${logdir}/{{ galaxy_instance_codename }}_*.log.*" ]; then
         stamp=`stat ${logfile} --printf=%Y` &&
         ymdhms=`date -d @${stamp} +'%Y%m%d-%H%M%S'` &&
