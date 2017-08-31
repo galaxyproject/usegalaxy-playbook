@@ -1,10 +1,9 @@
 ---
 
 proftpd_options:
-  - ServerName: '"usegalaxy.org FTP"'
-  - ServerAdmin: galaxy-bugs@galaxyproject.org
-  - User: g2main
-  - Group: G-803372
+  - Port: '0'
+
+proftpd_display_connect_context: 'global'
 
 proftpd_display_connect: |
   usegalaxy.org FTP
@@ -25,15 +24,44 @@ proftpd_display_connect: |
   Files uploaded via FTP and not imported to a history within three days will be
   deleted.
 
+proftpd_tls_context: 'global'
+
 # the cert file contains the whole chain but it's fine because ProFTPD only reads the first one
 proftpd_conf_ssl_certificate: /etc/pki/tls/certs/usegalaxy.org_cert.pem
 proftpd_conf_ssl_certificate_key: /etc/pki/tls/private/usegalaxy.org_privatekey.pem
 proftpd_conf_ssl_ca_certificate: /etc/pki/tls/certs/incommon_chain.pem
 
+proftpd_galaxy_auth: yes
+proftpd_galaxy_auth_context: 'global'
+
+# Need to add mod_vroot.c, although it is already loaded in the EPEL ProFTPD, but it's better to be explicit
+proftpd_galaxy_modules:
+  - mod_sql.c
+  - mod_sql_passwd.c
+  - mod_sql_postgres.c
+  - mod_vroot.c
+
 proftpd_galaxy_options:
   - MaxStoreFileSize: 50 Gb
   - PassivePorts: 30000 31000
   - CreateHome: on dirmode 700 NoRootPrivs
+  - VRootEngine: 'on'           # standard chroot() fails when DefaultRoot is in a VirtualHost
 
-proftpd_galaxy_auth: yes
-proftpd_sql_db: galaxy_main@galaxy-db-02 g2ftp {{ vault_galaxy_ftp_password }}
+proftpd_sql_db: galaxy_main@galaxy-db-02
+proftpd_sql_user: g2ftp
+proftpd_sql_password: "{{ vault_galaxy_ftp_password }}"
+
+proftpd_virtualhosts:
+  - id: tls_explicit
+    address: ':: 0.0.0.0'
+    options:
+      - Port: '21'
+      - ServerName: '"usegalaxy.org FTP (Explicit SSL/TLS on port 21)"'
+      - ServerAdmin: galaxy-bugs@galaxyproject.org
+  - id: tls_implicit
+    address: ':: 0.0.0.0'
+    options:
+      - Port: '990'
+      - TLSOptions: UseImplicitSSL
+      - ServerName: '"usegalaxy.org FTP (Implicit SSL/TLS on port 990)"'
+      - ServerAdmin: galaxy-bugs@galaxyproject.org
