@@ -477,6 +477,8 @@
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
+            <!-- https://bugs.openjdk.java.net/browse/JDK-7085890 -->
+            <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
         </destination>
         <destination id="pulsar_bridges_development" runner="amqp_pulsar_bridges">
             <param id="transport">curl</param>
@@ -495,6 +497,7 @@
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
+            <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
         </destination>
         <destination id="pulsar_bridges_nagios" runner="amqp_pulsar_bridges_nagios">
             <param id="transport">curl</param>
@@ -508,6 +511,7 @@
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
             <env exec="eval `modulecmd sh purge`" />
             <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
+            <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
         </destination>
 
         <!-- local destination for nagios handler checks -->
