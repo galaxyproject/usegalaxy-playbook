@@ -41,10 +41,16 @@ proftpd_galaxy_modules:
   - mod_sql_postgres.c
   - mod_vroot.c
 
+proftpd_galaxy_default_options:
+  - AuthOrder: mod_sql.c
+  - AuthPAM: 'off'
+  - Umask: '077'
+  - DefaultRoot: '~'
+  - CreateHome: on dirmode 700 NoRootPrivs
+
 proftpd_galaxy_options:
   - MaxStoreFileSize: 50 Gb
   - PassivePorts: 30000 31000
-  - CreateHome: on dirmode 700 NoRootPrivs
   - VRootEngine: 'on'           # standard chroot() fails when DefaultRoot is in a VirtualHost
 
 proftpd_sql_db: galaxy_main@galaxy-db-02
@@ -55,12 +61,16 @@ proftpd_virtualhosts:
   - id: tls_explicit
     address: ':: 0.0.0.0'
     options:
+      - User: g2main
+      - Group: G-803372
       - Port: '21'
       - ServerName: '"usegalaxy.org FTP (Explicit SSL/TLS on port 21)"'
       - ServerAdmin: galaxy-bugs@galaxyproject.org
   - id: tls_implicit
     address: ':: 0.0.0.0'
     options:
+      - User: g2main
+      - Group: G-803372
       - Port: '990'
       - TLSOptions: UseImplicitSSL
       - ServerName: '"usegalaxy.org FTP (Implicit SSL/TLS on port 990)"'
