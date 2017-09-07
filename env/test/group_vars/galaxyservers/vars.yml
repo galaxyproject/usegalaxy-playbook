@@ -204,8 +204,9 @@ base_app_main: &BASE_APP_MAIN
 
   #environment_setup_file: /galaxy/test/job_env.bash
 
-  builds_file_path: "{{ galaxy_config_dir }}/builds.txt"
-  ucsc_build_sites: "{{ galaxy_config_dir }}/ucsc_build_sites.txt"
+  builds_file_path: "/cvmfs/data.galaxyproject.org/managed/location/builds.txt"
+  # TODO: is this ever read anymore now that we have build_sites.yml?
+  ucsc_build_sites: "/cvmfs/data.galaxyproject.org/managed/location/ucsc_build_sites.txt"
 
   # interactive environments
   interactive_environment_plugins_directory: "{{ interactive_environments_plugins_path }}"
@@ -225,7 +226,7 @@ base_app_main: &BASE_APP_MAIN
   database_engine_option_max_overflow: 20
   database_engine_option_server_side_cursors: "True"
   manage_dependency_relationships: "False"
-  len_file_path: /galaxy-repl/localdata/chrom
+  len_file_path: /cvmfs/data.galaxyproject.org/managed/len/ucsc
   collect_outputs_from: job_working_directory
   smtp_server: localhost
   error_email_to: galaxy-bugs@bx.psu.edu
@@ -332,10 +333,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/pulsar_jetstream.yml"
   - src: files/galaxy/config/pulsar_jetstream_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml"
-  - src: files/galaxy/config/builds.txt
-    dest: "{{ galaxy_config['app:main']['builds_file_path'] }}"
-  - src: files/galaxy/config/ucsc_build_sites.txt
-    dest: "{{ galaxy_config['app:main']['ucsc_build_sites'] }}"
   - src: files/galaxy/config/disposable_email_blacklist.conf
     dest: "{{ galaxy_config['app:main']['blacklist_file'] }}"
 
