@@ -103,17 +103,17 @@ server {
         alias /;
     }
 
-    location /_upload {
-        upload_store /galaxy-repl/main/upload;
-        upload_store_access user:rw; # group:rw all:rw;
-        upload_pass_form_field "";
-        upload_set_form_field "__${upload_field_name}__is_composite" "true";
-        upload_set_form_field "__${upload_field_name}__keys" "name path";
-        upload_set_form_field "${upload_field_name}_name" "$upload_file_name";
-        upload_set_form_field "${upload_field_name}_path" "$upload_tmp_path";
-        upload_pass_args on;
-        upload_pass /_upload_done;
-    }
+    #location /_upload {
+    #    upload_store /galaxy-repl/main/upload;
+    #    upload_store_access user:rw; # group:rw all:rw;
+    #    upload_pass_form_field "";
+    #    upload_set_form_field "__${upload_field_name}__is_composite" "true";
+    #    upload_set_form_field "__${upload_field_name}__keys" "name path";
+    #    upload_set_form_field "${upload_field_name}_name" "$upload_file_name";
+    #    upload_set_form_field "${upload_field_name}_path" "$upload_tmp_path";
+    #    upload_pass_args on;
+    #    upload_pass /_upload_done;
+    #}
 
     location /_upload_done {
         set $dst /api/tools;
@@ -123,17 +123,17 @@ server {
         rewrite "" $dst;
     }
 
-    location /_job_files {
-        if ($request_method != POST) {
-            rewrite "" /api/jobs/$arg_job_id/files last;
-        }
-        upload_store /galaxy-repl/main/upload_job_files;
-        upload_store_access user:rw;
-        upload_pass_form_field "";
-        upload_set_form_field "__${upload_field_name}_path" "$upload_tmp_path";
-        upload_pass_args on;
-        upload_pass /_upload_job_files_done;
-    }
+    #location /_job_files {
+    #    if ($request_method != POST) {
+    #        rewrite "" /api/jobs/$arg_job_id/files last;
+    #    }
+    #    upload_store /galaxy-repl/main/upload_job_files;
+    #    upload_store_access user:rw;
+    #    upload_pass_form_field "";
+    #    upload_set_form_field "__${upload_field_name}_path" "$upload_tmp_path";
+    #    upload_pass_args on;
+    #    upload_pass /_upload_job_files_done;
+    #}
 
     location /_upload_job_files_done {
         internal;
