@@ -1,57 +1,74 @@
 ---
 
-- name: Begin CVMFS transaction
-  command: /usr/bin/cvmfs_server transaction {{ galaxy_cvmfs_repo }}
-
-- name: Restart docker
-  service:
-    name: docker
-    state: restarted
-
-- name: Fetch Galaxy commit
+- name: Fetch current Galaxy commit hash
   command: "/usr/bin/git rev-parse HEAD"
   args:
     chdir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
   register: galaxy_commit_old
 
-- name: Update Galaxy
-  command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/bin/update_galaxy.sh {{ galaxy_branch }}\""
+- name: Fetch HEAD commit hash
+  uri:
+    url: "https://api.github.com/repos/{{ galaxy_repo_owner }}/galaxy/branches/{{ galaxy_branch }}"
+    return_content: yes
+  register: branch_response
 
-- name: Fetch Galaxy version
-  command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib galaxy/update su {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/venv/bin/python -c 'from galaxy.version import VERSION; print VERSION'\""
-  register: galaxy_version
-
-- name: Fetch Galaxy commit
-  command: "/usr/bin/git rev-parse HEAD"
-  args:
-    chdir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
-  register: galaxy_commit
-
-- name: Fetch Galaxy short commit
-  command: "/usr/bin/git rev-parse --short HEAD"
-  args:
-    chdir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
-  register: galaxy_commit_short
-
-- name: Abort CVMFS transaction
-  command: /usr/bin/cvmfs_server abort -f {{ galaxy_cvmfs_repo }}
-  when: galaxy_commit_old.stdout == galaxy_commit.stdout
+- name: Set galaxy_commit fact
+  set_fact:
+    galaxy_commit: "{{ branch_response.json.commit.sha }}"
 
 - name: Exit if no changes
   fail:
-    msg: Galaxy commit ID did not change after updating, transaction aborted
-  when: galaxy_commit_old.stdout == galaxy_commit.stdout
+    msg: The clone at /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy is already at the HEAD of {{ galaxy_repo_owner }}/galaxy@{{ galaxy_branch }} ({{ galaxy_commit }})
+  when: galaxy_commit_old.stdout == galaxy_commit
 
-- name: Store updated version information
-  local_action:
-    module: copy
-    # Fixme: should probably use to_nice_yaml
-    content: |
-      ---
-      galaxy_version: {{ galaxy_version.stdout }}
-      galaxy_commit: {{ galaxy_commit.stdout }}
-      galaxy_commit_short: {{ galaxy_commit_short.stdout }}
-    dest: "{{ galaxy_version_file }}"
+- name: Begin CVMFS transaction
+  command: /usr/bin/cvmfs_server transaction {{ galaxy_cvmfs_repo }}
 
-- name: Publish CVMFS transaction
-  command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version.stdout }}_{{ galaxy_commit_short.stdout }}" -m "Update Galaxy to version {{ galaxy_version.stdout }} commit {{ galaxy_commit.stdout }} via Ansible" {{ galaxy_cvmfs_repo }}
+- name: CVMFS transaction context
+  block:
+
+    - name: Check for running containers
+      command: docker ps -q
+      register: docker_ps
+      failed_when: "docker_ps.rc != 0 or docker_ps.stdout != ''"
+
+    - name: Restart docker
+      service:
+        name: docker
+        state: restarted
+
+    - name: Update Galaxy
+      command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/bin/update_galaxy.sh -b {{ galaxy_branch }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }}\""
+
+    - name: Fetch Galaxy version
+      command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib galaxy/update su {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/venv/bin/python -c 'from galaxy.version import VERSION; print VERSION'\""
+      register: galaxy_version
+
+    - name: Fetch Galaxy short commit
+      command: "/usr/bin/git rev-parse --short HEAD"
+      args:
+        chdir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
+      register: galaxy_commit_short
+
+    - name: Store updated version information
+      local_action:
+        module: copy
+        # Fixme: should probably use to_nice_yaml
+        content: |
+          ---
+          galaxy_version: {{ galaxy_version.stdout }}
+          galaxy_commit: {{ galaxy_commit }}
+          galaxy_commit_short: {{ galaxy_commit_short.stdout }}
+        dest: "{{ galaxy_version_file }}"
+
+    - name: Publish CVMFS transaction
+      command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version.stdout }}_{{ galaxy_commit_short.stdout }}" -m "Update Galaxy to version {{ galaxy_version.stdout }} commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
+
+  rescue:
+
+    - name: Abort CVMFS transaction
+      command: /usr/bin/cvmfs_server abort -f {{ galaxy_cvmfs_repo }}
+
+    - name: Abort playbook
+      fail:
+        msg: Updating Galaxy failed
