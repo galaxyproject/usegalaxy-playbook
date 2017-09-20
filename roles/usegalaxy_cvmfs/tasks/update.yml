@@ -42,13 +42,11 @@
 
     - name: Fetch Galaxy version
       command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib galaxy/update su {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/venv/bin/python -c 'from galaxy.version import VERSION; print VERSION'\""
-      register: galaxy_version
+      register: version_response
 
-    - name: Fetch Galaxy short commit
-      command: "/usr/bin/git rev-parse --short HEAD"
-      args:
-        chdir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
-      register: galaxy_commit_short
+    - name: Set galaxy_version fact
+      set_fact:
+        galaxy_version: "{{ version_response.stdout }}"
 
     - name: Store updated version information
       local_action:
@@ -56,13 +54,12 @@
         # Fixme: should probably use to_nice_yaml
         content: |
           ---
-          galaxy_version: {{ galaxy_version.stdout }}
+          galaxy_version: {{ galaxy_version }}
           galaxy_commit: {{ galaxy_commit }}
-          galaxy_commit_short: {{ galaxy_commit_short.stdout }}
         dest: "{{ galaxy_version_file }}"
 
     - name: Publish CVMFS transaction
-      command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version.stdout }}_{{ galaxy_commit_short.stdout }}" -m "Update Galaxy to version {{ galaxy_version.stdout }} commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
+      command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7) }}" -m "Update Galaxy to version {{ galaxy_version }} commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
 
   rescue:
 
