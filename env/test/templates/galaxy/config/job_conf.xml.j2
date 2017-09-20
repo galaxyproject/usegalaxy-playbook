@@ -470,13 +470,13 @@
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/test/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
+            <param id="remote_property_galaxy_virtual_env">/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate</param>
             <!-- walltime and mem are set dynamically -->
             <!-- use constraint to avoid running on xl nodes, which do not mount /pylon5 -->
             <param id="submit_native_specification">-p LM --constraint=LM</param>
             <param id="submit_user_email">$__user_email__</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
-            <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
             <!-- https://bugs.openjdk.java.net/browse/JDK-7085890 -->
             <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
         </destination>
@@ -491,12 +491,12 @@
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/test/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
+            <param id="remote_property_galaxy_virtual_env">/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate</param>
             <!-- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) -->
             <param id="submit_native_specification">-p LM -t 00:30:00 --mem=147456</param>
             <param id="submit_user_email">$__user_email__</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
-            <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
             <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
         </destination>
         <destination id="pulsar_bridges_nagios" runner="amqp_pulsar_bridges_nagios">
@@ -509,8 +509,8 @@
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/test/galaxy/server</param>
             <param id="remote_property_galaxy_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/galaxy.ini</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/test/galaxy/config/datatypes_conf.xml</param>
+            <param id="remote_property_galaxy_virtual_env">/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate</param>
             <env exec="eval `modulecmd sh purge`" />
-            <env file="/pylon2/mc48nsp/xcgalaxy/test/galaxy/venv/bin/activate" />
             <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
         </destination>
 
