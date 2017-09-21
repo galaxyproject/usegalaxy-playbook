@@ -24,14 +24,8 @@
         <expand macro="pulsar_plugin" id="bridges_nagios" />
     </plugins>
     <handlers default="handlers">
-        <handler id="test_handler0" tags="handlers">
-            <plugin id="local"/>
-            <plugin id="slurm"/>
-        </handler>
-        <handler id="test_handler1" tags="handlers">
-            <plugin id="local"/>
-            <plugin id="slurm"/>
-        </handler>
+        <expand macro="normal_handler" id="0" />
+        <expand macro="normal_handler" id="1" />
         <expand macro="multi_handler" id="2" />
         <expand macro="multi_handler" id="3" />
         <handler id="galaxy_datamanager">
@@ -58,14 +52,14 @@
         <expand macro="slurm_reserved_destination" dest="multi" partition="multi" native_specification="--ntasks=6 --time=36:00:00 --mem-per-cpu=5120" java_mem="30g" />
 
         <!-- local destinations -->
-        <expand macro="slurm_destination" dest="multi_trackster" partition="normal" native_specification="--ntasks=6 --time=00:05:00" />
         <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--ntasks=2 --time=00:30:00 --mem-per-cpu=5120" java_mem="10g" />
         <expand macro="slurm_destination" dest="multi_16c_128gb" partition="multi" native_specification="--ntasks=16 --time=24:00:00 --mem-per-cpu=7680" java_mem="120g" />
 
-        <!-- dynamic modified destinationss: do not use directly -->
+        <!-- dynamic modified destinations: do not use directly -->
         <expand macro="slurm_destination" dest="multi_dynamic_walltime" partition="multi" native_specification="--ntasks=6" />
         <!-- <resubmit condition="walltime_reached" destination="stampede_normal" handler="multi_handlers"/> -->
         <expand macro="slurm_destination" dest="normal_dynamic_mem" partition="normal" native_specification="--ntasks=1 --time=24:00:00" />
+        <!-- the "team dev" destination -->
         <expand macro="slurm_destination" dest="dynamic" partition="reserved" native_specification="--time=144:00:00 --mem-per-cpu=5120" />
 
         <!-- jetstream destinations -->
@@ -145,40 +139,12 @@
         <!-- local/jetstream tools -->
         <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <!-- roundup multi/jetstream/bridges tools -->
-        <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="test_handler2"  resources="multi_or_bridges"/>
+        <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="multi_handlers"  resources="multi_or_bridges"/>
         <!-- 16GB tools -->
         <tool id="sailfish" destination="dynamic_normal_reserved_16gb"/>
         <tool id="bamtools" destination="dynamic_normal_reserved_16gb"/>
         <tool id="varscan" destination="dynamic_normal_reserved_16gb"/>
         <tool id="scatterplot_rpy" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_AddCommentsToBam" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_AddOrReplaceReadGroups" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_BedToIntervalList" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_CleanSam" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_CASM" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_CollectBaseDistributionByCycle" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_CollectGcBiasMetrics" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_CollectInsertSizeMetrics" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_CollectRnaSeqMetrics" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_CollectWgsMetrics" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_DownsampleSam" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_EstimateLibraryComplexity" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_FilterSamReads" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_FixMateInformation" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_MarkDuplicates" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_MarkDuplicatesWithMateCigar" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_MeanQualityByCycle" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_MergeBamAlignment" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_MergeSamFiles" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_NormalizeFasta" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_QualityScoreDistribution" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_ReorderSam" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_ReplaceSamHeader" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_RevertOriginalBaseQualitiesAndAddMateCigar" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_RevertSam" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_SamToFastq" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_SortSam" destination="dynamic_normal_reserved_16gb"/>
-        <tool id="picard_ValidateSamFile" destination="dynamic_normal_reserved_16gb"/>
         <!-- 64GB tools -->
         <tool id="wig_to_bigWig" destination="dynamic_normal_reserved_64gb"/>
         <tool id="CONVERTER_bedgraph_to_bigwig" destination="dynamic_normal_reserved_64gb"/>
@@ -191,7 +157,7 @@
         <tool id="echo_test_jetstream_iu" destination="jetstream_iu_nagios" handler="multi_handlers"/>
         <tool id="echo_test_jetstream_tacc" destination="jetstream_tacc_nagios" handler="multi_handlers"/>
         <tool id="echo_test_stampede" destination="stampede_nagios" handler="multi_handlers"/>
-        <tool id="echo_test_bridges" destination="bridges_nagios" handler="test_handler2"/>
+        <tool id="echo_test_bridges" destination="bridges_nagios" handler="multi_handlers"/>
         <!-- data managers -->
         <tool id="data_manager_fetch_genome_all_fasta" destination="reserved" handler="galaxy_datamanager"/>
         <tool id="bwa_mem_index_builder_data_manager" destination="reserved_64gb" handler="galaxy_datamanager"/>
@@ -225,7 +191,7 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="stampede_normal">3</limit>
+        <limit type="destination_user_concurrent_jobs" id="stampede_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="bridges_normal">6</limit>
         <limit type="destination_user_concurrent_jobs" id="bridges_development">1</limit>
@@ -249,6 +215,12 @@
                 <param id="amqp_publish_retry">True</param>
                 <param id="amqp_publish_retry_max_retries">60</param>
             </plugin>
+        </xml>
+        <xml name="normal_handler" tokens="id">
+            <handler id="test_handler@ID@" tags="handlers">
+                <plugin id="local"/>
+                <plugin id="slurm"/>
+            </handler>
         </xml>
         <xml name="multi_handler" tokens="id">
             <handler id="test_handler@ID@" tags="multi_handlers">
@@ -379,7 +351,7 @@
             <tool id="@ID@" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede" />
         </xml>
         <xml name="bridges_tool" tokens="id">
-            <tool id="@ID@" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
+            <tool id="@ID@" destination="dynamic_bridges_select" handler="multi_handlers" resources="bridges"/>
         </xml>
     </macros>
 </job_conf>

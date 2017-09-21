@@ -51,12 +51,14 @@
         <expand macro="slurm_reserved_destination" dest="multi" partition="multi" native_specification="--ntasks=6 --time=36:00:00 --mem-per-cpu=5120" java_mem="30g" />
 
         <!-- local destinations -->
+        <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--ntasks=2 --time=00:30:00 --mem-per-cpu=5120" java_mem="10g" />
+
         <!-- dynamic modified destinations: do not use directly -->
         <expand macro="slurm_destination" dest="multi_dynamic_walltime" partition="multi" native_specification="--ntasks=6" />
-        <!-- <resubmit condition="walltime_reached" destination="pulsar_stampede_normal" handler="multi_handlers"/> -->
+        <!-- <resubmit condition="walltime_reached" destination="stampede_normal" handler="multi_handlers"/> -->
         <expand macro="slurm_destination" dest="normal_dynamic_mem" partition="normal" native_specification="--ntasks=1 --time=24:00:00" />
 
-        <!-- Jetstream destinations -->
+        <!-- jetstream destinations -->
         <destination id="jetstream_multi" runner="dynamic">
             <!-- this destination exists for the dynamic runner to read the native spec for testing -->
             <param id="nativeSpecification">--time=36:00:00 --nodes=1 --partition=multi</param>
@@ -147,6 +149,7 @@
         <tool id="scatterplot_rpy" destination="dynamic_normal_reserved_16gb"/>
         <tool id="htseq_count" destination="dynamic_normal_reserved_16gb"/>
         <tool id="flanking_features_1" destination="dynamic_normal_reserved_16gb"/>
+        <!-- 32GB tools -->
         <tool id="Interval2Maf1" destination="dynamic_normal_reserved_32gb"/>
         <!-- 64GB tools -->
         <tool id="wig_to_bigWig" destination="dynamic_normal_reserved_64gb"/>
@@ -207,7 +210,7 @@
         <xml name="pulsar_plugin" tokens="id">
             <plugin id="pulsar_@ID@" type="runner" load="galaxy.jobs.runners.pulsar:PulsarMQJobRunner">
                 <param id="amqp_url">{{ galaxy_job_conf_amqp_url }}</param>
-                <param id="galaxy_url">https://{{ galaxy_instance_hostname }}</param>
+                <param id="galaxy_url">https://{{ inventory_hostname_short }}.galaxyproject.org</param>
                 <param id="manager">@ID@</param>
                 <param id="persistence_directory">/srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack</param>
                 <param id="amqp_acknowledge">True</param>
@@ -355,7 +358,7 @@
             <tool id="@ID@" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede" />
         </xml>
         <xml name="bridges_tool" tokens="id">
-            <tool id="@ID@" destination="dynamic_bridges_select" handler="test_handler2" resources="bridges"/>
+            <tool id="@ID@" destination="dynamic_bridges_select" handler="multi_handlers" resources="bridges"/>
         </xml>
     </macros>
 </job_conf>
