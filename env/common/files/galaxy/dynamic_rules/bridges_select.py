@@ -8,8 +8,8 @@ from galaxy.jobs.mapper import JobMappingException
 
 log = logging.getLogger(__name__)
 
-BRIDGES_NORMAL_DESTINATION = 'pulsar_bridges_normal'
-BRIDGES_DEVELOPMENT_DESTINATION = 'pulsar_bridges_development'
+BRIDGES_NORMAL_DESTINATION = 'bridges_normal'
+BRIDGES_DEVELOPMENT_DESTINATION = 'bridges_development'
 BRIDGES_DESTINATIONS = (BRIDGES_NORMAL_DESTINATION, BRIDGES_DEVELOPMENT_DESTINATION,)
 VALID_DESTINATIONS = BRIDGES_DESTINATIONS
 RESOURCE_KEYS = ('bridges_compute_resource',)
