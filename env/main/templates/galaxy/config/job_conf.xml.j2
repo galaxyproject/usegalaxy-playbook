@@ -309,6 +309,8 @@
             <env id="LD_LIBRARY_PATH">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/lib</env>
             <expand macro="dest_tmp_env" />
             <env id="_JAVA_OPTIONS">$_JAVA_OPTIONS -Xmx@JAVA_MEM@ -Xms256m</env>
+            <!-- explicit venv activation is necessary until we upgrade to 17.09 (slurm is passing $VIRTUAL_ENV but we reset $PATH) -->
+            <env file="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate" />
         </xml>
         <xml name="dest_tmp_env">
             <env id="FONTCONFIG_FILE">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/fontconfig/fonts.conf</env>
@@ -333,6 +335,7 @@
             <param id="remote_property_galaxy_virtual_env">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <expand macro="dest_tmp_env" />
+            <env file="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate" />
         </xml>
         <xml name="dest_pulsar_stampede_params">
             <param id="use_remote_datatypes">true</param>
@@ -342,6 +345,7 @@
             <param id="remote_property_galaxy_virtual_env">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/venv</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
             <env exec="eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`" />
+            <env file="/work/galaxy/{{ galaxy_instance_codename }}/galaxy/venv/bin/activate" />
         </xml>
         <xml name="dest_pulsar_bridges_params">
             <param id="use_remote_datatypes">true</param>
@@ -353,6 +357,7 @@
             <env exec="eval `modulecmd sh purge`" />
             <!-- https://bugs.openjdk.java.net/browse/JDK-7085890 -->
             <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
+            <env file="/pylon2/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/venv/bin/activate" />
         </xml>
         <xml name="multi_tool" tokens="id">
             <tool id="@ID@" destination="dynamic_multi_reserved" handler="multi_handlers" />
