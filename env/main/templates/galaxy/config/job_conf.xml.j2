@@ -326,6 +326,8 @@
             <env id="LC_ALL">C</env>
         </xml>
         <xml name="dest_pulsar_jetstream_params">
+            <param id="use_remote_datatypes">true</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/config/datatypes_conf.xml</param>
             <param id="jobs_directory">/jetstream/scratch0/{{ galaxy_instance_codename }}/jobs</param>
             <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
             <param id="remote_property_galaxy_virtual_env">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv</param>
@@ -333,6 +335,8 @@
             <expand macro="dest_tmp_env" />
         </xml>
         <xml name="dest_pulsar_stampede_params">
+            <param id="use_remote_datatypes">true</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/config/datatypes_conf.xml</param>
             <param id="jobs_directory">/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/</param>
             <param id="remote_property_galaxy_home">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
             <param id="remote_property_galaxy_virtual_env">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/venv</param>
@@ -340,6 +344,8 @@
             <env exec="eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`" />
         </xml>
         <xml name="dest_pulsar_bridges_params">
+            <param id="use_remote_datatypes">true</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/config/datatypes_conf.xml</param>
             <param id="jobs_directory">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}_staging/</param>
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
             <param id="remote_property_galaxy_virtual_env">/pylon2/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/venv</param>
