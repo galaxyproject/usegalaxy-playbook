@@ -338,12 +338,12 @@ def __rule(app, tool, job, user_email, resource_params, resource):
             destination.params['submit_native_specification'] += ' --mem=%s' % mem_mb
 
     # Set a walltime if local is the destination and this is a dynamic walltime tool
-    if destination_id == LOCAL_DESTINATION and tool_id in RUNTIMES:
-        destination_id = LOCAL_WALLTIME_DESTINATION
-        #walltime = datetime.timedelta(seconds=(RUNTIMES[tool_id]['runtime'] + (RUNTIMES[tool_id]['stddev'] * RUNTIMES[tool_id]['devs'])) * 60)
-        walltime = '36:00:00'
-        destination = app.job_config.get_destination( LOCAL_WALLTIME_DESTINATION ) 
-        destination.params['nativeSpecification'] += ' --time=%s' % str(walltime).split('.')[0]
+    #if destination_id == LOCAL_DESTINATION and tool_id in RUNTIMES:
+    #    destination_id = LOCAL_WALLTIME_DESTINATION
+    #    #walltime = datetime.timedelta(seconds=(RUNTIMES[tool_id]['runtime'] + (RUNTIMES[tool_id]['stddev'] * RUNTIMES[tool_id]['devs'])) * 60)
+    #    walltime = '36:00:00'
+    #    destination = app.job_config.get_destination( LOCAL_WALLTIME_DESTINATION ) 
+    #    destination.params['nativeSpecification'] += ' --time=%s' % str(walltime).split('.')[0]
 
     # Allow for overriding the walltime
     if not destination:

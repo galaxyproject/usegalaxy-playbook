@@ -62,23 +62,11 @@
         <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--ntasks=2 --time=00:30:00 --mem-per-cpu=5120" java_mem="10g" />
         <expand macro="slurm_destination" dest="multi_16c_128gb" partition="multi" native_specification="--ntasks=16 --time=24:00:00 --mem-per-cpu=7680" java_mem="120g" />
 
-        <!-- dynamic modified destinations: do not use directly -->
-        <destination id="slurm_multi_dynamic_walltime" runner="slurm">
-            <!-- walltime is set dynamically -->
-            <param id="nativeSpecification">--nodes=1 --ntasks=6 --partition=multi</param>
-            <resubmit condition="walltime_reached" destination="stampede_normal" handler="test_handler2"/>
-            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
-        </destination>
-        <destination id="slurm_normal_dynamic_mem" runner="slurm">
-            <!-- clusters and mem-per-cpu are set dynamically -->
-            <param id="nativeSpecification">--time=24:00:00 --nodes=1 --ntasks=1</param>
-            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
-        </destination>
-        <destination id="reserved_dynamic" runner="slurm">
-            <!-- dynamic must append ntasks -->
-            <param id="nativeSpecification">--time=144:00:00 --clusters=roundup --nodes=1 --partition=reserved --mem-per-cpu=5120</param>
-            <env file="/cvmfs/test.galaxyproject.org/venv/bin/activate" />
-        </destination>
+        <!-- dynamic modified destinationss: do not use directly -->
+        <expand macro="slurm_destination" dest="multi_dynamic_walltime" partition="multi" native_specification="--ntasks=6" />
+        <!-- <resubmit condition="walltime_reached" destination="stampede_normal" handler="multi_handlers"/> -->
+        <expand macro="slurm_destination" dest="normal_dynamic_mem" partition="normal" native_specification="--ntasks=1 --time=24:00:00" />
+        <expand macro="slurm_destination" dest="dynamic" partition="reserved" native_specification="--time=144:00:00 --mem-per-cpu=5120" />
 
         <!-- jetstream destinations -->
         <destination id="jetstream_multi" runner="dynamic">
@@ -122,13 +110,6 @@
         <expand macro="multi_tool" id="deeptools_plot_coverage" />
         <expand macro="multi_tool" id="deeptools_plot_fingerprint" />
         <expand macro="multi_tool" id="kraken" />
-        <!-- explicit stampede jobs -->
-        <expand macro="stampede_tool" id="megablast_wrapper" />
-        <expand macro="stampede_tool" id="megablast_wrapper" />
-        <expand macro="stampede_tool" id="lastz_wrapper_2" />
-        <expand macro="stampede_tool" id="bwa_color_wrapper" />
-        <expand macro="stampede_tool" id="bowtie_color_wrapper" />
-        <expand macro="stampede_tool" id="bowtie_color_wrapper" />
         <!-- resubmit to stampede jobs -->
         <expand macro="stampede_resubmit_tool" id="bwa" />
         <expand macro="stampede_resubmit_tool" id="bwa_mem" />
@@ -145,6 +126,11 @@
         <expand macro="stampede_resubmit_tool" id="stringtie" />
         <expand macro="stampede_resubmit_tool" id="hisat2" />
         <expand macro="stampede_resubmit_tool" id="prokka" />
+        <!-- explicit stampede jobs -->
+        <expand macro="stampede_tool" id="megablast_wrapper" />
+        <expand macro="stampede_tool" id="lastz_wrapper_2" />
+        <expand macro="stampede_tool" id="bwa_color_wrapper" />
+        <expand macro="stampede_tool" id="bowtie_color_wrapper" />
         <!-- bridges jobs -->
         <expand macro="bridges_tool" id="trinity_psc" />
         <expand macro="bridges_tool" id="spades" />
@@ -160,14 +146,6 @@
         <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <!-- roundup multi/jetstream/bridges tools -->
         <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="test_handler2"  resources="multi_or_bridges"/>
-        <!-- data managers -->
-        <tool id="data_manager_fetch_genome_all_fasta" destination="reserved" handler="galaxy_datamanager"/>
-        <tool id="bwa_mem_index_builder_data_manager" destination="reserved_64gb" handler="galaxy_datamanager"/>
-        <tool id="data_manager_bowtie2_index_builder" destination="reserved" handler="galaxy_datamanager"/>
-        <tool id="data_manager_bowtie_index_builder" destination="reserved" handler="galaxy_datamanager"/>
-        <tool id="data_manager_hisat2_index_builder" destination="reserved_16gb" handler="galaxy_datamanager"/>
-        <tool id="kraken_database_builder" destination="slurm_multi_16c_128gb" handler="galaxy_datamanager"/>
-        <tool id="rna_star_index_builder_data_manager" destination="slurm_multi_16c_128gb" handler="galaxy_datamanager"/>
         <!-- 16GB tools -->
         <tool id="sailfish" destination="dynamic_normal_reserved_16gb"/>
         <tool id="bamtools" destination="dynamic_normal_reserved_16gb"/>
@@ -214,6 +192,14 @@
         <tool id="echo_test_jetstream_tacc" destination="jetstream_tacc_nagios" handler="multi_handlers"/>
         <tool id="echo_test_stampede" destination="stampede_nagios" handler="multi_handlers"/>
         <tool id="echo_test_bridges" destination="bridges_nagios" handler="test_handler2"/>
+        <!-- data managers -->
+        <tool id="data_manager_fetch_genome_all_fasta" destination="reserved" handler="galaxy_datamanager"/>
+        <tool id="bwa_mem_index_builder_data_manager" destination="reserved_64gb" handler="galaxy_datamanager"/>
+        <tool id="data_manager_bowtie2_index_builder" destination="reserved" handler="galaxy_datamanager"/>
+        <tool id="data_manager_bowtie_index_builder" destination="reserved" handler="galaxy_datamanager"/>
+        <tool id="data_manager_hisat2_index_builder" destination="reserved_16gb" handler="galaxy_datamanager"/>
+        <tool id="kraken_database_builder" destination="slurm_multi_16c_128gb" handler="galaxy_datamanager"/>
+        <tool id="rna_star_index_builder_data_manager" destination="slurm_multi_16c_128gb" handler="galaxy_datamanager"/>
     </tools>
     <resources default="default">
         <group id="default"></group>
@@ -231,7 +217,7 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_normal">6</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_64gb">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_multi">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi">2</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved">8</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_16gb">8</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_64gb">8</limit>
