@@ -1,15 +1,5 @@
 ---
 
-- name: Leave swarm
-  hosts: instances
-  become: yes
-  vars:
-    ansible_ssh_common_args: "-F {{ inventory_dir }}/ssh_config.{{ cloud_id }}"
-  tasks:
-    - name: Leave docker swarm
-      command: docker swarm leave
-      ignore_errors: yes
-
 - name: Delete instance(s)
   hosts: instances
   connection: local
@@ -42,8 +32,9 @@
       register: docker_node_rm_out
       until: docker_node_rm_out | success
       retries: 6
-      delay: 5
+      delay: 3
     - name: Force remove node from master
       command: "docker node rm -f {{ inventory_hostname }}"
       delegate_to: "{{ groups[cloud_id][0] }}"
+      ignore_errors: yes
       when: not docker_node_rm_out | success

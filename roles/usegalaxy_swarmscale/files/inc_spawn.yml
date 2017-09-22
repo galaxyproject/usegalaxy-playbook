@@ -43,6 +43,27 @@
         volume_dev: "{{ spawned_out.server.volumes[0].device }}"
         floating_ip: "{{ spawned_out.server.public_v4 }}"
       delegate_to: localhost
+
+- name: Update inventory for deletion
+  hosts: instances
+  connection: local
+  tasks:
+    - name: Update inventory
+      ini_file:
+        dest: inventory
+        section: instances
+        option: "{{ inventory_hostname }} ansible_user"
+        value: "centos ansible_host={{ ansible_host }} cloud_id={{ cloud_id }}"
+        no_extra_spaces: yes
+      delegate_to: localhost
+
+- name: Wait for instance(s)
+  hosts: instances
+  connection: local
+  environment:
+     OS_CLOUD: "{{ cloud_id }}"
+     OS_IDENTITY_API_VERSION: '3'
+  tasks:
     - name: Spin waiting for instance to become accessible
       command: >
         ssh -o BatchMode=yes -o UserKnownHostsFile=/dev/null
@@ -51,6 +72,6 @@
         {{ ansible_user }}@{{ ansible_host }} /bin/true
       register: alive
       until: alive | success
-      retries: 60
+      retries: 24  # if it's not up in 2 minutes, give up
       delay: 5
       delegate_to: localhost
