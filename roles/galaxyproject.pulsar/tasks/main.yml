@@ -4,12 +4,31 @@
 # Deploy a Pulsar server
 #   http://pulsar.readthedocs.org/
 
-- name: Install Pulsar (pip)
+- name: Create/update virtualenv
   pip:
-    name: "{{ 'git+' ~ pulsar_git_repo ~ '@' ~ pulsar_changeset_id ~ '#egg=pulsar' if pulsar_changeset_id is defined else 'pulsar' }}"
+    name: "{{ item }}"
+    state: latest
     virtualenv: "{{ pulsar_venv_dir }}"
     virtualenv_command: "{{ pip_virtualenv_command | default(omit) }}"
+  with_items:
+    - pip
+    - setuptools
   when: pulsar_pip_install == true
+
+- name: Install Pulsar (git+pip)
+  pip:
+    name: "{{ 'git+' ~ pulsar_git_repo ~ '@' ~ pulsar_changeset_id ~ '#egg=pulsar-app' }}"
+    virtualenv: "{{ pulsar_venv_dir }}"
+    editable: false
+    state: forcereinstall
+  when: pulsar_pip_install == true and pulsar_changeset_id is defined
+
+- name: Install Pulsar (pip)
+  pip:
+    name: pulsar-app
+    state: latest
+    virtualenv: "{{ pulsar_venv_dir }}"
+  when: pulsar_pip_install == true and pulsar_changeset_id is not defined
 
 - name: Install Pulsar (source)
   git: dest={{ pulsar_server_dir }} force=no repo={{ pulsar_git_repo }} version={{ pulsar_changeset_id | default('master') }} executable={{ git_executable | default(omit) }}

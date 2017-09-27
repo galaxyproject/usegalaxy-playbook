@@ -32,7 +32,7 @@ easily be installed via a pre-task in the same play as this role:
               - git
               - python-virtualenv
         roles:
-          - galaxyproject.pulsar
+          - galaxyprojectdotorg.pulsar
 
 If your `virtualenv` executable is not on `$PATH`, you can specify its location with
 the `pip_virtualenv_command` variable.
@@ -161,7 +161,7 @@ Install Pulsar on your local system with all the default options:
       vars:
         pulsar_server_dir: /home/nate/pulsar
       roles:
-        - role: galaxyproject.pulsar
+        - role: galaxyprojectdotorg.pulsar
 
 Install Pulsar with directory separation and also install Galaxy:
 
@@ -191,10 +191,10 @@ Install Pulsar with directory separation and also install Galaxy:
         - name: Install Mercurial
           pip: name=mercurial virtualenv={{ hg_virtualenv }} virtualenv_command={{ pip_virtualenv_command | default(omit) }}
       roles:
-        - role: galaxyproject.pulsar
+        - role: galaxyprojectdotorg.pulsar
         # Install with:
         #   % ansible-galaxy install natefoo.postgresql_objects
-        - role: galaxyproject.galaxy
+        - role: galaxyprojectdotorg.galaxy
           galaxy_manage_mutable_setup: no
           galaxy_manage_database: no
 
