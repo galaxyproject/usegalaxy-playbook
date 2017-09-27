@@ -361,5 +361,5 @@ def dynamic_local_stampede_select_dynamic_walltime(app, tool, job, user_email, r
 def dynamic_multi_bridges_select(app, tool, job, user_email, resource_params):
     return __rule(app, tool, job, user_email, resource_params, 'multi_bridges_compute_resource')
 
-def dynamic_stampede_select( app, tool, job, user_email ):
-    return __rule( app, tool, job, user_email, 'stampede_compute_resource' )
+def dynamic_stampede_select(app, tool, job, user_email, resource_params):
+    return __rule(app, tool, job, user_email, resource_params, 'stampede_compute_resource')
