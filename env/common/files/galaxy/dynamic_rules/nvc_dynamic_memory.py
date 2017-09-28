@@ -25,7 +25,7 @@ SIZE_FAILURE_MESSAGE = 'This tool could not be run because the input is too larg
 DEFAULT_OVERHEAD = 1024 #MB = 1GB fudge factor to cover non-nucleotide storage
 
 
-def nvc_dynamic_memory( app, tool, job ):
+def dynamic_nvc_dynamic_memory( app, tool, job ):
     inp_data = dict( [ ( da.name, da.dataset ) for da in job.input_datasets ] )
     inp_data.update( [ ( da.name, da.dataset ) for da in job.input_library_datasets ] )
     params = job.get_param_values( app, ignore_errors=True )
