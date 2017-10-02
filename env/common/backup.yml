@@ -1,0 +1,12 @@
+---
+
+- name: Backup Galaxy mutable configs
+  hosts: "galaxyservers[0]"
+  remote_user: "{{ galaxy_user }}"
+  vars:
+    instance_root: "{{ galaxy_root }}"
+    galaxy_config: "{{ galaxy_config_hash }}"
+  roles:
+    - role: usegalaxy_backup
+  tags:
+    - no-restart
