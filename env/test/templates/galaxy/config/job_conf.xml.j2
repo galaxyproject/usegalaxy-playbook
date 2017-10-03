@@ -345,6 +345,7 @@
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
             <!-- https://bugs.openjdk.java.net/browse/JDK-7085890 -->
+            <env id="PATH">/pylon5/mc48nsp/xcgalaxy/openjdk8/bin:$PATH</env>
             <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
         </xml>
         <xml name="multi_tool" tokens="id">

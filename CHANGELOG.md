@@ -3,6 +3,43 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Tue Oct  3 14:20:57 EDT 2017
+
+Unicycler on Test was upgraded to 0.4.1 requiring roughly the same process as before, but the new version also checks
+its dependency versions, which led to [Unicycler#60](https://github.com/rrwick/Unicycler/pull/60) due to our use of
+`$_JAVA_OPTIONS`. In the process, I created a copy of OpenJDK expressly for use on Bridges rather than relying on the
+system default in `/usr/bin/java`:
+
+```console
+[xcgalaxy@br005 ~]$ /pylon2/mc48nsp/xcgalaxy/test/deps/_conda/bin/conda create -c conda-forge -p /pylon5/mc48nsp/xcgalaxy/openjdk8 --copy openjdk=8.0.144
+```
+
+It was then necessary to manually install and fix Unicycler:
+
+```console
+[xcgalaxy@br005 ~]$ conda create -n __unicycler@0.4.1 -c iuc -c bioconda -c conda-forge -c defaults -c r unicycler=0.4.1 python=3.5
+(__unicycler@0.4.1)[xcgalaxy@br005 ~]$ conda remove -n __unicycler@0.4.1 openjdk bzip2
+(__unicycler@0.4.1)[xcgalaxy@br005 ~]$ conda install -n __unicycler@0.4.1 -c conda-forge bzip2=1.0.6=1
+```
+
+In order to work around [Unicycler#60](https://github.com/rrwick/Unicycler/pull/60), I've renamed
+`/pylon5/mc48nsp/xcgalaxy/openjdk8/bin/java` to `java.real` and replaced `java` with:
+
+```bash
+#!/bin/sh
+
+case "$@" in
+    *-version*)
+        /pylon5/mc48nsp/xcgalaxy/openjdk8/bin/java.real "$@" java.real -version 2>&1 | grep -v _JAVA_OPTIONS >&2
+        ;;
+    *)
+        exec /pylon5/mc48nsp/xcgalaxy/openjdk8/bin/java.real "$@"
+        ;;
+esac
+```
+
+We'll need to do the same when upgrading Main to 0.4.1.
+
 ### Tue Sep 12 13:06:55 EDT 2017
 
 With Bridges access restored, I've finished up work on Unicycler. Jobs were still failing due to a failure to run
