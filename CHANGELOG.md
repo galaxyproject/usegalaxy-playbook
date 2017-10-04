@@ -3,6 +3,10 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Wed Oct  4 12:59:53 EDT 2017
+
+Unicycler 0.4.1 has been installed on Bridges for Main using the process below (OpenJDK is shared between Test and Main).
+
 ### Tue Oct  3 14:20:57 EDT 2017
 
 Unicycler on Test was upgraded to 0.4.1 requiring roughly the same process as before, but the new version also checks
