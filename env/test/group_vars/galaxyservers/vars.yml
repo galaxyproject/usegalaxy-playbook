@@ -104,7 +104,7 @@ interactive_environments_config_files:
   - ie_name: jupyter
     file: allowed_images.yml
     contents:
-      - image: "quay.io/bgruening/docker-jupyter-notebook:17.05.1"
+      - image: "quay.io/bgruening/docker-jupyter-notebook:b17.09"
         description: >
           The Jupyter notebook is the next iteration of IPython, allowing
           analysis in many different languages. This image features the Python,
@@ -129,6 +129,10 @@ interactive_environments_error_log_path: "{{ galaxy_log_dir }}/gie_proxy-error.l
 containers_yaml:
   containers:
     _default_:
+      type: docker
+      host: tcp://149.165.171.238:2376
+      force_tlsverify: yes
+    swarm:
       type: docker_swarm
       host: tcp://jetstream-tacc0.galaxyproject.org:2376
       force_tlsverify: yes
