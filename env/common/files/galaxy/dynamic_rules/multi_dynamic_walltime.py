@@ -172,13 +172,13 @@ def _rnastar(app, param_dict, destination_id, explicit_destination, job_id):
     if explicit_destination:
         if destination_id in (LOCAL_DESTINATION, LOCAL_DEVELOPMENT_DESTINATION, RESERVED_DESTINATION) and need_mb > 40960:
             need_mb = 40960
-            log.debug("(%s) _rnastar destination explicit '%s': need decreased to maximum = %s MB", job_id, destnation_id, need_mb)
+            log.debug("(%s) _rnastar destination explicit '%s': need decreased to maximum = %s MB", job_id, destination_id, need_mb)
         elif destination_id in JETSTREAM_DESTINATIONS:
-            log.debug("(%s) _rnastar destination explicit '%s': need will be ignored", job_id, destnation_id)
+            log.debug("(%s) _rnastar destination explicit '%s': need will be ignored", job_id, destination_id)
             #pass  # won't be set anyway
         elif destination_id in BRIDGES_DESTINATIONS:
             need_mb = 147456
-            log.debug("(%s) _rnastar destination explicit '%s': need set to = %s MB", job_id, destnation_id, need_mb)
+            log.debug("(%s) _rnastar destination explicit '%s': need set to = %s MB", job_id, destination_id, need_mb)
     return (destination_id, int(need_mb))
 
 
