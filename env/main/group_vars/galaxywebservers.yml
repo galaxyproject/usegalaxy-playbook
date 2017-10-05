@@ -43,10 +43,11 @@ interactive_environments_config_files:
         galaxy_url: "https://usegalaxy.org"
         docker_connect_port: "8888"
         use_volumes: "False"
+        command_inject: --env DEFAULT_CONTAINER_RUNTIME=300
   - ie_name: jupyter
     file: allowed_images.yml
     contents:
-      - image: "quay.io/bgruening/docker-jupyter-notebook:17.05.1"
+      - image: "quay.io/bgruening/docker-jupyter-notebook:17.09"
         description: >
           The Jupyter notebook is the next iteration of IPython, allowing
           analysis in many different languages. This image features the Python,
