@@ -101,10 +101,11 @@ interactive_environments_config_files:
         galaxy_url: "https://test.galaxyproject.org"
         docker_connect_port: "8888"
         use_volumes: "False"
+        command_inject: --env DEFAULT_CONTAINER_RUNTIME=300
   - ie_name: jupyter
     file: allowed_images.yml
     contents:
-      - image: "quay.io/bgruening/docker-jupyter-notebook:b17.09"
+      - image: "quay.io/bgruening/docker-jupyter-notebook:17.09"
         description: >
           The Jupyter notebook is the next iteration of IPython, allowing
           analysis in many different languages. This image features the Python,
@@ -118,6 +119,7 @@ interactive_environments_config_files:
         galaxy_url: "https://test.galaxyproject.org"
         docker_connect_port: "80"
         use_volumes: "False"
+        command_inject: --env DEFAULT_CONTAINER_RUNTIME=300
 
 interactive_environments_nginx_conf_dir: "{{ galaxy_root }}/nginx.conf.d"
 interactive_environments_proxy_user: "{{ galaxy_user }}"
@@ -128,11 +130,11 @@ interactive_environments_error_log_path: "{{ galaxy_log_dir }}/gie_proxy-error.l
 ## used by: play
 containers_yaml:
   containers:
-    _default_:
+    gie-test:
       type: docker
-      host: tcp://149.165.171.238:2376
+      host: tcp://149.165.156.130:2376
       force_tlsverify: yes
-    swarm:
+    _default_:
       type: docker_swarm
       host: tcp://jetstream-tacc0.galaxyproject.org:2376
       force_tlsverify: yes
