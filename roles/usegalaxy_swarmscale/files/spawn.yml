@@ -82,6 +82,9 @@
   hosts: instances
   become: yes
   tasks:
+    - name: Ensure node hostname is correctly set
+      hostname:
+        name: "{{ inventory_hostname }}"
     - name: Restart docker service to ensure correct node hostname
       service:
         name: docker
