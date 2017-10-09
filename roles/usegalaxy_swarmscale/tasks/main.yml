@@ -21,6 +21,16 @@
   with_items:
     - pip
     - setuptools
+  become: yes
+  become_user: "{{ galaxy_user }}"
+
+# using `latest` with these can be disastrous e.g. if a new major release of Ansible is uploaded or a C extension
+# dependency (e.g. cffi) is updated without wheels.
+- name: Install swarm scale dependencies
+  pip:
+    name: "{{ item }}"
+    virtualenv: "{{ swarm_scale_root }}"
+  with_items:
     - ansible
     - shade
     - python-openstackclient

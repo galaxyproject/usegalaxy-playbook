@@ -89,6 +89,13 @@
       service:
         name: docker
         state: restarted
+    - name: Wait for docker service
+      command: docker ps
+      changed_when: false
+      register: docker_alive
+      until: docker_alive | success
+      retries: 12
+      delay: 2
     - name: Acquire worker join token
       command: docker swarm join-token -q worker
       delegate_to: "{{ groups[cloud_id][0] }}"
