@@ -248,7 +248,7 @@
         </xml>
         <xml name="slurm_destination" tokens="dest,partition,native_specification,java_mem" token_java_mem="7g">
             <destination id="slurm_@DEST@" runner="slurm">
-                <param id="nativeSpecification">--clusters=roundup --partition=@PARTITION@ --nodes=1 @NATIVE_SPECIFICATION@</param>
+                <param id="nativeSpecification">--partition=@PARTITION@ --nodes=1 @NATIVE_SPECIFICATION@</param>
                 <expand macro="dest_local_env" java_mem="@JAVA_MEM@ "/>
             </destination>
         </xml>
