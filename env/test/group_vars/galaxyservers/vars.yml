@@ -181,7 +181,7 @@ base_app_main: &BASE_APP_MAIN
 
   tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }},{{ galaxy_config_dir }}/nagios_tool_conf.xml"
   tool_dependency_dir: /galaxy/test/deps
-  job_working_directory: /galaxy/test/jobdir
+  job_working_directory: /galaxy-repl/test/jobdir
   tool_data_path: /galaxy-repl/test/tool_data
   nginx_upload_store: /galaxy-repl/test/upload
   nginx_upload_job_files_store: /galaxy-repl/test/upload_job_files
@@ -294,7 +294,7 @@ base_app_main: &BASE_APP_MAIN
 galaxy_config_hash:
   "app:main":
     <<: *BASE_APP_MAIN
-    new_file_path: /galaxy/test/scratch
+    new_file_path: /galaxy-repl/test/scratch
 
 installer_config_hash:
   "server:test_installer":
