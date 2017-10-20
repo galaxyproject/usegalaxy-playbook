@@ -4,3 +4,29 @@
 
 supervisord_host_configs:
   - galaxy_gie_proxy
+
+crontabs:
+  - name: "Clean {{ galaxy_instance_codename }} jobs"
+    id: "galaxy_{{ galaxy_instance_codename }}_clean_jobs"
+    user: "{{ galaxy_user }}"
+    hour: "2"
+    minute: "0"
+    job: "/usr/bin/tmpwatch -v --mtime --dirmtime 30d /galaxy-repl/{{ galaxy_instance_codename }}/jobdir | tee -a {{ galaxy_log_dir }}/cleanup_jobs.log"
+  - name: "Clean {{ galaxy_instance_codename }} scratch"
+    id: "galaxy_{{ galaxy_instance_codename }}_clean_scratch"
+    user: "{{ galaxy_user }}"
+    hour: "3"
+    minute: "0"
+    job: "/usr/bin/tmpwatch -v --mtime --dirmtime 14d /galaxy-repl/{{ galaxy_instance_codename }}/scratch | tee -a {{ galaxy_log_dir }}/cleanup_scratch.log"
+  - name: "Clean {{ galaxy_instance_codename }} FTP"
+    id: "galaxy_{{ galaxy_instance_codename }}_clean_ftp"
+    user: "{{ galaxy_user }}"
+    hour: "3"
+    minute: "30"
+    job: "/usr/bin/tmpwatch -v --mtime --dirmtime 5d /galaxy-repl/{{ galaxy_instance_codename }}/ftp | tee -a {{ galaxy_log_dir }}/cleanup_ftp.log"
+  #- name: "Clean {{ galaxy_instance_codename }} datasets"
+  #  id: "galaxy_{{ galaxy_instance_codename }}_clean_datasets"
+  #  user: "{{ galaxy_user }}"
+  #  hour: "4"
+  #  minute: "0"
+  #  job: "{{ galaxy_root }}/bin/cleanup_datasets.sh 14"

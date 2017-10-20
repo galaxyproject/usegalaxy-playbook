@@ -6,26 +6,34 @@ set -e
 
 logdir='{{ galaxy_log_dir }}'
 archivedir='{{ galaxy_log_archive_dir }}/{{ ansible_hostname }}'
-otherlogs="cleanup.log"
+otherlog_size="$(( 128 * 1024 * 1024 ))"  # 128MB
 
 [ ! -d "${archivedir}" ] && mkdir "${archivedir}"
 
 for logfile in ${logdir}/uwsgi*.log.*; do 
-    if [ "${logfile}" != "${logdir}/uwsgi*.log.*" ]; then
-        base=`basename ${logfile} | awk -F. '{print $1}'` &&
-        stamp=`basename ${logfile} | awk -F. '{print $NF}'` &&
-        ymdhms=`date -d @${stamp} +'%Y%m%d-%H%M%S'` &&
-        cat ${logfile} | gzip > ${archivedir}/${base}.log.${ymdhms}.gz &&
-        rm -f ${logfile}
-    fi
+    [ -f "${logfile}" ] || continue
+    base=`basename ${logfile} | awk -F. '{print $1}'` &&
+    stamp=`basename ${logfile} | awk -F. '{print $NF}'` &&
+    ymdhms=`date -d @${stamp} +'%Y%m%d-%H%M%S'` &&
+    cat ${logfile} | gzip > ${archivedir}/${base}.log.${ymdhms}.gz &&
+    rm -f ${logfile}
 done
 
-for logfile in ${logdir}/{{ galaxy_instance_codename }}_*.log.* ${logdir}/handler*.log.*; do
-    if  [ "${logfile}" != "${logdir}/{{ galaxy_instance_codename }}_*.log.*" ]; then
-        stamp=`stat ${logfile} --printf=%Y` &&
-        ymdhms=`date -d @${stamp} +'%Y%m%d-%H%M%S'` &&
-        fbase=`basename ${logfile} | sed -e 's/\.log\..*/.log/'`
-        cat ${logfile} | gzip > ${archivedir}/${fbase}.${ymdhms}.gz &&
-        rm -f ${logfile}
-    fi
+for logfile in ${logdir}/handler*.log.*; do
+    [ -f "${logfile}" ] || continue
+    stamp=`stat ${logfile} --printf=%Y` &&
+    ymdhms=`date -d @${stamp} +'%Y%m%d-%H%M%S'` &&
+    fbase=`basename ${logfile} | sed -e 's/\.log\..*/.log/'`
+    cat ${logfile} | gzip > ${archivedir}/${fbase}.${ymdhms}.gz &&
+    rm -f ${logfile}
+done
+
+for logfile in ${logdir}/cleanup_*.log ${logdir}/delete_*.log ${logdir}/purge_*.log; do
+    [ -f "${logfile}" ] || continue
+    [ `stat ${logfile} --printf=%s` -ge "${otherlog_size}" ] || continue
+    stamp=`stat ${logfile} --printf=%Y` &&
+    ymdhms=`date -d @${stamp} +'%Y%m%d-%H%M%S'` &&
+    fbase=`basename ${logfile} | sed -e 's/\.log\..*/.log/'`
+    cat ${logfile} | gzip > ${archivedir}/${fbase}.${ymdhms}.gz &&
+    rm -f ${logfile}
 done

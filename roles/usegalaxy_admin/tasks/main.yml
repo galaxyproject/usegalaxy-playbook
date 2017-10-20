@@ -3,6 +3,11 @@
 
 # rotate conf/script are copied in usegalaxy_privileged role
 
+- name: Ensure necessary packages are intalled
+  yum:
+    name: tmpwatch
+    state: installed
+
 - name: Schedule archival of log files
   cron:
     name: "Galaxy Log Archival"

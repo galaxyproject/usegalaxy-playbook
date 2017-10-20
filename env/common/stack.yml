@@ -58,7 +58,8 @@
   remote_user: root
   roles:
     - usegalaxy_admin
-  tags: galaxy
+    - cron
+  tags: galaxy,admin
 
 - name: Install swarm scale playbook
   hosts: galaxyswarmscaleservers

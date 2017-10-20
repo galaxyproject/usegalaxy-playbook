@@ -27,8 +27,11 @@
     dest: "{{ galaxy_dynamic_rule_dir }}/usegalaxy/jobs/rules/{{ item | basename }}"
   with_items: "{{ usegalaxy_dynamic_job_rules }}"
 
-- name: Install uWSGI log archival script
+- name: Install admin scripts
   template:
-    src: archive_logs.sh.j2
-    dest: "{{ galaxy_root }}/bin/archive_logs.sh"
+    src: "{{ item }}.j2"
+    dest: "{{ galaxy_root }}/bin/{{ item }}"
     mode: "0555"
+  with_items:
+    - "archive_logs.sh"
+    - "cleanup_datasets.sh"
