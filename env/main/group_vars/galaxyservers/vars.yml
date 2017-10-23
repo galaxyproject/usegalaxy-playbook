@@ -207,7 +207,7 @@ base_app_main: &BASE_APP_MAIN
   # For handler heartbeats
   use_heartbeat: "True"
   heartbeat_interval: "60"
-  heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}.log"
+  heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}_{pid}.log"
 
   # stats
   statsd_host: "galaxy06.tacc.utexas.edu"
