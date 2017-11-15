@@ -3,6 +3,24 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Wed Nov 15 12:12:00 EST 2017
+
+Because the Pulsar command line, including metadata, is generated on the Galaxy side, it's not possible to resolve the
+metadata tool's dependencies for Pulsar. Because of this, Jetstream jobs were failing to set metadata on BAM outputs on
+*certain* jobs where samtools did not remain on `$PATH` after running the tool and setting up the environment for
+`set_metadata.py`. As a result, it's necessary to set up `$PATH` manually to contain the dependencies. I installed them
+with conda as both Test/Main on both TACC/IU Jetstreams:
+
+```sh-session
+g2test@jetstream-iu0$ /jetstream/scratch0/test/conda/bin/conda create -n set_metadata@20171114 -c bioconda -c conda-forge -c defaults samtools bcftools=1.5
+g2main@jetstream-iu0$ /jetstream/scratch0/main/conda/bin/conda create -n set_metadata@20171114 -c bioconda -c conda-forge -c defaults samtools bcftools=1.5
+g2test@jetstream-tacc0$ /jetstream/scratch0/test/conda/bin/conda create -n set_metadata@20171114 -c bioconda -c conda-forge -c defaults samtools bcftools=1.5
+g2main@jetstream-tacc0$ /jetstream/scratch0/main/conda/bin/conda create -n set_metadata@20171114 -c bioconda -c conda-forge -c defaults samtools bcftools=1.5
+```
+
+And changed `job_conf.xml` accordingly, committed with this change log message.
+
+
 ### Wed Oct  4 12:59:53 EDT 2017
 
 Unicycler 0.4.1 has been installed on Bridges for Main using the process below (OpenJDK is shared between Test and Main).

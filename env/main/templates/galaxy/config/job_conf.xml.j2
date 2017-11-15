@@ -338,6 +338,7 @@
             <param id="remote_property_galaxy_virtual_env">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv</param>
             -->
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
+            <env id="PATH">/jetstream/scratch0/main/conda/envs/set_metadata@20171114/bin:$PATH</env>
             <expand macro="dest_tmp_env" />
         </xml>
         <xml name="dest_pulsar_stampede_params">
