@@ -3,6 +3,24 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Wed Nov 15 15:11:55 EST 2017
+
+#### Jetstream
+
+The set_metadata conda environments for Main were not working because they had installed bzip2 from defaults, which does
+not provide libbzip2.so. I fixed this by explicitly installing the conda-forge version:
+
+```sh-session
+g2main@jetstream-iu0$ conda install -n set_metadata@20171114 --override-channels -c conda-forge bzip2=1.0.6=1
+```
+
+In the future, when creating/installing environments, `--override-channels` should prevent this.
+
+#### Bridges
+
+Somehow, conda's `stat.pyc` had been corrupted. I removed it and ran `conda` to recreate it, and conda is functional
+again.
+
 ### Wed Nov 15 12:12:00 EST 2017
 
 Because the Pulsar command line, including metadata, is generated on the Galaxy side, it's not possible to resolve the
