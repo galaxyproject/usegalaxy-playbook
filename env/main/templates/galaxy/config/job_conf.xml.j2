@@ -331,7 +331,7 @@
         </xml>
         <xml name="dest_pulsar_jetstream_params">
             <param id="use_remote_datatypes">true</param>
-            <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/config/datatypes_conf.xml</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy/config/datatypes_conf.xml.sample</param>
             <param id="jobs_directory">/jetstream/scratch0/{{ galaxy_instance_codename }}/jobs</param>
             <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
             <!-- this doesn't work, set in supervisor environment instead
@@ -343,7 +343,7 @@
         </xml>
         <xml name="dest_pulsar_stampede_params">
             <param id="use_remote_datatypes">true</param>
-            <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/config/datatypes_conf.xml</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server/config/datatypes_conf.xml.sample</param>
             <param id="jobs_directory">/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/</param>
             <param id="remote_property_galaxy_home">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
             <!-- this doesn't work, set in supervisor environment instead
@@ -354,7 +354,7 @@
         </xml>
         <xml name="dest_pulsar_bridges_params">
             <param id="use_remote_datatypes">true</param>
-            <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/config/datatypes_conf.xml</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/pylon2/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/server/config/datatypes_conf.xml.sample</param>
             <param id="jobs_directory">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}_staging/</param>
             <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
             <!-- this doesn't work, set in supervisor environment instead
