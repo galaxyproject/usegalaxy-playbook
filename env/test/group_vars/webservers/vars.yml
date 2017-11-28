@@ -55,8 +55,9 @@ supervisord_http_auth: "{{ vault_supervisord_http_auth }}"
 nginx_conf_user: g2test
 nginx_conf_group: G-803372
 nginx_conf_worker_processes: 4
-nginx_conf_ssl_certificate: "{{ nginx_conf_dir }}/ssl/wildcard_cert.pem"
-nginx_conf_ssl_certificate_key: "{{ nginx_conf_dir }}/ssl/wildcard_privatekey.pem"
+nginx_conf_ssl_certificate: wildcard_cert.pem
+nginx_conf_ssl_certificate_key: wildcard_privatekey.pem
+nginx_conf_ssl_trusted_certificate: incommon_chain.pem
 nginx_enable_default_ipv6: false
 
 

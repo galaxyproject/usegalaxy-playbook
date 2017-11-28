@@ -2,14 +2,23 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
-# Disable SSLv3
-ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-
-# Enable Forward Secrecy
-{% if ansible_distribution != "Debian" or ansible_distribution_major_version | int < 8 %}
-ssl_prefer_server_ciphers on;
+# Allowable SSL protocols
+{% if nginx_conf_ssl_protocols is defined %}
+ssl_protocols {{ nginx_conf_ssl_protocols | join(' ') }};
+{% elif nginx_version | version_compare('1.13.0', '>=') and nginx_openssl_version | version_compare('1.1.1', '>=') %}
+ssl_protocols TLSv1.2 TLSv1.3;
+{% elif nginx_version | version_compare('1.1.13', '>=') and nginx_openssl_version | version_compare('1.0.1', '>=') %}
+ssl_protocols TLSv1.2;
+{% elif nginx_version | version_compare('1.0.12', '>=') and nginx_openssl_version | version_compare('1.0.1', '>=') %}
+ssl_protocols TLSv1.1;
+{% else %}
+ssl_protocols TLSv1;
 {% endif %}
-ssl_ciphers {{ nginx_conf_ssl_ciphers | default("EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH:EDH+aRSA:!RC4:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS") }};
+
+# Use secure ciphers
+ssl_ciphers {{ nginx_conf_ssl_ciphers | join(':') }};
+ssl_dhparam {{ nginx_ssl_conf_dir }}/dhparams.pem;
+ssl_prefer_server_ciphers on;
 
 # Enable session reuse
 ssl_session_cache shared:SSL:8m;
@@ -18,3 +27,10 @@ ssl_session_timeout 5m;
 # Cert/Key
 ssl_certificate {{ nginx_conf_ssl_certificate }};
 ssl_certificate_key {{ nginx_conf_ssl_certificate_key }};
+
+{% if nginx_conf_ssl_trusted_certificate is defined %}
+# OCSP stapling
+ssl_stapling on;
+ssl_stapling_verify on;
+ssl_trusted_certificate {{ nginx_ssl_conf_dir }}/{{ nginx_conf_ssl_trusted_certificate }};
+{% endif %}

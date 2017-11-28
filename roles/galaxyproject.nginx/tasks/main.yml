@@ -10,6 +10,20 @@
 - include: pkgin.yml
   when: ansible_pkg_mgr == "pkgin"
 
+- name: Collect nginx -V output
+  command: nginx -V
+  register: nginx_v_out
+  changed_when: false
+
+- name: Make nginx -V output a single line
+  set_fact:
+    nginx_v: "{{ nginx_v_out.stderr | regex_replace('\\n', ' ') }}"
+
+- name: Register nginx-reported facts
+  set_fact:
+    nginx_version: "{{ nginx_v | regex_replace('.*nginx version: nginx/([\\d.]+).*', '\\1') }}"
+    nginx_openssl_version: "{{ nginx_v | regex_replace('.*built with OpenSSL ([\\d.]+[a-z]*).*', '\\1') }}"
+
 - name: Create supervisor config
   template:
     src: supervisord.conf.j2
@@ -59,41 +73,9 @@
   with_items: "{{ nginx_extra_configs | default([]) }}"
   when: nginx_extra_configs is defined
 
-- name: Configure server-wide SSL
-  template:
-    src: ssl.conf.j2
-    dest: "{{ nginx_conf_dir }}/conf.d/ssl.conf"
-    mode: 0444
-    backup: yes
+- name: Include SSL Tasks
+  include: ssl.yml
   when: nginx_conf_ssl_certificate is defined and nginx_conf_ssl_certificate_key is defined
-  notify:
-    - restart nginx
-    - supervisorctl restart nginx
-
-- name: Create SSL directories
-  file:
-    path: "{{ item | dirname }}"
-    state: directory
-    mode: 0755
-  with_items:
-    # it shouldn't be necessary to default these but Ansible templates these
-    # before checking the conditional below
-    - "{{ nginx_conf_ssl_certificate | default('') }}"
-    - "{{ nginx_conf_ssl_certificate_key | default('') }}"
-  when: nginx_conf_ssl_certificate is defined and nginx_conf_ssl_certificate_key is defined
-
-- name: Install SSL certificate
-  copy:
-    src: "{{ nginx_ssl_src_dir }}/{{ nginx_conf_ssl_certificate | basename }}"
-    dest: "{{ nginx_conf_ssl_certificate }}"
-  when: nginx_conf_ssl_certificate is defined
-
-- name: Install SSL private key
-  copy:
-    content: "{{ sslkeys[nginx_conf_ssl_certificate_key | basename] }}"
-    dest: "{{ nginx_conf_ssl_certificate_key }}"
-    mode: 0400
-  when: nginx_conf_ssl_certificate_key is defined
 
 - name: Enable nginx (supervisor)
   supervisorctl:

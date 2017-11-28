@@ -1,0 +1,47 @@
+---
+
+- name: Generate strong Diffie-Hellman group
+  command: openssl dhparam -out {{ nginx_ssl_conf_dir }}/dhparams.pem 2048
+  args:
+    creates: "{{ nginx_ssl_conf_dir }}/dhparams.pem"
+
+- name: Make SSL certificate/key paths absolute
+  set_fact:
+    nginx_conf_ssl_certificate: "{{ nginx_ssl_conf_dir ~ '/' ~ nginx_conf_ssl_certificate if nginx_conf_ssl_certificate.0 != '/' else nginx_conf_ssl_certificate }}"
+    nginx_conf_ssl_certificate_key: "{{ nginx_ssl_conf_dir ~ '/' ~ nginx_conf_ssl_certificate_key if nginx_conf_ssl_certificate_key.0 != '/' else nginx_conf_ssl_certificate_key }}"
+
+- name: Configure server-wide SSL
+  template:
+    src: ssl.conf.j2
+    dest: "{{ nginx_conf_dir }}/conf.d/ssl.conf"
+    mode: 0444
+    backup: yes
+  notify:
+    - restart nginx
+    - supervisorctl restart nginx
+
+- name: Create SSL directories
+  file:
+    path: "{{ item | dirname }}"
+    state: directory
+    mode: 0755
+  with_items:
+    - "{{ nginx_conf_ssl_certificate }}"
+    - "{{ nginx_conf_ssl_certificate_key }}"
+
+- name: Install SSL certificate
+  copy:
+    src: "{{ nginx_ssl_src_dir }}/{{ nginx_conf_ssl_certificate | basename }}"
+    dest: "{{ nginx_conf_ssl_certificate }}"
+
+- name: Install SSL private key
+  copy:
+    content: "{{ sslkeys[nginx_conf_ssl_certificate_key | basename] }}"
+    dest: "{{ nginx_conf_ssl_certificate_key }}"
+    mode: 0400
+
+- name: Install trusted certificates for OCSP with stapling
+  copy:
+    src: "{{ nginx_ssl_src_dir }}/{{ nginx_conf_ssl_trusted_certificate }}"
+    dest: "{{ nginx_ssl_conf_dir }}/{{ nginx_conf_ssl_trusted_certificate }}"
+  when: nginx_conf_ssl_trusted_certificate is defined
