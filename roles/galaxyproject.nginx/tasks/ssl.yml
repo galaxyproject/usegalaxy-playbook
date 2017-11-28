@@ -1,5 +1,18 @@
 ---
 
+# Some versions of Debian set this in nginx.conf, and unlike other vars such as ssl_protocols, this does not override
+# other entires.
+- name: Disable ssl_prefer_server_ciphers in nginx.conf if set
+  lineinfile:
+    name: "{{ nginx_conf_dir }}/nginx.conf"
+    regexp: '^(\s*ssl_prefer_server_ciphers\s.*)'
+    backrefs: yes
+    line: '#\1 # commented by Ansible'
+    backup: yes
+  notify:
+    - reload nginx
+    - supervisorctl restart nginx
+
 - name: Generate strong Diffie-Hellman group
   command: openssl dhparam -out {{ nginx_ssl_conf_dir }}/dhparams.pem 2048
   args:
