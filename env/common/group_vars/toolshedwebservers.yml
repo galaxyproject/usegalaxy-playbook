@@ -3,8 +3,14 @@
 ## used by: galaxyproject.nginx
 nginx_flavor: full
 
-nginx_conf_ssl_certificate: /etc/nginx/ssl/radegast.galaxyproject.org_cert.pem
-nginx_conf_ssl_certificate_key: /etc/nginx/ssl/radegast.galaxyproject.org_privatekey.pem
+nginx_conf_ssl_certificate: radegast.galaxyproject.org_cert.pem
+nginx_conf_ssl_certificate_key: radegast.galaxyproject.org_privatekey.pem
+nginx_conf_ssl_trusted_certificate: incommon_chain.pem
+# TODO: disable 1.0, 1.1
+nginx_conf_ssl_protocols:
+    - TLSv1
+    - TLSv1.1
+    - TLSv1.2
 
 nginx_conf_http:
   server_names_hash_bucket_size: 128
