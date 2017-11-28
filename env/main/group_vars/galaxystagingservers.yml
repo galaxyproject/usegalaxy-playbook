@@ -6,8 +6,14 @@ supervisord_galaxystagingservers_group_configs:
 
 
 ## used by: galaxyproject.nginx
-nginx_conf_ssl_certificate: "{{ nginx_conf_dir }}/ssl/wildcard_cert.pem"
-nginx_conf_ssl_certificate_key: "{{ nginx_conf_dir }}/ssl/wildcard_privatekey.pem"
+nginx_conf_ssl_certificate: wildcard_cert.pem
+nginx_conf_ssl_certificate_key: wildcard_privatekey.pem
+nginx_conf_ssl_trusted_certificate: incommon_chain.pem
+# TODO: disable 1.0, 1.1
+nginx_conf_ssl_protocols:
+    - TLSv1
+    - TLSv1.1
+    - TLSv1.2
 
 nginx_configs:
   - usegalaxy_staging

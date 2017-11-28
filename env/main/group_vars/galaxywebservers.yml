@@ -9,8 +9,14 @@ supervisord_galaxywebservers_group_configs:
 
 
 ## used by: galaxygproject.nginx
-nginx_conf_ssl_certificate: "{{ nginx_conf_dir }}/ssl/usegalaxy.org_cert.pem"
-nginx_conf_ssl_certificate_key: "{{ nginx_conf_dir }}/ssl/usegalaxy.org_privatekey.pem"
+nginx_conf_ssl_certificate: usegalaxy.org_cert.pem
+nginx_conf_ssl_certificate_key: usegalaxy.org_privatekey.pem
+nginx_conf_ssl_trusted_certificate: incommon_chain.pem
+# TODO: disable 1.0, 1.1
+nginx_conf_ssl_protocols:
+    - TLSv1
+    - TLSv1.1
+    - TLSv1.2
 
 nginx_configs:
   - usegalaxy
