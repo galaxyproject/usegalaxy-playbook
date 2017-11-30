@@ -39,7 +39,8 @@ server {
 #}
 
 server {
-    listen       *:443 ssl http2 default_server;
+    #listen       *:443 ssl http2 default_server;
+    listen       *:443 ssl default_server;
     server_name  usegalaxy.org galaxy-web-05.tacc.utexas.edu galaxy-web-05.galaxyproject.org galaxy-web-06.tacc.utexas.edu galaxy-web-06.galaxyproject.org;
 
     # Enable HSTS (age is 180 days)
