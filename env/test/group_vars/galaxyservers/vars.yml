@@ -174,7 +174,7 @@ base_app_main: &BASE_APP_MAIN
   id_secret: "{{ galaxy_config_id_secret }}"
   admin_users: "{{ galaxy_config_admin_users }}"
   biostar_key: "{{ galaxy_config_biostar_key }}"
-  #sentry_dsn: "{{ galaxy_config_sentry_dsn }}"
+  sentry_dsn: "{{ galaxy_config_sentry_dsn }}"
   amqp_internal_connection: "{{ galaxy_config_amqp_internal_connection }}"
 
   # paths
