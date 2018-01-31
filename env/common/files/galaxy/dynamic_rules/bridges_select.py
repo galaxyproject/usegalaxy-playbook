@@ -61,7 +61,7 @@ def dynamic_bridges_select( app, tool, job, user_email ):
         mem = 240 * 1024 # 5 * 48 GB
         walltime = '24:00:00'
 
-        if tool_id == 'trinity_psc':
+        if tool_id == ('trinity_psc', 'trinity'):
             infile = inp_data.get('left_input', None) or inp_data.get('input', None)
             if infile is None:
                 log.error('Trinity submitted without inputs, failing')
@@ -95,6 +95,15 @@ def dynamic_bridges_select( app, tool, job, user_email ):
             # nothing to go off of yet so we'll just guess
             mem = 480 * 1024
             walltime = '48:00:00'
+
+        destination.env.append({
+            'name': 'GALAXY_MEMORY_MB',
+            'file': None,
+            'execute': None,
+            'value': str(mem),
+            'raw': False,
+        })
+        log.debug("(%s) set $GALAXY_MEMORY_MB to %s", job.id, mem)
 
         destination.params['submit_native_specification'] += ' --time=%s' % walltime
         destination.params['submit_native_specification'] += ' --mem=%s' % mem
