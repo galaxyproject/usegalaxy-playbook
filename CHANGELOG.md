@@ -3,6 +3,17 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Wed Jan 31 12:18:22 EST 2018
+
+Installed Trinity 2.4.0 on Bridges via Conda. As with Unicycler, the Conda version of Java must be removed. Also
+apparently `--override-channels` did not work as expected because I had to reinstall bzip2:
+
+```console
+[xcgalaxy@br005 ~]$ conda create -n __trinity@2.4.0 --override-channels -c bioconda -c conda-forge -c defaults trinity=2.4.0
+[xcgalaxy@br005 ~]$ conda remove -n __trinity@2.4.0 openjdk
+[xcgalaxy@br005 ~]$ conda install -n __trinity@2.4.0 -c conda-forge bzip2=1.0.6=1
+```
+
 ### Wed Nov 15 15:11:55 EST 2017
 
 #### Jetstream
