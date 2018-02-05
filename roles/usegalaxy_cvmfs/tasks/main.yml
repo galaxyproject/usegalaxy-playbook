@@ -4,6 +4,10 @@
   include: update.yml
   when: galaxy_cvmfs_update is defined and galaxy_cvmfs_update
 
+- name: Include tasks for updating Galaxy client (standalone)
+  include: client.yml
+  when: galaxy_cvmfs_client is defined and galaxy_cvmfs_client
+
 - name: Include tasks for updating stratum 1 snapshots
   include: snapshot.yml
   when: galaxy_cvmfs_snapshot is defined and galaxy_cvmfs_snapshot

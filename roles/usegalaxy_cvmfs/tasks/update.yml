@@ -58,6 +58,10 @@
           galaxy_commit: {{ galaxy_commit }}
         dest: "{{ galaxy_version_file }}"
 
+    - name: Build client
+      include: _inc_client_build.yml
+      when: galaxy_cvmfs_client_on_update is defined and galaxy_cvmfs_client_on_update
+
     - name: Publish CVMFS transaction
       command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7, True, '') }}" -m "Update Galaxy to version {{ galaxy_version }} commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
 

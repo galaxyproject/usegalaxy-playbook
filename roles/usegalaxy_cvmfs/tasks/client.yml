@@ -1,0 +1,32 @@
+---
+
+- name: Begin CVMFS transaction
+  command: /usr/bin/cvmfs_server transaction {{ galaxy_cvmfs_repo }}
+
+- name: CVMFS transaction context
+  block:
+
+    - name: Check for running containers
+      command: docker ps -q
+      register: docker_ps
+      failed_when: "docker_ps.rc != 0 or docker_ps.stdout != ''"
+
+    - name: Restart docker
+      service:
+        name: docker
+        state: restarted
+
+    - name: Build client
+      include: _inc_client_build.yml
+
+    - name: Publish CVMFS transaction
+      command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7, True, '') }}.client_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}" -m "Rebuild Galaxy client at commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
+
+  rescue:
+
+    - name: Abort CVMFS transaction
+      command: /usr/bin/cvmfs_server abort -f {{ galaxy_cvmfs_repo }}
+
+    - name: Abort playbook
+      fail:
+        msg: Updating Galaxy client failed
