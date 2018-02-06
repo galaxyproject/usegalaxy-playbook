@@ -177,32 +177,34 @@
         <group id="bridges">bridges_compute_resource</group>
     </resources>
     <limits>
+        <!--
         <limit type="registered_user_concurrent_jobs">6</limit>
+        -->
         <limit type="anonymous_user_concurrent_jobs">1</limit>
         <limit type="job_walltime">49:00:00</limit>
         <limit type="output_size">50G</limit>
         <!-- per-destination per-user limits -->
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal">6</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">2</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_64gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi">2</limit>
-        <limit type="destination_user_concurrent_jobs" id="reserved">8</limit>
-        <limit type="destination_user_concurrent_jobs" id="reserved_16gb">8</limit>
-        <limit type="destination_user_concurrent_jobs" id="reserved_64gb">8</limit>
-        <limit type="destination_user_concurrent_jobs" id="reserved_multi">8</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_development">1</limit>
+        <!--
         <limit type="destination_user_concurrent_jobs" id="bridges_normal">6</limit>
         <limit type="destination_user_concurrent_jobs" id="bridges_development">1</limit>
+        -->
         <limit type="destination_user_concurrent_jobs" id="jetstream">4</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="stampede_normal">50</limit>
-        <limit type="destination_total_concurrent_jobs" id="stampede_development">1</limit>
+        <limit type="destination_total_concurrent_jobs" id="stampede_development">4</limit>
+        <!--
         <limit type="destination_total_concurrent_jobs" id="bridges_normal">10</limit>
-        <limit type="destination_total_concurrent_jobs" id="bridges_development">1</limit>
+        -->
+        <limit type="destination_total_concurrent_jobs" id="bridges_development">4</limit>
     </limits>
     <macros>
         <xml name="pulsar_plugin" tokens="id">
