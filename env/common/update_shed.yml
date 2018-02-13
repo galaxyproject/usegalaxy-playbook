@@ -14,6 +14,14 @@
     - role: galaxyproject.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: yes
       galaxy_toolshed_manage_database: no
+
+# This role was previously right after galaxyproject.galaxy_toolshed above, but for whatever reason, Ansible 2.3.* was
+# running it the second time with the parameters from the first time. This fixes that. Perhaps it will be fixed in a
+# later version.
+- name: Tool Shed dependencies
+  hosts: toolshedservers
+  remote_user: "{{ toolshed_privileged_user }}"
+  roles:
     - role: galaxyproject.galaxy
       galaxy_manage_clone: no
       galaxy_manage_static_setup: no
