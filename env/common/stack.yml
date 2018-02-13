@@ -7,6 +7,7 @@
     - name: Install psycopg2
       yum:
         name: python-psycopg2
+      when: ansible_os_family == 'RedHat'
   roles:
     - galaxyproject.postgresql
   tasks:

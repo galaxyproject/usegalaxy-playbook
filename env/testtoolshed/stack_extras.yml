@@ -1,0 +1,28 @@
+---
+# FIXME: this is not ideal
+
+- name: Toolshed-specific stack tasks
+  hosts: toolshedservers
+  remote_user: "{{ toolshed_user }}"
+  tasks:
+    # FIXME: these are copied out of the usegalaxy role
+    - name: Create ~/bin and ~/etc
+      file:
+        path: ~/{{ item }}
+        state: directory
+      with_items:
+        - bin
+        - etc
+    - name: Distribute ~/bin files
+      template:
+        src: "templates/toolshed/{{ item }}.j2"
+        dest: ~/bin/{{ item }}
+        mode: "0555"
+      with_items:
+        - shedctl
+        - supervisorctl
+    - name: Distribute ~/etc/supervisord.conf
+      template:
+        src: templates/toolshed/supervisord.conf.j2
+        dest: ~/etc/supervisord.conf
+        mode: 0400
