@@ -32,8 +32,8 @@
     GALAXY_EGGS_PATH: "{{ galaxy_toolshed_eggs_path | default(galaxy_toolshed_server_dir ~ '/eggs') }}"
     TOOL_SHED_CONFIG_FILE: "{{ galaxy_toolshed_config_file }}"
   when: "'migrate.exceptions.DatabaseNotControlledError' in current_db_version.stderr and galaxy_toolshed_bootstrap"
-  sudo: yes
-  sudo_user: "{{ galaxy_user_name }}"
+  become: yes
+  become_user: "{{ galaxy_user_name }}"
 
 - name: Upgrade Tool Shed DB
   command: "{{ galaxy_toolshed_venv_dir }}/bin/python {{ galaxy_toolshed_server_dir }}/scripts/manage_db.py -c {{ galaxy_toolshed_config_file }} upgrade tool_shed chdir={{ galaxy_toolshed_server_dir }}"
