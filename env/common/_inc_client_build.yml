@@ -1,0 +1,74 @@
+---
+# NOTE: this is used by the Test Tool Shed. The one for Galaxy is in the usegalaxy_cvmfs role because Docker
+
+- name: Ensure client_build_hash.txt exists
+  copy:
+    content: "new-unbuilt"
+    dest: "{{ galaxy_server_dir }}/static/client_build_hash.txt"
+    force: no
+
+- name: Fetch client version
+  command: "cat {{ galaxy_server_dir }}/static/client_build_hash.txt"
+  register: client_build_version_response
+
+- name: Set client build version fact
+  set_fact:
+    galaxy_client_build_version: "{{ client_build_version_response.stdout }}"
+
+- name: Install nodeenv
+  pip:
+    name: nodeenv
+    virtualenv: "{{ galaxy_venv_dir }}"
+    state: present
+  when: galaxy_client_build_version != galaxy_commit_id
+
+- name: Install node
+  command: "{{ galaxy_venv_dir }}/bin/nodeenv -p"
+  args:
+    creates: "{{ galaxy_venv_dir }}/bin/npm"
+  when: galaxy_client_build_version != galaxy_commit_id
+
+# Setting $PATH does not work
+#  https://github.com/ansible/ansible/issues/14959
+#  https://github.com/ansible/ansible/issues/17213
+#- name: Install yarn
+#  npm:
+#    name: yarn
+#    global: yes
+#    executable: "{{ galaxy_venv_dir }}/bin/npm"
+#    state: present
+#  environment:
+#    NODE_PATH: "{{ galaxy_venv_dir }}/lib/node_modules"
+#    NPM_CONFIG_PREFIX: "{{ galaxy_venv_dir }}"
+#    PATH: "{{ galaxy_venv_dir }}/lib/node_modules/.bin:{{ galaxy_venv_dir }}/bin:{{ ansible_env.path }}"
+#  when: galaxy_client_build_version != galaxy_commit_id
+
+- name: Install yarn
+  shell: PATH="{{ galaxy_venv_dir }}/lib/node_modules/.bin:{{ galaxy_venv_dir }}/bin:$PATH" npm install --global yarn
+  args:
+    creates: "{{ galaxy_venv_dir }}/bin/yarn"
+  environment:
+    NODE_PATH: "{{ galaxy_venv_dir }}/lib/node_modules"
+    NPM_CONFIG_PREFIX: "{{ galaxy_venv_dir }}"
+  when: galaxy_client_build_version != galaxy_commit_id
+
+- name: Build client
+  shell: PATH="{{ galaxy_venv_dir }}/lib/node_modules/.bin:{{ galaxy_venv_dir }}/bin:$PATH" make client-production-maps
+  args:
+    chdir: "{{ galaxy_server_dir }}"
+  when: galaxy_client_build_version != galaxy_commit_id
+
+- name: Fetch client version
+  command: "cat {{ galaxy_server_dir }}/static/client_build_hash.txt"
+  register: client_build_version_response
+  when: galaxy_client_build_version != galaxy_commit_id
+
+- name: Set client build version fact
+  set_fact:
+    galaxy_client_build_version: "{{ client_build_version_response.stdout }}"
+  when: galaxy_client_build_version != galaxy_commit_id
+
+- name: Abort playbook upon update failure
+  fail:
+    msg: "Client build {{ galaxy_client_build_version }} version does not match repo version after building {{ galaxy_commit_id }}"
+  when: galaxy_client_build_version != galaxy_commit_id

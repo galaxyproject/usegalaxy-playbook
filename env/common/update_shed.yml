@@ -30,6 +30,15 @@
       galaxy_fetch_dependencies: yes
       galaxy_manage_errordocs: yes
 
+- name: Build client
+  hosts: toolshedservers
+  remote_user: "{{ toolshed_privileged_user }}"
+  # This would be needed to fix ansible/ansible#14959 but the fix for that fix (ansible/ansible#17213) does not exist in
+  # Ansible 2.3*, and such is the story of another few hours of my life wasted fighting with Ansible.
+  #gather_facts: yes
+  tasks:
+    - include: _inc_client_build.yml
+
 - name: Tool Shed database
   hosts: toolshedservers
   remote_user: "{{ toolshed_user }}"
