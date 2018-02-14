@@ -231,7 +231,7 @@ server {
     }
 
     location /static/scripts {
-        alias {{ galaxy_server_dir }}/static/scripts/packed;
+        alias {{ galaxy_server_dir }}/static/scripts;
         expires 24h;
     }
 }
