@@ -200,6 +200,7 @@ base_app_main: &BASE_APP_MAIN
   job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
   data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
   job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
+  dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
 
   migrated_tools_config: "/cvmfs/test.galaxyproject.org/config/migrated_tools_conf.xml"
   shed_tool_data_table_config: "/cvmfs/test.galaxyproject.org/config/shed_tool_data_table_conf.xml"
@@ -335,6 +336,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config['app:main']['job_metrics_config_file'] }}"
   - src: files/galaxy/config/job_resource_params_conf.xml
     dest: "{{ galaxy_config['app:main']['job_resource_params_file'] }}"
+  - src: files/galaxy/config/dependency_resolvers_conf.xml
+    dest: "{{ galaxy_config['app:main']['dependency_resolvers_config_file'] }}"
   - src: files/galaxy/config/pulsar_stampede_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
   - src: files/galaxy/config/pulsar_bridges_actions.yml
