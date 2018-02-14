@@ -83,10 +83,11 @@ galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
 base_app_main: &BASE_APP_MAIN
 
   # message box
-  #message_box_visible: "True"
+  message_box_visible: "True"
+  message_box_class: info
+  message_box_content: Galaxy has recently been upgraded to a pre-release of the next Galaxy stable release (18.01). Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@lists.galaxyproject.org">galaxy-bugs</a>.
   #message_box_content: 'Galaxy will be unavailable between <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20170919T1330&p1=1440&ah=">2:00 PM and 7:30 PM UTC, Tuesday, September 19</a> due to <a target="_blank" href="https://portal.tacc.utexas.edu/user-news/-/news/102025">filesystem maintenance</a>. Running jobs may be interrupted during this period.'
   #message_box_content: 'Jobs are currently paused due to unexpected filesystem issues. We are working on the issue and jobs will be resumed as soon as possible.'
-  #message_box_class: warning
 
   # this can be removed after 9/22 and the datatypes_conf.xml update
   gbrowse_display_sites: wormbase,tair,modencode_worm,modencode_fly
