@@ -1,6 +1,8 @@
 ---
 
 instance_root: /srv/galaxy/main
+# NOTE: When you change this from a release to a pre-release branch, enable client building on update in
+# group_vars/cvmfsstratum0servers.yml. When that branch becomes stable, disable client building.
 galaxy_branch: usegalaxy
 galaxy_user: g2main
 galaxy_privileged_user: gxsrc
