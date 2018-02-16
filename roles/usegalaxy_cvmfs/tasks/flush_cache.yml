@@ -1,0 +1,5 @@
+
+---
+
+- name: Wipe CVMFS cache
+  command: /usr/local/bin/cvmfs_remount_sync {{ galaxy_cvmfs_repo }}
