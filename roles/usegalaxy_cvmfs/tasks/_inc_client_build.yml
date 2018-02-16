@@ -33,7 +33,7 @@
   when: galaxy_client_build_version != galaxy_commit
 
 - name: Build client
-  command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"cd /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy; . {{ galaxy_venv_dir }}/bin/activate; make client\""
+  command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"cd /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy; . {{ galaxy_venv_dir }}/bin/activate; make client-production-maps\""
   when: galaxy_client_build_version != galaxy_commit
 
 - name: Fetch client version
