@@ -18,6 +18,9 @@ nginx_conf_ssl_protocols:
     - TLSv1.1
     - TLSv1.2
 
+# this is just used in the webservers group vars
+nginx_conf_client_max_body_size: 20g
+
 nginx_configs:
   - usegalaxy
   - galaxy_bx
