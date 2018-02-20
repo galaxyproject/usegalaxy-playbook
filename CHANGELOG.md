@@ -3,6 +3,19 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### February 7-14, 2018
+
+Too much to list here, and unfortunately I didn't capture it all, but the summary is that Main was running Conda 3.19,
+and when we upgraded to Galaxy 18.01, it was no longer compatible. Unfortunately, due to the `conda install --offline`
+bugs that were present in Conda >= 4.0 < 4.4, we could not upgrade to 4.x. However, 18.01 forced the upgrade, but 4.4
+had not been released yet. As a result, I installed 4.3 and had to do the following things to fix our dependencies:
+
+- Reordered our dependency resolution to put Conda before Galaxy Packages
+- Temporarily disabled certain Galaxy packages while installing from Conda
+- Found any tool with a mixture of Conda and non-Conda dependencies and mulled them (mainly using a set of scripts I
+  have over in [natefoo/misc-scripts](https://github.com/natefoo/misc-scripts/)) to ensure that no per-job Conda envs
+  will ever be created (this is where the `--offline` bugs cause failures)
+
 ### Wed Jan 31 12:18:22 EST 2018
 
 Installed Trinity 2.4.0 on Bridges via Conda. As with Unicycler, the Conda version of Java must be removed. Also
