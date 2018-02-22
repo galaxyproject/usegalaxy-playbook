@@ -27,16 +27,6 @@
 - name: CVMFS transaction context
   block:
 
-    - name: Check for running containers
-      command: docker ps -q
-      register: docker_ps
-      failed_when: "docker_ps.rc != 0 or docker_ps.stdout != ''"
-
-    - name: Restart docker
-      service:
-        name: docker
-        state: restarted
-
     - name: Update Galaxy
       command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/bin/update_galaxy.sh -b {{ galaxy_branch }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }}\""
 
