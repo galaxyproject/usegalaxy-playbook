@@ -12,6 +12,7 @@ pulsar_yaml_config:
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
   dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
+  maximum_stream_size: 8  # MB
   amqp_acknowledge: True
   amqp_ack_republish_time: 180
   amqp_publish_retry: True
