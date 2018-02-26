@@ -37,11 +37,6 @@ server {
         expires 24h;
     }
 
-    location /static/scripts {
-        alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/scripts/packed;
-        expires 24h;
-    }
-
     location /robots.txt {
         alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/robots.txt;
     }
