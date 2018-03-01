@@ -3,6 +3,20 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Thu Mar  1 11:11:05 EST 2018
+
+**Bridges**
+
+Due to ongoing problems with `/pylon2`, and with a quota increase on `/home` from PSC, I've moved everything to either
+`/home` or `/pylon5` on Bridges. As of now, `/pylon5` contains staging/job runtime data, as well as Pulsar's AMQP
+retry/state and job state files. Everything else is in `/home`. A few things that occurred as a result:
+
+- Reinstalled Conda and rebuilt Conda envs with `conda list --export` and `conda create --file`.
+- Uninstalled OpenJDK from Unicycler envs (but allowed it to install in `__trinity@2.4.0`. Because we no longer use
+  Conda in `/pylon2` we can now run OpenJDK from Conda, but due to rrwick/Unicycler#60, we'll need to keep the `java
+  -version` wrapper around permanently for older versions.
+- `galaxy.ini` has to be installed by hand for the conditional wheel installation to succeed, this is a bug.
+
 ### February 7-14, 2018
 
 Too much to list here, and unfortunately I didn't capture it all, but the summary is that Main was running Conda 3.19,

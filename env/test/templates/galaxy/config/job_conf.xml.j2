@@ -343,10 +343,10 @@
             <env exec="eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`" />
         </xml>
         <xml name="dest_pulsar_bridges_params">
-            <param id="jobs_directory">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}_staging/</param>
-            <param id="remote_property_galaxy_home">/pylon2/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
+            <param id="jobs_directory">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/staging/</param>
+            <param id="remote_property_galaxy_home">/home/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
             <!-- this doesn't work
-            <param id="remote_property_galaxy_virtual_env">/pylon2/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/venv</param>
+            <param id="remote_property_galaxy_virtual_env">/home/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/venv</param>
             -->
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />

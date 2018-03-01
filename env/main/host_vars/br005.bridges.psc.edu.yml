@@ -1,15 +1,18 @@
 ---
 
-shared_root: /pylon2/mc48nsp/xcgalaxy
+#shared_root: /pylon2/mc48nsp/xcgalaxy
+shared_root: /home/xcgalaxy
+scratch_root: /pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}
 galaxy_user: xcgalaxy
 pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
 
 pulsar_drmaa_library_path: "{{ instance_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_yaml_config:
-  staging_directory: "/pylon5/mc48nsp/xcgalaxy/main_staging"
-  persistence_directory: "{{ pulsar_root }}/var/persisted_data"
+  staging_directory: "{{ scratch_root }}/staging"
+  persistence_directory: "{{ scratch_root }}/var"
   tool_dependency_dir: "{{ instance_root }}/deps"
+  conda_prefix: "/home/xcgalaxy/conda"
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
   dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
