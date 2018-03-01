@@ -21,7 +21,7 @@
 - name: Exit if no changes (branch mode)
   fail:
     msg: The clone at /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy is already at the HEAD of {{ galaxy_repo_owner }}/galaxy@{{ galaxy_branch }} ({{ upstream_galaxy_commit }})
-  when: galaxy_branch is defined and galaxy_commit_old.stdout == galaxy_commit
+  when: galaxy_branch is defined and galaxy_commit_old.stdout == upstream_galaxy_commit
 
 - name: Exit if no changes (ref mode)
   fail:
@@ -35,10 +35,15 @@
   block:
 
     - name: Update Galaxy
-      command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/bin/update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }}\""
+      #command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/bin/update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }}\""
+      script: update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }} {{ galaxy_cvmfs_repo }}
 
+    - name: Clean and build Python bytecode
+      script: makepyc.py /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib
+
+    # TODO: In Ansible 2.4 this can use docker_container (--rm support was not available in 2.3)
     - name: Fetch Galaxy version
-      command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib galaxy/update su {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/venv/bin/python -c 'from galaxy.version import VERSION; print VERSION'\""
+      command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib --user {{ galaxy_user }} galaxy/update /cvmfs/{{ galaxy_cvmfs_repo }}/venv/bin/python -c 'from galaxy.version import VERSION; print VERSION'"
       register: version_response
 
     - name: Set galaxy_version fact
