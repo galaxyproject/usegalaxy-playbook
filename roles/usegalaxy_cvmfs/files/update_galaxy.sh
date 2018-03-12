@@ -45,6 +45,8 @@ if [ -z "IN_DOCKER" ]; then
     exec docker run --rm -v /cvmfs:/cvmfs -v $0:$0:ro --user $(id -un) -e IN_DOCKER=1 galaxy/update $0 "$OARGS"
 fi
 
+cd /cvmfs/${REPO}/galaxy
+
 case "$OWNER" in
     ''|galaxyproject)
         REMOTE=origin
@@ -63,8 +65,6 @@ if [ -z "$BRANCH" -a -z "$REF" ]; then
 elif [ -z "$REF" ]; then
     REF="${REMOTE}/${BRANCH}"
 fi
-
-cd /cvmfs/${REPO}/galaxy
 
 . /cvmfs/${REPO}/venv/bin/activate
 pip install --upgrade pip
