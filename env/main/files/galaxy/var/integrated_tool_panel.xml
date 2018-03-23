@@ -162,6 +162,8 @@
         <tool id="Extract genomic DNA 1" />
     </section>
     <section id="cshl_library_information" name="NGS: QC and manipulation" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/2.0.1.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/1.2.0.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer/1.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/flash/flash/1.2.11.2" />
@@ -307,6 +309,10 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/2.2.2.0" />
     </section>
     <section id="ngs_mapping" name="NGS: Mapping" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.7.17.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.7.17.4" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/star_fusion/star_fusion/0.5.4-3" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.4.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_d_wrapper/1.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.2.2" />
@@ -335,6 +341,9 @@
         <label id="ab_solid" text="AB-SOLiD" version="" />
     </section>
     <section id="ngs-rna-tools" name="NGS: RNA Analysis" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.3" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/2.11.40.1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.3.3.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.9.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/2.1.0" />
@@ -442,6 +451,7 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3" />
     </section>
     <section id="ngs:_bam_tools" name="NGS: BamTools" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/2.4.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/2.4.1" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.2" />
@@ -560,14 +570,11 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfprimers/vcfprimers/1.0.0_rc1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfleftalign/vcfleftalign/1.0.0_rc1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfselectsamples/vcfselectsamples/1.0.0_rc1.0" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcffilter/vcffilter2/1.0.0_rc1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfvcfintersect/vcfvcfintersect/1.0.0_rc1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcffixup/vcffixup/1.0.0_rc1.0" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.4" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfvcfintersect/vcfvcfintersect/0.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfgeno2haplo/vcfgeno2haplo/0.0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.3" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcffilter/vcffilter2/0.0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcf2tsv/vcf2tsv/0.0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfallelicprimitives/vcfallelicprimitives/0.0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfbreakcreatemulti/vcfbreakcreatemulti/0.0.3" />
@@ -588,27 +595,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfcommonsamples/vcfcommonsamples/0.0.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/vcfannotate/vcfannotate/0.0.3" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcffixup/vcffixup/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfprimers/vcfprimers/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfcombine/vcfcombine/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfbreakcreatemulti/vcfbreakcreatemulti/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfallelicprimitives/vcfallelicprimitives/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcffilter/vcffilter/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfrandomsample/vcfrandomsample/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfgeno2haplo/vcfgeno2haplo/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfcommonsamples/vcfcommonsamples/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfselectsamples/vcfselectsamples/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfleftalign/vcfleftalign/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcf2tsv/vcf2tsv/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfaddinfo/vcfaddinfo/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfannotate/vcfannotate/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfannotategenotypes/vcfannotategenotypes/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfcheck/vcfcheck/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfsort/vcfsort/0.0.1" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfgenotypes/vcfgenotypes/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfhethom/vcfhethom/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfbedintersect/vcfbedintersect/0.0.2" />
-        <tool id="toolshed.g2.bx.psu.edu/repos/anton/vcfdistance/vcfdistance/0.0.2" />
     </section>
     <section id="peak_calling" name="NGS: Peak Calling" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.6.5.0" />
@@ -1059,6 +1045,7 @@
         <tool id="Count1" />
     </section>
     <section id="plots" name="Graph/Display Data" version="">
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/XY_Plot_1/1.0.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/circos/circgraph/0.9-RC2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/peterjc/venn_list/venn_list/0.0.9" />
         <tool id="toolshed.g2.bx.psu.edu/repos/guerler/charts/charts/1.0.0" />
@@ -1561,6 +1548,7 @@
     </section>
     <section id="ncbi_sra_tools" name="NCBI SRA Tools" version="">
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/2.8.1.2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/2.8.1.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sra_pileup/2.8.1.2" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/2.8.1.3" />
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/2.8.1.2" />
