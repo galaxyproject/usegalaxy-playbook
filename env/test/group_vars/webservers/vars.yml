@@ -24,11 +24,11 @@ nginx_configs:
   - tacc_protected
 
 # might be better to make a usegalaxy_protected role?
-directories:
+webservers_group_directories:
   - path: /srv/nginx/tacc-protected.galaxyproject.org/root
     mode: "0755"
 
-group_files:
+webservers_group_files:
   - content: |
       ##
       ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
@@ -43,7 +43,7 @@ group_files:
     dest: "/srv/nginx/tacc-protected.galaxyproject.org/root/index.html"
     mode: "0444"
 
-group_templates:
+webservers_group_templates:
   - src: templates/nginx/nginx_galaxy.pam.j2
     dest: /etc/pam.d/nginx_galaxy
     mode: "0444"
