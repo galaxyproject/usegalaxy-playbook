@@ -83,10 +83,10 @@ galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
 base_app_main: &BASE_APP_MAIN
 
   # message box
-  message_box_visible: "True"
-  message_box_class: warning #info
+  #message_box_visible: "True"
+  #message_box_class: error #warning #info
   #message_box_content: Galaxy has recently been upgraded to a pre-release of the next Galaxy stable release (18.01). Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@lists.galaxyproject.org">galaxy-bugs</a>.
-  message_box_content: 'Galaxy will be unavailable between <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20180417T100000&p1=24&ah=">3:00 PM and 9:00 PM UTC, Tuesday, April 17</a> for cluster upgrades. Running jobs will be interrupted during this period.'
+  #message_box_content: 'Cluster upgrades are in progress, jobs will not run until upgrades are complete (by <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20180417T160000&p1=24&ah=">9:00 PM UTC, Tuesday, April 17</a>).'
   #message_box_content: 'Jobs are currently paused due to unexpected filesystem issues. We are working on the issue and jobs will be resumed as soon as possible.'
 
   # this can be removed after 9/22 and the datatypes_conf.xml update
