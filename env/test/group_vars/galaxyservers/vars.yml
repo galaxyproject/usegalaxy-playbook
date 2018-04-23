@@ -137,7 +137,10 @@ containers_yaml:
       force_tlsverify: yes
     _default_:
       type: docker_swarm
-      host: tcp://jetstream-tacc0.galaxyproject.org:2376
+      host:
+        - tcp://jetstream-tacc0.galaxyproject.org:2376
+        - tcp://jetstream-iu0.galaxyproject.org:2376
+        - tcp://cvmfs1-psu0.galaxyproject.org:2376
       force_tlsverify: yes
       cpus: 0.5
       memory: 980000000
@@ -148,6 +151,8 @@ containers_yaml:
         pid_file: '/srv/galaxy/test/var/swarm_manager.pid'
         log_file: '/srv/galaxy/test/log/swarm_manager.log'
         log_level: DEBUG
+        log_environment_variables:
+          - USER_EMAIL
         service_wait_time_limit: 10
         slots_min_spare: 2
         spawn_wait_time: 30
