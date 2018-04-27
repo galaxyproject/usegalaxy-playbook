@@ -5,7 +5,7 @@
 supervisord_host_configs:
   - galaxy_gie_proxy
 
-crontabs:
+host_crontabs:
   - name: "Clean {{ galaxy_instance_codename }} jobs"
     id: "galaxy_{{ galaxy_instance_codename }}_clean_jobs"
     user: "{{ galaxy_user }}"
