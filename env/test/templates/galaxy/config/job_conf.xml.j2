@@ -124,7 +124,8 @@
         <expand macro="stampede_resubmit_tool" id="rbc_mafft" />
         <!-- explicit stampede jobs -->
         <expand macro="stampede_tool" id="megablast_wrapper" />
-        <expand macro="stampede_tool" id="lastz_wrapper_2" />
+        <!-- new LASTZ wrapper is not multicore, but it may need more memory
+             <expand macro="stampede_tool" id="lastz_wrapper_2" /> -->
         <expand macro="stampede_tool" id="bwa_color_wrapper" />
         <expand macro="stampede_tool" id="bowtie_color_wrapper" />
         <!-- bridges jobs -->
