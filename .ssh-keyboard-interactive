@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# This is used to solve the following issue:
+#
+# 1. keyboard-interactive is required for 2FA hosts even in cases where 2FA is not required
+# 2. Ansible uses `ssh -o PreferredAuthentications=gssapi-with-mic,gssapi-keyex,hostbased,publickey`
+# 3. OpenSSH only considers the first config option it encounters, if there are duplicates
+# 4. Ansible only provides a way to *append* ssh args, unless you use the global `ssh_args` option in ansible.cfg, which
+#    we do not want since we don't want to enable keyboard-interactive on non-2FA hosts
+#
+# To use, set `ansible_ssh_executable=./.ssh-keyboard-interactive` on a host's inventory entry
+#
+# Related: https://github.com/ansible/ansible/issues/16259
+
+exec ssh -o PreferredAuthentications=publickey,keyboard-interactive "$@"
