@@ -87,8 +87,11 @@ server {
         alias {{ interactive_environments_plugins_path }}/$plug_type/$vis_name/static/$static_file;
     }
 
-    location ~ ^/plugins/(?<plug_type>.+?)/(?<vis_name>.+?)/static/(?<static_file>.*?)$ {
-        alias {{ galaxy_server_dir }}/config/plugins/$plug_type/$vis_name/static/$static_file;
+    # serve visualization and interactive environment plugin static content
+    location ~ ^/plugins/(?<plug_type>[^/]+?)/((?<vis_d>[^/_]*)_?)?(?<vis_name>[^/]*?)/static/(?<static_file>.*?)$ {
+        alias {{ galaxy_server_dir }}/config/plugins/$plug_type/;
+        try_files $vis_d/${vis_d}_${vis_name}/static/$static_file
+                  $vis_d/static/$static_file =404;
     }
 
     location /robots.txt {
