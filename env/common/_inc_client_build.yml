@@ -23,7 +23,7 @@
   when: galaxy_client_build_version != galaxy_commit_id
 
 - name: Install node
-  command: "{{ galaxy_venv_dir }}/bin/nodeenv -p"
+  command: "{{ galaxy_venv_dir }}/bin/nodeenv -p --node=9.11.1"
   args:
     creates: "{{ galaxy_venv_dir }}/bin/npm"
   when: galaxy_client_build_version != galaxy_commit_id
