@@ -56,6 +56,10 @@
             <param id="outputs_to_working_directory">true</param>
             <param id="singularity_enabled">true</param>
             <param id="singularity_volumes">$galaxy_root:ro,$tool_directory:ro,$job_directory:rw,$working_directory:rw,/galaxy-repl/test/scratch:rw,/galaxy-repl/test/files:ro,/galaxy-repl/data/:ro</param>
+            <!-- It'd be nice if we could fall back to a bas container and use TS/Conda deps, but these options don't work like that ("require_container" isn't working at all for some reason)
+                <param id="singularity_default_container_id">/cvmfs/sandbox.galaxyproject.org/singularity/mulled/centos:7.4.1708</param>
+                <param id="require_container">false</param>
+             -->
         </destination>
 
         <!-- local destinations -->
@@ -179,7 +183,7 @@
         <tool id="rna_star_index_builder_data_manager" destination="slurm_multi_16c_128gb" handler="galaxy_datamanager"/>
         <!-- singularity test tools -->
         <tool id="tp_cat" destination="slurm_singularity" handler="test_handler0" />
-        <tool id="tp_grep_tool" destination="slurm_singularity" handler="test_handler0" />
+        <tool id="jq" destination="slurm_singularity" handler="test_handler0" />
     </tools>
     <resources default="default">
         <group id="default"></group>

@@ -185,7 +185,7 @@ base_app_main: &BASE_APP_MAIN
 
   # paths
 
-  tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }},{{ galaxy_config_dir }}/nagios_tool_conf.xml"
+  tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }},{{ galaxy_config_dir }}/nagios_tool_conf.xml,/cvmfs/sandbox.galaxyproject.org/config/shed_tool_conf.xml"
   tool_dependency_dir: /galaxy/test/deps
   job_working_directory: /galaxy-repl/test/jobdir
   tool_data_path: /galaxy-repl/test/tool_data
