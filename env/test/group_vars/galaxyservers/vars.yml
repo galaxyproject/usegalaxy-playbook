@@ -288,7 +288,8 @@ base_app_main: &BASE_APP_MAIN
   # dependency resolver config
   conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"
   enable_beta_mulled_containers: "True"
-  container_image_cache_path: /cvmfs/sandbox.galaxyproject.org
+  #container_image_cache_path: /cvmfs/sandbox.galaxyproject.org
+  outputs_to_working_directory: "True"
 
   # For handler heartbeats
   use_heartbeat: "True"
