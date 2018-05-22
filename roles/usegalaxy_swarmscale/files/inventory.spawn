@@ -8,8 +8,8 @@ jetstream-tacc0.galaxyproject.org ansible_user=swarm ansible_become=false
 [all:vars]
 ansible_ssh_private_key_file = swarm_kp.pem
 ansible_user = centos
-image = galaxy-docker-20180313
-flavor = m1.small
+image = galaxy-docker-20180522
+flavor = m1.medium
 key_name = swarm_kp
 nics = net-name=swarm
 security_groups = default,swarm_worker
