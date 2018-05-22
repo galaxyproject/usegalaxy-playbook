@@ -9,7 +9,11 @@
     - name: Randomly select cloud for spawn
       set_fact:
         cloud_id: "{{ clouds.keys() | random }}"
+      delegate_to: localhost
+    - name: Set volume name fact
+      set_fact:
         volume_name: "{{ inventory_hostname }}"
+      when: docker_snapshot_name is defined
       delegate_to: localhost
 
 - name: Spawn instance(s)
@@ -22,17 +26,19 @@
     - name: Collect docker volume snapshot id
       command: "openstack volume snapshot list -f value -c ID --volume {{ docker_snapshot_name }}"
       register: docker_snapshot_id_out
+      when: docker_snapshot_name is defined
       delegate_to: localhost
     - name: Set volume snapshot id fact
       set_fact:
         volume_snapshot_id: "{{ docker_snapshot_id_out.stdout }}"
+      when: docker_snapshot_name is defined
     - name: Create volume
       os_volume:
         cloud: "{{ cloud_id }}"
         size: "{{ volume_size }}"
         display_name: "{{ volume_name }}"
         snapshot_id: "{{ volume_snapshot_id | default(omit) }}"
-      when: volume_name is defined
+      when: docker_snapshot_name is defined
       delegate_to: localhost
     - name: Spawn new instance
       os_server:
@@ -55,8 +61,12 @@
         ansible_host: "{{ spawned_out.server.private_v4 }}"
         ansible_ssh_common_args: "-F {{ inventory_dir }}/ssh_config.{{ spawned_out.server.cloud }}"
         cloud_id: "{{ spawned_out.server.cloud }}"
-        volume_dev: "{{ spawned_out.server.volumes[0].device }}"
         floating_ip: "{{ spawned_out.server.public_v4 }}"
+      delegate_to: localhost
+    - name: Set volume device fact
+      set_fact:
+        volume_dev: "{{ spawned_out.server.volumes[0].device }}"
+      when: docker_snapshot_name is defined
       delegate_to: localhost
     - name: Update inventory
       ini_file:
