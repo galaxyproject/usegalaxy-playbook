@@ -56,7 +56,6 @@
             <param id="outputs_to_working_directory">true</param>
             <param id="singularity_enabled">true</param>
             <param id="singularity_volumes">$galaxy_root:ro,$tool_directory:ro,$job_directory:rw,$working_directory:rw,/galaxy-repl/test/scratch:rw,/galaxy-repl/test/files:ro,/galaxy-repl/data/:ro</param>
-            <param id="singularity_image_dir">/cvmfs/sandbox.galaxyproject.org/singularity/mulled</param>
             <!-- It'd be nice if we could fall back to a bas container and use TS/Conda deps, but these options don't work like that ("require_container" isn't working at all for some reason)
                 <param id="singularity_default_container_id">/cvmfs/sandbox.galaxyproject.org/singularity/mulled/centos:7.4.1708</param>
                 <param id="require_container">false</param>
