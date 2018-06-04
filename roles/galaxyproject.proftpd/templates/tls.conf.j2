@@ -4,7 +4,8 @@
 
 # Enable session reuse (must be in the server context)
 LoadModule mod_tls_shmcache.c
-TLSSessionCache shm:/file={{ proftpd_tls_sesscache_path }}&size=8388608 300
+TLSSessionCache shm:/file={{ proftpd_tls_sesscache_path }}&size=8388608 {{ proftpd_tls_sesscache_timeout }}
+{{ 'TLSRenegotiate ' ~ proftpd_tls_renegotiate if proftpd_tls_renegotiate else '' }}
 
 {% if proftpd_tls_context == 'global' %}
 <Global>

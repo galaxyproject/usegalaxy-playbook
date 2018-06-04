@@ -75,6 +75,10 @@ and Example Playbook for usage.
   Set `TLSCipherSuite`
 - `proftpd_tls_context` (default: `server`): If set to `global`, place TLS configuration directives that are
   valid in the `<Global>` context into a `<Global>` block. If set to `server`, they are placed in the server context.
+- `proftpd_tls_sesscache_path` (default: `/run/proftpd/sesscache`): Path to ProFTPD shm TLS session cache.
+- `proftpd_tls_sesscache_timeout` (default: `300`): TLS session cache timeout (in seconds).
+- `proftpd_tls_renegotiate`: (default: unset): TLS renegotation time (in seconds).
+
 
 [proftpd-mod-tls]: http://www.proftpd.org/docs/contrib/mod_tls.html
 [proftpd-tls-certificate-chain-file]: http://www.proftpd.org/docs/directives/linked/config_ref_TLSCertificateChainFile.html

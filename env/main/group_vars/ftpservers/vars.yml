@@ -31,6 +31,9 @@ proftpd_conf_ssl_certificate: /etc/pki/tls/certs/usegalaxy.org_cert.pem
 proftpd_conf_ssl_certificate_key: /etc/pki/tls/private/usegalaxy.org_privatekey.pem
 proftpd_conf_ssl_ca_certificate: /etc/pki/tls/certs/incommon_chain.pem
 
+proftpd_tls_sesscache_timeout: 1800
+proftpd_tls_renegotiate: ctrl 1500 timeout 300
+
 proftpd_galaxy_auth: yes
 proftpd_galaxy_auth_context: 'global'
 
