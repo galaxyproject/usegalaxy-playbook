@@ -29,7 +29,7 @@ autostart       = {{ "true" if i == 0 else "false" }}
 autorestart     = unexpected
 startsecs       = 10
 user            = {{ galaxy_user }}
-environment     = HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+environment     = HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin,,PYTHONPATH={{ galaxy_dynamic_rule_dir }}
 stopsignal      = INT
 stopwaitsecs    = 65
 stdout_logfile  = {{ supervisord_log_dir }}/zergling{{ i }}.log
