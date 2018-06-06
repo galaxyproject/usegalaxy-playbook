@@ -324,7 +324,7 @@
             <env file="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate" />
         </xml>
         <xml name="dest_tmp_env">
-            <env id="FONTCONFIG_FILE">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/fontconfig/fonts.conf</env>
+            <env id="XDG_DATA_HOME">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/xdg/data</env>
             <env id="TEMP">$(dirname ${BASH_SOURCE[0]})/_job_tmp</env>
             <env id="TMPDIR">$TEMP</env>
             <env id="_JAVA_OPTIONS">-Djava.io.tmpdir=$TEMP</env>
