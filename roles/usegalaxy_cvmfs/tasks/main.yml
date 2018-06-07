@@ -8,6 +8,10 @@
   include: client.yml
   when: galaxy_cvmfs_client is defined and galaxy_cvmfs_client
 
+- name: Include tasks for updating Galaxy plugins
+  include: client_plugins.yml
+  when: "'cvmfsstratum0servers' in group_names and (galaxy_cvmfs_client is not defined or not galaxy_cvmfs_client)"
+
 - name: Include tasks for updating stratum 1 snapshots
   include: snapshot.yml
   when: galaxy_cvmfs_snapshot is defined and galaxy_cvmfs_snapshot

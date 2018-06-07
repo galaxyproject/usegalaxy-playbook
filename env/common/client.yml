@@ -7,7 +7,7 @@
     - "{{ galaxy_version_file }}"
   roles:
     - role: usegalaxy_cvmfs
-      galaxy_cvmfs_client: yes
+      galaxy_cvmfs_client: "{{ galaxy_cvmfs_client_on_update }}"
 
 - name: Include snapshot plays
   include: _inc_snapshot.yml
