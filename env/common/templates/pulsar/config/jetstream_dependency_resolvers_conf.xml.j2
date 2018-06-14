@@ -1,7 +1,10 @@
 <dependency_resolvers>
+  <conda prefix="/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_conda" />
+  <conda prefix="/jetstream/scratch0/{{ galaxy_instance_codename }}/conda" auto_install="True" auto_init="True" />
   <tool_shed_packages />
   <galaxy_packages />
-  <conda prefix="/jetstream/scratch0/{{ galaxy_instance_codename }}/conda" auto_install="True" auto_init="True" />
+  <!--
   <galaxy_packages versionless="true" />
   <conda prefix="/jetstream/scratch0/{{ galaxy_instance_codename }}/conda" versionless="true" />
+  -->
 </dependency_resolvers>
