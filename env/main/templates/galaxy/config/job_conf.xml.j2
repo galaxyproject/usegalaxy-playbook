@@ -63,13 +63,12 @@
             <!-- this destination exists for the dynamic runner to read the native spec for testing -->
             <param id="nativeSpecification">--time=36:00:00 --nodes=1 --partition=multi</param>
         </destination>
-        <expand macro="jetstream_destination" id="multi" site="iu" native_specification="--partition=multi --nodes=1 --time=36:00:00" />
+        <expand macro="jetstream_destination" id="small" site="iu" native_specification="--partition=small --time=36:00:00" />
+        <expand macro="jetstream_destination" id="normal" site="iu" native_specification="--partition=normal --time=36:00:00 --mem=7168" />
+        <expand macro="jetstream_destination" id="multi" site="iu" native_specification="--partition=multi --time=36:00:00" />
         <expand macro="jetstream_nagios_destination" site="iu" />
         <expand macro="jetstream_destination" id="multi" site="tacc" native_specification="--partition=multi --nodes=1 --time=36:00:00" />
         <expand macro="jetstream_nagios_destination" site="tacc" />
-
-        <!-- test jetstream autoscaling -->
-        <expand macro="jetstream_destination" id="small" site="iu" native_specification="--partition=small --time=36:00:00" />
 
         <!-- stampede destinations -->
         <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --ntasks=16 --time=48:00:00 --account=TG-MCB140147" />
@@ -165,6 +164,8 @@
         <tool id="CONVERTER_bedgraph_to_bigwig" destination="dynamic_normal_64gb_reserved"/>
         <!-- jetstream autoscale test -->
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.1" destination="jetstream_iu_small" handler="multi_handlers" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.1.0" destination="jetstream_iu_small" handler="multi_handlers" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool/1.1.0" destination="jetstream_iu_small" handler="multi_handlers" />
         <!-- nagios checks -->
         <!-- run wherever it lands
         <tool id="echo_main_cluster"/>
