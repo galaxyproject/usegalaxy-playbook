@@ -62,7 +62,6 @@ TEAM_USERS = (
 )
 TEAM_DESTINATION = 'reserved_dynamic'
 
-'''
 JETSTREAM_DESTINATION_MAPS = {
     LOCAL_DESTINATION: {
         'clusters': ['jetstream-iu', 'jetstream-tacc', 'roundup'],
@@ -77,8 +76,8 @@ JETSTREAM_DESTINATION_MAPS = {
         'partition': 'multi',
     },
 }
-'''
 
+'''
 JETSTREAM_DESTINATION_MAPS = {
     LOCAL_DESTINATION: {
         'clusters': ['jetstream-tacc', 'roundup'],
@@ -93,6 +92,7 @@ JETSTREAM_DESTINATION_MAPS = {
         'partition': 'multi',
     },
 }
+'''
 
 '''
 JETSTREAM_DESTINATION_MAPS = {

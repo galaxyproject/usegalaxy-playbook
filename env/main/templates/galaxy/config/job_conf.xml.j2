@@ -63,9 +63,9 @@
             <!-- this destination exists for the dynamic runner to read the native spec for testing -->
             <param id="nativeSpecification">--time=36:00:00 --nodes=1 --partition=multi</param>
         </destination>
-        <expand macro="jetstream_destination" id="small" site="iu" native_specification="--partition=small --time=36:00:00" />
+        <expand macro="jetstream_destination" id="small" site="iu" native_specification="--partition=small --time=36:00:00 --mem=3584" />
         <expand macro="jetstream_destination" id="normal" site="iu" native_specification="--partition=normal --time=36:00:00 --mem=7168" />
-        <expand macro="jetstream_destination" id="multi" site="iu" native_specification="--partition=multi --time=36:00:00" />
+        <expand macro="jetstream_destination" id="multi" site="iu" native_specification="--partition=multi --time=36:00:00 --mem=28672" />
         <expand macro="jetstream_nagios_destination" site="iu" />
         <expand macro="jetstream_destination" id="multi" site="tacc" native_specification="--partition=multi --nodes=1 --time=36:00:00" />
         <expand macro="jetstream_nagios_destination" site="tacc" />
