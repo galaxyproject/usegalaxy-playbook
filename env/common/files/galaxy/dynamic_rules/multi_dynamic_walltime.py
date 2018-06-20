@@ -151,7 +151,7 @@ def _rnastar(app, param_dict, destination_id, explicit_destination, job_id):
         path = '%s/SA' % app.tool_data_tables.get('rnastar_index2').get_entry('value', build, 'path')
         destination_id = None if not explicit_destination else destination_id
         ref_mb = os.stat(path).st_size / 1024 / 1024
-        factor = 1.3
+        factor = 1.5
     else:
         # Avoid the expense of staging large genome files
         path = param_dict['refGenomeSource']['genomeFastaFiles'].get_file_name()
