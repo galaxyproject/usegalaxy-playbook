@@ -70,6 +70,9 @@
         <expand macro="jetstream_destination" id="multi" site="tacc" native_specification="--partition=multi --nodes=1 --time=36:00:00" />
         <expand macro="jetstream_nagios_destination" site="tacc" />
 
+        <!-- test -->
+        <expand macro="jetstream_destination" id="reserved" site="iu" native_specification="--partition=reserved --nodes=1 --time=36:00:00" />
+
         <!-- stampede destinations -->
         <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --cpus-per-task=16 --time=48:00:00 --account=TG-MCB140147" />
         <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --cpus-per-task=16 --time=00:30:00 --account=TG-MCB140147" />
