@@ -10,6 +10,8 @@ import subprocess
 from galaxy.jobs.mapper import JobMappingException
 
 log = logging.getLogger(__name__)
+# fix for until we switch to yaml config
+log.setLevel(logging.DEBUG)
 
 # bwa_wrapper           params['genomeSource']['refGenomeSource']   'indexed'
 # bowtie2               params['reference_genome']['source']        'indexed'
