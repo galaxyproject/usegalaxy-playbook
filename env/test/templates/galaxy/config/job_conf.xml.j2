@@ -57,11 +57,11 @@
         <expand macro="dynamic_destination" dest="nvc_dynamic_memory" />
 
         <!-- dynamic local/reserved destinations-->
-        <expand macro="slurm_reserved_destination" dest="normal" partition="normal" native_specification="--ntasks=1 --time=36:00:00" />
-        <expand macro="slurm_reserved_destination" dest="normal_16gb" partition="normal" native_specification="--ntasks=1 --time=36:00:00 --mem-per-cpu=15360" java_mem="15g" />
-        <expand macro="slurm_reserved_destination" dest="normal_32gb" partition="normal" native_specification="--ntasks=1 --time=36:00:00 --mem-per-cpu=30720" java_mem="30g" />
-        <expand macro="slurm_reserved_destination" dest="normal_64gb" partition="normal" native_specification="--ntasks=1 --time=36:00:00 --mem-per-cpu=61440" java_mem="60g" />
-        <expand macro="slurm_reserved_destination" dest="multi" partition="multi" native_specification="--ntasks=6 --time=36:00:00 --mem-per-cpu=5120" java_mem="30g" />
+        <expand macro="slurm_reserved_destination" dest="normal" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00" />
+        <expand macro="slurm_reserved_destination" dest="normal_16gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=15360" java_mem="15g" />
+        <expand macro="slurm_reserved_destination" dest="normal_32gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=30720" java_mem="30g" />
+        <expand macro="slurm_reserved_destination" dest="normal_64gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=61440" java_mem="60g" />
+        <expand macro="slurm_reserved_destination" dest="multi" partition="multi" native_specification="--cpus-per-task=6 --time=36:00:00" java_mem="30g" />
 
         <!-- singularity test destinations -->
         <destination id="slurm_singularity" runner="slurm">
@@ -75,13 +75,13 @@
         </destination>
 
         <!-- local destinations -->
-        <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--ntasks=2 --time=00:30:00 --mem-per-cpu=5120" java_mem="10g" />
-        <expand macro="slurm_destination" dest="multi_16c_128gb" partition="multi" native_specification="--ntasks=16 --time=24:00:00 --mem-per-cpu=7680" java_mem="120g" />
+        <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--cpus-per-task=2 --time=00:30:00 --mem-per-cpu=5120" java_mem="10g" />
+        <expand macro="slurm_destination" dest="multi_16c_128gb" partition="multi" native_specification="--cpus-per-task=16 --time=24:00:00 --mem-per-cpu=7680" java_mem="120g" />
 
         <!-- dynamic modified destinations: do not use directly -->
-        <expand macro="slurm_destination" dest="multi_dynamic_walltime" partition="multi" native_specification="--ntasks=6" />
+        <expand macro="slurm_destination" dest="multi_dynamic_walltime" partition="multi" native_specification="--cpus-per-task=6" />
         <!-- <resubmit condition="walltime_reached" destination="stampede_normal" handler="multi_handlers"/> -->
-        <expand macro="slurm_destination" dest="normal_dynamic_mem" partition="normal" native_specification="--ntasks=1 --time=24:00:00" />
+        <expand macro="slurm_destination" dest="normal_dynamic_mem" partition="normal" native_specification="--cpus-per-task=1 --time=24:00:00" />
         <!-- the "team dev" destination -->
         <expand macro="slurm_destination" dest="dynamic" partition="reserved" native_specification="--time=144:00:00 --mem-per-cpu=5120" />
 
@@ -96,8 +96,8 @@
         <expand macro="jetstream_nagios_destination" site="tacc" />
 
         <!-- stampede destinations -->
-        <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --ntasks=16 --time=48:00:00 --account=TG-MCB140147" />
-        <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --ntasks=16 --time=00:30:00 --account=TG-MCB140147" />
+        <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --cpus-per-task=16 --time=48:00:00 --account=TG-MCB140147" />
+        <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --cpus-per-task=16 --time=00:30:00 --account=TG-MCB140147" />
         <expand macro="stampede_nagios_destination" />
 
         <!-- bridges destinations -->
@@ -116,7 +116,7 @@
             <!--
             <param id="remote_metadata">true</param>
             -->
-            <param id="submit_native_specification">--ntasks=1 --mem-per-cpu=1792 --time=24:00:00</param>
+            <param id="submit_native_specification">--cpus-per-task=1 --mem-per-cpu=1792 --time=24:00:00</param>
             <expand macro="dest_pulsar_common_params" />
             <param id="jobs_directory">/export/test/jobs</param>
             <param id="remote_property_galaxy_home">/export/test/galaxy</param>
@@ -309,7 +309,8 @@
         </xml>
         <!-- some unfortunate duplication here because macro expansions in the macro attribute of an expand tag is not supported -->
         <xml name="jetstream_destination" tokens="id,site,native_specification">
-            <destination id="jetstream_@SITE@_@ID@" runner="pulsar_jetstream_@SITE@">
+            <!-- the "jetstream" tag is for limits -->
+            <destination id="jetstream_@SITE@_@ID@" runner="pulsar_jetstream_@SITE@" tags="jetstream">
                 <param id="remote_metadata">true</param>
                 <param id="submit_native_specification">@NATIVE_SPECIFICATION@</param>
                 <expand macro="dest_pulsar_common_params" />
