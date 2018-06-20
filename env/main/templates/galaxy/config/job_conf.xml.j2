@@ -279,7 +279,8 @@
         </xml>
         <!-- some unfortunate duplication here because macro expansions in the macro attribute of an expand tag is not supported -->
         <xml name="jetstream_destination" tokens="id,site,native_specification">
-            <destination id="jetstream_@SITE@_@ID@" runner="pulsar_jetstream_@SITE@">
+            <!-- the "jetstream" tag is for limits -->
+            <destination id="jetstream_@SITE@_@ID@" runner="pulsar_jetstream_@SITE@" tags="jetstream">
                 <param id="remote_metadata">true</param>
                 <param id="submit_native_specification">@NATIVE_SPECIFICATION@</param>
                 <expand macro="dest_pulsar_common_params" />
