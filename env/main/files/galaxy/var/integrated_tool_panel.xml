@@ -319,6 +319,10 @@
 
     <section id="cshl_library_information" name="NGS: QC and manipulation" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/length_and_gc_content/length_and_gc_content/0.1.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.5" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.72" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.1" />
@@ -478,6 +482,8 @@
     </section>
 
     <section id="ngs:_deeptools" name="NGS: DeepTools" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/3.0.2.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_enrichment/deeptools_plot_enrichment/2.5.0.0" />
 
@@ -712,6 +718,28 @@
     </section>
 
     <section id="ngs-rna-tools" name="NGS: RNA Analysis" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/0.9.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/0.43.1.3" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/kallisto_pseudo/kallisto_pseudo/0.43.1.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/0.10.1.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/3.34.9.7" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/3.20.7.2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/goseq/goseq/1.26.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/2.11.40.2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.6" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/2.1.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.3.3.2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1" />
 
@@ -2403,6 +2431,8 @@
 
     <section id="plots" name="Graph/Display Data" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/2.2.1+galaxy0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/charts/charts/1.0.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/XY_Plot_1/1.0.2" />
@@ -3692,5 +3722,53 @@
     <tool id="echo_main_jetstream_tacc" />
 
     <tool id="echo_main_bridges" />
+
+    <section id="ngs:_rseqc" name="NGS: RSeQC" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_deletion_profile/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_geneBody_coverage2/2.6.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/2.6.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_infer_experiment/2.6.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_NVC/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RNA_fragment_size/2.6.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_geneBody_coverage/2.6.4.2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_bam_stat/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_tin/2.6.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_duplication/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_junction_saturation/2.6.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_GC/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_insertion_profile/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_bam2wig/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_FPKM_count/2.6.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_distribution/2.6.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_clipping_profile/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_quality/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_hexamer/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_mismatch_profile/2.6.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_junction_annotation/2.6.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_inner_distance/2.6.4.1" />
+
+    </section>
 
 </toolbox>

@@ -18,6 +18,7 @@
     </data_manager>
 
 
+
 <data_manager guid="toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_diamond_database_builder/data_manager/diamond_database_builder/0.0.1" id="diamond_database_builder" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml" version="0.0.1">
         <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_diamond_database_builder/ce62d0912b10/data_manager_diamond_database_builder/data_manager/data_manager_diamond_database_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_diamond_database_builder/diamond_database_builder/0.0.1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_diamond_database_builder</repository_name><repository_owner>bgruening</repository_owner><installed_changeset_revision>ce62d0912b10</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_diamond_database_builder/diamond_database_builder/0.0.1</id><version>0.0.1</version></tool><data_table name="diamond_database">
             <output>
@@ -34,5 +35,43 @@
             </output>
         </data_table>
     </data_manager>
+
+
+<data_manager guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_twobit_builder/data_manager/twobit_builder/0.0.2" id="twobit_builder" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml" version="0.0.2">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_twobit_builder/df883cc67fbd/data_manager_twobit_builder/data_manager/twobit_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_twobit_builder/twobit_builder_data_manager/0.0.2"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_twobit_builder</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>df883cc67fbd</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_twobit_builder/twobit_builder_data_manager/0.0.2</id><version>0.0.2</version></tool><data_table name="lastz_seqs">
+            <output>
+                <column name="value" />
+                <column name="name" />
+                <column name="path" output_ref="out_file">
+                    <move type="file">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">${value}/seq/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/${value}/seq/${path}</value_translation>
+                </column>
+            </output>
+        </data_table>
+        
+        <data_table name="twobit">
+            <output>
+                <column name="value" />
+                <column name="path" output_ref="out_file"><!-- move happens above -->
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/${value}/seq/${path}</value_translation>
+                </column>
+            </output>
+        </data_table>
+        
+        <data_table name="alignseq_seq">
+            <output>
+                <column name="type" /><!-- always seq -->
+                <column name="value" /><!-- also dbkey -->
+                <column name="path" output_ref="out_file"><!-- move happens above -->
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/${value}/seq/${path}</value_translation>
+                </column>
+            </output>
+        </data_table>
+        
+    </data_manager>
+    
 
 </data_managers>
