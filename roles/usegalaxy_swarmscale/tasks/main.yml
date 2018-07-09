@@ -37,39 +37,30 @@
   become: yes
   become_user: "{{ galaxy_user }}"
 
-- name: Create swarm scale playbook directory
+- name: Create swarm scale ansible directory
   file:
     path: "{{ swarm_scale_root }}/{{ item }}"
     state: directory
     owner: "{{ galaxy_user }}"
   with_items:
-    - etc/playbook
+    - etc/ansible
 
 - name: Copy playbook files
-  copy:
-    src: "{{ item }}"
-    dest: "{{ swarm_scale_root }}/etc/playbook/{{ item }}"
-    owner: "{{ galaxy_user }}"
-  with_items:
-    - delete.yml
-    - instance
-    - inventory.head
-    - inventory.spawn
-    - leave.yml
-    - spawn.yml
-    - ansible.cfg
-
-- name: Create per-cloud ssh_config
-  template:
-    src: "ssh_config.jetstream.j2"
-    dest: "{{ swarm_scale_root }}/etc/playbook/ssh_config.{{ item }}"
-    owner: "{{ galaxy_user }}"
-  with_items: "{{ clouds_yaml.clouds.keys() }}"
+  synchronize:
+    archive: no
+    recursive: yes
+    links: no
+    times: yes
+    perms: yes
+    copy_links: yes
+    src: files/
+    dest: "{{ swarm_scale_root }}/etc/ansible"
+    rsync_path: "sudo -u {{ galaxy_user }} rsync"
 
 - name: Install private data
   copy:
     content: "{{ item.content }}"
-    dest: "{{ swarm_scale_root }}/etc/playbook/{{ item.dest }}"
+    dest: "{{ swarm_scale_root }}/etc/ansible/{{ item.dest }}"
     owner: "{{ galaxy_user }}"
     mode: "0400"
   with_items:

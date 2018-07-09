@@ -1,0 +1,12 @@
+---
+
+image: JS-API-Featured-CentOS7-May-11-2018
+key_name: swarm_kp
+nics: net-name=swarm
+security_groups: default,swarm_worker
+auto_ip: yes
+flavor: m1.medium
+
+# don't auto-start docker, this will be done by Ansible on spawn/resume once the hostname is set
+docker_service_enabled: false
+docker_swarm_manager: jetstream-iu0.galaxyproject.org:2377

@@ -1,0 +1,10 @@
+---
+
+docker_install: yes
+docker_upgrade: no
+docker_service_enabled: "{{ 'dockerservers' in group_names or 'dockersslservers' in group_names }}"
+docker_ssl_ca_dir: /etc/docker-ca
+docker_daemon_option_list: []
+
+docker_ssl_server_certs: {}
+docker_ssl_server_keys: {}

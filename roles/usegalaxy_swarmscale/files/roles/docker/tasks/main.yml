@@ -1,0 +1,67 @@
+---
+
+- block:
+  # Done this way because role dependencies don't have conditionals, but they do
+  # take arbitrary parameters
+  - name: Include install tasks for RedHat
+    include: install_redhat.yml
+    when: docker_install and ansible_os_family == "RedHat"
+
+  - name: Include install tasks for Debian
+    include: install_debian.yml
+    when: docker_install and ansible_os_family == "Debian"
+
+  - name: Include SSL role to create/distribute SSL certs
+    include_role:
+      name: ssl
+    vars:
+      ssl_role_certs: "{{ docker_ssl_certs }}"
+    when: docker_ssl_certs is defined
+    notify:
+      - restart docker
+
+  - name: Set docker daemon options for SSL
+    set_fact:
+      docker_daemon_option_list: "{{ docker_daemon_option_list }} + [ '--tlsverify --tlscacert=/etc/docker/ca.pem --tlscert=/etc/docker/server-cert.pem --tlskey=/etc/docker/server-key.pem' ]"
+      docker_daemon_listen_network: "{{ docker_daemon_listen_network | default('tcp://0.0.0.0:2376') }}"
+    when: "'dockersslservers' in group_names"
+
+  - name: Set docker daemon startup options for network listening
+    set_fact:
+      docker_daemon_option_list: "{{ docker_daemon_option_list }} + [ '{{ \"-H=unix:///var/run/docker.sock -H=\" + docker_daemon_listen_network }}' ]"
+    when: docker_daemon_listen_network is defined
+
+  - name: Set docker daemon bridge IP
+    set_fact:
+      docker_daemon_option_list: "{{ docker_daemon_option_list }} + [ '{{ \"--bip=\" + docker_daemon_bip }}' ]"
+    when: docker_daemon_bip is defined
+
+  - name: Create systemd service directory for docker daemon options
+    file:
+      dest: /etc/systemd/system/docker.service.d
+      state: directory
+    when: docker_daemon_option_list
+
+  - name: Set docker daemon startup options
+    copy:
+      content: |
+        ##
+        ## This file is managed by Ansible.  ALL CHANGES WILL BE OVERWRITTEN.
+        ##
+        [Service]
+        ExecStart=
+        ExecStart=/usr/bin/dockerd {{ docker_daemon_option_list | join(" ") }}
+      dest: /etc/systemd/system/docker.service.d/docker.conf
+    notify:
+      - reload systemd daemon
+      - restart docker
+    when: docker_daemon_option_list
+  rescue:
+    - name: Remove secrets
+      file:
+        path: "{{ item }}"
+        state: absent
+      delegate_to: localhost
+      run_once: yes
+      become: false
+      with_items: "{{ clean_on_failure | default([]) }}"

@@ -1,0 +1,19 @@
+---
+
+- name: Stop instance(s)
+  hosts: swarmnodes
+  gather_facts: no
+  environment:
+     OS_CLOUD: "{{ cloud_id }}"
+     OS_IDENTITY_API_VERSION: '3'
+  tasks:
+
+    - name: Leave docker swarm
+      command: docker swarm leave
+
+    - name: Stop instance
+      os_server_action:
+        cloud: "{{ cloud_id }}"
+        server: "{{ inventory_hostname }}"
+        action: "stop"
+      delegate_to: localhost

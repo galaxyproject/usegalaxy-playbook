@@ -1,0 +1,211 @@
+---
+
+- name: Set up for spawn
+  hosts: swarmnodes
+  gather_facts: no
+  vars_files:
+    - clouds.yaml
+  tasks:
+
+    - name: Randomly select cloud for spawn
+      set_fact:
+        cloud_id: "{{ clouds.keys() | random }}"
+      delegate_to: localhost
+
+    - name: Set volume name fact
+      set_fact:
+        volume_name: "{{ inventory_hostname }}"
+      when: docker_snapshot_name is defined
+      delegate_to: localhost
+
+
+- name: Start/Spawn instance(s)
+  hosts: swarmnodes
+  gather_facts: no
+  environment:
+     OS_CLOUD: "{{ cloud_id }}"
+     OS_IDENTITY_API_VERSION: '3'
+  tasks:
+    - name: Instance start/spawn block
+      block:
+
+        - name: Create new nodes group
+          group_by:
+            key: newnodes
+          when: openstack is not defined
+
+        - name: Collect docker volume snapshot id
+          command: "openstack volume snapshot list -f value -c ID --volume {{ docker_snapshot_name }}"
+          register: docker_snapshot_id_out
+          when: "'newnodes' in group_names and docker_snapshot_name is defined"
+          delegate_to: localhost
+
+        - name: Set volume snapshot id fact
+          set_fact:
+            volume_snapshot_id: "{{ docker_snapshot_id_out.stdout }}"
+          when: "'newnodes' in group_names and docker_snapshot_name is defined"
+
+        - name: Create volume
+          os_volume:
+            cloud: "{{ cloud_id }}"
+            size: "{{ volume_size }}"
+            display_name: "{{ volume_name }}"
+            snapshot_id: "{{ volume_snapshot_id | default(omit) }}"
+          when: "'newnodes' in group_names and docker_snapshot_name is defined"
+          delegate_to: localhost
+
+        - name: Spawn new instance
+          os_server:
+            cloud: "{{ cloud_id }}"
+            name: "{{ inventory_hostname }}"
+            image: "{{ image }}"
+            flavor: "{{ flavor }}"
+            key_name: "{{ key_name }}"
+            nics: "{{ nics }}"
+            security_groups: "{{ security_groups }}"
+            volumes: "{{ volume_name | default(omit) }}"
+            auto_ip: "{{ auto_ip }}"
+            meta: group=swarmnodes
+            userdata: |
+              #cloud-config
+              package_upgrade: false
+          delegate_to: localhost
+          register: spawned_out
+          when: "'newnodes' in group_names"
+
+        - name: Set volume device fact
+          set_fact:
+            volume_dev: "{{ spawned_out.server.volumes[0].device }}"
+          when: "'newnodes' in group_names and docker_snapshot_name is defined"
+          delegate_to: localhost
+
+        - name: Update inventory with spawned instance IP
+          set_fact:
+            ansible_host: "{{ spawned_out.server.public_v4 }}"
+          delegate_to: localhost
+          when: "'newnodes' in group_names"
+
+        - name: Start instance
+          os_server_action:
+            cloud: "{{ cloud_id }}"
+            server: "{{ inventory_hostname }}"
+            action: "start"
+          delegate_to: localhost
+          when: "'newnodes' not in group_names"
+
+        # Unless we start running out of floating IPs, avoid this complication
+        #- name: Attach floating IP to instance
+        #  os_floating_ip:
+        #    cloud: "{{ cloud_id }}"
+        #    server: "{{ inventory_hostname }}"
+        #    wait: yes
+        #  delegate_to: localhost
+        #  when: "'newnodes' not in group_names"
+        #  register: floating_ip_attach_out
+
+        - name: Log IP address
+          debug:
+            var: ansible_host
+
+        - name: Wait for instance to become accessible
+          wait_for_connection:
+
+				- name: Ensure node hostname is correctly set
+					hostname:
+						name: "{{ inventory_hostname }}"
+
+      rescue:
+
+        - name: Include failure tasks
+          include_tasks: _inc_fail.yml
+
+
+- name: Configure new instance(s)
+  hosts: newnodes
+  become: yes
+  pre_tasks:
+
+    - name: Node config pre-tasks block
+      block:
+
+        - name: Make filesystem for /var/lib/docker
+          filesystem:
+            dev: "{{ volume_dev }}"
+            fstype: xfs
+          when: volume_name is defined
+
+        - name: Mount /var/lib/docker
+          mount:
+            src: "{{ volume_dev }}"
+            name: "/var/lib/docker"
+            fstype: xfs
+            state: mounted
+          when: volume_name is defined
+
+        - name: Install qemu-guest-agent
+          yum:
+            name: qemu-guest-agent
+
+        - name: Start qemu-guest-agent
+          service:
+            name: qemu-guest-agent
+            state: started
+            enabled: yes
+
+      rescue:
+
+        - name: Include failure tasks
+          include_tasks: _inc_fail.yml
+
+  roles:
+    - docker
+
+  post_tasks:
+
+    - name: Node config post-tasks block
+      block:
+
+        - name: Start docker service
+          service:
+            name: docker
+            state: started
+
+        - name: Pull docker images
+          command: "docker pull {{ item }}"
+          with_items: "{{ image_names }}"
+
+      rescue:
+
+        - name: Include failure tasks
+          include_tasks: _inc_fail.yml
+
+
+- name: Join swarm
+  hosts: swarmnodes
+  tasks:
+
+    - name: Join swarm task block
+      block:
+
+        - name: Start docker service
+          service:
+            name: docker
+            state: started
+
+        - name: Wait for docker service
+          command: docker ps
+          changed_when: false
+          register: docker_alive
+          until: docker_alive | success
+          retries: 12
+          delay: 2
+
+        # TODO: could pull here just to be safe - or unsafe?
+
+        - name: Join docker swarm
+          command: "docker swarm join --advertise-addr {{ ansible_host }} --token {{ swarm_worker_join_token }} {{ docker_swarm_manager }}"
+
+      rescue:
+
+        - name: Include failure tasks
+          include_tasks: _inc_fail.yml

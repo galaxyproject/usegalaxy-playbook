@@ -1,0 +1,13 @@
+---
+
+- name: Destroy instance on failure
+	os_server:
+		cloud: "{{ cloud_id }}"
+		name: "{{ inventory_hostname }}"
+		state: absent
+	delegate_to: localhost
+	become: no
+
+- name: Fail due to previous failure
+	fail:
+		msg: failed
