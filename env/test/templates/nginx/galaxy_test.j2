@@ -42,6 +42,9 @@ server {
     # Enable HSTS (age is 180 days)
     add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
 
+    # CORS
+    add_header Access-Control-Allow-Origin "http://registry.intermine.org/";
+
     access_log  /var/log/nginx/test.access.log;
     error_log   /var/log/nginx/test.error.log;
 
