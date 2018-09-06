@@ -1,0 +1,20 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+[Unit]
+Description=logflux rsyslog-to-InfluxDB translation service
+After=network.target auditd.service
+ConditionPathExists={{ logflux_config_file }}
+
+[Service]
+User={{ logflux_user }}
+Group={{ logflux_group }}
+ExecStart={{ logflux_root }}/bin/logflux -c {{ logflux_config_file }}
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Alias=logflux.service
+

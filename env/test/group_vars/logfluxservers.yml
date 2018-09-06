@@ -1,0 +1,36 @@
+---
+
+logflux_user: logflux
+logflux_group: logflux
+
+logfluxservers_group_users:
+  - name: "{{ logflux_user }}"
+    comment: "logflux syslog-to-InfluxDB service"
+    home: "{{ logflux_root }}"
+    system: true
+
+logfluxservers_group_directories:
+  - path: /srv/logflux/var
+    owner: "{{ logflux_user }}"
+    group: "{{ logflux_group }}"
+
+logflux_syslog_selector: "local7.*"
+
+logflux_root: /srv/logflux
+logflux_config:
+  socket: /srv/logflux/var/logflux.sock
+  influx:
+    host: galaxy06.tacc.utexas.edu
+    port: 8086
+  database: logflux
+  rules:
+    - name: nginx_rate_limit
+      match:
+        key: message
+        regex: '^nginx:.* limiting requests, excess: (?P<excess>\d+\.\d+) by zone "(?P<zone>[^"]+)", client: (?P<client>[^,]+)'
+      fields:
+        value: message.excess
+      tags:
+        zone: message.zone
+        client: message.client
+        hostname: host

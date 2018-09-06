@@ -1,0 +1,16 @@
+---
+
+- name: reload rsyslog
+  service:
+    name: rsyslog
+    state: restarted
+
+- name: reload logflux
+  service:
+    name: logflux
+    state: restarted
+
+- name: restart logflux
+  service:
+    name: logflux
+    state: restarted

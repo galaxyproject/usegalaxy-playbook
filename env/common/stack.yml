@@ -47,6 +47,15 @@
     - copy    # for tacc_protected in test env
   tags: nginx
 
+- name: Install logflux
+  hosts: logfluxservers
+  remote_user: root
+  roles:
+    - users
+    - paths
+    - logflux
+  tags: logflux
+
 - name: Install and manage ProFTPD
   hosts: ftpservers
   remote_user: root
