@@ -1,0 +1,48 @@
+---
+
+- name: Create logflux virtualenv and install logflux
+  pip:
+    name: logflux
+    virtualenv: "{{ logflux_root }}"
+
+- name: Create logflux configuration directory
+  file:
+    path: "{{ logflux_config_file | dirname }}"
+    state: directory
+
+- name: Install logflux configuration
+  copy:
+    content: "{{ logflux_config | to_nice_yaml }}"
+    dest: "{{ logflux_config_file }}"
+  notify:
+    - reload logflux
+
+- name: Install logflux rsyslog configuration
+  template:
+    src: "rsyslog.conf.j2"
+    dest: "/etc/rsyslog.d/99-ansible-logflux.conf"
+    owner: "root"
+    group: "root"
+  notify:
+    - reload rsyslog
+
+- name: Install logflux systemd service unit
+  template:
+    src: "logflux.service.j2"
+    dest: "/etc/systemd/system/logflux.service"
+    owner: "root"
+    group: "root"
+  notify:
+    - restart logflux
+  register: logflux_service_unit_result
+
+- name: reload systemd
+  systemd:
+    daemon_reload: true
+  when: logflux_service_unit_result is changed
+
+- name: Ensure logflux is enabled and started
+  service:
+    name: logflux
+    enabled: true
+    state: started
