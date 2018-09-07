@@ -1271,6 +1271,8 @@
 
     <section id="peak_calling" name="NGS: Peak Calling" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/greg/multigps/multigps/0.74.0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.6.6.4" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.6.5.0" />
@@ -1296,8 +1298,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_randsample/2.1.1.20160309.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgpeakcall/2.1.1.20160309.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/multigps/multigps/0.73.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/tag_pileup_frequency/tag_pileup_frequency/1.0.1" />
 
@@ -3735,6 +3735,24 @@
 
     </section>
 
+    <section id="planttribes" name="PlantTribes" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_assembly_post_processor/plant_tribes_assembly_post_processor/1.0.3.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_gene_family_classifier/plant_tribes_gene_family_classifier/1.0.3.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_gene_family_integrator/plant_tribes_gene_family_integrator/1.0.3.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_gene_family_aligner/plant_tribes_gene_family_aligner/1.0.3.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_gene_family_phylogeny_builder/plant_tribes_gene_family_phylogeny_builder/1.0.3.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_kaks_analysis/plant_tribes_kaks_analysis/1.0.3.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_ks_distribution/ks_distribution/1.0.3.0" />
+
+    </section>
+
     <label id="deprecated" text="DEPRECATED" version="" />
 
     <section id="gatk" name="NGS: GATK Tools (beta)" version="">
@@ -3842,23 +3860,5 @@
     <tool id="echo_main_jetstream_tacc" />
 
     <tool id="echo_main_bridges" />
-
-    <section id="planttribes" name="PlantTribes" version="">
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_assembly_post_processor/plant_tribes_assembly_post_processor/1.0.3.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_ks_distribution/ks_distribution/1.0.3.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_kaks_analysis/plant_tribes_kaks_analysis/1.0.3.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_gene_family_phylogeny_builder/plant_tribes_gene_family_phylogeny_builder/1.0.3.1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_gene_family_integrator/plant_tribes_gene_family_integrator/1.0.3.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_gene_family_classifier/plant_tribes_gene_family_classifier/1.0.3.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_gene_family_aligner/plant_tribes_gene_family_aligner/1.0.3.0" />
-
-    </section>
 
 </toolbox>
