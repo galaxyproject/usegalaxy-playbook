@@ -1,0 +1,19 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+server {
+    listen          80 default_server;
+    server_name     _;
+
+    location /_status {
+        stub_status on;
+        access_log off;
+        allow 127.0.0.1;
+        deny all;
+    }
+
+    location / {
+        rewrite .* {{ nginx_default_redirect_uri }};
+    }
+}

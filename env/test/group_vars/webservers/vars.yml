@@ -1,6 +1,7 @@
 ---
 ## used by: galaxyproject.nginx
 nginx_flavor: galaxy
+nginx_enable_default_server: false
 nginx_default_redirect_uri: https://test.galaxyproject.org$request_uri
 
 nginx_conf_http:
@@ -20,6 +21,7 @@ nginx_conf_http:
 nginx_users_allow_path: /etc/nginx/users.allow
 
 nginx_configs:
+  - default
   - galaxy_test
   - tacc_protected
   - nate01
