@@ -52,7 +52,7 @@ server {
     error_log   /var/log/nginx/test.error.log;
 
     # logflux logger
-    error_log syslog:server=unix:/dev/log,facility=local6,severity=warn;
+    error_log syslog:server=unix:/dev/log,facility=local6,severity=error;
 
     location / {
         uwsgi_pass 127.0.0.1:4001;
