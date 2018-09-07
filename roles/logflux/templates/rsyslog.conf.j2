@@ -2,14 +2,21 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
-template(name="logflux" type="list" option.jsonf="on") {
-    property(outname="@timestamp" name="timereported" dateFormat="rfc3339" format="jsonf")
-    property(outname="host" name="hostname" format="jsonf")
-    property(outname="severity" name="syslogseverity-text" caseConversion="upper" format="jsonf")
-    property(outname="facility" name="syslogfacility-text" format="jsonf")
-    property(outname="syslog-tag" name="syslogtag" format="jsonf")
-    property(outname="source" name="app-name" format="jsonf")
-    property(outname="message" name="msg" format="jsonf")
+template(name="logflux" type="list") {
+	constant(value="@timestamp: ")
+	property(outname="@timestamp" name="timereported" dateFormat="rfc3339")
+	constant(value="\nhost: ")
+	property(outname="host" name="hostname")
+	constant(value="\nseverity: ")
+	property(outname="severity" name="syslogseverity-text" caseConversion="upper")
+	constant(value="\nfacility: ")
+	property(outname="facility" name="syslogfacility-text")
+	constant(value="\nsyslog-tag: ")
+	property(outname="syslog-tag" name="syslogtag")
+	constant(value="\nsource: ")
+	property(outname="source" name="app-name")
+	constant(value="\n\n")
+	property(outname="message" name="msg")
 }
 
 module(load="omuxsock")

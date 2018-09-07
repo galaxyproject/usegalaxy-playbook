@@ -4,6 +4,7 @@
   pip:
     name: logflux
     virtualenv: "{{ logflux_root }}"
+    state: "{{ 'latest' if logflux_upgrade else 'present' }}"
 
 - name: Create logflux configuration directory
   file:
