@@ -11,7 +11,7 @@ autostart       = true
 autorestart     = true
 startsecs       = 30
 user            = {{ galaxy_user }}
-environment     = VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+environment     = VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin,PYTHONPATH={{ galaxy_dynamic_rule_dir }}
 stdout_logfile  = {{ galaxy_log_dir }}/impersonate.log
 stdout_logfile_maxbytes = 128MB
 stdout_logfile_backups = 64
