@@ -16,6 +16,7 @@ nginx_conf_http:
   server_names_hash_bucket_size: 128
   client_max_body_size: 1g
   proxy_read_timeout: 3600
+  uwsgi_read_timeout: 600
   gzip_vary: 'on'
   gzip_proxied: any
   gzip_comp_level: 6
