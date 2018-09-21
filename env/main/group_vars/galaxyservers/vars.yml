@@ -226,6 +226,9 @@ base_app_main: &BASE_APP_MAIN
   # start high, decrease when we've fixed things
   slow_query_log_threshold: "2"
 
+  # disable the new late object store assignment for the moment due to some bugs
+  legacy_eager_objectstore_initialization: "True"
+
 # galaxy.ini contents
 galaxy_config_hash:
   "app:main":
