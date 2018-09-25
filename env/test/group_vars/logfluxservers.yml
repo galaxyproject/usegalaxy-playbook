@@ -18,6 +18,8 @@ logflux_syslog_selector: "local6.*"
 
 logflux_root: /srv/logflux
 logflux_config:
+  server_type: threading
+  message_format: legacy
   socket: /srv/logflux/var/logflux.sock
   influx:
     host: galaxy06.tacc.utexas.edu
@@ -36,3 +38,15 @@ logflux_config:
         zone: message.zone
         client: message.client
         hostname: host
+    - name: nginx_req_err
+      match:
+        key: message
+        regex: '^nginx: __logflux_access_log (?P<status>[45]\d{2}) "(?P<method>[A-Z]+) (?P<path>[^ ?%]+)[^ ]* HTTP/'
+      fields:
+        value:
+          lookup: message.path
+      tags:
+        hostname: host
+        status: message.status
+        method: message.method
+
