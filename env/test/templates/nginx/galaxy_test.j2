@@ -38,6 +38,11 @@ map $cookie_galaxysession $rate_limit_key {
     default $binary_remote_addr;
 }
 
+map $status $log_404 {
+    404     1;
+    default 0;
+}
+
 limit_req_zone $rate_limit_key zone=limit_test:10m rate=1r/s;
 
 log_format status_req_only '__logflux_access_log $status "$request"';
@@ -55,16 +60,12 @@ server {
 
     # logflux logger
     error_log syslog:server=unix:/dev/log,facility=local6 error;
-    uwsgi_intercept_errors on;
+    access_log syslog:server=unix:/dev/log,facility=local6,severity=error status_req_only if=$log_404;
 
     location / {
         uwsgi_pass 127.0.0.1:4001;
         uwsgi_param UWSGI_SCHEME $scheme;
         include uwsgi_params;
-    }
-
-    location @404 {
-        access_log syslog:server=unix:/dev/log,facility=local6,severity=error status_req_only;
     }
 
     location /_limit {
@@ -184,7 +185,6 @@ server {
     }
 
     # error docs
-    error_page  404         = @404;
     error_page  502 503 504 /error/502/index.shtml;
     error_page  413         /error/413/index.html;
     location /error {
