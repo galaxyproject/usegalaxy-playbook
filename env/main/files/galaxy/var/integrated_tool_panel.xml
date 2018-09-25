@@ -1311,11 +1311,15 @@
 
     <section id="peak_calling" name="NGS: Peak Calling" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/ngsutils_bam_filter/0.5.9" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/greg/multigps/multigps/0.74.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.6.6.4" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.6.5.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgdiff/2.1.1.20160309.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.2.1" />
 
@@ -1324,6 +1328,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/2.1.1.20160309.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgbroadcall/2.1.1.20160309.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/2.1.1.20160309.4" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_refinepeak/2.1.1.20160309.0" />
 
@@ -1640,6 +1646,10 @@
     </section>
 
     <section id="ngs:_assembly" name="NGS: Assembly" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.4.6.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/1.13" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/4.6.3" />
 
@@ -4043,7 +4053,23 @@
 
     <section id="motif_tools" name="Motif Tools" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/meme_meme/meme_meme/4.12.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.12.0.0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/weblogo3/rgweblogo3/3.5.0" />
+
+    </section>
+
+    <section id="ngs:_bamtools" name="NGS: BamTools" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/2.4.0" />
+
+    </section>
+
+    <section id="ngs:_peak_calling" name="NGS: Peak Calling" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/genetrack/genetrack/1.0.1" />
 
     </section>
 
