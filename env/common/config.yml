@@ -4,7 +4,6 @@
   hosts: galaxyservers
   remote_user: "{{ galaxy_privileged_user }}"
   vars:
-    instance_root: "{{ galaxy_root }}"
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # set up local galaxy clone and local config
@@ -34,7 +33,6 @@
   hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
   vars:
-    instance_root: "{{ galaxy_root }}"
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # fetch and distribute mutable configs (needs the galaxy_mutable_configs

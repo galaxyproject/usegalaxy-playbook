@@ -81,9 +81,10 @@ dependencies was:
 
 1. Use `find` and `sed` to alter paths in env.sh
 
-1. Recreate virtualenvs in deps using `{{ instance_root }}/python/bin/virtualenv venv`,
-   but this requires removing `include/python2.7`, `lib/python2.7`, and copying
-   site-packages from the old venv to the new venv. Obviously not a sustainable model.
+1. Recreate virtualenvs in deps using a local copy of virtualenv but this
+   requires removing `include/python2.7`, `lib/python2.7`, and copying
+   site-packages from the old venv to the new venv. Obviously not a sustainable
+   model.
 
 License
 -------

@@ -3,7 +3,7 @@
 ;;
 
 [program:galaxy_reports]
-command         = {{ galaxy_venv_dir }}/bin/python ./scripts/paster.py serve {{ galaxy_config_dir }}/reports.ini --server-name=main --pid-file={{ instance_root }}/var/run/%(program_name)s.pid
+command         = {{ galaxy_venv_dir }}/bin/python ./scripts/paster.py serve {{ galaxy_config_dir }}/reports.ini --server-name=main --pid-file={{ galaxy_root }}/var/run/%(program_name)s.pid
 directory       = {{ galaxy_server_dir }}
 process_name    = reports
 umask           = 022

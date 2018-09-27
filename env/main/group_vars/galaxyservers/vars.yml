@@ -14,18 +14,16 @@ galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
 galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_connection }}"
 
 
+## used by: lots of stuff throughout the playbook
+galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
+￼
+
 ## used by: proftpd template and this vars file:
 galaxy_ftp_upload_dir: /galaxy-repl/{{ galaxy_instance_codename }}/ftp
 
 
 ## used by: other vars in this vars file
 galaxy_log_dir: "{{ galaxy_root }}/log"
-
-# instance_root and galaxy_root are set in the play
-# these are the same on galaxy servers
-# on pulsar servers, galaxy_root is a subdirectory of instance_root
-#instance_root:
-#galaxy_root:
 
 
 ## used by: galaxyproject.galaxy and the play itself
