@@ -3,6 +3,34 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Thu Sep 27 14:47:37 EDT 2018
+
+#### DESeq2 dependencies
+
+Because `--offline` support is broken in Conda 4.x (or was when we last upgraded, to 4.3.34) when running from a
+read-only location, per-job conda envs have been broken since we upgraded Main from Conda 3 last year. In order to avoid
+this, I tediously mulled all of the existing multi-dependency envs with the help of [some
+scripts](https://github.com/natefoo/misc-scripts) I wrote in order to ensure the same versions of *all* packages in the
+environments would be the same in the mulled env as they were in the per-job envs.
+
+This was done last year at the time of upgrading to Conda 4, for all but two tools, two different versions of DESeq2,
+which failed to mull:
+
+- Tool version 2.11.39, DESeq2 version 1.14.1
+- Tool version 2.1.8.4, DESeq2 version 1.10.1
+
+I don't recall why the first one failed - I was able to mull it today using the "Manage dependencies" interface in
+Galaxy. The second, however, was more broken, because the version of DESeq2 was dependent on an older version of R
+(3.2.2) and one of the tool's other dependencies (r-getopt 1.20.0) was no longer available from Conda for that version
+of R. However, [there is one copy from a community member](https://anaconda.org/fongchun/r-getopt). Using that version
+allowed the mulled env to install, although I was not able to use the mulled env name because the packages were old
+enough that they ran in to the conda-build < 3.0 path element length limits... To get around that, I named the env
+`deseq2-1.10.1-mulled` and then symlinked `mulled-v1-eac05d01b4e8eb7f41627035822f7eda0dd5a91adc5442bcbf1e12a95a80ee9f`
+to it.
+
+I can't guarantee that these two versions of DESeq2 will produce the same results as they did before the Conda
+upgrade-and-mull last year, but at least they work now.
+
 ### Thu Mar  1 11:11:05 EST 2018
 
 **Bridges**
