@@ -29,3 +29,5 @@ pulsar_optional_dependencies:
   - requests
   - poster
   - psutil
+# TODO: Pulsar doesn't need to run under uWSGI at all, just run webless. This is so it doesn't collide with Test on 8193.
+pulsar_port: 8194
