@@ -1,7 +1,6 @@
 ---
 
-#shared_root: /pylon2/mc48nsp/xcgalaxy
-shared_root: /home/xcgalaxy
+shared_root: /pylon5/mc48nsp/xcgalaxy
 scratch_root: /pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}
 galaxy_user: xcgalaxy
 pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
@@ -39,6 +38,10 @@ pulsar_yaml_config:
     bridges_nagios:
       type: queued_python
       min_polling_interval: 5
+
+pulsar_install_environments:
+  pycurl:
+    PYCURL_SSL_LIBRARY: "openssl"
 
 pulsar_optional_dependencies:
   # setup.py broken?
