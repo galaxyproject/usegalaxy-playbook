@@ -1,6 +1,8 @@
 ---
 
-shared_root: /srv/pulsar
+pulsar_root: "/srv/pulsar/{{ galaxy_instance_codename }}/pulsar"
+galaxy_root: "/srv/pulsar/{{ galaxy_instance_codename }}/galaxy"
+
 galaxy_user: g2test
 
 pulsar_drmaa_library_path: "/usr/lib64/libdrmaa.so"
@@ -43,23 +45,6 @@ pulsar_yaml_config:
 pulsar_install_environments:
   pycurl:
     PYCURL_SSL_LIBRARY: "nss"
-
-pulsar_optional_dependencies:
-  - pyOpenSSL
-  - pycurl==7.19.3.1 # https://github.com/pycurl/pycurl/issues/201
-  - uwsgi
-  - drmaa
-  - requests
-  - poster
-  - psutil
-  - Paste
-  - PasteDeploy
-  - PasteScript
-  - kombu
-  # these should be installed as pulsar requirements but aren't
-  - galaxy-lib==17.9.9
-  - webob
-  - PyYAML
 
 host_templates:
   - src: templates/pulsar/config/jetstream_dependency_resolvers_conf.xml.j2

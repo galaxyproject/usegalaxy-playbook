@@ -1,8 +1,5 @@
 ---
 
-# FIXME: we don't use this but it has to be set
-shared_root: /srv/pulsar
-
 pulsar_root: /srv/pulsar/test
 # do you need this?
 galaxy_root: /cvmfs/test.galaxyproject.org/galaxy
@@ -49,23 +46,6 @@ pulsar_yaml_config:
 pulsar_install_environments:
   pycurl:
     PYCURL_SSL_LIBRARY: "nss"
-
-pulsar_optional_dependencies:
-  - pyOpenSSL
-  - pycurl==7.19.3.1 # https://github.com/pycurl/pycurl/issues/201
-  - uwsgi
-  - drmaa
-  - requests
-  - poster
-  - psutil
-  - Paste
-  - PasteDeploy
-  - PasteScript
-  - kombu
-  # these should be installed as pulsar requirements but aren't
-  - galaxy-lib==18.5.13
-  - webob
-  - PyYAML
 
 host_templates:
   - src: templates/pulsar/config/jetstream_dependency_resolvers_conf.xml.j2

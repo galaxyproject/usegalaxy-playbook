@@ -1,16 +1,20 @@
 ---
 
-shared_root: /pylon5/mc48nsp/xcgalaxy
-scratch_root: /pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}
-galaxy_user: xcgalaxy
-pip_virtualenv_command: "{{ instance_root }}/python/bin/virtualenv"
+_bridges_home_root: "/home/xcgalaxy/{{ galaxy_instance_codename }}"
+_bridges_pylon5_root: "/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}"
 
-pulsar_drmaa_library_path: "{{ instance_root }}/slurm-drmaa/lib/libdrmaa.so"
+pulsar_root: "{{ _bridges_home_root }}/pulsar"
+galaxy_root: "{{ _bridges_pylon5_root }}/galaxy"
+
+galaxy_user: xcgalaxy
+pip_virtualenv_command: "/home/xcgalaxy/virtualenv/bin/virtualenv"
+
+pulsar_drmaa_library_path: "{{ _bridges_home_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_yaml_config:
-  staging_directory: "{{ scratch_root }}/staging"
-  persistence_directory: "{{ scratch_root }}/var"
-  tool_dependency_dir: "{{ instance_root }}/deps"
+  staging_directory: "{{ _bridges_pylon5_root }}/staging"
+  persistence_directory: "{{ pulsar_root }}/var"
+  tool_dependency_dir: "{{ _bridges_home_root }}/deps"
   conda_prefix: "/home/xcgalaxy/conda"
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
@@ -42,25 +46,6 @@ pulsar_yaml_config:
 pulsar_install_environments:
   pycurl:
     PYCURL_SSL_LIBRARY: "openssl"
-
-pulsar_optional_dependencies:
-  # setup.py broken?
-  - paste
-  - pastescript
-  - pastedeploy
-  - webob
-  - six
-  - pyyaml
-  - galaxy-lib==17.9.9
-  # actual optional things
-  - pyOpenSSL
-  - pycurl
-  - uwsgi
-  - drmaa
-  - kombu
-  - requests
-  - poster
-  - psutil
 
 host_files:
   - src: files/pulsar/config/bridges_dependency_resolvers_conf.xml

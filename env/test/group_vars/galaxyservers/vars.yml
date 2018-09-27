@@ -13,6 +13,9 @@ galaxy_config_biostar_key: "{{ vault_galaxy_config_biostar_key }}"
 galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
 galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_connection }}"
 
+## used by: lots of stuff throughout the playbook
+galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
+
 ## used by: proftpd template and this vars file
 galaxy_ftp_upload_dir: /galaxy-repl/{{ galaxy_instance_codename }}/ftp
 
@@ -30,7 +33,6 @@ galaxy_log_dir: "{{ galaxy_root }}/log"
 # bare word expansion is deprecated. D=
 galaxy_system_group: G-803372
 
-galaxy_root: /srv/galaxy/{{ galaxy_instance_codename }}
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
 #galaxy_server_dir: /galaxy-repl/test/livedebug
 galaxy_shed_tool_conf_file: /cvmfs/{{ galaxy_cvmfs_repo }}/config/shed_tool_conf.xml

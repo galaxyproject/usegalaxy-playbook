@@ -7,9 +7,6 @@ pulsar_message_queue_url: "{{ vault_pulsar_message_queue_url }}"
 
 
 ## used by: other vars in this vars file
-instance_root: "{{ shared_root }}/test"
-pulsar_root: "{{ instance_root }}/pulsar"
-galaxy_root: "{{ instance_root }}/galaxy"
 galaxy_instance_hostname: test.galaxyproject.org
 
 
@@ -19,6 +16,26 @@ pulsar_pip_install: true
 pulsar_changeset_id: ff2208baf43f6afb9770316e474d15f69c9fd4f9
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_config_dir: "{{ pulsar_root }}/config"
+pulsar_optional_dependencies:
+  # setup.py broken?
+  #- paste
+  #- pastescript
+  #- pastedeploy
+  #- webob
+  #- six
+  #- pyyaml
+  # git+pip pulsar install uses 'state: forcereinstall' which can upgrade galaxy-lib to a version not compatible with
+  # the specified pulsar version, this downgrades it if necessary.
+  - galaxy-lib==18.5.13
+  # actual optional things
+  - pyOpenSSL
+  - pycurl
+  - uwsgi
+  - drmaa
+  - kombu
+  - requests
+  - poster
+  - psutil
 
 
 ## used by: galaxyproject.galaxy
