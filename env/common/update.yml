@@ -58,7 +58,7 @@
   roles:
     - role: galaxyproject.galaxy
       galaxy_manage_clone: yes
-      galaxy_manage_static_setup: no
+      galaxy_manage_static_setup: yes    # config has to exist for conditional wheel fetching
       galaxy_manage_mutable_setup: no
       galaxy_manage_database: no
       galaxy_fetch_dependencies: yes
