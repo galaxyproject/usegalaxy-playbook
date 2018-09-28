@@ -3,6 +3,14 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Thu Sep 27 21:48:27 EDT 2018
+
+#### Bridges
+
+Ran out of quota in `/home` so I moved Galaxy and Conda back to `/pylon5` since the quotas there are now relaxed and the
+automatic cleaner is disabled. This required doing the same `conda list --export | conda create --file /dev/stdin`
+process as before. Java again had to be uninstalled from the `__unicycler@0.4.1` environment.
+
 ### Thu Sep 27 14:47:37 EDT 2018
 
 #### DESeq2 dependencies
