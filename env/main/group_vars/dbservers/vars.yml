@@ -10,7 +10,7 @@ postgresql_archive_wal_rsync_args: '--ignore-existing -ptg'
 postgresql_conf:
   listen_addresses: "'*'"
   max_connections: 500
-  shared_buffers: 2048MB
+  shared_buffers: 4096MB
   temp_buffers: 64MB
   max_prepared_transactions: 100
   work_mem: 64MB
