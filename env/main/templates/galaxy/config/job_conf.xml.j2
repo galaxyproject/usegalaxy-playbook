@@ -53,6 +53,9 @@
         <!-- local destinations -->
         <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--cpus-per-task=2 --time=00:30:00 --mem-per-cpu=5120" java_mem="10g" />
 
+        <!-- temporary concurrency limit increase for du novo: align families -->
+        <expand macro="slurm_destination" dest="multi_align_families" partition="multi" native_specification="--cpus-per-task=6 --time=96:00:00" />
+
         <!-- dynamic modified destinations: do not use directly -->
         <expand macro="slurm_destination" dest="multi_dynamic_walltime" partition="multi" native_specification="--cpus-per-task=6" />
         <!-- <resubmit condition="walltime_reached" destination="stampede_normal" handler="multi_handlers"/> -->
@@ -140,7 +143,10 @@
         <!-- dynamic memory tools -->
         <tool id="naive_variant_caller" destination="dynamic_nvc_dynamic_memory"/>
         <!-- local/jetstream tools -->
+        <!--
         <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        -->
+        <tool id="align_families" destination="slurm_multi_align_families" handler="multi_handlers"/>
         <!-- roundup multi/jetstream/bridges jobs -->
         <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="multi_handlers"  resources="multi_or_bridges"/>
         <!-- 16GB tools -->
@@ -208,6 +214,7 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_align_families">4</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal">16</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_16gb">8</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_32gb">4</limit>
