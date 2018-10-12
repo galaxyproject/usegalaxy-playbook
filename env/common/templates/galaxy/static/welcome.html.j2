@@ -4,88 +4,95 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="style/base.css" type="text/css" />
     <style type="text/css">
-        #logos img {
+        .welcome #logos img {
             max-width: 100%;
         }
-        .card-title{
+        .welcome .card-title {
             font-size: 1rem;
+        }
+        .welcome a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <div class="container welcome">
         <div class="row">
             <p class="lead" style="margin-top: 1em; margin-bottom: 2em;">
                 <b>Galaxy</b> is an open source, web-based platform for data intensive biomedical research.
             </p>
         </div>
 
-        <!-- Copy the following div to create a new row of cards. -->
-        <div class="row mb-sm-4">
-            <div class="card-deck">
-                <div class="card col-md-6">
-                  <div class="card-body">
-                    <h5 class="card-title">101</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Start using Galaxy right now</h6>
-                    <p class="card-text">Familiarize yourself with the Galaxy user interface. The first thing to go through.</p>
-                    <a href="http://galaxyproject.github.io/training-material/topics/introduction/tutorials/galaxy-intro-101/tutorial.html" class="card-link" target="_blank">hands on</a>
-                  </div>
-                </div>
-                <div class="card col-md-6">
-                  <div class="card-body">
-                    <h5 class="card-title">Trainings</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">For scientists and developers alike</h6>
-                    <p class="card-text">Galaxy Training Network maintains dozens of high quality hands-on materials ranging from introductory to in-depth.</p>
-                    <a href="https://training.galaxyproject.org" class="card-link" target="_blank">browse available trainings</a>
-                  </div>
-                </div>
-            </div>
-        </div>
-        <!-- End of copying -->
-
-        <div class="row mb-sm-4">
-            <div class="card-deck">
-                <div class="card col-md-6">
-                  <div class="card-body">
-                    <h5 class="card-title">Running your own</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Have your own Galaxy in minutes</h6>
-                    <p class="card-text">With your own Galaxy you can choose from thousands of tools available in the Galaxy Tool Shed.</p>
-                    <a href="https://galaxyproject.org/admin/get-galaxy/" class="card-link" target="_blank">get Galaxy!</a>
-                    <a href="https://galaxyproject.org/admin/tools/add-tool-from-toolshed-tutorial/" class="card-link" target="_blank">how to install tools</a>
-                  </div>
-                </div>
-                <div class="card col-md-6">
-                  <div class="card-body">
-                    <h5 class="card-title">Biostar</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Ask questions about using Galaxy</h6>
-                    <p class="card-text">Galaxy Biostar is a Q&A website which will help you with your Galaxy analysis.</p>
-                    <a href="https://biostar.usegalaxy.org/" class="card-link" target="_blank">visit Galaxy Biostar</a>
-                  </div>
-                </div>
-            </div>
-        </div>
-
         <div class="row">
-            <div class="card-deck">
-                <div class="card col-md-6">
-                  <div class="card-body">
-                    <h5 class="card-title">Public servers</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">There are 90+ Galaxy server available to everybody</h6>
-                    <p class="card-text">This server can meet many needs, but is not suitable for everything. Luckily there are many more.</p>
-                    <a href="https://galaxyproject.org/public-galaxy-servers/" class="card-link" target="_blank">explore public Galaxies</a>
-                  </div>
+            <div class="col-6">
+                <!-- Copy the following div to create a new row with a card. -->
+                <div class="row mb-3">
+                    <div class="card w-100 border-light">
+                      <div class="card-body">
+                        <h5 class="card-title">101</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Start using Galaxy right now</h6>
+                        <p class="card-text">Familiarize yourself with the Galaxy user interface. The first thing to go through.</p>
+                        <a href="http://galaxyproject.github.io/training-material/topics/introduction/tutorials/galaxy-intro-101/tutorial.html" class="card-link" target="_blank">hands on</a>
+                      </div>
+                    </div>
                 </div>
-                <div class="card col-md-6">
-                  <div class="card-body">
-                    <h5 class="card-title">Events</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Find Galaxy-related events</h6>
-                    <p class="card-text">There are many events with Galaxy-related content on almost every continent.</p>
-                    <a href="https://galaxyproject.org/events/" class="card-link" target="_blank">upcoming Galaxy events</a>
-                  </div>
+                <!-- End of copying -->
+                <div class="row mb-3">
+                    <div class="card w-100 border-light">
+                      <div class="card-body">
+                        <h5 class="card-title">Biostar</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Ask questions about using Galaxy</h6>
+                        <p class="card-text">Galaxy Biostar is a Q&A website which will help you with your Galaxy analysis.</p>
+                        <a href="https://biostar.usegalaxy.org/" class="card-link" target="_blank">visit Galaxy Biostar</a>
+                      </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+                <div class="row mb-3">
+                    <div class="card w-100 border-light">
+                      <div class="card-body">
+                        <h5 class="card-title">Running your own</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Have your own Galaxy in minutes</h6>
+                        <p class="card-text">With your own Galaxy you can choose from thousands of tools available in the Galaxy Tool Shed.</p>
+                        <a href="https://galaxyproject.org/admin/get-galaxy/" class="card-link" target="_blank">get Galaxy!</a>
+                      </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="card w-100 border-light">
+                      <div class="card-body">
+                        <h5 class="card-title">Biostar</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Ask questions about using Galaxy</h6>
+                        <p class="card-text">Galaxy Biostar is a Q&A website which will help you with your Galaxy analysis.</p>
+                        <a href="https://biostar.usegalaxy.org/" class="card-link" target="_blank">visit Galaxy Biostar</a>
+                      </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="card w-100 border-light">
+                      <div class="card-body">
+                        <h5 class="card-title">Public servers</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">There are 90+ Galaxy server available to everybody</h6>
+                        <p class="card-text">This server can meet many needs, but is not suitable for everything. Luckily there are many more.</p>
+                        <a href="https://galaxyproject.org/public-galaxy-servers/" class="card-link" target="_blank">explore public Galaxies</a>
+                      </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="card w-100 border-light">
+                      <div class="card-body">
+                        <h5 class="card-title">Events</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Find Galaxy-related events</h6>
+                        <p class="card-text">There are many events with Galaxy-related content on almost every continent.</p>
+                        <a href="https://galaxyproject.org/events/" class="card-link" target="_blank">upcoming Galaxy events</a>
+                      </div>
+                    </div>
+                </div>
+            </div> <!-- end col -->
+            <div class="col-6">
+                <a class="twitter-timeline" data-height="768" data-dnt="true" href="https://twitter.com/galaxyproject?ref_src=twsrc%5Etfw">Tweets by galaxyproject</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div> <!-- end col -->
+        </div> <!-- end row -->
 
         <div class="row mt-4" id="logos">
             <div class="col-md-6 order-1">
@@ -115,8 +122,7 @@
                 <p class="text-center"><small>Galaxy version {{ galaxy_version }}, commit <code><a href="https://github.com/galaxyproject/galaxy/commit/{{ galaxy_commit }}" target="_blank">{{ galaxy_commit }}</a></code></small></p>
             </div>
         </div>
-
-    </div>
+    </div> <!-- End container-->
 
 </body>
 </html>
