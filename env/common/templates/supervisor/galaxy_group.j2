@@ -8,6 +8,9 @@
 {%- if "galaxy_handler" in supervisord_configs %}
 {%- set programs = programs + ["galaxy_handler"] %}
 {%- endif %}
+{%- if "galaxy_workflow_scheduler" in supervisord_configs %}
+{%- set programs = programs + ["galaxy_workflow_scheduler"] %}
+{%- endif %}
 {%- if "galaxy_impersonate" in supervisord_configs %}
 {%- set programs = programs + ["galaxy_impersonate"] %}
 {%- endif %}

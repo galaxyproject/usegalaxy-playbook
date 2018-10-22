@@ -47,9 +47,11 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 ## used by: supervisor
 galaxy_handler_count: 4
+galaxy_workflow_scheduler_count: 1
 supervisord_group_configs:
   - galaxy
   - galaxy_handler
+  - galaxy_workflow_scheduler
   - galaxy_datamanager
   #- galaxy_reports
   - galaxy_group
@@ -204,6 +206,7 @@ base_app_main: &BASE_APP_MAIN
   #datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
   object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
   job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
+  workflow_schedulers_config_file: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
   job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
   data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
   job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
@@ -373,3 +376,5 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/reports.ini"
   - src: templates/galaxy/config/uwsgi.ini.j2
     dest: "{{ galaxy_config_dir }}/uwsgi.ini"
+  - src: templates/galaxy/config/workflow_schedulers_conf.xml.j2
+    dest: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
