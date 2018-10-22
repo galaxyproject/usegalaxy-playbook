@@ -10,7 +10,7 @@ otherlog_size="$(( 128 * 1024 * 1024 ))"  # 128MB
 
 [ ! -d "${archivedir}" ] && mkdir "${archivedir}"
 
-for logfile in ${logdir}/uwsgi*.log.*; do 
+for logfile in ${logdir}/uwsgi*.log.* ${logdir}/zerg*.log.*; do
     [ -f "${logfile}" ] || continue
     base=`basename ${logfile} | awk -F. '{print $1}'` &&
     stamp=`basename ${logfile} | awk -F. '{print $NF}'` &&
