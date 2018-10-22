@@ -2,9 +2,11 @@
 
 ## used by: supervisor
 galaxy_handler_count: 3
+galaxy_workflow_scheduler_count: 1
 
 supervisord_galaxyjobservers_group_configs:
   - galaxy_handler
+  - galaxy_workflow_scheduler
   - galaxy_group
 
 
