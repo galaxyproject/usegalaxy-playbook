@@ -210,11 +210,11 @@
         <tool id="echo_test_stampede" destination="stampede_nagios" handler="multi_handlers"/>
         <tool id="echo_test_bridges" destination="bridges_nagios" handler="multi_handlers"/>
         <!-- data managers -->
-        <tool id="data_manager_fetch_genome_all_fasta" destination="reserved" handler="galaxy_datamanager"/>
-        <tool id="bwa_mem_index_builder_data_manager" destination="reserved_64gb" handler="galaxy_datamanager"/>
-        <tool id="data_manager_bowtie2_index_builder" destination="reserved" handler="galaxy_datamanager"/>
-        <tool id="data_manager_bowtie_index_builder" destination="reserved" handler="galaxy_datamanager"/>
-        <tool id="data_manager_hisat2_index_builder" destination="reserved_16gb" handler="galaxy_datamanager"/>
+        <tool id="data_manager_fetch_genome_all_fasta" destination="reserved_normal" handler="galaxy_datamanager"/>
+        <tool id="bwa_mem_index_builder_data_manager" destination="reserved_normal_64gb" handler="galaxy_datamanager"/>
+        <tool id="data_manager_bowtie2_index_builder" destination="reserved_normal" handler="galaxy_datamanager"/>
+        <tool id="data_manager_bowtie_index_builder" destination="reserved_normal" handler="galaxy_datamanager"/>
+        <tool id="data_manager_hisat2_index_builder" destination="reserved_normal_16gb" handler="galaxy_datamanager"/>
         <tool id="kraken_database_builder" destination="slurm_multi_16c_128gb" handler="galaxy_datamanager"/>
         <tool id="rna_star_index_builder_data_manager" destination="slurm_multi_16c_128gb" handler="galaxy_datamanager"/>
         <!-- singularity test tools -->
