@@ -283,6 +283,7 @@ base_app_main: &BASE_APP_MAIN
   retry_job_output_collection: 5
   #cleanup_job: onsuccess
   cleanup_job: never
+  monitor_thread_join_timeout: 60
   biostar_url: "https://biostar.galaxyproject.org"
   biostar_key_name: biostar-login
   biostar_enable_bug_reports: "False"

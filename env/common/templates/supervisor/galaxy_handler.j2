@@ -11,6 +11,7 @@ umask           = 022
 autostart       = true
 autorestart     = true
 startsecs       = 30
+stopwaitsecs    = 180
 user            = {{ galaxy_user }}
 environment     = HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_conda/envs/set_meta/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin,PYTHONPATH={{ galaxy_dynamic_rule_dir }}
 stdout_logfile  = {{ galaxy_log_dir }}/handler%(process_num)s.log
