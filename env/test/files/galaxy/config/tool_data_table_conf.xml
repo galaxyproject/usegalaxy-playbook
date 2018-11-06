@@ -3,6 +3,11 @@
     This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 -->
 <tables>
+    <!-- dbkey length files for UCSC builds -->
+    <table comment_char="#" name="__dbkeys__">
+        <columns>value, name, len_path</columns>
+        <file path="/cvmfs/data.galaxyproject.org/managed/location/dbkeys_ucsc.loc" />
+    </table>
     <!-- Locations of all fasta files under genome directory -->
     <table name="all_fasta" comment_char="#">
         <columns>value, dbkey, name, path</columns>
