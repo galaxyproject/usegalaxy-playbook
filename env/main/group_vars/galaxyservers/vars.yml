@@ -9,7 +9,6 @@ galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
 galaxy_config_database_connection: "{{ vault_galaxy_config_database_connection }}"
 galaxy_config_admin_users: "{{ vault_galaxy_config_admin_users }}"
 galaxy_config_id_secret: "{{ vault_galaxy_config_id_secret }}"
-galaxy_config_biostar_key: "{{ vault_galaxy_config_biostar_key }}"
 galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
 galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_connection }}"
 
@@ -103,7 +102,6 @@ base_app_main: &BASE_APP_MAIN
   install_database_connection: "sqlite:////cvmfs/main.galaxyproject.org/var/galaxy_main_install.sqlite?isolation_level=IMMEDIATE"
   id_secret: "{{ galaxy_config_id_secret }}"
   admin_users: "{{ galaxy_config_admin_users }}"
-  biostar_key: "{{ galaxy_config_biostar_key }}"
   sentry_dsn: "{{ galaxy_config_sentry_dsn }}"
   sentry_sloreq_threshold: 3.0
   amqp_internal_connection: "{{ galaxy_config_amqp_internal_connection }}"
@@ -179,6 +177,7 @@ base_app_main: &BASE_APP_MAIN
   user_activation_on: "True"
   activation_grace_period: 6
   inactivity_box_content: "Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address."
+  helpsite_url: "https://help.galaxyproject.org/"
   wiki_url: "https://galaxyproject.org/"
   terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
   ga_code: "UA-45719423-10"
@@ -202,9 +201,6 @@ base_app_main: &BASE_APP_MAIN
   retry_metadata_internally: "False"
   retry_job_output_collection: 5
   cleanup_job: onsuccess
-  biostar_url: "https://biostar.usegalaxy.org"
-  biostar_key_name: biostar-login
-  biostar_enable_bug_reports: "False"
   max_metadata_value_size: 1000000
   tool_search_limit: 30
   tool_name_boost: 12
