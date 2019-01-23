@@ -17,12 +17,13 @@
   with_items:
     - "{{ proftpd_conf_ssl_certificate | default('') }}"
     - "{{ proftpd_conf_ssl_certificate_key | default('') }}"
+  when: proftpd_deploy_ssl
 
 - name: Install TLS CA certificate chain
   copy:
     src: "{{ proftpd_ssl_src_dir }}/{{ proftpd_conf_ssl_ca_certificate | basename }}"
     dest: "{{ proftpd_conf_ssl_ca_certificate }}"
-  when: proftpd_conf_ssl_ca_certificate is defined
+  when: proftpd_deploy_ssl and proftpd_conf_ssl_ca_certificate is defined
   notify:
     - reload proftpd
 
@@ -30,6 +31,7 @@
   copy:
     src: "{{ proftpd_ssl_src_dir }}/{{ proftpd_conf_ssl_certificate | basename }}"
     dest: "{{ proftpd_conf_ssl_certificate }}"
+  when: proftpd_deploy_ssl
   notify:
     - reload proftpd
 
@@ -38,5 +40,6 @@
     content: "{{ sslkeys[proftpd_conf_ssl_certificate_key | basename] }}"
     dest: "{{ proftpd_conf_ssl_certificate_key }}"
     mode: 0400
+  when: proftpd_deploy_ssl
   notify:
     - reload proftpd

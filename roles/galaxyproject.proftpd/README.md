@@ -62,6 +62,7 @@ Role Variables
 These variables control the use of TLS. If unset, TLS will not be enabled. See [mod_tls documentation][proftpd-mod-tls]
 and Example Playbook for usage.
 
+- `proftpd_deploy_ssl`: Enable/disable copying local SSL keys to the remote host
 - `proftpd_ssl_src_dir`: Where to copy SSL certificates from.
 - `proftpd_conf_ssl_certificate`: Path on the remote host where the SSL certificate file should be placed.
 - `proftpd_conf_ssl_certificate_key`: Path on the remote host where the SSL private key file should be placed.
@@ -184,4 +185,4 @@ License
 Author Information
 ------------------
 
-[Nate Coraor](https://github.com/natefoo)  
+[Nate Coraor](https://github.com/natefoo)
