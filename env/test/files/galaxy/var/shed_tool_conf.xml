@@ -13,6 +13,8 @@
         <label id="multiple_regression_label" text="Multiple Regression" />
         <label id="multivariate_analysis_label" text="Multivariate Analysis" />
     </section>
+    <label id="metagenomics_label" text="Metagenomics" version="" />
+    <label id="deprecated_tools_label" text="Deprecated Tools" version="" />
     <section id="mapping" name="Mapping">
         <tool file="toolshed.g2.bx.psu.edu/repos/nilshomer/tmap_wrapper/40ade4f81a30/tmap_wrapper/tmap_wrapper_0.0.19/tmap_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/nilshomer/tmap_wrapper/tmap_wrapper/0.0.19" hidden="true">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -33,7 +35,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bf2b29b033b1/bcftools_view/bcftools_view.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_view</repository_name>
@@ -43,7 +45,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/boris/filter_on_md/ac70bfaf1224/filter_on_md/MDtag_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/boris/filter_on_md/MDtag_filter/1.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>filter_on_md</repository_name>
@@ -262,7 +264,7 @@
             <version>0.1</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/2d4ae2f8231e/samtool_filter2/samtool_filter2.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtool_filter2</repository_name>
@@ -272,7 +274,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="testtoolshed.g2.bx.psu.edu/repos/devteam/samtools_phase/a0af255e28c1/samtools_phase/samtools_phase.xml" guid="testtoolshed.g2.bx.psu.edu/repos/devteam/samtools_phase/samtools_phase/1.0.0">
             <tool_shed>testtoolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_phase</repository_name>
@@ -332,7 +334,7 @@
             <version>1.0.4</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/ab4c4e07eb3c/sam_to_bam/sam_to_bam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>sam_to_bam</repository_name>
@@ -352,7 +354,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/5ace23a993fd/samtools_mpileup/samtools_mpileup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/0.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_mpileup</repository_name>
@@ -2180,7 +2182,7 @@
             <version>1.126.0</version>
         </tool>
     </section>
-    <section id="bam_tools" name="BAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bamtools/76b2f1eee508/bamtools/bamtools.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bamtools</repository_name>
@@ -2190,7 +2192,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="bam_tools" name="BAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/9315b97e25a4/bamtools_filter/bamtools-filter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bamtools_filter</repository_name>
@@ -2200,7 +2202,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="bam_tools" name="BAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/71dd32fb0b0a/bamtools_split/bamtools-split.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bamtools_split</repository_name>
@@ -2210,7 +2212,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/973fea5b4bdf/samtools_mpileup/samtools_mpileup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_mpileup</repository_name>
@@ -2326,7 +2328,7 @@
             <version>1.0.1</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/c1419fa820c6/bam_to_sam/bam_to_sam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/1.0.6">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bam_to_sam</repository_name>
@@ -2640,7 +2642,7 @@
             <version>1.1.2-484</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_reheader/020e144b5f78/samtools_reheader/samtools_reheader.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_reheader/samtools_reheader/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_reheader</repository_name>
@@ -2650,7 +2652,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/87398ae795c7/samtools_idxstats/samtools_idxstats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_idxstats</repository_name>
@@ -2660,7 +2662,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/c6fdfe3331d6/samtools_mpileup/samtools_mpileup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_mpileup</repository_name>
@@ -2670,7 +2672,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_calmd/1ebb4ecdc1ef/samtools_calmd/samtools_calmd.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_calmd/samtools_calmd/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_calmd</repository_name>
@@ -2680,7 +2682,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_split/57f3e32f809d/samtools_split/samtools_split.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_split/samtools_split/1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_split</repository_name>
@@ -2690,7 +2692,7 @@
             <version>1.1</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/2b474ebbfc7d/samtools_slice_bam/samtools_slice_bam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_slice_bam</repository_name>
@@ -2700,7 +2702,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/3735f950b2f5/samtools_rmdup/samtools_rmdup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_rmdup</repository_name>
@@ -2710,7 +2712,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/d04d9f1c6791/sam_to_bam/sam_to_bam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>sam_to_bam</repository_name>
@@ -2720,7 +2722,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_bedcov/8c3472790020/samtools_bedcov/samtools_bedcov.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_bedcov/samtools_bedcov/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_bedcov</repository_name>
@@ -2730,7 +2732,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/0072bf593791/samtools_flagstat/samtools_flagstat.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_flagstat</repository_name>
@@ -2740,7 +2742,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/a430da4f04cd/samtools_sort/samtools_sort.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/samtools_sort/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_sort</repository_name>
@@ -2750,7 +2752,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/af7c50162f0b/bam_to_sam/bam_to_sam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bam_to_sam</repository_name>
@@ -2760,7 +2762,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/0d71d9467847/samtools_stats/samtools_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_stats</repository_name>
@@ -2804,7 +2806,6 @@
             <version>1.0</version>
         </tool>
     </section>
-    <label id="metagenomics_label" text="Metagenomics" version="" />
     <section id="metagenomic_analysis" name="Metagenomic Analysis">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/2e150ed1b76e/cd_hit_dup/cd_hit_dup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -3053,7 +3054,7 @@
             <version>0.2.2</version>
         </tool>
     </section>
-    <section id="metagenomic_analysis" name="Metagenomic Analysis">
+    <section id="metagenomic_analysis_deprecated" name="Metagenomic Analysis (deprecated)">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/acf51ff24c7d/find_diag_hits/find_diag_hits.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/find_diag_hits/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>find_diag_hits</repository_name>
@@ -3063,7 +3064,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="metagenomic_analysis" name="Metagenomic Analysis">
+    <section id="metagenomic_analysis_deprecated" name="Metagenomic Analysis (deprecated)">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/gi2taxonomy/7b1b03c4465d/gi2taxonomy/gi2taxonomy.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/gi2taxonomy/Fetch Taxonomic Ranks/1.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>gi2taxonomy</repository_name>
@@ -3073,7 +3074,7 @@
             <version>1.1.0</version>
         </tool>
     </section>
-    <section id="metagenomic_analysis" name="Metagenomic Analysis">
+    <section id="metagenomic_analysis_deprecated" name="Metagenomic Analysis (deprecated)">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/lca_wrapper/33e8ed5a4601/lca_wrapper/lca.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/lca_wrapper/lca1/1.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>lca_wrapper</repository_name>
@@ -3083,7 +3084,7 @@
             <version>1.0.1</version>
         </tool>
     </section>
-    <section id="metagenomic_analysis" name="Metagenomic Analysis">
+    <section id="metagenomic_analysis_deprecated" name="Metagenomic Analysis (deprecated)">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/poisson2test/8cd5945559b8/poisson2test/poisson2test.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/poisson2test/poisson2test/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poisson2test</repository_name>
@@ -3093,7 +3094,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="metagenomic_analysis" name="Metagenomic Analysis">
+    <section id="metagenomic_analysis_deprecated" name="Metagenomic Analysis (deprecated)">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/t2ps/dee81096ec71/t2ps/t2ps_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/t2ps/Draw_phylogram/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>t2ps</repository_name>
@@ -3103,7 +3104,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="metagenomic_analysis" name="Metagenomic Analysis">
+    <section id="metagenomic_analysis_deprecated" name="Metagenomic Analysis (deprecated)">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/592acb9505fc/t2t_report/t2t_report.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>t2t_report</repository_name>
@@ -3523,7 +3524,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/4e4e4093d65d/ngsutils_bam_filter/bam_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/ngsutils_bam_filter/0.5.7.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>ngsutils_bam_filter</repository_name>
@@ -3533,7 +3534,7 @@
             <version>0.5.7.0</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/ef11139d4545/pileup_interval/pileup_interval.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>pileup_interval</repository_name>
@@ -3543,7 +3544,7 @@
             <version>1.0.2</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="testtoolshed.g2.bx.psu.edu/repos/devteam/samtools_phase/c21cb56fbbbc/samtools_phase/samtools_phase.xml" guid="testtoolshed.g2.bx.psu.edu/repos/devteam/samtools_phase/samtools_phase/2.0">
             <tool_shed>testtoolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_phase</repository_name>
@@ -3969,7 +3970,7 @@
             <version>7.221.1</version>
         </tool>
     </section>
-    <section id="duplexnovo" name="DuplexNovo">
+    <section id="du_novo" name="Du Novo">
         <tool file="toolshed.g2.bx.psu.edu/repos/nick/duplex/b63d6673f883/duplex/align_families.xml" guid="toolshed.g2.bx.psu.edu/repos/nick/duplex/align_families/0.2" labels="new">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>duplex</repository_name>
@@ -4265,7 +4266,7 @@
             <version>0.0.2</version>
         </tool>
     </section>
-    <section id="duplexnovo" name="DuplexNovo">
+    <section id="du_novo" name="Du Novo">
         <tool file="toolshed.g2.bx.psu.edu/repos/nick/sequence_content_trimmer/7f170cb06e2e/sequence_content_trimmer/trimmer.xml" guid="toolshed.g2.bx.psu.edu/repos/nick/sequence_content_trimmer/sequence_content_trimmer/0.1" labels="new">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>sequence_content_trimmer</repository_name>
@@ -4361,7 +4362,7 @@
             <version>1.1.3.1</version>
         </tool>
     </section>
-    <section id="duplexnovo" name="DuplexNovo">
+    <section id="du_novo" name="Du Novo">
         <tool file="toolshed.g2.bx.psu.edu/repos/nick/duplex/7f513b9b1b1e/duplex/align_families.xml" guid="toolshed.g2.bx.psu.edu/repos/nick/duplex/align_families/0.3" labels="new">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>duplex</repository_name>
@@ -7387,7 +7388,7 @@
             <version>4.3.1t.1</version>
         </tool>
     </section>
-    <section id="duplexnovo" name="DuplexNovo">
+    <section id="du_novo" name="Du Novo">
         <tool file="toolshed.g2.bx.psu.edu/repos/nick/dunovo/fa563fa9b330/dunovo/correct_barcodes.xml" guid="toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.14">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>dunovo</repository_name>
@@ -7633,7 +7634,7 @@
             <version>2.1.0</version>
         </tool>
     </section>
-    <section id="bam_tools" name="BAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/82658c080fd0/bamtools_filter/bamtools-filter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/2.4.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bamtools_filter</repository_name>
@@ -7743,7 +7744,7 @@
             <version>0.4.3.1</version>
         </tool>
     </section>
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/24c5d43cb545/samtools_stats/samtools_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_stats</repository_name>

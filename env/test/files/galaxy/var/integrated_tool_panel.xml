@@ -591,7 +591,9 @@
 
     </section>
 
-    <section id="sam_tools" name="SAM Tools" version="">
+    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+
+        <label id="samtools_label" text="SAMTools" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0.1" />
 
@@ -662,6 +664,16 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/1.0.3" />
+
+        <label id="bamtools_label" name="BAMTools" version="" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/2.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.1" />
 
     </section>
 
@@ -782,18 +794,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_QualityScoreDistribution/1.126.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicatesWithMateCigar/1.126.0" />
-
-    </section>
-
-    <section id="bam_tools" name="BAM Tools" version="">
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/2.4.1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.1" />
 
     </section>
 
@@ -1427,6 +1427,8 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/nate/trinity_psc/trinity_psc/0.0.1" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/nml/spades/spades/1.4" />
+
     </section>
 
     <section id="annotation" name="Annotation" version="">
@@ -1439,11 +1441,9 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/1.11.1" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/nml/spades/spades/1.4" />
-
     </section>
 
-    <section id="mapping" name="Mapping">
+    <section id="mapping" name="Mapping" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.7.17.1" />
 
@@ -1588,62 +1588,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/mutate_snp_codon/mutate_snp_codon_1/1.0.0" />
-
-    </section>
-
-    <section id="mimodd" name="MiModD" version="">
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_info/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_varreport/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_varextract/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_map/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_vcf_filter/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_covstats/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_convert/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_varcall/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_header/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_reheader/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_rebase/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_delcall/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_sort/0.1.8_1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_covstats/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_sort/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_varcall/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_vcf_filter/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_varreport/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_header/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_reheader/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_delcall/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_varextract/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_rebase/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_info/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_convert/0.1.8_0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_map/0.1.8_0" />
 
     </section>
 
@@ -1981,7 +1925,63 @@
 
     </section>
 
-    <section id="duplexnovo" name="DuplexNovo">
+    <section id="mimodd" name="MiModD" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_info/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_varreport/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_varextract/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_map/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_vcf_filter/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_covstats/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_convert/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_varcall/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_header/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_reheader/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_rebase/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_delcall/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_main/mimodd_sort/0.1.8_1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_covstats/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_sort/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_varcall/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_vcf_filter/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_varreport/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_header/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_reheader/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_delcall/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_varextract/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_rebase/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_info/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_convert/0.1.8_0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/wolma/mimodd_core/mimodd_map/0.1.8_0" />
+
+    </section>
+
+    <section id="du_novo" name="Du Novo">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.14" />
 
@@ -2098,20 +2098,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/2.1.5.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/biom_add_metadata/biom_add_metadata/2.1.5.0" />
-
-        <label id="deprecated_metagenomics_label" text="Deprecated Tools" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/t2ps/Draw_phylogram/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/poisson2test/poisson2test/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/lca_wrapper/lca1/1.0.1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/gi2taxonomy/Fetch Taxonomic Ranks/1.1.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/find_diag_hits/1.0.0" />
 
     </section>
 
@@ -2320,6 +2306,24 @@
     <section id="usegalaxy_common_tools_test" name="usegalaxy.* common tools test" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/filter_tabular/filter_tabular/1.0.0" />
+
+    </section>
+
+    <label id="deprecated_tools_label" text="Deprecated Tools" version="" />
+
+    <section id="metagenomic_analysis_deprecated" name="Metagenomic Analysis (deprecated)" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/t2ps/Draw_phylogram/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/poisson2test/poisson2test/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/lca_wrapper/lca1/1.0.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/gi2taxonomy/Fetch Taxonomic Ranks/1.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/find_diag_hits/1.0.0" />
 
     </section>
 
