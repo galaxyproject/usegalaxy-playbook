@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <toolbox tool_path="/cvmfs/main.galaxyproject.org/migrated_tools">
-<section id="variant_detection" name="NGS: Variant Analysis">
+<section id="variant_calling" name="Variant Calling">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/046c7983e2ff/freebayes/freebayes.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.2" hidden="true">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>freebayes</repository_name>
@@ -62,7 +62,7 @@
     </tool>
 </section>
 
-<section id="ngs_mapping" name="NGS: Mapping">
+<section id="mapping" name="Mapping">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/ffa8aaa14f7c/bwa_wrappers/bwa_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/bwa_wrapper/1.2.3">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>bwa_wrappers</repository_name>
@@ -113,7 +113,7 @@
     </tool>
 </section>
 
-<section id="samtools" name="NGS: SAMtools">
+<section id="sam_bam_manipulation" name="SAM/BAM Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/dc20f447c0e2/bam_to_sam/bam_to_sam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/1.0.3">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>bam_to_sam</repository_name>
@@ -212,7 +212,7 @@
     </tool>
 </section>
 
-<section id="fasta_manipulation" name="FASTA manipulation">
+<section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/8f0ae92440b8/fasta_formatter/fasta_formatter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>fasta_formatter</repository_name>
@@ -239,15 +239,7 @@
     </tool>
 </section>
 
-<section id="cshl_library_information" name="NGS: QC and manipulation">
-  <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/e359ce20fbd9/fastq_quality_boxplot/fastq_quality_boxplot.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0">
-      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>fastq_quality_boxplot</repository_name>
-        <repository_owner>devteam</repository_owner>
-        <installed_changeset_revision>e359ce20fbd9</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0</id>
-        <version>1.0.0</version>
-    </tool>
+<section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation">
     <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_converter/b87c74b61d81/fastq_quality_converter/fastq_quality_converter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_converter/cshl_fastq_quality_converter/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>fastq_quality_converter</repository_name>
@@ -296,22 +288,6 @@
         <id>toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.0</id>
         <version>1.0.0</version>
     </tool>
-    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/bcc5424a4a3c/fastx_nucleotides_distribution/fastx_nucleotides_distribution.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0">
-      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>fastx_nucleotides_distribution</repository_name>
-        <repository_owner>devteam</repository_owner>
-        <installed_changeset_revision>bcc5424a4a3c</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0</id>
-        <version>1.0.0</version>
-    </tool>
-    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/45f077341b24/fastx_quality_statistics/fastx_quality_statistics.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.0">
-      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>fastx_quality_statistics</repository_name>
-        <repository_owner>devteam</repository_owner>
-        <installed_changeset_revision>45f077341b24</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.0</id>
-        <version>1.0.0</version>
-    </tool>
     <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/d7bce63e6e09/fastx_renamer/fastx_renamer.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/cshl_fastx_renamer/0.0.11">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>fastx_renamer</repository_name>
@@ -335,14 +311,6 @@
         <installed_changeset_revision>9cb372481a71</installed_changeset_revision>
         <id>toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0</id>
         <version>1.0.0</version>
-    </tool>
-    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/e28c965eeed4/fastqc/rgFastQC.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52" hidden="true">
-      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>fastqc</repository_name>
-        <repository_owner>devteam</repository_owner>
-        <installed_changeset_revision>e28c965eeed4</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52</id>
-        <version>0.52</version>
     </tool>
     <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/94306bdd58f7/fastq_combiner/fastq_combiner.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/fastq_combiner/1.0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -400,14 +368,6 @@
         <id>toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/1.0.0</id>
         <version>1.0.0</version>
     </tool>
-    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/9b7b4e0ca9db/fastq_stats/fastq_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0">
-      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>fastq_stats</repository_name>
-        <repository_owner>devteam</repository_owner>
-        <installed_changeset_revision>9b7b4e0ca9db</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0</id>
-        <version>1.0.0</version>
-    </tool>
     <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/0b9feb0ed628/fastq_trimmer/fastq_trimmer.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>fastq_trimmer</repository_name>
@@ -422,6 +382,49 @@
         <repository_owner>devteam</repository_owner>
         <installed_changeset_revision>1cdcaf5fc1da</installed_changeset_revision>
         <id>toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+</section>
+
+<section id="quality_control" name="Quality Control" version="">
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/e28c965eeed4/fastqc/rgFastQC.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52" hidden="true">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>fastqc</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>e28c965eeed4</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52</id>
+        <version>0.52</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/9b7b4e0ca9db/fastq_stats/fastq_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>fastq_stats</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>9b7b4e0ca9db</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/45f077341b24/fastx_quality_statistics/fastx_quality_statistics.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>fastx_quality_statistics</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>45f077341b24</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/bcc5424a4a3c/fastx_nucleotides_distribution/fastx_nucleotides_distribution.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>fastx_nucleotides_distribution</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>bcc5424a4a3c</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0</id>
+        <version>1.0.0</version>
+    </tool>
+    <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/e359ce20fbd9/fastq_quality_boxplot/fastq_quality_boxplot.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>fastq_quality_boxplot</repository_name>
+        <repository_owner>devteam</repository_owner>
+        <installed_changeset_revision>e359ce20fbd9</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0</id>
         <version>1.0.0</version>
     </tool>
 </section>
@@ -461,7 +464,7 @@
     </tool>
 </section>
 
-<section id="variant_detection" name="NGS: Variant Analysis" version="">
+<section id="variant_calling" name="Variant Calling" version="">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/mutate_snp_codon/8f0af7251167/mutate_snp_codon/mutate_snp_codon.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/mutate_snp_codon/mutate_snp_codon_1/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>mutate_snp_codon</repository_name>
@@ -472,7 +475,7 @@
     </tool>
 </section>
 
-<section id="plots" name="Graph/Display Data">
+<section id="graph_display_data" name="Graph/Display Data">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/acf952549b53/xy_plot/xy_plot.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/XY_Plot_1/1.0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>xy_plot</repository_name>
@@ -598,7 +601,7 @@
     </tool>
 </section>
 
-<section id="ngs-rna-tools" name="NGS: RNA Analysis">
+<section id="rna_analysis" name="RNA Analysis">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/9a3f7a890da6/cuffcompare/cuffcompare_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.5" hidden="true">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>cuffcompare</repository_name>
@@ -641,7 +644,7 @@
     </tool>
 </section>
 
-<section id="deprecated-ngs-rna-tools" name="NGS: RNA Analysis (deprecated)" version="">
+<section id="rna_analysis_deprecated" name="RNA Analysis (deprecated)" version="">
     <tool file="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/ffa30bedbee3/tophat2/tophat2_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.6">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>tophat2</repository_name>
@@ -652,7 +655,7 @@
     </tool>
 </section>
 
-<section id="clustal" name="Multiple Alignments">
+<section id="multiple_alignments" name="Multiple Alignments">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/clustalw/7cc64024fe92/clustalw/rgClustalw.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>clustalw</repository_name>
@@ -663,7 +666,7 @@
     </tool>
 </section>
 
-<section id="tax_manipulation" name="Metagenomic Analysis">
+<section id="metagenomic_analysis_deprecated" name="Metagenomic Analysis (deprecated)">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/acf51ff24c7d/find_diag_hits/find_diag_hits.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/find_diag_hits/1.0.0" hidden="true">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>find_diag_hits</repository_name>
@@ -714,7 +717,7 @@
     </tool>
 </section>
 
-<section id="peak_calling" name="NGS: Peak Calling">
+<section id="peak_calling" name="Peak Calling">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/macs/ae2ec275332a/macs/macs_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/macs/peakcalling_macs/1.0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>macs</repository_name>
@@ -744,7 +747,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/analyze_covariates/738bc749f9a3/analyze_covariates/analyze_covariates.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/analyze_covariates/gatk_analyze_covariates/0.0.5">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>analyze_covariates</repository_name>
@@ -755,7 +758,7 @@
     </tool>
 </section>
 
-<section id="bxops" name="Operate on Genomic Intervals">
+<section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/concat/8aa939ace6ba/concat/concat.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/concat/gops_concat_1/1.0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>concat</repository_name>
@@ -766,7 +769,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/count_covariates/14e304b70425/count_covariates/count_covariates.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/count_covariates/gatk_count_covariates/0.0.5">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>count_covariates</repository_name>
@@ -777,7 +780,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/depth_of_coverage/c3f08370fc82/depth_of_coverage/depth_of_coverage.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/depth_of_coverage/gatk_depth_of_coverage/0.0.2">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>depth_of_coverage</repository_name>
@@ -788,7 +791,7 @@
     </tool>
 </section>
 
-<section id="bxops" name="Operate on Genomic Intervals">
+<section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/90100b587723/flanking_features/flanking_features.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/4.0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>flanking_features</repository_name>
@@ -799,7 +802,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/indel_realigner/bb0beda6cf83/indel_realigner/indel_realigner.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/indel_realigner/gatk_indel_realigner/0.0.6">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>indel_realigner</repository_name>
@@ -810,7 +813,7 @@
     </tool>
 </section>
 
-<section id="bxops" name="Operate on Genomic Intervals">
+<section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/merge/b488a1fa07f6/merge/merge.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/merge/gops_merge_1/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>merge</repository_name>
@@ -821,7 +824,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/print_reads/e768f4851646/print_reads/print_reads.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/print_reads/gatk_print_reads/0.0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>print_reads</repository_name>
@@ -832,7 +835,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/realigner_target_creator/b83a853a3156/realigner_target_creator/realigner_target_creator.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/realigner_target_creator/gatk_realigner_target_creator/0.0.4">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>realigner_target_creator</repository_name>
@@ -878,7 +881,7 @@
     </tool>
 </section>
 
-<section id="regVar" name="Regional Variation">
+<section id="regional_variation" name="Regional Variation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/quality_filter/8d65bbc52dfe/quality_filter/quality_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/quality_filter/qualityFilter/1.0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>quality_filter</repository_name>
@@ -953,7 +956,7 @@
     </tool>
 </section>
 
-<section id="group" name="Join, Subtract and Group">
+<section id="join_subtract_and_group" name="Join, Subtract and Group">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/subtract_query/5f6ebef89722/subtract_query/subtract_query.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/subtract_query/subtract_query1/0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>subtract_query</repository_name>
@@ -964,7 +967,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/unified_genotyper/66dd4d4c1743/unified_genotyper/unified_genotyper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/unified_genotyper/gatk_unified_genotyper/0.0.6">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>unified_genotyper</repository_name>
@@ -975,7 +978,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/variant_annotator/ae9d0a543e9b/variant_annotator/variant_annotator.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/variant_annotator/gatk_variant_annotator/0.0.5">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>variant_annotator</repository_name>
@@ -986,7 +989,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/variant_apply_recalibration/350a4d0d1678/variant_apply_recalibration/variant_apply_recalibration.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/variant_apply_recalibration/gatk_variant_apply_recalibration/0.0.4">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>variant_apply_recalibration</repository_name>
@@ -997,7 +1000,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/variant_combine/1a6e16391727/variant_combine/variant_combine.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/variant_combine/gatk_variant_combine/0.0.4">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>variant_combine</repository_name>
@@ -1008,7 +1011,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/variant_eval/fbca1c0956d2/variant_eval/variant_eval.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/variant_eval/gatk_variant_eval/0.0.8">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>variant_eval</repository_name>
@@ -1019,7 +1022,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/variant_filtration/da6e2503c62d/variant_filtration/variant_filtration.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/variant_filtration/gatk_variant_filtration/0.0.5">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>variant_filtration</repository_name>
@@ -1030,7 +1033,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/variant_recalibrator/cb7cf57397a7/variant_recalibrator/variant_recalibrator.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/variant_recalibrator/gatk_variant_recalibrator/0.0.4">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>variant_recalibrator</repository_name>
@@ -1041,7 +1044,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/variant_select/135e8721ffc5/variant_select/variant_select.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/variant_select/gatk_variant_select/0.0.2">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>variant_select</repository_name>
@@ -1052,7 +1055,7 @@
     </tool>
 </section>
 
-<section id="gatk" name="NGS: GATK Tools (beta)">
+<section id="gatk" name="GATK">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/variants_validate/7e1ecaa64370/variants_validate/variants_validate.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/variants_validate/gatk_validate_variants/0.0.4">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>variants_validate</repository_name>
@@ -1063,7 +1066,7 @@
     </tool>
 </section>
 
-<section id="bxops" name="Operate on Genomic Intervals">
+<section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/annotation_profiler/3b33da018e74/annotation_profiler/annotation_profiler.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/annotation_profiler/Annotation_Profiler_0/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>annotation_profiler</repository_name>
@@ -1074,7 +1077,7 @@
     </tool>
 </section>
 
-<section id="fasta_manipulation" name="FASTA manipulation">
+<section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/ece409f6573c/fasta_compute_length/fasta_compute_length.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>fasta_compute_length</repository_name>
@@ -1085,7 +1088,7 @@
     </tool>
 </section>
 
-<section id="fasta_manipulation" name="FASTA manipulation">
+<section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fasta_concatenate_by_species/2126e1b833a2/fasta_concatenate_by_species/fasta_concatenate_by_species.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fasta_concatenate_by_species/fasta_concatenate0/0.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>fasta_concatenate_by_species</repository_name>
@@ -1096,7 +1099,7 @@
     </tool>
 </section>
 
-<section id="fasta_manipulation" name="FASTA manipulation">
+<section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fasta_filter_by_length/16679a7f554a/fasta_filter_by_length/fasta_filter_by_length.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fasta_filter_by_length/fasta_filter_by_length/1.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>fasta_filter_by_length</repository_name>
@@ -1118,7 +1121,7 @@
     </tool>
 </section>
 
-<section id="fasta_manipulation" name="FASTA manipulation">
+<section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/9d189d08f2ad/fasta_to_tabular/fasta_to_tabular.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>fasta_to_tabular</repository_name>
@@ -1129,7 +1132,7 @@
     </tool>
 </section>
 
-<section id="ngs_mapping" name="NGS: Mapping">
+<section id="mapping" name="Mapping">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/megablast_wrapper/dc7b4acb3fa6/megablast_wrapper/megablast_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/megablast_wrapper/megablast_wrapper/1.2.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>megablast_wrapper</repository_name>
@@ -1140,7 +1143,7 @@
     </tool>
 </section>
 
-<section id="ngs_mapping" name="NGS: Mapping">
+<section id="mapping" name="Mapping">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/megablast_xml_parser/03ca082aeb2e/megablast_xml_parser/megablast_xml_parser.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/megablast_xml_parser/megablast_xml_parser/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>megablast_xml_parser</repository_name>
@@ -1151,7 +1154,7 @@
     </tool>
 </section>
 
-<section id="cshl_library_information" name="NGS: QC and manipulation">
+<section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/b52b9c7aabd9/short_reads_figure_score/short_reads_figure_score.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/quality_score_distribution/1.0.2">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>short_reads_figure_score</repository_name>
@@ -1162,7 +1165,7 @@
     </tool>
 </section>
 
-<section id="cshl_library_information" name="NGS: QC and manipulation">
+<section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/f17a1585733b/short_reads_trim_seq/short_reads_trim_seq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>short_reads_trim_seq</repository_name>
@@ -1184,7 +1187,7 @@
     </tool>
 </section>
 
-<section id="fasta_manipulation" name="FASTA manipulation">
+<section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/0b4e36026794/tabular_to_fasta/tabular_to_fasta.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>tabular_to_fasta</repository_name>
@@ -1195,7 +1198,7 @@
     </tool>
 </section>
 
-<section id="textutil" name="Text Manipulation">
+<section id="text_manipulation" name="Text Manipulation">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/column_maker/08a01b2ce4cd/column_maker/column_maker.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/column_maker/Add_a_column1/1.1.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>column_maker</repository_name>
@@ -1206,7 +1209,7 @@
     </tool>
 </section>
 
-<section id="stats" name="Statistics">
+<section id="statistics" name="Statistics">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/correlation/24e01abf9e34/correlation/cor.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/correlation/cor2/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>correlation</repository_name>
@@ -1217,7 +1220,7 @@
     </tool>
 </section>
 
-<section id="filter" name="Filter and Sort">
+<section id="filter_and_sort" name="Filter and Sort">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/dna_filtering/a6f0d355b05f/dna_filtering/histogram2.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/dna_filtering/histogram_rpy/1.0.3" hidden="true">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>dna_filtering</repository_name>
@@ -1228,7 +1231,7 @@
     </tool>
 </section>
 
-<section id="stats" name="Statistics">
+<section id="statistics" name="Statistics">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/generate_pc_lda_matrix/04cdbd00dcec/generate_pc_lda_matrix/generate_matrix_for_pca_lda.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/generate_pc_lda_matrix/generate_matrix_for_pca_and_lda1/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>generate_pc_lda_matrix</repository_name>
@@ -1239,7 +1242,7 @@
     </tool>
 </section>
 
-<section id="plots" name="Graph/Display Data">
+<section id="graph_display_data" name="Graph/Display Data">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/histogram/6ff47de059a0/histogram/histogram2.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/histogram/histogram_rpy/1.0.3">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>histogram</repository_name>
@@ -1250,7 +1253,7 @@
     </tool>
 </section>
 
-<section id="stats" name="Statistics">
+<section id="statistics" name="Statistics">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/f38763b52f33/lda_analysis/lda_analy.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>lda_analysis</repository_name>
@@ -1261,7 +1264,7 @@
     </tool>
 </section>
 
-<section id="stats" name="Statistics">
+<section id="statistics" name="Statistics">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/plot_from_lda/c5ab37076128/plot_from_lda/plot_from_lda.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/plot_from_lda/plot_for_lda_output1/1.0.1">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>plot_from_lda</repository_name>
@@ -1272,7 +1275,7 @@
     </tool>
 </section>
 
-<section id="plots" name="Graph/Display Data">
+<section id="graph_display_data" name="Graph/Display Data">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/c12b0759203b/scatterplot/scatterplot.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/scatterplot_rpy/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>scatterplot</repository_name>
@@ -1294,7 +1297,7 @@
     </tool>
 </section>
 
-<section id="plots" name="Graph/Display Data">
+<section id="graph_display_data" name="Graph/Display Data">
   <tool file="toolshed.g2.bx.psu.edu/repos/devteam/ucsc_custom_track/618e56c3109b/ucsc_custom_track/build_ucsc_custom_track.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/ucsc_custom_track/build_ucsc_custom_track_1/1.0.0">
       <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
         <repository_name>ucsc_custom_track</repository_name>
