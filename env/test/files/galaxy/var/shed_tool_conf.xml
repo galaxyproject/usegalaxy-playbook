@@ -1,11 +1,17 @@
 <?xml version="1.0" ?>
 <toolbox tool_path="/cvmfs/test.galaxyproject.org/shed_tools">
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="bed" name="BED" version="">
+        <label id="bedtools_label" text="BEDTools" version="" />
+    </section>
+    <section id="vcf_bcf" name="VCF/BCF">
         <label id="vcflib_label" text="vcflib" version="" />
         <label id="vcftools_label" text="VCFTools" version="" />
         <label id="bcftools_label" text="BCFTools" version="" />
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="nanopore" name="Nanopore" version="">
+        <label id="poretools_label" text="poretools" version="" />
+    </section>
+    <section id="rna_seq" name="RNA-seq">
         <label id="trinity_label" text="Trinity Tools" />
         <label id="structurefold_label" text="RNA Structure Prediction" />
     </section>
@@ -13,6 +19,7 @@
         <label id="multiple_regression_label" text="Multiple Regression" />
         <label id="multivariate_analysis_label" text="Multivariate Analysis" />
     </section>
+    <label id="genomics_toolkits_label" text="Genomics Toolkits" />
     <label id="metagenomics_label" text="Metagenomics" version="" />
     <label id="deprecated_tools_label" text="Deprecated Tools" version="" />
     <section id="mapping" name="Mapping">
@@ -35,7 +42,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bf2b29b033b1/bcftools_view/bcftools_view.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_view</repository_name>
@@ -45,7 +52,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/boris/filter_on_md/ac70bfaf1224/filter_on_md/MDtag_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/boris/filter_on_md/MDtag_filter/1.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>filter_on_md</repository_name>
@@ -144,7 +151,7 @@
         <label id="gd_geno" text="Design genotyping studies" version=""/>
         <label id="gd_mito" text="Mitochondria" version=""/>
     </section>
-    <section id="motifs" name="Motif Tools" version="">
+    <section id="motifs" name="Motifs" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/fubar/clustalw/9c4d943fbef7/clustalw/rgclustal/rgClustalw.xml" guid="toolshed.g2.bx.psu.edu/repos/fubar/clustalw/clustalw/0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>clustalw</repository_name>
@@ -154,7 +161,7 @@
             <version>0.2</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/67695d7ff787/cuffcompare/cuffcompare_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.6">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffcompare</repository_name>
@@ -164,7 +171,7 @@
             <version>0.0.6</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/604fa75232a2/cuffdiff/cuffdiff_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/0.0.7">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffdiff</repository_name>
@@ -174,7 +181,7 @@
             <version>0.0.7</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/9aab29e159a7/cufflinks/cufflinks_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.7">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cufflinks</repository_name>
@@ -184,7 +191,7 @@
             <version>0.0.7</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/5543c3d33e26/cuffmerge/cuffmerge_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/0.0.6">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffmerge</repository_name>
@@ -234,7 +241,7 @@
             <version>0.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/tophat_fusion_post/b5955d7050d7/tophat_fusion_post/tophat_fusion_post.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/tophat_fusion_post/tophat_fusion_post/0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>tophat_fusion_post</repository_name>
@@ -244,7 +251,7 @@
             <version>0.1</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/57a6550df582/vcftools_annotate/vcftools_annotate.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1" hidden="true">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcftools_annotate</repository_name>
@@ -254,7 +261,7 @@
             <version>0.1</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/1363e5d4a8b8/vcftools_slice/vcftools_slice.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcftools_slice</repository_name>
@@ -264,7 +271,7 @@
             <version>0.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/2d4ae2f8231e/samtool_filter2/samtool_filter2.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtool_filter2</repository_name>
@@ -274,7 +281,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="testtoolshed.g2.bx.psu.edu/repos/devteam/samtools_phase/a0af255e28c1/samtools_phase/samtools_phase.xml" guid="testtoolshed.g2.bx.psu.edu/repos/devteam/samtools_phase/samtools_phase/1.0.0">
             <tool_shed>testtoolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_phase</repository_name>
@@ -284,7 +291,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/tophat/1030acbecce6/tophat/tophat_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/tophat/tophat/1.5.0" hidden="True">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>tophat</repository_name>
@@ -294,7 +301,7 @@
             <version>1.5.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/ffa30bedbee3/tophat2/tophat2_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.6">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>tophat2</repository_name>
@@ -314,7 +321,7 @@
             <version>0.2</version>
         </tool>
     </section>
-    <section id="quality_control" name="Quality Control" version="">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/e28c965eeed4/fastqc/rgFastQC.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastqc</repository_name>
@@ -324,7 +331,7 @@
             <version>0.52</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/1298445c852b/fastq_groomer/fastq_groomer.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.0.4">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_groomer</repository_name>
@@ -334,7 +341,7 @@
             <version>1.0.4</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/ab4c4e07eb3c/sam_to_bam/sam_to_bam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>sam_to_bam</repository_name>
@@ -354,7 +361,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/5ace23a993fd/samtools_mpileup/samtools_mpileup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/0.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_mpileup</repository_name>
@@ -364,7 +371,7 @@
             <version>0.0.2</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/5d1e9e13e8db/fastq_manipulation/fastq_manipulation.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/fastq_manipulation/1.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_manipulation</repository_name>
@@ -1392,7 +1399,7 @@
             <version>0.3</version>
         </tool>
     </section>
-    <section id="quality_control" name="Quality Control" version="">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/0b201de108b9/fastqc/rgFastQC.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastqc</repository_name>
@@ -1402,7 +1409,7 @@
             <version>0.63</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/da1f39fe14bc/tophat2/tophat2_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.7">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>tophat2</repository_name>
@@ -1412,7 +1419,7 @@
             <version>0.7</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/88fcac97c2a0/cuffdiff/cuffdiff_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2.2.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffdiff</repository_name>
@@ -1422,7 +1429,7 @@
             <version>2.2.1.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/5346d5eea8b1/cufflinks/cufflinks_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/2.2.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cufflinks</repository_name>
@@ -1432,7 +1439,7 @@
             <version>2.2.1.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/8e534225baa9/cuffcompare/cuffcompare_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/2.2.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffcompare</repository_name>
@@ -1442,7 +1449,7 @@
             <version>2.2.1.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffnorm/a26af05ac218/cuffnorm/cuffnorm_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffnorm/cuffnorm/2.2.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffnorm</repository_name>
@@ -1452,7 +1459,7 @@
             <version>2.2.1.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffquant/5d8b9dcaf17d/cuffquant/cuffquant_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffquant/cuffquant/2.2.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffquant</repository_name>
@@ -1462,7 +1469,7 @@
             <version>2.2.1.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund_to_tabular/648c27c78eed/cummerbund_to_tabular/cummerbund_to_tabular.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund_to_tabular/cummerbund_to_cuffdiff/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cummerbund_to_tabular</repository_name>
@@ -1472,7 +1479,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="peak_calling" name="Peak Calling">
+    <section id="chip_seq" name="ChIP-seq">
         <tool file="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/16545befe8b5/macs2/macs2_predictd.xml" guid="testtoolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_predictd/2.1.0.20140616.0">
             <tool_shed>testtoolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>macs2</repository_name>
@@ -1546,7 +1553,7 @@
             <version>2.1.0.20140616.0</version>
         </tool>
     </section>
-    <section id="bed_tools" name="BED Tools" version="">
+    <section id="bed" name="BED" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bedtools/82aac94b06c3/bedtools/nucBed.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_nucbed/2.22.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bedtools</repository_name>
@@ -1828,7 +1835,7 @@
             <version>2.22.0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/94306bdd58f7/fastq_combiner/fastq_combiner.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/fastq_combiner/1.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_combiner</repository_name>
@@ -1838,7 +1845,7 @@
             <version>1.0.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_filter/30d9ece6c752/fastq_filter/fastq_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_filter/fastq_filter/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_filter</repository_name>
@@ -1848,7 +1855,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_masker_by_quality/5a7b5751617b/fastq_masker_by_quality/fastq_masker_by_quality.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_masker_by_quality/fastq_masker_by_quality/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_masker_by_quality</repository_name>
@@ -1858,7 +1865,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/f0949bc49926/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer/1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_paired_end_deinterlacer</repository_name>
@@ -1868,7 +1875,7 @@
             <version>1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/b89bdf6acb6c/fastq_paired_end_interlacer/fastq_paired_end_interlacer.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_paired_end_interlacer</repository_name>
@@ -1878,7 +1885,7 @@
             <version>1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/270a8ed8a300/fastq_paired_end_joiner/fastq_paired_end_joiner.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/2.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_paired_end_joiner</repository_name>
@@ -1888,7 +1895,7 @@
             <version>2.0.0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/c549e99026db/fastq_paired_end_splitter/fastq_paired_end_splitter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_paired_end_splitter</repository_name>
@@ -1898,7 +1905,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="quality_control" name="Quality Control" version="">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/9b7b4e0ca9db/fastq_stats/fastq_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_stats</repository_name>
@@ -1918,7 +1925,7 @@
             <version>1.1.0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/0b9feb0ed628/fastq_trimmer/fastq_trimmer.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_trimmer</repository_name>
@@ -1928,7 +1935,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/1cdcaf5fc1da/fastq_trimmer_by_quality/fastq_trimmer_by_quality.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_trimmer_by_quality</repository_name>
@@ -2182,7 +2189,7 @@
             <version>1.126.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bamtools/76b2f1eee508/bamtools/bamtools.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bamtools</repository_name>
@@ -2192,7 +2199,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/9315b97e25a4/bamtools_filter/bamtools-filter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bamtools_filter</repository_name>
@@ -2202,7 +2209,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/71dd32fb0b0a/bamtools_split/bamtools-split.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bamtools_split</repository_name>
@@ -2212,7 +2219,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/973fea5b4bdf/samtools_mpileup/samtools_mpileup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_mpileup</repository_name>
@@ -2298,7 +2305,7 @@
             <version>0.4</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/587c425b4e76/cummerbund/cummeRbund.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/cummeRbund/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cummerbund</repository_name>
@@ -2308,7 +2315,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/ac2ebc60ef5d/cummerbund/cummeRbund.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/cummeRbund/1.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cummerbund</repository_name>
@@ -2318,7 +2325,7 @@
             <version>1.0.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund_to_tabular/36f917aa4b60/cummerbund_to_tabular/cummerbund_to_tabular.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cummerbund_to_tabular/cummerbund_to_cuffdiff/1.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cummerbund_to_tabular</repository_name>
@@ -2328,7 +2335,7 @@
             <version>1.0.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/c1419fa820c6/bam_to_sam/bam_to_sam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/1.0.6">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bam_to_sam</repository_name>
@@ -2364,7 +2371,7 @@
             <version>1.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfhethom/586d614a4c2d/vcfhethom/vcfhethom.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfhethom/vcfhethom/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfhethom</repository_name>
@@ -2374,7 +2381,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfbedintersect/8a482a9aa45d/vcfbedintersect/vcfbedintersect.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfbedintersect/vcfbedintersect/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfbedintersect</repository_name>
@@ -2384,7 +2391,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfvcfintersect/b29dbe1270b5/vcfvcfintersect/vcfvcfintersect.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfvcfintersect/vcfvcfintersect/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfvcfintersect</repository_name>
@@ -2394,7 +2401,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfcheck/d7d4d88ae84d/vcfcheck/vcfcheck.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfcheck/vcfcheck/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfcheck</repository_name>
@@ -2404,7 +2411,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfselectsamples/88fd8ef7e4af/vcfselectsamples/vcfselectsamples.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfselectsamples/vcfselectsamples/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfselectsamples</repository_name>
@@ -2414,7 +2421,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/6e0fc18309f4/vcfdistance/vcfdistance.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfdistance</repository_name>
@@ -2424,7 +2431,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfcommonsamples/202ff1d8c57f/vcfcommonsamples/vcfcommonsamples.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfcommonsamples/vcfcommonsamples/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfcommonsamples</repository_name>
@@ -2434,7 +2441,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcffixup/a03f346b6aae/vcffixup/vcffixup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcffixup/vcffixup/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcffixup</repository_name>
@@ -2444,7 +2451,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfrandomsample/d9efe7842413/vcfrandomsample/vcfrandomsample.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfrandomsample/vcfrandomsample/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfrandomsample</repository_name>
@@ -2454,7 +2461,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcf2tsv/d6c944f1581a/vcf2tsv/vcf2tsv.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcf2tsv/vcf2tsv/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcf2tsv</repository_name>
@@ -2464,7 +2471,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfannotate/87d916fbb7c4/vcfannotate/vcfannotate.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfannotate/vcfannotate/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfannotate</repository_name>
@@ -2474,7 +2481,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfflatten/38d93ca9c0f0/vcfflatten/vcfflatten.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfflatten/vcfflatten2/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfflatten</repository_name>
@@ -2484,7 +2491,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfbreakcreatemulti/f0dae4ac267e/vcfbreakcreatemulti/vcfbreakcreatemulti.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfbreakcreatemulti/vcfbreakcreatemulti/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfbreakcreatemulti</repository_name>
@@ -2494,7 +2501,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfsort/433d50620231/vcfsort/vcfsort.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfsort/vcfsort/0.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfsort</repository_name>
@@ -2504,7 +2511,7 @@
             <version>0.0.2</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcffilter/34c3b846e0b6/vcffilter/vcffilter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcffilter/vcffilter2/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcffilter</repository_name>
@@ -2514,7 +2521,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfprimers/67a4da1a4df3/vcfprimers/vcfprimers.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfprimers/vcfprimers/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfprimers</repository_name>
@@ -2524,7 +2531,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfgenotypes/1673e7848bf4/vcfgenotypes/vcfgenotypes.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfgenotypes/vcfgenotypes/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfgenotypes</repository_name>
@@ -2534,7 +2541,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfallelicprimitives/3f4fefbc52c8/vcfallelicprimitives/vcfallelicprimitives.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfallelicprimitives/vcfallelicprimitives/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfallelicprimitives</repository_name>
@@ -2544,7 +2551,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfleftalign/3e3d0dffeb1f/vcfleftalign/vcfleftalign.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfleftalign/vcfleftalign/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfleftalign</repository_name>
@@ -2554,7 +2561,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfannotategenotypes/c6be83b8883d/vcfannotategenotypes/vcfannotategenotypes.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfannotategenotypes/vcfannotategenotypes/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfannotategenotypes</repository_name>
@@ -2564,7 +2571,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/da419f5ed589/vcfcombine/vcfcombine.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfcombine</repository_name>
@@ -2574,7 +2581,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfaddinfo/4d4b16af67aa/vcfaddinfo/vcfaddinfo.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfaddinfo/vcfaddinfo/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfaddinfo</repository_name>
@@ -2584,7 +2591,7 @@
             <version>0.0.3</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcfgeno2haplo/2bdb74ab3270/vcfgeno2haplo/vcfgeno2haplo.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcfgeno2haplo/vcfgeno2haplo/0.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcfgeno2haplo</repository_name>
@@ -2632,7 +2639,7 @@
             <version>0.3</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/2ac846969812/fastq_join/fastq-join.xml" guid="toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/fastq_join/1.1.2-484">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_join</repository_name>
@@ -2642,7 +2649,7 @@
             <version>1.1.2-484</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_reheader/020e144b5f78/samtools_reheader/samtools_reheader.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_reheader/samtools_reheader/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_reheader</repository_name>
@@ -2652,7 +2659,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/87398ae795c7/samtools_idxstats/samtools_idxstats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_idxstats</repository_name>
@@ -2662,7 +2669,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/c6fdfe3331d6/samtools_mpileup/samtools_mpileup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_mpileup</repository_name>
@@ -2672,7 +2679,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_calmd/1ebb4ecdc1ef/samtools_calmd/samtools_calmd.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_calmd/samtools_calmd/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_calmd</repository_name>
@@ -2682,7 +2689,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_split/57f3e32f809d/samtools_split/samtools_split.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_split/samtools_split/1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_split</repository_name>
@@ -2692,7 +2699,7 @@
             <version>1.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/2b474ebbfc7d/samtools_slice_bam/samtools_slice_bam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_slice_bam</repository_name>
@@ -2702,7 +2709,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/3735f950b2f5/samtools_rmdup/samtools_rmdup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_rmdup</repository_name>
@@ -2712,7 +2719,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/d04d9f1c6791/sam_to_bam/sam_to_bam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>sam_to_bam</repository_name>
@@ -2722,7 +2729,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_bedcov/8c3472790020/samtools_bedcov/samtools_bedcov.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_bedcov/samtools_bedcov/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_bedcov</repository_name>
@@ -2732,7 +2739,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/0072bf593791/samtools_flagstat/samtools_flagstat.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_flagstat</repository_name>
@@ -2742,7 +2749,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/a430da4f04cd/samtools_sort/samtools_sort.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/samtools_sort/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_sort</repository_name>
@@ -2752,7 +2759,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/af7c50162f0b/bam_to_sam/bam_to_sam.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bam_to_sam</repository_name>
@@ -2762,7 +2769,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/0d71d9467847/samtools_stats/samtools_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_stats</repository_name>
@@ -2772,7 +2779,7 @@
             <version>2.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/7bb98e9296e9/structurefold/Iterative_mapping/iterative_map.xml" guid="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/iterative_map_pipeline/1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>structurefold</repository_name>
@@ -2816,7 +2823,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/b6e3849293b1/cuffmerge/cuffmerge_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/2.2.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffmerge</repository_name>
@@ -2826,7 +2833,7 @@
             <version>2.2.1.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/5c5517d2a9e9/tophat2/tophat2_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.9">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>tophat2</repository_name>
@@ -2836,7 +2843,7 @@
             <version>0.9</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/stringtie/48b891c1c2aa/stringtie/stringtie.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>stringtie</repository_name>
@@ -2846,7 +2853,7 @@
             <version>1.0.3</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/gffread/5f6e6582c01d/gffread/gffread.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/2.2.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>gffread</repository_name>
@@ -2856,7 +2863,7 @@
             <version>2.2.1.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/4e6f043995ff/cuffdiff/cuffdiff_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2.2.1.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffdiff</repository_name>
@@ -3026,7 +3033,7 @@
             <version>0.0.6</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/hisat/e3fe061597ac/hisat/hisat.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/hisat/hisat/1.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>hisat</repository_name>
@@ -3164,7 +3171,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/nate/trinity_psc/d0c258caafaf/trinity_psc/trinityrnaseq.xml" guid="toolshed.g2.bx.psu.edu/repos/nate/trinity_psc/trinity_psc/0.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_psc</repository_name>
@@ -3466,7 +3473,7 @@
             <version>1.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/stringtie/f504b3b7e49d/stringtie/stringtie.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>stringtie</repository_name>
@@ -3476,7 +3483,7 @@
             <version>1.1.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/3b4ed0e473dc/sailfish/sailfish.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/0.7.6.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>sailfish</repository_name>
@@ -3524,7 +3531,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/4e4e4093d65d/ngsutils_bam_filter/bam_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/ngsutils_bam_filter/0.5.7.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>ngsutils_bam_filter</repository_name>
@@ -3534,7 +3541,7 @@
             <version>0.5.7.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/ef11139d4545/pileup_interval/pileup_interval.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>pileup_interval</repository_name>
@@ -3544,7 +3551,7 @@
             <version>1.0.2</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="testtoolshed.g2.bx.psu.edu/repos/devteam/samtools_phase/c21cb56fbbbc/samtools_phase/samtools_phase.xml" guid="testtoolshed.g2.bx.psu.edu/repos/devteam/samtools_phase/samtools_phase/2.0">
             <tool_shed>testtoolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_phase</repository_name>
@@ -3564,7 +3571,7 @@
             <version>1.2.2</version>
         </tool>
     </section>
-    <section id="bed_tools" name="BED Tools" version="">
+    <section id="bed" name="BED" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bedtools/2cd7e321d259/bedtools/nucBed.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_nucbed/2.22.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bedtools</repository_name>
@@ -3960,7 +3967,7 @@
             <version>0.1.6.0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/rnateam/mafft/d71e007323d4/mafft/mafft.xml" guid="toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>mafft</repository_name>
@@ -3996,7 +4003,7 @@
             <version>0.2</version>
         </tool>
     </section>
-    <section id="quality_control" name="Quality Control" version="">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/f8a9a5eaca8a/trimmomatic/trimmomatic.xml" guid="toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trimmomatic</repository_name>
@@ -4006,7 +4013,7 @@
             <version>0.32.3</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/11962ce40855/trim_galore/trim_galore.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trim_galore</repository_name>
@@ -4276,7 +4283,7 @@
             <version>0.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/6a7f5da7c76d/fastq_paired_end_joiner/fastq_paired_end_joiner.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/2.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_paired_end_joiner</repository_name>
@@ -4286,7 +4293,7 @@
             <version>2.0.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/8ec3dfde378b/fastq_join/fastq-join.xml" guid="toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/fastq_join/1.1.2-806.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_join</repository_name>
@@ -4388,7 +4395,7 @@
             <version>0.3</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hisat2/6d4d39720545/hisat2/hisat2.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>hisat2</repository_name>
@@ -4398,7 +4405,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="motifs" name="Motif Tools" version="">
+    <section id="motifs" name="Motifs" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/meme_meme/e416c7c26977/meme_meme/meme.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/meme_meme/meme_meme/4.11.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>meme_meme</repository_name>
@@ -4418,7 +4425,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="peak_calling" name="Peak Calling" version="">
+    <section id="chip_seq" name="ChIP-seq" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/genetrack/25cd59a002d9/genetrack/genetrack.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/genetrack/genetrack/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>genetrack</repository_name>
@@ -4428,7 +4435,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="peak_calling" name="Peak Calling" version="">
+    <section id="chip_seq" name="ChIP-seq" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/cwpair2/d4db13c9dd7f/cwpair2/cwpair2.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/cwpair2/cwpair2/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cwpair2</repository_name>
@@ -4438,7 +4445,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="peak_calling" name="Peak Calling" version="">
+    <section id="chip_seq" name="ChIP-seq" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/repmatch_gff3/a072f0f30ea3/repmatch_gff3/repmatch_gff3.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/repmatch_gff3/repmatch_gff3/1.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>repmatch_gff3</repository_name>
@@ -4448,7 +4455,7 @@
             <version>1.0.0</version>
         </tool>
     </section>
-    <section id="motifs" name="Motif Tools" version="">
+    <section id="motifs" name="Motifs" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/fd522a964017/meme_fimo/fimo.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>meme_fimo</repository_name>
@@ -4750,7 +4757,7 @@
             <version>2.2.2.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hisat2/b1e25f9b5eab/hisat2/hisat2.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>hisat2</repository_name>
@@ -4770,7 +4777,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/758594ed0364/tophat2/tophat2_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/2.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>tophat2</repository_name>
@@ -5112,7 +5119,7 @@
             <version>0.1.08</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="testtoolshed.g2.bx.psu.edu/repos/iuc/rnaspades/a3e9e9b63502/rnaspades/rnaspades.xml" guid="testtoolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/3.9.0">
             <tool_shed>testtoolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>rnaspades</repository_name>
@@ -5244,7 +5251,7 @@
             <version>4.1.1</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_missing2ref/4eb3ebd573d3/bcftools_plugin_missing2ref/bcftools_plugin_missing2ref.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_missing2ref/bcftools_plugin_missing2ref/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_missing2ref</repository_name>
@@ -5254,7 +5261,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_fixploidy/f6a06fcdebdc/bcftools_plugin_fixploidy/bcftools_plugin_fixploidy.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_fixploidy/bcftools_plugin_fixploidy/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_fixploidy</repository_name>
@@ -5264,7 +5271,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_convert_from_vcf/941a08cd0e6d/bcftools_convert_from_vcf/bcftools_convert_from_vcf.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_convert_from_vcf/bcftools_convert_from_vcf/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_convert_from_vcf</repository_name>
@@ -5274,7 +5281,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_convert_to_vcf/d6e3d97e17f0/bcftools_convert_to_vcf/bcftools_convert_to_vcf.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_convert_to_vcf/bcftools_convert_to_vcf/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_convert_to_vcf</repository_name>
@@ -5284,7 +5291,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_concat/3503073269ec/bcftools_concat/bcftools_concat.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_concat/bcftools_concat/1.3.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_concat</repository_name>
@@ -5294,7 +5301,7 @@
             <version>1.3.1</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_impute_info/35f66846632e/bcftools_plugin_impute_info/bcftools_plugin_impute_info.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_impute_info/bcftools_plugin_impute_info/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_impute_info</repository_name>
@@ -5304,7 +5311,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_vcf2sex/44628678a83e/bcftools_plugin_vcf2sex/bcftools_plugin_vcf2sex.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_vcf2sex/bcftools_plugin_vcf2sex/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_vcf2sex</repository_name>
@@ -5314,7 +5321,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_reheader/2ba7c7a2bf7e/bcftools_reheader/bcftools_reheader.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_reheader/bcftools_reheader/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_reheader</repository_name>
@@ -5324,7 +5331,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_query/f4f3013287a7/bcftools_query/bcftools_query.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_query/bcftools_query/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_query</repository_name>
@@ -5334,7 +5341,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_call/6d2a5f0859cf/bcftools_call/bcftools_call.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_call/bcftools_call/1.3.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_call</repository_name>
@@ -5344,7 +5351,7 @@
             <version>1.3.2</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_cnv/d1c1d7338619/bcftools_cnv/bcftools_cnv.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_cnv/bcftools_cnv/1.3.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_cnv</repository_name>
@@ -5354,7 +5361,7 @@
             <version>1.3.1</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_roh/809a20f5dcb8/bcftools_roh/bcftools_roh.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_roh/bcftools_roh/1.3.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_roh</repository_name>
@@ -5364,7 +5371,7 @@
             <version>1.3.1</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_gtcheck/bf8c3c146a1c/bcftools_gtcheck/bcftools_gtcheck.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_gtcheck/bcftools_gtcheck/1.3.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_gtcheck</repository_name>
@@ -5374,7 +5381,7 @@
             <version>1.3.1</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_merge/d6f351f2d6a0/bcftools_merge/bcftools_merge.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_merge/bcftools_merge/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_merge</repository_name>
@@ -5384,7 +5391,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_fill_tags/8a9a1086f0e3/bcftools_plugin_fill_tags/bcftools_plugin_fill_tags.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_fill_tags/bcftools_plugin_fill_tags/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_fill_tags</repository_name>
@@ -5394,7 +5401,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_isec/5189d9d9a1dd/bcftools_isec/bcftools_isec.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_isec/bcftools_isec/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_isec</repository_name>
@@ -5404,7 +5411,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_dosage/4d21da708558/bcftools_plugin_dosage/bcftools_plugin_dosage.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_dosage/bcftools_plugin_dosage/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_dosage</repository_name>
@@ -5414,7 +5421,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_mendelian/048e6a12b430/bcftools_plugin_mendelian/bcftools_plugin_mendelian.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_mendelian/bcftools_plugin_mendelian/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_mendelian</repository_name>
@@ -5424,7 +5431,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_norm/a01eacacfd88/bcftools_norm/bcftools_norm.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_norm/bcftools_norm/1.3.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_norm</repository_name>
@@ -5434,7 +5441,7 @@
             <version>1.3.1</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_view/cde34352778e/bcftools_view/bcftools_view.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_view/bcftools_view/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_view</repository_name>
@@ -5444,7 +5451,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_setgt/b7b03a7ba50d/bcftools_plugin_setgt/bcftools_plugin_setgt.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_setgt/bcftools_plugin_setgt/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_setgt</repository_name>
@@ -5454,7 +5461,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_filter/ccac7424e27f/bcftools_filter/bcftools_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_filter/bcftools_filter/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_filter</repository_name>
@@ -5464,7 +5471,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_fill_an_ac/d8e1b585494f/bcftools_plugin_fill_an_ac/bcftools_plugin_fill_an_ac.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_fill_an_ac/bcftools_plugin_fill_an_ac/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_fill_an_ac</repository_name>
@@ -5474,7 +5481,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_counts/136dc00f36c9/bcftools_plugin_counts/bcftools_plugin_counts.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_counts/bcftools_plugin_counts/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_counts</repository_name>
@@ -5484,7 +5491,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_consensus/b10dc5596646/bcftools_consensus/bcftools_consensus.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_consensus/bcftools_consensus/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_consensus</repository_name>
@@ -5494,7 +5501,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/f8e9951c94b1/bcftools_stats/bcftools_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/bcftools_stats/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_stats</repository_name>
@@ -5504,7 +5511,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_annotate/12c14f97429b/bcftools_annotate/bcftools_annotate.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_annotate/bcftools_annotate/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_annotate</repository_name>
@@ -5514,7 +5521,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_query_list_samples/393439a1334b/bcftools_query_list_samples/bcftools_query_list_samples.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_query_list_samples/bcftools_query_list_samples/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_query_list_samples</repository_name>
@@ -5524,7 +5531,7 @@
             <version>1.3.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_tag2tag/24c81c5fcbb5/bcftools_plugin_tag2tag/bcftools_plugin_tag2tag.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_tag2tag/bcftools_plugin_tag2tag/1.3.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_tag2tag</repository_name>
@@ -5664,7 +5671,7 @@
             <version>2.4galaxy1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/9e58ff014088/rnaspades/rnaspades.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/3.9.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>rnaspades</repository_name>
@@ -5674,7 +5681,7 @@
             <version>3.9.0.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/engineson/multiqc/c503e1c1fbad/multiqc/multiqc.xml" guid="toolshed.g2.bx.psu.edu/repos/engineson/multiqc/multiqc/1.0.0.0" hidden="true">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>multiqc</repository_name>
@@ -5720,7 +5727,7 @@
             <version>1.0.0.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/318b2a9d54dd/rgrnastar/rg_rnaStar.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.5.2b-0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>rgrnastar</repository_name>
@@ -5730,7 +5737,7 @@
             <version>2.5.2b-0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hisat2/2ec097c8e843/hisat2/hisat2.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/2.0.5.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>hisat2</repository_name>
@@ -5790,7 +5797,7 @@
             <version>1.12.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/7a9158bb6f98/kallisto_quant/kallisto_quant.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/kallisto_quant/kallisto_quant/0.43.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>kallisto_quant</repository_name>
@@ -5800,7 +5807,7 @@
             <version>0.43.1.1</version>
         </tool>
     </section>
-    <section id="peak_calling" name="Peak Calling">
+    <section id="chip_seq" name="ChIP-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/idr/d3ebbf39b1c5/idr/idr.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/idr/idr/2.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>idr</repository_name>
@@ -5810,7 +5817,7 @@
             <version>2.0.3</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/flash/13e98e2709b8/flash/flash.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/flash/flash/1.2.11">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>flash</repository_name>
@@ -5830,7 +5837,7 @@
             <version>0.4.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/56389130cb63/fastq_combiner/fastq_combiner.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/fastq_combiner/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_combiner</repository_name>
@@ -5840,7 +5847,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_filter/06934412f56d/fastq_filter/fastq_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_filter/fastq_filter/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_filter</repository_name>
@@ -5850,7 +5857,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/71e5fa25b8a2/fastq_groomer/fastq_groomer.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_groomer</repository_name>
@@ -5860,7 +5867,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/4ac14b275aca/fastq_manipulation/fastq_manipulation.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/fastq_manipulation/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_manipulation</repository_name>
@@ -5870,7 +5877,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_masker_by_quality/eb592e9ec47a/fastq_masker_by_quality/fastq_masker_by_quality.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_masker_by_quality/fastq_masker_by_quality/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_masker_by_quality</repository_name>
@@ -5880,7 +5887,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/462abc5618ba/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_paired_end_deinterlacer</repository_name>
@@ -5890,7 +5897,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/effda79f510c/fastq_paired_end_interlacer/fastq_paired_end_interlacer.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/1.2.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_paired_end_interlacer</repository_name>
@@ -5900,7 +5907,7 @@
             <version>1.2.0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/080a058abf1e/fastq_paired_end_joiner/fastq_paired_end_joiner.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/2.0.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_paired_end_joiner</repository_name>
@@ -5910,7 +5917,7 @@
             <version>2.0.1.0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/9bbe5b7ffa12/fastq_paired_end_splitter/fastq_paired_end_splitter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_paired_end_splitter</repository_name>
@@ -5920,7 +5927,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/e2cf940128d5/fastq_stats/fastq_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_stats</repository_name>
@@ -5960,7 +5967,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/flash/d043b54b3bfb/flash/flash.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/flash/flash/1.2.11.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>flash</repository_name>
@@ -5970,7 +5977,7 @@
             <version>1.2.11.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/flash/b48895989d78/flash/flash.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/flash/flash/1.2.11.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>flash</repository_name>
@@ -5980,7 +5987,7 @@
             <version>1.2.11.2</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_contig_exn50_statistic/a482a374577d/trinity_contig_exn50_statistic/contig_exn50_statistic.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_contig_exn50_statistic/trinity_contig_exn50_statistic/2.4.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_contig_exn50_statistic</repository_name>
@@ -5990,7 +5997,7 @@
             <version>2.4.0.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/04bd98a9c751/trinity_align_and_estimate_abundance/align_and_estimate_abundance.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/2.4.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_align_and_estimate_abundance</repository_name>
@@ -6000,7 +6007,7 @@
             <version>2.4.0.2</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_abundance_estimates_to_matrix/74217fbfba4d/trinity_abundance_estimates_to_matrix/abundance_estimates_to_matrix.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_abundance_estimates_to_matrix/trinity_abundance_estimates_to_matrix/2.4.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_abundance_estimates_to_matrix</repository_name>
@@ -6290,7 +6297,7 @@
             <version>1.1.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/star_fusion/0b44456754e2/star_fusion/star_fusion.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/star_fusion/star_fusion/0.5.4-3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>star_fusion</repository_name>
@@ -6300,7 +6307,7 @@
             <version>0.5.4-3</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/1d835c691480/poretools_events/poretools_events.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_events/poretools_events/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_events</repository_name>
@@ -6310,7 +6317,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_nucdist/3ae7ccba16cf/poretools_nucdist/poretools_nucdist.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_nucdist/poretools_nucdist/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_nucdist</repository_name>
@@ -6320,7 +6327,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_squiggle/ce8af9373061/poretools_squiggle/poretools_squiggle.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_squiggle/poretools_squiggle/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_squiggle</repository_name>
@@ -6330,7 +6337,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_yield_plot/64a83664b814/poretools_yield_plot/poretools_yield_plot.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_yield_plot/poretools_yield_plot/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_yield_plot</repository_name>
@@ -6340,7 +6347,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_times/e5072f0d3772/poretools_times/poretools_times.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_times/poretools_times/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_times</repository_name>
@@ -6350,7 +6357,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_extract/7593f94691fb/poretools_extract/poretools_extract.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_extract/poretools_extract/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_extract</repository_name>
@@ -6360,7 +6367,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_hist/47936349f3e9/poretools_hist/poretools_hist.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_hist/poretools_hist/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_hist</repository_name>
@@ -6370,7 +6377,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_occupancy/336791b5665f/poretools_occupancy/poretools_occupancy.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_occupancy/poretools_occupancy/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_occupancy</repository_name>
@@ -6380,7 +6387,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_qualpos/2e22ebec211a/poretools_qualpos/poretools_qualpos.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_qualpos/poretools_qualpos/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_qualpos</repository_name>
@@ -6390,7 +6397,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_stats/ae4c8446ce30/poretools_stats/poretools_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_stats/poretools_stats/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_stats</repository_name>
@@ -6400,7 +6407,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_winner/9d8f41103cc6/poretools_winner/poretools_winner.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_winner/poretools_winner/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_winner</repository_name>
@@ -6410,7 +6417,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_tabular/7f0b324de883/poretools_tabular/poretools_tabular.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_tabular/poretools_tabular/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_tabular</repository_name>
@@ -6420,7 +6427,7 @@
             <version>0.6.1a1.0</version>
         </tool>
     </section>
-    <section id="poretools" name="poretools" version="">
+    <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/poretools_qualdist/44111014e7c1/poretools_qualdist/poretools_qualdist.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/poretools_qualdist/poretools_qualdist/0.6.1a1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>poretools_qualdist</repository_name>
@@ -6546,7 +6553,7 @@
             <version>2.4.0.2</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_gene_to_trans_map/c2c039e421af/trinity_gene_to_trans_map/gene_to_trans_map.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_gene_to_trans_map/trinity_gene_to_trans_map/2.4.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_gene_to_trans_map</repository_name>
@@ -6556,7 +6563,7 @@
             <version>2.4.0.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/describe_samples/8f0181aacb7a/describe_samples/describe_samples.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/describe_samples/describe_samples/2.4.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>describe_samples</repository_name>
@@ -6566,7 +6573,7 @@
             <version>2.4.0.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_filter_low_expr_transcripts/6f0fb35b799c/trinity_filter_low_expr_transcripts/filter_low_expr_transcripts.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_filter_low_expr_transcripts/trinity_filter_low_expr_transcripts/2.4.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_filter_low_expr_transcripts</repository_name>
@@ -6576,7 +6583,7 @@
             <version>2.4.0.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/cb5f0dde2aa8/trinity_align_and_estimate_abundance/align_and_estimate_abundance.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/2.4.0.3">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_align_and_estimate_abundance</repository_name>
@@ -6586,7 +6593,7 @@
             <version>2.4.0.3</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_analyze_diff_expr/c5f02e00d596/trinity_analyze_diff_expr/analyze_diff_expr.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_analyze_diff_expr/trinity_analyze_diff_expr/2.4.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_analyze_diff_expr</repository_name>
@@ -6596,7 +6603,7 @@
             <version>2.4.0.2</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_abundance_estimates_to_matrix/67906d99d3c0/trinity_abundance_estimates_to_matrix/abundance_estimates_to_matrix.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_abundance_estimates_to_matrix/trinity_abundance_estimates_to_matrix/2.4.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_abundance_estimates_to_matrix</repository_name>
@@ -6606,7 +6613,7 @@
             <version>2.4.0.2</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_define_clusters_by_cutting_tree/c5fbddcac63a/trinity_define_clusters_by_cutting_tree/define_clusters_by_cutting_tree.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_define_clusters_by_cutting_tree/trinity_define_clusters_by_cutting_tree/2.4.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_define_clusters_by_cutting_tree</repository_name>
@@ -6616,7 +6623,7 @@
             <version>2.4.0.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_run_de_analysis/047c22569787/trinity_run_de_analysis/run_de_analysis.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_run_de_analysis/trinity_run_de_analysis/2.4.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_run_de_analysis</repository_name>
@@ -6626,7 +6633,7 @@
             <version>2.4.0.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_samples_qccheck/1812dbc5bb7b/trinity_samples_qccheck/samples_qccheck.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_samples_qccheck/trinity_samples_qccheck/2.4.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trinity_samples_qccheck</repository_name>
@@ -6930,7 +6937,7 @@
             <version>0.2.01</version>
         </tool>
     </section>
-    <section id="bed_tools" name="BED Tools" version="">
+    <section id="bed" name="BED" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bedtools/33c3ddea63c5/bedtools/getfastaBed.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_getfastabed/2.27.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bedtools</repository_name>
@@ -7236,7 +7243,7 @@
             <version>2.27.0.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/d3ae7d9c2202/cuffdiff/cuffdiff_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2.2.1.5">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cuffdiff</repository_name>
@@ -7246,7 +7253,7 @@
             <version>2.2.1.5</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/46cccc52be5f/featurecounts/featurecounts.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>featurecounts</repository_name>
@@ -7256,7 +7263,7 @@
             <version>1.6.0.2</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/467486f1c568/multiqc/multiqc.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>multiqc</repository_name>
@@ -7266,7 +7273,7 @@
             <version>1.3.1</version>
         </tool>
     </section>
-    <section id="peak_calling" name="Peak Calling" version="">
+    <section id="chip_seq" name="ChIP-seq" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/6171163112de/diffbind/diffbind.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.6.5.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>diffbind</repository_name>
@@ -7296,7 +7303,7 @@
             <version>2.1.5.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/goseq/ab492df30cdf/goseq/goseq.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/goseq/goseq/1.26.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>goseq</repository_name>
@@ -7316,7 +7323,7 @@
             <version>2.2.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/length_and_gc_content/f088370d2a3c/length_and_gc_content/get_length_and_gc_content.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/length_and_gc_content/length_and_gc_content/0.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>length_and_gc_content</repository_name>
@@ -7326,7 +7333,7 @@
             <version>0.1.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/deseq2/3660c9088494/deseq2/deseq2.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/2.11.40.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>deseq2</repository_name>
@@ -7336,7 +7343,7 @@
             <version>2.11.40.1</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dexseq/6e8b61c54ff3/dexseq/dexseq_count.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq_count/1.24.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>dexseq</repository_name>
@@ -7624,7 +7631,7 @@
             <version>1.1.0</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hisat2/6ab42baa56e9/hisat2/hisat2.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/2.1.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>hisat2</repository_name>
@@ -7634,7 +7641,7 @@
             <version>2.1.0</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/82658c080fd0/bamtools_filter/bamtools-filter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/2.4.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bamtools_filter</repository_name>
@@ -7674,7 +7681,7 @@
             <version>2.3.4.2</version>
         </tool>
     </section>
-    <section id="peak_calling" name="Peak Calling" version="">
+    <section id="chip_seq" name="ChIP-seq" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/c97a786e8fb5/diffbind/diffbind.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.6.6.4">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>diffbind</repository_name>
@@ -7684,7 +7691,7 @@
             <version>2.6.6.4</version>
         </tool>
     </section>
-    <section id="rna_analysis" name="RNA Analysis">
+    <section id="rna_seq" name="RNA-seq">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/d5659efd66aa/rgrnastar/rg_rnaStar.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>rgrnastar</repository_name>
@@ -7704,7 +7711,7 @@
             <version>0.0.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="testtoolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/0354f2d5583f/cutadapt/cutadapt.xml" guid="testtoolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.3">
             <tool_shed>testtoolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cutadapt</repository_name>
@@ -7714,7 +7721,7 @@
             <version>1.16.3</version>
         </tool>
     </section>
-    <section id="quality_control" name="Quality Control" version="">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/ff9530579d1f/fastqc/rgFastQC.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastqc</repository_name>
@@ -7724,7 +7731,7 @@
             <version>0.71</version>
         </tool>
     </section>
-    <section id="quality_control" name="Quality Control" version="">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/1c2db0054039/multiqc/multiqc.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.6">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>multiqc</repository_name>
@@ -7734,7 +7741,7 @@
             <version>1.6</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/949f01671246/trim_galore/trim_galore.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.3.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>trim_galore</repository_name>
@@ -7744,7 +7751,7 @@
             <version>0.4.3.1</version>
         </tool>
     </section>
-    <section id="sam_bam_manipulation" name="SAM/BAM Manipulation" version="">
+    <section id="sam_bam" name="SAM/BAM" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/24c5d43cb545/samtools_stats/samtools_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>samtools_stats</repository_name>
@@ -7754,7 +7761,7 @@
             <version>2.0.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="testtoolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/b58d26072ded/cutadapt/cutadapt.xml" guid="testtoolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.4">
             <tool_shed>testtoolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cutadapt</repository_name>
@@ -7900,7 +7907,7 @@
             <version>2.3.1+galaxy0</version>
         </tool>
     </section>
-    <section id="fasta_fastq_manipulation" name="FASTA/FASTQ Manipulation" version="">
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/5c7e7d905b33/cutadapt/cutadapt.xml" guid="toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.4">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>cutadapt</repository_name>
@@ -7910,7 +7917,7 @@
             <version>1.16.4</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_reheader/d43eb39b989e/bcftools_reheader/bcftools_reheader.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_reheader/bcftools_reheader/1.4.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_reheader</repository_name>
@@ -7920,7 +7927,7 @@
             <version>1.4.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_convert_to_vcf/1f2183a23823/bcftools_convert_to_vcf/bcftools_convert_to_vcf.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_convert_to_vcf/bcftools_convert_to_vcf/1.4.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_convert_to_vcf</repository_name>
@@ -7930,7 +7937,7 @@
             <version>1.4.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_filter/963a3635b2e1/bcftools_filter/bcftools_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_filter/bcftools_filter/1.4.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_filter</repository_name>
@@ -7940,7 +7947,7 @@
             <version>1.4.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_mendelian/a367a15c6de5/bcftools_plugin_mendelian/bcftools_plugin_mendelian.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_mendelian/bcftools_plugin_mendelian/1.4.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_mendelian</repository_name>
@@ -7950,7 +7957,7 @@
             <version>1.4.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_missing2ref/96d0145c041a/bcftools_plugin_missing2ref/bcftools_plugin_missing2ref.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_missing2ref/bcftools_plugin_missing2ref/1.4.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_missing2ref</repository_name>
@@ -7960,7 +7967,7 @@
             <version>1.4.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_setgt/46eb13bc2c73/bcftools_plugin_setgt/bcftools_plugin_setgt.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_setgt/bcftools_plugin_setgt/1.4.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_plugin_setgt</repository_name>
@@ -7970,7 +7977,7 @@
             <version>1.4.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_norm/a404f786a94c/bcftools_norm/bcftools_norm.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_norm/bcftools_norm/1.4.0.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_norm</repository_name>
@@ -7980,7 +7987,7 @@
             <version>1.4.0.0</version>
         </tool>
     </section>
-    <section id="vcf_bcf_manipulation" name="VCF/BCF Manipulation">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/b641062a2587/bcftools_stats/bcftools_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/bcftools_stats/1.4.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_stats</repository_name>

@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <toolbox monitor="true">
-  <label id="file_meta_label" text="File and Meta Tools" />
   <section id="get_data" name="Get Data">
     <tool file="data_source/upload.xml" />
     <tool file="data_source/ucsc_tablebrowser.xml" />
@@ -28,16 +27,6 @@
     <tool file="cloud/send.xml" />
     <tool file="genomespace/genomespace_exporter.xml" />
   </section>
-  <section id="convert_formats" name="Convert Formats">
-    <tool file="filters/bed2gff.xml" />
-    <tool file="filters/gff2bed.xml" />
-    <tool file="maf/maf_to_bed.xml" />
-    <tool file="maf/maf_to_interval.xml" />
-    <tool file="maf/maf_to_fasta.xml" />
-    <tool file="filters/sff_extractor.xml" />
-    <tool file="filters/wig_to_bigwig.xml" />
-    <tool file="filters/bed_to_bigbed.xml" />
-  </section>
   <section id="collection_operations" name="Collection Operations">
     <tool file="${model_tools_path}/unzip_collection.xml" />
     <tool file="${model_tools_path}/zip_collection.xml" />
@@ -52,9 +41,6 @@
     <tool file="${model_tools_path}/apply_rules.xml" />
     <tool file="${model_tools_path}/build_list.xml" />
     <tool file="${model_tools_path}/extract_dataset.xml" />
-  </section>
-  <section id="liftOver" name="Lift-Over">
-    <tool file="extract/liftOver_wrapper.xml" />
   </section>
   <label id="general_text_label" text="General Text Tools" />
   <section id="text_manipulation" name="Text Manipulation">
@@ -89,6 +75,20 @@
     <tool file="filters/joiner.xml" />
     <tool file="filters/compare.xml" />
     <tool file="stats/grouping.xml" />
+  </section>
+  <label id="genomic_file_manipulation_label" text="Genomic File Manipulation" />
+  <section id="convert_formats" name="Convert Formats">
+    <tool file="filters/bed2gff.xml" />
+    <tool file="filters/gff2bed.xml" />
+    <tool file="maf/maf_to_bed.xml" />
+    <tool file="maf/maf_to_interval.xml" />
+    <tool file="maf/maf_to_fasta.xml" />
+    <tool file="filters/sff_extractor.xml" />
+    <tool file="filters/wig_to_bigwig.xml" />
+    <tool file="filters/bed_to_bigbed.xml" />
+  </section>
+  <section id="liftOver" name="Lift-Over">
+    <tool file="extract/liftOver_wrapper.xml" />
   </section>
   <label id="common_genomics_tools_label" text="Common Genomics Tools" />
   <section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals" version="">
