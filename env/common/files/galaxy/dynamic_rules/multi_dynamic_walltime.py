@@ -54,6 +54,7 @@ RESERVED_USERS = (
     'outreach@galaxyproject.org',
     'jen@bx.psu.edu',
     'anton@bx.psu.edu',
+    'jgoecks@gwu.edu',
 )
 NORM_RESERVED_USERS = [ u.lower() for u in RESERVED_USERS ]
 RESERVED_DESTINATION = 'reserved_multi'
@@ -235,6 +236,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
             log.info("(%s) Destination/walltime dynamic plugin returning default reserved destination for '%s'", job.id, user_email)
             #return RESERVED_DESTINATION
             destination_id = RESERVED_DESTINATION
+            explicit_destination = True
 
     if destination_id == TEAM_DESTINATION:
         if user_email in TEAM_USERS:
