@@ -371,8 +371,6 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/quality_score_distribution/1.0.2" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_reverse_complement/cshl_fastx_reverse_complement/1.0.0" />
@@ -403,8 +401,6 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/1.0.0" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.0" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/1.0.0" />
@@ -413,19 +409,23 @@
 
     <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.6" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.1.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/engineson/multiqc/multiqc/1.0.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/quality_score_distribution/1.0.2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.6" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.1.1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/engineson/multiqc/multiqc/1.0.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3" />
 
@@ -435,13 +435,11 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0" />
-
     </section>
 
     <section id="sam_bam" name="SAM/BAM" version="">
 
-        <label id="samtools_label" text="SAMTools" />
+        <label id="samtools_label" text="SAMTools" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0.1" />
 
@@ -513,7 +511,7 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/1.0.3" />
 
-        <label id="bamtools_label" name="BAMTools" version="" />
+        <label id="bamtools_label" text="BAMTools" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/2.4.1" />
 
@@ -527,7 +525,7 @@
 
     <section id="bed" name="BED" version="">
 
-        <label id="bedtools_label" name="BEDTools" version="" />
+        <label id="bedtools_label" text="BEDTools" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_getfastabed/2.27.0.1" />
 
@@ -933,8 +931,6 @@
 
     <section id="extract_features" name="Extract Features" version="">
 
-        <tool id="gene2exon1" />
-
     </section>
 
     <section id="fetch_sequences_alignments" name="Fetch Sequences/Alignments" version="">
@@ -992,8 +988,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/lionelguy/spades/spades/1.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/2.4.0.2" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/nate/trinity_psc/trinity_psc/0.0.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/nml/spades/spades/1.4" />
 
@@ -1157,9 +1151,11 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/mutate_snp_codon/mutate_snp_codon_1/1.0.0" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0" />
+
     </section>
 
-    <section id="chip_seq" name="ChIP-seq">
+    <section id="chip_seq" name="ChIP-seq" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/idr/idr/2.0.3" />
 
@@ -1193,7 +1189,9 @@
 
     </section>
 
-    <section id="rna_seq" name="RNA-seq">
+    <section id="rna_seq" name="RNA-seq" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nate/trinity_psc/trinity_psc/0.0.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1" />
 
@@ -1353,7 +1351,7 @@
 
     </section>
 
-    <section id="regional_variation" name="Regional Variation">
+    <section id="regional_variation" name="Regional Variation" version="">
 
         <tool id="testtoolshed.g2.bx.psu.edu/repos/guru-ananda/rhmm/hmm_1/1.0.0" />
 
@@ -1402,6 +1400,24 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/meme_meme/meme_meme/4.11.0.0" />
+
+    </section>
+
+    <section id="genome_diversity" name="Genome Diversity" version="">
+
+        <label id="gd_init" text="Basic analyses" version="" />
+
+        <label id="gd_pop" text="Population structure" version="" />
+
+        <label id="gd_fst_ss" text="FST and selective sweeps" version="" />
+
+        <label id="gd_kin" text="Kinship" version="" />
+
+        <label id="gd_kegg" text="KEGG and GO" version="" />
+
+        <label id="gd_geno" text="Design genotyping studies" version="" />
+
+        <label id="gd_mito" text="Mitochondria" version="" />
 
     </section>
 
@@ -1841,7 +1857,7 @@
 
     </section>
 
-    <section id="gatk" name="GATK">
+    <section id="gatk" name="GATK" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/unified_genotyper/gatk_unified_genotyper/0.0.6" />
 
@@ -1941,7 +1957,7 @@
 
     </section>
 
-    <section id="gemini" name="GEMINI">
+    <section id="gemini" name="GEMINI" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/gemini_windower/gemini_windower/0.20.1" />
 
@@ -1981,7 +1997,7 @@
 
     </section>
 
-    <section id="rseqc" name="RSeQC">
+    <section id="rseqc" name="RSeQC" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_bam2wig/2.4galaxy1" />
 
@@ -2073,7 +2089,7 @@
 
     </section>
 
-    <section id="du_novo" name="Du Novo">
+    <section id="du_novo" name="Du Novo" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.14" />
 
@@ -2103,7 +2119,7 @@
 
     <label id="metagenomics_label" text="Metagenomics" version="" />
 
-    <section id="metagenomic_analysis" name="Metagenomic Analysis">
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/1.1.3.1" />
 
@@ -2334,6 +2350,10 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/gi2taxonomy/Fetch Taxonomic Ranks/1.1.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/find_diag_hits/1.0.0" />
+
+    </section>
+
+    <section id="ngs:_chromosome_conformation" name="NGS: Chromosome Conformation" version="">
 
     </section>
 

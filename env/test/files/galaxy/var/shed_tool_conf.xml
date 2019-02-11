@@ -1,15 +1,19 @@
 <?xml version="1.0" ?>
 <toolbox tool_path="/cvmfs/test.galaxyproject.org/shed_tools">
-    <section id="bed" name="BED" version="">
-        <label id="bedtools_label" text="BEDTools" version="" />
+    <section id="sam_bam" name="SAM/BAM">
+        <label id="samtools_label" text="SAMTools" />
+        <label id="bamtools_label" text="BAMTools" />
+    </section>
+    <section id="bed" name="BED">
+        <label id="bedtools_label" text="BEDTools" />
     </section>
     <section id="vcf_bcf" name="VCF/BCF">
-        <label id="vcflib_label" text="vcflib" version="" />
-        <label id="vcftools_label" text="VCFTools" version="" />
-        <label id="bcftools_label" text="BCFTools" version="" />
+        <label id="vcflib_label" text="vcflib" />
+        <label id="vcftools_label" text="VCFTools" />
+        <label id="bcftools_label" text="BCFTools" />
     </section>
-    <section id="nanopore" name="Nanopore" version="">
-        <label id="poretools_label" text="poretools" version="" />
+    <section id="nanopore" name="Nanopore">
+        <label id="poretools_label" text="poretools" />
     </section>
     <section id="rna_seq" name="RNA-seq">
         <label id="trinity_label" text="Trinity Tools" />
@@ -20,8 +24,8 @@
         <label id="multivariate_analysis_label" text="Multivariate Analysis" />
     </section>
     <label id="genomics_toolkits_label" text="Genomics Toolkits" />
-    <label id="metagenomics_label" text="Metagenomics" version="" />
-    <label id="deprecated_tools_label" text="Deprecated Tools" version="" />
+    <label id="metagenomics_label" text="Metagenomics" />
+    <label id="deprecated_tools_label" text="Deprecated Tools" />
     <section id="mapping" name="Mapping">
         <tool file="toolshed.g2.bx.psu.edu/repos/nilshomer/tmap_wrapper/40ade4f81a30/tmap_wrapper/tmap_wrapper_0.0.19/tmap_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/nilshomer/tmap_wrapper/tmap_wrapper/0.0.19" hidden="true">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -32,7 +36,7 @@
             <version>0.0.19</version>
         </tool>
     </section>
-    <section id="snp_eff" name="SNP Eff" version="">
+    <section id="variant_calling" name="Variant Calling" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/a3873bb68495/check_snpeff_candidates/checkSnpEffCandidates.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0" hidden="true">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>check_snpeff_candidates</repository_name>
@@ -5681,7 +5685,7 @@
             <version>3.9.0.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/engineson/multiqc/c503e1c1fbad/multiqc/multiqc.xml" guid="toolshed.g2.bx.psu.edu/repos/engineson/multiqc/multiqc/1.0.0.0" hidden="true">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>multiqc</repository_name>
@@ -5927,7 +5931,7 @@
             <version>1.1.1</version>
         </tool>
     </section>
-    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/e2cf940128d5/fastq_stats/fastq_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.1.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fastq_stats</repository_name>
@@ -7263,7 +7267,7 @@
             <version>1.6.0.2</version>
         </tool>
     </section>
-    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/467486f1c568/multiqc/multiqc.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>multiqc</repository_name>
