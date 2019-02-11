@@ -1,15 +1,19 @@
 <?xml version="1.0" ?>
 <toolbox tool_path="/cvmfs/main.galaxyproject.org/shed_tools">
-    <section id="bed" name="BED" version="">
-        <label id="bedtools_label" text="BEDTools" version="" />
+    <section id="sam_bam" name="SAM/BAM">
+        <label id="samtools_label" text="SAMTools" />
+        <label id="bamtools_label" text="BAMTools" />
+    </section>
+    <section id="bed" name="BED">
+        <label id="bedtools_label" text="BEDTools" />
     </section>
     <section id="vcf_bcf" name="VCF/BCF">
-        <label id="vcflib_label" text="vcflib" version="" />
-        <label id="vcftools_label" text="VCFTools" version="" />
-        <label id="bcftools_label" text="BCFTools" version="" />
+        <label id="vcflib_label" text="vcflib" />
+        <label id="vcftools_label" text="VCFTools" />
+        <label id="bcftools_label" text="BCFTools" />
     </section>
-    <section id="nanopore" name="Nanopore" version="">
-        <label id="poretools_label" text="poretools" version="" />
+    <section id="nanopore" name="Nanopore">
+        <label id="poretools_label" text="poretools" />
     </section>
     <section id="rna_seq" name="RNA-seq">
         <label id="structurefold_label" text="RNA Structure Prediction" />
@@ -19,9 +23,9 @@
         <label id="multivariate_analysis_label" text="Multivariate Analysis" />
     </section>
     <label id="genomics_toolkits_label" text="Genomics Toolkits" />
-    <label id="metagenomics_label" text="Metagenomics" version="" />
-    <label id="deprecated_tools_label" text="Deprecated Tools" version="" />
-    <section id="snpeff" name="snpEff" version="">
+    <label id="metagenomics_label" text="Metagenomics" />
+    <label id="deprecated_tools_label" text="Deprecated Tools" />
+    <section id="variant_calling" name="Variant Calling" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/c052639fa666/snpeff/snpEff_2_1a/snpEff_2_1a/galaxy/snpSift_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpSift_filter/1.0" hidden="true">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>snpeff</repository_name>
@@ -98,14 +102,6 @@
         </tool>
     </section>
     <section id="sam_bam" name="SAM/BAM">
-        <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/69e3ff62728f/bcftools_view/bcftools_view.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1">
-            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-            <repository_name>bcftools_view</repository_name>
-            <repository_owner>gregory-minevich</repository_owner>
-            <installed_changeset_revision>69e3ff62728f</installed_changeset_revision>
-            <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1</id>
-            <version>0.0.1</version>
-        </tool>
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/890d97772e2a/sam_pileup/sam_pileup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>sam_pileup</repository_name>
@@ -163,6 +159,14 @@
             <installed_changeset_revision>22c8c4f8d11c</installed_changeset_revision>
             <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0</id>
             <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/69e3ff62728f/bcftools_view/bcftools_view.xml" guid="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>bcftools_view</repository_name>
+            <repository_owner>gregory-minevich</repository_owner>
+            <installed_changeset_revision>69e3ff62728f</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1</id>
+            <version>0.0.1</version>
         </tool>
     </section>
     <section id="variant_calling" name="Variant Calling" version="">
@@ -222,6 +226,8 @@
             <id>toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1</id>
             <version>0.1</version>
         </tool>
+    </section>
+    <section id="vcf_bcf" name="VCF/BCF" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/bc178c43e4fe/vcftools_annotate/vcftools_annotate.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>vcftools_annotate</repository_name>
@@ -14427,7 +14433,7 @@
             <version>0.72</version>
         </tool>
     </section>
-    <section id="sam_bam" name="SAM/BAM">
+    <section id="vcf_bcf" name="VCF/BCF">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_call/b03984136ce4/bcftools_call/bcftools_call.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_call/bcftools_call/1.4.0">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>bcftools_call</repository_name>

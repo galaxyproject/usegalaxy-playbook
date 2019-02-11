@@ -35,7 +35,7 @@
 
     <tool id="echo_main_bridges" />
 
-    <section id="get_data" name="Get Data">
+    <section id="get_data" name="Get Data" version="">
 
         <tool id="upload1" />
 
@@ -46,6 +46,8 @@
         <tool id="ebi_sra_main" />
 
         <tool id="flymine" />
+
+        <tool id="intermine" />
 
         <tool id="modENCODEfly" />
 
@@ -65,6 +67,8 @@
 
         <tool id="eupathdb" />
 
+        <tool id="hbvar" />
+
         <tool id="genomespace_importer" />
 
         <tool id="genomespace_push" />
@@ -77,7 +81,7 @@
 
     </section>
 
-    <section id="send_data" name="Send Data">
+    <section id="send_data" name="Send Data" version="">
 
         <tool id="genomespace_exporter" />
 
@@ -90,6 +94,8 @@
         <tool id="__UNZIP_COLLECTION__" />
 
         <tool id="__ZIP_COLLECTION__" />
+
+        <tool id="__FILTER_EMPTY_DATASETS__" />
 
         <tool id="__FILTER_FAILED_DATASETS__" />
 
@@ -104,6 +110,10 @@
         <tool id="__SORTLIST__" />
 
         <tool id="__TAG_FROM_FILE__" />
+
+        <tool id="__BUILD_LIST__" />
+
+        <tool id="__EXTRACT_DATASET__" />
 
         <tool id="__APPLY_RULES__" />
 
@@ -273,7 +283,7 @@
 
     </section>
 
-    <section id="join_subtract_and_group" name="Join, Subtract and Group">
+    <section id="join_subtract_and_group" name="Join, Subtract and Group" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/subtract_query/subtract_query1/0.1" />
 
@@ -297,9 +307,7 @@
 
     <label id="genomic_file_manipulation_label" text="Genomic File Manipulation" version="" />
 
-    <section id="fasta_fastq" name="FASTA/FASTQ">
-
-        <label id="generic_fastq" text="Generic FASTQ manipulation" version="" />
+    <section id="fasta_fastq" name="FASTA/FASTQ" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.5" />
 
@@ -415,14 +423,6 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0" />
 
-        <tool id="solid2fastq" />
-
-        <tool id="solid_qual_stats" />
-
-        <tool id="solid_qual_boxplot" />
-
-        <label id="fastx_toolkit_fastq" text="FASTX-Toolkit for FASTQ data" version="" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.1" />
@@ -445,11 +445,9 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.0" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.0" />
-
     </section>
 
-    <section id="fastq_quality_control" name="FASTQ Quality Control">
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.6" />
 
@@ -501,13 +499,9 @@
 
     </section>
 
-    <section id="sam_bam" name="SAM/BAM">
+    <section id="sam_bam" name="SAM/BAM" version="">
 
-        <label id="samtools_label" name="SAMTools" version="" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_call/bcftools_call/1.4.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1" />
+        <label id="samtools_label" text="SAMTools" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/samtools_sort/2.0.2" />
 
@@ -611,7 +605,7 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3" />
 
-        <label id="bamtools_label" name="BAMTools" version="" />
+        <label id="bamtools_label" text="BAMTools" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/2.4.0" />
 
@@ -635,7 +629,7 @@
 
     <section id="bed" name="BED" version="">
 
-        <label id="bedtools_label" name="BEDTools" version="" />
+        <label id="bedtools_label" text="BEDTools" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_getfastabed/2.27.0.1" />
 
@@ -1073,6 +1067,8 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_view/bcftools_view/1.4.0" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_call/bcftools_call/1.4.0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_roh/bcftools_roh/1.4.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_merge/bcftools_merge/1.4.0" />
@@ -1119,7 +1115,9 @@
 
     </section>
 
-    <section id="nanopore" name="Nanopore">
+    <section id="nanopore" name="Nanopore" version="">
+
+        <label id="poretools_label" text="poretools" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/poretools_yield_plot/poretools_yield_plot/0.6.1a1.0" />
 
@@ -1149,7 +1147,7 @@
 
     </section>
 
-    <section id="convert_formats" name="Convert Formats">
+    <section id="convert_formats" name="Convert Formats" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bam_to_scidx/bam_to_scidx/1.0.1" />
 
@@ -1203,7 +1201,7 @@
 
     <label id="common_genomics_tools_label" text="Common Genomics Tools" version="" />
 
-    <section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals">
+    <section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/merge/gops_merge_1/1.0.0" />
 
@@ -1365,6 +1363,10 @@
 
     <section id="variant_calling" name="Variant Calling" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpSift_filter/1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpEff/1.0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/2.4.2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/4.3+T.galaxy2" />
@@ -1444,10 +1446,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpSift_filter/1.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpEff/1.0" />
 
     </section>
 
@@ -1673,7 +1671,7 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tophat/tophat/1.5.0" />
 
-        <label id="structurefold_label" text="RNA Structure Prediction" />
+        <label id="structurefold_label" text="RNA Structure Prediction" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/iterative_map_pipeline/1.0" />
 
@@ -2726,6 +2724,32 @@
     <label id="genomics_toolkits_label" text="Genomics Toolkits" version="" />
 
     <section id="picard" name="Picard" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.56.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BamIndexStats/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardASMetrics/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardGCBiasMetrics/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgEstLibComp/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardInsertSize/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardHsMetrics/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ARRG/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReorderSam/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicFixMate/1.56.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicardMarkDups/1.56.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/2.18.2.1" />
 
@@ -3917,7 +3941,7 @@
 
         <tool id="Count1" />
 
-        <label id="multiple_regression_label" text="Multiple Regression" />
+        <label id="multiple_regression_label" text="Multiple Regression" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/linear_regression/LinearRegression1/1.0.1" />
 
@@ -3929,7 +3953,7 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/best_regression_subsets/BestSubsetsRegression1/1.0.0" />
 
-        <label id="multivariate_analysis_label" text="Multivariate Analysis" />
+        <label id="multivariate_analysis_label" text="Multivariate Analysis" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/canonical_correlation_analysis/cca1/1.0.0" />
 
@@ -4046,6 +4070,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/snp_mapping_using_wgs/snp_mapping_using_wgs/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/gregory-minevich/bcftools_view/bcftools_view/0.0.1" />
 
     </section>
 
