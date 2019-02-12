@@ -1,30 +1,30 @@
 <?xml version="1.0" ?>
 <toolbox tool_path="/cvmfs/main.galaxyproject.org/shed_tools">
     <section id="sam_bam" name="SAM/BAM">
-        <label id="samtools_label" text="SAMTools" />
-        <label id="bamtools_label" text="BAMTools" />
+        <label id="samtools_label" text="SAMTools"/>
+        <label id="bamtools_label" text="BAMTools"/>
     </section>
     <section id="bed" name="BED">
-        <label id="bedtools_label" text="BEDTools" />
+        <label id="bedtools_label" text="BEDTools"/>
     </section>
     <section id="vcf_bcf" name="VCF/BCF">
-        <label id="vcflib_label" text="vcflib" />
-        <label id="vcftools_label" text="VCFTools" />
-        <label id="bcftools_label" text="BCFTools" />
+        <label id="vcflib_label" text="vcflib"/>
+        <label id="vcftools_label" text="VCFTools"/>
+        <label id="bcftools_label" text="BCFTools"/>
     </section>
     <section id="nanopore" name="Nanopore">
-        <label id="poretools_label" text="poretools" />
+        <label id="poretools_label" text="poretools"/>
     </section>
     <section id="rna_seq" name="RNA-seq">
-        <label id="structurefold_label" text="RNA Structure Prediction" />
+        <label id="structurefold_label" text="RNA Structure Prediction"/>
     </section>
     <section id="statistics" name="Statistics">
-        <label id="multiple_regression_label" text="Multiple Regression" />
-        <label id="multivariate_analysis_label" text="Multivariate Analysis" />
+        <label id="multiple_regression_label" text="Multiple Regression"/>
+        <label id="multivariate_analysis_label" text="Multivariate Analysis"/>
     </section>
-    <label id="genomics_toolkits_label" text="Genomics Toolkits" />
-    <label id="metagenomics_label" text="Metagenomics" />
-    <label id="deprecated_tools_label" text="Deprecated Tools" />
+    <label id="genomics_toolkits_label" text="Genomics Toolkits"/>
+    <label id="metagenomics_label" text="Metagenomics"/>
+    <label id="deprecated_tools_label" text="Deprecated Tools"/>
     <section id="variant_calling" name="Variant Calling" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/c052639fa666/snpeff/snpEff_2_1a/snpEff_2_1a/galaxy/snpSift_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpSift_filter/1.0" hidden="true">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -17231,6 +17231,16 @@
             <installed_changeset_revision>49370cb85f0f</installed_changeset_revision>
             <id>toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.5</id>
             <version>1.16.5</version>
+        </tool>
+    </section>
+    <section id="vcf_bcf" name="VCF/BCF" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/vcffilter/de885f4afb7f/vcffilter/vcffilter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/vcffilter/vcffilter2/1.0.0_rc1+galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>vcffilter</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>de885f4afb7f</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/vcffilter/vcffilter2/1.0.0_rc1+galaxy2</id>
+            <version>1.0.0_rc1+galaxy2</version>
         </tool>
     </section>
 </toolbox>
