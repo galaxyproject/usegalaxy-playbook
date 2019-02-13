@@ -61,7 +61,7 @@ def dynamic_bridges_select( app, tool, job, user_email ):
         mem = 240 * 1024 # 5 * 48 GB
         walltime = '24:00:00'
 
-        if tool_id == ('trinity_psc', 'trinity'):
+        if tool_id in ('trinity_psc', 'trinity'):
             infile = inp_data.get('left_input', None) or inp_data.get('input', None)
             if infile is None:
                 log.error('Trinity submitted without inputs, failing')
@@ -91,6 +91,19 @@ def dynamic_bridges_select( app, tool, job, user_email ):
                     mem = 960 * 1024 # 20 * 48 GB
                     walltime = '96:00:00'
 
+        elif tool_id == 'unicycler':
+            # SPAdes uses at most 250GB
+            mem = 288 * 1024
+            walltime = '48:00:00'
+            stack_ulimit = 24576
+            destination.env.append({
+                'name': None,
+                'file': None,
+                'execute': 'ulimit -s %d' % stack_ulimit,
+                'value': None,
+                'raw': False,
+            })
+            log.debug('(%s) will execute `ulimit -s %d`', job.id, stack_ulimit)
         else:
             # nothing to go off of yet so we'll just guess
             mem = 480 * 1024
