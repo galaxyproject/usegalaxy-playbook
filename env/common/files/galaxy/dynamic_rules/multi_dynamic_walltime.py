@@ -27,7 +27,7 @@ log.setLevel(logging.DEBUG)
 # bowtie_color_wrapper  same as bwa_wrapper
 # bwa_color_wrapper     same as bowtie_wrapper
 
-JETSTREAM_TOOLS = ( 'bowtie2', 'bwa', 'bwa_mem', 'tophat2', 'cufflinks', 'rna_star' )
+JETSTREAM_TOOLS = ( 'bowtie2', 'bwa', 'bwa_mem', 'tophat2', 'cufflinks', 'rna_star', 'hisat2' )
 PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2', 'bwa', 'bwa_mem' )
 GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource', 'reference_source.reference_source_selector' )
 GENOME_SOURCE_VALUES = ( 'indexed', 'cached' )
