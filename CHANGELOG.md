@@ -3,6 +3,10 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Wed Apr  3 12:32:07 EDT 2019
+
+Installed version 357 of various UCSC dependencies (mainly of converters and other built-in tools).
+
 ### Thu Sep 27 21:48:27 EDT 2018
 
 #### Bridges
