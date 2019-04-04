@@ -201,6 +201,7 @@ base_app_main: &BASE_APP_MAIN
   retry_metadata_internally: "False"
   retry_job_output_collection: 5
   cleanup_job: onsuccess
+  monitor_thread_join_timeout: 60
   max_metadata_value_size: 1000000
   tool_search_limit: 30
   tool_name_boost: 12
