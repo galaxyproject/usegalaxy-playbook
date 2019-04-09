@@ -7,7 +7,7 @@
   block:
 
     - name: Build plugin static content
-      command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"cd /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/client; . {{ galaxy_venv_dir }}/bin/activate; yarn install --network-timeout 120000 --check-files && yarn run gulp plugins\""
+      command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"cd /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/client; . {{ galaxy_venv_dir }}/bin/activate {{ galaxy_conda_env | default('') }}; yarn install --network-timeout 120000 --check-files && yarn run gulp plugins\""
 
     - name: Publish CVMFS transaction
       command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7, True, '') }}.client_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}" -m "Build Galaxy plugins at commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}

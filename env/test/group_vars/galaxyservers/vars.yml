@@ -36,7 +36,7 @@ galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
 #galaxy_server_dir: /galaxy-repl/test/livedebug
 galaxy_shed_tool_conf_file: /cvmfs/{{ galaxy_cvmfs_repo }}/config/shed_tool_conf.xml
 
-galaxy_venv_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/venv
+#galaxy_venv_dir: defined in all.yml
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
 galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
@@ -56,8 +56,8 @@ supervisord_group_configs:
   - galaxy_group
 
 # supervisor template
-galaxy_installer_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
-galaxy_datamanager_venv_dir: "/cvmfs/test.galaxyproject.org/venv"
+galaxy_installer_venv_dir: "{{ galaxy_venv_dir }}"
+galaxy_datamanager_venv_dir: "{{ galaxy_venv_dir }}"
 
 
 usegalaxy_nagios_tools:

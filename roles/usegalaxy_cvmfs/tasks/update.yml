@@ -36,14 +36,14 @@
 
     - name: Update Galaxy
       #command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/bin/update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }}\""
-      script: update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }} {{ galaxy_cvmfs_repo }}
+      script: update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }} {{ '-c ' ~ galaxy_conda_env if galaxy_conda_env is defined else '' }} {{ galaxy_cvmfs_repo }}
 
     - name: Clean and build Python bytecode
       script: makepyc.py /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib
 
     # TODO: In Ansible 2.4 this can use docker_container (--rm support was not available in 2.3)
     - name: Fetch Galaxy version
-      command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib --user {{ galaxy_user }} galaxy/update /cvmfs/{{ galaxy_cvmfs_repo }}/venv/bin/python -c 'from galaxy.version import VERSION; print VERSION'"
+      command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib --user {{ galaxy_user }} galaxy/update {{ galaxy_venv_dir }}/bin/python -c 'from galaxy.version import VERSION; print(VERSION)'"
       register: version_response
 
     - name: Set galaxy_version fact
