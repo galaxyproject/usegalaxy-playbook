@@ -19,14 +19,14 @@
 
 - name: Check for tool panel layout existence
   stat:
-    path: "{{ galaxy_config['app:main']['integrated_tool_panel_config'] }}"
+    path: "{{ galaxy_config[galaxy_app_config_section]['integrated_tool_panel_config'] }}"
   register: tool_panel_stat_out
 
 - name: Push tool panel layout from playbook if missing
   synchronize:
     mode: push
     src: "files/galaxy/var/integrated_tool_panel.xml"
-    dest: "{{ galaxy_config['app:main']['integrated_tool_panel_config'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['integrated_tool_panel_config'] }}"
   when: not tool_panel_stat_out.stat.exists
 
 #- name: Distribute mutable configs to slave hosts

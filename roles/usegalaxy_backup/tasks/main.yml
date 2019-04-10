@@ -11,6 +11,6 @@
 - name: Fetch tool panel layout
   synchronize:
     mode: pull
-    src: "{{ galaxy_config['app:main']['integrated_tool_panel_config'] }}"
+    src: "{{ galaxy_config[galaxy_app_config_section]['integrated_tool_panel_config'] }}"
     dest: "files/galaxy/var/integrated_tool_panel.xml"
   when: inventory_hostname == groups['galaxyservers'][0]

@@ -50,7 +50,7 @@ galaxy_shed_tool_conf_file: /cvmfs/{{ galaxy_cvmfs_repo }}/config/shed_tool_conf
 
 #galaxy_venv_dir: defined in all.yml
 galaxy_config_dir: "{{ galaxy_root }}/config"
-galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
+galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 galaxy_mutable_data_dir: "{{ galaxy_root }}/var"
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
@@ -320,50 +320,97 @@ base_app_main: &BASE_APP_MAIN
 
 # galaxy.ini contents
 galaxy_config_hash:
-  "app:main":
+  uwsgi:
+    # basic settings
+    master: true
+    processes: 8
+    threads: 4
+    socket: 127.0.0.1:0
+
+    # uwsgi performance/robustness features
+    single-interpreter: true
+    thunder-lock: true
+    harakiri: 600
+    buffer-size: 16384
+
+    # logging
+    log-maxsize: 134217728
+    log-master-bufsize: 15865856
+
+    # application
+    pythonpath: lib
+    module: galaxy.webapps.galaxy.buildapp:uwsgi_app_factory()
+
+    # zerg mode
+    # http://lists.unbit.it/pipermail/uwsgi/2014-October/007683.html
+    # this plugin was manually built into the test/main virtualenvs with:
+    #   {{ galaxy_venv_dir }}/bin/uwsgi --build-plugin spinningfifo.c
+    #   mkdir -p {{ galaxy_venv_dir }}/lib/uwsgi/plugins
+    #   mv spinningfifo_plugin.so {{ galaxy_venv_dir }}/lib/uwsgi/plugins
+    plugins-dir: "{{ galaxy_venv_dir }}/lib/uwsgi/plugins"
+    plugin: spinningfifo
+
+    master-fifo:
+      # fifo '0'
+      - "{{ galaxy_mutable_data_dir }}/zerg-new.fifo"
+      # fifo '1'
+      - "{{ galaxy_mutable_data_dir }}/zerg-run.fifo"
+      # fifo '2'
+      - "{{ galaxy_mutable_data_dir }}/zerg-old.fifo"
+
+    # attach to zerg
+    zerg: "{{ galaxy_mutable_data_dir }}/zergpool.sock"
+
+    # we do not kill the old sleeping instance since supervisor is managing the start/stop
+    # force the currently running instance to became sleeping (slot 2) and place it in pause mode
+    # TODO: update the galaxyproject.galaxy uWSGI yaml munger to understand these "blocks"
+    if-exists: |
+      {{ galaxy_mutable_data_dir }}/zerg-run.fifo
+      hook-accepting1-once: writefifo:{{ galaxy_mutable_data_dir }}/zerg-run.fifo 2q
+      endif:
+    # force this instance to became the running one (slot 1)
+    hook-accepting1-once: spinningfifo:{{ galaxy_mutable_data_dir }}/zerg-new.fifo 1
+
+  galaxy:
     <<: *BASE_APP_MAIN
     new_file_path: /galaxy-repl/test/scratch
 
-installer_config_hash:
-  "server:test_installer":
-    threadpool_workers: 5
-    port: 9999
-
-  "app:main":
-    <<: *BASE_APP_MAIN
-    new_file_path: /srv/galaxy/test/var/installer_tmp
-
 datamanager_config_hash:
-  "server:galaxy_datamanager":
-    threadpool_workers: 5
-    port: 9998
+  uwsgi:
+    http: 127.0.0.1:9998
+    master: true
+    processes: 1
+    threads: 4
+    buffer-size: 16384
+    pythonpath: lib
 
-  "app:main":
+  galaxy:
     <<: *BASE_APP_MAIN
+    base_server_name: datamanager
     new_file_path: /galaxy-repl/test/data-scratch
 
 # specifies config files to copy from the playbook
 galaxy_config_files:
   - src: files/galaxy/config/tool_data_table_conf.xml
-    dest: "{{ galaxy_config['app:main']['tool_data_table_config_path'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['tool_data_table_config_path'] }}"
   - src: files/galaxy/config/tool_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
   - src: files/galaxy/config/nagios_tool_conf.xml
     dest: "{{ galaxy_config_dir }}/nagios_tool_conf.xml"
   - src: files/galaxy/config/object_store_conf.xml
-    dest: "{{ galaxy_config['app:main']['object_store_config_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['object_store_config_file'] }}"
   - src: files/galaxy/config/data_manager_conf.xml
-    dest: "{{ galaxy_config['app:main']['data_manager_config_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['data_manager_config_file'] }}"
   - src: files/galaxy/config/tool_sheds_conf.xml
-    dest: "{{ galaxy_config['app:main']['tool_sheds_config_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['tool_sheds_config_file'] }}"
   - src: files/galaxy/config/job_metrics_conf.xml
-    dest: "{{ galaxy_config['app:main']['job_metrics_config_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['job_metrics_config_file'] }}"
   - src: files/galaxy/config/job_resource_params_conf.xml
-    dest: "{{ galaxy_config['app:main']['job_resource_params_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['job_resource_params_file'] }}"
   - src: files/galaxy/config/dependency_resolvers_conf.xml
-    dest: "{{ galaxy_config['app:main']['dependency_resolvers_config_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['dependency_resolvers_config_file'] }}"
   - src: files/galaxy/config/container_resolvers_conf.yml
-    dest: "{{ galaxy_config['app:main']['containers_resolvers_config_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['containers_resolvers_config_file'] }}"
   - src: files/galaxy/config/pulsar_stampede_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
   - src: files/galaxy/config/pulsar_bridges_actions.yml
@@ -373,7 +420,7 @@ galaxy_config_files:
   - src: files/galaxy/config/pulsar_jetstream_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml"
   - src: files/galaxy/config/disposable_email_blacklist.conf
-    dest: "{{ galaxy_config['app:main']['blacklist_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['blacklist_file'] }}"
   - src: files/galaxy/config/workflow_schedulers_conf.xml
     dest: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
 
@@ -382,8 +429,6 @@ galaxy_config_templates:
   - src: templates/galaxy/config/job_conf.xml.j2
     dest: "{{ galaxy_config_dir }}/job_conf.xml"
   - src: templates/galaxy/config/build_sites.yml.j2
-    dest: "{{ galaxy_config['app:main']['build_sites_config_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
   - src: templates/galaxy/config/reports.ini.j2
     dest: "{{ galaxy_config_dir }}/reports.ini"
-  - src: templates/galaxy/config/uwsgi.ini.j2
-    dest: "{{ galaxy_config_dir }}/uwsgi.ini"
