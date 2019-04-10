@@ -11,6 +11,8 @@
       galaxy_manage_database: no
       galaxy_fetch_dependencies: no
       galaxy_manage_errordocs: no
+      # TODO: use this
+      galaxy_build_client: no
     - role: galaxyproject.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: yes
       galaxy_toolshed_manage_database: no
@@ -29,6 +31,7 @@
       galaxy_manage_database: no
       galaxy_fetch_dependencies: yes
       galaxy_manage_errordocs: yes
+      galaxy_build_client: no
 
 - name: Build client
   hosts: toolshedservers

@@ -32,7 +32,19 @@ galaxy_log_dir: "{{ galaxy_root }}/log"
 # bare word expansion is deprecated. D=
 galaxy_system_group: G-803372
 
+# FIXME: "{{ galaxy_remote_users.privsep | default(omit) }}" is blanking remote_user on the play. I set the below option
+# to workaround but this needs to be fixed in galaxyproject.galaxy, nothing should be breaking when privsep mode is not
+# enabled in the role
+galaxy_remote_users:
+  privsep: "{{ galaxy_privileged_user }}"
+  errdocs: "{{ galaxy_privileged_user }}"
+
+# FIXME: Same thing, the become log checks if galaxy_become_users.privsep is set and yet in the defaults we cause it to
+# be always set
+galaxy_become_users: {}
+
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
+galaxy_shed_tools_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/shed_tools
 #galaxy_server_dir: /galaxy-repl/test/livedebug
 galaxy_shed_tool_conf_file: /cvmfs/{{ galaxy_cvmfs_repo }}/config/shed_tool_conf.xml
 
