@@ -36,7 +36,7 @@
 
     - name: Update Galaxy
       #command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/bin/update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }}\""
-      script: update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }} {{ '-c ' ~ galaxy_conda_env if galaxy_conda_env is defined else '' }} {{ galaxy_cvmfs_repo }}
+      script: update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }} {{ galaxy_cvmfs_repo }}
 
     - name: Clean and build Python bytecode
       script: makepyc.py /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib

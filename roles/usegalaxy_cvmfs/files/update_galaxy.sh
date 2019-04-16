@@ -6,17 +6,13 @@ BRANCH=
 REMOTE=
 OWNER=
 REF=
-CONDA_ENV=
 
 OARGS="$@"
 
-while getopts ":b:c:o:r:" opt; do
+while getopts ":b:o:r:" opt; do
     case "$opt" in
         b)
             BRANCH="$OPTARG"
-            ;;
-        c)
-            CONDA_ENV="$OPTARG"
             ;;
         o)
             OWNER="$OPTARG"
@@ -70,12 +66,15 @@ elif [ -z "$REF" ]; then
     REF="${REMOTE}/${BRANCH}"
 fi
 
-if [ -n "$CONDA_ENV" ]; then
-    . /cvmfs/${REPO}/deps/_conda/bin/activate "$CONDA_ENV"
-else
-    . /cvmfs/${REPO}/venv/bin/activate
-fi
+activate="/cvmfs/${REPO}/venv/bin/activate"
+echo "Activating virtualenv with $activate"
+. "$activate"
 
+command -V pip
+command -V git
+echo "cwd is $(pwd)"
+
+set -x
 pip install --upgrade pip
 git clean -dfx
 git checkout -- .
