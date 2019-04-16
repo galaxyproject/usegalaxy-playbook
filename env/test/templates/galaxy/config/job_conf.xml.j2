@@ -185,7 +185,9 @@
             <param id="source">trackster</param>
         </tool>
         <!-- dynamic memory tools -->
+        <!-- FIXME: ensure pyBamTools is python 3 compatible and install to venv
         <tool id="naive_variant_caller" destination="dynamic_nvc_dynamic_memory"/>
+        -->
         <!-- local/jetstream tools -->
         <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         <!-- roundup multi/jetstream/bridges tools -->
