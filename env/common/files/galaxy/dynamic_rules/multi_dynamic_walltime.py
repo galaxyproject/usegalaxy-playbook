@@ -307,7 +307,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
 
         try:
             p = subprocess.Popen(sbatch_test_cmd, stderr=subprocess.PIPE)
-            stderr = p.stderr.read()
+            stderr = p.stderr.read().decode(errors='replace')
             p.wait()
             assert p.returncode == 0, stderr
         except:
