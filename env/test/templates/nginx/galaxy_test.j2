@@ -6,10 +6,6 @@ upstream test_installer {
     server galaxy04.tacc.utexas.edu:8888;
 }
 
-upstream test_datamanager {
-    server localhost:9998;
-}
-
 server {
     listen          *:80;
     server_name  test.galaxyproject.org;
@@ -248,12 +244,9 @@ server {
     error_log /var/log/nginx/test-datamanager.error.log;
 
     location / {
-        proxy_pass         http://test_datamanager;
-        proxy_redirect     off;
-        proxy_set_header   Host              $host;
-        proxy_set_header   X-Real-IP         $remote_addr;
-        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
-        proxy_set_header   X-Forwarded-Proto $scheme;
+        uwsgi_pass 127.0.0.1:9998;
+        uwsgi_param UWSGI_SCHEME $scheme;
+        include uwsgi_params;
     }
 
     location /static {
