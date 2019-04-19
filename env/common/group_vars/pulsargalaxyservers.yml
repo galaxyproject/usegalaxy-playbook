@@ -1,8 +1,10 @@
 ---
 
 ## used by: galaxyproject.galaxy
-galaxy_server_dir: "{{ galaxy_root }}/server"
-galaxy_config_dir: "{{ galaxy_root }}/config"
+# galaxy_root is defined in host_vars
+# galaxy_server_dir and galaxy_config_dir are set by galaxyproject.galaxy based on the layout
+galaxy_layout: root-dir
+galaxy_config_style: ini-paste
 galaxy_venv_dir: "{{ galaxy_root }}/venv"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.ini"
 
