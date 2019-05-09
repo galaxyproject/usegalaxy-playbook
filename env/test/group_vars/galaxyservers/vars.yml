@@ -54,6 +54,13 @@ galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 galaxy_mutable_config_dir: "{{ galaxy_root }}/var"
 galaxy_mutable_data_dir: "{{ galaxy_root }}/var"
+# these don't need to be set if using the layout module, but usegalaxy_backup uses galaxyproject.galaxy's defaults
+# without running the layout and breaks if they are unset
+galaxy_cache_dir: "{{ galaxy_mutable_data_dir }}/cache"
+galaxy_job_working_directory: /galaxy-repl/test/jobdir
+galaxy_tool_dependency_dir: /galaxy/test/deps
+galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
+
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 
@@ -202,8 +209,8 @@ base_app_main: &BASE_APP_MAIN
   # paths
 
   tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }},{{ galaxy_config_dir }}/nagios_tool_conf.xml,/cvmfs/sandbox.galaxyproject.org/config/shed_tool_conf.xml"
-  tool_dependency_dir: /galaxy/test/deps
-  job_working_directory: /galaxy-repl/test/jobdir
+  tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
+  job_working_directory: "{{ galaxy_job_working_directory }}"
   tool_data_path: /galaxy-repl/test/tool_data
   nginx_upload_store: /galaxy-repl/test/upload
   nginx_upload_job_files_store: /galaxy-repl/test/upload_job_files
