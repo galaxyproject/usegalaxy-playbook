@@ -17,7 +17,7 @@ host_crontabs:
     user: "{{ galaxy_user }}"
     hour: "3"
     minute: "0"
-    job: "/usr/bin/tmpwatch -v --mtime --dirmtime 14d /galaxy-repl/{{ galaxy_instance_codename }}/scratch | tee -a {{ galaxy_log_dir }}/cleanup_scratch.log"
+    job: "/usr/bin/tmpwatch -v --mtime --dirmtime 14d /galaxy-repl/{{ galaxy_instance_codename }}/scratch2 | tee -a {{ galaxy_log_dir }}/cleanup_scratch.log"
   - name: "Clean {{ galaxy_instance_codename }} FTP"
     id: "galaxy_{{ galaxy_instance_codename }}_clean_ftp"
     user: "{{ galaxy_user }}"
