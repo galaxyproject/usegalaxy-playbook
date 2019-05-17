@@ -1,7 +1,7 @@
 ---
 
 # Tool Shed version
-galaxy_commit_id: c85d8730ffe5cf5a5e7b2c17edf2f8f3f1307ec4
+galaxy_commit_id: 75b5b4e39df430d0b7851729471678cded296a40
 
 
 toolshedservers_group_crontabs:
@@ -34,6 +34,12 @@ galaxy_user: "{{ toolshed_user }}"
 galaxy_privileged_user: "{{ toolshed_privileged_user }}"
 # the only thing this is used for is setting the group on the errordocs destination directory
 galaxy_system_group: gxsrc
+
+galaxy_remote_users:
+    privsep: "{{ galaxy_privileged_user }}"
+    errdocs: "{{ toolshed_privileged_user }}"
+
+galaxy_become_users: {}
 
 
 ## used by: supervisor
