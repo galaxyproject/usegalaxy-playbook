@@ -92,13 +92,25 @@ usegalaxy_nagios_tools:
 
 ## used by usegalaxy_privileged
 galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
-
 usegalaxy_dynamic_job_rules:
   - reserved.py
   - multi_dynamic_walltime.py
   - bridges_select.py
   # FIXME: ensure pyBamTools supports Python 3 and install to venv
   #- nvc_dynamic_memory.py
+
+galaxy_pgcleanup_actions:
+  - delete_userless_histories
+  - delete_exported_histories
+  # https://github.com/galaxyproject/galaxy/pull/8002
+  #- purge_deleted_users
+  - purge_deleted_histories
+  - purge_deleted_hdas
+  - purge_historyless_hdas
+  - purge_error_hdas
+  - purge_hdas_of_purged_histories
+  - delete_datasets
+  - purge_datasets
 
 
 ## used by: usegalaxy_admin

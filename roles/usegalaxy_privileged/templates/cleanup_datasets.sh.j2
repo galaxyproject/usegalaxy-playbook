@@ -12,9 +12,4 @@ else
     days=$1
 fi
 
-{{ galaxy_venv_dir }}/bin/python ./scripts/cleanup_datasets/pgcleanup.py -c {{ galaxy_config_file }} -o $days -l {{ galaxy_log_dir }} -s delete_userless_histories -w 128MB 2>&1 | tee -a {{ galaxy_log_dir }}/cleanup_datasets.log
-{{ galaxy_venv_dir }}/bin/python ./scripts/cleanup_datasets/pgcleanup.py -c {{ galaxy_config_file }} -o $days -l {{ galaxy_log_dir }} -s delete_exported_histories -w 128MB 2>&1 | tee -a {{ galaxy_log_dir }}/cleanup_datasets.log
-{{ galaxy_venv_dir }}/bin/python ./scripts/cleanup_datasets/pgcleanup.py -c {{ galaxy_config_file }} -o $days -l {{ galaxy_log_dir }} -s purge_deleted_histories -w 128MB 2>&1 | tee -a {{ galaxy_log_dir }}/cleanup_datasets.log
-{{ galaxy_venv_dir }}/bin/python ./scripts/cleanup_datasets/pgcleanup.py -c {{ galaxy_config_file }} -o $days -l {{ galaxy_log_dir }} -s purge_deleted_hdas -w 128MB 2>&1 | tee -a {{ galaxy_log_dir }}/cleanup_datasets.log
-{{ galaxy_venv_dir }}/bin/python ./scripts/cleanup_datasets/pgcleanup.py -c {{ galaxy_config_file }} -o $days -l {{ galaxy_log_dir }} -s delete_datasets -w 128MB 2>&1 | tee -a {{ galaxy_log_dir }}/cleanup_datasets.log
-{{ galaxy_venv_dir }}/bin/python ./scripts/cleanup_datasets/pgcleanup.py -c {{ galaxy_config_file }} -o $days -l {{ galaxy_log_dir }} -s purge_datasets -w 128MB 2>&1 | tee -a {{ galaxy_log_dir }}/cleanup_datasets.log
+{{ galaxy_venv_dir }}/bin/python ./scripts/cleanup_datasets/pgcleanup.py -c {{ galaxy_config_file }} -o $days -l {{ galaxy_log_dir }} -w 128MB {{ galaxy_pgcleanup_actions | join(' ') }} 2>&1 | tee -a {{ galaxy_log_dir }}/cleanup_datasets.log
