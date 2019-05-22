@@ -102,8 +102,7 @@ usegalaxy_dynamic_job_rules:
 galaxy_pgcleanup_actions:
   - delete_userless_histories
   - delete_exported_histories
-  # https://github.com/galaxyproject/galaxy/pull/8002
-  #- purge_deleted_users
+  - purge_deleted_users
   - purge_deleted_histories
   - purge_deleted_hdas
   - purge_historyless_hdas
