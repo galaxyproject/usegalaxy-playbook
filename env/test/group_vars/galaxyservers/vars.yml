@@ -320,6 +320,17 @@ base_app_main: &BASE_APP_MAIN
   brand: 'Test'
   enable_beta_tool_command_isolation: "True"
   new_user_dataset_access_role_default_private: "True"
+  tool_name_boost: 40
+  tool_section_boost: 1
+  tool_description_bost: 40
+  tool_label_boost: 1
+  tool_stub_boost: 1
+  tool_help_boost: 1
+  tool_search_limit: 160
+  tool_enable_ngram_search: "True
+  tool_ngram_minsize: 3
+  tool_ngram_maxsize: 4
+  
 
   # dependency resolver config
   conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"
