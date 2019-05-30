@@ -13,7 +13,7 @@ galaxy_instance_hostname: test.galaxyproject.org
 ## used by: galaxyproject.pulsar
 pulsar_pip_install: true
 #pulsar_git_repo: https://github.com/natefoo/pulsar.git
-pulsar_changeset_id: ff2208baf43f6afb9770316e474d15f69c9fd4f9
+pulsar_changeset_id: 2bfc784301c12634b6026113473767f1e3f4d017
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_config_dir: "{{ pulsar_root }}/config"
 pulsar_optional_dependencies:
@@ -26,7 +26,7 @@ pulsar_optional_dependencies:
   #- pyyaml
   # git+pip pulsar install uses 'state: forcereinstall' which can upgrade galaxy-lib to a version not compatible with
   # the specified pulsar version, this downgrades it if necessary.
-  - galaxy-lib==18.5.13
+  - galaxy-lib>=18.5.13
   # actual optional things
   - pyOpenSSL
   - pycurl
