@@ -40,7 +40,7 @@
 
 - name: Install Pulsar dependencies (optional)
   pip: name={{ item }} virtualenv={{ pulsar_venv_dir }} virtualenv_command={{ pip_virtualenv_command | default(omit) }}
-  environment: "{{ pulsar_install_environments[item.split('=')[0]] if item.split('=')[0] in pulsar_install_environments else {} }}"
+  #environment: "{{ pulsar_install_environments[item.split('=')[0]] if item.split('=')[0] in pulsar_install_environments else {} }}"
   with_items: "{{ pulsar_optional_dependencies }}"
 
 - name: Create Pulsar config dir
@@ -60,3 +60,4 @@
     - server.ini
     - local_env.sh
     - job_metrics_conf.xml
+    - dependency_resolvers_conf.xml
