@@ -14,7 +14,6 @@
             <param id="invalidjobexception_retries">5</param>
             <param id="internalexception_retries">5</param>
         </plugin>
-        {# FIXME: TLS version on RabbitMQ server
         <expand macro="pulsar_plugin" id="jetstream_iu" />
         <expand macro="pulsar_plugin" id="jetstream_iu_nagios" />
         <expand macro="pulsar_plugin" id="jetstream_tacc" />
@@ -28,19 +27,16 @@
             <param id="galaxy_url">https://{{ galaxy_instance_hostname }}</param>
             <param id="manager">jetstream_autoscaling_test</param>
         </plugin>
-        #}
     </plugins>
     <handlers default="handlers">
+        {#
         <handler id="test_handler0" tags="handlers">
             <plugin id="local"/>
             <plugin id="slurm"/>
-            {#
             <plugin id="pulsar_jetstream_autoscaling_test"/>
-            #}
         </handler>
-        <!--
+        #}
         <expand macro="normal_handler" id="0" />
-        -->
         <expand macro="normal_handler" id="1" />
         <expand macro="multi_handler" id="2" />
         <expand macro="multi_handler" id="3" />
@@ -84,12 +80,11 @@
 
         <!-- dynamic modified destinations: do not use directly -->
         <expand macro="slurm_destination" dest="multi_dynamic_walltime" partition="multi" native_specification="--cpus-per-task=6" />
-        <!-- <resubmit condition="walltime_reached" destination="stampede_normal" handler="multi_handlers"/> -->
+        <!-- <resubmit condition="walltime_reached" destination="stampede_normal" handler="multi"/> -->
         <expand macro="slurm_destination" dest="normal_dynamic_mem" partition="normal" native_specification="--cpus-per-task=1 --time=24:00:00" />
         <!-- the "team dev" destination -->
         <expand macro="slurm_destination" dest="dynamic" partition="reserved" native_specification="--time=144:00:00 --mem-per-cpu=5120" />
 
-        {#
         <!-- jetstream destinations -->
         <destination id="jetstream_multi" runner="dynamic">
             <!-- this destination exists for the dynamic runner to read the native spec for testing -->
@@ -117,7 +112,6 @@
         <!-- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) -->
         <expand macro="bridges_destination" id="development" native_specification="-p LM --constraint=LM -t 00:30:00 --mem=147456" />
         <expand macro="bridges_nagios_destination" />
-        #}
 
         <!-- local destination for nagios handler checks -->
         <destination id="local" runner="local"/>
@@ -197,13 +191,11 @@
         <tool id="naive_variant_caller" destination="dynamic_nvc_dynamic_memory"/>
         -->
         <!-- local/jetstream tools -->
-        {# FIXME
-        <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
+        <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi" resources="local_or_stampede"/>
         <!-- roundup multi/jetstream/bridges tools -->
-        <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="multi_handlers"  resources="multi_or_bridges"/>
-        #}
-        <tool id="align_families" destination="slurm_multi" handler="multi_handlers" resources="local_or_stampede"/>
-        <tool id="rna_star" destination="slurm_multi" handler="multi_handlers"  resources="multi_or_bridges"/>
+        <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="multi"  resources="multi_or_bridges"/>
+        <tool id="align_families" destination="slurm_multi" handler="multi" resources="local_or_stampede"/>
+        <tool id="rna_star" destination="slurm_multi" handler="multi"  resources="multi_or_bridges"/>
         <!-- 16GB tools -->
         <tool id="sailfish" destination="dynamic_normal_16gb_reserved"/>
         <tool id="bamtools" destination="dynamic_normal_16gb_reserved"/>
@@ -223,12 +215,10 @@
         -->
         <tool id="echo_test_handler0" destination="local" handler="test_handler0"/>
         <tool id="echo_test_handler1" destination="local" handler="test_handler1"/>
-        {# FIXME
-        <tool id="echo_test_jetstream_iu" destination="jetstream_iu_nagios" handler="multi_handlers"/>
-        <tool id="echo_test_jetstream_tacc" destination="jetstream_tacc_nagios" handler="multi_handlers"/>
-        <tool id="echo_test_stampede" destination="stampede_nagios" handler="multi_handlers"/>
-        <tool id="echo_test_bridges" destination="bridges_nagios" handler="multi_handlers"/>
-        #}
+        <tool id="echo_test_jetstream_iu" destination="jetstream_iu_nagios" handler="multi"/>
+        <tool id="echo_test_jetstream_tacc" destination="jetstream_tacc_nagios" handler="multi"/>
+        <tool id="echo_test_stampede" destination="stampede_nagios" handler="multi"/>
+        <tool id="echo_test_bridges" destination="bridges_nagios" handler="multi"/>
         <!-- data managers -->
         <tool id="data_manager_fetch_genome_all_fasta" destination="reserved_normal" handler="galaxy_datamanager"/>
         <tool id="bwa_mem_index_builder_data_manager" destination="reserved_normal_64gb" handler="galaxy_datamanager"/>
@@ -297,13 +287,13 @@
             </plugin>
         </xml>
         <xml name="normal_handler" tokens="id">
-            <handler id="test_handler@ID@" tags="handlers">
+            <handler id="test_handler@ID@">
                 <plugin id="local"/>
                 <plugin id="slurm"/>
             </handler>
         </xml>
         <xml name="multi_handler" tokens="id">
-            <handler id="test_handler@ID@" tags="multi_handlers">
+            <handler id="test_handler@ID@" tags="multi">
                 <plugin id="slurm"/>
                 <plugin id="pulsar_stampede"/>
                 <plugin id="pulsar_stampede_nagios"/>
@@ -432,28 +422,16 @@
             <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
         </xml>
         <xml name="multi_tool" tokens="id">
-            {# FIXME
-            <tool id="@ID@" destination="dynamic_multi_reserved" handler="multi_handlers" />
-            #}
-            <tool id="@ID@" destination="slurm_multi" handler="multi_handlers" />
+            <tool id="@ID@" destination="dynamic_multi_reserved" handler="multi" />
         </xml>
         <xml name="stampede_tool" tokens="id">
-            {# FIXME
-            <tool id="@ID@" destination="dynamic_stampede_select" handler="multi_handlers" resources="stampede"/>
-            #}
-            <tool id="@ID@" destination="slurm_multi" handler="multi_handlers" resources="stampede"/>
+            <tool id="@ID@" destination="dynamic_stampede_select" handler="multi" resources="stampede"/>
         </xml>
         <xml name="stampede_resubmit_tool" tokens="id">
-            {# FIXME
-            <tool id="@ID@" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede" />
-            #}
-            <tool id="@ID@" destination="slurm_multi" handler="multi_handlers" resources="local_or_stampede" />
+            <tool id="@ID@" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi" resources="local_or_stampede" />
         </xml>
         <xml name="bridges_tool" tokens="id">
-            {# FIXME
-            <tool id="@ID@" destination="dynamic_bridges_select" handler="multi_handlers" resources="bridges"/>
-            #}
-            <tool id="@ID@" destination="slurm_multi" handler="multi_handlers" resources="bridges"/>
+            <tool id="@ID@" destination="dynamic_bridges_select" handler="multi" resources="bridges"/>
         </xml>
     </macros>
 </job_conf>
