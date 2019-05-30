@@ -20,6 +20,7 @@ log.setLevel(logging.DEBUG)
 # tophat2               params['refGenomeSource']['genomeSource']   'indexed'
 # bwa                   params['reference_source']['reference_source_selector'] 'cached'
 # bwa_mem               params['reference_source']['reference_source_selector'] 'cached'
+# hisat2                reference_genome.source 'indexed'
 
 # These are always sent to Stampede
 # lastz_wrapper_2       params['source']['ref_source']              'cached'
@@ -30,7 +31,7 @@ log.setLevel(logging.DEBUG)
 JETSTREAM_TOOLS = ( 'bowtie2', 'bwa', 'bwa_mem', 'tophat2', 'cufflinks', 'rna_star', 'hisat2', 'stringtie' )
 PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2', 'bwa', 'bwa_mem' )
 GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource', 'reference_source.reference_source_selector' )
-GENOME_SOURCE_VALUES = ( 'indexed', 'cached' )
+GENOME_SOURCE_VALUES = ( 'indexed', 'cached' )  # These are synonyms
 
 LOCAL_DESTINATION = 'slurm_multi'
 LOCAL_WALLTIME_DESTINATION = 'slurm_multi_dynamic_walltime'
@@ -247,7 +248,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
             destination_id = LOCAL_DESTINATION
             explicit_destination = False
 
-    # Only allow stampede if a cached reference is selected
+    # Only allow stampede if a indexed reference is selected
     if destination_id in STAMPEDE_DESTINATIONS and tool_id in PUNT_TOOLS:
         for p in GENOME_SOURCE_PARAMS:
             subpd = param_dict.copy()
@@ -361,8 +362,11 @@ def __rule(app, tool, job, user_email, resource_params, resource):
     destination.params['nativeSpecification'] = _set_walltime(tool_id, destination.params.get('nativeSpecification', ''))
 
     log.debug("(%s) Destination/walltime dynamic plugin returning '%s' destination", job.id, destination_id)
-    if destination is not None and 'nativeSpecification' in destination.params:
-        log.debug("(%s)     nativeSpecification is: %s", job.id, destination.params['nativeSpecification'])
+    if destination is not None:
+        if 'nativeSpecification' in destination.params and destination.params['nativeSpecification']:
+            log.debug("(%s)     nativeSpecification is: %s", job.id, destination.params['nativeSpecification'])
+        elif 'submit_native_specification' in destination.params and destination.params['submit_native_specification']:
+            log.debug("(%s)     submit_native_specification is: %s", job.id, destination.params['submit_native_specification'])
     return destination or destination_id
 
 def dynamic_local_stampede_select_dynamic_walltime(app, tool, job, user_email, resource_params):
