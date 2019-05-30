@@ -210,7 +210,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
 
     param_dict = dict( [ ( p.name, p.value ) for p in job.parameters ] )
     param_dict = tool.params_from_strings( param_dict, app )
-    
+
     # Explcitly set the destination if the user has chosen to do so with the resource selector
     if resource_params:
         resource_key = None
@@ -258,7 +258,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
                 assert subpd in GENOME_SOURCE_VALUES
                 log.info('(%s) Destination/walltime dynamic plugin detected indexed reference selected, job will be sent to Stampede', job.id)
                 break
-            except:
+            except Exception:
                 pass
         else:
             log.info('(%s) User requested Stampede but destination/walltime dynamic plugin did not detect selection of an indexed reference, job will be sent to local cluster instead', job.id)
@@ -289,7 +289,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
                 if destination_id == BRIDGES_DESTINATION:
                     destination = app.job_config.get_destination(destination_id)
                     destination.params['submit_native_specification'] += ' --time=48:00:00'
-        except:
+        except Exception:
             log.exception('(%s) Error determining parameters for STAR job', job.id)
             raise JobMappingException(FAILURE_MESSAGE)
 
@@ -310,7 +310,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
             stderr = p.stderr.read().decode(errors='replace')
             p.wait()
             assert p.returncode == 0, stderr
-        except:
+        except Exception:
             log.exception('Error running sbatch test')
             raise JobMappingException('An error occurred while trying to schedule this job. Please retry it and if it continues to fail, report it to an administrator using the bug icon.')
 
@@ -352,7 +352,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
     #    destination_id = LOCAL_WALLTIME_DESTINATION
     #    #walltime = datetime.timedelta(seconds=(RUNTIMES[tool_id]['runtime'] + (RUNTIMES[tool_id]['stddev'] * RUNTIMES[tool_id]['devs'])) * 60)
     #    walltime = '36:00:00'
-    #    destination = app.job_config.get_destination( LOCAL_WALLTIME_DESTINATION ) 
+    #    destination = app.job_config.get_destination( LOCAL_WALLTIME_DESTINATION )
     #    destination.params['nativeSpecification'] += ' --time=%s' % str(walltime).split('.')[0]
 
     # Allow for overriding the walltime
