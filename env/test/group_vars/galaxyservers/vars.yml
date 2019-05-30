@@ -312,6 +312,7 @@ base_app_main: &BASE_APP_MAIN
   track_jobs_in_database: "True"
   retry_metadata_internally: "False"
   retry_job_output_collection: 5
+  metadata_strategy: "legacy"
   #cleanup_job: onsuccess
   cleanup_job: never
   monitor_thread_join_timeout: 60
