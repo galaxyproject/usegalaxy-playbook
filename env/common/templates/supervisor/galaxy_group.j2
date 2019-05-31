@@ -3,21 +3,21 @@
 ;;
 
 {# sigh #}
-{%- set supervisord_configs = supervisord_group_configs | default([]) + supervisord_host_configs | default([]) + supervisord_galaxywebservers_group_configs | default([]) + supervisord_galaxystagingservers_group_configs | default([]) + supervisord_galaxyjobservers_group_configs | default([]) %}
+{%- set supervisor_configs = host_supervisor_configs | default([]) + galaxyservers_group_supervisor_configs | default([]) + galaxywebservers_group_supervisor_configs | default([]) + galaxystagingservers_group_supervisor_configs | default([]) + galaxyjobservers_group_supervisor_configs | default([]) %}
 {%- set programs = [] %}
-{%- if "galaxy_handler" in supervisord_configs %}
+{%- if "galaxy_handler" in supervisor_configs %}
 {%- set programs = programs + ["galaxy_handler"] %}
 {%- endif %}
-{%- if "galaxy_workflow_scheduler" in supervisord_configs %}
+{%- if "galaxy_workflow_scheduler" in supervisor_configs %}
 {%- set programs = programs + ["galaxy_workflow_scheduler"] %}
 {%- endif %}
-{%- if "galaxy_impersonate" in supervisord_configs %}
+{%- if "galaxy_impersonate" in supervisor_configs %}
 {%- set programs = programs + ["galaxy_impersonate"] %}
 {%- endif %}
-{%- if "galaxy_reports" in supervisord_configs %}
+{%- if "galaxy_reports" in supervisor_configs %}
 {%- set programs = programs + ["galaxy_reports"] %}
 {%- endif %}
-{%- if "galaxy_datamanager" in supervisord_configs %}
+{%- if "galaxy_datamanager" in supervisor_configs %}
 {%- set programs = programs + ["galaxy_datamanager"] %}
 {%- endif %}
 
