@@ -65,15 +65,22 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 
 ## used by: supervisor
-galaxy_handler_count: 4
+galaxy_handlers:
+  - count: 2
+  - pool: multi
+    count: 2
+
 galaxy_workflow_scheduler_count: 1
 galaxyservers_group_supervisor_configs:
   - galaxy
-  - galaxy_handler
+  - galaxy_dynamic_handler
   - galaxy_workflow_scheduler
   - galaxy_datamanager
   #- galaxy_reports
   - galaxy_group
+
+galaxyservers_group_absent_supervisor_configs:
+  - galaxy_handler
 
 # supervisor template
 galaxy_installer_venv_dir: "{{ galaxy_venv_dir }}"

@@ -4,22 +4,27 @@
 
 {# sigh #}
 {%- set supervisor_configs = host_supervisor_configs | default([]) + galaxyservers_group_supervisor_configs | default([]) + galaxywebservers_group_supervisor_configs | default([]) + galaxystagingservers_group_supervisor_configs | default([]) + galaxyjobservers_group_supervisor_configs | default([]) %}
-{%- set programs = [] %}
+{%- set ns = namespace(programs=[]) %}
 {%- if "galaxy_handler" in supervisor_configs %}
-{%- set programs = programs + ["galaxy_handler"] %}
+{%- set ns.programs = ns.programs + ["galaxy_handler"] %}
+{%- endif %}
+{%- if "galaxy_dynamic_handler" in supervisor_configs %}
+{%- for handler_specs in galaxy_handlers %}
+{%- set ns.programs = ns.programs + ["galaxy_handler_" ~ handler_specs.pool | default('default')] %}
+{%- endfor %}
 {%- endif %}
 {%- if "galaxy_workflow_scheduler" in supervisor_configs %}
-{%- set programs = programs + ["galaxy_workflow_scheduler"] %}
+{%- set ns.programs = ns.programs + ["galaxy_workflow_scheduler"] %}
 {%- endif %}
 {%- if "galaxy_impersonate" in supervisor_configs %}
-{%- set programs = programs + ["galaxy_impersonate"] %}
+{%- set ns.programs = ns.programs + ["galaxy_impersonate"] %}
 {%- endif %}
 {%- if "galaxy_reports" in supervisor_configs %}
-{%- set programs = programs + ["galaxy_reports"] %}
+{%- set ns.programs = ns.programs + ["galaxy_reports"] %}
 {%- endif %}
 {%- if "galaxy_datamanager" in supervisor_configs %}
-{%- set programs = programs + ["galaxy_datamanager"] %}
+{%- set ns.programs = ns.programs + ["galaxy_datamanager"] %}
 {%- endif %}
 
 [group:galaxy_{{ galaxy_instance_codename }}]
-programs = {{ programs | join(",") }}
+programs = {{ ns.programs | join(",") }}

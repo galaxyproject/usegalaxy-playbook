@@ -28,7 +28,7 @@
             <param id="manager">jetstream_autoscaling_test</param>
         </plugin>
     </plugins>
-    <handlers default="handlers">
+    <handlers default="handlers" assign_with="db-skip-locked" max_grab="8">
         {#
         <handler id="test_handler0" tags="handlers">
             <plugin id="local"/>
