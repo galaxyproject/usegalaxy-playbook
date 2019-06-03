@@ -217,7 +217,7 @@ test_configs = [
      "tool": tool_hisat2_history,
      "sbatch_node": "roundup",
      "resource_params": {"tacc_compute_resource": "stampede_normal"},
-     "return_submit_native_specification": "--partition=multi --nodes=1 --cpus-per-task=6 --time=36:00:00",
+     "return_nativeSpecification": "--partition=multi --nodes=1 --cpus-per-task=6 --time=36:00:00",
      "return_destination_id": "slurm_multi"},
 
     # align_families tool
