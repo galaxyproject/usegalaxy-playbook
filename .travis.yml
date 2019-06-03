@@ -10,7 +10,6 @@ script:
   - export GALAXY_DIR=$PWD
   - sh scripts/common_startup.sh
   - cd ${TRAVIS_BUILD_DIR}
-  - echo ${GALAXY_DIR}
   - mv ${GALAXY_DIR}/lib ${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/
   - source ${GALAXY_DIR}/.venv/bin/activate
   - pip install mock
