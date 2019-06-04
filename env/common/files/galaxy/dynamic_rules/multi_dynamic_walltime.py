@@ -3,7 +3,6 @@
 ##
 
 import os
-import datetime
 import logging
 import re
 import subprocess
@@ -143,7 +142,7 @@ WALLTIMES = {
 }
 
 
-def _rnastar(app, param_dict, destination_id, explicit_destination, job_id):
+def _rnastar(app, param_dict, destination_id, is_explicit_destination, job_id):
     source = param_dict['refGenomeSource']['geneSource']
     path = None
     ref_mb = 1
@@ -152,13 +151,13 @@ def _rnastar(app, param_dict, destination_id, explicit_destination, job_id):
     if source == 'indexed':
         build = param_dict['refGenomeSource']['GTFconditional']['genomeDir']
         path = '%s/SA' % app.tool_data_tables.get('rnastar_index2').get_entry('value', build, 'path')
-        destination_id = None if not explicit_destination else destination_id
+        destination_id = None if not is_explicit_destination else destination_id
         ref_mb = os.stat(path).st_size / 1024 / 1024
         factor = 1.5
     else:
         # Avoid the expense of staging large genome files
         path = param_dict['refGenomeSource']['genomeFastaFiles'].get_file_name()
-        destination_id = LOCAL_DESTINATION if not explicit_destination else destination_id
+        destination_id = LOCAL_DESTINATION if not is_explicit_destination else destination_id
         ref_mb = os.stat(path).st_size / 1024 / 1024
         factor = 11.0
     need_mb = ref_mb * factor + constant
@@ -167,21 +166,15 @@ def _rnastar(app, param_dict, destination_id, explicit_destination, job_id):
         # In testing, very small jobs needed more than the formula above, so guarantee everyone gets at least 8 GB
         need_mb = 8192
         log.debug("(%s) _rnastar: need increased to minimum = %s MB", job_id, need_mb)
-    elif need_mb > 40960 and not explicit_destination:
+    elif need_mb > 29900:
+        # Bridges is the only destination that has this much memory.
         # 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM)
-        destination_id = BRIDGES_DESTINATION
+        if destination_id and destination_id in BRIDGES_DEVELOPMENT_DESTINATION and is_explicit_destination:
+            pass
+        else:
+            destination_id = BRIDGES_DESTINATION
         need_mb = 147456
         log.debug("(%s) _rnastar: sending to bridges with need = %s MB", job_id, need_mb)
-    if explicit_destination:
-        if destination_id in (LOCAL_DESTINATION, LOCAL_DEVELOPMENT_DESTINATION, RESERVED_DESTINATION) and need_mb > 40960:
-            need_mb = 40960
-            log.debug("(%s) _rnastar destination explicit '%s': need decreased to maximum = %s MB", job_id, destination_id, need_mb)
-        elif destination_id in JETSTREAM_DESTINATIONS:
-            log.debug("(%s) _rnastar destination explicit '%s': need will be ignored", job_id, destination_id)
-            #pass  # won't be set anyway
-        elif destination_id in BRIDGES_DESTINATIONS:
-            need_mb = 147456
-            log.debug("(%s) _rnastar destination explicit '%s': need set to = %s MB", job_id, destination_id, need_mb)
     return (destination_id, int(need_mb))
 
 
@@ -199,7 +192,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
     destination = None
     destination_id = None
     default_destination_id = RESOURCES[resource][0]
-    explicit_destination = False
+    is_explicit_destination = False
     tool_id = tool.id
 
     if '/' in tool.id:
@@ -219,10 +212,10 @@ def __rule(app, tool, job, user_email, resource_params, resource):
             if resource_key == resource:
                 destination_id = resource_params[resource_key]
                 if destination_id in RESOURCES[resource_key]:
-                    explicit_destination = True
+                    is_explicit_destination = True
                     break
                 elif destination_id == TEAM_DESTINATION:
-                    explicit_destination = True
+                    is_explicit_destination = True
                     break
                 else:
                     log.warning('(%s) Destination/walltime dynamic plugin got an invalid destination: %s', job.id, destination_id)
@@ -234,9 +227,8 @@ def __rule(app, tool, job, user_email, resource_params, resource):
         # if __job_resource is not passed or __job_resource_select is not set to a "yes-like" value, resource_params is an empty dict
         if user_email.lower() in NORM_RESERVED_USERS:
             log.info("(%s) Destination/walltime dynamic plugin returning default reserved destination for '%s'", job.id, user_email)
-            #return RESERVED_DESTINATION
             destination_id = RESERVED_DESTINATION
-            explicit_destination = True
+            is_explicit_destination = True
 
     if destination_id == TEAM_DESTINATION:
         if user_email in TEAM_USERS:
@@ -246,7 +238,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
         else:
             log.warning("(%s) Unauthorized user '%s' selected team development destination", job.id, user_email)
             destination_id = LOCAL_DESTINATION
-            explicit_destination = False
+            is_explicit_destination = False
 
     # Only allow stampede if a indexed reference is selected
     if destination_id in STAMPEDE_DESTINATIONS and tool_id in PUNT_TOOLS:
@@ -257,24 +249,24 @@ def __rule(app, tool, job, user_email, resource_params, resource):
                 for i in p.split('.'):
                     subpd = subpd[i]
                 assert subpd in GENOME_SOURCE_VALUES
-                log.info('(%s) Destination/walltime dynamic plugin detected indexed reference selected, job will be sent to Stampede', job.id)
+                if destination_id == STAMPEDE_DEVELOPMENT_DESTINATION:
+                    destination_id = LOCAL_DEVELOPMENT_DESTINATION
+                else:
+                    destination_id = default_destination_id
+                log.info('(%s) Destination/walltime dynamic plugin detected indexed reference selected, job will not be sent to Stampede', job.id)
                 break
             except Exception:
                 pass
         else:
-            log.info('(%s) User requested Stampede but destination/walltime dynamic plugin did not detect selection of an indexed reference, job will be sent to local cluster instead', job.id)
-            if destination_id == STAMPEDE_DEVELOPMENT_DESTINATION:
-                destination_id = LOCAL_DEVELOPMENT_DESTINATION
-            else:
-                destination_id = default_destination_id
+            log.info('(%s) User requested Stampede and destination/walltime dynamic plugin did not detect selection of an indexed reference, proceeding.', job.id)
 
-    if not explicit_destination and user_email in ('nate+test@bx.psu.edu', 'cartman@southpark.org'):
+    if not is_explicit_destination and user_email in ('nate+test@bx.psu.edu', 'cartman@southpark.org'):
         log.info('(%s) Sending job for %s to Jetstream @ IU reserved partition', job.id, user_email)
-        explicit_destination = True
+        is_explicit_destination = True
         destination_id = 'jetstream_iu_reserved'
 
     # Some tools do not react well to Jetstream
-    if not explicit_destination and tool_id not in JETSTREAM_TOOLS:
+    if not is_explicit_destination and tool_id not in JETSTREAM_TOOLS:
         log.info('(%s) Default destination requested and tool is not in Jetstream-approved list, job will be sent to local cluster', job.id)
         destination_id = default_destination_id
 
@@ -282,14 +274,11 @@ def __rule(app, tool, job, user_email, resource_params, resource):
     mem_mb = None
 
     if resource == 'multi_bridges_compute_resource' and tool_id == 'rna_star':
-        # FIXME: special casing
         try:
-            _destination_id, mem_mb = _rnastar(app, param_dict, destination_id, explicit_destination, job.id)
-            if not explicit_destination:
-                destination_id = _destination_id
-                if destination_id == BRIDGES_DESTINATION:
-                    destination = app.job_config.get_destination(destination_id)
-                    destination.params['submit_native_specification'] += ' --time=48:00:00'
+            destination_id, mem_mb = _rnastar(app, param_dict, destination_id, is_explicit_destination, job.id)
+            if destination_id and destination_id == BRIDGES_DESTINATION:
+                destination = app.job_config.get_destination(destination_id)
+                destination.params['submit_native_specification'] += ' --time=48:00:00'
         except Exception:
             log.exception('(%s) Error determining parameters for STAR job', job.id)
             raise JobMappingException(FAILURE_MESSAGE)
@@ -319,7 +308,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
         node = stderr.split()[-1]
         for i, prefix in enumerate(JETSTREAM_DESTINATION_MAPS[test_destination_id]['cluster_prefixes']):
             if node.startswith(prefix):
-                cluster = JETSTREAM_DESTINATION_MAPS[test_destination_id]['clusters'][i]
+                # cluster = JETSTREAM_DESTINATION_MAPS[test_destination_id]['clusters'][i]
                 destination_prefix = JETSTREAM_DESTINATION_MAPS[test_destination_id]['destination_prefixes'][i]
                 break
         else:
