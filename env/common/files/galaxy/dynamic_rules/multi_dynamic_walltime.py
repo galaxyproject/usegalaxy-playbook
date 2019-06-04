@@ -1,5 +1,5 @@
 ##
-## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+# This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
 import os
@@ -27,10 +27,10 @@ log.setLevel(logging.DEBUG)
 # bowtie_color_wrapper  same as bwa_wrapper
 # bwa_color_wrapper     same as bowtie_wrapper
 
-JETSTREAM_TOOLS = ( 'bowtie2', 'bwa', 'bwa_mem', 'tophat2', 'cufflinks', 'rna_star', 'hisat2', 'stringtie' )
-PUNT_TOOLS = ( 'bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2', 'bwa', 'bwa_mem', 'hisat2' )
-GENOME_SOURCE_PARAMS = ( 'genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource', 'reference_source.reference_source_selector' )
-GENOME_SOURCE_VALUES = ( 'indexed', 'cached' )  # These are synonyms
+JETSTREAM_TOOLS = ('bowtie2', 'bwa', 'bwa_mem', 'tophat2', 'cufflinks', 'rna_star', 'hisat2', 'stringtie')
+PUNT_TOOLS = ('bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2', 'bwa', 'bwa_mem', 'hisat2')
+GENOME_SOURCE_PARAMS = ('genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource', 'reference_source.reference_source_selector')
+GENOME_SOURCE_VALUES = ('indexed', 'cached')  # These are synonyms
 
 LOCAL_DESTINATION = 'slurm_multi'
 LOCAL_WALLTIME_DESTINATION = 'slurm_multi_dynamic_walltime'
@@ -42,7 +42,7 @@ BRIDGES_DESTINATION = 'bridges_normal'
 BRIDGES_DEVELOPMENT_DESTINATION = 'bridges_development'
 BRIDGES_DESTINATIONS = (BRIDGES_DESTINATION, BRIDGES_DEVELOPMENT_DESTINATION)
 JETSTREAM_DESTINATIONS = ('jetstream_multi',)
-VALID_DESTINATIONS = (LOCAL_DESTINATION, LOCAL_DEVELOPMENT_DESTINATION) + STAMPEDE_DESTINATIONS + JETSTREAM_DESTINATIONS # WHY ARE WE SHOUTING
+VALID_DESTINATIONS = (LOCAL_DESTINATION, LOCAL_DEVELOPMENT_DESTINATION) + STAMPEDE_DESTINATIONS + JETSTREAM_DESTINATIONS
 RESOURCES = {
     'tacc_compute_resource': VALID_DESTINATIONS,
     'multi_bridges_compute_resource': (LOCAL_DESTINATION, LOCAL_DEVELOPMENT_DESTINATION) + JETSTREAM_DESTINATIONS + BRIDGES_DESTINATIONS,
@@ -55,7 +55,7 @@ RESERVED_USERS = (
     'jen@bx.psu.edu',
     'anton@bx.psu.edu',
 )
-NORM_RESERVED_USERS = [ u.lower() for u in RESERVED_USERS ]
+NORM_RESERVED_USERS = [u.lower() for u in RESERVED_USERS]
 RESERVED_DESTINATION = 'reserved_multi'
 
 TEAM_USERS = (
@@ -200,10 +200,10 @@ def __rule(app, tool, job, user_email, resource_params, resource):
         tool_id = tool.id.split('/')[-2]
 
     if user_email is None:
-        raise JobMappingException( 'Please log in to use this tool.' )
+        raise JobMappingException('Please log in to use this tool.')
 
-    param_dict = dict( [ ( p.name, p.value ) for p in job.parameters ] )
-    param_dict = tool.params_from_strings( param_dict, app )
+    param_dict = dict([(p.name, p.value) for p in job.parameters])
+    param_dict = tool.params_from_strings(param_dict, app)
 
     # Explcitly set the destination if the user has chosen to do so with the resource selector
     if resource_params:
@@ -358,11 +358,14 @@ def __rule(app, tool, job, user_email, resource_params, resource):
             log.debug("(%s)     submit_native_specification is: %s", job.id, destination.params['submit_native_specification'])
     return destination or destination_id
 
+
 def dynamic_local_stampede_select_dynamic_walltime(app, tool, job, user_email, resource_params):
     return __rule(app, tool, job, user_email, resource_params, 'tacc_compute_resource')
 
+
 def dynamic_multi_bridges_select(app, tool, job, user_email, resource_params):
     return __rule(app, tool, job, user_email, resource_params, 'multi_bridges_compute_resource')
+
 
 def dynamic_stampede_select(app, tool, job, user_email, resource_params):
     return __rule(app, tool, job, user_email, resource_params, 'stampede_compute_resource')
