@@ -1,7 +1,7 @@
 [uwsgi]
 ; basic settings
 master = true
-processes = 8
+processes = {{ galaxy_uwsgi_processes | default(8) }}
 threads = 4
 
 ; uwsgi performance/robustness features
