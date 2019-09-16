@@ -1,7 +1,7 @@
 ---
 
 # Tool Shed version
-galaxy_commit_id: 75b5b4e39df430d0b7851729471678cded296a40
+galaxy_commit_id: f7a5dd9d44de4af7ac917678a0767448cb71953c
 
 
 toolshedservers_group_crontabs:
@@ -130,5 +130,8 @@ galaxy_toolshed_config:
     support_url: "https://galaxyproject.org/support"
     smtp_server: "smtp.psu.edu"
     email_from: "galaxy-no-reply@toolshed.g2.bx.psu.edu"
-    use_new_layout: "True"
     sentry_dsn: "{{ galaxy_toolshed_config_sentry_dsn }}"
+
+     # stuff that shouldn't be here but actually has to
+    conda_auto_init: false
+    tool_dependency_dir: "{{ galaxy_toolshed_mutable_data_dir }}/dependencies"
