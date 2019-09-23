@@ -10,7 +10,7 @@
     - no-restart
 
 - name: Include snapshot plays
-  include: _inc_snapshot.yml
+  import_playbook: _inc_snapshot.yml
 
 - name: Galaxy database
   hosts: galaxywebservers
@@ -33,19 +33,19 @@
       when: inventory_hostname in groups['galaxymasters']
 
 - name: Include GIE plays
-  include: _inc_gie.yml
+  import_playbook: _inc_gie.yml
   tags:
     - no-cvmfs
     - no-restart
 
 - name: Include static content plays
-  include: _inc_static.yml
+  import_playbook: _inc_static.yml
   tags:
     - no-cvmfs
     - no-restart
 
 - name: Include restart plays
-  include: _inc_restart.yml
+  import_playbook: _inc_restart.yml
   tags:
     - no-cvmfs
 

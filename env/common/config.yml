@@ -19,7 +19,7 @@
   post_tasks:
     # create impersonation config on Main
     - name: Include config post-tasks
-      include: _inc_config_post_tasks.yml
+      include_tasks: _inc_config_post_tasks.yml
     # FIXME: add arbitrary yaml config support to the galaxy role
     - name: Create containers.yml
       copy:
@@ -53,4 +53,4 @@
     - no-restart
 
 - name: Include restart plays
-  include: _inc_restart.yml
+  import_playbook: _inc_restart.yml

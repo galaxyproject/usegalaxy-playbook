@@ -10,4 +10,4 @@
       galaxy_cvmfs_client: "{{ galaxy_cvmfs_client_on_update }}"
 
 - name: Include snapshot plays
-  include: _inc_snapshot.yml
+  import_playbook: _inc_snapshot.yml
