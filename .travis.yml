@@ -10,18 +10,12 @@ script:
   - export GALAXY_DIR=$PWD
   - sh scripts/common_startup.sh
   - cd ${TRAVIS_BUILD_DIR}
-  - wget https://github.com/martenson/usegalaxy-playbook/archive/master.tar.gz
-  - tar xvzf master.tar.gz | tail
-  - cd usegalaxy-playbook-master
-  - export PLAYBOOK_DIR=$PWD
-  - cd ${TRAVIS_BUILD_DIR}
-  - mv ${GALAXY_DIR}/lib ${PLAYBOOK_DIR}/env/common/files/galaxy/dynamic_rules/
-  - cd ${TRAVIS_BUILD_DIR}
+  - mv ${GALAXY_DIR}/lib ${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/
   - source ${GALAXY_DIR}/.venv/bin/activate
   - pip install mock
   - pip install pytest
-  - export PYTHONPATH=$PYTHONPATH:${PLAYBOOK_DIR}/env/common/files/galaxy/dynamic_rules/lib/
-  - cd ${PLAYBOOK_DIR}/env/common/files/galaxy/dynamic_rules/test/
+  - export PYTHONPATH=$PYTHONPATH:${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/lib/
+  - cd ${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/
   - pytest -s
 notifications:
   email: false

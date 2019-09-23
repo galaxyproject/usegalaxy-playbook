@@ -43,7 +43,6 @@ galaxy_become_users: {}
 # used by the supervisor template
 galaxy_uwsgi_config_file: "{{ galaxy_config_dir }}/uwsgi.ini"
 
-galaxy_root: /srv/galaxy/{{ galaxy_instance_codename }}
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
 galaxy_shed_tools_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/shed_tools
 galaxy_shed_tool_conf_file: /cvmfs/{{ galaxy_cvmfs_repo }}/config/shed_tool_conf.xml

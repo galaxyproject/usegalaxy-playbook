@@ -1,9 +1,9 @@
 ---
 
 - name: Include snapshot plays
-  include: _inc_snapshot.yml
+  import_playbook: _inc_snapshot.yml
   tags:
     - no-restart
 
 - name: Include restart plays
-  include: _inc_restart.yml
+  import_playbook: _inc_restart.yml
