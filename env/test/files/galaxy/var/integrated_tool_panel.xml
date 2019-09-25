@@ -1001,6 +1001,8 @@
 
     <section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/subtract/gops_subtract_1/1.0.0" />
+
         <tool id="wiggle2simple1" />
 
         <tool id="aggregate_scores_in_intervals2" />
@@ -1068,6 +1070,8 @@
     <label id="genomics_analysis_label" text="Genomics Analysis" version="" />
 
     <section id="assembly" name="Assembly" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.2.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/4.6.3" />
 
@@ -2565,6 +2569,22 @@
 
     <section id="transit" name="Transit" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/antmarge/singlefitness/singleFitness/0.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/antmarge/regionfitness/regionFitness/0.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/antmarge/dataoverview/dataOverview/0.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/antmarge/compstrains/compStrains/0.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/antmarge/compregions/compRegions/0.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/antmarge/compgenes/compGenes/0.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/kaymccoy/calculate_fitness/calc_fitness/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/kaymccoy/aggregate_fitness/aggregate/1.0.0" />
+
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/gff_to_prot/gff_to_prot/1.0.0" />
 
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/transit_resampling/transit_resampling/2.3.1+galaxy1" />
@@ -2614,5 +2634,11 @@
     </section>
 
     <tool id="toolshed.g2.bx.psu.edu/repos/devteam/intersect/gops_intersect_1/1.0.0" />
+
+    <section id="fasta/fastq" name="FASTA/FASTQ" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.3" />
+
+    </section>
 
 </toolbox>
