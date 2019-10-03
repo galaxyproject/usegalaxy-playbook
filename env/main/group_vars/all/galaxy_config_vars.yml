@@ -1,0 +1,189 @@
+---
+
+## these vars are defined in vault.yml
+#
+# used by: galaxy_config var
+galaxy_config_database_connection: "{{ vault_galaxy_config_database_connection }}"
+galaxy_config_admin_users: "{{ vault_galaxy_config_admin_users }}"
+galaxy_config_id_secret: "{{ vault_galaxy_config_id_secret }}"
+galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
+galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_connection }}"
+
+
+galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
+galaxy_job_working_directory: /galaxy-repl/main/jobdir
+## used by: proftpd template and this vars file:
+galaxy_ftp_upload_dir: /galaxy-repl/{{ galaxy_instance_codename }}/ftp
+galaxy_tool_dependency_dir: /galaxy/main/deps
+galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
+galaxy_log_dir: "{{ galaxy_root }}/log"
+
+
+## used by: galaxyproject.galaxy
+base_app_main: &BASE_APP_MAIN
+
+  # message box
+  #message_box_visible: "True"
+
+  #message_box_class: info
+  #message_box_class: warning
+  #message_box_class: error
+
+  #message_box_content: Galaxy has recently been upgraded to a pre-release of the next Galaxy stable release (18.05). Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@galaxyproject.org">galaxy-bugs</a>.
+  #message_box_content: 'Cluster upgrades are in progress, jobs will not run until upgrades are complete (by <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20180417T160000&p1=24&ah=">9:00 PM UTC, Tuesday, April 17</a>).'
+  #message_box_content: 'Jobs are currently paused due to unexpected filesystem issues. We are working on the issue and jobs will be resumed as soon as possible.'
+  #message_box_content: 'Galaxy will be down for nine hours beginning at <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20190331T073000&p1=24&ah=">12:30 PM UTC, Sunday, March 31</a> for core network hardware upgrades.'
+
+  # this can be removed after 9/22 and the datatypes_conf.xml update
+  gbrowse_display_sites: wormbase,tair,modencode_worm,modencode_fly
+  ucsc_display_sites: main,archaea,ucla
+
+  # secrets
+
+  database_connection: "{{ galaxy_config_database_connection }}"
+  install_database_connection: "sqlite:////cvmfs/main.galaxyproject.org/var/galaxy_main_install.sqlite?isolation_level=IMMEDIATE"
+  id_secret: "{{ galaxy_config_id_secret }}"
+  admin_users: "{{ galaxy_config_admin_users }}"
+  sentry_dsn: "{{ galaxy_config_sentry_dsn }}"
+  sentry_sloreq_threshold: 10.0
+  amqp_internal_connection: "{{ galaxy_config_amqp_internal_connection }}"
+
+  # paths
+
+  tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }},{{ galaxy_config_dir }}/nagios_tool_conf.xml"
+  tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
+  job_working_directory: "{{ galaxy_job_working_directory }}"
+  tool_data_path: /galaxy-repl/main/tool_data
+  nginx_upload_store: /galaxy-repl/main/upload
+  nginx_upload_job_files_store: /galaxy-repl/main/upload_job_files
+  ftp_upload_dir: "{{ galaxy_ftp_upload_dir }}"
+  user_library_import_dir: /galaxy-repl/main/ftp
+  library_import_dir: /galaxy-repl/main/import
+  galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
+
+  tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
+  tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
+  build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
+  #datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
+  object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+  job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
+  workflow_schedulers_config_file: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
+  job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
+  data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
+  job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
+  dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
+
+  migrated_tools_config: "/cvmfs/main.galaxyproject.org/config/migrated_tools_conf.xml"
+  shed_tool_data_table_config: "/cvmfs/main.galaxyproject.org/config/shed_tool_data_table_conf.xml"
+  shed_data_manager_config_file: "/cvmfs/main.galaxyproject.org/config/shed_data_manager_conf.xml"
+  integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
+  sanitize_whitelist_file: /galaxy-repl/main/config/sanitize_whitelist.txt
+
+  containers_config_file: "{{ galaxy_config_dir }}/containers.yml"
+  enable_beta_containers_interface: "True"
+
+  #environment_setup_file: /galaxy/main/job_env.bash
+
+  builds_file_path: "/cvmfs/data.galaxyproject.org/managed/location/builds.txt"
+  ucsc_build_sites: "/cvmfs/data.galaxyproject.org/managed/location/ucsc_build_sites.txt"
+
+  # interactive environments
+  interactive_environment_plugins_directory: "{{ galaxy_root }}/interactive_environments/plugins"
+  dynamic_proxy_manage: "False"
+  dynamic_proxy_session_map: /srv/galaxy/main/var/gie_proxy_session_map.sqlite
+  dynamic_proxy_bind_port: 4280
+  dynamic_proxy_bind_ip: 0.0.0.0
+  dynamic_proxy_debug: "True"
+  dynamic_proxy_external_proxy: "True"
+  dynamic_proxy_prefix: gie_proxy
+  galaxy_infrastructure_url: https://usegalaxy.org
+  #trust_ipython_notebook_conversion: "True"
+
+
+  # general stuff
+
+  database_engine_option_pool_size: 10
+  database_engine_option_max_overflow: 20
+  database_engine_option_server_side_cursors: "True"
+  manage_dependency_relationships: "False"
+  len_file_path: /cvmfs/data.galaxyproject.org/managed/len/ucsc
+  collect_outputs_from: job_working_directory
+  smtp_server: localhost
+  error_email_to: galaxy-bugs@galaxyproject.org
+  activation_email: "Galaxy Activation <activate@galaxyproject.org>"
+  instance_resource_url: "https://galaxyproject.org/support"
+  screencasts_url: "https://vimeo.com/galaxyproject"
+  search_url: "https://galaxyproject.org/search/"
+  blacklist_file: "{{ galaxy_config_dir }}/disposable_email_blacklist.conf"
+  registration_warning_message: "Please register only one account. The {{ galaxy_instance_hostname }} service is provided free of charge and has limited computational and data storage resources. <strong>Registration and usage of multiple accounts is tracked and such accounts are subject to termination and data deletion.</strong>"
+  user_activation_on: "True"
+  activation_grace_period: 6
+  inactivity_box_content: "Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address."
+  helpsite_url: "https://help.galaxyproject.org/"
+  wiki_url: "https://galaxyproject.org/"
+  terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
+  ga_code: "UA-45719423-10"
+  static_enabled: "True"
+  enable_cloud_launch: "True"
+  cloudlaunch_default_ami: ami-a7dbf6ce
+  nginx_x_accel_redirect_base: /_x_accel_redirect
+  nginx_upload_path: /_upload
+  nginx_upload_job_files_path: /_job_files
+  log_events: "False"
+  log_actions: "False"
+  debug: "False"
+  use_interactive: "False"
+  use_pbkdf2: "True"
+  allow_user_deletion: "True"
+  allow_user_dataset_purge: "True"
+  enable_openid: "True"
+  ftp_upload_site: "ftp://{{ galaxy_instance_hostname }}"
+  enable_quotas: "True"
+  track_jobs_in_database: "True"
+  retry_metadata_internally: "False"
+  retry_job_output_collection: 5
+  cleanup_job: onsuccess
+  monitor_thread_join_timeout: 60
+  max_metadata_value_size: 1000000
+  tool_search_limit: 30
+  tool_name_boost: 12
+  tool_section_boost: 5
+
+  conda_prefix: "/cvmfs/main.galaxyproject.org/deps/_conda"
+
+  # For handler heartbeats
+  use_heartbeat: "True"
+  heartbeat_interval: "-1"
+  heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}_{pid}.log"
+
+  # stats
+  statsd_host: "127.0.0.1"
+  statsd_port: "8125"
+  statsd_prefix: "main"
+
+  # start high, decrease when we've fixed things
+  slow_query_log_threshold: "2"
+
+  # https://github.com/galaxyproject/usegalaxy-playbook/issues/211
+  legacy_eager_objectstore_initialization: "True"
+
+# galaxy.ini contents
+galaxy_config_hash:
+  "app:main":
+    <<: *BASE_APP_MAIN
+    allow_user_impersonation: "False"
+    new_file_path: /galaxy-repl/main/scratch2
+
+impersonate_config_hash:
+  "server:galaxy_impersonate":
+    threadpool_workers: 5
+    host: 0.0.0.0
+    port: 9480
+  "filter:proxy-prefix":
+    use: "egg:PasteDeploy#prefix"
+    prefix: /main/impersonate
+  "app:main":
+    <<: *BASE_APP_MAIN
+    allow_user_impersonation: "True"
+    "filter-with": proxy-prefix
+    new_file_path: /galaxy-repl/main/scratch2

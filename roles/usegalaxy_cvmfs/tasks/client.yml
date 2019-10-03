@@ -7,7 +7,22 @@
   block:
 
     - name: Build client
-      include: _inc_client_build.yml
+      import_role:
+        name: galaxyproject.galaxy
+      vars:
+        #galaxy_config_dir: null
+        #galaxy_shed_tools_dir: null
+        #galaxy_config_file: null
+        #galaxy_backup_configfiles: false
+
+        galaxy_manage_clone: false
+        galaxy_manage_download: false
+        galaxy_manage_static_setup: false
+        galaxy_fetch_dependencies: false
+        galaxy_manage_mutable_setup: false
+        galaxy_manage_database: false
+        galaxy_build_client: true
+        galaxy_manage_errordocs: false
 
     - name: Publish CVMFS transaction
       command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7, True, '') }}.client_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}" -m "Rebuild Galaxy client at commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}

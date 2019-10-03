@@ -1,9 +1,6 @@
 ---
 
-# NOTE: When you change this from a release to a pre-release branch, enable client building on update in
-# group_vars/cvmfsstratum0servers.yml. When that branch becomes stable, disable client building.
-galaxy_branch: release_19.09
-#galaxy_ref: fa283b525f4412fbc3d05ad10feb7176b52a27f3
+galaxy_commit_id: release_19.09
 galaxy_user: g2main
 galaxy_privileged_user: gxsrc
 galaxy_instance_hostname: usegalaxy.org
@@ -14,3 +11,6 @@ galaxy_version_file: "{{ inventory_dir }}/files/galaxy/galaxy_version.yml"
 nginx_srv: /srv/nginx
 
 galaxy_layout: custom
+# galaxy_config_style: yaml
+
+galaxy_venv_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/venv

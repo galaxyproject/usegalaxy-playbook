@@ -1,4 +1,11 @@
 ---
 
+# also set in galaxyservers, but not set in all I think because it's invalid for pulsar contexts
+galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
+galaxy_config_dir: null
+galaxy_mutable_data_dir: null
+
+galaxy_client_make_target: null
+
 galaxy_cvmfs_client_on_update: true
 galaxy_node_version: 10.15.3

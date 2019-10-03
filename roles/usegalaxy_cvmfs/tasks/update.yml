@@ -1,32 +1,10 @@
 ---
 
-- name: Fetch current Galaxy commit hash
-  command: "/usr/bin/git rev-parse HEAD"
-  args:
-    chdir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
-  register: galaxy_commit_old
-
-- name: Fetch HEAD commit hash
-  uri:
-    url: "https://api.github.com/repos/{{ galaxy_repo_owner }}/galaxy/branches/{{ galaxy_branch }}"
-    return_content: yes
-  register: branch_response
-  when: galaxy_branch is defined
-
-- name: Set upstream_galaxy_commit fact
-  set_fact:
-    upstream_galaxy_commit: "{{ branch_response.json.commit.sha }}"
-  when: galaxy_branch is defined
-
-- name: Exit if no changes (branch mode)
-  fail:
-    msg: The clone at /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy is already at the HEAD of {{ galaxy_repo_owner }}/galaxy@{{ galaxy_branch }} ({{ upstream_galaxy_commit }})
-  when: galaxy_branch is defined and galaxy_commit_old.stdout == upstream_galaxy_commit
-
-- name: Exit if no changes (ref mode)
-  fail:
-    msg: The clone at /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy is already at {{ galaxy_ref }})
-  when: galaxy_ref is defined and galaxy_commit_old.stdout == galaxy_ref
+- name: Create temporary Galaxy config
+  tempfile:
+    prefix: usegalaxy_cvmfs_galaxy_config_
+    suffix: ".{{ 'ini' if galaxy_config_style == 'ini-paste' else galaxy_config_style }}"
+  register: __usegalaxy_cvmfs_galaxy_config_result
 
 - name: Begin CVMFS transaction
   command: /usr/bin/cvmfs_server transaction {{ galaxy_cvmfs_repo }}
@@ -35,11 +13,34 @@
   block:
 
     - name: Update Galaxy
-      #command: "docker run --rm -v /cvmfs:/cvmfs galaxy/update su - {{ galaxy_user }} -c \"/cvmfs/{{ galaxy_cvmfs_repo }}/bin/update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }}\""
-      script: update_galaxy.sh {{ '-r ' ~ galaxy_ref if galaxy_ref is defined else '' }} {{ '-b ' ~ galaxy_branch if galaxy_branch is defined else '' }} {{ '-o ' ~ galaxy_repo_owner if galaxy_repo_owner != 'galaxyproject' else '' }} {{ galaxy_cvmfs_repo }}
+      import_role:
+        name: galaxyproject.galaxy
+      vars:
+        galaxy_config_dir: null
+        galaxy_shed_tools_dir: null
+        galaxy_config_file: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}"
+        galaxy_backup_configfiles: false
 
-    - name: Clean and build Python bytecode
-      script: makepyc.py /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib
+        galaxy_manage_clone: true
+        galaxy_manage_download: false
+        galaxy_manage_static_setup: true  # only used to template the config for conditional deps
+        galaxy_fetch_dependencies: true
+        galaxy_manage_mutable_setup: false
+        galaxy_manage_database: false
+        galaxy_build_client: true
+        galaxy_manage_errordocs: false
+
+    - name: Abort if there were no changes
+      assert:
+        that:
+          - __galaxy_git_update_result is changed
+        success_msg: "Changes were made, transaction will be published"
+        fail_msg: "No changes were made, transaction will be aborted"
+
+    - name: Remove node_modules
+      file:
+        path: "{{ galaxy_server_dir }}/client/node_modules"
+        state: absent
 
     # TODO: In Ansible 2.4 this can use docker_container (--rm support was not available in 2.3)
     - name: Fetch Galaxy version
@@ -70,10 +71,6 @@
           galaxy_commit: {{ galaxy_commit }}
         dest: "{{ galaxy_version_file }}"
 
-    - name: Build client
-      include: _inc_client_build.yml
-      when: galaxy_cvmfs_client_on_update is defined and galaxy_cvmfs_client_on_update
-
     - name: Publish CVMFS transaction
       command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7, True, '') }}" -m "Update Galaxy to version {{ galaxy_version }} commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
 
@@ -84,4 +81,11 @@
 
     - name: Abort playbook
       fail:
-        msg: Updating Galaxy failed
+        msg: Exiting due to previous errors
+
+  always:
+
+    - name: Remove temporary Galaxy config
+      file:
+        path: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}"
+        state: absent

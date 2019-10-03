@@ -33,19 +33,6 @@ store][pass]. If you have configured a `gpg-agent(1)`, you can pipe `pass` direc
 
 A handy shell function to run the common playbooks with pass can be found in the [wiki][wiki].
 
-### Installing tools ###
-Tools are installed using the `roles/galaxyproject.tools` role. Each
-Galaxy instance has the toolset to be installed listed under
-`files/galaxy/test.galaxyproject.org|usegalaxy.org/tool_list.yaml` so edit that
-file to include new tools or versions. An admin user API key is required to
-install the tools, and it is stored in the Vault under `api_key` variable.
-Run the role with (replace `stage` with `production` for Main):
-
-    % ansible-playbook tools.yml --ask-vault-pass -i stage/inventory
-
-Note that by default this roll will create a virtualenv in your `/tmp` dir. The
-installation log is available in `/tmp/galaxy_tool_install.log`.
-
 Build Notes
 -----------
 

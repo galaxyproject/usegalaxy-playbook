@@ -8,6 +8,8 @@
       galaxy_cvmfs_update: yes
   tags:
     - no-restart
+  vars:
+    galaxy_config: "{{ galaxy_config_hash }}"
 
 - name: Include snapshot plays
   import_playbook: _inc_snapshot.yml
