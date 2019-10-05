@@ -71,7 +71,7 @@
     <tool file="filters/gff/gff_filter_by_feature_count.xml" />
     <tool file="filters/gff/gtf_filter_by_attribute_values_list.xml" />
   </section>
-  <section id="join_subtract_and_group" name="Join, Subtract and Group">
+  <section id="join__subtract_and_group" name="Join, Subtract and Group">
     <tool file="filters/joiner.xml" />
     <tool file="filters/compare.xml" />
     <tool file="stats/grouping.xml" />
@@ -87,7 +87,7 @@
     <tool file="filters/wig_to_bigwig.xml" />
     <tool file="filters/bed_to_bigbed.xml" />
   </section>
-  <section id="liftOver" name="Lift-Over">
+  <section id="lift_over" name="Lift-Over">
     <tool file="extract/liftOver_wrapper.xml" />
   </section>
   <label id="common_genomics_tools_label" text="Common Genomics Tools" />
@@ -131,8 +131,8 @@
     <tool file="plotting/boxplot.xml" />
     <tool file="maf/vcf_to_maf_customtrack.xml" />
   </section>
-  <label id="miscellaneous_tools_label" text="Miscellaneous Tools"/>
-  <section id="dev_test" name="Development/Test Tools">
-    <tool file="/galaxy-repl/test/tools/malloc.xml"/>
+  <label id="miscellaneous_tools_label" text="Miscellaneous Tools" />
+  <section id="development_test_tools" name="Development/Test Tools">
+    <tool file="/galaxy-repl/test/tools/malloc.xml" />
   </section>
 </toolbox>

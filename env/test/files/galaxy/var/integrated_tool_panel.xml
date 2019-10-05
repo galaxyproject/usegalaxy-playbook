@@ -299,7 +299,7 @@
 
     </section>
 
-    <section id="join_subtract_and_group" name="Join, Subtract and Group" version="">
+    <section id="join__subtract_and_group" name="Join, Subtract and Group" version="">
 
         <tool id="join1" />
 
@@ -317,6 +317,42 @@
 
     <section id="fasta_fastq" name="FASTA/FASTQ" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_filter_by_length/fasta_filter_by_length/1.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_concatenate_by_species/fasta_concatenate0/0.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_reverse_complement/cshl_fastx_reverse_complement/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/cshl_fastx_renamer/0.0.11" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_clipper/cshl_fastx_clipper/1.0.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_barcode_splitter/cshl_fastx_barcode_splitter/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_artifacts_filter/cshl_fastx_artifacts_filter/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_filter/cshl_fastq_quality_filter/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_converter/cshl_fastq_quality_converter/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/1.0.0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.6" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.5" />
@@ -325,9 +361,9 @@
 
         <tool id="testtoolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.4" />
 
-        <tool id="testtoolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.3" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.3.1" />
+
+        <tool id="testtoolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.3" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/flash/flash/1.2.11.2" />
 
@@ -383,41 +419,7 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.0.4" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_reverse_complement/cshl_fastx_reverse_complement/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/cshl_fastx_renamer/0.0.11" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_clipper/cshl_fastx_clipper/1.0.1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_barcode_splitter/cshl_fastx_barcode_splitter/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_artifacts_filter/cshl_fastx_artifacts_filter/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_filter/cshl_fastq_quality_filter/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_converter/cshl_fastq_quality_converter/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_filter_by_length/fasta_filter_by_length/1.1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_concatenate_by_species/fasta_concatenate0/0.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/1.0.0" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.3" />
 
     </section>
 
@@ -777,7 +779,7 @@
 
     </section>
 
-    <section id="dev_test" name="Development/Test Tools" version="">
+    <section id="development_test_tools" name="Development/Test Tools" version="">
 
         <tool id="malloc" />
 
@@ -991,7 +993,7 @@
 
     </section>
 
-    <section id="liftOver" name="Lift-Over" version="">
+    <section id="lift_over" name="Lift-Over" version="">
 
         <tool id="liftOver1" />
 
@@ -2143,7 +2145,7 @@
 
     </section>
 
-    <section id="ncbi_blast" name="NCBI BLAST+" version="">
+    <section id="ncbi_blast_" name="NCBI BLAST+" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeprofiledb/0.2.01" />
 
@@ -2567,7 +2569,7 @@
 
     <label id="miscellaneous_tools_label" text="Miscellaneous Tools" version="" />
 
-    <section id="ngs:_fastq_screen_beta_test" name="NGS: fastq screen beta test" version="">
+    <section id="ngs__fastq_screen_beta_test" name="NGS: fastq screen beta test" version="">
 
         <tool id="testtoolshed.g2.bx.psu.edu/repos/iuc/fastq_screen/fastq_screen/0.4.2" />
 
@@ -2657,19 +2659,13 @@
 
     </section>
 
-    <section id="usegalaxy_common_tools_test" name="usegalaxy.* common tools test" version="">
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/filter_tabular/filter_tabular/2.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/jq/jq/1.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/filter_tabular/filter_tabular/1.0.0" />
+    <section id="usegalaxy___common_tools_test" name="usegalaxy.* common tools test" version="">
 
     </section>
 
     <label id="deprecated_tools_label" text="Deprecated Tools" version="" />
 
-    <section id="metagenomic_analysis_deprecated" name="Metagenomic Analysis (deprecated)" version="">
+    <section id="metagenomic_analysis__deprecated_" name="Metagenomic Analysis (deprecated)" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0" />
 
@@ -2685,15 +2681,19 @@
 
     </section>
 
-    <section id="ngs:_chromosome_conformation" name="NGS: Chromosome Conformation" version="">
+    <section id="ngs__chromosome_conformation" name="NGS: Chromosome Conformation" version="">
 
     </section>
 
     <tool id="toolshed.g2.bx.psu.edu/repos/devteam/intersect/gops_intersect_1/1.0.0" />
 
-    <section id="fasta/fastq" name="FASTA/FASTQ" version="">
+    <section id="usegalaxy_common_tools_test" name="usegalaxy.* common tools test" version="">
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.3" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/filter_tabular/filter_tabular/2.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/filter_tabular/filter_tabular/1.0.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/jq/jq/1.0" />
 
     </section>
 
