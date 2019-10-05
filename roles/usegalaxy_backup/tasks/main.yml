@@ -1,16 +1,24 @@
 ---
 
-- name: Fetch mutable configs from master host
-  synchronize:
-    mode: pull
-    src: "{{ item.dest }}"
-    dest: "files/galaxy/var/{{ item.dest | basename }}"
-  with_items: "{{ galaxy_mutable_configs }}"
-  when: inventory_hostname == groups['galaxyservers'][0]
+- name: Backup tasks block
+  block:
 
-- name: Fetch tool panel layout
-  synchronize:
-    mode: pull
-    src: "{{ galaxy_config[galaxy_app_config_section]['integrated_tool_panel_config'] }}"
-    dest: "files/galaxy/var/integrated_tool_panel.xml"
+    - name: Fetch galaxy_mutable_configs from master host
+      synchronize:
+        mode: pull
+        src: "{{ item.dest }}"
+        dest: "files/galaxy/var/{{ item.dest | basename }}"
+      loop: "{{ galaxy_mutable_configs }}"
+      loop_control:
+        label: "{{ item.dest }}"
+
+    - name: Fetch additional configs
+      synchronize:
+        mode: pull
+        src: "{{ item }}"
+        dest: "files/galaxy/var/{{ item | basename }}"
+      loop:
+        - "{{ galaxy_shed_tool_conf_file }}"
+        - "{{ galaxy_config[galaxy_app_config_section]['integrated_tool_panel_config'] }}"
+
   when: inventory_hostname == groups['galaxyservers'][0]
