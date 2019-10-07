@@ -27,11 +27,12 @@ proftpd_display_connect: |
 
 proftpd_tls_context: global
 
-# the cert file contains the whole chain but it's fine because ProFTPD only reads the first one
-proftpd_deploy_ssl: yes
-proftpd_conf_ssl_certificate: /etc/pki/tls/certs/wildcard_cert.pem
-proftpd_conf_ssl_certificate_key: /etc/pki/tls/private/wildcard_privatekey.pem
-proftpd_conf_ssl_ca_certificate: /etc/pki/tls/certs/incommon_chain.pem
+# NOTE: this relies on galaxyproject.nginx setting up LE certs with usegalaxy-eu.certbot
+proftpd_deploy_ssl: no
+proftpd_conf_ssl_certificate: /etc/ssl/certs/cert.pem
+proftpd_conf_ssl_certificate_key: /etc/ssl/private/privkey.pem
+# TODO: usegalaxy-eu.certbot should probably install this in /etc/ssl
+proftpd_conf_ssl_ca_certificate: /etc/letsencrypt/live/test.galaxyproject.org/chain.pem
 
 proftpd_tls_sesscache_timeout: 1800
 proftpd_tls_renegotiate: ctrl 1500 timeout 300

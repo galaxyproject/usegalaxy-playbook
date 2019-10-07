@@ -41,10 +41,11 @@
 - name: Install and manage nginx
   hosts: webservers
   remote_user: root
+  pre_tasks:
   roles:
-    - galaxyproject.nginx
-    - paths   # for tacc_protected in test env
+    - paths   # for certbot_well_known_root + tacc_protected in test env
     - copy    # for tacc_protected in test env
+    - galaxyproject.nginx
   tags: nginx
 
 - name: Install logflux

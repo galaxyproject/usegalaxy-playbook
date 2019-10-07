@@ -1,0 +1,16 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+server {
+    listen       *:80;
+    server_name  {{ certbot_domains |join(" ") }};
+
+    location /.well-known/ {
+        root {{ certbot_well_known_root }};
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
