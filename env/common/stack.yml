@@ -67,6 +67,7 @@
   hosts: galaxyservers:toolshedservers
   remote_user: root
   roles:
+    - paths   # creates toolshed_tmpdir
     - usegalaxy_admin
     - cron
   tags: galaxy,admin

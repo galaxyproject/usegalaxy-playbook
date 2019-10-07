@@ -4,6 +4,13 @@
 galaxy_commit_id: 416c008690deb7d68ab1338cd480140669695223
 
 
+# used only here and by the supervisor template
+toolshed_tmpdir: "{{ galaxy_toolshed_root }}/var/tmp"
+toolshedservers_group_directories:
+  - path: "{{ toolshed_tmpdir }}"
+    owner: "{{ toolshed_user }}"
+
+
 toolshedservers_group_crontabs:
   - id: test_shed_backup
     name: Test Toolshed Backup
@@ -11,6 +18,12 @@ toolshedservers_group_crontabs:
     hour: 23
     minute: 0
     job: rsync -av --delete /srv/toolshed/test/var /srv/toolshed/test/log zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/testshed && ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/sbin/zfs snapshot zones/westvleteren/backup/radegast/testshed@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
+  - id: test_shed_clean_tmpdir
+    name: Clean Test Toolshed $TMPDIR
+    user: root
+    hour: 0
+    minute: 30
+    job: "/usr/sbin/tmpreaper --mtime --mtime-dir 5d '{{ toolshed_tmpdir }}'"
 
 
 ## these vars are defined in vault.yml
