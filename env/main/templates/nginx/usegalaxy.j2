@@ -3,20 +3,10 @@
 ##
 
 server {
-    listen       *:80;
     listen       *:443 ssl;
     server_name  www.usegalaxy.org;
 
-    return 307 https://usegalaxy.org$request_uri;
-}
-
-server {
-    listen       *:80;
-    server_name  usegalaxy.org galaxy-web-05.tacc.utexas.edu galaxy-web-05.galaxyproject.org galaxy-web-06.tacc.utexas.edu galaxy-web-06.galaxyproject.org;
-
-    include {{ nginx_conf_dir }}/usegalaxy_rewrites.conf;
-
-    return 307 https://usegalaxy.org$request_uri;
+    return 301 https://usegalaxy.org$request_uri;
 }
 
 # To display the status page for all requests, use this

@@ -41,7 +41,6 @@
 - name: Install and manage nginx
   hosts: webservers
   remote_user: root
-  pre_tasks:
   roles:
     - paths   # for certbot_well_known_root + tacc_protected in test env
     - copy    # for tacc_protected in test env

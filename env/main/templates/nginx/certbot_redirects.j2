@@ -1,0 +1,21 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+server {
+    listen       *:80;
+    server_name  {{ certbot_domains |join(" ") }};
+
+    location /.well-known/ {
+        root {{ certbot_well_known_root }};
+        # each server in the DNS RR gets its own certs, this is necessary if LE hits the server that's not requesting
+        if (!-f $request_filename) {
+            {% set proxy_host = 'galaxy-web-05' if inventory_hostname_short == 'galaxy-web-06' else 'galaxy-web-06' -%}
+            proxy_pass http://{{ proxy_host }}.galaxyproject.org;
+        }
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}

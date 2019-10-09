@@ -10,9 +10,6 @@ galaxystagingservers_group_supervisor_configs:
 
 
 ## used by: galaxyproject.nginx
-nginx_conf_ssl_certificate: wildcard_cert.pem
-nginx_conf_ssl_certificate_key: wildcard_privatekey.pem
-nginx_conf_ssl_trusted_certificate: incommon_chain.pem
 # TODO: disable 1.0, 1.1
 nginx_conf_ssl_protocols:
     - TLSv1
@@ -22,8 +19,14 @@ nginx_conf_ssl_protocols:
 # this is just used in the webservers group vars
 nginx_conf_client_max_body_size: 80g
 
-nginx_configs:
+nginx_servers:
+  - certbot_redirects
+
+nginx_ssl_servers:
   - usegalaxy_staging
+
+certbot_domains:
+  - "{{ inventory_hostname_short }}.galaxyproject.org"
 
 
 ## used by the sysctl task in the galaxy_infrastructure playbook

@@ -4,7 +4,7 @@
 
 server {
     listen          *:443 ssl default_server;
-    server_name     galaxy-web-03.galaxyproject.org galaxy-web-04.galaxyproject.org;
+    server_name     {{ inventory_hostname_short }}.galaxyproject.org;
 
     # Enable HSTS (age is 180 days)
     add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";

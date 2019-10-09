@@ -3,25 +3,23 @@
 ##
 
 server {
-    listen          *:80;
     listen          *:443 ssl;
     server_name  test.g2.bx.psu.edu;
 
     access_log  /var/log/nginx/test.g2.bx.psu.edu.access.log;
     error_log   /var/log/nginx/test.g2.bx.psu.edu.error.log;
 
-    return 307 https://test.galaxyproject.org$request_uri;
+    return 301 https://test.galaxyproject.org$request_uri;
 }
 
 server {
-    listen          *:80;
     listen          *:443 ssl;
     server_name  main.g2.bx.psu.edu;
 
     access_log  /var/log/nginx/main.g2.bx.psu.edu.access.log;
     error_log   /var/log/nginx/main.g2.bx.psu.edu.error.log;
 
-    return 307 https://usegalaxy.org$request_uri;
+    return 301 https://usegalaxy.org$request_uri;
 }
 
 # vim: set filetype=nginx
