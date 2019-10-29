@@ -42,6 +42,20 @@
         path: "{{ galaxy_server_dir }}/client/node_modules"
         state: absent
 
+    - name: Find plugin node_modules
+      find:
+        paths: "{{ galaxy_server_dir }}/config/plugins"
+        depth: 4    # should get plugins in plugin collection dirs
+        patterns: '^node_modules$'
+        file_type: directory
+      register: __galaxy_node_modules_dirs_result
+
+    - name: Remove plugin node_modules
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ __galaxy_node_modules_dirs_result.files }}"
+
     # TODO: In Ansible 2.4 this can use docker_container (--rm support was not available in 2.3)
     - name: Fetch Galaxy version
       command: "/usr/bin/docker run --rm -v /cvmfs:/cvmfs -e PYTHONPATH=/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib --user {{ galaxy_user }} galaxy/update {{ galaxy_venv_dir }}/bin/python -c 'from galaxy.version import VERSION; print(VERSION)'"

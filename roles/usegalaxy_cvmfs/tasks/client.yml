@@ -24,6 +24,25 @@
         galaxy_build_client: true
         galaxy_manage_errordocs: false
 
+    - name: Remove node_modules
+      file:
+        path: "{{ galaxy_server_dir }}/client/node_modules"
+        state: absent
+
+    - name: Find plugin node_modules
+      find:
+        paths: "{{ galaxy_server_dir }}/config/plugins"
+        depth: 4    # should get plugins in plugin collection dirs
+        patterns: '^node_modules$'
+        file_type: directory
+      register: __galaxy_node_modules_dirs_result
+
+    - name: Remove plugin node_modules
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ __galaxy_node_modules_dirs_result.files }}"
+
     - name: Publish CVMFS transaction
       command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7, True, '') }}.client_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}" -m "Rebuild Galaxy client at commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
 
