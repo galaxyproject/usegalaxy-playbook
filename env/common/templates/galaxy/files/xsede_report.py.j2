@@ -27,7 +27,7 @@ SERVER_NAMES = ["test", "main"]
 OFFSET_FILE_NAME = "xsede_retry_offset"
 
 # The following values are templated by Ansible
-OFFSET_FILE_PATH = "{{ galaxy_root }}/bin/" + OFFSET_FILE_NAME
+OFFSET_FILE_PATH = "{{ galaxy_root }}/var/xsede_report/" + OFFSET_FILE_NAME
 GALAXY_XSEDE_APIKEY = "{{ galaxy_xsede_apikey }}"
 
 JOBS_SQL = """
