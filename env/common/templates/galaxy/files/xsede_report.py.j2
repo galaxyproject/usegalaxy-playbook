@@ -28,7 +28,7 @@ OFFSET_FILE_NAME = "xsede_retry_offset"
 
 # The following values are templated by Ansible
 OFFSET_FILE_PATH = "{{ galaxy_root }}/bin/" + OFFSET_FILE_NAME
-GALAXY_XSEDE_APIKEY = "{{ galaxy_xsede_apikey  }}"
+GALAXY_XSEDE_APIKEY = "{{ galaxy_xsede_apikey }}"
 
 JOBS_SQL = """
     SELECT job.id,
@@ -62,7 +62,7 @@ def parse_arguments():
                         type=int,
                         default=24,
                         help='How many hours back to query.')
-    parser.add_argument('-g', '--galaxy_name',
+    parser.add_argument('-g', '--galaxy-name',
                         type=str,
                         default=None,
                         help='What Galaxy is reporting, choices: main|test.')
