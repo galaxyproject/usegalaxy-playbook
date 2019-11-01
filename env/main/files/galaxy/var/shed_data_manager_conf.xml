@@ -1,1 +1,17 @@
-<data_managers />
+<data_managers><data_manager guid="toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_diamond_database_builder/data_manager/diamond_database_builder/0.0.1" id="diamond_database_builder" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml" version="0.0.1">
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_diamond_database_builder/ce62d0912b10/data_manager_diamond_database_builder/data_manager/data_manager_diamond_database_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_diamond_database_builder/diamond_database_builder/0.0.1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_diamond_database_builder</repository_name><repository_owner>bgruening</repository_owner><installed_changeset_revision>ce62d0912b10</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_diamond_database_builder/diamond_database_builder/0.0.1</id><version>0.0.1</version></tool><data_table name="diamond_database">
+            <output>
+                <column name="value" />
+                <column name="name" />
+                <column name="db_path" output_ref="out_file">
+                    <move relativize_symlinks="True" type="directory">
+                        <!-- <source>${db_path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">diamond_database/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/diamond_database/${value}/${db_path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+</data_managers>
