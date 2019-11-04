@@ -3,18 +3,21 @@
 !! This file is templated by Ansible, manual changes will have no effect.
 
 Report jobs to XSEDE API. Run with CRON and in Galaxy venv.
+
+Example of querying past 24h of jobs that require reporting for the
+Test Galaxy in debug mode (nothing actually saved on the server side).
+python scripts/xsede_report.py -c config/galaxy.yml -t 24 -g test.galaxyproject.org -d
+
+Example of production usage:
+python scripts/xsede_report.py -c config/galaxy.yml -t 24 -g usegalaxy.org
 """
 from __future__ import print_function
 
 import argparse
 import os
-import sys
 
 import psycopg2
 import requests
-
-galaxy_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
-sys.path.insert(1, os.path.join(galaxy_root, 'lib'))
 
 import galaxy.config
 from galaxy.util.script import app_properties_from_args, populate_config_args
@@ -23,7 +26,6 @@ DESTINATION_MAPPING = {
     "stampede_" : "stampede2.tacc.xsede",
     "bridges_" : "bridges-large.psc.xsede"
 }
-SERVER_NAMES = ["test", "main"]
 OFFSET_FILE_NAME = "xsede_retry_offset"
 
 # The following values are templated by Ansible
@@ -65,10 +67,12 @@ def parse_arguments():
     parser.add_argument('-g', '--galaxy-name',
                         type=str,
                         default=None,
-                        help='What Galaxy is reporting, choices: main|test.')
+                        help='Which Galaxy is reporting. Prefix for job_ids')
+    parser.add_argument('-r', '--dry-run',
+                        action='store_true',
+                        default=False,
+                        help='Do not actually save the submissions on the server side.')
     args = parser.parse_args()
-    if args.galaxy_name not in SERVER_NAMES:
-        raise Exception("Unknown server name. Specify using -g.", args.galaxy_name)
     app_properties = app_properties_from_args(args)
     config = galaxy.config.Configuration(**app_properties)
     # print(config.database_connection)
@@ -105,7 +109,8 @@ def submit(row, args):
         "submittime": xsede_submit_time,
         "apikey": GALAXY_XSEDE_APIKEY
     }
-    if args.debug:
+    if args.dry_run:
+        # Flag that prevents server from saving the submission
         xsede_data["debug"] = True
     return requests.post(xsede_url, data=xsede_data)
 
