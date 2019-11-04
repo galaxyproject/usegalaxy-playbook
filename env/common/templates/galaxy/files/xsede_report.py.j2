@@ -5,8 +5,8 @@
 Report jobs to XSEDE API. Run with CRON and in Galaxy venv.
 
 Example of querying past 24h of jobs that require reporting for the
-Test Galaxy in debug mode (nothing actually saved on the server side).
-python scripts/xsede_report.py -c config/galaxy.yml -t 24 -g test.galaxyproject.org -d
+Test Galaxy in debug mode and dry-run mode (nothing actually saved on the server side).
+python scripts/xsede_report.py -c config/galaxy.yml -t 24 -g test.galaxyproject.org -r -d
 
 Example of production usage:
 python scripts/xsede_report.py -c config/galaxy.yml -t 24 -g usegalaxy.org
