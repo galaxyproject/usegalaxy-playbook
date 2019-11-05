@@ -6,5 +6,13 @@ galaxymasters_group_templates:
     dest: "{{ galaxy_root }}/var/xsede_report/xsede_report.py"
     mode: "0755"
   - src: templates/galaxy/files/run_xsede_report.sh.j2
-    dest: "{{ galaxy_root }}/bin/run_xsede_report.sh"
+    dest: "{{ galaxy_root }}/bin/xsede_report"
     mode: "0755"
+    
+galaxymasters_group_crontabs:
+  - id: xsede_report
+    name: Report jobs to XSEDE
+    user: "{{ galaxy_user }}"
+    hour: 0
+    minute: 0
+    job: "{{ galaxy_root }}/bin/run_xsede_report"
