@@ -116,7 +116,7 @@ def submit(row, args):
 
 
 def format_data(job_id, submit_time, username, resource, args):
-    xsede_submit_time = submit_time.strftime("%d-%m-%y %H:%M %z")
+    xsede_submit_time = submit_time.strftime("%Y-%m-%d %H:%M %z")
     xsede_job_id = args.galaxy_name + "_" + str(job_id)
     for key in DESTINATION_MAPPING:
         if resource.startswith(key):
