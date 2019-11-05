@@ -3,11 +3,10 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
-activate="{{ galaxy_venv_dir }}/activate"
+activate="{{ galaxy_venv_dir }}/bin/activate"
 echo "Activating virtualenv with $activate"
 . "$activate"
 
-PYTHONPATH={{ galaxy_server_dir }}/lib
+cd "{{ galaxy_server_dir }}"
 
-python {{ galaxy_root }}/var/xsede_report/xsede_report.py -c {{ galaxy_config_file }} -t 24 -g {{ galaxy_instance_hostname }} 2>&1 | tee -a {{ galaxy_log_dir }}/xsede_report.log
-
+PYTHONPATH=lib python {{ galaxy_root }}/var/xsede_report/xsede_report.py -c {{ galaxy_config_file }} -t ${HOURS:-24} -g {{ galaxy_instance_hostname }} "$@" 2>&1 | tee -a {{ galaxy_log_dir }}/xsede_report.log

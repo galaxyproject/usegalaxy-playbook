@@ -1,6 +1,14 @@
 ---
 
+galaxy_xsede_apikey: "{{ vault_galaxy_xsede_apikey }}"
+
+
 ## used by: XSEDE reporting
+galaxymasters_group_directories:
+  - path: "{{ galaxy_root }}/var/xsede_report"
+    owner: "{{ galaxy_user }}"
+    group: "{{ galaxy_system_group }}"
+
 galaxymasters_group_templates:
   - src: templates/galaxy/files/xsede_report.py.j2
     dest: "{{ galaxy_root }}/var/xsede_report/xsede_report.py"
@@ -8,11 +16,11 @@ galaxymasters_group_templates:
   - src: templates/galaxy/files/run_xsede_report.sh.j2
     dest: "{{ galaxy_root }}/bin/xsede_report"
     mode: "0755"
-    
+
 galaxymasters_group_crontabs:
   - id: xsede_report
     name: Report jobs to XSEDE
     user: "{{ galaxy_user }}"
     hour: 0
     minute: 0
-    job: "{{ galaxy_root }}/bin/run_xsede_report"
+    job: "{{ galaxy_root }}/bin/xsede_report"
