@@ -2,6 +2,8 @@
 
 - name: CVMFS snapshot
   command: /usr/bin/cvmfs_server snapshot {{ galaxy_cvmfs_repo }}
+  environment:
+    X509_CERT_BUNDLE: /etc/pki/tls/cert.pem
 
 - name: Clear squid cache (restart)
   service:
