@@ -1,17 +1,109 @@
 ---
 
-# used by: supervisor role
-supervisord_inet_user: "{{ vault_supervisord_inet_user }}"
-supervisord_inet_port: "{{ vault_supervisord_inet_port }}"
-supervisord_inet_pass: "{{ vault_supervisord_inet_pass }}"
+## these vars are defined in vault.yml
+#
+# used by: galaxy_toolshed_config var
+galaxy_toolshed_config_admin_users: "{{ vault_galaxy_toolshed_config_admin_users }}"
+galaxy_toolshed_config_id_secret: "{{ vault_galaxy_toolshed_config_id_secret }}"
+galaxy_toolshed_config_sentry_dsn: "{{ vault_galaxy_toolshed_config_sentry_dsn }}"
+
+
+# used only here and by the systemd service unit template
+toolshed_tmpdir: "{{ galaxy_toolshed_root }}/var/tmp"
+toolshedservers_group_directories:
+  - path: "{{ toolshed_tmpdir }}"
+    owner: "{{ toolshed_user }}"
+  - path: "{{ galaxy_toolshed_root }}"
+    owner: "{{ toolshed_privileged_user }}"
+    group: "{{ toolshed_privileged_group }}"
+  - path: "{{ galaxy_toolshed_mutable_config_dir }}"
+    owner: "{{ toolshed_user }}"
+    group: "{{ toolshed_group }}"
+  - path: "{{ galaxy_toolshed_log_dir }}"
+    owner: "{{ toolshed_user }}"
+    group: "{{ toolshed_group }}"
+
+
+toolshedservers_group_crontabs:
+  #- id: "{{ galaxy_toolshed_instance_codename }}_shed_backup"
+  #  name: "{{ galaxy_toolshed_instance_codename | capitalize }} Tool Shed Backup"
+  #  user: "{{ toolshed_user }}"
+  #  hour: "{{ toolshed_backup_hour }}"
+  #  minute: 0
+  #  job: rsync -av --delete /srv/toolshed/test/var /srv/toolshed/test/log zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/testshed && ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/sbin/zfs snapshot zones/westvleteren/backup/radegast/testshed@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
+  - id: "{{ galaxy_toolshed_instance_codename }}_shed_clean_tmpdir"
+    name: "Clean {{ galaxy_toolshed_instance_codename | capitalize }} Tool Shed $TMPDIR"
+    user: root
+    hour: "{{ toolshed_tmpwatch_hour }}"
+    minute: 30
+    job: "/usr/sbin/tmpwatch --mtime --dirmtime 5d '{{ toolshed_tmpdir }}'"
+
+
+## used by: other vars and various templates
+galaxy_toolshed_root: "/srv/toolshed/{{ galaxy_toolshed_instance_codename }}"
+galaxy_toolshed_server_dir: "{{ galaxy_toolshed_root }}/server"
+galaxy_toolshed_log_dir: "{{ galaxy_toolshed_root }}/log"
+
+
+## used by: galaxyproject.galaxy and usegalaxy_admin, the update play
+toolshed_user: shed
+toolshed_group: shed
+toolshed_privileged_user: gxsrc
+toolshed_privileged_group: gxsrc
+galaxy_user: "{{ toolshed_user }}"
+galaxy_privileged_user: "{{ toolshed_privileged_user }}"
+# the only thing this is used for is setting the group on the errordocs destination directory in usegalaxy_admin
+galaxy_system_group: "{{ toolshed_privileged_group }}"
+
+#galaxy_remote_users:
+#  privsep: "{{ toolshed_privileged_user }}"
+#  errdocs: "{{ toolshed_privileged_user }}"
+galaxy_become_users: {}
 
 
 ## used by: natefoo.postgresql_objects
 postgresql_objects_users:
-  - name: shed
-  - name: nate
+  - name: "{{ toolshed_user }}"
+  #- name: nate
 
-postgresql_objects_groups:
-  - name: galaxy_team
-    users:
-      - name: nate
+# TODO: Regular users on TS servers (just need pam_mkhomedir setup)
+#postgresql_objects_groups:
+#  - name: galaxy_team
+#    users:
+#      - name: nate
+
+postgresql_objects_databases:
+  - name: "{{ toolshed_dbname }}"
+    owner: "{{ toolshed_user }}"
+
+postgresql_objects_privileges:
+  #- database: "{{ toolshed_dbname }}"
+  #  objs: ALL_IN_SCHEMA
+  #  roles: galaxy_team
+  #  privs: SELECT
+  - database: "{{ toolshed_dbname }}"
+    objs: ALL_IN_SCHEMA
+    roles: "{{ toolshed_user }}"
+    privs: ALL
+  - database: "{{ toolshed_dbname }}"
+    objs: ALL_IN_SCHEMA
+    roles: "{{ toolshed_user }}"
+    privs: ALL
+    type: sequence
+
+
+## used by: galaxyproject.galaxy_toolshed
+galaxy_toolshed_venv_dir: "{{ galaxy_toolshed_root }}/venv"
+galaxy_toolshed_config_dir: "{{ galaxy_toolshed_root }}/config"
+galaxy_toolshed_config_style: yaml
+galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tool_shed.yml"
+galaxy_toolshed_mutable_config_dir: "{{ galaxy_toolshed_root }}/var"
+galaxy_toolshed_mutable_data_dir: "{{ galaxy_toolshed_root }}/var/data"
+
+
+## used by: galaxyproject.galaxy
+#pip_virtualenv_command: "{{ galaxy_shed_root }}/python/bin/virtualenv"
+galaxy_server_dir: "{{ galaxy_toolshed_server_dir }}"
+galaxy_venv_dir: "{{ galaxy_toolshed_venv_dir }}"
+galaxy_config_file: "{{ galaxy_toolshed_config_file }}" # to fetch the correct wheels - FIXME: can't find the `tool_shed` section in the YAML config
+galaxy_errordocs_dest: "{{ nginx_srv }}/{{ galaxy_toolshed_instance_hostname }}/error"

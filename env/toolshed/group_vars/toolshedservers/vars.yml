@@ -2,120 +2,41 @@
 
 # Tool Shed version
 galaxy_commit_id: f7a5dd9d44de4af7ac917678a0767448cb71953c
+# currently needed for client artifacts left in the source tree
+galaxy_force_checkout: yes
 
 
-# used only here and by the supervisor template
-toolshed_tmpdir: "{{ galaxy_toolshed_root }}/var/tmp"
-toolshedservers_group_directories:
-  - path: "{{ toolshed_tmpdir }}"
-    owner: "{{ toolshed_user }}"
+# used by: toolshedservers/common_vars.yml
+toolshed_backup_hour: 0
+toolshed_tmpwatch_hour: 1
+toolshed_dbname: galaxy_toolshed
 
 
-toolshedservers_group_crontabs:
-  - id: main_shed_backup
-    name: Main Toolshed Backup
-    user: shed
-    hour: 0
-    minute: 0
-    job: rsync -av --delete /srv/toolshed/main/var /srv/toolshed/main/log zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/mainshed && ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/sbin/zfs snapshot zones/westvleteren/backup/radegast/mainshed@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
-  - id: main_shed_clean_tmpdir
-    name: Clean Main Toolshed $TMPDIR
-    user: root
-    hour: 1
-    minute: 30
-    job: "/usr/sbin/tmpreaper --mtime --mtime-dir 5d '{{ toolshed_tmpdir }}'"
-
-
-## these vars are defined in vault.yml
-#
-# used by: galaxy_toolshed_config var
-galaxy_toolshed_config_admin_users: "{{ vault_galaxy_toolshed_config_admin_users }}"
-galaxy_toolshed_config_id_secret: "{{ vault_galaxy_toolshed_config_id_secret }}"
-galaxy_toolshed_config_sentry_dsn: "{{ vault_galaxy_toolshed_config_sentry_dsn }}"
-
-
-## used by: other vars in this vars file
-galaxy_toolshed_root: "/srv/toolshed/{{ galaxy_toolshed_instance_codename }}"
-galaxy_toolshed_server_dir: "{{ galaxy_toolshed_root }}/server"
-galaxy_toolshed_log_dir: "{{ galaxy_toolshed_root }}/log"
-
-
-## used by: galaxyproject.galaxy and usegalaxy_admin, the update play
-toolshed_user: shed
-toolshed_privileged_user: gxsrc
-galaxy_user: "{{ toolshed_user }}"
-galaxy_privileged_user: "{{ toolshed_privileged_user }}"
-# the only thing this is used for is setting the group on the errordocs destination directory
-galaxy_system_group: gxsrc
-
-galaxy_remote_users:
-    privsep: "{{ galaxy_privileged_user }}"
-    errdocs: "{{ toolshed_privileged_user }}"
-
-galaxy_become_users: {}
-
-
-## used by: supervisor
+## used by: other vars and various templates
 galaxy_toolshed_instance_codename: main
-toolshedservers_group_supervisor_configs:
-  - toolshed
-
-
 galaxy_toolshed_instance_hostname: toolshed.g2.bx.psu.edu
 
 
-## natefoo.postgresql_objects
-postgresql_objects_databases:
-  - name: galaxy_toolshed
-    owner: shed
-
-postgresql_objects_privileges:
-  - database: galaxy_toolshed
-    objs: ALL_IN_SCHEMA
-    roles: galaxy_team
-    privs: SELECT
-  - database: galaxy_toolshed
-    objs: ALL_IN_SCHEMA
-    roles: shed
-    privs: ALL
-  - database: galaxy_toolshed
-    objs: ALL_IN_SCHEMA
-    roles: shed
-    privs: ALL
-    type: sequence
-
-
-## used by: galaxyproject.galaxy_toolshed
-galaxy_toolshed_venv_dir: "{{ galaxy_toolshed_root }}/venv"
-galaxy_toolshed_config_dir: "{{ galaxy_toolshed_root }}/config"
-galaxy_toolshed_config_file: "{{ galaxy_toolshed_config_dir }}/tool_shed.ini"
-galaxy_toolshed_mutable_config_dir: "{{ galaxy_toolshed_root }}/var"
-galaxy_toolshed_mutable_data_dir: "{{ galaxy_toolshed_root }}/var/data"
-
-
 ## used by: galaxyproject.galaxy
-#pip_virtualenv_command: "{{ galaxy_shed_root }}/python/bin/virtualenv"
-galaxy_server_dir: "{{ galaxy_toolshed_server_dir }}"
-galaxy_venv_dir: "{{ galaxy_toolshed_venv_dir }}"
-galaxy_config_file: "{{ galaxy_toolshed_config_file }}" # to fetch the correct eggs
-
-galaxy_errordocs_dest: "{{ nginx_srv }}/{{ galaxy_toolshed_instance_hostname }}/error"
 galaxy_errordocs_server_name: "The Tool Shed"
 
 
-# tool_shed.ini contents
+# tool_shed.yml contents
 galaxy_toolshed_config:
   uwsgi:
-    socket: "{{ galaxy_toolshed_mutable_config_dir }}/uwsgi.sock"
-    stats: "127.0.0.1:9192"
+    module: galaxy.webapps.tool_shed.buildapp:uwsgi_app()
+    # bind a random socket
+    socket: 127.0.0.1:0
+    #socket: "{{ galaxy_toolshed_mutable_config_dir }}/uwsgi.sock"
+    # FIXME: this breaks zerg mode
+    #stats: "127.0.0.1:9192"
     processes: 4
     threads: 4
+    offload-threads: 2
     master: True
     logto: "{{ galaxy_toolshed_log_dir }}/uwsgi.log"
-    chmod-socket: 664
-    chown-socket: "shed:www-data"
     pythonpath: lib
-  "app:main":
+  tool_shed:
     # secrets
 
     id_secret: "{{ galaxy_toolshed_config_id_secret }}"

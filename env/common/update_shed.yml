@@ -1,9 +1,16 @@
 ---
 
+# FIXME: galaxy.dependencies.optional needs a way to specify config_section, installed psycopg2-binary, fluent-logger,
+# and raven into venv by hand
 - name: Tool Shed code, dependencies, manage static configs
   hosts: toolshedservers
-  remote_user: "{{ toolshed_privileged_user }}"
+  #remote_user: "{{ toolshed_privileged_user }}"
+  become: yes
+  become_user: "{{ toolshed_privileged_user }}"
   roles:
+    - role: galaxyproject.galaxy_toolshed
+      galaxy_toolshed_manage_static_setup: yes
+      galaxy_toolshed_manage_database: no
     - role: galaxyproject.galaxy
       galaxy_manage_clone: yes
       galaxy_manage_static_setup: no
@@ -12,13 +19,12 @@
       galaxy_fetch_dependencies: yes
       galaxy_manage_errordocs: yes
       galaxy_build_client: yes
-    - role: galaxyproject.galaxy_toolshed
-      galaxy_toolshed_manage_static_setup: yes
-      galaxy_toolshed_manage_database: no
 
 - name: Tool Shed database
   hosts: toolshedservers
-  remote_user: "{{ toolshed_user }}"
+  #remote_user: "{{ toolshed_user }}"
+  become: yes
+  become_user: "{{ toolshed_user }}"
   roles:
     - role: galaxyproject.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: no

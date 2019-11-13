@@ -1,5 +1,7 @@
 # generic stuff here
 
+testtoolshed.galaxyproject.org ansible_user=centos ansible_become=yes
+
 [sslservers]
 [sslservers:children]
 sslwebservers
@@ -17,17 +19,17 @@ toolshedwebservers
 [dbservers:children]
 toolsheddbservers
 
-[supervisorservers]
-[supervisorservers:children]
+[zergmodeservers]
+[zergmodeservers:children]
 toolshedservers
 
 # toolshed stuff here
 
 [toolshedservers]
-radegast.galaxyproject.org
+testtoolshed.galaxyproject.org
 
 [toolshedwebservers]
-radegast.galaxyproject.org
+testtoolshed.galaxyproject.org
 
 [toolsheddbservers]
-radegast.galaxyproject.org
+testtoolshed.galaxyproject.org

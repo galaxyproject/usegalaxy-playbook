@@ -1,0 +1,82 @@
+---
+
+- name: Create directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+  loop:
+    - "{{ zergmode_vassal_dir }}"
+    - "{{ zergmode_run_dir }}"
+
+- name: Install zerg pool vassal
+  copy:
+    content: |
+      ##
+      ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+      ##
+      uwsgi:
+        master: true
+        zerg-pool: {{ zergmode_pool_socket }}:{{ zergmode_uwsgi_socket }}
+    dest: "{{ zergmode_vassal_dir.path }}/pool.yml"
+
+- name: Install application vassal
+  copy:
+    content: |
+      ##
+      ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+      ##
+      uwsgi:
+        master-fifo: {{ zergmode_run_dir.path }}/zergling-new.fifo
+        master-fifo: {{ zergmode_run_dir.path }}/zergling-running.fifo
+        master-fifo: {{ zergmode_run_dir.path }}/zergling-old.fifo
+        zerg: {{ zergmode_pool_socket }}
+
+        if-exists: {{ zergmode_run_dir.path }}/zergling-running.fifo
+        hook-accepting1-once: writefifo:{{ zergmode_run_dir.path }}/zergling-running.fifo 2q
+        endif: null
+        hook-accepting1-once: spinningfifo:{{ zergmode_run_dir.path }}/zergling-new.fifo 1
+
+        chdir: {{ zergmode_app_dir }}
+        yaml: {{ zergmode_app_config }}
+    dest: "{{ zergmode_vassal_dir.path }}/zergling.yml"
+
+- name: Install systemd service unit
+  copy:
+    content: |
+      ##
+      ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+      ##
+
+      [Unit]
+      Description={{ zergmode_app_description }}
+      Documentation={{ zergmode_app_documentation }}
+      After=network.target
+
+      [Service]
+      Type=simple
+      User={{ zergmode_user }}
+      WorkingDirectory={{ zergmode_app_dir }}
+      {% for environ in zergmode_environment %}
+      Environment={{ environ }}
+      {% endfor %}
+      ExecStart={{ zergmode_uwsgi_path }} --emperor {{ zergmode_vassal_dir.path }} --emperor-wrapper {{ zergmode_uwsgi_path }}
+      ExecReload={{ zergmode_uwsgi_path }} --yaml {{ zergmode_vassal_dir.path }}/zergling.yml
+      KillMode=mixed
+      KillSignal=SIGINT
+
+      [Install]
+      WantedBy=multi-user.target
+    dest: /etc/systemd/system/{{ zergmode_service_name }}.service
+  notify:
+    - reload systemd
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Ensure zergmode service is started and enabled
+  service:
+    name: "{{ zergmode_service_name }}"
+    state: started
+    enabled: yes
+
