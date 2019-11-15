@@ -64,23 +64,24 @@ galaxy_become_users: {}
 ## used by: natefoo.postgresql_objects
 postgresql_objects_users:
   - name: "{{ toolshed_user }}"
-  #- name: nate
+  - name: nate
+  - name: marten
 
-# TODO: Regular users on TS servers (just need pam_mkhomedir setup)
-#postgresql_objects_groups:
-#  - name: galaxy_team
-#    users:
-#      - name: nate
+postgresql_objects_groups:
+  - name: galaxy_team
+    users:
+      - name: nate
+      - name: marten
 
 postgresql_objects_databases:
   - name: "{{ toolshed_dbname }}"
     owner: "{{ toolshed_user }}"
 
 postgresql_objects_privileges:
-  #- database: "{{ toolshed_dbname }}"
-  #  objs: ALL_IN_SCHEMA
-  #  roles: galaxy_team
-  #  privs: SELECT
+  - database: "{{ toolshed_dbname }}"
+    objs: ALL_IN_SCHEMA
+    roles: galaxy_team
+    privs: SELECT
   - database: "{{ toolshed_dbname }}"
     objs: ALL_IN_SCHEMA
     roles: "{{ toolshed_user }}"
