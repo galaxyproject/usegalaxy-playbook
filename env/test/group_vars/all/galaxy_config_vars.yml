@@ -227,15 +227,11 @@ galaxy_config_hash:
     - pythonpath: lib
     - module: galaxy.webapps.galaxy.buildapp:uwsgi_app_factory()
 
-    # zerg mode
-    # http://lists.unbit.it/pipermail/uwsgi/2014-October/007683.html
-    # this plugin was manually built into the test/main virtualenvs with:
-    #   {{ galaxy_venv_dir }}/bin/uwsgi --build-plugin spinningfifo.c
-    #   mkdir -p {{ galaxy_venv_dir }}/lib/uwsgi/plugins
-    #   mv spinningfifo_plugin.so {{ galaxy_venv_dir }}/lib/uwsgi/plugins
-    - plugins-dir: "{{ galaxy_venv_dir }}/lib/uwsgi/plugins"
-    - plugin: spinningfifo
+    # spinningfifo was added to uWSGI-core in 2.0.15
+    #- plugins-dir: "{{ galaxy_venv_dir }}/lib/uwsgi/plugins"
+    #- plugin: spinningfifo
 
+    # zerg mode
     - master-fifo:
       # fifo '0'
       - "{{ galaxy_mutable_data_dir }}/zerg-new.fifo"
@@ -247,8 +243,7 @@ galaxy_config_hash:
     # attach to zerg
     - zerg: "{{ galaxy_mutable_data_dir }}/zergpool.sock"
 
-    # we do not kill the old sleeping instance since supervisor is managing the start/stop
-    # force the currently running instance to became sleeping (slot 2) and place it in pause mode
+    # signal the currently running instance to release the running fifo and terminate
     - if-exists:
       - "{{ galaxy_mutable_data_dir }}/zerg-run.fifo"
       - hook-accepting1-once: writefifo:{{ galaxy_mutable_data_dir }}/zerg-run.fifo 2q
