@@ -30,7 +30,7 @@ galaxy_toolshed_config:
     #socket: "{{ galaxy_toolshed_mutable_config_dir }}/uwsgi.sock"
     # FIXME: this breaks zerg mode
     #stats: "127.0.0.1:9191"
-    processes: 2
+    processes: 1
     threads: 2
     offload-threads: 2
     master: True
