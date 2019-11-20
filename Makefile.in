@@ -1,0 +1,27 @@
+#
+# Basic usage:
+#   Run `update.yml` in env `<env>`:
+#     $ make <env>`
+#
+# Advanced usage:
+#   Run `<playbook>.yml` with `--tags=<TAGS>` and `--limit=<LIMIT>` in env `<env>`:
+#     $ make TAGS=<tag[,tag ...]> LIMIT=<host_or_group[,host_or_group ...]> <env>-<playbook>
+
+ifneq ($(strip $(TAGS)),)
+TAGS_ARG = "--tags=$(TAGS)"
+endif
+ifneq ($(strip $(LIMIT)),)
+LIMIT_ARG = "--limit=$(LIMIT)"
+endif
+PLAYBOOK := update
+
+# These targets are automatically generated
+## AUTOGEN TARGETS
+
+test main testtoolshed toolshed:
+	ansible-playbook -i env/$@/inventory env/$@/$(PLAYBOOK).yml $(TAGS_ARG) $(LIMIT_ARG)
+
+Makefile: Makefile.in
+	sed "s/^## AUTOGEN TARGETS/$$(bash ./.support/targets.sh)/" Makefile.in > Makefile
+
+.PHONY: test main testtoolshed toolshed
