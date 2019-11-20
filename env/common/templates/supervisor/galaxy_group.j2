@@ -19,9 +19,6 @@
 {%- if "galaxy_impersonate" in supervisor_configs %}
 {%- set ns.programs = ns.programs + ["galaxy_impersonate"] %}
 {%- endif %}
-{%- if "galaxy_reports" in supervisor_configs %}
-{%- set ns.programs = ns.programs + ["galaxy_reports"] %}
-{%- endif %}
 {%- if "galaxy_datamanager" in supervisor_configs %}
 {%- set ns.programs = ns.programs + ["galaxy_datamanager"] %}
 {%- endif %}

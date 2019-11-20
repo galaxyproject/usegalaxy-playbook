@@ -7,15 +7,6 @@ upstream impersonate_main {
     server galaxy-web-06.tacc.utexas.edu:9480;
 }
 
-#upstream reports_main {
-#    server galaxy-web-05.tacc.utexas.edu:18001;
-#    server galaxy-web-06.tacc.utexas.edu:18001;
-#}
-
-#upstream reports_test {
-#    server galaxy07.tacc.utexas.edu:18001;
-#}
-
 server {
     listen       *:80;
     server_name tacc-protected.galaxyproject.org;
@@ -35,16 +26,6 @@ server {
 
     root /srv/nginx/tacc-protected.galaxyproject.org/root;
 
-    #location /main/reports {
-    #    proxy_pass         http://reports_main;
-    #    proxy_redirect     off;
-    #    proxy_set_header   REMOTE_USER       $remote_user;
-    #    proxy_set_header   Host              $host;
-    #    proxy_set_header   X-Real-IP         $remote_addr;
-    #    proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
-    #    proxy_set_header   X-Forwarded-Proto $scheme;
-    #}
-
     location /main/impersonate {
         proxy_pass         http://impersonate_main;
         proxy_redirect     off;
@@ -53,16 +34,6 @@ server {
         proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header   X-Forwarded-Proto $scheme;
     }
-
-    #location /test/reports {
-    #    proxy_pass         http://reports_test;
-    #    proxy_redirect     off;
-    #    proxy_set_header   REMOTE_USER       $remote_user;
-    #    proxy_set_header   Host              $host;
-    #    proxy_set_header   X-Real-IP         $remote_addr;
-    #    proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
-    #    proxy_set_header   X-Forwarded-Proto $scheme;
-    #}
     {% for host, authkey in supervisord_http_auth.iteritems() %}
 
     location /{{ host }}/supervisor/ {

@@ -56,7 +56,6 @@ galaxyservers_group_supervisor_configs:
   - galaxy_dynamic_handler
   - galaxy_workflow_scheduler
   - galaxy_datamanager
-  #- galaxy_reports
   - galaxy_group
 
 galaxyservers_group_absent_supervisor_configs:
@@ -228,5 +227,3 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/job_conf.xml"
   - src: templates/galaxy/config/build_sites.yml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
-  - src: templates/galaxy/config/reports.ini.j2
-    dest: "{{ galaxy_config_dir }}/reports.ini"
