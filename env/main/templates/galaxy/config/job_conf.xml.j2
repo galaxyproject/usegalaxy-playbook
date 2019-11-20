@@ -23,7 +23,7 @@
         <expand macro="pulsar_plugin" id="bridges" />
         <expand macro="pulsar_plugin" id="bridges_nagios" />
     </plugins>
-    <handlers default="handlers">
+    <handlers default="handlers" assign_with="db-skip-locked" max_grab="8">
         <expand macro="normal_handler" hostid="3" id="0" />
         <expand macro="normal_handler" hostid="3" id="1" />
         <expand macro="multi_handler" hostid="3" id="2" />
