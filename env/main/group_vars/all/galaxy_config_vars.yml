@@ -167,23 +167,64 @@ base_app_main: &BASE_APP_MAIN
   # https://github.com/galaxyproject/usegalaxy-playbook/issues/211
   legacy_eager_objectstore_initialization: "True"
 
-# galaxy.ini contents
+# galaxy.yml contents
 galaxy_config_hash:
-  "app:main":
+  uwsgi:
+    # basic settings
+    - master: true
+    - processes: "{{ galaxy_uwsgi_processes | default(8) }}"
+    - threads: 4
+
+    # uwsgi performance/robustness features
+    - single-interpreter: true
+    - thunder-lock: true
+    - harakiri: 600
+    - buffer-size: 16384
+
+    # logging
+    - log-maxsize: 134217728
+    - log-master-bufsize: 15865856
+
+    # application
+    - pythonpath: lib
+    - module: galaxy.webapps.galaxy.buildapp:uwsgi_app_factory()
+
+    # zerg mode
+    - master-fifo:
+      # fifo '0'
+      - "{{ galaxy_mutable_data_dir }}/zerg-new.fifo"
+      # fifo '1'
+      - "{{ galaxy_mutable_data_dir }}/zerg-run.fifo"
+      # fifo '2'
+      - "{{ galaxy_mutable_data_dir }}/zerg-old.fifo"
+
+    # attach to zerg
+    - zerg: "{{ galaxy_mutable_data_dir }}/zergpool.sock"
+
+    # signal the currently running instance to release the running fifo and terminate
+    - if-exists:
+      - "{{ galaxy_mutable_data_dir }}/zerg-run.fifo"
+      - hook-accepting1-once: writefifo:{{ galaxy_mutable_data_dir }}/zerg-run.fifo 2q
+    # force this instance to became the running one (slot 1)
+    - hook-accepting1-once: spinningfifo:{{ galaxy_mutable_data_dir }}/zerg-new.fifo 1
+
+  galaxy:
     <<: *BASE_APP_MAIN
     allow_user_impersonation: "False"
     new_file_path: /galaxy-repl/main/scratch2
 
 impersonate_config_hash:
-  "server:galaxy_impersonate":
-    threadpool_workers: 5
-    host: 0.0.0.0
-    port: 9480
-  "filter:proxy-prefix":
-    use: "egg:PasteDeploy#prefix"
-    prefix: /main/impersonate
-  "app:main":
+  uwsgi:
+    - http: :9480
+    - master: true
+    - processes: 1
+    - threads: 2
+    - offload-threads: 2
+    - buffer-size: 16384
+    - pythonpath: lib
+    - mount: /main/impersonate=galaxy.webapps.galaxy.buildapp:uwsgi_app()
+    - manage-script-name: true
+  galaxy:
     <<: *BASE_APP_MAIN
     allow_user_impersonation: "True"
-    "filter-with": proxy-prefix
     new_file_path: /galaxy-repl/main/scratch2

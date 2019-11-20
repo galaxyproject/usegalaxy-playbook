@@ -7,6 +7,6 @@
 
 - name: Create Galaxy impersonation configuration file
   template:
-    src: templates/galaxy/config/galaxy.ini.j2
-    dest: "{{ galaxy_config_dir }}/impersonate.ini"
+    src: "{{ inventory_dir }}/../../roles/galaxyproject.galaxy/templates/galaxy.yml.j2"
+    dest: "{{ galaxy_config_dir }}/impersonate.yml"
     backup: yes

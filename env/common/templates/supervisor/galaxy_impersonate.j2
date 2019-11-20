@@ -3,7 +3,7 @@
 ;;
 
 [program:galaxy_impersonate]
-command         = /usr/bin/sg {{ galaxy_system_group }} '{{ galaxy_venv_dir }}/bin/python ./scripts/paster.py serve {{ galaxy_config_dir }}/impersonate.ini --server-name=%(program_name)s --pid-file={{ galaxy_root }}/var/run/%(program_name)s.pid'
+command         = /usr/bin/sg {{ galaxy_system_group }} '{{ galaxy_venv_dir }}/bin/uwsgi --yaml {{ galaxy_config_dir }}/impersonate.yml --logto {{ galaxy_log_dir }}/impersonate.log'
 directory       = {{ galaxy_server_dir }}
 process_name    = impersonate
 umask           = 022

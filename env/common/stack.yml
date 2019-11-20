@@ -118,3 +118,10 @@
   roles:
     - zergmode
   tags: zergmode
+
+- name: Manage supervisor and root tasks
+  hosts: supervisorservers
+  remote_user: root
+  roles:
+    - supervisor
+  tags: supervisor
