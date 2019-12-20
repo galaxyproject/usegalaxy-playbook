@@ -1550,4 +1550,35 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_dada2/data_manager/dada2_fetcher/0.0.1" id="dada2_fetcher" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_dada2/bf7b2c14cabc/data_manager_dada2/data_manager/dada2_fetcher.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_dada2/dada2_fetcher/0.0.8"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_dada2</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>bf7b2c14cabc</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_dada2/dada2_fetcher/0.0.8</id><version>0.0.8</version></tool><data_table name="dada2_taxonomy">
+            <output>
+                <column name="value" />
+                <column name="name" />
+                <column name="path" output_ref="out_file">
+                    <move relativize_symlinks="True" type="file">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">dada2/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/dada2/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+                <column name="taxlevels" />
+            </output>
+        </data_table>
+        <data_table name="dada2_species">
+            <output>
+                <column name="value" />
+                <column name="name" />
+                <column name="path" output_ref="out_file">
+                    <move relativize_symlinks="True" type="file">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">dada2/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/dada2/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
