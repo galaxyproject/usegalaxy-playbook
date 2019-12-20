@@ -193,6 +193,9 @@ base_app_main: &BASE_APP_MAIN
   #container_image_cache_path: /cvmfs/sandbox.galaxyproject.org
   #outputs_to_working_directory: "True"
 
+  mulled_resolution_cache_data_dir: "{{ galaxy_mutable_data_dir }}/mulled/data"
+  mulled_resolution_cache_lock_dir: "{{ galaxy_mutable_data_dir }}/mulled/lock"
+
   # For handler heartbeats
   use_heartbeat: "True"
   heartbeat_interval: "-1"
