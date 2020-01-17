@@ -155,6 +155,7 @@
     <tools>
         <!-- explicit local multi jobs -->
         <expand macro="multi_tool" id="gemini_load" />
+        <expand macro="multi_tool" id="dada2_assignTaxonomyAddspecies" />
         <expand macro="multi_tool" id="deeptools_bam_compare" />
         <expand macro="multi_tool" id="deeptools_bam_coverage" />
         <expand macro="multi_tool" id="deeptools_bam_pe_fragmentsize" />
@@ -212,7 +213,6 @@
         <tool id="align_families" destination="slurm_multi" handler="multi" resources="local_or_stampede"/>
         <tool id="rna_star" destination="slurm_multi" handler="multi"  resources="multi_or_bridges"/>
         <!-- 16GB tools -->
-        <tool id="dada2_assignTaxonomyAddspecies" destination="dynamic_normal_16gb_reserved"/>
         <!--
         <tool id="sailfish" destination="dynamic_normal_16gb_reserved"/>
         <tool id="bamtools" destination="dynamic_normal_16gb_reserved"/>
