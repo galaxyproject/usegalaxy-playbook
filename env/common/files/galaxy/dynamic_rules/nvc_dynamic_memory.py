@@ -31,7 +31,7 @@ def dynamic_nvc_dynamic_memory( app, tool, job ):
     params = job.get_param_values( app, ignore_errors=True )
     bams = filter( lambda x: x is not None and x.metadata.bam_index is not None, inp_data.values() )
     if bams:
-        bam_readers = map( lambda x: Reader( x.file_name, x.metadata.bam_index.file_name ), bams )
+        bam_readers = list( map( lambda x: Reader( x.file_name, x.metadata.bam_index.file_name ), bams ) )
         dtype = params.get( 'advanced_options', {} ).get( 'coverage_dtype', None )
         use_strand = string_as_bool( params.get( 'use_strand', False ) )
         array_bytes = guess_array_memory_usage( bam_readers, dtype, use_strand=use_strand )
