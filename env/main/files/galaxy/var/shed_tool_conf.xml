@@ -18235,6 +18235,24 @@
             <version>1.0.2</version>
         </tool>
     </section>
+    <section id="chip_seq" name="ChIP-seq" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/meme_psp_gen/ff2f53a32d0e/meme_psp_gen/meme_psp_gen.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/meme_psp_gen/meme_psp_gen/5.0.5.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>meme_psp_gen</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>ff2f53a32d0e</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/meme_psp_gen/meme_psp_gen/5.0.5.0</id>
+            <version>5.0.5.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/meme_chip/091a9d638d78/meme_chip/meme_chip.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/meme_chip/meme_chip/4.11.2+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>meme_chip</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>091a9d638d78</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/meme_chip/meme_chip/4.11.2+galaxy1</id>
+            <version>4.11.2+galaxy1</version>
+        </tool>
+    </section>
     <section id="collection_operations" name="Collection Operations" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/33151a38533a/collapse_collections/merge.xml" guid="toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/4.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -22419,7 +22437,7 @@
             <version>0.20.4</version>
         </tool>
     </section>
-    <section id="genome_diversity" name="Genome Diversity" version="">
+    <section id="evolution" name="Evolution" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/fasttree/ef46a404db96/fasttree/fasttree.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/fasttree/fasttree/2.1.10+galaxy1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
             <repository_name>fasttree</repository_name>
@@ -22427,6 +22445,14 @@
             <installed_changeset_revision>ef46a404db96</installed_changeset_revision>
             <id>toolshed.g2.bx.psu.edu/repos/iuc/fasttree/fasttree/2.1.10+galaxy1</id>
             <version>2.1.10+galaxy1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/iqtree/973a28be3b7f/iqtree/iqtree.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/1.5.5.3">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>iqtree</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>973a28be3b7f</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/iqtree/iqtree/1.5.5.3</id>
+            <version>1.5.5.3</version>
         </tool>
     </section>
     <section id="get_data" name="Get Data" version="">
@@ -22499,22 +22525,6 @@
             <version>2.7.2b1</version>
         </tool>
     </section>
-    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/meme_psp_gen/ff2f53a32d0e/meme_psp_gen/meme_psp_gen.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/meme_psp_gen/meme_psp_gen/5.0.5.0">
-        <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>meme_psp_gen</repository_name>
-        <repository_owner>iuc</repository_owner>
-        <installed_changeset_revision>ff2f53a32d0e</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/iuc/meme_psp_gen/meme_psp_gen/5.0.5.0</id>
-        <version>5.0.5.0</version>
-    </tool>
-    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/meme_chip/091a9d638d78/meme_chip/meme_chip.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/meme_chip/meme_chip/4.11.2+galaxy1">
-        <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-        <repository_name>meme_chip</repository_name>
-        <repository_owner>iuc</repository_owner>
-        <installed_changeset_revision>091a9d638d78</installed_changeset_revision>
-        <id>toolshed.g2.bx.psu.edu/repos/iuc/meme_chip/meme_chip/4.11.2+galaxy1</id>
-        <version>4.11.2+galaxy1</version>
-    </tool>
     <section id="nanopore" name="Nanopore" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/645159bcee2d/nanoplot/nanoplot.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/nanoplot/nanoplot/1.25.0+galaxy1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -23173,6 +23183,346 @@
             <installed_changeset_revision>a0d092f27fdf</installed_changeset_revision>
             <id>toolshed.g2.bx.psu.edu/repos/iuc/bp_genbank2gff3/bp_genbank2gff3/1.0</id>
             <version>1.0</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/abricate/4efdca267d51/abricate/abricate.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/0.9.8">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>abricate</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>4efdca267d51</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate/0.9.8</id>
+            <version>0.9.8</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/abricate/4efdca267d51/abricate/abricate_list.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate_list/0.9.8">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>abricate</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>4efdca267d51</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/abricate/abricate_list/0.9.8</id>
+            <version>0.9.8</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/augustus/ca6d970d931c/augustus/augustus.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/3.3.3">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>augustus</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>ca6d970d931c</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/3.3.3</id>
+            <version>3.3.3</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/6519ebe25019/augustus_training/augustus_training.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/3.3.3">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>augustus_training</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>6519ebe25019</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/3.3.3</id>
+            <version>3.3.3</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/blastxml_to_gapped_gff3/561e827baa5f/blastxml_to_gapped_gff3/blastxml_to_gapped_gff3.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/blastxml_to_gapped_gff3/blastxml_to_gapped_gff3/1.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>blastxml_to_gapped_gff3</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>561e827baa5f</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/blastxml_to_gapped_gff3/blastxml_to_gapped_gff3/1.1</id>
+            <version>1.1</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/busco/1e62c28ba91d/busco/busco.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.0.2+galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>busco</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>1e62c28ba91d</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/3.0.2+galaxy2</id>
+            <version>3.0.2+galaxy2</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/exonerate/b03ae2ba8688/exonerate/exonerate.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/2.4.0+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>exonerate</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>b03ae2ba8688</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/exonerate/exonerate/2.4.0+galaxy1</id>
+            <version>2.4.0+galaxy1</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/fargene/239ce9f24386/fargene/fargene.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/fargene/fargene/0.1+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>fargene</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>239ce9f24386</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/fargene/fargene/0.1+galaxy1</id>
+            <version>0.1+galaxy1</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/fgsea/17eb1e0d711f/fgsea/fgsea.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/fgsea/fgsea/1.8.0+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>fgsea</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>17eb1e0d711f</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/fgsea/fgsea/1.8.0+galaxy1</id>
+            <version>1.8.0+galaxy1</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/goslimmer/de3e053bd6a5/goslimmer/goslimmer.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/goslimmer/goslimmer/1.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>goslimmer</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>de3e053bd6a5</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/goslimmer/goslimmer/1.0.1</id>
+            <version>1.0.1</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/goenrichment/2c7c9646ccf0/goenrichment/goenrichment.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/goenrichment/goenrichment/2.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>goenrichment</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2c7c9646ccf0</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/goenrichment/goenrichment/2.0.1</id>
+            <version>2.0.1</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_snpense/74385d563652/gprofiler_snpense/gprofiler_snpense.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_snpense/gprofiler_snpense/0.1.7+galaxy11">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>gprofiler_snpense</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>74385d563652</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_snpense/gprofiler_snpense/0.1.7+galaxy11</id>
+            <version>0.1.7+galaxy11</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_gost/bf39cdd007f5/gprofiler_gost/gprofiler_gost.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_gost/gprofiler_gost/0.1.7+galaxy11">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>gprofiler_gost</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>bf39cdd007f5</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_gost/gprofiler_gost/0.1.7+galaxy11</id>
+            <version>0.1.7+galaxy11</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_random/7d18814397a7/gprofiler_random/gprofiler_random.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_random/gprofiler_random/0.1.7+galaxy11">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>gprofiler_random</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>7d18814397a7</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_random/gprofiler_random/0.1.7+galaxy11</id>
+            <version>0.1.7+galaxy11</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_convert/8ee097f1763d/gprofiler_convert/gprofiler_convert.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_convert/gprofiler_convert/0.1.7+galaxy11">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>gprofiler_convert</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>8ee097f1763d</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_convert/gprofiler_convert/0.1.7+galaxy11</id>
+            <version>0.1.7+galaxy11</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_orth/727e7e114f9d/gprofiler_orth/gprofiler_orth.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_orth/gprofiler_orth/0.1.7+galaxy11">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>gprofiler_orth</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>727e7e114f9d</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_orth/gprofiler_orth/0.1.7+galaxy11</id>
+            <version>0.1.7+galaxy11</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/gubbins/637ec5d5368c/gubbins/gubbins.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/0.1.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>gubbins</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>637ec5d5368c</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/gubbins/gubbins/0.1.0</id>
+            <version>0.1.0</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/8cffbd184762/jcvi_gff_stats/jcvi_gff_stats.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/0.8.4">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>jcvi_gff_stats</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>8cffbd184762</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/0.8.4</id>
+            <version>0.8.4</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/kobas/20f1b45dea63/kobas/kobas_annotate.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/kobas/kobas_annotate/2.1.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>kobas</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>20f1b45dea63</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/kobas/kobas_annotate/2.1.1</id>
+            <version>2.1.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/kobas/20f1b45dea63/kobas/kobas_identify.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/kobas/kobas_identify/2.1.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>kobas</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>20f1b45dea63</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/kobas/kobas_identify/2.1.1</id>
+            <version>2.1.1</version>
+        </tool>
+    </section>
+    <section id="graph_display_data" name="Graph/Display Data" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/edb534491f92/jbrowse/jbrowse.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/1.16.5+galaxy7">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>jbrowse</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>edb534491f92</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/1.16.5+galaxy7</id>
+            <version>1.16.5+galaxy7</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/edb534491f92/jbrowse/jbrowse-fromdir.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse_to_standalone/1.16.5+galaxy7">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>jbrowse</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>edb534491f92</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse_to_standalone/1.16.5+galaxy7</id>
+            <version>1.16.5+galaxy7</version>
+        </tool>
+    </section>
+    <section id="variant_calling" name="Variant Calling" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/74aebe30fb52/snpeff/snpEff_create_db.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_build_gb/4.3+T.galaxy4">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpeff</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>74aebe30fb52</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_build_gb/4.3+T.galaxy4</id>
+            <version>4.3+T.galaxy4</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/74aebe30fb52/snpeff/snpEff.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.3+T.galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpeff</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>74aebe30fb52</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.3+T.galaxy1</id>
+            <version>4.3+T.galaxy1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/74aebe30fb52/snpeff/snpEff_download.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/4.3+T.galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpeff</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>74aebe30fb52</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/4.3+T.galaxy2</id>
+            <version>4.3+T.galaxy2</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/74aebe30fb52/snpeff/snpeff_get_chr_names.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/4.3+T.galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpeff</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>74aebe30fb52</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/4.3+T.galaxy2</id>
+            <version>4.3+T.galaxy2</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/74aebe30fb52/snpeff/snpEff_databases.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_databases/4.3+T.galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpeff</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>74aebe30fb52</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_databases/4.3+T.galaxy2</id>
+            <version>4.3+T.galaxy2</version>
+        </tool>
+    </section>
+    <section id="variant_calling" name="Variant Calling" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snippy/3fe8ef358d66/snippy/snippy-core.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/4.4.5+galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snippy</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>3fe8ef358d66</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/4.4.5+galaxy2</id>
+            <version>4.4.5+galaxy2</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snippy/3fe8ef358d66/snippy/snippy_clean_full_aln.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_clean_full_aln/4.4.5+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snippy</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>3fe8ef358d66</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_clean_full_aln/4.4.5+galaxy0</id>
+            <version>4.4.5+galaxy0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snippy/3fe8ef358d66/snippy/snippy.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/4.4.5+galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snippy</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>3fe8ef358d66</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/4.4.5+galaxy2</id>
+            <version>4.4.5+galaxy2</version>
+        </tool>
+    </section>
+    <section id="variant_calling" name="Variant Calling" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/fdba1586551d/lofreq_filter/lofreq_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/lofreq_filter/2.1.3.1+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>lofreq_filter</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>fdba1586551d</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/lofreq_filter/2.1.3.1+galaxy1</id>
+            <version>2.1.3.1+galaxy1</version>
+        </tool>
+    </section>
+    <section id="variant_calling" name="Variant Calling" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/ecd80c7c3886/lofreq_viterbi/lofreq_viterbi.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/lofreq_viterbi/2.1.3.1+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>lofreq_viterbi</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>ecd80c7c3886</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/lofreq_viterbi/2.1.3.1+galaxy1</id>
+            <version>2.1.3.1+galaxy1</version>
+        </tool>
+    </section>
+    <section id="variant_calling" name="Variant Calling" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/varscan_somatic/a57606054bd7/varscan_somatic/varscan_somatic.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/varscan_somatic/varscan_somatic/2.4.3.6">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>varscan_somatic</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>a57606054bd7</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/varscan_somatic/varscan_somatic/2.4.3.6</id>
+            <version>2.4.3.6</version>
+        </tool>
+    </section>
+    <section id="assembly" name="Assembly" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/miniasm/2dcd07f40204/miniasm/miniasm.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/miniasm/miniasm/0.3+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>miniasm</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2dcd07f40204</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/miniasm/miniasm/0.3+galaxy0</id>
+            <version>0.3+galaxy0</version>
+        </tool>
+    </section>
+    <section id="assembly" name="Assembly" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bandage/b2860df42e16/bandage/bandage_info.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/0.8.1+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>bandage</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>b2860df42e16</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/0.8.1+galaxy1</id>
+            <version>0.8.1+galaxy1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bandage/b2860df42e16/bandage/bandage_image.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/0.8.1+galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>bandage</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>b2860df42e16</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/0.8.1+galaxy2</id>
+            <version>0.8.1+galaxy2</version>
         </tool>
     </section>
 </toolbox>
