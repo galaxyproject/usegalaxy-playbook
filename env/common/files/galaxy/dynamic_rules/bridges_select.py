@@ -91,7 +91,7 @@ def dynamic_bridges_select( app, tool, job, user_email ):
                     mem = 960 * 1024 # 20 * 48 GB
                     walltime = '96:00:00'
 
-        elif tool_id == 'unicycler':
+        elif tool_id in ('unicycler', 'spades'):
             # SPAdes uses at most 250GB
             mem = 288 * 1024
             walltime = '48:00:00'
