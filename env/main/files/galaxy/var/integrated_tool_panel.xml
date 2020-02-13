@@ -2121,6 +2121,64 @@
 
     <section id="rna_seq" name="RNA-seq" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/tximport/tximport/0.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinotate/trinotate/3.1.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinity_filter_low_expr_transcripts/trinity_filter_low_expr_transcripts/2.8.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/2.8.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinity_contig_exn50_statistic/trinity_contig_exn50_statistic/2.8.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinity_abundance_estimates_to_matrix/trinity_abundance_estimates_to_matrix/2.8.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/2.8.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinity_super_transcripts/trinity_super_transcripts/2.8.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinity_run_de_analysis/trinity_run_de_analysis/2.8.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transdecoder/transdecoder/3.0.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/slamdunk/slamdunk/0.4.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/slamdunk/alleyoop/0.4.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/seurat/seurat/3.1.2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/scpipe/scpipe/1.0.0+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/ruvseq/ruvseq/1.16.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/qualimap_counts/qualimap_counts/2.2.2d" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/qualimap_rnaseq/qualimap_rnaseq/2.2.2d+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/pizzly/pizzly/0.37.3.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/masigpro/masigpro/1.49.3.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/idr/idr/2.0.3" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/heinz/heinz_visualization/0.1.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/heinz/heinz_bum/1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/heinz/heinz/1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/heinz/heinz_scoring/1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/feelnc/feelnc/0.1.1.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/1.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/deg_annotate/deg_annotate/1.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/crosscontamination_barcode_filter/crosscontamination_barcode_filter/0.3" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.7.2b" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.5" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.6" />
@@ -4659,37 +4717,53 @@
 
     </section>
 
-    <section id="transit" name="TRANSIT" version="">
+    <label id="miscellaneous_tools_label" text="Miscellaneous Tools" version="" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_resampling/transit_resampling/3.0.1+galaxy2" />
+    <section id="transposon_insertion_sequencing" name="Transposon Insertion Sequencing" version="">
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_hmm/transit_hmm/3.0.1+galaxy2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/biotradis/bacteria_tradis/1.4.5+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/biotradis/tradis_essentiality/1.4.5+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/biotradis/tradis_gene_insert_sites/1.4.5+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/gff_to_prot/gff_to_prot/3.0.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_resampling/transit_resampling/3.0.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_hmm/transit_hmm/3.0.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_gumbel/transit_gumbel/3.0.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_tn5gaps/transit_tn5gaps/3.0.2+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_gumbel/transit_gumbel/3.0.1+galaxy2" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_tn5gaps/transit_tn5gaps/3.0.1+galaxy2" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_hmm/transit_hmm/3.0.1+galaxy2" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_resampling/transit_resampling/3.0.1+galaxy1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_hmm/transit_hmm/3.0.1+galaxy1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_resampling/transit_resampling/3.0.1+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_gumbel/transit_gumbel/3.0.1+galaxy1" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_hmm/transit_hmm/2.5.2+galaxy1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_hmm/transit_hmm/3.0.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_resampling/transit_resampling/3.0.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_tn5gaps/transit_tn5gaps/3.0.1+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_gumbel/transit_gumbel/2.5.2+galaxy1" />
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/gff_to_prot/gff_to_prot/1.0.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_resampling/transit_resampling/2.3.3+galaxy1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_hmm/transit_hmm/2.3.3+galaxy1" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_hmm/transit_hmm/2.5.2+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_gumbel/transit_gumbel/2.3.3+galaxy1" />
 
-    </section>
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_hmm/transit_hmm/2.3.3+galaxy1" />
 
-    <label id="miscellaneous_tools_label" text="Miscellaneous Tools" version="" />
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/transit_resampling/transit_resampling/2.3.3+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/gff_to_prot/gff_to_prot/1.0.0" />
+
+    </section>
 
     <section id="genome_diversity" name="Genome Diversity" version="">
 
