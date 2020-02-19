@@ -62,7 +62,12 @@ def dynamic_bridges_select( app, tool, job, user_email ):
         walltime = '24:00:00'
 
         if tool_id in ('trinity_psc', 'trinity'):
-            infile = inp_data.get('left_input', None) or inp_data.get('input', None)
+            infile = None
+            if tool_id == 'trinity_psc':
+                infile = inp_data.get('left_input') or inp_data.get('input')
+            elif tool_id == 'trinity':
+                infile = inp_data.get('pool|left_input') or inp_data.get('pool|input')
+
             if infile is None:
                 log.error('Trinity submitted without inputs, failing')
                 raise JobMappingException( FAILURE_MESSAGE )
