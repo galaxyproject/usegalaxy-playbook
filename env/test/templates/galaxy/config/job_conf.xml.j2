@@ -77,6 +77,10 @@
         <expand macro="slurm_reserved_destination" dest="normal_32gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=30720" java_mem="30g" />
         <expand macro="slurm_reserved_destination" dest="normal_64gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=61440" java_mem="60g" />
         <expand macro="slurm_reserved_destination" dest="multi" partition="multi" native_specification="--cpus-per-task=6 --time=36:00:00" java_mem="30g" />
+        <destination id="slurm_multi_mpi" runner="slurm">
+            <param id="nativeSpecification">--clusters=roundup --partition=multi --nodes=1 --cpus-per-task=1 --ntasks=6 --time=36:00:00</param>
+            <!-- <expand macro="dest_local_env" java_mem="30g" /> -->
+        </destination>
 
         <!-- singularity test destinations -->
         <destination id="slurm_singularity" runner="slurm">
@@ -118,6 +122,30 @@
         <!-- stampede destinations -->
         <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --cpus-per-task=16 --time=48:00:00 --account=TG-MCB140147" />
         <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --cpus-per-task=16 --time=00:30:00 --account=TG-MCB140147" />
+        {#
+        <expand macro="stampede_destination" id="mpi" native_specification="--partition=normal --nodes=1 --ntasks=32 --time=24:00:00 --account=TG-MCB140147" />
+        #}
+        <destination id="stampede_mpi" runner="pulsar_stampede">
+            <param id="remote_metadata">true</param>
+            {#
+            <param id="submit_native_specification">--partition=skx-dev --nodes=1 --ntasks=48 --time=02:00:00 --account=TG-MCB140147</param>
+            #}
+            <param id="submit_native_specification">--partition=development --nodes=1 --ntasks=128 --time=02:00:00 --account=TG-MCB140147</param>
+            <!--
+            <env id="GALAXY_MPIRUN">ibrun</env>
+            -->
+            <expand macro="dest_pulsar_common_params" />
+            <param id="jobs_directory">/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/</param>
+            <param id="remote_property_galaxy_home">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
+            <env exec="eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`" />
+            <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />"
+            <!-- Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -->
+            <env exec="echo GALAXY_SLOTS is $GALAXY_SLOTS" />"
+            <!--
+            <env id="PATH">/work/galaxy/test/pulsar/venv/bin:/opt/apps/intel18/impi/18.0.2/bin:/opt/intel/compilers_and_libraries_2018.2.199/linux/mpi/intel64/bin:/opt/intel/compilers_and_libraries_2018.2.199/linux/bin/intel64:/usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/opt/dell/srvadmin/bin</env>
+            -->
+        </destination>
         <expand macro="stampede_nagios_destination" />
 
         <!-- bridges destinations -->
@@ -169,6 +197,10 @@
         <expand macro="multi_tool" id="deeptools_plot_fingerprint" />
         <expand macro="multi_tool" id="kraken" />
         <expand macro="multi_tool" id="ideas" />
+        <tool id="hyphy_absrel" destination="slurm_multi_mpi" handler="multi" />
+        <tool id="hyphy_fel" destination="slurm_multi_mpi" handler="multi" />
+        <!-- <tool id="hyphy_gard" destination="slurm_multi_mpi" handler="multi" /> -->
+        <tool id="hyphy_meme" destination="slurm_multi_mpi" handler="multi" />
         <!-- resubmit to stampede jobs -->
         <expand macro="stampede_resubmit_tool" id="bwa" />
         <expand macro="stampede_resubmit_tool" id="bwa_mem" />
@@ -192,6 +224,7 @@
              <expand macro="stampede_tool" id="lastz_wrapper_2" /> -->
         <expand macro="stampede_tool" id="bwa_color_wrapper" />
         <expand macro="stampede_tool" id="bowtie_color_wrapper" />
+        <tool id="hyphy_gard" destination="stampede_mpi" handler="multi" />
         <!-- bridges jobs -->
         <expand macro="bridges_tool" id="trinity_psc" />
         <expand macro="bridges_tool" id="trinity" />
@@ -361,6 +394,7 @@
             <destination id="stampede_@ID@" runner="pulsar_stampede">
                 <param id="remote_metadata">true</param>
                 <param id="submit_native_specification">@NATIVE_SPECIFICATION@</param>
+                <env id="GALAXY_MPIRUN">ibrun</env>
                 <expand macro="dest_pulsar_common_params" />
                 <expand macro="dest_pulsar_stampede_params" />
             </destination>
