@@ -331,6 +331,26 @@
 
     <section id="fasta_fastq" name="FASTA/FASTQ" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/fastq_combiner/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_filter/fastq_filter/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/fastq_manipulation/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_masker_by_quality/fastq_masker_by_quality/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/1.2.0.1+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/2.0.1.1+galaxy0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_artifacts_filter/cshl_fastx_artifacts_filter/1.0.1+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/cshl_fastx_renamer/0.0.14+galaxy1" />
@@ -508,6 +528,8 @@
     </section>
 
     <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.1.5" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/prinseq/prinseq/0.20.4" />
 
@@ -1540,6 +1562,12 @@
     </section>
 
     <section id="convert_formats" name="Convert Formats" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_tabular/fastq_to_tabular/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.1.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fastq/tabular_to_fastq/1.1.5" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.1" />
 
@@ -3573,6 +3601,8 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SortSam/2.18.2.1" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectRnaSeqMetrics/2.18.2.2" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_RevertSam/2.18.2.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FixMateInformation/2.18.2.1" />
@@ -3588,6 +3618,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicatesWithMateCigar/2.18.2.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CleanSam/2.18.2.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/2.18.2.2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/2.18.2.1" />
 
@@ -4512,6 +4544,32 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/0.2.01" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_rpsblast_wrapper/0.2.01" />
+
+    </section>
+
+    <section id="hyphy" name="HyPhy" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_bgm/hyphy_bgm/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_busted/hyphy_busted/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fade/hyphy_fade/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fel/hyphy_fel/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fubar/hyphy_fubar/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/hyphy_gard/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_meme/hyphy_meme/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_relax/hyphy_relax/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_slac/hyphy_slac/2.5.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_sm19/hyphy_sm19/2.5.4+galaxy0" />
 
     </section>
 
