@@ -83,6 +83,20 @@
         <!-- stampede destinations -->
         <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --cpus-per-task=16 --time=48:00:00 --account=TG-MCB140147" />
         <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --cpus-per-task=16 --time=00:30:00 --account=TG-MCB140147" />
+        <destination id="stampede_mpi" runner="pulsar_stampede">
+            <param id="remote_metadata">true</param>
+            {#
+            <param id="submit_native_specification">--partition=development --nodes=1 --ntasks=128 --time=02:00:00 --account=TG-MCB140147</param>
+            #}
+            <param id="submit_native_specification">--partition=skx --nodes=1 --ntasks=48 --time=24:00:00 --account=TG-MCB140147</param>
+            <expand macro="dest_pulsar_common_params" />
+            <param id="jobs_directory">/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/</param>
+            <param id="remote_property_galaxy_home">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
+            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
+            <env exec="eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`" />
+            <!-- Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -->
+            <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />"
+        </destination>
         <expand macro="stampede_nagios_destination" />
 
         <!-- bridges destinations -->
@@ -134,7 +148,10 @@
         <expand macro="stampede_resubmit_tool" id="minimap2" />
         <tool id="hyphy_absrel" destination="slurm_multi_mpi" handler="multi" />
         <tool id="hyphy_fel" destination="slurm_multi_mpi" handler="multi" />
+        {#
         <tool id="hyphy_gard" destination="slurm_multi_mpi" handler="multi" />
+        #}
+        <tool id="hyphy_gard" destination="stampede_mpi" handler="multi" />
         <tool id="hyphy_meme" destination="slurm_multi_mpi" handler="multi" />
         <!-- explicit stampede jobs -->
         <expand macro="stampede_tool" id="megablast_wrapper" />
