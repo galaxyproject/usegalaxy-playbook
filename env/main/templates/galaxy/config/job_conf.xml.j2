@@ -49,6 +49,10 @@
         <expand macro="slurm_reserved_destination" dest="normal_32gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=30720" java_mem="30g" />
         <expand macro="slurm_reserved_destination" dest="normal_64gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=61440" java_mem="60g" />
         <expand macro="slurm_reserved_destination" dest="multi" partition="multi" native_specification="--cpus-per-task=6 --time=36:00:00" java_mem="30g" />
+        <destination id="slurm_multi_mpi" runner="slurm">
+            <param id="nativeSpecification">--clusters=roundup --partition=multi --nodes=1 --cpus-per-task=1 --ntasks=6 --time=36:00:00</param>
+            <!-- <expand macro="dest_local_env" java_mem="30g" /> -->
+        </destination>
 
         <!-- local destinations -->
         <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--cpus-per-task=2 --time=00:30:00 --mem-per-cpu=5120" java_mem="10g" />
@@ -128,6 +132,10 @@
         <expand macro="stampede_resubmit_tool" id="freebayes" />
         <expand macro="stampede_resubmit_tool" id="iqtree" />
         <expand macro="stampede_resubmit_tool" id="minimap2" />
+        <tool id="hyphy_absrel" destination="slurm_multi_mpi" handler="multi" />
+        <tool id="hyphy_fel" destination="slurm_multi_mpi" handler="multi" />
+        <tool id="hyphy_gard" destination="slurm_multi_mpi" handler="multi" />
+        <tool id="hyphy_meme" destination="slurm_multi_mpi" handler="multi" />
         <!-- explicit stampede jobs -->
         <expand macro="stampede_tool" id="megablast_wrapper" />
         <!-- new LASTZ wrapper is not multicore, but it may need more memory
