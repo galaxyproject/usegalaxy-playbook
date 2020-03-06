@@ -3,7 +3,7 @@
 ;;
 
 [program:galaxy_datamanager]
-command         = /usr/bin/sg {{ galaxy_system_group }} '{{ galaxy_datamanager_venv_dir }}/bin/uwsgi --yaml {{ galaxy_config_dir }}/datamanager.yml --logto {{ galaxy_log_dir }}/datamanager.log'
+command         = /usr/bin/sg {{ galaxy_system_group }} '{{ galaxy_datamanager_venv_dir }}/bin/uwsgi --yaml {{ galaxy_config_dir }}/datamanager.yml'
 directory       = {{ galaxy_server_dir }}
 process_name	= datamanager
 umask           = 022
