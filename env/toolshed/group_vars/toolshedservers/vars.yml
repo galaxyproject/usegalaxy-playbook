@@ -134,7 +134,7 @@ galaxy_toolshed_config:
     chmod-socket: 664
     chown-socket: "shed:www-data"
     pythonpath: lib
-    unique-cron: -1 -1 -1 -1 -1 python scripts/tool_shed/build_ts_whoosh_index.py -c config/tool_shed.yml --config-section tool_shed
+    unique-cron: -1 -1 -1 -1 -1 python scripts/tool_shed/build_ts_whoosh_index.py -c {{ galaxy_toolshed_config_file }} --config-section app:main
   "app:main":
     # secrets
 
