@@ -18,7 +18,10 @@ postgresql_objects_groups:
 
 
 # Tool Shed version
-galaxy_commit_id: 711e536cd566e71dba3d0d017ad675b53e9936da
+galaxy_commit_id: 7f2686c5c7a5afd898217565f1cee58996f9d285
+# currently needed for client artifacts left in the source tree
+galaxy_force_checkout: yes
+
 
 
 # used only here and by the supervisor template
@@ -49,7 +52,6 @@ toolshedservers_group_crontabs:
 galaxy_toolshed_config_admin_users: "{{ vault_galaxy_toolshed_config_admin_users }}"
 galaxy_toolshed_config_id_secret: "{{ vault_galaxy_toolshed_config_id_secret }}"
 galaxy_toolshed_config_sentry_dsn: "{{ vault_galaxy_toolshed_config_sentry_dsn }}"
-
 
 ## used by: other vars in this vars file
 galaxy_toolshed_root: "/srv/toolshed/{{ galaxy_toolshed_instance_codename }}"
@@ -132,6 +134,7 @@ galaxy_toolshed_config:
     chmod-socket: 664
     chown-socket: "shed:www-data"
     pythonpath: lib
+    cron: 0 * * * * python scripts/tool_shed/build_ts_whoosh_index.py -c config/tool_shed.yml --config-section tool_shed
   "app:main":
     # secrets
 
