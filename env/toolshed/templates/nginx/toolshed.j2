@@ -1,1 +1,50 @@
-../../../common/templates/nginx/toolshed.j2
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# Galaxy Tool Shed
+{% for codename, host in (('main', 'toolshed.g2.bx.psu.edu'), ('test', 'testtoolshed.g2.bx.psu.edu')) %}
+
+server {
+    listen       *:443 ssl;
+    server_name {{ host }};
+
+    # Enable HSTS (age is 180 days)
+    #add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
+
+    access_log  /var/log/nginx/{{ host }}.access.log;
+    error_log   /var/log/nginx/{{ host }}.error.log;
+
+    location / {
+        uwsgi_pass  unix:/srv/toolshed/{{ codename }}/var/uwsgi.sock;
+        uwsgi_param UWSGI_SCHEME    $scheme;
+        include     uwsgi_params;
+    }
+
+    location /static {
+        alias /srv/toolshed/{{ codename }}/server/static;
+        expires 24h;
+    }
+
+    location /static/style {
+        alias /srv/toolshed/{{ codename }}/server/static/style/blue;
+        expires 24h;
+    }
+
+    location /robots.txt {
+        alias /srv/toolshed/{{ codename }}/server/static/robots.txt;
+    }
+
+    location /favicon.ico {
+        alias /srv/toolshed/{{ codename }}/server/static/favicon.ico;
+    }
+
+    # error docs
+    error_page  502 503 504 /error/502/index.shtml;
+    error_page  413         /error/413/index.html;
+    location /error {
+        ssi on;
+        root {{ nginx_srv }}/{{ host }};
+    }
+}
+{% endfor %}

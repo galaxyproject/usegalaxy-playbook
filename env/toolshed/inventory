@@ -1,7 +1,5 @@
 # generic stuff here
 
-toolshed.galaxyproject.org ansible_user=centos ansible_become=yes ansible_host=129.114.17.108
-
 [sslservers]
 [sslservers:children]
 sslwebservers
@@ -19,17 +17,17 @@ toolshedwebservers
 [dbservers:children]
 toolsheddbservers
 
-[zergmodeservers]
-[zergmodeservers:children]
+[supervisorservers]
+[supervisorservers:children]
 toolshedservers
 
 # toolshed stuff here
 
 [toolshedservers]
-toolshed.galaxyproject.org
+radegast.galaxyproject.org
 
 [toolshedwebservers]
-toolshed.galaxyproject.org
+radegast.galaxyproject.org
 
 [toolsheddbservers]
-toolshed.galaxyproject.org
+radegast.galaxyproject.org

@@ -48,7 +48,9 @@
   tags: nginx
 
 - name: Tasks for SELinux and UNIX socket proxies
-  hosts: toolshedwebservers
+  # FIXME:
+  #hosts: toolshedwebservers
+  hosts: testtoolshed.galaxyproject.org
   remote_user: root
   tasks:
     - name: Add Tool Shed user to nginx group
@@ -111,6 +113,13 @@
   roles:
     - usegalaxy_swarmscale
   tags: galaxy,swarmscale
+
+- name: Manage supervisor and root tasks
+  hosts: supervisorservers
+  remote_user: root
+  roles:
+    - supervisor
+  tags: supervisor
 
 - name: Configure zerg mode
   hosts: zergmodeservers
