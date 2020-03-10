@@ -10,7 +10,7 @@ autostart       = true
 autorestart     = true
 startsecs       = 15
 user            = shed
-environment     = HOME="/home/shed",TMPDIR="{{ toolshed_tmpdir }}"
+environment     = HOME="/home/shed",TMPDIR="{{ toolshed_tmpdir }}",PATH="{{ galaxy_venv_dir }}/bin:%(ENV_PATH)s",VIRTUAL_ENV="{{ galaxy_venv_dir }}"
 numprocs        = 1
 stopsignal      = INT
 stdout_logfile  = /var/log/supervisord/{{ galaxy_toolshed_instance_codename }}_uwsgi.stdout.log
