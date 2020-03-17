@@ -149,9 +149,9 @@
         <tool id="hyphy_absrel" destination="slurm_multi_mpi" handler="multi" />
         <tool id="hyphy_fel" destination="slurm_multi_mpi" handler="multi" />
         {#
-        <tool id="hyphy_gard" destination="slurm_multi_mpi" handler="multi" />
-        #}
         <tool id="hyphy_gard" destination="stampede_mpi" handler="multi" />
+        #}
+        <tool id="hyphy_gard" destination="slurm_multi_mpi" handler="multi" />
         <tool id="hyphy_meme" destination="slurm_multi_mpi" handler="multi" />
         <!-- explicit stampede jobs -->
         <expand macro="stampede_tool" id="megablast_wrapper" />
