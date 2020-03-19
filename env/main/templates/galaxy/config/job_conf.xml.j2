@@ -83,21 +83,17 @@
         <!-- stampede destinations -->
         <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --cpus-per-task=16 --time=48:00:00 --account=TG-MCB140147" />
         <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --cpus-per-task=16 --time=00:30:00 --account=TG-MCB140147" />
-        <destination id="stampede_mpi" runner="pulsar_stampede">
-            <param id="remote_metadata">true</param>
-            {#
-            <param id="submit_native_specification">--partition=development --nodes=1 --ntasks=128 --time=02:00:00 --account=TG-MCB140147</param>
-            #}
-            <param id="submit_native_specification">--partition=skx-normal --nodes=1 --ntasks=48 --time=24:00:00 --account=TG-MCB140147</param>
-            <expand macro="dest_pulsar_common_params" />
-            <param id="jobs_directory">/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/</param>
-            <param id="remote_property_galaxy_home">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
-            <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
-            <env exec="eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`" />
-            <!-- Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -->
-            <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />"
-        </destination>
         <expand macro="stampede_nagios_destination" />
+
+        <!-- MPI destinations -->
+        <expand macro="dynamic_destination" dest="mpi" />
+        <!-- ntasks and time are set by the dynamic rule -->
+        <expand macro="slurm_destination" dest="mpi_multi" partition="multi" native_specification="" java_mem="4g" />
+        <expand macro="stampede_mpi_destination" id="normal" native_specification="--account=TG-MCB140147 --partition=normal --nodes=1" />
+        <expand macro="stampede_mpi_destination" id="skx_normal" native_specification="--account=TG-MCB140147 --partition=skx-normal --nodes=1" />
+        <expand macro="slurm_destination" dest="mpi_development" partition="normal" native_specification="" java_mem="4g" />
+        <expand macro="stampede_mpi_destination" id="development" native_specification="--account=TG-MCB140147 --partition=development --nodes=1" />
+        <expand macro="stampede_mpi_destination" id="skx_development" native_specification="--account=TG-MCB140147 --partition=skx-dev --nodes=1" />
 
         <!-- bridges destinations -->
         <!-- walltime and mem are set dynamically -->
@@ -146,13 +142,10 @@
         <expand macro="stampede_resubmit_tool" id="freebayes" />
         <expand macro="stampede_resubmit_tool" id="iqtree" />
         <expand macro="stampede_resubmit_tool" id="minimap2" />
-        <tool id="hyphy_absrel" destination="slurm_multi_mpi" handler="multi" />
-        <tool id="hyphy_fel" destination="slurm_multi_mpi" handler="multi" />
-        {#
-        <tool id="hyphy_gard" destination="stampede_mpi" handler="multi" />
-        #}
-        <tool id="hyphy_gard" destination="slurm_multi_mpi" handler="multi" />
-        <tool id="hyphy_meme" destination="slurm_multi_mpi" handler="multi" />
+        <tool id="hyphy_absrel" destination="dynamic_mpi" handler="multi" resources="mpi" />
+        <tool id="hyphy_fel" destination="dynamic_mpi" handler="multi" resources="mpi" />
+        <tool id="hyphy_gard" destination="dynamic_mpi" handler="multi" resources="mpi" />
+        <tool id="hyphy_meme" destination="dynamic_mpi" handler="multi" resources="mpi" />
         <!-- explicit stampede jobs -->
         <expand macro="stampede_tool" id="megablast_wrapper" />
         <!-- new LASTZ wrapper is not multicore, but it may need more memory
@@ -232,6 +225,7 @@
         <group id="multi_or_bridges">multi_bridges_compute_resource</group>
         <group id="stampede">stampede_compute_resource</group>
         <group id="bridges">bridges_compute_resource</group>
+        <group id="mpi">tacc_compute_resource_advanced,cores,time</group>
     </resources>
     <limits>
         <!--
@@ -264,7 +258,11 @@
         <limit type="destination_user_concurrent_jobs" id="jetstream">4</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="stampede_normal">50</limit>
+        <limit type="destination_total_concurrent_jobs" id="stampede_mpi_normal">20</limit>
+        <limit type="destination_total_concurrent_jobs" id="stampede_mpi_skx_normal">20</limit>
         <limit type="destination_total_concurrent_jobs" id="stampede_development">1</limit>
+        <limit type="destination_total_concurrent_jobs" id="stampede_mpi_development">1</limit>
+        <limit type="destination_total_concurrent_jobs" id="stampede_mpi_skx_development">1</limit>
         <!--
         <limit type="destination_total_concurrent_jobs" id="bridges_normal">10</limit>
         <limit type="destination_total_concurrent_jobs" id="bridges_development">1</limit>
@@ -346,6 +344,16 @@
                 <param id="submit_native_specification">@NATIVE_SPECIFICATION@</param>
                 <expand macro="dest_pulsar_common_params" />
                 <expand macro="dest_pulsar_stampede_params" />
+            </destination>
+        </xml>
+        <xml name="stampede_mpi_destination" tokens="id,native_specification">
+            <destination id="stampede_mpi_@ID@" runner="pulsar_stampede">
+                <param id="remote_metadata">true</param>
+                <param id="submit_native_specification">@NATIVE_SPECIFICATION@</param>
+                <expand macro="dest_pulsar_common_params" />
+                <expand macro="dest_pulsar_stampede_params" />
+                <!-- Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -->
+                <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />"
             </destination>
         </xml>
         <xml name="stampede_nagios_destination">

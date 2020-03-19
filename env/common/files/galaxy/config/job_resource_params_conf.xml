@@ -1,0 +1,44 @@
+<!--
+    This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+-->
+<parameters>
+    <param label="Compute Resource" name="tacc_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main/' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
+        <option value="slurm_multi">Galaxy cluster (default)</option>
+        <option value="stampede_normal">TACC Stampede2 (beta)</option>
+        <option value="slurm_multi_development">Galaxy cluster test/development</option>
+        <option value="stampede_development">TACC Stampede2 test/development (beta)</option>
+        <option value="jetstream_multi">Jetstream</option>
+    </param>
+    <param label="Compute Resource" name="multi_bridges_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
+        <option value="slurm_multi">Galaxy cluster (default)</option>
+        <option value="jetstream_multi">Jetstream</option>
+        <option value="bridges_normal">PSC Bridges</option>
+        <option value="slurm_multi_development">Galaxy cluster test/development</option>
+        <option value="pular_bridges_development">PSC Bridges test/development</option>
+    </param>
+    <param label="Compute Resource" name="stampede_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main/' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
+        <option value="stampede_normal">TACC Stampede2 (default)</option>
+        <option value="stampede_development">TACC Stampede2 test/development</option>
+    </param>
+    <param label="Compute Resource" name="bridges_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main/' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
+        <option value="bridges_normal">PSC Bridges (default)</option>
+        <option value="bridges_development">PSC Bridges test/development</option>
+    </param>
+    <param label="Job Destination" name="tacc_compute_resource_advanced" type="select" help="These options are for advanced usage, please consult &lt;a href='https://help.galaxyproject.org' target='_blank'&gt;Galaxy Help&lt;/a&gt; for assistance">
+        <option value="slurm_mpi_multi">Galaxy cluster (default)</option>
+        <option value="stampede_mpi_normal">TACC Stampede2 normal (KNL) partition</option>
+        <option value="stampede_mpi_skx_normal">TACC Stampede2 SKX partition</option>
+        <option value="slurm_mpi_multi_development">Galaxy cluster test/development</option>
+        <option value="stampede_mpi_development">TACC Stampede2 test/development (KNL) partition</option>
+        <option value="stampede_mpi_skx_development">TACC Stampede2 SKX test/development partition</option>
+    </param>
+    <param label="Cores" name="cores" type="integer" size="3" min="1" max="128" value="48" help="Number of MPI cores, max of 6 for Galaxy cluster, 272 (not recommended) for normal (KNL) Stampede2 partitions, 48 for SKX Stampede2 partitions, 1 for Galaxy cluster test partition." />
+    <param label="Time Limit" name="time" type="integer" size="3" min="1" max="48" value="12" help="Maximum job time in hours, ('walltime' value). Max of 24 for Galaxy cluster, 2 for test partitions. Shorter limit = runs sooner." />
+    <!-- Test-only -->
+    <param label="Team tool dev: CPUs (8 GB/CPU)" name="team_cpus" type="select">
+        <option value="4">4</option>
+        <option value="6">6</option>
+        <option value="8">8</option>
+        <option value="16">16</option>
+    </param>
+</parameters>
