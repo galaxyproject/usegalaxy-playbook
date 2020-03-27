@@ -1,6 +1,0 @@
-{% for manager in pulsar_job_managers %}
-[manager:{{ manager }}]
-{% for opt in pulsar_job_managers[manager] %}
-{{ opt }} = {{ pulsar_job_managers[manager][opt] }}
-{% endfor %}
-{% endfor %}

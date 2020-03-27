@@ -11,9 +11,8 @@ galaxy_instance_hostname: test.galaxyproject.org
 
 
 ## used by: galaxyproject.pulsar
-pulsar_pip_install: true
-#pulsar_git_repo: https://github.com/natefoo/pulsar.git
-pulsar_changeset_id: 2bfc784301c12634b6026113473767f1e3f4d017
+pulsar_privsep_user: xcgalaxy
+pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@2bfc784301c12634b6026113473767f1e3f4d017"
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_config_dir: "{{ pulsar_root }}/config"
 pulsar_optional_dependencies:
@@ -35,4 +34,7 @@ pulsar_optional_dependencies:
   - kombu
   - requests
   - poster
-  - psutil
+  #- psutil
+
+#pulsar_remote_users: {}
+#pulsar_become_users: {}

@@ -11,9 +11,8 @@ galaxy_instance_hostname: usegalaxy.org
 
 
 ## used by: galaxyproject.pulsar
-pulsar_pip_install: true
-# comment commit id to install the latest from PyPI
-pulsar_changeset_id: ff2208baf43f6afb9770316e474d15f69c9fd4f9
+pulsar_privsep_user: xcgalaxy
+pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@ff2208baf43f6afb9770316e474d15f69c9fd4f9"
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_config_dir: "{{ pulsar_root }}/config"
 pulsar_optional_dependencies:
@@ -28,6 +27,7 @@ pulsar_optional_dependencies:
   - kombu
   - requests
   - poster
-  - psutil
+  #- psutil
+
 # TODO: Pulsar doesn't need to run under uWSGI at all, just run webless. This is so it doesn't collide with Test on 8193.
 pulsar_port: 8194
