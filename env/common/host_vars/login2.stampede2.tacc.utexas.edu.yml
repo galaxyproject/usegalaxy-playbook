@@ -4,19 +4,45 @@
 #
 
 _stampede_work_root: "/work/galaxy/{{ galaxy_instance_codename }}"
+_stampede_scratch_root: "/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}"
 
 pulsar_root: "{{ _stampede_work_root }}/pulsar"
 galaxy_root: "{{ _stampede_work_root }}/galaxy"
 
+pulsar_dependencies_dir: "{{ _stampede_work_root }}/deps"
+pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
+pulsar_staging_dir: "{{ _stampede_scratch_root }}/staging"
+
 galaxy_user: xcgalaxy
 pip_virtualenv_command: "{{ _stampede_work_root }}/python/bin/virtualenv"
+pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_drmaa_library_path: "{{ _stampede_work_root }}/slurm-drmaa/lib/libdrmaa.so"
 
+pulsar_dependency_resolvers:
+  - name: tool_shed_packages
+  - name: galaxy_packages
+  - name: conda
+    args:
+      - name: auto_install
+        value: "true"
+      - name: auto_init
+        value: "true"
+
+pulsar_job_metrics_plugins:
+  - name: core
+  - name: cpuinfo
+    args:
+      - name: verbose
+        value: "true"
+  - name: meminfo
+  - name: uname
+  - name: cgroup
+
 pulsar_yaml_config:
-  staging_directory: "/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging"
-  persistence_directory: "{{ pulsar_root }}/var/persisted_data"
-  tool_dependency_dir: "{{ _stampede_work_root }}/deps"
+  staging_directory: "{{ pulsar_staging_dir }}"
+  persistence_directory: "{{ pulsar_persistence_dir }}"
+  tool_dependency_dir: "{{ pulsar_dependencies_dir }}"
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
   dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
@@ -51,7 +77,3 @@ pulsar_install_environments:
     LDFLAGS: "-L{{ _stampede_work_root }}/openssl/lib"
   pycurl:
     PYCURL_SSL_LIBRARY: "nss"
-
-host_files:
-  - src: files/pulsar/config/stampede_dependency_resolvers_conf.xml
-    dest: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
