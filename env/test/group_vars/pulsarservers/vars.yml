@@ -11,7 +11,6 @@ galaxy_instance_hostname: test.galaxyproject.org
 
 
 ## used by: galaxyproject.pulsar
-pulsar_privsep_user: xcgalaxy
 pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@2bfc784301c12634b6026113473767f1e3f4d017"
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_config_dir: "{{ pulsar_root }}/config"
@@ -35,6 +34,3 @@ pulsar_optional_dependencies:
   - requests
   - poster
   #- psutil
-
-#pulsar_remote_users: {}
-#pulsar_become_users: {}

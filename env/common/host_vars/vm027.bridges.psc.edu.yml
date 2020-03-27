@@ -14,6 +14,7 @@ pulsar_persistence_dir: "{{ pulsar_root }}/var"
 pulsar_staging_dir: "{{ _bridges_pylon5_root }}/staging"
 
 galaxy_user: xcgalaxy
+pulsar_privsep_user: "{{ galaxy_user }}"
 pip_virtualenv_command: "/home/xcgalaxy/virtualenv/bin/virtualenv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 

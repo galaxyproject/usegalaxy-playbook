@@ -3,20 +3,57 @@
 # WARNING: this is shared by both Test and Main
 #
 
+_jetstream_scratch_root: "/jetstream/scratch0/{{ galaxy_instance_codename }}"
+_jetstream_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
+
 pulsar_root: "/srv/pulsar/{{ galaxy_instance_codename }}"
 #galaxy_root: not required
 
 ## used by: galaxyproject.pulsar to set $GALAXY_HOME in local_env.sh
-galaxy_server_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy"
+galaxy_server_dir: "{{ _jetstream_galaxy_root }}"
+
+# Attempt to chown fails, let it create an empty dir instead
+#pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
+_pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
+pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
+pulsar_staging_dir: "{{ _jetstream_scratch_root }}/jobs"
 
 #galaxy_user: properly set in all.yml
+pulsar_privsep_user: "{{ galaxy_user }}"
+pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_drmaa_library_path: "/usr/lib64/libdrmaa.so"
 
+pulsar_dependency_resolvers:
+  - name: conda
+    args:
+      - name: prefix
+        value: "{{ _pulsar_dependencies_dir }}/_conda"
+  - name: conda
+    args:
+      - name: prefix
+        value: "{{ _jetstream_scratch_root }}/conda"
+      - name: auto_install
+        value: "true"
+      - name: auto_init
+        value: "true"
+  - name: tool_shed_packages
+  - name: galaxy_packages
+
+pulsar_job_metrics_plugins:
+  - name: core
+  - name: cpuinfo
+    args:
+      - name: verbose
+        value: "true"
+  - name: meminfo
+  - name: uname
+  - name: cgroup
+
 pulsar_yaml_config:
-  staging_directory: "/jetstream/scratch0/{{ galaxy_instance_codename }}/jobs"
-  persistence_directory: "{{ pulsar_root }}/var/persisted_data"
-  tool_dependency_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps"
+  staging_directory: "{{ pulsar_staging_dir }}"
+  persistence_directory: "{{ pulsar_persistence_dir }}"
+  tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
   dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
@@ -40,18 +77,14 @@ pulsar_yaml_config:
       postprocess_action_interval_step: 4
       postprocess_action_interval_max: 120
       min_polling_interval: 15
-      galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
-      galaxy_datatypes_config_file: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/config/datatypes_conf.xml.sample
+      galaxy_home: "{{ _jetstream_galaxy_root }}"
+      galaxy_datatypes_config_file: "{{ _jetstream_galaxy_root }}/config/datatypes_conf.xml.sample"
     jetstream_iu_nagios:
       type: queued_python
       min_polling_interval: 5
-      galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
-      galaxy_datatypes_config_file: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/config/datatypes_conf.xml.sample
+      galaxy_home: "{{ _jetstream_galaxy_root }}"
+      galaxy_datatypes_config_file: "{{ _jetstream_galaxy_root }}/config/datatypes_conf.xml.sample"
 
 pulsar_install_environments:
   pycurl:
     PYCURL_SSL_LIBRARY: "nss"
-
-host_templates:
-  - src: templates/pulsar/config/jetstream_dependency_resolvers_conf.xml.j2
-    dest: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
