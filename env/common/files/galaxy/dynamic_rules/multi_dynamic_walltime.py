@@ -364,7 +364,10 @@ def dynamic_local_stampede_select_dynamic_walltime(app, tool, job, user_email, r
 
 
 def dynamic_multi_bridges_select(app, tool, job, user_email, resource_params):
-    return __rule(app, tool, job, user_email, resource_params, 'multi_bridges_compute_resource')
+    #return __rule(app, tool, job, user_email, resource_params, 'multi_bridges_compute_resource')
+    destination_id = 'jetstream_iu_multi'
+    log.debug("(%s) dynamic_multi_bridges_select() returning '%s'", job.id, destination_id)
+    return destination_id
 
 
 def dynamic_stampede_select(app, tool, job, user_email, resource_params):
