@@ -15,12 +15,12 @@ VALID_DESTINATIONS = BRIDGES_DESTINATIONS
 RESOURCE_KEYS = ('bridges_compute_resource',)
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
-def dynamic_bridges_select( app, tool, job, user_email ):
-    destination_id = 'jetstream_iu_multi'
-    log.debug("(%s) dynamic_bridges_select() returning '%s'", job.id, destination_id)
-    return destination_id
+#def dynamic_bridges_select( app, tool, job, user_email ):
+#    destination_id = 'jetstream_iu_multi'
+#    log.debug("(%s) dynamic_bridges_select() returning '%s'", job.id, destination_id)
+#    return destination_id
 
-def _dynamic_bridges_select( app, tool, job, user_email ):
+def dynamic_bridges_select( app, tool, job, user_email ):
     destination = None
     tool_id = tool.id
     if '/' in tool.id:
