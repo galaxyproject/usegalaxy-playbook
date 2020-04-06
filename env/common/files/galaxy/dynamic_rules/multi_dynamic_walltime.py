@@ -49,6 +49,9 @@ RESOURCES = {
     'stampede_compute_resource': STAMPEDE_DESTINATIONS,
 }
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
+SCHEDULE_FAILURE_MESSAGE = 'An error occurred while trying to schedule this job. Please retry it and if it continues to fail, report it to an administrator using the bug icon'
+
+SLURM_TEST_PATTERN = re.compile(r" to start .* on nodes ([^\s]+)")
 
 RESERVED_USERS = (
     'outreach@galaxyproject.org',
@@ -302,10 +305,20 @@ def __rule(app, tool, job, user_email, resource_params, resource):
             assert p.returncode == 0, stderr
         except Exception:
             log.exception('Error running sbatch test')
-            raise JobMappingException('An error occurred while trying to schedule this job. Please retry it and if it continues to fail, report it to an administrator using the bug icon.')
+            raise JobMappingException(SCHEDULE_FAILURE_MESSAGE)
 
         # There is a race condition here, of course. But I don't have a better solution.
-        node = stderr.split()[-1]
+        # TODO: make functional
+        node = None
+        for line in stderr.splitlines():
+            match = re.search(SLURM_TEST_PATTERN, line)
+            if match:
+                node = match.group(1)
+                break
+        else:
+            log.error("Unable to parse test job output: %s", stderr)
+            raise JobMappingException(SCHEDULE_FAILURE_MESSAGE)
+
         for i, prefix in enumerate(JETSTREAM_DESTINATION_MAPS[test_destination_id]['cluster_prefixes']):
             if node.startswith(prefix):
                 # cluster = JETSTREAM_DESTINATION_MAPS[test_destination_id]['clusters'][i]
@@ -313,7 +326,7 @@ def __rule(app, tool, job, user_email, resource_params, resource):
                 break
         else:
             log.error("Could not determine the cluster of node '%s', clusters are: '%s'", node, clusters)
-            raise JobMappingException( 'An error occurred while trying to schedule this job. Please retry it and if it continues to fail, report it to an administrator using the bug icon.' )
+            raise JobMappingException(SCHEDULE_FAILURE_MESSAGE)
 
         destination_id = '%s_%s' % (destination_prefix, JETSTREAM_DESTINATION_MAPS[default_destination_id]['partition'])
         destination = app.job_config.get_destination(destination_id)
