@@ -67,6 +67,7 @@ TEAM_USERS = (
 )
 TEAM_DESTINATION = 'reserved_dynamic'
 
+'''
 JETSTREAM_DESTINATION_MAPS = {
     LOCAL_DESTINATION: {
         'clusters': ['jetstream-iu', 'jetstream-tacc', 'roundup'],
@@ -81,23 +82,22 @@ JETSTREAM_DESTINATION_MAPS = {
         'partition': 'multi',
     },
 }
-
 '''
+
 JETSTREAM_DESTINATION_MAPS = {
     LOCAL_DESTINATION: {
-        'clusters': ['jetstream-tacc', 'roundup'],
-        'cluster_prefixes': ['jetstream-tacc-large', 'roundup'],
-        'destination_prefixes': ['jetstream_tacc', 'slurm'],
+        'clusters': ['jetstream-iu', 'roundup'],
+        'cluster_prefixes': ['jetstream-iu-large', 'roundup'],
+        'destination_prefixes': ['jetstream_iu', 'slurm'],
         'partition': 'multi',
     },
     'jetstream_multi': {
-        'clusters': ['jetstream-tacc',],
-        'cluster_prefixes': ['jetstream-tacc-large',],
-        'destination_prefixes': ['jetstream_tacc',],
+        'clusters': ['jetstream-iu',],
+        'cluster_prefixes': ['jetstream-iu-large',],
+        'destination_prefixes': ['jetstream_iu',],
         'partition': 'multi',
     },
 }
-'''
 
 '''
 JETSTREAM_DESTINATION_MAPS = {
