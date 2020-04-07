@@ -81,8 +81,11 @@
         <expand macro="jetstream_destination" id="reserved" site="iu" native_specification="--partition=reserved --nodes=1 --time=36:00:00" />
 
         <!-- stampede destinations -->
-        <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --cpus-per-task=16 --time=48:00:00 --account=TG-MCB140147" />
-        <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --cpus-per-task=16 --time=00:30:00 --account=TG-MCB140147" />
+        <!-- memory_mb vals are node spec mem minus 4 GB -->
+        <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --ntasks=64 --time=48:00:00 --account=TG-MCB140147" memory_mb="94208" />
+        <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --ntasks=64 --time=00:30:00 --account=TG-MCB140147" memory_mb="94208" />
+        <expand macro="stampede_destination" id="skx_normal" native_specification="--partition=normal --nodes=1 --ntasks=48 --time=48:00:00 --account=TG-MCB140147" memory_mb="192512" />
+        <expand macro="stampede_destination" id="skx_development" native_specification="--partition=development --nodes=1 --ntasks=48 --time=00:30:00 --account=TG-MCB140147" memory_mb="192512" />
         <expand macro="stampede_nagios_destination" />
 
         <!-- MPI destinations -->
@@ -153,11 +156,19 @@
         <expand macro="stampede_tool" id="bwa_color_wrapper" />
         <expand macro="stampede_tool" id="bowtie_color_wrapper" />
         <!-- bridges jobs -->
+        {#
         <expand macro="bridges_tool" id="trinity_psc" />
         <expand macro="bridges_tool" id="trinity" />
         <expand macro="bridges_tool" id="spades" />
         <expand macro="bridges_tool" id="unicycler" />
         <expand macro="bridges_tool" id="star_fusion" />
+        #}
+        <expand macro="stampede_tool" id="trinity_psc" />
+        <expand macro="stampede_tool" id="trinity" />
+        <expand macro="stampede_tool" id="spades" />
+        <expand macro="stampede_tool" id="unicycler" />
+        <expand macro="stampede_tool" id="star_fusion" />
+        <expand macro="stampede_tool" id="rna_star" />
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
@@ -170,7 +181,9 @@
         -->
         <tool id="align_families" destination="slurm_multi_align_families" handler="multi_handlers"/>
         <!-- roundup multi/jetstream/bridges jobs -->
+        {#
         <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="multi_handlers"  resources="multi_or_bridges"/>
+        #}
         <!-- 16GB tools -->
         <tool id="join1" destination="dynamic_normal_16gb_reserved"/>
         <tool id="gops_join_1" destination="dynamic_normal_16gb_reserved"/>
@@ -249,7 +262,9 @@
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_64gb">2</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_multi">8</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_normal">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="stampede_skx_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_development">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="stampede_skx_development">1</limit>
         <!--
         <limit type="destination_user_concurrent_jobs" id="bridges_normal">1</limit>
         <limit type="destination_user_concurrent_jobs" id="bridges_development">1</limit>
@@ -257,9 +272,11 @@
         <limit type="destination_user_concurrent_jobs" id="jetstream">4</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="stampede_normal">50</limit>
+        <limit type="destination_total_concurrent_jobs" id="stampede_skx_normal">50</limit>
         <limit type="destination_total_concurrent_jobs" id="stampede_mpi_normal">20</limit>
         <limit type="destination_total_concurrent_jobs" id="stampede_mpi_skx_normal">20</limit>
         <limit type="destination_total_concurrent_jobs" id="stampede_development">1</limit>
+        <limit type="destination_total_concurrent_jobs" id="stampede_skx_development">1</limit>
         <limit type="destination_total_concurrent_jobs" id="stampede_mpi_development">1</limit>
         <limit type="destination_total_concurrent_jobs" id="stampede_mpi_skx_development">1</limit>
         <!--
@@ -337,12 +354,18 @@
                 <expand macro="dest_pulsar_jetstream_params" />
             </destination>
         </xml>
-        <xml name="stampede_destination" tokens="id,native_specification">
+        {# TODO: Now that we use --ntasks for regular (non-MPI) jobs, these destinations can be merged, but it will
+                 require changes to the mpi dynamic rule that I don't have time to make at the moment #}
+        <xml name="stampede_destination" tokens="id,native_specification,memory_mb">
             <destination id="stampede_@ID@" runner="pulsar_stampede">
                 <param id="remote_metadata">true</param>
                 <param id="submit_native_specification">@NATIVE_SPECIFICATION@</param>
                 <expand macro="dest_pulsar_common_params" />
                 <expand macro="dest_pulsar_stampede_params" />
+                <!-- Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -->
+                <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />
+                <!-- Mem=0 if the Slurm -mem param is not used, which is not allowed on Stampede2 -->
+                <env exec="GALAXY_MEMORY_MB=@MEMORY_MB@" />
             </destination>
         </xml>
         <xml name="stampede_mpi_destination" tokens="id,native_specification">
@@ -352,7 +375,7 @@
                 <expand macro="dest_pulsar_common_params" />
                 <expand macro="dest_pulsar_stampede_params" />
                 <!-- Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -->
-                <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />"
+                <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />
             </destination>
         </xml>
         <xml name="stampede_nagios_destination">
@@ -403,10 +426,10 @@
             <param id="use_remote_datatypes">true</param>
             <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy/config/datatypes_conf.xml.sample</param>
             <param id="jobs_directory">/jetstream/scratch0/{{ galaxy_instance_codename }}/jobs</param>
-            <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
             <!-- this doesn't work, set in supervisor environment instead
             <param id="remote_property_galaxy_virtual_env">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv</param>
             -->
+            <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <env id="PATH">/jetstream/scratch0/main/conda/envs/set_metadata@20171114/bin:$PATH</env>
             <expand macro="dest_tmp_env" />
@@ -415,10 +438,12 @@
             <param id="use_remote_datatypes">true</param>
             <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server/config/datatypes_conf.xml.sample</param>
             <param id="jobs_directory">/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/</param>
-            <param id="remote_property_galaxy_home">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
             <!-- this doesn't work, set in supervisor environment instead
             <param id="remote_property_galaxy_virtual_env">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/venv</param>
             -->
+            <!-- this used to work but doesn't now either, set in supervisor environment instead, however, the Pulsar
+                 client still requires it to be set when remote_metadata is enabled -->
+            <param id="remote_property_galaxy_home">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
             <env exec="eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`" />
         </xml>
@@ -426,10 +451,10 @@
             <param id="use_remote_datatypes">true</param>
             <param id="remote_property_galaxy_datatypes_config_file">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/server/config/datatypes_conf.xml.sample</param>
             <param id="jobs_directory">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/staging/</param>
-            <param id="remote_property_galaxy_home">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
-            <!-- this doesn't work, set in supervisor environment instead
+            <!-- see stampede comments
             <param id="remote_property_galaxy_virtual_env">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/venv</param>
             -->
+            <param id="remote_property_galaxy_home">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
             <!-- https://bugs.openjdk.java.net/browse/JDK-7085890 -->

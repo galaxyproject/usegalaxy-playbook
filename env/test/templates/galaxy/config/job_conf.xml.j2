@@ -220,12 +220,14 @@
         <expand macro="bridges_tool" id="spades" />
         <expand macro="bridges_tool" id="rnaspades" />
         <expand macro="bridges_tool" id="unicycler" />
+        <expand macro="bridges_tool" id="star_fusion" />
         #}
         <expand macro="stampede_tool" id="trinity_psc" />
         <expand macro="stampede_tool" id="trinity" />
         <expand macro="stampede_tool" id="spades" />
         <expand macro="stampede_tool" id="rnaspades" />
         <expand macro="stampede_tool" id="unicycler" />
+        <expand macro="stampede_tool" id="star_fusion" />
         <expand macro="stampede_tool" id="rna_star" />
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_multi_trackster">
@@ -405,9 +407,9 @@
                 <expand macro="dest_pulsar_common_params" />
                 <expand macro="dest_pulsar_stampede_params" />
                 <!-- Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -->
-                <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />"
+                <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />
                 <!-- Mem=0 if the Slurm -mem param is not used, which is not allowed on Stampede2 -->
-                <env exec="GALAXY_MEMORY_MB=@MEMORY_MB@" />"
+                <env exec="GALAXY_MEMORY_MB=@MEMORY_MB@" />
             </destination>
         </xml>
         <xml name="stampede_mpi_destination" tokens="id,native_specification">
@@ -417,7 +419,7 @@
                 <expand macro="dest_pulsar_common_params" />
                 <expand macro="dest_pulsar_stampede_params" />
                 <!-- Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -->
-                <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />"
+                <env exec="GALAXY_SLOTS=$SLURM_NTASKS" />
             </destination>
         </xml>
         <xml name="stampede_nagios_destination">
@@ -463,10 +465,10 @@
         </xml>
         <xml name="dest_pulsar_jetstream_params">
             <param id="jobs_directory">/jetstream/scratch0/{{ galaxy_instance_codename }}/jobs</param>
-            <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
             <!-- this doesn't work, set in supervisor environment instead
             <param id="remote_property_galaxy_virtual_env">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv</param>
             -->
+            <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml</param>
             <env id="PATH">/jetstream/scratch0/test/conda/envs/set_metadata@20171114/bin:$PATH</env>
             <expand macro="dest_tmp_env" />

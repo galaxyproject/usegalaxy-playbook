@@ -3,6 +3,23 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Tue Apr  7 18:12:05 EDT 2020
+
+Upgraded Conda and recreated Galaxy venv as Conda Python 3.6 for Test on login2.stampede2.tacc.utexas.edu with:
+
+```console
+$ /work/galaxy/test/deps/_conda/bin/conda install 'conda<4.8'
+$ /work/galaxy/test/deps/_conda/bin/conda create --override-channels --channel conda-forge --channel defaults --name _galaxy_ 'python=3.6' 'pip>=9' 'virtualenv>=16'
+$ mv /work/galaxy/test/galaxy/venv /work/galaxy/test/galaxy/venv-2.7
+$ /work/galaxy/test/deps/_conda/envs/_galaxy_/bin/virtualenv /work/galaxy/test/galaxy/venv
+```
+
+I also set $GALAXY_HOME in the (manually maintained) supervisor config for Pulsar on Stampede2 because the job_conf.xml
+param doesn't seem to work anymore (but the Pulsar client still requires it to be set if the remote metadata option is
+enabled).
+
+The same process was repeated for Main
+
 ### Wed Apr  3 12:32:07 EDT 2019
 
 Installed version 357 of various UCSC dependencies (mainly of converters and other built-in tools).
