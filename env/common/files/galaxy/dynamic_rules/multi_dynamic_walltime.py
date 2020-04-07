@@ -383,5 +383,6 @@ def dynamic_multi_bridges_select(app, tool, job, user_email, resource_params):
     #return destination_id
 
 
-def dynamic_stampede_select(app, tool, job, user_email, resource_params):
-    return __rule(app, tool, job, user_email, resource_params, 'stampede_compute_resource')
+# moved to stampede_select.py
+#def dynamic_stampede_select(app, tool, job, user_email, resource_params):
+#    return __rule(app, tool, job, user_email, resource_params, 'stampede_compute_resource')
