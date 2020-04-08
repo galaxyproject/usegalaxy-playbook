@@ -84,8 +84,8 @@
         <!-- memory_mb vals are node spec mem minus 4 GB -->
         <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --ntasks=64 --time=48:00:00 --account=TG-MCB140147" memory_mb="94208" />
         <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --ntasks=64 --time=00:30:00 --account=TG-MCB140147" memory_mb="94208" />
-        <expand macro="stampede_destination" id="skx_normal" native_specification="--partition=normal --nodes=1 --ntasks=48 --time=48:00:00 --account=TG-MCB140147" memory_mb="192512" />
-        <expand macro="stampede_destination" id="skx_development" native_specification="--partition=development --nodes=1 --ntasks=48 --time=00:30:00 --account=TG-MCB140147" memory_mb="192512" />
+        <expand macro="stampede_destination" id="skx_normal" native_specification="--partition=skx-normal --nodes=1 --ntasks=48 --time=48:00:00 --account=TG-MCB140147" memory_mb="192512" />
+        <expand macro="stampede_destination" id="skx_development" native_specification="--partition=skx-dev --nodes=1 --ntasks=48 --time=00:30:00 --account=TG-MCB140147" memory_mb="192512" />
         <expand macro="stampede_nagios_destination" />
 
         <!-- MPI destinations -->
