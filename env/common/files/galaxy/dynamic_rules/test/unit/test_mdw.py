@@ -94,12 +94,12 @@ test_configs = [
      "resource_params": {"multi_bridges_compute_resource": "slurm_multi_development"},
      "return_submit_native_specification": "-p LM --constraint=LM --time=48:00:00 --mem=147456",
      "return_destination_id": "bridges_normal"},
-    {"ref_size": 1000 * GIGABYTE,  # 7
-     "tool": tool_rnastar_indexed,
-     "sbatch_node": "jetstream-tacc-large",
-     "resource_params": {"multi_bridges_compute_resource": "slurm_multi_development"},
-     "return_submit_native_specification": "-p LM --constraint=LM --time=48:00:00 --mem=147456",
-     "return_destination_id": "bridges_normal"},
+    #{"ref_size": 1000 * GIGABYTE,  # 7
+    # "tool": tool_rnastar_indexed,
+    # "sbatch_node": "jetstream-tacc-large",
+    # "resource_params": {"multi_bridges_compute_resource": "slurm_multi_development"},
+    # "return_submit_native_specification": "-p LM --constraint=LM --time=48:00:00 --mem=147456",
+    # "return_destination_id": "bridges_normal"},
     # reference from history
     {"ref_size": 500 * MEGABYTE,  # 8
      "tool": tool_rnastar_history,
@@ -145,24 +145,24 @@ test_configs = [
      "return_submit_native_specification": "-p LM --constraint=LM --time=48:00:00 --mem=147456",
      "return_destination_id": "bridges_normal"},
     # with different cluster prefixes
-    {"ref_size": 500 * MEGABYTE,  # 15
-     "tool": tool_rnastar_indexed,
-     "sbatch_node": "jetstream-tacc-large",
-     "resource_params": None,
-     "return_submit_native_specification": "--partition=multi --nodes=1 --time=36:00:00",
-     "return_destination_id": "jetstream_tacc_multi"},
+    #{"ref_size": 500 * MEGABYTE,  # 15
+    # "tool": tool_rnastar_indexed,
+    # "sbatch_node": "jetstream-tacc-large",
+    # "resource_params": None,
+    # "return_submit_native_specification": "--partition=multi --nodes=1 --time=36:00:00",
+    # "return_destination_id": "jetstream_tacc_multi"},
     {"ref_size": 500 * MEGABYTE,  # 16
      "tool": tool_rnastar_indexed,
      "sbatch_node": "roundup",
      "resource_params": None,
      "return_nativeSpecification": "--partition=multi --nodes=1 --cpus-per-task=6 --time=36:00:00 --mem=8192",
      "return_destination_id": "slurm_multi"},
-    {"ref_size": 500 * MEGABYTE,  # 17
-     "tool": tool_rnastar_indexed,
-     "sbatch_node": "jetstream-tacc-large",
-     "resource_params": None,
-     "return_submit_native_specification": "--partition=multi --nodes=1 --time=36:00:00",
-     "return_destination_id": "jetstream_tacc_multi"},
+    #{"ref_size": 500 * MEGABYTE,  # 17
+    # "tool": tool_rnastar_indexed,
+    # "sbatch_node": "jetstream-tacc-large",
+    # "resource_params": None,
+    # "return_submit_native_specification": "--partition=multi --nodes=1 --time=36:00:00",
+    # "return_destination_id": "jetstream_tacc_multi"},
     {"ref_size": 500 * MEGABYTE,  # 18
      "tool": tool_rnastar_indexed,
      "sbatch_node": "roundup",
@@ -195,18 +195,18 @@ test_configs = [
      "resource_params": None,
      "return_nativeSpecification": "--partition=multi --nodes=1 --cpus-per-task=6 --time=36:00:00",
      "return_destination_id": "slurm_multi"},
-    {"ref_size": 1 * GIGABYTE,  # 23
-     "tool": tool_bowtie2_indexed,
-     "sbatch_node": "jetstream-tacc-large",
-     "resource_params": None,
-     "return_submit_native_specification": "--partition=multi --nodes=1 --time=36:00:00",
-     "return_destination_id": "jetstream_tacc_multi"},
-    {"ref_size": 1 * GIGABYTE,  # 24
-     "tool": tool_bowtie2_indexed,
-     "sbatch_node": "jetstream-iu-large",
-     "resource_params": None,
-     "return_submit_native_specification": "--partition=multi --time=36:00:00 --mem=28672",
-     "return_destination_id": "jetstream_iu_multi"},
+    #{"ref_size": 1 * GIGABYTE,  # 23
+    # "tool": tool_bowtie2_indexed,
+    # "sbatch_node": "jetstream-tacc-large",
+    # "resource_params": None,
+    # "return_submit_native_specification": "--partition=multi --nodes=1 --time=36:00:00",
+    # "return_destination_id": "jetstream_tacc_multi"},
+    #{"ref_size": 1 * GIGABYTE,  # 24
+    # "tool": tool_bowtie2_indexed,
+    # "sbatch_node": "jetstream-iu-large",
+    # "resource_params": None,
+    # "return_submit_native_specification": "--partition=multi --time=36:00:00 --mem=28672",
+    # "return_destination_id": "jetstream_iu_multi"},
 
     # tool: tophat2
     {"ref_size": 1 * GIGABYTE,  # 25
