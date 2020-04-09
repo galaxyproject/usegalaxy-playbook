@@ -69,6 +69,14 @@
             <env id="GALAXY_VIRTUAL_ENV">None</env>
             <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_py2/bin:$PATH</env>
         </destination>
+        <destination id="slurm_multi_legacy" runner="slurm">
+            <param id="nativeSpecification">--partition=multi --nodes=1 --cpus-per-task=3 --time=36:00:00</param>
+            <expand macro="dest_local_env" java_mem="15g"/>
+            <param id="use_metadata_binary">true</param>
+            <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate"/>
+            <env id="GALAXY_VIRTUAL_ENV">None</env>
+            <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_py2/bin:$PATH</env>
+        </destination>
 
         <!-- dynamic modified destinations: do not use directly -->
         <expand macro="slurm_destination" dest="multi_dynamic_walltime" partition="multi" native_specification="--cpus-per-task=6" />
@@ -123,43 +131,18 @@
     <tools>
         <!-- non-conda python 2 legacy tools -->
 {% for tool_id in galaxy_python2_legacy_tools %}
+{% set short_tool_id = tool_id.split('/')[-2] %}
+{% if short_tool_id in galaxy_multicore_tools %}
+        <tool id="{{ tool_id }}" destination="slurm_multi_legacy" />
+{% else %}
         <tool id="{{ tool_id }}" destination="slurm_normal_legacy" />
+{% endif %}
 {% endfor %}
         <!-- multi/stampede jobs -->
-        <expand macro="stampede_resubmit_tool" id="bowtie2" />
-        <expand macro="stampede_resubmit_tool" id="bowtie_wrapper" />
-        <expand macro="stampede_resubmit_tool" id="bwa" />
-        <expand macro="stampede_resubmit_tool" id="bwa_mem" />
-        <expand macro="stampede_resubmit_tool" id="bwa_wrapper" />
-        <expand macro="stampede_resubmit_tool" id="cuffdiff" />
-        <expand macro="stampede_resubmit_tool" id="cufflinks" />
-        <expand macro="stampede_resubmit_tool" id="cuffmerge" />
-        <expand macro="stampede_resubmit_tool" id="cuffnorm" />
-        <expand macro="stampede_resubmit_tool" id="cuffquant" />
-        <expand macro="stampede_resubmit_tool" id="tophat" />
-        <expand macro="stampede_resubmit_tool" id="tophat2" />
-        <expand macro="stampede_resubmit_tool" id="stringtie" />
-        <expand macro="stampede_resubmit_tool" id="hisat2" />
-        <expand macro="stampede_resubmit_tool" id="prokka" />
-        <expand macro="stampede_resubmit_tool" id="rbc_mafft" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_bam_compare" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_bam_coverage" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_bam_pe_fragmentsize" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_bigwig_compare" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_compute_gc_bias" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_compute_matrix" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_correct_gc_bias" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_multi_bam_summary" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_multi_bigwig_summary" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_plot_coverage" />
-        <expand macro="stampede_resubmit_tool" id="deeptools_plot_fingerprint" />
-        <expand macro="stampede_resubmit_tool" id="kraken" />
-        <expand macro="stampede_resubmit_tool" id="dexseq" />
-        <expand macro="stampede_resubmit_tool" id="hifive" />
-        <expand macro="stampede_resubmit_tool" id="freebayes" />
-        <expand macro="stampede_resubmit_tool" id="iqtree" />
-        <expand macro="stampede_resubmit_tool" id="minimap2" />
-        <expand macro="stampede_resubmit_tool" id="spaln" />
+{% for tool_id in galaxy_multicore_tools | difference(galaxy_multicore_tools_exclude) %}
+        <expand macro="stampede_resubmit_tool" id="{{ tool_id }}" />
+{% endfor %}
+        <!-- mpi/stampede tools -->
         <tool id="hyphy_absrel" destination="dynamic_mpi" handler="multi" resources="mpi" />
         <tool id="hyphy_fel" destination="dynamic_mpi" handler="multi" resources="mpi" />
         <tool id="hyphy_gard" destination="dynamic_mpi" handler="multi" resources="mpi" />
@@ -202,12 +185,8 @@
         <!-- 16GB tools -->
         <tool id="join1" destination="dynamic_normal_16gb_reserved"/>
         <tool id="gops_join_1" destination="dynamic_normal_16gb_reserved"/>
-        <tool id="gatk_unified_genotyper" destination="dynamic_normal_16gb_reserved"/>
-        <tool id="gatk_realigner_target_creator" destination="dynamic_normal_16gb_reserved"/>
         <tool id="gatk_indel_realigner" destination="dynamic_normal_16gb_reserved"/>
         <tool id="gatk_depth_of_coverage" destination="dynamic_normal_16gb_reserved"/>
-        <tool id="gatk_variant_recalibrator" destination="dynamic_normal_16gb_reserved"/>
-        <tool id="gatk_count_covariates" destination="dynamic_normal_16gb_reserved"/>
         <tool id="gatk_table_recalibration" destination="dynamic_normal_16gb_reserved"/>
         <tool id="fastq_paired_end_joiner" destination="dynamic_normal_16gb_reserved"/>
         <tool id="bamtools" destination="dynamic_normal_16gb_reserved"/>
@@ -217,7 +196,6 @@
         <tool id="flanking_features_1" destination="dynamic_normal_16gb_reserved"/>
         <tool id="cummeRbund" destination="dynamic_normal_16gb_reserved"/>
         <tool id="collection_column_join" destination="dynamic_normal_16gb_reserved"/>
-        <tool id="correct_barcodes" destination="dynamic_normal_16gb_reserved"/>
         <tool id="rseqc_read_duplication" destination="dynamic_normal_16gb_reserved"/>
         <tool id="rseqc_RPKM_saturation" destination="dynamic_normal_16gb_reserved"/>
         <tool id="rseqc_bam2wig" destination="dynamic_normal_16gb_reserved"/>
@@ -263,10 +241,12 @@
         <limit type="output_size">200G</limit>
         <!-- per-destination per-user limits -->
         <limit type="destination_user_concurrent_jobs" id="slurm_normal">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_legacy">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_64gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_dynamic_mem">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi">2</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_legacy">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
