@@ -340,8 +340,11 @@ def test_dynamic_multi_bridges_select(os_stat, subprocess_popen):
         # Mock the size of ref data
         os_stat.return_value.st_size = testconfig["ref_size"]
         # Mock sbatch test run
-        subprocess_popen.return_value.stderr.read.return_value = testconfig[
-            "sbatch_node"]
+        mock_sbatch = (
+            "sbatch: Job 1968650 to start at 2020-04-11T16:58:40 using 10 processors on nodes {} in partition "
+            "multi".format(testconfig["sbatch_node"])
+        )
+        subprocess_popen.return_value.stderr.read.return_value = mock_sbatch
         subprocess_popen.return_value.returncode = 0
         destination = None
         if tool_destination == "dynamic_multi_bridges_select":
