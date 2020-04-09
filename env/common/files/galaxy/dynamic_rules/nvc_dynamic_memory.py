@@ -42,6 +42,8 @@ def dynamic_nvc_dynamic_memory( app, tool, job ):
 
     destination = app.job_config.get_destination( DESTINATION ) 
 
+    required_mb = int(required_mb)
+
     if required_mb < MEM_DEFAULT:
         log.debug("(%s) nvc_dynamic_memory plugin sending %s job to normal with default (%s MB) mem-per-cpu (requires: %s MB)", job.id, tool.id, MEM_DEFAULT, required_mb)
         destination.params['nativeSpecification'] += NORMAL_PARAMS
