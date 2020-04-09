@@ -122,7 +122,9 @@
     </destinations>
     <tools>
         <!-- non-conda python 2 legacy tools -->
-        <tool id="iterative_map_pipeline" destination="slurm_normal_legacy" />
+{% for tool_id in galaxy_python2_legacy_tools %}
+        <tool id="{{ tool_id }}" destination="slurm_normal_legacy" />
+{% endfor %}
         <!-- multi/stampede jobs -->
         <expand macro="stampede_resubmit_tool" id="bowtie2" />
         <expand macro="stampede_resubmit_tool" id="bowtie_wrapper" />
