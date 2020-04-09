@@ -13,6 +13,10 @@ from pyBamParser.bam import Reader
 
 log = logging.getLogger(__name__)
 
+# NOTE: The slurm_normal_dynamic_mem destination includes --partition=normal, but the --partition=X we append here
+# overrides that. Keeping it in a single destination is intentional since we run jobs in the multi partition for
+# priority reasons, but we only allocate 1 core.
+
 DESTINATION = 'slurm_normal_dynamic_mem'
 NORMAL_PARAMS = ' --partition=normal'
 MULTI_PARAMS = ' --partition=multi'
@@ -25,22 +29,22 @@ SIZE_FAILURE_MESSAGE = 'This tool could not be run because the input is too larg
 DEFAULT_OVERHEAD = 1024 #MB = 1GB fudge factor to cover non-nucleotide storage
 
 
-def dynamic_nvc_dynamic_memory( app, tool, job ):
-    inp_data = dict( [ ( da.name, da.dataset ) for da in job.input_datasets ] )
-    inp_data.update( [ ( da.name, da.dataset ) for da in job.input_library_datasets ] )
-    params = job.get_param_values( app, ignore_errors=True )
-    bams = filter( lambda x: x is not None and x.metadata.bam_index is not None, inp_data.values() )
+def dynamic_nvc_dynamic_memory(app, tool, job):
+    inp_data = dict([(da.name, da.dataset) for da in job.input_datasets])
+    inp_data.update([(da.name, da.dataset) for da in job.input_library_datasets])
+    params = job.get_param_values(app, ignore_errors=True)
+    bams = filter(lambda x: x is not None and x.metadata.bam_index is not None, inp_data.values())
     if bams:
-        bam_readers = list( map( lambda x: Reader( x.file_name, x.metadata.bam_index.file_name ), bams ) )
-        dtype = params.get( 'advanced_options', {} ).get( 'coverage_dtype', None )
-        use_strand = string_as_bool( params.get( 'use_strand', False ) )
-        array_bytes = guess_array_memory_usage( bam_readers, dtype, use_strand=use_strand )
-        required_mb = ( array_bytes / 1024 / 1024 ) +  DEFAULT_OVERHEAD # this division will truncate, hopefully handled by overhead
+        bam_readers = list(map(lambda x: Reader(x.file_name, x.metadata.bam_index.file_name ), bams))
+        dtype = params.get('advanced_options', {}).get('coverage_dtype', None)
+        use_strand = string_as_bool(params.get('use_strand', False))
+        array_bytes = guess_array_memory_usage(bam_readers, dtype, use_strand=use_strand)
+        required_mb = (array_bytes / 1024 / 1024) + DEFAULT_OVERHEAD # this division will truncate, hopefully handled by overhead
     else:
         log.debug("(%s) all inputs or BAM indexes are None")
         required_mb = 1
 
-    destination = app.job_config.get_destination( DESTINATION ) 
+    destination = app.job_config.get_destination(DESTINATION)
 
     required_mb = int(required_mb)
 
