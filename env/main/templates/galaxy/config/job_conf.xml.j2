@@ -70,7 +70,7 @@
             <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_py2/bin:$PATH</env>
         </destination>
         <destination id="slurm_multi_legacy" runner="slurm">
-            <param id="nativeSpecification">--partition=multi --nodes=1 --cpus-per-task=3 --time=36:00:00</param>
+            <param id="nativeSpecification">--partition=multi --nodes=1 --cpus-per-task=4 --time=36:00:00</param>
             <expand macro="dest_local_env" java_mem="15g"/>
             <param id="use_metadata_binary">true</param>
             <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate"/>
