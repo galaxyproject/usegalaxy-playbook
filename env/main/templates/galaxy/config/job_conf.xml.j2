@@ -148,6 +148,12 @@
         <tool id="hyphy_gard" destination="dynamic_mpi" handler="multi" resources="mpi" />
         <tool id="hyphy_meme" destination="dynamic_mpi" handler="multi" resources="mpi" />
         <!-- explicit stampede jobs -->
+        <expand macro="stampede_tool" id="ncbi_blastn_wrapper" />
+        <expand macro="stampede_tool" id="ncbi_blastp_wrapper" />
+        <expand macro="stampede_tool" id="ncbi_blastx_wrapper" />
+        <expand macro="stampede_tool" id="ncbi_rpsblast_wrapper" />
+        <expand macro="stampede_tool" id="ncbi_tblastn_wrapper" />
+        <expand macro="stampede_tool" id="ncbi_tblastx_wrapper" />
         <expand macro="stampede_tool" id="megablast_wrapper" />
         <!-- new LASTZ wrapper is not multicore, but it may need more memory
              <expand macro="stampede_tool" id="lastz_wrapper_2" /> -->
@@ -160,6 +166,7 @@
         <expand macro="bridges_tool" id="spades" />
         <expand macro="bridges_tool" id="unicycler" />
         <expand macro="bridges_tool" id="star_fusion" />
+        <expand macro="bridges_tool" id="abyss-pe" />
         #}
         <expand macro="stampede_tool" id="trinity_psc" />
         <expand macro="stampede_tool" id="trinity" />
@@ -167,6 +174,7 @@
         <expand macro="stampede_tool" id="unicycler" />
         <expand macro="stampede_tool" id="star_fusion" />
         <expand macro="stampede_tool" id="rna_star" />
+        <expand macro="stampede_tool" id="abyss-pe" />
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_trackster_multi">
             <param id="source">trackster</param>
