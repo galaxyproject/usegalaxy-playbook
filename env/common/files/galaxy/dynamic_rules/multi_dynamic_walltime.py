@@ -28,7 +28,6 @@ log.setLevel(logging.DEBUG)
 # bwa_color_wrapper     same as bowtie_wrapper
 
 JETSTREAM_TOOLS = ('bowtie2', 'bwa', 'bwa_mem', 'tophat2', 'cufflinks', 'rna_star', 'hisat2', 'stringtie')
-PUNT_TOOLS = ('bwa_wrapper', 'bowtie2', 'bowtie_wrapper', 'tophat', 'tophat2', 'bwa', 'bwa_mem', 'hisat2')
 GENOME_SOURCE_PARAMS = ('genomeSource.refGenomeSource', 'reference_genome.source', 'refGenomeSource.genomeSource', 'reference_source.reference_source_selector')
 GENOME_SOURCE_VALUES = ('indexed', 'cached')  # These are synonyms
 
@@ -242,26 +241,6 @@ def __rule(app, tool, job, user_email, resource_params, resource):
             log.warning("(%s) Unauthorized user '%s' selected team development destination", job.id, user_email)
             destination_id = LOCAL_DESTINATION
             is_explicit_destination = False
-
-    # Only allow stampede if a indexed reference is selected
-    if destination_id in STAMPEDE_DESTINATIONS and tool_id in PUNT_TOOLS:
-        for p in GENOME_SOURCE_PARAMS:
-            subpd = param_dict.copy()
-            # walk the param dict
-            try:
-                for i in p.split('.'):
-                    subpd = subpd[i]
-                assert subpd in GENOME_SOURCE_VALUES
-                if destination_id == STAMPEDE_DEVELOPMENT_DESTINATION:
-                    destination_id = LOCAL_DEVELOPMENT_DESTINATION
-                else:
-                    destination_id = default_destination_id
-                log.info('(%s) Destination/walltime dynamic plugin detected indexed reference selected, job will not be sent to Stampede', job.id)
-                break
-            except Exception:
-                pass
-        else:
-            log.info('(%s) User requested Stampede and destination/walltime dynamic plugin did not detect selection of an indexed reference, proceeding.', job.id)
 
     if not is_explicit_destination and user_email in ('nate+test@bx.psu.edu', 'cartman@southpark.org'):
         log.info('(%s) Sending job for %s to Jetstream @ IU reserved partition', job.id, user_email)

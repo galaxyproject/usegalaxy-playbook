@@ -3,13 +3,23 @@
 # WARNING: this is shared by both Test and Main
 #
 
+# FIXME:
+#   - supervisor configured by hand
+#   - parrot installed by hand in ~xcgalaxy
+#   - CVMFS keys installed by hand in ~xcgalaxy
+#   - no stratum1 failover for parrot, not sure if it's possible
+#   - running a branch of pulsar with a hardcoded parrot wrapper
+
 _stampede_work_root: "/work/galaxy/{{ galaxy_instance_codename }}"
 _stampede_scratch_root: "/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}"
+_stampede_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
 
 pulsar_root: "{{ _stampede_work_root }}/pulsar"
-galaxy_root: "{{ _stampede_work_root }}/galaxy"
+#galaxy_root: not required
 
-pulsar_dependencies_dir: "{{ _stampede_work_root }}/deps"
+# Attempt to chown fails, let it create an empty dir instead
+#pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
+_pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
 pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
 pulsar_staging_dir: "{{ _stampede_scratch_root }}/staging"
 
@@ -21,14 +31,20 @@ pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url
 pulsar_drmaa_library_path: "{{ _stampede_work_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_dependency_resolvers:
-  - name: tool_shed_packages
-  - name: galaxy_packages
   - name: conda
     args:
+      - name: prefix
+        value: "{{ _pulsar_dependencies_dir }}/_conda"
+  - name: conda
+    args:
+      - name: prefix
+        value: "{{ _stampede_scratch_root }}/conda"
       - name: auto_install
         value: "true"
       - name: auto_init
         value: "true"
+  - name: tool_shed_packages
+  - name: galaxy_packages
 
 pulsar_job_metrics_plugins:
   - name: core
@@ -43,7 +59,7 @@ pulsar_job_metrics_plugins:
 pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
-  tool_dependency_dir: "{{ pulsar_dependencies_dir }}"
+  tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
   dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"

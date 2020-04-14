@@ -480,7 +480,7 @@
             -->
             <!-- this used to work but doesn't now either, set in supervisor environment instead, however, the Pulsar
                  client still requires it to be set when remote_metadata is enabled -->
-            <param id="remote_property_galaxy_home">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
+            <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
             <env exec="eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`" />
         </xml>

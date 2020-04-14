@@ -439,14 +439,14 @@
         </xml>
         <xml name="dest_pulsar_stampede_params">
             <param id="use_remote_datatypes">true</param>
-            <param id="remote_property_galaxy_datatypes_config_file">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server/config/datatypes_conf.xml.sample</param>
+            <param id="remote_property_galaxy_datatypes_config_file">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy/config/datatypes_conf.xml.sample</param>
             <param id="jobs_directory">/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/</param>
             <!-- this doesn't work, set in supervisor environment instead
             <param id="remote_property_galaxy_virtual_env">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/venv</param>
             -->
             <!-- this used to work but doesn't now either, set in supervisor environment instead, however, the Pulsar
                  client still requires it to be set when remote_metadata is enabled -->
-            <param id="remote_property_galaxy_home">/work/galaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
+            <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_stampede_actions.yml</param>
             <env exec="eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`" />
         </xml>
