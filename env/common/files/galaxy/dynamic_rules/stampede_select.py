@@ -42,6 +42,9 @@ def dynamic_stampede_select(app, tool, job, user_email):
         # extract short tool id from tool shed id
         tool_id = tool.id.split('/')[-2]
 
+    if tool_id == 'trinity_psc':
+        raise JobMappingException('This version of Trinity can not be run at this time. Please use the latest version.')
+
     if user_email is None:
         raise JobMappingException('Please log in to use this tool.')
 
@@ -52,7 +55,7 @@ def dynamic_stampede_select(app, tool, job, user_email):
     
     if param_dict.get('__job_resource', {}).get('__job_resource__select') != 'yes':
         # override default destination for tools that will always need more memory
-        if tool_id in ('trinity_psc', 'trinity'):
+        if tool_id == 'trinity':
             destination_id = DEFAULT_LARGEMEM_DESTINATION
         log.debug("Job resource parameters not seleted, using default destination: %s", destination_id)
     else:
