@@ -214,16 +214,14 @@
         <expand macro="stampede_tool" id="bwa_color_wrapper" />
         <expand macro="stampede_tool" id="bowtie_color_wrapper" />
         <!-- bridges jobs -->
-        {#
         <expand macro="bridges_tool" id="trinity_psc" />
         <expand macro="bridges_tool" id="trinity" />
+        {#
         <expand macro="bridges_tool" id="spades" />
         <expand macro="bridges_tool" id="rnaspades" />
         <expand macro="bridges_tool" id="unicycler" />
         <expand macro="bridges_tool" id="star_fusion" />
         #}
-        <expand macro="stampede_tool" id="trinity_psc" />
-        <expand macro="stampede_tool" id="trinity" />
         <expand macro="stampede_tool" id="spades" />
         <expand macro="stampede_tool" id="rnaspades" />
         <expand macro="stampede_tool" id="unicycler" />
@@ -337,7 +335,7 @@
                 <param id="manager">@ID@</param>
                 <param id="persistence_directory">/srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack</param>
                 <param id="amqp_acknowledge">True</param>
-                <param id="amqp_ack_republish_time">300</param>
+                <param id="amqp_ack_republish_time">1200</param>
                 <param id="amqp_consumer_timeout">2.0</param>
                 <param id="amqp_publish_retry">True</param>
                 <param id="amqp_publish_retry_max_retries">60</param>
