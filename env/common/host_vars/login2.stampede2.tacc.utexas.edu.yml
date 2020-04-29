@@ -25,6 +25,8 @@ pulsar_staging_dir: "{{ _stampede_scratch_root }}/staging"
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
+# Override group_vars version
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
 pip_virtualenv_command: "{{ _stampede_work_root }}/python/bin/virtualenv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 

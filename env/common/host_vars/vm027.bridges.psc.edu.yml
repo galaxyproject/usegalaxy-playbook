@@ -3,28 +3,44 @@
 # WARNING: this is shared by both Test and Main
 #
 
+# FIXME:
+#   - supervisor configured by hand
+#   - parrot installed by hand in ~xcgalaxy
+#   - CVMFS keys installed by hand in ~xcgalaxy
+#   - running a branch of pulsar with a hardcoded parrot wrapper
+
 _bridges_home_root: "/home/xcgalaxy/{{ galaxy_instance_codename }}"
-_bridges_pylon5_root: "/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}"
+_bridges_scratch_root: "/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}"
+_bridges_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
 
 pulsar_root: "{{ _bridges_home_root }}/pulsar"
-galaxy_root: "{{ _bridges_pylon5_root }}/galaxy"
+#galaxy_root: not required
 
-pulsar_dependencies_dir: "{{ _bridges_home_root }}/deps"
+# Attempt to chown fails, let it create an empty dir instead
+#pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
+_pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
 pulsar_persistence_dir: "{{ pulsar_root }}/var"
-pulsar_staging_dir: "{{ _bridges_pylon5_root }}/staging"
+pulsar_staging_dir: "{{ _bridges_scratch_root }}/staging"
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
+# Override group_vars version
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
 pip_virtualenv_command: "/home/xcgalaxy/virtualenv/bin/virtualenv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_drmaa_library_path: "{{ _bridges_home_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_dependency_resolvers:
-  - name: tool_shed_packages
-  - name: galaxy_packages
   - name: conda
     args:
+      - name: prefix
+        value: "{{ _pulsar_dependencies_dir }}/_conda"
+  # local conda is shared between test/main, and hopefully won't be used anymore w/ parrot
+  - name: conda
+    args:
+      - name: prefix
+        value: "/pylon5/mc48nsp/xcgalaxy/conda"
       - name: auto_install
         value: "true"
       - name: auto_init
@@ -33,6 +49,8 @@ pulsar_dependency_resolvers:
     args:
       - name: modulecmd
         value: /usr/bin/modulecmd
+  - name: tool_shed_packages
+  - name: galaxy_packages
 
 pulsar_job_metrics_plugins:
   - name: core
@@ -47,8 +65,7 @@ pulsar_job_metrics_plugins:
 pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
-  tool_dependency_dir: "{{ pulsar_dependencies_dir }}"
-  conda_prefix: "/pylon5/mc48nsp/xcgalaxy/conda"
+  tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
   dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"

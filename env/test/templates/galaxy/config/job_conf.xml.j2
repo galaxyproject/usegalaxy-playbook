@@ -140,9 +140,9 @@
         <!-- bridges destinations -->
         <!-- walltime and mem are set dynamically -->
         <!-- use constraint to avoid running on xl nodes, which do not mount /pylon5 -->
-        <expand macro="bridges_destination" id="normal" native_specification="-p LM --constraint=LM" />
+        <expand macro="bridges_destination" id="normal" native_specification="-p LM --constraint=LM&amp;EGRESS" />
         <!-- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) -->
-        <expand macro="bridges_destination" id="development" native_specification="-p LM --constraint=LM -t 00:30:00 --mem=147456" />
+        <expand macro="bridges_destination" id="development" native_specification="-p LM&amp;EGRESS --constraint=LM -t 00:30:00 --mem=147456" />
         <expand macro="bridges_nagios_destination" />
 
         <!-- local destination for nagios handler checks -->
@@ -216,17 +216,10 @@
         <!-- bridges jobs -->
         <expand macro="bridges_tool" id="trinity_psc" />
         <expand macro="bridges_tool" id="trinity" />
-        {#
         <expand macro="bridges_tool" id="spades" />
         <expand macro="bridges_tool" id="rnaspades" />
         <expand macro="bridges_tool" id="unicycler" />
         <expand macro="bridges_tool" id="star_fusion" />
-        #}
-        <expand macro="stampede_tool" id="spades" />
-        <expand macro="stampede_tool" id="rnaspades" />
-        <expand macro="stampede_tool" id="unicycler" />
-        <expand macro="stampede_tool" id="star_fusion" />
-        <expand macro="stampede_tool" id="rna_star" />
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_multi_trackster">
             <param id="source">trackster</param>
@@ -236,9 +229,7 @@
         <!-- local/jetstream tools -->
         <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi" resources="local_or_stampede"/>
         <!-- roundup multi/jetstream/bridges tools -->
-        {#
         <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="multi"  resources="multi_or_bridges"/>
-        #}
         <tool id="align_families" destination="slurm_multi" handler="multi" resources="local_or_stampede"/>
         <!-- 16GB tools -->
         <!--
@@ -487,12 +478,14 @@
             <!-- see stampede comments
             <param id="remote_property_galaxy_virtual_env">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/venv</param>
             -->
-            <param id="remote_property_galaxy_home">/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/galaxy/server</param>
+            <param id="remote_property_galaxy_home">/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy</param>
             <param id="file_action_config">{{ galaxy_config_dir }}/pulsar_bridges_actions.yml</param>
             <env exec="eval `modulecmd sh purge`" />
             <!-- https://bugs.openjdk.java.net/browse/JDK-7085890 -->
             <env id="PATH">/pylon5/mc48nsp/xcgalaxy/openjdk8/bin:$PATH</env>
             <env id="_JAVA_OPTIONS">-Dsun.zip.disableMemoryMapping=true</env>
+            <!-- SPAdes as run by Unicycler is leaving cores in Pulsar's site-packages dir -->
+            <env exec="ulimit -c 0" />
         </xml>
         <xml name="multi_tool" tokens="id">
             <tool id="@ID@" destination="dynamic_multi_reserved" handler="multi" />
