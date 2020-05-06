@@ -48,7 +48,7 @@ RESOURCES = {
     'stampede_compute_resource': STAMPEDE_DESTINATIONS,
 }
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
-SCHEDULE_FAILURE_MESSAGE = 'An error occurred while trying to schedule this job. Please retry it and if it continues to fail, report it to an administrator using the bug icon'
+SCHEDULE_FAILURE_MESSAGE = 'An error occurred while trying to schedule this job, please retry it and if it continues to fail, report it to an administrator using the bug icon'
 
 SLURM_TEST_PATTERN = re.compile(r" to start .* on nodes ([^\s]+)")
 

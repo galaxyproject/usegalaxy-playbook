@@ -16,10 +16,6 @@ RESOURCE_KEYS = ('bridges_compute_resource',)
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
 def dynamic_bridges_select( app, tool, job, user_email ):
-    raise JobMappingException('This tool is temporarily disabled because adequate computing resources are not available to run it. The banner at the top of the site will be updated when this tool is available again.')
-
-
-def __dynamic_bridges_select( app, tool, job, user_email ):
     destination = None
     tool_id = tool.id
     if '/' in tool.id:
