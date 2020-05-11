@@ -17,6 +17,8 @@ interactive_environments_plugins_path: "{{ galaxy_root }}/interactive_environmen
 galaxy_tool_dependency_dir: /galaxy/test/deps
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
+galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_cache"
+galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
 
 
 ## used by: galaxyproject.galaxy
@@ -64,6 +66,12 @@ base_app_main: &BASE_APP_MAIN
       amqp:
         level: INFO
         qualname: amqp
+      dogpile:
+        level: INFO
+        qualname: dogpile
+      irods:
+        level: INFO
+        qualname: irods
     root:
       handlers:
       - console
@@ -83,6 +91,8 @@ base_app_main: &BASE_APP_MAIN
   user_library_import_dir: /galaxy-repl/test/ftp
   library_import_dir: /galaxy-repl/test/import
   galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
+  tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
+  tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
 
   tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
   tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
