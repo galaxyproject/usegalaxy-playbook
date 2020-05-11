@@ -5,6 +5,9 @@
 # used by: galaxyproject.galaxy (templating job_conf.xml)
 galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
 
+# used by: object store config template
+galaxy_irods_password: "{{ vault_galaxy_irods_password }}"
+
 ## used by: galaxy supervisor templates
 galaxy_host_codename: test
 

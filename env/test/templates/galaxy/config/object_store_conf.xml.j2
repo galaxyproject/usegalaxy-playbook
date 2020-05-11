@@ -1,6 +1,19 @@
 <?xml version="1.0"?>
-<object_store type="disk" id="corral">
-    <files_dir path="/galaxy-repl/test/files"/>
-    <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
-    <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+<object_store type="distributed">
+    <backends>
+        <backend type="irods" id="corral-irods" weight="1" store_by="uuid">
+            <auth username="gtest" password="{{ galaxy_irods_password }}" />
+            <resource name="corralResc" />
+            <zone name="galaxy" />
+            <connection host="gs-0.corral.tacc.utexas.edu" port="1247" timeout="30"/>
+            <cache path="/galaxy-repl/test/object_store_cache" size="1000000" />
+            <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
+            <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+        </backend>
+        <backend type="disk" id="corral" weight="0">
+            <files_dir path="/galaxy-repl/test/files"/>
+            <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
+            <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+        </backend>
+    </backends>
 </object_store>
