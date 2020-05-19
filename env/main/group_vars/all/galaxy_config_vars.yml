@@ -17,6 +17,8 @@ galaxy_ftp_upload_dir: /galaxy-repl/{{ galaxy_instance_codename }}/ftp
 galaxy_tool_dependency_dir: /galaxy/main/deps
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
+galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_cache"
+galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
 
 
 ## used by: galaxyproject.galaxy
@@ -66,6 +68,8 @@ base_app_main: &BASE_APP_MAIN
   user_library_import_dir: /galaxy-repl/main/ftp
   library_import_dir: /galaxy-repl/main/import
   galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
+  tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
+  tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
 
   tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
   tool_data_table_config_path: "{{ galaxy_config_dir }}/tool_data_table_conf.xml,/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
