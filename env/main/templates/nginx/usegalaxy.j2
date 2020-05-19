@@ -63,16 +63,6 @@ server {
         expires 24h;
     }
 
-    location /static/style {
-        alias {{ galaxy_server_dir }}/static/style/blue;
-        expires 24h;
-    }
-
-    location /static/scripts {
-        alias {{ galaxy_server_dir }}/static/scripts;
-        expires 24h;
-    }
-
     location ~ ^/plugins/interactive_environments/(?<vis_name>.+?)/static/(?<static_file>.*?)$ {
         alias {{ interactive_environments_plugins_path }}/$plug_type/$vis_name/static/$static_file;
     }
