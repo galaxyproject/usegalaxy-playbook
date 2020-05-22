@@ -63,6 +63,12 @@ server {
         expires 24h;
     }
 
+    # FIXME: this is a hack while working around bugs in 20.05, and should be removed
+    location /static/scripts/bundled {
+        alias {{ galaxy_server_dir }}/static/dist;
+        expires 24h;
+    }
+
     location ~ ^/plugins/interactive_environments/(?<vis_name>.+?)/static/(?<static_file>.*?)$ {
         alias {{ interactive_environments_plugins_path }}/$plug_type/$vis_name/static/$static_file;
     }
