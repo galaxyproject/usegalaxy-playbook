@@ -56,6 +56,7 @@ RESERVED_USERS = (
     'outreach@galaxyproject.org',
     'jen@bx.psu.edu',
     'anton@bx.psu.edu',
+    'marius@galaxyproject.org',
 )
 NORM_RESERVED_USERS = [u.lower() for u in RESERVED_USERS]
 RESERVED_DESTINATION = 'reserved_multi'
