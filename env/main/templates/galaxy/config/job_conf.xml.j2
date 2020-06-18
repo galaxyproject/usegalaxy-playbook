@@ -58,7 +58,7 @@
         <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--cpus-per-task=2 --time=00:30:00 --mem-per-cpu=5120" java_mem="10g" />
 
         <!-- temporary concurrency limit increase for du novo: align families -->
-        <expand macro="slurm_destination" dest="multi_align_families" partition="multi" native_specification="--cpus-per-task=6 --time=96:00:00" />
+        <expand macro="slurm_destination" dest="multi_align_families" partition="multi" native_specification="--cpus-per-task=6 --time=192:00:00" />
 
         <!-- non-conda python 2 legacy tools -->
         <destination id="slurm_normal_legacy" runner="slurm">
@@ -247,7 +247,7 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_multi_align_families">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_align_families">8</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal">16</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_16gb">8</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_32gb">4</limit>
