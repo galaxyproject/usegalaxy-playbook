@@ -1,6 +1,6 @@
 ---
 
-postgresql_version: 9.5
+postgresql_version: 12
 postgresql_backup_dir: /galaxy-repl/pgsql/backup/{{ inventory_hostname }}
 postgresql_backup_active_dir: /var/lib/pgsql/backup/active
 postgresql_backup_mail_recipient: root@galaxyproject.org
@@ -9,14 +9,33 @@ postgresql_archive_wal_rsync_args: '--ignore-existing -ptg'
 
 postgresql_conf:
   listen_addresses: "'*'"
-  max_connections: 500
-  shared_buffers: 4096MB
   temp_buffers: 64MB
   max_prepared_transactions: 100
-  work_mem: 64MB
-  maintenance_work_mem: 64MB
-  checkpoint_completion_target: 0.9
   log_checkpoints: "on"
+
+  # DB Version: 12
+  # # OS Type: linux
+  # # DB Type: mixed
+  # # Total Memory (RAM): 16 GB
+  # # CPUs num: 8
+  # # Connections num: 500
+  # # Data Storage: hdd
+  max_connections: 500
+  shared_buffers: 4GB
+  effective_cache_size: 12GB
+  maintenance_work_mem: 1GB  # was: 64MB
+  checkpoint_completion_target: 0.9
+  wal_buffers: 16MB
+  default_statistics_target: 100
+  random_page_cost: 4
+  effective_io_concurrency: 2
+  work_mem: 32MB  # was: 64MB, pgtune recommended 1048kB
+  min_wal_size: 1GB
+  max_wal_size: 4GB
+  max_worker_processes: 8
+  max_parallel_workers_per_gather: 4
+  max_parallel_workers: 8
+  max_parallel_maintenance_workers: 4
 
 # variables in vault.yml
 postgresql_pg_hba_conf: "{{ vault_postgresql_pg_hba_conf }}"
