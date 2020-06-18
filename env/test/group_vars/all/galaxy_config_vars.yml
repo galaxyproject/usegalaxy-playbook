@@ -101,6 +101,7 @@ base_app_main: &BASE_APP_MAIN
   build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
   #datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
   object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+  oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
   oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
   job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
   workflow_schedulers_config_file: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"

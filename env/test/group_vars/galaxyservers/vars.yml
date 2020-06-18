@@ -235,5 +235,7 @@ galaxy_config_templates:
     dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
   - src: templates/galaxy/config/object_store_conf.xml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['object_store_config_file'] }}"
+  - src: templates/galaxy/config/oidc_config.xml.j2
+    dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_config_file'] }}"
   - src: templates/galaxy/config/oidc_backends_config.xml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_backends_config_file'] }}"
