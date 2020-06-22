@@ -20,6 +20,8 @@ zergmode_environment:
 zergmode_uwsgi_path: "{{ galaxy_toolshed_venv_dir }}/bin/uwsgi"
 zergmode_service_name: toolshed
 
+nginx_enable_default_server: false
+
 nginx_conf_ssl_protocols:
     - TLSv1.2
 
