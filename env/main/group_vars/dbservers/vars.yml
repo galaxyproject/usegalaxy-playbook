@@ -21,7 +21,8 @@ postgresql_conf:
   # # Connections num: 500
   # # Data Storage: hdd
   max_connections: 500
-  shared_buffers: 4GB
+  #shared_buffers: 4GB
+  shared_buffers: 8GB
   effective_cache_size: 12GB
   maintenance_work_mem: 1GB  # was: 64MB
   checkpoint_completion_target: 0.9
@@ -29,7 +30,8 @@ postgresql_conf:
   default_statistics_target: 100
   random_page_cost: 4
   effective_io_concurrency: 2
-  work_mem: 32MB  # was: 64MB, pgtune recommended 1048kB
+  #work_mem: 32MB  # was: 64MB, pgtune recommended 1048kB
+  work_mem: 64MB  # was: 64MB, pgtune recommended 1048kB
   min_wal_size: 1GB
   max_wal_size: 4GB
   max_worker_processes: 8
