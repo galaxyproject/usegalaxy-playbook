@@ -30,15 +30,15 @@ base_app_main: &BASE_APP_MAIN
   message_box_visible: "True"
 
   #message_box_class: info
-  #message_box_class: warning
-  message_box_class: error
+  message_box_class: warning
+  #message_box_class: error
 
   # informational messages
   #message_box_content: Galaxy has recently been upgraded to a pre-release of the next Galaxy stable release (18.05). Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@galaxyproject.org">galaxy-bugs</a>.
 
   # emergency downtimes
-  message_box_content: Certain large memory tools are not functioning due to issues with the Bridges supercomputer at PSC. Affected tools include Trinity, SPAdes, Unicycler, and RNA STAR.
-  #message_box_content: Large memory tools have been returned to normal operation, except RNA STAR, which we are working to fix.
+  #message_box_content: Certain large memory tools are not functioning due to issues with the Bridges supercomputer at PSC. Affected tools include Trinity, SPAdes, Unicycler, and RNA STAR.
+  message_box_content: You may experience delays running certain tools that require multiple cores as we have temporarily reduced capacity for these tools. In addition, the RNA STAR tool is not functioning properly.
   #message_box_content: Jobs are currently paused due to unexpected filesystem issues. We are working on the issue and jobs will be resumed as soon as possible.
 
   # scheduled downtimes
