@@ -10,27 +10,43 @@
 #   - no stratum1 failover for parrot, not sure if it's possible
 #   - running a branch of pulsar with a hardcoded parrot wrapper
 
-_stampede_work_root: "/work/galaxy/{{ galaxy_instance_codename }}"
-_stampede_scratch_root: "/scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}"
+#_stampede_work_root: "/work/galaxy/{{ galaxy_instance_codename }}"
+_stampede_scratch_root: "/scratch/03166/xcgalaxy"
+_stampede_instance_root: "{{ _stampede_scratch_root }}/{{ galaxy_instance_codename }}"
 _stampede_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
 
-pulsar_root: "{{ _stampede_work_root }}/pulsar"
+# Isn't this what conda's special virtualenv is supposed to fix?
+host_links:
+  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libffi.so"
+    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libffi.so"
+  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libffi.so.7"
+    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libffi.so.7"
+  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libssl.so"
+    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libssl.so"
+  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libssl.so.1.1"
+    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libssl.so.1.1"
+  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libcrypto.so"
+    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libcrypto.so"
+  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libcrypto.so.1.1"
+    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libcrypto.so.1.1"
+
+pulsar_root: "{{ _stampede_instance_root }}/pulsar"
 #galaxy_root: not required
 
 # Attempt to chown fails, let it create an empty dir instead
 #pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
 _pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
 pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
-pulsar_staging_dir: "{{ _stampede_scratch_root }}/staging"
+pulsar_staging_dir: "{{ _stampede_instance_root }}/staging"
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
 # Override group_vars version
 pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
-pip_virtualenv_command: "{{ _stampede_work_root }}/python/bin/virtualenv"
+pip_virtualenv_command: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/bin/virtualenv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
-pulsar_drmaa_library_path: "{{ _stampede_work_root }}/slurm-drmaa/lib/libdrmaa.so"
+pulsar_drmaa_library_path: "{{ _stampede_instance_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_dependency_resolvers:
   - name: conda
