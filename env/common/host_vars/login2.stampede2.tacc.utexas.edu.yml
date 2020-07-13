@@ -30,6 +30,10 @@ host_links:
   - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libcrypto.so.1.1"
     path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libcrypto.so.1.1"
 
+host_directories:
+  - path: "{{ pulsar_root }}/log"
+    mode: "0750"
+
 pulsar_root: "{{ _stampede_instance_root }}/pulsar"
 #galaxy_root: not required
 

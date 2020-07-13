@@ -19,16 +19,16 @@ pulsar_config_dir: "{{ pulsar_root }}/config"
 pulsar_optional_dependencies:
   # git+pip pulsar install uses 'state: forcereinstall' which can upgrade galaxy-lib to a version not compatible with
   # the specified pulsar version, this downgrades it if necessary.
-  - galaxy-lib==18.5.13
+  #- galaxy-lib==18.5.13
   # actual optional things
   - pyOpenSSL
   - pycurl
-  - uwsgi
+  #- uwsgi
   - drmaa
   - kombu
   - requests
-  - poster
+  #- poster
   #- psutil
 
 # TODO: Pulsar doesn't need to run under uWSGI at all, just run webless. This is so it doesn't collide with Test on 8193.
-pulsar_port: 8194
+#pulsar_port: 8194
