@@ -56,6 +56,8 @@
         <!-- dynamic memory rule for the naive variant caller -->
         <expand macro="dynamic_destination" dest="nvc_dynamic_memory" />
 
+        <expand macro="dynamic_destination" dest="rnastar" />
+
         <!-- dynamic local/reserved destinations-->
         <!-- test resubmit
         <expand macro="slurm_reserved_destination" dest="normal" partition="normal" native_specification="- -cpus-per-task=1 - -time=36:00:00" />
@@ -113,6 +115,7 @@
         <expand macro="jetstream_nagios_destination" site="iu" />
         <expand macro="jetstream_destination" id="multi" site="tacc" native_specification="--partition=multi --nodes=1 --time=36:00:00" />
         <expand macro="jetstream_nagios_destination" site="tacc" />
+        <expand macro="jetstream_destination" id="xlarge" site="tacc" native_specification="--partition=xlarge --nodes=1 --time=36:00:00" />
 
         <!-- test -->
         <expand macro="jetstream_destination" id="normal" site="iu" native_specification="--partition=normal --nodes=1 --time=36:00:00 --cpus-per-task=3 --mem=7942" />
@@ -220,6 +223,7 @@
         <expand macro="bridges_tool" id="rnaspades" />
         <expand macro="bridges_tool" id="unicycler" />
         <expand macro="bridges_tool" id="star_fusion" />
+        <tool id="rna_star" destination="dynamic_rnastar" handler="multi"/>
         <!-- trackster jobs -->
         <tool id="cufflinks" destination="slurm_multi_trackster">
             <param id="source">trackster</param>
@@ -304,6 +308,7 @@
         <limit type="destination_user_concurrent_jobs" id="bridges_development">1</limit>
         -->
         <limit type="destination_user_concurrent_jobs" id="jetstream">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="jetstream_tacc_xlarge">1</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="stampede_normal">50</limit>
         <limit type="destination_total_concurrent_jobs" id="stampede_skx_normal">50</limit>

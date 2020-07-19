@@ -169,15 +169,22 @@ def _rnastar(app, param_dict, destination_id, is_explicit_destination, job_id):
         # In testing, very small jobs needed more than the formula above, so guarantee everyone gets at least 8 GB
         need_mb = 8192
         log.debug("(%s) _rnastar: need increased to minimum = %s MB", job_id, need_mb)
-    elif need_mb > 29900:
+    elif need_mb < 29900:
+        destination_id = 'jetstream_iu_multi'
+        need_mb = 0
+        log.debug("(%s) _rnastar: sending to large with need = %s MB", job_id, need_mb)
+    elif need_mb >= 29900:
         # Bridges is the only destination that has this much memory.
         # 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM)
-        if destination_id and destination_id in BRIDGES_DEVELOPMENT_DESTINATION and is_explicit_destination:
-            pass
-        else:
-            destination_id = BRIDGES_DESTINATION
-        need_mb = 147456
-        log.debug("(%s) _rnastar: sending to bridges with need = %s MB", job_id, need_mb)
+        #if destination_id and destination_id in BRIDGES_DEVELOPMENT_DESTINATION and is_explicit_destination:
+        #    pass
+        #else:
+        #    destination_id = BRIDGES_DESTINATION
+        destination_id = 'jetstream_tacc_xlarge'
+        need_mb = 0
+        #need_mb = 147456
+        #log.debug("(%s) _rnastar: sending to bridges with need = %s MB", job_id, need_mb)
+        log.debug("(%s) _rnastar: sending to xlarge with need = %s MB", job_id, need_mb)
     return (destination_id, int(need_mb))
 
 
@@ -256,15 +263,15 @@ def __rule(app, tool, job, user_email, resource_params, resource):
     # FIXME: this is getting really messy
     mem_mb = None
 
-    if resource == 'multi_bridges_compute_resource' and tool_id == 'rna_star':
-        try:
-            destination_id, mem_mb = _rnastar(app, param_dict, destination_id, is_explicit_destination, job.id)
-            if destination_id and destination_id == BRIDGES_DESTINATION:
-                destination = app.job_config.get_destination(destination_id)
-                destination.params['submit_native_specification'] += ' --time=48:00:00'
-        except Exception:
-            log.exception('(%s) Error determining parameters for STAR job', job.id)
-            raise JobMappingException(FAILURE_MESSAGE)
+    #if resource == 'multi_bridges_compute_resource' and tool_id == 'rna_star':
+    #    try:
+    #        destination_id, mem_mb = _rnastar(app, param_dict, destination_id, is_explicit_destination, job.id)
+    #        if destination_id and destination_id == BRIDGES_DESTINATION:
+    #            destination = app.job_config.get_destination(destination_id)
+    #            destination.params['submit_native_specification'] += ' --time=48:00:00'
+    #    except Exception:
+    #        log.exception('(%s) Error determining parameters for STAR job', job.id)
+    #        raise JobMappingException(FAILURE_MESSAGE)
 
     # Need to explicitly pick a destination because of staging. Otherwise we
     # could just submit with --clusters=a,b,c and let slurm sort it out
@@ -273,8 +280,8 @@ def __rule(app, tool, job, user_email, resource_params, resource):
         clusters = ','.join(JETSTREAM_DESTINATION_MAPS[test_destination_id]['clusters'])
         native_specification = app.job_config.get_destination(test_destination_id).params.get('nativeSpecification', '')
         native_specification = _set_walltime(tool_id, native_specification)
-        if mem_mb:
-            native_specification += ' --mem=%s' % mem_mb
+        #if mem_mb:
+        #    native_specification += ' --mem=%s' % mem_mb
         sbatch_test_cmd = ['sbatch', '--test-only', '--clusters=%s' % clusters] + native_specification.split() + [TEST_SCRIPT]
         log.debug('(%s) Testing job submission to determine suitable cluster: %s', job.id, ' '.join(sbatch_test_cmd))
 
@@ -362,6 +369,23 @@ def dynamic_multi_bridges_select(app, tool, job, user_email, resource_params):
     #log.debug("(%s) dynamic_multi_bridges_select() returning '%s'", job.id, destination_id)
     #return destination_id
 
+def dynamic_rnastar(app, tool, job, user_email):
+    tool_id = tool.id
+    if '/' in tool.id:
+        # extract short tool id from tool shed id
+        tool_id = tool.id.split('/')[-2]
+    param_dict = dict([(p.name, p.value) for p in job.parameters])
+    param_dict = tool.params_from_strings(param_dict, app)
+
+    destination_id = None
+    try:
+        destination_id, mem_mb = _rnastar(app, param_dict, destination_id, False, job.id)
+    except Exception:
+        log.exception('(%s) Error determining parameters for STAR job', job.id)
+        raise JobMappingException(FAILURE_MESSAGE)
+
+    log.debug("(%s) STAR dynamic plugin returning '%s' destination", job.id, destination_id)
+    return destination_id
 
 # moved to stampede_select.py
 #def dynamic_stampede_select(app, tool, job, user_email, resource_params):

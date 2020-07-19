@@ -43,6 +43,8 @@
         <!-- dynamic memory rule for the naive variant caller -->
         <expand macro="dynamic_destination" dest="nvc_dynamic_memory" />
 
+        <expand macro="dynamic_destination" dest="rnastar" />
+
         <!-- dynamic local/reserved destinations-->
         <expand macro="slurm_reserved_destination" dest="normal" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00" />
         <expand macro="slurm_reserved_destination" dest="normal_16gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=15360" java_mem="15g" />
@@ -94,6 +96,7 @@
         <expand macro="jetstream_nagios_destination" site="iu" />
         <expand macro="jetstream_destination" id="multi" site="tacc" native_specification="--partition=multi --nodes=1 --time=36:00:00" />
         <expand macro="jetstream_nagios_destination" site="tacc" />
+        <expand macro="jetstream_destination" id="xlarge" site="tacc" native_specification="--partition=xlarge --nodes=1 --time=36:00:00" />
 
         <!-- test -->
         <expand macro="jetstream_destination" id="reserved" site="iu" native_specification="--partition=reserved --nodes=1 --time=36:00:00" />
@@ -178,7 +181,7 @@
         -->
         <tool id="align_families" destination="slurm_multi_align_families" handler="multi_handlers"/>
         <!-- roundup multi/jetstream/bridges jobs -->
-        <tool id="rna_star" destination="dynamic_multi_bridges_select" handler="multi_handlers"  resources="multi_or_bridges"/>
+        <tool id="rna_star" destination="dynamic_rnastar" handler="multi_handlers"/>
         <!-- 16GB tools -->
         <tool id="join1" destination="dynamic_normal_16gb_reserved"/>
         <tool id="gops_join_1" destination="dynamic_normal_16gb_reserved"/>
@@ -262,6 +265,7 @@
         <limit type="destination_user_concurrent_jobs" id="bridges_development">1</limit>
         -->
         <limit type="destination_user_concurrent_jobs" id="jetstream">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="jetstream_tacc_xlarge">1</limit>
         <!-- per-destination total limits -->
         <limit type="destination_total_concurrent_jobs" id="stampede_normal">48</limit>
         <limit type="destination_total_concurrent_jobs" id="stampede_skx_normal">23</limit>
