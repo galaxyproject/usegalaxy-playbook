@@ -46,13 +46,13 @@
         <expand macro="dynamic_destination" dest="rnastar" />
 
         <!-- dynamic local/reserved destinations-->
-        <expand macro="slurm_reserved_destination" dest="normal" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00" />
+        <expand macro="slurm_reserved_destination" dest="normal" partition="normal,jsnormal" native_specification="--cpus-per-task=1 --time=36:00:00" />
         <expand macro="slurm_reserved_destination" dest="normal_16gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=15360" java_mem="15g" />
         <expand macro="slurm_reserved_destination" dest="normal_32gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=30720" java_mem="30g" />
         <expand macro="slurm_reserved_destination" dest="normal_64gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=61440" java_mem="60g" />
-        <expand macro="slurm_reserved_destination" dest="multi" partition="multi" native_specification="--cpus-per-task=6 --time=36:00:00" java_mem="30g" />
+        <expand macro="slurm_reserved_destination" dest="multi" partition="multi,jsmulti" native_specification="--cpus-per-task=6 --time=36:00:00" java_mem="28g" />
         <destination id="slurm_multi_mpi" runner="slurm">
-            <param id="nativeSpecification">--clusters=roundup --partition=multi --nodes=1 --cpus-per-task=1 --ntasks=6 --time=36:00:00</param>
+            <param id="nativeSpecification">--clusters=roundup --partition=multi,jsmulti --nodes=1 --cpus-per-task=1 --ntasks=6 --time=36:00:00</param>
             <!-- <expand macro="dest_local_env" java_mem="30g" /> -->
         </destination>
 
@@ -64,7 +64,7 @@
 
         <!-- non-conda python 2 legacy tools -->
         <destination id="slurm_normal_legacy" runner="slurm">
-            <param id="nativeSpecification">--partition=normal --nodes=1 --cpus-per-task=1 --time=36:00:00</param>
+            <param id="nativeSpecification">--partition=normal,jsnormal --nodes=1 --cpus-per-task=1 --time=36:00:00</param>
             <expand macro="dest_local_env" java_mem="7g"/>
             <param id="use_metadata_binary">true</param>
             <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate"/>
@@ -72,7 +72,7 @@
             <env id="PATH">/cvmfs/main.galaxyproject.org/deps/_py2/bin:$PATH</env>
         </destination>
         <destination id="slurm_multi_legacy" runner="slurm">
-            <param id="nativeSpecification">--partition=multi --nodes=1 --cpus-per-task=4 --time=36:00:00</param>
+            <param id="nativeSpecification">--partition=multi,jsmulti --nodes=1 --cpus-per-task=4 --time=36:00:00</param>
             <expand macro="dest_local_env" java_mem="15g"/>
             <param id="use_metadata_binary">true</param>
             <env file="/cvmfs/main.galaxyproject.org/venv/bin/activate"/>
@@ -241,22 +241,22 @@
         <limit type="job_walltime">49:00:00</limit>
         <limit type="output_size">200G</limit>
         <!-- per-destination per-user limits -->
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal">4</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal_legacy">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal">6</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_legacy">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_normal_16gb">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_64gb">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_dynamic_mem">1</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_multi">2</limit>
-        <limit type="destination_user_concurrent_jobs" id="slurm_multi_legacy">1</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi">4</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_legacy">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_align_families">8</limit>
-        <limit type="destination_user_concurrent_jobs" id="reserved_normal">16</limit>
+        <limit type="destination_user_concurrent_jobs" id="reserved_normal">24</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_16gb">8</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_32gb">4</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_64gb">2</limit>
-        <limit type="destination_user_concurrent_jobs" id="reserved_multi">8</limit>
+        <limit type="destination_user_concurrent_jobs" id="reserved_multi">16</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_skx_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_development">1</limit>
@@ -331,7 +331,7 @@
             <expand macro="dynamic_destination" dest="@DEST@_reserved" />
             <expand macro="slurm_destination" dest="@DEST@" partition="@PARTITION@" native_specification="@NATIVE_SPECIFICATION@" java_mem="@JAVA_MEM@" />
             <destination id="reserved_@DEST@" runner="slurm">
-                <param id="nativeSpecification">--clusters=roundup --partition=reserved --nodes=1 @NATIVE_SPECIFICATION@</param>
+                <param id="nativeSpecification">--clusters=roundup --partition=reserved,jsreserved --nodes=1 @NATIVE_SPECIFICATION@</param>
                 <expand macro="dest_local_env" java_mem="@JAVA_MEM@" />
             </destination>
         </xml>
