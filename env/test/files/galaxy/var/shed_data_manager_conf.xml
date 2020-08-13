@@ -862,4 +862,35 @@
             </output>
         </data_table>
     </data_manager>
+    <data_manager guid="testtoolshed.g2.bx.psu.edu/repos/iuc/data_manager_star_index_builder" id="rna_star_index_builder_data_manager" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_star_index_builder/6c6c6df09e64/data_manager_star_index_builder/data_manager/rna_star_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_star_index_builder/0.0.7">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>data_manager_star_index_builder</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>6c6c6df09e64</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_star_index_builder</id>
+            <version>0.0.7</version>
+        </tool>
+        <data_table name="rnastar_index2x_versioned">
+            <output>
+                <column name="value" />
+                <column name="dbkey" />
+                <column name="name" />
+                <column name="path" output_ref="out_file" >
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- 
+                             <source>${path}</source>
+                             out_file.extra_files_path is used as base by default
+                             if no source, eg for type=directory, then refers to base
+                        -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">rnastar/${version}/${dbkey}/${value}/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/rnastar/${version}/${dbkey}/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+                <column name="with_gene_model" />
+                <column name="version" />
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
