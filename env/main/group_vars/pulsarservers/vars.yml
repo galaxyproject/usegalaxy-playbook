@@ -11,9 +11,11 @@ galaxy_instance_hostname: usegalaxy.org
 
 
 ## used by: galaxyproject.pulsar
-pulsar_privsep_user: xcgalaxy
+#pulsar_privsep_user: xcgalaxy
 #pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@ff2208baf43f6afb9770316e474d15f69c9fd4f9"
-pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
+#pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@2bfc784301c12634b6026113473767f1e3f4d017"
+#pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
+pulsar_package_version: "0.13.0"
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_config_dir: "{{ pulsar_root }}/config"
 pulsar_optional_dependencies:
@@ -30,5 +32,5 @@ pulsar_optional_dependencies:
   #- poster
   #- psutil
 
-# TODO: Pulsar doesn't need to run under uWSGI at all, just run webless. This is so it doesn't collide with Test on 8193.
-#pulsar_port: 8194
+pulsar_systemd_environment:
+  - "GALAXY_VIRTUAL_ENV=/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv"

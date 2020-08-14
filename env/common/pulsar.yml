@@ -1,7 +1,6 @@
 ---
 
 - hosts: pulsarservers
-  remote_user: "{{ galaxy_user }}"
   roles:
     # set up pulsar
     - galaxyproject.pulsar

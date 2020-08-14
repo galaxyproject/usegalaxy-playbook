@@ -6,7 +6,7 @@
 _jetstream_scratch_root: "/jetstream/scratch0/{{ galaxy_instance_codename }}"
 _jetstream_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
 
-pulsar_root: "/srv/pulsar/{{ galaxy_instance_codename }}/pulsar"
+pulsar_root: "/srv/pulsar/{{ galaxy_instance_codename }}"
 #galaxy_root: not required
 
 ## used by: galaxyproject.pulsar to set $GALAXY_HOME in local_env.sh
@@ -18,9 +18,18 @@ _pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
 pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
 pulsar_staging_dir: "{{ _jetstream_scratch_root }}/jobs"
 
+pulsar_separate_privileges: true
 #galaxy_user: properly set in all.yml
-pulsar_privsep_user: "{{ galaxy_user }}"
+pulsar_user: "{{ galaxy_user }}"
+pulsar_privsep_user: root
+# NOTE: the rh-python36 SCL was installed by the slurmscale role in infrastructure-playbook, it might be good to make
+# this more explicit since now something else is using it
+pulsar_virtualenv_command: /bin/scl enable rh-python36 -- python3 -m venv
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
+
+pulsar_systemd: true
+pulsar_systemd_runner: webless
+pulsar_systemd_service_name: "pulsar-{{ galaxy_instance_codename }}"
 
 pulsar_drmaa_library_path: "/usr/lib64/libdrmaa.so"
 
@@ -84,7 +93,3 @@ pulsar_yaml_config:
       min_polling_interval: 5
       galaxy_home: "{{ _jetstream_galaxy_root }}"
       galaxy_datatypes_config_file: "{{ _jetstream_galaxy_root }}/config/datatypes_conf.xml.sample"
-
-pulsar_install_environments:
-  pycurl:
-    PYCURL_SSL_LIBRARY: "nss"
