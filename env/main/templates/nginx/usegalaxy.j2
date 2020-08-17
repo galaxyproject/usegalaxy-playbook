@@ -53,6 +53,13 @@ server {
         include uwsgi_params;
     }
 
+    location ~ ^/api/dataset_collections/([^/]+)/download/?$ {
+        proxy_buffering off;
+        uwsgi_pass 127.0.0.1:4001;
+        uwsgi_param UWSGI_SCHEME $scheme;
+        include uwsgi_params;
+    }
+
     # FIXME: should not be manually placed in /home/ndc
     location /googlef23b5e42aa873e7d.html {
         alias /home/ndc/googlef23b5e42aa873e7d.html;
