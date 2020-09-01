@@ -1,7 +1,8 @@
 ---
 
 # Tool Shed version
-galaxy_commit_id: 67dc4ab4ecd7d25e69bab335db90c5d95c7748a0
+#galaxy_commit_id: 67dc4ab4ecd7d25e69bab335db90c5d95c7748a0
+galaxy_commit_id: dev
 # currently needed for client artifacts left in the source tree
 galaxy_force_checkout: yes
 
@@ -45,7 +46,7 @@ galaxy_toolshed_config:
 
     # paths
 
-    file_path: "{{ galaxy_toolshed_mutable_data_dir }}/repos"
+    file_path: "/srv/toolshed-repos/{{ galaxy_toolshed_instance_codename }}"
     new_file_path: "{{ galaxy_toolshed_mutable_data_dir }}/tmp"
     tool_data_path: "{{ galaxy_toolshed_mutable_data_dir }}/tool-data"
 

@@ -24,11 +24,6 @@ server {
         expires 24h;
     }
 
-    location /static/style {
-        alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/style/blue;
-        expires 24h;
-    }
-
     location /robots.txt {
         alias /srv/toolshed/{{ galaxy_toolshed_instance_codename }}/server/static/robots.txt;
     }

@@ -4,9 +4,9 @@
 # and raven into venv by hand
 - name: Tool Shed code, dependencies, manage static configs
   hosts: toolshedservers
-  #remote_user: "{{ toolshed_privileged_user }}"
-  become: yes
-  become_user: "{{ toolshed_privileged_user }}"
+  remote_user: "{{ toolshed_privileged_user }}"
+  #become: yes
+  #become_user: "{{ toolshed_privileged_user }}"
   roles:
     - role: galaxyproject.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: yes
@@ -22,9 +22,9 @@
 
 - name: Tool Shed database
   hosts: toolshedservers
-  #remote_user: "{{ toolshed_user }}"
-  become: yes
-  become_user: "{{ toolshed_user }}"
+  remote_user: "{{ toolshed_user }}"
+  #become: yes
+  #become_user: "{{ toolshed_user }}"
   roles:
     - role: galaxyproject.galaxy_toolshed
       galaxy_toolshed_manage_static_setup: no

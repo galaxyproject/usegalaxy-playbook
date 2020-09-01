@@ -5,6 +5,8 @@
     path: "{{ item.path }}"
     state: directory
     owner: "{{ item.owner }}"
+    group: "{{ item.group | default(item.owner) }}"
+    mode: "{{ item.mode | default('0750') }}"
   loop:
     - "{{ zergmode_vassal_dir }}"
     - "{{ zergmode_run_dir }}"
@@ -19,6 +21,9 @@
         master: true
         zerg-pool: {{ zergmode_pool_socket }}:{{ zergmode_uwsgi_socket }}
     dest: "{{ zergmode_vassal_dir.path }}/pool.yml"
+    owner: "{{ zergmode_vassal_dir.owner }}"
+    group: "{{ zergmode_vassal_dir.group | default(zergmode_vassal_dir.owner) }}"
+    mode: "0640"
 
 - name: Install application vassal
   copy:
@@ -40,6 +45,9 @@
         chdir: {{ zergmode_app_dir }}
         yaml: {{ zergmode_app_config }}
     dest: "{{ zergmode_vassal_dir.path }}/zergling.yml"
+    owner: "{{ zergmode_vassal_dir.owner }}"
+    group: "{{ zergmode_vassal_dir.group | default(zergmode_vassal_dir.owner) }}"
+    mode: "0640"
 
 - name: Install systemd service unit
   copy:

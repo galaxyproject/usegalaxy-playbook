@@ -36,7 +36,7 @@ toolshedservers_group_crontabs:
     user: root
     hour: "{{ toolshed_tmpwatch_hour }}"
     minute: 30
-    job: "/usr/sbin/tmpwatch --mtime --dirmtime 5d '{{ toolshed_tmpdir }}'"
+    job: "/usr/sbin/tmpreaper --mtime --mtime-dir 5d {{ toolshed_tmpdir | quote }}"
 
 
 ## used by: other vars and various templates
@@ -59,6 +59,8 @@ galaxy_system_group: "{{ toolshed_privileged_group }}"
 #  privsep: "{{ toolshed_privileged_user }}"
 #  errdocs: "{{ toolshed_privileged_user }}"
 galaxy_become_users: {}
+
+galaxy_toolshed_config_file_mode: "0640"
 
 
 ## used by: natefoo.postgresql_objects
@@ -103,7 +105,7 @@ galaxy_toolshed_mutable_data_dir: "{{ galaxy_toolshed_root }}/var/data"
 
 
 ## used by: galaxyproject.galaxy
-#pip_virtualenv_command: "{{ galaxy_shed_root }}/python/bin/virtualenv"
+pip_virtualenv_command: python3 -m venv
 galaxy_server_dir: "{{ galaxy_toolshed_server_dir }}"
 galaxy_venv_dir: "{{ galaxy_toolshed_venv_dir }}"
 galaxy_config_file: "{{ galaxy_toolshed_config_file }}" # to fetch the correct wheels - FIXME: can't find the `tool_shed` section in the YAML config

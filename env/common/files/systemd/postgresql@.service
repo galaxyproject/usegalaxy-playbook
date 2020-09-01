@@ -1,0 +1,45 @@
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# systemd service template for PostgreSQL clusters. The actual instances will
+# be called "postgresql@version-cluster", e.g. "postgresql@9.3-main". The
+# variable %i expands to "version-cluster", %I expands to "version/cluster".
+# (%I breaks for cluster names containing dashes.)
+
+[Unit]
+Description=PostgreSQL Cluster %i
+AssertPathExists=/etc/postgresql/%I/postgresql.conf
+RequiresMountsFor=/etc/postgresql/%I /var/lib/postgresql/%I
+PartOf=postgresql.service
+ReloadPropagatedFrom=postgresql.service
+Before=postgresql.service
+# stop server before networking goes down on shutdown
+After=network.target
+
+[Service]
+Type=forking
+# -: ignore startup failure (recovery might take arbitrarily long)
+# the actual pg_ctl timeout is configured in pg_ctl.conf
+ExecStart=-/usr/bin/pg_ctlcluster --skip-systemctl-redirect %i start
+# 0 is the same as infinity, but "infinity" needs systemd 229
+TimeoutStartSec=0
+ExecStop=/usr/bin/pg_ctlcluster --skip-systemctl-redirect -m fast %i stop
+TimeoutStopSec=1h
+ExecReload=/usr/bin/pg_ctlcluster --skip-systemctl-redirect %i reload
+# Disabled: Not compatible with systemd in LX-brand zones
+#PIDFile=/run/postgresql/%i.pid
+SyslogIdentifier=postgresql@%i
+# prevent OOM killer from choosing the postmaster (individual backends will
+# reset the score to 0)
+OOMScoreAdjust=-900
+# restarting automatically will prevent "pg_ctlcluster ... stop" from working,
+# so we disable it here. Also, the postmaster will restart by itself on most
+# problems anyway, so it is questionable if one wants to enable external
+# automatic restarts.
+#Restart=on-failure
+# (This should make pg_ctlcluster stop work, but doesn't:)
+#RestartPreventExitStatus=SIGINT SIGTERM
+
+[Install]
+WantedBy=multi-user.target
