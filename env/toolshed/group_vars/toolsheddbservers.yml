@@ -1,11 +1,1 @@
----
-
-postgresql_pgdata: /var/lib/postgresql/9.4/main
-postgresql_backup_local_dir: /var/lib/postgresql/backup
-postgresql_backup_active_dir: zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/postgres/active
-postgresql_conf_dir: /etc/postgresql/9.4/main
-postgresql_backup_dir: zfsdump-radegast@westvleteren.galaxyproject.org:/zones/westvleteren/backup/radegast/postgres
-postgresql_backup_mail_recipient: nate@bx.psu.edu
-postgresql_backup_rotate: false
-postgresql_backup_remote_rsync_path: /opt/local/bin/rsync
-postgresql_backup_post_command: ssh -T zfsdump-radegast@westvleteren.galaxyproject.org -- /usr/sbin/zfs snapshot zones/westvleteren/backup/radegast/postgres/current@`date -u +\%Y\%m\%dT\%H\%M\%SZ`
+../../common/group_vars/toolsheddbservers.yml

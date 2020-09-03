@@ -37,7 +37,7 @@ galaxy_toolshed_config:
     master: True
     logto: "{{ galaxy_toolshed_log_dir }}/uwsgi.log"
     pythonpath: lib
-    cron: "0 -1 -1 -1 -1 python scripts/tool_shed/build_ts_whoosh_index.py -c {{ galaxy_toolshed_config_file }} --config-section tool_shed -d"
+    unique-cron: "0 -1 -1 -1 -1 {{ galaxy_venv_dir }}/bin/python scripts/tool_shed/build_ts_whoosh_index.py -c {{ galaxy_toolshed_config_file }} --config-section tool_shed -d"
   tool_shed:
     # secrets
 

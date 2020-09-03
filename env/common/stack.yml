@@ -13,6 +13,7 @@
         name: python3-psycopg2
       when: ansible_os_family == "Debian"
     # This is a dirty hack (but then, so are LX Brand zones, especially in 2020)
+    # NOTE: you'll have to SIGINT the first run of ansible-playbook when it hangs while starting postgres because the package install overwrites it. You will probably also need to restart postgresql@12-main to unstick it the second time.
     - name: Force override PostgreSQL instance systemd service unit on LX Brand zones
       copy:
         src: systemd/postgresql@.service
