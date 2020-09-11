@@ -35,6 +35,7 @@ galaxy_toolshed_config:
     processes: 4
     threads: 4
     offload-threads: 2
+    reload-on-rss: 1100
     master: True
     logto: "{{ galaxy_toolshed_log_dir }}/uwsgi.log"
     pythonpath: lib
