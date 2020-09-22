@@ -3,12 +3,12 @@
 - name: Backup tasks block
   block:
 
-    - name: Fetch galaxy_mutable_configs from master host
+    - name: Fetch galaxy_mutable_config_files
       synchronize:
         mode: pull
         src: "{{ item.dest }}"
         dest: "files/galaxy/var/{{ item.dest | basename }}"
-      loop: "{{ galaxy_mutable_configs }}"
+      loop: "{{ galaxy_mutable_config_files }}"
       loop_control:
         label: "{{ item.dest }}"
 

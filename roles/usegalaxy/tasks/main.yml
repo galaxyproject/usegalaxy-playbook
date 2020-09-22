@@ -3,19 +3,21 @@
 # distribute mutable configs to non-masters (this is not in the public role because I doubt anyone else is doing it)
 # the file must exist in the (local) destination, I can't get synchronize to create it if it does not exist.
 
-- name: Check for mutable config existence
-  stat:
-    path: "{{ item.dest }}"
-  with_items: "{{ galaxy_mutable_configs }}"
-  register: mutable_configs_stat_out
-
-- name: Push mutable configs from playbook if missing
-  synchronize:
-    mode: push
-    src: "files/galaxy/var/{{ item.1.dest | basename }}"
-    dest: "{{ item.1.dest }}"
-  with_indexed_items: "{{ galaxy_mutable_configs }}"
-  when: not mutable_configs_stat_out.results[item.0].stat.exists
+# These are now maintained in CVMFS
+#
+#- name: Check for mutable config existence
+#  stat:
+#    path: "{{ item.dest }}"
+#  with_items: "{{ galaxy_mutable_configs }}"
+#  register: mutable_configs_stat_out
+#
+#- name: Push mutable configs from playbook if missing
+#  synchronize:
+#    mode: push
+#    src: "files/galaxy/var/{{ item.1.dest | basename }}"
+#    dest: "{{ item.1.dest }}"
+#  with_indexed_items: "{{ galaxy_mutable_configs }}"
+#  when: not mutable_configs_stat_out.results[item.0].stat.exists
 
 - name: Check for tool panel layout existence
   stat:

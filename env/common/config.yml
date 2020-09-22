@@ -36,7 +36,7 @@
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
-    # fetch and distribute mutable configs (needs the galaxy_mutable_configs
+    # fetch and distribute mutable configs (needs the galaxy_mutable_config_files
     # var set in galaxyproject.galaxy)
     - role: usegalaxy
     - role: usegalaxy_backup
