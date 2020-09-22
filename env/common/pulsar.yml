@@ -1,6 +1,7 @@
 ---
 
 - hosts: pulsarservers
+  environment: "{{ pulsar_env | default({}) }}"
   roles:
     # set up pulsar
     - galaxyproject.pulsar

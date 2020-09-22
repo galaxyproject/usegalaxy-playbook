@@ -4,10 +4,19 @@
 #
 
 # FIXME:
+#   - conda installed by hand
+#   - __python@3.8 conda-forge env installed by hand
+#   - __curl@7.71 env installed by hand
 #   - supervisor configured by hand
 #   - parrot installed by hand in ~xcgalaxy
 #   - CVMFS keys installed by hand in ~xcgalaxy
 #   - running a branch of pulsar with a hardcoded parrot wrapper
+
+# default $PATH contains puppet bin/sbin, which contain a newer curl that isn't found at pycurl runtime
+pulsar_env:
+  PATH: /pylon5/mc48nsp/xcgalaxy/conda/envs/__curl@7.71/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/bin:/sbin:/home/xcgalaxy/.local/bin:/home/xcgalaxy/bin
+  # FIXME: isn't working, using LD_LIBRARY_PATH in supervisor for the moment
+  #LD_RUN_PATH: /pylon5/mc48nsp/xcgalaxy/conda/envs/__curl@7.71/lib
 
 _bridges_home_root: "/home/xcgalaxy/{{ galaxy_instance_codename }}"
 _bridges_scratch_root: "/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}"
@@ -26,8 +35,11 @@ galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
 # Override group_vars version
 pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
-pip_virtualenv_command: "/home/xcgalaxy/virtualenv/bin/virtualenv"
+#pip_virtualenv_command: "/home/xcgalaxy/virtualenv/bin/virtualenv"
+pip_virtualenv_command: "/pylon5/mc48nsp/xcgalaxy/conda/envs/__python@3.8/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
+
+pulsar_pycurl_ssl_library: openssl
 
 pulsar_drmaa_library_path: "{{ _bridges_home_root }}/slurm-drmaa/lib/libdrmaa.so"
 
