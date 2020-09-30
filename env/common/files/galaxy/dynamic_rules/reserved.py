@@ -26,6 +26,10 @@ def dynamic_normal_16gb_reserved(user_email):
     return __dynamic_reserved('normal_16gb', user_email)
 
 
+def dynamic_normal_16gb_long_reserved(user_email):
+    return __dynamic_reserved('normal_16gb_long', user_email)
+
+
 def dynamic_normal_32gb_reserved(user_email):
     return __dynamic_reserved('normal_32gb', user_email)
 

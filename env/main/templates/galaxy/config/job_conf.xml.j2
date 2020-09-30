@@ -48,6 +48,7 @@
         <!-- dynamic local/reserved destinations-->
         <expand macro="slurm_reserved_destination" dest="normal" partition="normal,jsnormal" native_specification="--cpus-per-task=1 --time=36:00:00" />
         <expand macro="slurm_reserved_destination" dest="normal_16gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=15360" java_mem="15g" />
+        <expand macro="slurm_reserved_destination" dest="normal_16gb_long" partition="normal" native_specification="--cpus-per-task=1 --time=72:00:00 --mem-per-cpu=15360" java_mem="15g" />
         <expand macro="slurm_reserved_destination" dest="normal_32gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=30720" java_mem="30g" />
         <expand macro="slurm_reserved_destination" dest="normal_64gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=61440" java_mem="60g" />
         <expand macro="slurm_reserved_destination" dest="multi" partition="multi,jsmulti" native_specification="--cpus-per-task=6 --time=36:00:00" java_mem="28g" />
@@ -201,7 +202,7 @@
         <tool id="rseqc_bam2wig" destination="dynamic_normal_16gb_reserved"/>
         <tool id="seqtk_sample" destination="dynamic_normal_16gb_reserved"/>
         <tool id="ggplot2_heatmap2" destination="dynamic_normal_16gb_reserved"/>
-        <tool id="kc-align" destination="dynamic_normal_16gb_reserved"/>
+        <tool id="kc-align" destination="dynamic_normal_16gb_long_reserved"/>
         <!-- 32GB tools -->
         <tool id="Interval2Maf1" destination="dynamic_normal_32gb_reserved"/>
         <!-- 64GB tools -->
