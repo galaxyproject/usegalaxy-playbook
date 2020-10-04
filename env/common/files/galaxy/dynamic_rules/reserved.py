@@ -40,3 +40,7 @@ def dynamic_normal_64gb_reserved(user_email):
 
 def dynamic_multi_reserved(user_email):
     return __dynamic_reserved('multi', user_email)
+
+
+def dynamic_multi_long_reserved(user_email):
+    return __dynamic_reserved('multi_long', user_email)

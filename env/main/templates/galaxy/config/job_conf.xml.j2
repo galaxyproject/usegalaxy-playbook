@@ -52,6 +52,7 @@
         <expand macro="slurm_reserved_destination" dest="normal_32gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=30720" java_mem="30g" />
         <expand macro="slurm_reserved_destination" dest="normal_64gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=61440" java_mem="60g" />
         <expand macro="slurm_reserved_destination" dest="multi" partition="multi,jsmulti" native_specification="--cpus-per-task=6 --time=36:00:00" java_mem="28g" />
+        <expand macro="slurm_reserved_destination" dest="multi_long" partition="multi,jsmulti" native_specification="--cpus-per-task=6 --time=72:00:00" java_mem="28g" />
         <destination id="slurm_multi_mpi" runner="slurm">
             <param id="nativeSpecification">--clusters=roundup --partition=multi,jsmulti --nodes=1 --cpus-per-task=1 --ntasks=6 --time=36:00:00</param>
             <!-- <expand macro="dest_local_env" java_mem="30g" /> -->
@@ -181,6 +182,7 @@
         <tool id="align_families" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi_handlers" resources="local_or_stampede"/>
         -->
         <tool id="align_families" destination="slurm_multi_align_families" handler="multi_handlers"/>
+        <tool id="fasterq_dump" destination="dynamic_multi_long_reserved" handler="multi_handlers"/>
         <!-- roundup multi/jetstream/bridges jobs -->
         <tool id="rna_star" destination="dynamic_rnastar" handler="multi_handlers"/>
         <!-- 16GB tools -->
@@ -249,6 +251,7 @@
         <limit type="destination_user_concurrent_jobs" id="slurm_normal_dynamic_mem">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi">4</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_legacy">2</limit>
+        <limit type="destination_user_concurrent_jobs" id="slurm_multi_long">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_dynamic_walltime">2</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_development">1</limit>
         <limit type="destination_user_concurrent_jobs" id="slurm_multi_trackster">1</limit>
@@ -258,6 +261,7 @@
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_32gb">4</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_normal_64gb">2</limit>
         <limit type="destination_user_concurrent_jobs" id="reserved_multi">16</limit>
+        <limit type="destination_user_concurrent_jobs" id="reserved_multi_long">8</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_skx_normal">4</limit>
         <limit type="destination_user_concurrent_jobs" id="stampede_development">1</limit>
