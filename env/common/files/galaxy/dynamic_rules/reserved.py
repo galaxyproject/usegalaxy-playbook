@@ -15,7 +15,10 @@ from galaxy.jobs.mapper import JobMappingException, JobNotReadyException
 log = logging.getLogger(__name__)
 
 JOB_PRIORITY_USERS_GROUP_NAME = 'Job Priority Users'
-JOB_PRIORITY_USERS_GROUP = None
+#JOB_PRIORITY_USERS_GROUP = None
+JOB_PRIORITY_USERS_GROUP_CACHE_TIME = None
+JOB_PRIORITY_USERS_GROUP_CACHE_TTL = 300
+JOB_PRIORITY_USERS_GROUP_MEMBERS = None
 
 # we can't fully trust galaxy not to leave jobs stuck in 'queued', so don't defer assignment indefinitely
 MAX_DEFER_SECONDS = 30
@@ -64,25 +67,52 @@ FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in t
 deferred_jobs = {}
 
 
+#def __job_priority_users_group(app):
+#    global JOB_PRIORITY_USERS_GROUP
+#    if JOB_PRIORITY_USERS_GROUP is None:
+#        group = app.model.context.query(app.model.Group).filter(
+#            app.model.Group.table.c.name == JOB_PRIORITY_USERS_GROUP_NAME,
+#            app.model.Group.table.c.deleted.is_(False)
+#        ).first()
+#        JOB_PRIORITY_USERS_GROUP = group
+#    return JOB_PRIORITY_USERS_GROUP
+
+
+#def __user_in_priority_group(app, user_email):
+#    group = __job_priority_users_group(app)
+#    user = app.model.context.query(app.model.User).filter(
+#        app.model.User.table.c.email == user_email,
+#        app.model.User.table.c.deleted.is_(False)
+#    ).first()
+#    return user and (group in [uga.group for uga in user.groups])
+
+
 def __job_priority_users_group(app):
-    global JOB_PRIORITY_USERS_GROUP
-    if JOB_PRIORITY_USERS_GROUP is None:
-        group = app.model.context.query(app.model.Group).filter(
-            app.model.Group.table.c.name == JOB_PRIORITY_USERS_GROUP_NAME,
-            app.model.Group.table.c.deleted.is_(False)
-        ).first()
-        JOB_PRIORITY_USERS_GROUP = group
-    return JOB_PRIORITY_USERS_GROUP
+    return app.model.context.query(app.model.Group).filter(
+        app.model.Group.table.c.name == JOB_PRIORITY_USERS_GROUP_NAME,
+        app.model.Group.table.c.deleted.is_(False)
+    ).first()
+
+
+def __job_priority_users_group_members(app):
+    # returns email strings, not user objects
+    global JOB_PRIORITY_USERS_GROUP_CACHE_TIME
+    global JOB_PRIORITY_USERS_GROUP_MEMBERS
+    if not JOB_PRIORITY_USERS_GROUP_CACHE_TIME \
+            or (time.time() - JOB_PRIORITY_USERS_GROUP_CACHE_TIME > JOB_PRIORITY_USERS_GROUP_CACHE_TTL):
+        group = __job_priority_users_group(app)
+        if group:
+            app.model.context.refresh(group)
+            JOB_PRIORITY_USERS_GROUP_MEMBERS = [uga.user.email for uga in group.users]
+        else:
+            JOB_PRIORITY_USERS_GROUP_MEMBERS = []
+        JOB_PRIORITY_USERS_GROUP_CACHE_TIME = time.time()
+    return JOB_PRIORITY_USERS_GROUP_MEMBERS
 
 
 def __user_in_priority_group(app, user_email):
-    # TODO: how often will this be refreshed?
-    group = __job_priority_users_group(app)
-    user = app.model.context.query(app.model.User).filter(
-        app.model.User.table.c.email == user_email,
-        app.model.User.table.c.deleted.is_(False)
-    ).first()
-    return user and (group in user.groups)
+    members = __job_priority_users_group_members(app)
+    return user_email in members
 
 
 def __dynamic_reserved(key, app, job, user_email):
@@ -127,10 +157,18 @@ def __queued_job_count(app, destination_configs):
 
 
 def __get_best_destination(app, job, destination_configs):
-    """Given a preference-ordered list of Destinations, attempt to determine the best place to send a job.
+    """Given a preference-ordered list of DestinationConfigs, attempt to determine the best place to send a job.
 
-    If the Destination has more queued jobs than its threshold, 
+    It works like this:
 
+    1. Each destination in the list is checked in order
+    2. If fewer jobs are queued at the destination than its thresholds (and destinations listed in shared_thresholds),
+       the job will be assigned to the destination
+    3. Otherwise, repeat step 2 on the next destination in the list
+    4. If all destinations are over their queued job threshold, defer assignment until the next scheduling loop, where
+       steps 1-3 will be retried.
+    5. If MAX_DEFER_SECONDS is reached and there are still no destinations under the threshold,, choose the destination
+       with the fewest queued jobs.
     """
     job_counts = __queued_job_count(app, destination_configs)
     priority_destinations = []
