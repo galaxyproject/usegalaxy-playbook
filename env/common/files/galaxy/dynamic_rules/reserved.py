@@ -14,6 +14,7 @@ from galaxy.jobs.mapper import JobMappingException, JobNotReadyException
 
 log = logging.getLogger(__name__)
 
+# Users in this group will have their jobs sent to reserved destinations
 JOB_PRIORITY_USERS_GROUP_NAME = 'Job Priority Users'
 #JOB_PRIORITY_USERS_GROUP = None
 JOB_PRIORITY_USERS_GROUP_CACHE_TIME = None
@@ -36,20 +37,23 @@ DestinationConfig = namedtuple('DestinationConfig', [
     'queued_job_threshold',
     # count jobs in these destinations against this one
     'shared_thresholds',
+    # this allows e.g. the resource param to be 'jetstream_multi' when only 'jetstream_iu_multi' provides nodes for
+    # these jobs
+    'tags',
 ])
 
 COMPUTE_RESOURCE_SELECTOR = 'multi_compute_resource'
-DEFAULT_DESTINATION = DestinationConfig('slurm_multi', 'nativeSpecification', 'multi', 6, 6, 36, 36, 4, [])
-JETSTREAM_IU_DESTINATION = DestinationConfig('jetstream_iu_multi', 'submit_native_specification', 'multi', 10, 10, 36, 36, 4, [])
+DEFAULT_DESTINATION = DestinationConfig('slurm_multi', 'nativeSpecification', 'multi', 6, 6, 36, 36, 4, [], [])
+JETSTREAM_IU_DESTINATION = DestinationConfig('jetstream_iu_multi', 'submit_native_specification', 'multi', 10, 10, 36, 36, 4, [], ['jetstream_multi'])
 
 SELECTABLE_DESTINATIONS = (
     DEFAULT_DESTINATION,
     JETSTREAM_IU_DESTINATION,
-    DestinationConfig('slurm_multi_development', 'nativeSpecification', 'multi', 2, 2, 2, 2, 4, []),
-    DestinationConfig('stampede_normal', 'submit_native_specification', 'normal', 128, 272, 48, 48, 4, []),
-    DestinationConfig('stampede_skx_normal', 'submit_native_specification', 'skx-normal', 48, 48, 48, 48, 4, []),
-    DestinationConfig('stampede_development', 'submit_native_specification', 'development', 128,272,  2, 2, 4, []),
-    DestinationConfig('stampede_skx_development', 'submit_native_specification', 'skx-dev', 48, 48, 2, 2, 4, []),
+    DestinationConfig('slurm_multi_development', 'nativeSpecification', 'multi', 2, 2, 2, 2, 4, [], []),
+    DestinationConfig('stampede_normal', 'submit_native_specification', 'normal', 64, 272, 48, 48, 4, [], []),
+    DestinationConfig('stampede_skx_normal', 'submit_native_specification', 'skx-normal', 48, 96, 48, 48, 4, [], []),
+    DestinationConfig('stampede_development', 'submit_native_specification', 'development', 64,272,  2, 2, 4, [], []),
+    DestinationConfig('stampede_skx_development', 'submit_native_specification', 'skx-dev', 48, 96, 2, 2, 4, [], []),
 )
 
 MULTI_DESTINATIONS = (
@@ -58,8 +62,8 @@ MULTI_DESTINATIONS = (
 )
 
 MULTI_LONG_DESTINATIONS = (
-    DestinationConfig('slurm_multi_long', 'nativeSpecification', 'multi', 6, 6, 72, 72, 20, ['slurm_multi']),
-    DestinationConfig('stampede_long', 'submit_native_specification', 'multi', 128, 272, 72, 120, 20, []),
+    DestinationConfig('slurm_multi_long', 'nativeSpecification', 'multi', 6, 6, 72, 72, 20, ['slurm_multi'], []),
+    DestinationConfig('stampede_long', 'submit_native_specification', 'multi', 64, 272, 72, 120, 20, [], []),
 )
 
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
@@ -131,7 +135,9 @@ def __parse_resource_selector(job, param_dict):
         time = int(param_dict['__job_resource'].get('time', 0))
         destination_id = param_dict['__job_resource'][COMPUTE_RESOURCE_SELECTOR]
         for destination in SELECTABLE_DESTINATIONS:
-            if destination.id == destination_id:
+            # TODO: right now it's just going to select the first dest in a tag, if we actually added more dests to a
+            # tag we would need an algorithm to select between them
+            if destination.id == destination_id or destination_id in destination.tags:
                 # if 0, set to destination default
                 cores = cores or destination.default_cores
                 time = time or destination.max_walltime
@@ -196,13 +202,17 @@ def __get_best_destination(app, job, destination_configs):
     raise JobNotReadyException(message="All destinations over max queued thresholds")
 
 
-def __dynamic_multi_cores_time(app, job, destination_configs):
+def __dynamic_multi_cores_time(app, job, destination_configs, dynamic_reserved_key):
 
     # build the param dictionary
     param_dict = job.get_param_values(app)
 
     if param_dict.get('__job_resource', {}).get('__job_resource__select') != 'yes':
         log.debug("(%s) Job resource parameters not seleted", job.id)
+        # bypass best destination selection when the user is in the priority users list
+        destination_id = __dynamic_reserved(dynamic_reserved_key, app, job, user_email)
+        if destination_id.startswith('reserved_'):
+            return destination_id
         destination_config = __get_best_destination(app, job, destination_configs)
         cores = destination_config.default_cores
         time = destination_config.max_walltime
@@ -287,16 +297,8 @@ def dynamic_normal_64gb_reserved(app, job, user_email):
 
 
 def dynamic_multi_reserved(app, job, user_email):
-    destination_id = __dynamic_reserved('multi', app, job, user_email)
-    if destination_id.startswith('reserved_'):
-        return destination_id
-    else:
-        return __dynamic_multi_cores_time(app, job, MULTI_DESTINATIONS)
+    return __dynamic_multi_cores_time(app, job, MULTI_DESTINATIONS, 'multi')
 
 
 def dynamic_multi_long_reserved(app, job, user_email):
-    destination_id = __dynamic_reserved('multi_long', app, job, user_email)
-    if destination_id.startswith('reserved_'):
-        return destination_id
-    else:
-        return __dynamic_multi_cores_time(app, job, MULTI_LONG_DESTINATIONS)
+    return __dynamic_multi_cores_time(app, job, MULTI_LONG_DESTINATIONS, 'multi_long')

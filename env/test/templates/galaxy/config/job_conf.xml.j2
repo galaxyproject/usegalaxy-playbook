@@ -79,7 +79,22 @@
         <expand macro="slurm_reserved_destination" dest="normal_16gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=15360" java_mem="15g" />
         <expand macro="slurm_reserved_destination" dest="normal_32gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=30720" java_mem="30g" />
         <expand macro="slurm_reserved_destination" dest="normal_64gb" partition="normal" native_specification="--cpus-per-task=1 --time=36:00:00 --mem-per-cpu=61440" java_mem="60g" />
-        <expand macro="slurm_reserved_destination" dest="multi" partition="multi,jsmulti" native_specification="--cpus-per-task=6 --time=36:00:00" java_mem="28g" />
+        <!-- CPUs/tasks and time are set by dynamic rule -->
+        <!--
+        <expand macro="slurm_reserved_destination" dest="multi" partition="multi,jsmulti" native_specification="- -cpus-per-task=6 - -time=36:00:00" java_mem="28g" />
+        -->
+        <destination id="dynamic_multi_reserved" runner="dynamic">
+            <param id="type">python</param>
+            <param id="function">dynamic_multi_reserved</param>
+        </destination>
+        <destination id="slurm_multi" runner="slurm">
+            <param id="nativeSpecification">--clusters=roundup --partition=multi,jsmulti --nodes=1</param>
+            <expand macro="dest_local_env" java_mem="28g"/>
+        </destination>
+        <destination id="reserved_multi" runner="slurm">
+            <param id="nativeSpecification">--clusters=roundup --partition=reserved,jsreserved --nodes=1 --cpus-per-task=6 --time=36:00:00</param>
+            <expand macro="dest_local_env" java_mem="28g" />
+        </destination>
 
         <!-- singularity test destinations -->
         <destination id="slurm_singularity" runner="slurm">
@@ -121,10 +136,11 @@
 
         <!-- stampede destinations -->
         <!-- memory_mb vals are node spec mem minus 4 GB -->
-        <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --ntasks=64 --time=48:00:00 --account=TG-MCB140147" memory_mb="94208" />
-        <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --ntasks=64 --time=00:30:00 --account=TG-MCB140147" memory_mb="94208" />
-        <expand macro="stampede_destination" id="skx_normal" native_specification="--partition=skx-normal --nodes=1 --ntasks=48 --time=48:00:00 --account=TG-MCB140147" memory_mb="192512" />
-        <expand macro="stampede_destination" id="skx_development" native_specification="--partition=skx-dev --nodes=1 --ntasks=48 --time=00:30:00 --account=TG-MCB140147" memory_mb="192512" />
+        <expand macro="stampede_destination" id="normal" native_specification="--partition=normal --nodes=1 --account=TG-MCB140147" memory_mb="94208" />
+        <expand macro="stampede_destination" id="development" native_specification="--partition=development --nodes=1 --account=TG-MCB140147" memory_mb="94208" />
+        <expand macro="stampede_destination" id="skx_normal" native_specification="--partition=skx-normal --nodes=1 --account=TG-MCB140147" memory_mb="192512" />
+        <expand macro="stampede_destination" id="skx_development" native_specification="--partition=skx-dev --nodes=1 --account=TG-MCB140147" memory_mb="192512" />
+        <expand macro="stampede_destination" id="long" native_specification="--partition=long --nodes=1 --account=TG-MCB140147" memory_mb="94208" />
         <expand macro="stampede_nagios_destination" />
 
         <!-- New generic multi destinations -->
@@ -277,11 +293,11 @@
     </tools>
     <resources default="default">
         <group id="default"></group>
-        <group id="local_or_stampede">tacc_compute_resource,cores,time</group>
+        <group id="local_or_stampede">multi_compute_resource,cores,time</group>
         <group id="multi_or_bridges">multi_bridges_compute_resource</group>
         <group id="stampede">stampede_compute_resource</group>
         <group id="bridges">bridges_compute_resource</group>
-        <group id="mpi">tacc_compute_resource_advanced,cores,time</group>
+        <group id="mpi">multi_compute_resource,cores,time</group>
     </resources>
     <limits>
         <!--
@@ -499,7 +515,7 @@
             <tool id="@ID@" destination="dynamic_stampede_select" handler="multi" resources="stampede"/>
         </xml>
         <xml name="stampede_resubmit_tool" tokens="id">
-            <tool id="@ID@" destination="dynamic_local_stampede_select_dynamic_walltime" handler="multi" resources="local_or_stampede" />
+            <tool id="@ID@" destination="dynamic_multi_reserved" handler="multi" resources="local_or_stampede" />
         </xml>
         <xml name="bridges_tool" tokens="id">
             <tool id="@ID@" destination="dynamic_bridges_select" handler="multi" resources="bridges"/>
