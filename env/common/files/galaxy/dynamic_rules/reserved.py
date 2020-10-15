@@ -4,9 +4,12 @@
 
 import heapq
 import logging
+import re
 import time
 from collections import namedtuple
+from functools import partial
 
+import yaml
 from sqlalchemy import func
 
 from galaxy.jobs.mapper import JobMappingException, JobNotReadyException
@@ -14,12 +17,20 @@ from galaxy.jobs.mapper import JobMappingException, JobNotReadyException
 
 log = logging.getLogger(__name__)
 
+
+## FIXME
+TOOL_MAPPINGS_FILE = '/srv/galaxy/test/config/tool_mappings.yml'
+
 # Users in this group will have their jobs sent to reserved destinations
 JOB_PRIORITY_USERS_GROUP_NAME = 'Job Priority Users'
 #JOB_PRIORITY_USERS_GROUP = None
-JOB_PRIORITY_USERS_GROUP_CACHE_TIME = None
-JOB_PRIORITY_USERS_GROUP_CACHE_TTL = 300
-JOB_PRIORITY_USERS_GROUP_MEMBERS = None
+#JOB_PRIORITY_USERS_GROUP_CACHE_TIME = None
+#JOB_PRIORITY_USERS_GROUP_CACHE_TTL = 300
+#JOB_PRIORITY_USERS_GROUP_MEMBERS = None
+CACHE_TTL = 300
+CACHE_TIMES = {}
+CACHE_MEMBERS = {}
+PARAM_RES = {}
 
 # we can't fully trust galaxy not to leave jobs stuck in 'queued', so don't defer assignment indefinitely
 MAX_DEFER_SECONDS = 30
@@ -91,6 +102,34 @@ deferred_jobs = {}
 #    return user and (group in [uga.group for uga in user.groups])
 
 
+def __get_cached(key, refresh_func):
+    cache_time = CACHE_TIMES.get(key, None)
+    if not cache_time or (time.time() - cache_time > CACHE_TTL):
+        CACHE_MEMBERS[key] = refresh_func()
+        CACHE_TIMES[key] = time.time()
+    return CACHE_MEMBERS[key]
+
+
+def __tool_mappings():
+    def _tool_mappings_refresh_func():
+        with open(TOOL_MAPPINGS_FILE) as fh:
+            return yaml.safe_load(fh.read())
+    return __get_cached('tool_mappings', _tool_mappings_refresh_func)
+
+
+def __tool_destination(tool_id):
+    tool_mappings = __tool_mappings()
+    # FIXME: this is the default multi DestinationConfig not the default normal
+    destination_id = tool_mappings['tools'].get(tool_id, DEFAULT_DESTINATION.id)
+    if destination_id == 'dynamic':
+        # TODO: full dynamic
+    elif destination_id in tool_mappings['destinations']:
+        mapping = tool_mappings['destinations'][destination_id]
+        destination_id = mapping['id']
+        for param 
+        
+
+
 def __job_priority_users_group(app):
     return app.model.context.query(app.model.Group).filter(
         app.model.Group.table.c.name == JOB_PRIORITY_USERS_GROUP_NAME,
@@ -100,18 +139,14 @@ def __job_priority_users_group(app):
 
 def __job_priority_users_group_members(app):
     # returns email strings, not user objects
-    global JOB_PRIORITY_USERS_GROUP_CACHE_TIME
-    global JOB_PRIORITY_USERS_GROUP_MEMBERS
-    if not JOB_PRIORITY_USERS_GROUP_CACHE_TIME \
-            or (time.time() - JOB_PRIORITY_USERS_GROUP_CACHE_TIME > JOB_PRIORITY_USERS_GROUP_CACHE_TTL):
+    def _job_priority_users_refresh_func(app):
         group = __job_priority_users_group(app)
         if group:
             app.model.context.refresh(group)
-            JOB_PRIORITY_USERS_GROUP_MEMBERS = [uga.user.email for uga in group.users]
+            return [uga.user.email for uga in group.users]
         else:
-            JOB_PRIORITY_USERS_GROUP_MEMBERS = []
-        JOB_PRIORITY_USERS_GROUP_CACHE_TIME = time.time()
-    return JOB_PRIORITY_USERS_GROUP_MEMBERS
+            return []
+    return __get_cached('job_priority_users', partial(_job_priority_users_refresh_func, app)
 
 
 def __user_in_priority_group(app, user_email):
@@ -119,7 +154,15 @@ def __user_in_priority_group(app, user_email):
     return user_email in members
 
 
-def __dynamic_reserved(key, app, job, user_email):
+def __dynamic_reserved(key, app, tool, job, user_email):
+
+    tool_id = tool.id
+    if '/' in tool.id:
+        # extract short tool id from tool shed id
+        tool_id = tool.id.split('/')[-2]
+
+    tool_mappings = __tool_mappings()
+
     destination_id = 'slurm_' + key
     if __user_in_priority_group(app, user_email):
         destination_id = 'reserved_' + key
@@ -160,6 +203,18 @@ def __queued_job_count(app, destination_configs):
         app.model.Job.table.c.state == app.model.Job.states.QUEUED
     ).group_by(app.model.Job.destination_id).all()
     return dict([(d, c) for d, c in job_counts])
+
+
+def __replace_param_value(native_spec, param, value):
+    if param not in PARAM_RES:
+        PARAM_RES[param] = re.compile(r'--{}=[^\s]+'.format(param))
+    param_re = PARAM_RES[param]
+    new_param = '--{}={}'.format(param, value)
+    if '--{}'.format(param) in native_spec:
+        native_spec = re.sub(param_re, new_param, native_spec)
+    else:
+        native_spec += ' ' + new_param
+    return native_spec
 
 
 def __get_best_destination(app, job, destination_configs):
@@ -276,24 +331,24 @@ def __dynamic_multi_cores_time(app, job, destination_configs, dynamic_reserved_k
     return destination
 
 
-def dynamic_normal_reserved(app, job, user_email):
-    return __dynamic_reserved('normal', app, job, user_email)
+def dynamic_normal_reserved(app, job, tool, user_email):
+    return __dynamic_reserved('normal', app, tool, job, user_email)
 
 
-def dynamic_normal_16gb_reserved(app, job, user_email):
-    return __dynamic_reserved('normal_16gb', app, job, user_email)
+#def dynamic_normal_16gb_reserved(app, job, user_email):
+#    return __dynamic_reserved('normal_16gb', app, job, user_email)
 
 
-def dynamic_normal_16gb_long_reserved(app, job, user_email):
-    return __dynamic_reserved('normal_16gb_long', app, job, user_email)
+#def dynamic_normal_16gb_long_reserved(app, job, user_email):
+#    return __dynamic_reserved('normal_16gb_long', app, job, user_email)
 
 
-def dynamic_normal_32gb_reserved(app, job, user_email):
-    return __dynamic_reserved('normal_32gb', app, job, user_email)
+#def dynamic_normal_32gb_reserved(app, job, user_email):
+#    return __dynamic_reserved('normal_32gb', app, job, user_email)
 
 
-def dynamic_normal_64gb_reserved(app, job, user_email):
-    return __dynamic_reserved('normal_64gb', app, job, user_email)
+#def dynamic_normal_64gb_reserved(app, job, user_email):
+#    return __dynamic_reserved('normal_64gb', app, job, user_email)
 
 
 def dynamic_multi_reserved(app, job, user_email):

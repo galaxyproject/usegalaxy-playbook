@@ -186,6 +186,7 @@ base_app_main: &BASE_APP_MAIN
   cleanup_job: never
   monitor_thread_join_timeout: 60
   cache_user_job_count: "True"
+  #outputs_to_working_directory: "True"
   allow_user_impersonation: "True"
   max_metadata_value_size: 1000000
   brand: 'Test'
@@ -203,7 +204,6 @@ base_app_main: &BASE_APP_MAIN
   tool_ngram_maxsize: 4
 
   expose_potentially_sensitive_job_metrics: "True"
-  
 
   # dependency resolver config
   conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"

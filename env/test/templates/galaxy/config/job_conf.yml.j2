@@ -1,0 +1,175 @@
+---
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# (id, load)
+{%- set pulsar_plugins = (
+    ('jetstream_iu', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
+    ('jetstream_tacc', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
+    ('stampede', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
+    ('bridges', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
+    ('tacc_k8s', 'galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner'),
+) %}
+
+# FIXME: so, better to have these as defined dests so they can have defined limits. but better to make all tool mapping
+# dynamic so you don't have to restart handlers to update them. ah but then they can't get an appropriate resource
+# selector. or you could just give all tools the resource selector and then it'd be ignored if not valid...
+#
+# maybe use static mappings for multicore tools and dynamic for singlecore tools
+
+# these will create the destinations 'slurm_[0]' and 'reserved_[0]'
+# (id, native_spec, java_mem, create_reserved_dest?)
+{%- set slurm_destinations = (
+    ('normal', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00', 7, true),
+    ('normal_16gb', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360', 15, true),
+    ('normal_32gb', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=30720', 30, true),
+    ('normal_32gb', '--partition=normal --nodes=1 --ntasks=1 --time=36:00:00 --mem=61440', 60, true),
+    ('multi', '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00', 28, true),
+    ('multi_development', '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:30:00', 15, false),
+) %}
+
+{%- set jetstream_destinations = (
+    ('iu_multi', '--partition=multi '
+) %}
+
+runners:
+  dynamic:
+    # these live in the virtualenv
+    rules_module: usegalaxy.jobs.rules
+  local:
+    load: galaxy.jobs.runners.local:LocalJobRunner
+    workers: 2
+  slurm:
+    load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    workers: 2
+    drmaa_library_path: /usr/lib64/libdrmaa.so
+    invalidjobexception_retries: 5
+    internalexception_retries: 5
+{% for id, plugin in pulsar_plugins %}
+  {{ id }}:
+    load: {{ plugin }}
+    amqp_url: {{ galaxy_job_conf_amqp_url }}
+    galaxy_url: https://{{ galaxy_instance_hostname }}
+    manager: {{ id }}
+    persistence_directory: /srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack
+    amqp_acknowledge: true
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+{% endfor %}
+
+handling:
+  default: handlers
+  assign: db-skip-locked
+  max_grab: 4
+  processes:
+{% for id in (0, 1) %}
+    handler{{ id }}:
+      plugins:
+        - local
+        - slurm
+      tags:
+        - handlers
+{% endfor %}
+{% for id in (2, 3) %}
+    handler{{ id }}:
+      plugins:
+        - slurm
+{% for id, _ in pulsar_plugins %}
+        - {{ id }}
+{% endfor %}
+      tags:
+        - multi
+{% endfor %}
+
+execution:
+  default: dynamic_normal_reserved
+  environments:
+
+    #
+    # dynamic destinations
+    #
+    dynamic_normal_reserved:
+      # single core roundup and TACC-discretionary Jetstream, priority (reserved)
+      runner: dynamic
+      function: dynamic_normal_reserved
+    dynamic_multi_bridges_select:
+      runner: dynamic
+      function: dynamic_multi_bridges_select
+
+    #
+    # roundup and TACC-discretionary Jetstream destinations
+    #
+{% for id, native_spec, java_mem, create_reserved_dest in slurm_destinations %}
+    slurm_{{ id }}:
+      runner: slurm
+      native_specification: {{ native_spec }}
+      env:
+        {{ dest_local_env(java_mem=java_mem) }}
+{% if create_reserved_dest %}
+    reserved_{{ id }}:
+      runner: slurm
+      native_specification: {{ native_spec | replace('normal', 'reserved') | replace('multi', 'reserved')  }}
+      env:
+        {{ dest_local_env(java_mem=java_mem) }}
+{% endif %}
+{% endfor %}
+{% for id, runner, native_spec, java_mem, create_reserved_dest in jetstream_destinations %}
+    jetstream_{{ id }}:
+      runner: {{ runner }}
+      submit_native_specification: {{ native_spec }}
+      {{ dest_pulsar_params() }}
+      {{ dest_jetstream_params() }}
+      env:
+        # FIXME: this is a pulsar common env param (set on all pulsar dests)
+        - name: LC_ALL
+          value: C
+        - name: PATH
+          value: /jetstream/scratch0/test/conda/envs/set_metadata@20171114/bin:$PATH
+        {{ dest_temp_env() }}
+# FIXME: reserved
+{% endfor %}
+
+{#-
+## template macros
+#}
+
+{%- macro dest_local_env(java_mem=7) -%}
+        # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
+        - name: PATH
+          value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+        - name: XDG_DATA_HOME
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/xdg/data
+        {{ dest_temp_env(java_mem=java_mem) }}
+        - name: _JAVA_OPTIONS
+          value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
+{%- endmacro %}
+
+{%- macro dest_temp_env() -%}
+        - name: TEMP
+          #raw: true
+          value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
+        - name: TMPDIR
+          value: $TEMP
+        - name: _JAVA_OPTIONS
+          value: -Djava.io.tmpdir=$TEMP
+        - execute: mkdir -p $TEMP
+{%- endmacro %}
+
+{%- macro dest_pulsar_params() -%}
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: true
+      submit_user_email: $__user_email__
+{%- endmacro %}
+
+{%- macro dest_jetstream_params() -%}
+      jobs_directory: /jetstream/scratch0/{{ galaxy_instance_codename }}/jobs
+      # this doesn't work, set in supervisor environment instead
+      #remote_property_galaxy_virtual_env: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv
+      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      file_action_config: {{ galaxy_config_dir }}/pulsar_jetstream_actions.yml
+{%- endmacro %}

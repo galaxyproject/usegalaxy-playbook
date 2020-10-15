@@ -1,0 +1,35 @@
+---
+
+# by default, tools are assigned 1 core, 8 GB of memory, and a 36 hour walltime
+
+# either a key in destinations below, a job_conf destination id or tag, or the special 'dynamic'
+tools:
+  foo: normal_16gb
+  bar: dynamic
+  baz: multi
+
+# don't overlap destinations defined in job_conf for confusion purposes
+destinations:
+  slurm_normal_16gb:
+    id: slurm_normal
+    reserved: true
+    params:
+      mem: 16384
+
+
+# these tools get 1 core and 16 GB of memory
+#normal_16gb_tools: []
+
+# these tools get 1 core and 32 GB of memory
+#normal_32gb_tools: []
+
+# these tools get 1 core and 32 GB of memory
+#normal_32gb_tools: []
+
+# these tools are fully dynamic
+#dynamic_tools:
+#  - id: foo
+#    partition: normal
+#    cores: 1
+#    mem: 8
+#    time: 24
