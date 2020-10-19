@@ -3,7 +3,7 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
-# (id, load)
+{# (id, load) #}
 {%- set pulsar_plugins = (
     ('jetstream_iu', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
     ('jetstream_tacc', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
@@ -12,14 +12,18 @@
     ('tacc_k8s', 'galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner'),
 ) %}
 
-# FIXME: so, better to have these as defined dests so they can have defined limits. but better to make all tool mapping
-# dynamic so you don't have to restart handlers to update them. ah but then they can't get an appropriate resource
-# selector. or you could just give all tools the resource selector and then it'd be ignored if not valid...
-#
-# maybe use static mappings for multicore tools and dynamic for singlecore tools
+{#-
+## FIXME: so, better to have these as defined dests so they can have defined limits. but better to make all tool mapping
+## dynamic so you don't have to restart handlers to update them. ah but then they can't get an appropriate resource
+## selector. or you could just give all tools the resource selector and then it'd be ignored if not valid...
+##
+## maybe use static mappings for multicore tools and dynamic for singlecore tools
+#}
 
-# these will create the destinations 'slurm_[0]' and 'reserved_[0]'
-# (id, native_spec, java_mem, create_reserved_dest?)
+{#-
+## these will create the destinations 'slurm_[0]' and 'reserved_[0]'
+#}
+{#- (id, native_spec, java_mem, create_reserved_dest?) #}
 {%- set slurm_destinations = (
     ('normal', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00', 7, true),
     ('normal_16gb', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360', 15, true),
@@ -29,10 +33,80 @@
     ('multi_development', '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:30:00', 15, false),
 ) %}
 
+{#- (id, runner, native_spec, java_mem, create_reserved_dest?) #}
 {%- set jetstream_destinations = (
-    ('iu_multi', '--partition=multi '
+    ('iu_multi', 'jetstream_iu', '--partition=multi --nodes=1 =-time=36:00:00', 28, true),
+    ('tacc_multi', 'jetstream_tacc', '--partition=multi --nodes=1 =-time=36:00:00', 28, false),
+    ('tacc_xlarge', 'jetstream_tacc', '--partition=xlarge --nodes=1 =-time=36:00:00', 58, false),
 ) %}
 
+{#- (id, native_spec, memory_mb) #}
+{%- set stampede_destinations = (
+    ('normal', '--partition=normal --nodes=1 --account=TG-MCB140147', 94208),
+    ('development', '--partition=development --nodes=1 --account=TG-MCB140147', 94208),
+    ('skx_normal', '--partition=skx-normal --nodes=1 --account=TG-MCB140147', 192512),
+    ('skx_development', '--partition=skx-dev --nodes=1 --account=TG-MCB140147', 192512),
+    ('long', '--partition=long --nodes=1 --account=TG-MCB140147', 94208),
+) %}
+
+{#- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) #}
+{#- (id, native_spec) #}
+{%- set bridges_destinations = (
+    ('normal', '--partition=LM --constraint=LM&EGRESS'),
+    ('development', '--partition=LM --constraint=LM&EGRESS --time=00:30:00 --mem=147456'),
+) %}
+
+{#-
+## template macros
+#}
+
+{%- macro dest_local_env(java_mem=7) -%}
+        # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
+        - name: PATH
+          value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+        - name: XDG_DATA_HOME
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/xdg/data
+        {{ dest_temp_env() }}
+        - name: _JAVA_OPTIONS
+          value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
+{%- endmacro %}
+
+{%- macro dest_pulsar_env() -%}
+        - name: LC_ALL
+          value: C
+{%- endmacro %}
+
+{%- macro dest_temp_env() -%}
+        - name: TEMP
+          #raw: true
+          value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
+        - name: TMPDIR
+          value: $TEMP
+        - name: _JAVA_OPTIONS
+          value: -Djava.io.tmpdir=$TEMP
+        - execute: mkdir -p $TEMP
+{%- endmacro %}
+
+{%- macro dest_pulsar_params() -%}
+      remote_metadata: true
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: true
+      submit_user_email: $__user_email__
+{%- endmacro %}
+
+{%- macro dest_jetstream_params() -%}
+      jobs_directory: /jetstream/scratch0/{{ galaxy_instance_codename }}/jobs
+      # this doesn't work, set in supervisor environment instead
+      #remote_property_galaxy_virtual_env: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv
+      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      file_action_config: {{ galaxy_config_dir }}/pulsar_jetstream_actions.yml
+{%- endmacro %}
+
+{#-
+## Job Configuration
+#}
 runners:
   dynamic:
     # these live in the virtualenv
@@ -98,6 +172,18 @@ execution:
     dynamic_multi_bridges_select:
       runner: dynamic
       function: dynamic_multi_bridges_select
+    dynamic_stampede_select:
+      runner: dynamic
+      function: dynamic_stampede_select
+    dynamic_bridges_select:
+      runner: dynamic
+      function: dynamic_bridges_select
+    dynamic_nvc_dynamic_memory:
+      runner: dynamic
+      function: dynamic_nvc_dynamic_memory
+    dynamic_rnastar:
+      runner: dynamic
+      function: dynamic_rnastar
 
     #
     # roundup and TACC-discretionary Jetstream destinations
@@ -116,6 +202,10 @@ execution:
         {{ dest_local_env(java_mem=java_mem) }}
 {% endif %}
 {% endfor %}
+
+    #
+    # Jetstream destinations
+    #
 {% for id, runner, native_spec, java_mem, create_reserved_dest in jetstream_destinations %}
     jetstream_{{ id }}:
       runner: {{ runner }}
@@ -123,53 +213,60 @@ execution:
       {{ dest_pulsar_params() }}
       {{ dest_jetstream_params() }}
       env:
-        # FIXME: this is a pulsar common env param (set on all pulsar dests)
-        - name: LC_ALL
-          value: C
+        {{ dest_pulsar_env() }}
         - name: PATH
           value: /jetstream/scratch0/test/conda/envs/set_metadata@20171114/bin:$PATH
         {{ dest_temp_env() }}
-# FIXME: reserved
 {% endfor %}
 
-{#-
-## template macros
-#}
-
-{%- macro dest_local_env(java_mem=7) -%}
-        # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
-        - name: PATH
-          value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
-        - name: XDG_DATA_HOME
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/xdg/data
-        {{ dest_temp_env(java_mem=java_mem) }}
-        - name: _JAVA_OPTIONS
-          value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
-{%- endmacro %}
-
-{%- macro dest_temp_env() -%}
-        - name: TEMP
-          #raw: true
-          value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
-        - name: TMPDIR
-          value: $TEMP
-        - name: _JAVA_OPTIONS
-          value: -Djava.io.tmpdir=$TEMP
-        - execute: mkdir -p $TEMP
-{%- endmacro %}
-
-{%- macro dest_pulsar_params() -%}
-      transport: curl
-      default_file_action: remote_transfer
-      dependency_resolution: remote
-      rewrite_parameters: true
-      submit_user_email: $__user_email__
-{%- endmacro %}
-
-{%- macro dest_jetstream_params() -%}
-      jobs_directory: /jetstream/scratch0/{{ galaxy_instance_codename }}/jobs
-      # this doesn't work, set in supervisor environment instead
-      #remote_property_galaxy_virtual_env: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv
+    #
+    # Stampede destinations
+    #
+{% for id, native_spec, memory_mb in stampede_destinations %}
+    stampede_{{ id }}:
+      runner: stampede
+      submit_native_specification: {{ native_spec }}
+      {{ dest_pulsar_params() }}
+      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      {# this doesn't work, set in supervisor environment instead
+       #remote_property_galaxy_virtual_env: /work/galaxy/{{ galaxy_instance_codename }}/galaxy/venv
+      -#}
+      {# this used to work but doesn't now either, set in supervisor environment instead, however, the Pulsar client
+       # still requires it to be set when remote_metadata is enabled -#}
       remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
-      file_action_config: {{ galaxy_config_dir }}/pulsar_jetstream_actions.yml
-{%- endmacro %}
+      file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
+      env:
+        {{ dest_pulsar_env() }}
+        - exec: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
+        - exec: ulimit -c 0
+        {# Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
+        - name: GALAXY_SLOTS
+          value: $SLURM_NTASKS
+        {# Mem=0 if the Slurm -mem param is not used, which is not allowed on Stampede2 -#}
+        - name: GALAXY_MEMORY_MB
+          value: {{ memory_mb }}
+{% endfor %}
+
+    #
+    # Bridges destinations
+    #
+{% for id, native_spec in bridges_destinations %}
+    bridges_{{ id }}:
+      runner: bridges
+      submit_native_specification: {{ native_spec }}
+      {{ dest_pulsar_params() }}
+      jobs_directory: /pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      {# see stampede comments -#}
+      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      file_action_config: {{ galaxy_config_dir }}/pulsar_bridges_actions.yml
+      env:
+        {{ dest_pulsar_env() }}
+        - exec: eval `modulecmd sh purge`
+        {# SPAdes as run by Unicycler is leaving cores in Pulsar's site-packages dir (but should be fixed with proper working dir in Pulsar -#}
+        - exec: ulimit -c 0
+        {# https://bugs.openjdk.java.net/browse/JDK-7085890 -#}
+        - name: _JAVA_OPTIONS
+          value: -Dsun.zip.disableMemoryMapping=true
+        - name: PATH
+          value: /pylon5/mc48nsp/xcgalaxy/openjdk8/bin:$PATH
+{% endfor %}
