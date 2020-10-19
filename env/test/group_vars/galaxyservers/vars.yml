@@ -229,6 +229,8 @@ galaxy_config_files:
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
+  - src: templates/galaxy/config/job_conf.yml.j2
+    dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: templates/galaxy/config/job_conf.xml.j2
     dest: "{{ galaxy_config_dir }}/job_conf.xml"
   - src: templates/galaxy/config/build_sites.yml.j2
