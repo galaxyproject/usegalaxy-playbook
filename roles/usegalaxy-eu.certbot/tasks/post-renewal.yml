@@ -1,0 +1,45 @@
+---
+- name: Create the ssl-cert group if it doesn't exist
+  group:
+    name: "{{ certbot_ssl_group }}"
+    state: present
+    system: yes
+  when: certbot_ssl_group is defined
+
+- name: Write the certificate post-renewal hook script
+  copy:
+    content: |
+        #!/bin/bash
+        mkdir -p  /etc/ssl/private/
+        {% if certbot_ssl_group is defined %}
+        chmod {{ certbot_ssl_private_dir_mode | default(750) }} /etc/ssl/private/
+        chown root:{{ certbot_ssl_group | default('') }} /etc/ssl/private/
+        {% endif %}
+        # Chai
+        cp {{ certbot_letsencrypt_dir }}/live/{{ certbot_hostname_override | default(certbot_domains[0]) }}/fullchain.pem /etc/ssl/certs/fullchain.pem
+        chmod 644           /etc/ssl/certs/fullchain.pem
+        chown root:{{ certbot_ssl_group | default('') }} /etc/ssl/certs/fullchain.pem
+        # Cert
+        cp {{ certbot_letsencrypt_dir }}/live/{{ certbot_hostname_override | default(certbot_domains[0]) }}/cert.pem      /etc/ssl/certs/cert.pem
+        chmod 644           /etc/ssl/certs/cert.pem
+        chown root:{{ certbot_ssl_group | default('') }} /etc/ssl/certs/cert.pem
+        # Privkey
+        cp {{ certbot_letsencrypt_dir }}/live/{{ certbot_hostname_override | default(certbot_domains[0]) }}/privkey.pem   /etc/ssl/private/privkey.pem
+        chmod 640           /etc/ssl/private/privkey.pem
+        chown root:{{ certbot_ssl_group | default('') }} /etc/ssl/private/privkey.pem
+        # For each user, create custom version
+        {% if certbot_share_key_users %}
+        mkdir -p {{ certbot_share_key_dir }}
+        chmod 755 {{ certbot_share_key_dir }}
+        chown root:root {{ certbot_share_key_dir }}
+        {% endif %}
+        {% for user in certbot_share_key_users %}
+        cp /etc/ssl/private/privkey.pem {{ certbot_share_key_dir }}/privkey-{{ user }}.pem
+        chown {{ user }}: {{ certbot_share_key_dir }}/privkey-{{ user }}.pem
+        {% endfor %}
+        # Other
+        {{ certbot_post_renewal }}
+    dest: "{{ certbot_letsencrypt_dir }}/renewal-hooks/post/ansible.sh"
+    owner: root
+    group: root
+    mode: "0755"

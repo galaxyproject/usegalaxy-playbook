@@ -1,0 +1,29 @@
+---
+- name: Include virtualenv installation tasks
+  include_tasks: install-with-venv.yml
+  when: certbot_install_method == 'virtualenv'
+
+- name: Include source installation tasks
+  include_tasks: install-from-source.yml
+  when: certbot_install_method == 'source'
+
+- name: Include package installation tasks
+  include_tasks: install-with-package.yml
+  when: certbot_install_method == 'package'
+
+- name: Include cert request tasks
+  include_tasks: request-cert.yml
+  when: certbot_domains
+
+- name: Include post-renewal script setup tasks
+  include_tasks: post-renewal.yml
+  when: certbot_post_renewal is defined and certbot_post_renewal
+
+# Force the post-renewal script to execute in case SSL webserver setup handlers run in the same play and execute before
+# our handler (handlers are run in the order their definitions are read, not in the order they are notified)
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Include cron setup tasks
+  include_tasks: renew-cron.yml
+  when: certbot_auto_renew

@@ -1,0 +1,4 @@
+---
+- name: Execute the certificate post-renewal script
+  command: "{{ certbot_letsencrypt_dir }}/renewal-hooks/post/ansible.sh"
+  when: certbot_post_renewal is defined and certbot_post_renewal

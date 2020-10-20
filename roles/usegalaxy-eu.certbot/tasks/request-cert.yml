@@ -1,0 +1,65 @@
+---
+- name: Create webroot directories
+  file:
+    path: "{{ certbot_well_known_root }}"
+    state: directory
+  when: certbot_auth_method | default("--standalone") == "--webroot"
+
+- name: DNS provider credential task block
+  block:
+
+    - name: Create DNS provider credential directory
+      file:
+        path: "{{ certbot_dns_credentials_file | dirname }}"
+        state: directory
+
+    - name: Create DNS provider credentials
+      copy:
+        content: |
+          ##
+          ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN.
+          ##
+          {% for item in certbot_dns_credentials | dict2items %}
+          dns_{{ certbot_dns_provider }}_{{ item.key }} = {{ item.value }}
+          {% endfor %}
+        dest: "{{ certbot_dns_credentials_file }}"
+        mode: "0400"
+
+  when: certbot_dns_provider is defined and certbot_dns_credentials is defined
+
+- name: Request certificate
+  command: >-
+      {{ certbot_script }}
+        certonly
+        {{ "--test-cert" if certbot_environment == "staging" else "" }}
+        --non-interactive
+        {% if certbot_dns_provider is defined %}
+            --dns-{{ certbot_dns_provider }}
+            {% if certbot_dns_credentials is defined %}
+            --dns-{{ certbot_dns_provider }}-credentials {{ certbot_dns_credentials_file }}
+            {% endif %}
+        {% else %}
+            {{ certbot_auth_method | default("--standalone") }}
+        {% endif %}
+        {% if certbot_admin_email is defined %}
+            -m {{ certbot_admin_email }}
+        {% else %}
+            --register-unsafely-without-email
+        {% endif %}
+        {{ certbot_agree_tos }}
+        {% if certbot_auth_method | default("--standalone") == "--webroot" %}
+            -w {{ certbot_well_known_root }}
+        {% endif %}
+        -d {{ ','.join(certbot_domains) }}
+        {{ "--expand" if certbot_expand else "" }}
+        {{ certbot_auto_renew_extra }}
+  register: request
+  args:
+    creates: "{{ '/__not_a_real_file' if certbot_force_run else certbot_letsencrypt_dir ~ '/renewal/' ~ (certbot_hostname_override | default(certbot_domains[0])) ~ '.conf' }}"
+  notify:
+    - Execute the certificate post-renewal script
+
+- name: Log output of certbot command
+  debug:
+    var: request
+  when: request is not skipped
