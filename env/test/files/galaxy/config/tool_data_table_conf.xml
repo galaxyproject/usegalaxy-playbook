@@ -139,14 +139,16 @@
         <file path="/galaxy-repl/localdata/annovar/annovar_index.loc" />
     </table>
     <!-- Location of Tophat-fusion BLAST databases + gene annotations. -->
+    <!--
     <table name="tophat_fusion_blastdb_indexes" comment_char="#">
         <columns>value, dbkey, name, path</columns>
         <file path="/galaxy-repl/localdata/tophat/tophat_fusion_blastdb.loc" />
     </table>
+    -->
     <!-- Location of SAMTools generated FASTA indexes -->
     <table comment_char="#" name="fasta_indexes">
         <columns>value, dbkey, name, path</columns>
-        <file path="/galaxy/data/location/fasta_indexes.loc" />
+        <file path="/cvmfs/data.galaxyproject.org/byhand/location/fasta_indexes.loc" />
     </table>
     <!-- Available IGV builds, loaded from URL -->
     <table name="igv_broad_genomes" comment_char="#">
@@ -156,7 +158,7 @@
     <!-- Available liftOver chain file -->
     <table name="liftOver" comment_char="#">
         <columns>dbkey, name, value</columns>
-        <file path="/galaxy/data/location/liftOver.loc" />
+        <file path="/cvmfs/data.galaxyproject.org/byhand/location/liftOver.loc" />
     </table>
     <!-- iobio bam servers -->
     <table name="bam_iobio" comment_char="#" allow_duplicate_entries="False">
