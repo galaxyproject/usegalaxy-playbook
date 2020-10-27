@@ -1,0 +1,16 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
+[program:galaxy_{{ galaxy_instance_codename }}_gxit_proxy]
+; FIXME: IP and port should not be hardcoded
+command         = /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/node /srv/galaxy/{{ galaxy_instance_codename }}/var/gx-it-proxy/lib/main.js  --port 8910 --sessions /srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite --forwardIP 172.16.120.50 --forwardPort 31946 --verbose
+directory       = /srv/galaxy/{{ galaxy_instance_codename }}/var
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 5
+user            = g2test
+numprocs        = 1
+stdout_logfile  = /srv/galaxy/{{ galaxy_instance_codename }}/log/gxit_proxy.log
+redirect_stderr = true

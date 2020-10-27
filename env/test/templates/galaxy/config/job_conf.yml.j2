@@ -325,6 +325,7 @@ tools:
     environment: tacc_k8s
   - id: interactive_tool_jupyter_notebook
     environment: tacc_k8s
+    handler: multi
 {% for id in multi_tools %}
   - id: {{ id }}
     handler: multi
