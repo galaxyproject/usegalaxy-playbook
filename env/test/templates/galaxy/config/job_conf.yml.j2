@@ -134,9 +134,13 @@ runners:
     amqp_publish_retry_max_retries: 60
 {% endfor %}
 
+#
+# Job handler configuration
+#
 handling:
-  default: handlers
-  assign: db-skip-locked
+  #default: handlers
+  assign:
+    - db-skip-locked
   max_grab: 4
   processes:
 {% for id in (0, 1) %}
@@ -169,6 +173,9 @@ execution:
       # single core roundup and TACC-discretionary Jetstream, priority (reserved)
       runner: dynamic
       function: dynamic_normal_reserved
+    dynamic_multi_reserved:
+      runner: dynamic
+      function: dynamic_multi_reserved
     dynamic_multi_bridges_select:
       runner: dynamic
       function: dynamic_multi_bridges_select
@@ -202,6 +209,25 @@ execution:
         {{ dest_local_env(java_mem=java_mem) }}
 {% endif %}
 {% endfor %}
+
+    #
+    # Kubernetes destinations
+    #
+    tacc_k8s:
+      runner: tacc_k8s
+      docker_enabled: true  # probably shouldn't be needed but is still
+      docker_default_container_id: 'conda/miniconda3'
+      k8s_namespace: ndc
+      #jobs_directory: /not/a/real/path
+      pulsar_app_config:
+        message_queue_url: {{ galaxy_job_conf_amqp_url }}
+      # Specify a non-default Pulsar staging container.
+      #pulsar_container_image: 'galaxy/pulsar-pod-staging:0.12.0'
+      # Generate job names with a string unique to this Galaxy (see
+      # Kubernetes runner description).
+      #k8s_galaxy_instance_id: mycoolgalaxy
+      # Path to Kubernetes configuration fil (see Kubernetes runner description.)
+      #k8s_config_path: /path/to/kubeconfig
 
     #
     # Jetstream destinations
@@ -270,3 +296,115 @@ execution:
         - name: PATH
           value: /pylon5/mc48nsp/xcgalaxy/openjdk8/bin:$PATH
 {% endfor %}
+
+#
+# Job resource selector configuration
+#
+resources:
+  groups:
+    multi: [multi_compute_resource, cores, time]
+
+#
+# Job mapping configuration
+#
+tools:
+{% for id in multi_tools %}
+  - id: {{ id }}
+    handler: multi
+    environment: dynamic_multi_reserved
+    #resources: multi
+{% endfor %}
+
+#
+# Job limits configuration
+#
+limits:
+
+  # this is a failsafe more than anything - actual limits are enforced on the destinations
+  - type: registered_user_concurrent_jobs
+    value: 12
+  - type: anonymous_user_concurrent_jobs
+    value: 1
+  - type: walltime
+    value: '49:00:00'
+  - type: output_size
+    value: 50G
+
+  # per-destination per-user limits
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal_16gb
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal_64gb
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: slurm_multi
+    value: 2
+  - type: environment_user_concurrent_jobs
+    id: slurm_multi_dynamic_walltime
+    value: 2
+  - type: environment_user_concurrent_jobs
+    id: slurm_multi_development
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: slurm_multi_trackster
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: stampede_normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: stampede_skx_normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: stampede_development
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: stampede_skx_development
+    value: 1
+  #- type: environment_user_concurrent_jobs
+  #  id: bridges_normal
+  #  value: 6
+  #- type: environment_user_concurrent_jobs
+  #  id: bridges_development
+  #  value: 1
+  - type: environment_user_concurrent_jobs
+    id: jetstream
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: jetstream_tacc_xlarge
+    value: 1
+
+  # per-destination total limits
+  - type: environment_total_concurrent_jobs
+    id: stampede_normal
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: stampede_skx_normal
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: stampede_mpi_normal
+    value: 20
+  - type: environment_total_concurrent_jobs
+    id: stampede_mpi_skx_normal
+    value: 20
+  - type: environment_total_concurrent_jobs
+    id: stampede_development
+    value: 1
+  - type: environment_total_concurrent_jobs
+    id: stampede_skx_development
+    value: 1
+  - type: environment_total_concurrent_jobs
+    id: stampede_mpi_development
+    value: 1
+  - type: environment_total_concurrent_jobs
+    id: stampede_mpi_skx_development
+    value: 1
+  #- type: environment_total_concurrent_jobs
+  #  id: bridges_normal
+  #  value: 10
+  - type: environment_total_concurrent_jobs
+    id: bridges_development
+    value: 4

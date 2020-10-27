@@ -16,6 +16,43 @@ destinations:
     params:
       mem: 16384
 
+multi_tools:
+  - gemini_load
+  - dada2_assignTaxonomyAddspecies
+  - deeptools_bam_compare
+  - deeptools_bam_coverage
+  - deeptools_bam_pe_fragmentsize
+  - deeptools_bigwig_compare
+  - deeptools_compute_gc_bias
+  - deeptools_compute_matrix
+  - deeptools_correct_gc_bias
+  - deeptools_multi_bam_summary
+  - deeptools_multi_bigwig_summary
+  - deeptools_plot_coverage
+  - deeptools_plot_fingerprint
+  - kraken
+  - ideas
+  - bwa
+  - bwa_mem
+  - bwa_wrapper
+  - bowtie2
+  - bowtie_wrapper
+  - tophat
+  - tophat2
+  - cuffdiff
+  - cufflinks
+  - cuffmerge
+  - cuffnorm
+  - cuffquant
+  - stringtie
+  - hisat2
+  - prokka
+  - rbc_mafft
+  - kc-align
+  - hyphy_absrel
+  - hyphy_fel
+  - hyphy_gard
+  - hyphy_meme
 
 # these tools get 1 core and 16 GB of memory
 #normal_16gb_tools: []
