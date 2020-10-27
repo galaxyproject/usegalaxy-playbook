@@ -9,7 +9,6 @@
     ('jetstream_tacc', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
     ('stampede', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
     ('bridges', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
-    ('tacc_k8s', 'galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner'),
 ) %}
 
 {#-
@@ -133,6 +132,17 @@ runners:
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
 {% endfor %}
+  tacc_k8s:
+    load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
+    amqp_url: {{ galaxy_job_conf_amqp_url }}
+    galaxy_url: https://{{ galaxy_instance_hostname }}
+    #manager: tacc_k8s
+    persistence_directory: /srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack
+    amqp_acknowledge: true
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
 
 #
 # Job handler configuration
@@ -221,6 +231,9 @@ execution:
       #jobs_directory: /not/a/real/path
       pulsar_app_config:
         message_queue_url: {{ galaxy_job_conf_amqp_url }}
+        #managers:
+        #  tacc_k8s:
+        #    type: queued_python
       # Specify a non-default Pulsar staging container.
       #pulsar_container_image: 'galaxy/pulsar-pod-staging:0.12.0'
       # Generate job names with a string unique to this Galaxy (see
@@ -308,6 +321,10 @@ resources:
 # Job mapping configuration
 #
 tools:
+  - id: cat1
+    environment: tacc_k8s
+  - id: interactive_tool_jupyter_notebook
+    environment: tacc_k8s
 {% for id in multi_tools %}
   - id: {{ id }}
     handler: multi
