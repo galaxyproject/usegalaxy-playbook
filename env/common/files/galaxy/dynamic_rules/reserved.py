@@ -117,6 +117,7 @@ def __tool_mappings():
     return __get_cached('tool_mappings', _tool_mappings_refresh_func)
 
 
+'''
 def __tool_destination(tool_id):
     tool_mappings = __tool_mappings()
     # FIXME: this is the default multi DestinationConfig not the default normal
@@ -126,7 +127,8 @@ def __tool_destination(tool_id):
     elif destination_id in tool_mappings['destinations']:
         mapping = tool_mappings['destinations'][destination_id]
         destination_id = mapping['id']
-        for param 
+        #for param 
+'''
         
 
 
@@ -146,7 +148,7 @@ def __job_priority_users_group_members(app):
             return [uga.user.email for uga in group.users]
         else:
             return []
-    return __get_cached('job_priority_users', partial(_job_priority_users_refresh_func, app)
+    return __get_cached('job_priority_users', partial(_job_priority_users_refresh_func, app))
 
 
 def __user_in_priority_group(app, user_email):
@@ -154,7 +156,7 @@ def __user_in_priority_group(app, user_email):
     return user_email in members
 
 
-def __dynamic_reserved(key, app, tool, job, user_email):
+def __dynamic_reserved(key, app, job, tool, user_email):
 
     tool_id = tool.id
     if '/' in tool.id:
@@ -257,7 +259,7 @@ def __get_best_destination(app, job, destination_configs):
     raise JobNotReadyException(message="All destinations over max queued thresholds")
 
 
-def __dynamic_multi_cores_time(app, job, destination_configs, dynamic_reserved_key):
+def __dynamic_multi_cores_time(app, job, tool, destination_configs, dynamic_reserved_key, user_email):
 
     # build the param dictionary
     param_dict = job.get_param_values(app)
@@ -265,7 +267,7 @@ def __dynamic_multi_cores_time(app, job, destination_configs, dynamic_reserved_k
     if param_dict.get('__job_resource', {}).get('__job_resource__select') != 'yes':
         log.debug("(%s) Job resource parameters not seleted", job.id)
         # bypass best destination selection when the user is in the priority users list
-        destination_id = __dynamic_reserved(dynamic_reserved_key, app, job, user_email)
+        destination_id = __dynamic_reserved(dynamic_reserved_key, app, job, tool, user_email)
         if destination_id.startswith('reserved_'):
             return destination_id
         destination_config = __get_best_destination(app, job, destination_configs)
@@ -332,7 +334,7 @@ def __dynamic_multi_cores_time(app, job, destination_configs, dynamic_reserved_k
 
 
 def dynamic_normal_reserved(app, job, tool, user_email):
-    return __dynamic_reserved('normal', app, tool, job, user_email)
+    return __dynamic_reserved('normal', app, job, tool, user_email)
 
 
 #def dynamic_normal_16gb_reserved(app, job, user_email):
@@ -351,9 +353,9 @@ def dynamic_normal_reserved(app, job, tool, user_email):
 #    return __dynamic_reserved('normal_64gb', app, job, user_email)
 
 
-def dynamic_multi_reserved(app, job, user_email):
-    return __dynamic_multi_cores_time(app, job, MULTI_DESTINATIONS, 'multi')
+def dynamic_multi_reserved(app, job, tool, user_email):
+    return __dynamic_multi_cores_time(app, job, tool, MULTI_DESTINATIONS, 'multi', user_email)
 
 
 def dynamic_multi_long_reserved(app, job, user_email):
-    return __dynamic_multi_cores_time(app, job, MULTI_LONG_DESTINATIONS, 'multi_long')
+    return __dynamic_multi_cores_time(app, job, tool, MULTI_LONG_DESTINATIONS, 'multi_long', user_email)
