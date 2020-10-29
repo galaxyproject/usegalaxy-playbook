@@ -5,7 +5,7 @@
             <auth username="gtest" password="{{ galaxy_irods_password }}" />
             <resource name="corralResc" />
             <zone name="galaxy" />
-            <connection host="gs-0.corral.tacc.utexas.edu" port="1247" timeout="30"/>
+            <connection host="gs-0.corral.tacc.utexas.edu" port="1247" timeout="30" refresh_time="300"/>
             <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
             <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
             <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
