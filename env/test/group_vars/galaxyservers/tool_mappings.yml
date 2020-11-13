@@ -4,17 +4,28 @@
 
 # either a key in destinations below, a job_conf destination id or tag, or the special 'dynamic'
 tools:
-  foo: normal_16gb
-  bar: dynamic
-  baz: multi
+  kraken:
+    # can be a list if you want to do different things with different params (or one thing with no checked params)
+    - params:
+        - name: kraken_database
+          value: bacteria
+      destination: stampede_skx_normal
+      reserved: false
+  trinity:
+    - params:
+        - name: pool.inputs.paired_or_single
+          value: paired_collection
+        - name: pool.inputs.pair_input
+
+      destination: bridges_normal
 
 # don't overlap destinations defined in job_conf for confusion purposes
-destinations:
-  slurm_normal_16gb:
-    id: slurm_normal
-    reserved: true
-    params:
-      mem: 16384
+#destinations:
+#  slurm_normal_16gb:
+#    id: slurm_normal
+#    reserved: true
+#    params:
+#      mem: 16384
 
 multi_tools:
   - gemini_load
@@ -53,6 +64,7 @@ multi_tools:
   - hyphy_fel
   - hyphy_gard
   - hyphy_meme
+  - kraken
 
 # these tools get 1 core and 16 GB of memory
 #normal_16gb_tools: []
@@ -65,8 +77,3 @@ multi_tools:
 
 # these tools are fully dynamic
 #dynamic_tools:
-#  - id: foo
-#    partition: normal
-#    cores: 1
-#    mem: 8
-#    time: 24

@@ -63,13 +63,18 @@ SELECTABLE_DESTINATIONS = (
     DestinationConfig('slurm_multi_development', 'nativeSpecification', 'multi', 2, 2, 2, 2, 4, [], []),
     DestinationConfig('stampede_normal', 'submit_native_specification', 'normal', 64, 272, 48, 48, 4, [], []),
     DestinationConfig('stampede_skx_normal', 'submit_native_specification', 'skx-normal', 48, 96, 48, 48, 4, [], []),
-    DestinationConfig('stampede_development', 'submit_native_specification', 'development', 64,272,  2, 2, 4, [], []),
+    DestinationConfig('stampede_development', 'submit_native_specification', 'development', 64, 272,  2, 2, 4, [], []),
     DestinationConfig('stampede_skx_development', 'submit_native_specification', 'skx-dev', 48, 96, 2, 2, 4, [], []),
 )
 
 MULTI_DESTINATIONS = (
     DEFAULT_DESTINATION,
     JETSTREAM_IU_DESTINATION,
+)
+
+BRIDGES_DESTINATIONS = (
+    DestinationConfig('bridges_normal', 'submit_native_specification', 'LM', 5, 20, 48, 96, 0, [], []),
+    DestinationConfig('bridges_development', 'submit_native_specification', 'LM', 5, 20, 2, 2, 0, [], []),
 )
 
 MULTI_LONG_DESTINATIONS = (
@@ -117,11 +122,64 @@ def __tool_mappings():
     return __get_cached('tool_mappings', _tool_mappings_refresh_func)
 
 
-'''
-def __tool_destination(tool_id):
+def __check_param(param_dict, param, value):
+    """Check if a tool param is set to a given value.
+
+    param_dict should be a series of nested dicts
+    param should be a string in dotted format e.g. 'reference_source.reference_source_selector'`
+    """
+    subpd = param_dict.copy()
+    try:
+        # walk the param dict
+        for name in param.split('.'):
+            subpd = subpd[name]
+    except KeyError:
+        return False
+    return subpd == value
+
+
+def __tool_mapping(tool_id, param_dict):
     tool_mappings = __tool_mappings()
-    # FIXME: this is the default multi DestinationConfig not the default normal
-    destination_id = tool_mappings['tools'].get(tool_id, DEFAULT_DESTINATION.id)
+    tool_mappings_for_tool = None
+    tool_mapping = None
+    try:
+        tool_mappings_for_tool = tool_mappings['tools'][tool_id]
+    except KeyError:
+        log.debug("Tool '%s' not in tool_mapping", tool_id)
+    if isinstance(tool_mappings_for_tool, dict):
+        tool_mappings_for_tool = [tool_mappings_for_tool]
+    if isinstance(tool_mappings_for_tool, list):
+        default_tool_mapping = None
+        for tm in tool_mappings_for_tool:
+            if 'params' in tm:
+                for param in tm['params']:
+                    if not __check_param(param_dict, param['name'], param['value']):
+                        break  # try next
+                else:
+                    tool_mapping = tm
+                    log.debug("Tool '%s' mapped to destination '%s' due to params: %s", tool_id, tm['destination'], tm['params'])
+                    break
+            else:
+                default_tool_mapping = tm
+        if not tool_mapping:
+            if default_tool_mapping:
+                tool_mapping = default_tool_mapping
+                log.debug("Tool '%s' mapped to param-less default: %s", tool_id, tool_mapping['destination'])
+            else:
+                log.debug("Tool '%s' has mapping but no default", tool_id)
+    return tool_mapping
+
+
+def __tool_destination(tool_id, param_dict):
+    # For when you don't care about mem/walltime etc.
+    destination_id = None
+    tool_mapping = __tool_mapping(tool_id, param_dict)
+    if tool_mapping:
+        destination_id = tool_mapping['destination']
+    return destination_id
+
+
+'''
     if destination_id == 'dynamic':
         # TODO: full dynamic
     elif destination_id in tool_mappings['destinations']:
@@ -129,7 +187,6 @@ def __tool_destination(tool_id):
         destination_id = mapping['id']
         #for param 
 '''
-        
 
 
 def __job_priority_users_group(app):
@@ -156,20 +213,35 @@ def __user_in_priority_group(app, user_email):
     return user_email in members
 
 
-def __dynamic_reserved(key, app, job, tool, user_email):
+def __dynamic_reserved_mapped(key, app, job, tool, user_email):
+    destination_id = None
+    mapped = False
+
+    param_dict = job.get_param_values(app)
+    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
 
     tool_id = tool.id
     if '/' in tool.id:
         # extract short tool id from tool shed id
         tool_id = tool.id.split('/')[-2]
 
-    tool_mappings = __tool_mappings()
+    destination_id = __tool_destination(tool_id, param_dict)
 
-    destination_id = 'slurm_' + key
-    if __user_in_priority_group(app, user_email):
-        destination_id = 'reserved_' + key
-        log.debug("(%s) User in priority group, job destination is: %s", job.id, destination_id)
-    return destination_id
+    # TODO: mapped dests override reserved, there may be cases where we don't want to do that
+    if not destination_id:
+        destination_id = 'slurm_' + key
+        if __user_in_priority_group(app, user_email):
+            destination_id = 'reserved_' + key
+            log.debug("(%s) User in priority group, job destination is: %s", job.id, destination_id)
+            mapped = True
+    else:
+        mapped = True
+
+    return (destination_id, mapped)
+
+
+def __dynamic_reserved(key, app, job, tool, user_email):
+    return __dynamic_reserved_mapped(key, app, job, tool, user_email)[0]
 
 
 def __parse_resource_selector(job, param_dict):
@@ -263,12 +335,13 @@ def __dynamic_multi_cores_time(app, job, tool, destination_configs, dynamic_rese
 
     # build the param dictionary
     param_dict = job.get_param_values(app)
+    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
 
     if param_dict.get('__job_resource', {}).get('__job_resource__select') != 'yes':
         log.debug("(%s) Job resource parameters not seleted", job.id)
         # bypass best destination selection when the user is in the priority users list
-        destination_id = __dynamic_reserved(dynamic_reserved_key, app, job, tool, user_email)
-        if destination_id.startswith('reserved_'):
+        destination_id, mapped = __dynamic_reserved_mapped(dynamic_reserved_key, app, job, tool, user_email)
+        if mapped:
             return destination_id
         destination_config = __get_best_destination(app, job, destination_configs)
         cores = destination_config.default_cores
@@ -333,6 +406,42 @@ def __dynamic_multi_cores_time(app, job, tool, destination_configs, dynamic_rese
     return destination
 
 
+def __dynamic_bridges(app, job, tool, destination_configs, user_email):
+    # FIXME: DEDUP
+    tool_mapping = None
+
+    # build the param dictionary
+    param_dict = job.get_param_values(app)
+    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
+
+    tool_id = tool.id
+    if '/' in tool.id:
+        # extract short tool id from tool shed id
+        tool_id = tool.id.split('/')[-2]
+
+    if param_dict.get('__job_resource', {}).get('__job_resource__select') != 'yes':
+        tool_mapping = __tool_mapping(tool_id, param_dict)
+    else:
+        raise NotImplementedError()
+
+    # FIXME: handle when tool_mapping is None
+
+    # FIXME:
+    time = 48
+    mem = 480 * 1024
+
+    params = [
+        '--mem={}'.format(mem),
+        '--time={}:00:00'.format(time),
+    ]
+    native_spec = destination.params.get(native_spec_param, '') + ' ' + ' '.join(params)
+    destination.params[native_spec_param] = native_spec
+
+    log.info('(%s) Returning destination: %s', job.id, destination_id)
+    log.info('(%s) Native specification: %s', job.id, destination.params.get(native_spec_param))
+    return detination
+
+
 def dynamic_normal_reserved(app, job, tool, user_email):
     return __dynamic_reserved('normal', app, job, tool, user_email)
 
@@ -359,3 +468,7 @@ def dynamic_multi_reserved(app, job, tool, user_email):
 
 def dynamic_multi_long_reserved(app, job, user_email):
     return __dynamic_multi_cores_time(app, job, tool, MULTI_LONG_DESTINATIONS, 'multi_long', user_email)
+
+
+def dynamic_bridges(app, job, tool, user_email):
+    return __dynamic_bridges(app, job, took, BRIDGES_DESTINATIONS[0], user_email)
