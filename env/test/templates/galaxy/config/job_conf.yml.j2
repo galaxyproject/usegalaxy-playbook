@@ -276,14 +276,14 @@ execution:
       file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
       env:
         {{ dest_pulsar_env() }}
-        - exec: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
-        - exec: ulimit -c 0
+        - execute: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
+        - execute: ulimit -c 0
         {# Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
         - name: GALAXY_SLOTS
-          value: $SLURM_NTASKS
+          value: "$SLURM_NTASKS"
         {# Mem=0 if the Slurm -mem param is not used, which is not allowed on Stampede2 -#}
         - name: GALAXY_MEMORY_MB
-          value: {{ memory_mb }}
+          value: "{{ memory_mb }}"
 {% endfor %}
 
     #
@@ -300,9 +300,9 @@ execution:
       file_action_config: {{ galaxy_config_dir }}/pulsar_bridges_actions.yml
       env:
         {{ dest_pulsar_env() }}
-        - exec: eval `modulecmd sh purge`
+        - execute: eval `modulecmd sh purge`
         {# SPAdes as run by Unicycler is leaving cores in Pulsar's site-packages dir (but should be fixed with proper working dir in Pulsar -#}
-        - exec: ulimit -c 0
+        - execute: ulimit -c 0
         {# https://bugs.openjdk.java.net/browse/JDK-7085890 -#}
         - name: _JAVA_OPTIONS
           value: -Dsun.zip.disableMemoryMapping=true
@@ -316,6 +316,7 @@ execution:
 resources:
   groups:
     multi: [multi_compute_resource, cores, time]
+    bridges: [bridges_compute_resource]
 
 #
 # Job mapping configuration
@@ -326,11 +327,15 @@ tools:
   - id: interactive_tool_jupyter_notebook
     environment: tacc_k8s
     handler: multi
+  - id: trinity
+    environment: dynamic_bridges_select
+    handler: multi
+    resources: bridges
 {% for id in multi_tools %}
   - id: {{ id }}
     handler: multi
     environment: dynamic_multi_reserved
-    #resources: multi
+    resources: multi
 {% endfor %}
 
 #
