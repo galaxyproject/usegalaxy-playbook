@@ -197,7 +197,7 @@ containers_yaml:
 # specifies config files to copy from the playbook
 galaxy_config_files:
   - src: files/galaxy/config/tool_data_table_conf.xml
-    dest: "{{ galaxy_config[galaxy_app_config_section]['tool_data_table_config_path'] }}"
+    dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
   - src: files/galaxy/config/tool_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
   - src: files/galaxy/config/nagios_tool_conf.xml
