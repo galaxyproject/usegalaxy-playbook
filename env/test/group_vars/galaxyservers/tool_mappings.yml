@@ -15,9 +15,35 @@ tools:
     - params:
         - name: pool.inputs.paired_or_single
           value: paired_collection
+        # comparison is implicitly on size of pair member 0
         - name: pool.inputs.pair_input
-
+          op: '<'
+          value: 10G
       destination: bridges_normal
+      spec:
+        # 5 * 48GB
+        mem: 240G
+        time: 72
+    - params:
+        - name: pool.inputs.paired_or_single
+          value: paired_collection
+        - name: pool.inputs.pair_input
+          op: '<'
+          value: 100G
+      destination: bridges_normal
+      spec:
+        # 10 * 48GB
+        mem: 480G
+        time: 96
+    - params:
+        - name: pool.inputs.paired_or_single
+          value: paired_collection
+      destination: bridges_normal
+      spec:
+        # 15 * 48GB
+        mem: 720G
+        time: 96
+    # TODO: separate vals if normalizing/not, plus param matches for non-pair
 
 # don't overlap destinations defined in job_conf for confusion purposes
 #destinations:

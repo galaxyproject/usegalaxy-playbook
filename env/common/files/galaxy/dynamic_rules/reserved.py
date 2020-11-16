@@ -4,6 +4,7 @@
 
 import heapq
 import logging
+import operator
 import re
 import time
 from collections import namedtuple
@@ -12,7 +13,9 @@ from functools import partial
 import yaml
 from sqlalchemy import func
 
+from galaxy import model
 from galaxy.jobs.mapper import JobMappingException, JobNotReadyException
+from galaxy.util import size_to_bytes
 
 
 log = logging.getLogger(__name__)
@@ -72,8 +75,9 @@ MULTI_DESTINATIONS = (
     JETSTREAM_IU_DESTINATION,
 )
 
+BRIDGES_DESTINATION = DestinationConfig('bridges_normal', 'submit_native_specification', 'LM', 5, 20, 48, 96, 0, [], [])
 BRIDGES_DESTINATIONS = (
-    DestinationConfig('bridges_normal', 'submit_native_specification', 'LM', 5, 20, 48, 96, 0, [], []),
+    BRIDGES_DESTINATION,
     DestinationConfig('bridges_development', 'submit_native_specification', 'LM', 5, 20, 2, 2, 0, [], []),
 )
 
@@ -83,6 +87,15 @@ MULTI_LONG_DESTINATIONS = (
 )
 
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
+
+OPERATIONS = {
+    '==': operator.eq,
+    '!=': operator.ne,
+    '>': operator.gt,
+    '>=': operator.ge,
+    '<': operator.lt,
+    '<=': operator.le,
+}
 
 deferred_jobs = {}
 
@@ -122,7 +135,7 @@ def __tool_mappings():
     return __get_cached('tool_mappings', _tool_mappings_refresh_func)
 
 
-def __check_param(param_dict, param, value):
+def __check_param(param_dict, param, value, op):
     """Check if a tool param is set to a given value.
 
     param_dict should be a series of nested dicts
@@ -135,7 +148,18 @@ def __check_param(param_dict, param, value):
             subpd = subpd[name]
     except KeyError:
         return False
-    return subpd == value
+    # TODO: probably shouldn't assume size but that's good enough for now
+    if isinstance(subpd, model.HistoryDatasetCollectionAssociation):
+        # FIXME: this is probably only valid for pairs, do we want to maybe do sum([x.get_size() for x in subpd.dataset_instances]) ?
+        runtime_value = subpd.dataset_instances[0].get_size()
+        # TODO: maybe store this since it will never change
+        value = size_to_bytes(str(value))
+    elif isinstance(subpd, model.DatasetInstance):
+        runtime_value = subpd.get_size()
+        value = size_to_bytes(str(value))
+    else:
+        runtime_value = subpd
+    return OPERATIONS[op](runtime_value, value)
 
 
 def __tool_mapping(tool_id, param_dict):
@@ -153,7 +177,7 @@ def __tool_mapping(tool_id, param_dict):
         for tm in tool_mappings_for_tool:
             if 'params' in tm:
                 for param in tm['params']:
-                    if not __check_param(param_dict, param['name'], param['value']):
+                    if not __check_param(param_dict, param['name'], param['value'], param.get('op', '==')):
                         break  # try next
                 else:
                     tool_mapping = tm
@@ -406,7 +430,7 @@ def __dynamic_multi_cores_time(app, job, tool, destination_configs, dynamic_rese
     return destination
 
 
-def __dynamic_bridges(app, job, tool, destination_configs, user_email):
+def __dynamic_bridges(app, job, tool, destination_config, user_email):
     # FIXME: DEDUP
     tool_mapping = None
 
@@ -427,19 +451,25 @@ def __dynamic_bridges(app, job, tool, destination_configs, user_email):
     # FIXME: handle when tool_mapping is None
 
     # FIXME:
-    time = 48
-    mem = 480 * 1024
+    time = tool_mapping['spec']['time']
+    # convert to MB
+    mem = int(size_to_bytes(str(tool_mapping['spec']['mem'])) / (1024 ** 2))
 
     params = [
         '--mem={}'.format(mem),
         '--time={}:00:00'.format(time),
     ]
+    # FIXME: should come from tool mapping
+    destination_id = destination_config.id
+    # FIXME: can return None
+    destination = app.job_config.get_destination('bridges_normal')
+    native_spec_param = destination_config.native_spec_param
     native_spec = destination.params.get(native_spec_param, '') + ' ' + ' '.join(params)
     destination.params[native_spec_param] = native_spec
 
     log.info('(%s) Returning destination: %s', job.id, destination_id)
     log.info('(%s) Native specification: %s', job.id, destination.params.get(native_spec_param))
-    return detination
+    return destination
 
 
 def dynamic_normal_reserved(app, job, tool, user_email):
@@ -471,4 +501,4 @@ def dynamic_multi_long_reserved(app, job, user_email):
 
 
 def dynamic_bridges(app, job, tool, user_email):
-    return __dynamic_bridges(app, job, took, BRIDGES_DESTINATIONS[0], user_email)
+    return __dynamic_bridges(app, job, tool, BRIDGES_DESTINATION, user_email)
