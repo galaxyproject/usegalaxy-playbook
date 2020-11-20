@@ -250,10 +250,10 @@ def __rule(app, tool, job, user_email, resource_params, resource):
             destination_id = LOCAL_DESTINATION
             is_explicit_destination = False
 
-    if not is_explicit_destination and user_email in ('nate+test@bx.psu.edu', 'cartman@southpark.org'):
-        log.info('(%s) Sending job for %s to Jetstream @ IU reserved partition', job.id, user_email)
-        is_explicit_destination = True
-        destination_id = 'jetstream_iu_reserved'
+    #if not is_explicit_destination and user_email in ('nate+test@bx.psu.edu', 'cartman@southpark.org'):
+    #    log.info('(%s) Sending job for %s to Jetstream @ IU reserved partition', job.id, user_email)
+    #    is_explicit_destination = True
+    #    destination_id = 'jetstream_iu_reserved'
 
     # Some tools do not react well to Jetstream
     if not is_explicit_destination and tool_id not in JETSTREAM_TOOLS:
