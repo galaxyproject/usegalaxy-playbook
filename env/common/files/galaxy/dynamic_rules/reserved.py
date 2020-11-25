@@ -38,53 +38,8 @@ PARAM_RES = {}
 # we can't fully trust galaxy not to leave jobs stuck in 'queued', so don't defer assignment indefinitely
 MAX_DEFER_SECONDS = 30
 
-
-DestinationConfig = namedtuple('DestinationConfig', [
-    'id',
-    'native_spec_param',
-    'partition',
-    'default_cores',
-    'max_cores',
-    'default_walltime',
-    'max_walltime',
-    # jobs take a bit to dispatch, so we don't want to foul up the logic with jobs that will soon change state
-    'queued_job_threshold',
-    # count jobs in these destinations against this one
-    'shared_thresholds',
-    # this allows e.g. the resource param to be 'jetstream_multi' when only 'jetstream_iu_multi' provides nodes for
-    # these jobs
-    'tags',
-])
-
+# FIXME:
 COMPUTE_RESOURCE_SELECTOR = 'multi_compute_resource'
-DEFAULT_DESTINATION = DestinationConfig('slurm_multi', 'nativeSpecification', 'multi', 6, 6, 36, 36, 4, [], [])
-JETSTREAM_IU_DESTINATION = DestinationConfig('jetstream_iu_multi', 'submit_native_specification', 'multi', 10, 10, 36, 36, 4, [], ['jetstream_multi'])
-
-SELECTABLE_DESTINATIONS = (
-    DEFAULT_DESTINATION,
-    JETSTREAM_IU_DESTINATION,
-    DestinationConfig('slurm_multi_development', 'nativeSpecification', 'multi', 2, 2, 2, 2, 4, [], []),
-    DestinationConfig('stampede_normal', 'submit_native_specification', 'normal', 64, 272, 48, 48, 4, [], []),
-    DestinationConfig('stampede_skx_normal', 'submit_native_specification', 'skx-normal', 48, 96, 48, 48, 4, [], []),
-    DestinationConfig('stampede_development', 'submit_native_specification', 'development', 64, 272,  2, 2, 4, [], []),
-    DestinationConfig('stampede_skx_development', 'submit_native_specification', 'skx-dev', 48, 96, 2, 2, 4, [], []),
-)
-
-MULTI_DESTINATIONS = (
-    DEFAULT_DESTINATION,
-    JETSTREAM_IU_DESTINATION,
-)
-
-BRIDGES_DESTINATION = DestinationConfig('bridges_normal', 'submit_native_specification', 'LM', 5, 20, 48, 96, 0, [], [])
-BRIDGES_DESTINATIONS = (
-    BRIDGES_DESTINATION,
-    DestinationConfig('bridges_development', 'submit_native_specification', 'LM', 5, 20, 2, 2, 0, [], []),
-)
-
-MULTI_LONG_DESTINATIONS = (
-    DestinationConfig('slurm_multi_long', 'nativeSpecification', 'multi', 6, 6, 72, 72, 20, ['slurm_multi'], []),
-    DestinationConfig('stampede_long', 'submit_native_specification', 'multi', 64, 272, 72, 120, 20, [], []),
-)
 
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
@@ -111,26 +66,6 @@ def __short_tool_id(tool_id):
         # extract short tool id from tool shed id
         tool_id = tool_id.split('/')[-2]
     return tool_id
-
-
-#def __job_priority_users_group(app):
-#    global JOB_PRIORITY_USERS_GROUP
-#    if JOB_PRIORITY_USERS_GROUP is None:
-#        group = app.model.context.query(app.model.Group).filter(
-#            app.model.Group.table.c.name == JOB_PRIORITY_USERS_GROUP_NAME,
-#            app.model.Group.table.c.deleted.is_(False)
-#        ).first()
-#        JOB_PRIORITY_USERS_GROUP = group
-#    return JOB_PRIORITY_USERS_GROUP
-
-
-#def __user_in_priority_group(app, user_email):
-#    group = __job_priority_users_group(app)
-#    user = app.model.context.query(app.model.User).filter(
-#        app.model.User.table.c.email == user_email,
-#        app.model.User.table.c.deleted.is_(False)
-#    ).first()
-#    return user and (group in [uga.group for uga in user.groups])
 
 
 def __get_cached(key, refresh_func):
@@ -161,7 +96,7 @@ def __destination_config(destination_id):
     try:
         return destination_configs[destination_id]
     except KeyError:
-        return destination_id
+        return None
 
 
 def __check_param(param_dict, param, value, op):
@@ -289,15 +224,17 @@ def __map_group_members(app):
     return __get_cached('map_group_members', partial(_map_group_members_refresh_func, app))
 
 
-def __user_group_destination_mappings(app, user_email):
+#def __user_group_destination_mappings(app, user_email):
+def __user_group_mappings(app, user_email, group_type):
     rval = {}
     groups = __map_group_members(app)
     for group_name, members in groups.items():
-        if user_email in members:
-            log.debug("User '%s' found in mapped group '%s'", user_email, group_name)
+        map_group = __group_mappings().get(group_name, {})
+        if user_email in members and group_type in map_group.keys():
+            log.debug("User '%s' found in map group '%s'", user_email, group_name)
             if rval:
-                log.warning("User '%s' found in more than one mapped group, an arbitrary one will be used!", user_email)
-            rval = __group_mappings().get(group_name, {})
+                log.warning("User '%s' found in more than one map group, an arbitrary one will be used!", user_email)
+            rval = map_group[group_type]
     return rval
 
 
@@ -305,56 +242,88 @@ def __resolve_destination(app, job, user_email, destination_id, threshold=4):
     # TODO destination_id function param is after tool mapping, maybe this function should do tool mapping as well and
     # just pass in tool_id and param_dict?
     # if user is in a special group (named in `groups` dict in tool_mappings yaml) then get destination id overrides
-    user_group_destination_mappings = __user_group_destination_mappings(app, user_email)
+    #user_group_destination_mappings = __user_group_destination_mappings(app, user_email)
+    user_group_destination_mappings = __user_group_mappings(app, user_email, 'destination_overrides')
     # if an override exists then use it, otherwise use what was passed in
+    #destination_id = user_group_destination_mappings.get('destination_overrides', {}).get(destination_id, destination_id)
     destination_id = user_group_destination_mappings.get(destination_id, destination_id)
     # resolve using the `destinations` dict in tool_mappings yaml
     # FIXME: if all you're using it for is grouping you could just use destination tags
-    destination_id = __destination_config(destination_id)
-    if isinstance(destination_id, list):
+    destination_config = __destination_config(destination_id)
+    if isinstance(destination_config, list):
         # if it's a list then we need to use the best dest algorithm
         # FIXME: pass in job, threshold
-        destination_id = __get_best_destination(app, job, destination_id, threshold)
+        destination_id = __get_best_destination(app, job, destination_config, threshold)
     # FIXME: what about spec? that was on the tool_mapping - what if it mapped to a dest that doesn't use some of the
     # param(s) in the spec?
     return destination_id
 
 
-def __dynamic_reserved_mapped(key, app, job, tool, user_email):
-    destination_id = None
-    mapped = False
+def __override_params(selections, destination_config, override_allowed):
+    rval = {}
+    for param, value in selections.items():
+        if value == 0:
+            continue
+        if override_allowed:
+            max_value = destination_config.get('override', {}).get(param, 0)
+        else:
+            max_value = destination_config.get('max', {}).get(param, 0)
+        # FIXME:
+        if param == 'mem':
+            # convert GB to MB
+            value = value * 1024
+            # convert size string to MB
+            max_value = int(size_to_bytes(str(max_value)) / (1024 ** 2))
+        value = min(value, max_value)
+        # FIXME: special casing
+        if param == 'mem':  # and destination_id = bridges
+            value = int((value / 1024) / 48) * 48 * 1024
+            log.debug('Normalized to %s MB (%s GB)', value, value / 1024)
+        if value > 0:
+            if param == 'mem':
+                # FIXME: will be run through size_to_bytes in call, so, terrible hack here:
+                value = '{}M'.format(value)
+            rval[param] = value
+            log.debug("Value of param '%s' set by user: %s", param, value)
+        else:
+            log.warning("User set param '%s' to '%s' but that is not allowed, so it will be ignored", param, value)
+    return rval
 
-    param_dict = job.get_param_values(app)
-    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
 
-    tool_id = __short_tool_id(tool.id)
-    destination_id = __tool_destination(tool_id, param_dict)
-
-    # TODO: mapped dests override reserved, there may be cases where we don't want to do that
-    if not destination_id:
-        destination_id = 'slurm_' + key
-        if __user_in_priority_group(app, user_email):
-            destination_id = 'reserved_' + key
-            log.debug("(%s) User in priority group, job destination is: %s", job.id, destination_id)
-            mapped = True
-    else:
-        mapped = True
-
-    return (destination_id, mapped)
-
-
-def __dynamic_reserved(key, app, job, tool, user_email):
-    return __dynamic_reserved_mapped(key, app, job, tool, user_email)[0]
-
-
-def __parse_resource_selector(job, param_dict):
+def __parse_resource_selector(app, job, user_email, resource_params):
     # handle job resource parameters
+    # NOTE: key and value validation is done in Galaxy prior to job creation
+    spec = {}
+    selections = {}
+    destination_id = None
+    for param, value in [(p, v) for (p, v) in resource_params.items() if not p.startswith('__')]:
+        if param.endswith('compute_resource'):
+            destination_id = value
+        else:
+            # currently these are all integers
+            selections[param] = int(value)
+    assert destination_id is not None, "Failed to get destination_id from params"
+    # FIXME: dedup
+    destination_config = __destination_config(destination_id)
+    if isinstance(destination_id, list):
+        destination_id = __get_best_destination(app, job, destination_config, threshold)
+        destination_config = __destination_config(destination_id)
+    if destination_config:
+        # true if user is allowed to override params up to the value in destination_config.override
+        user_group_param_overrides = __user_group_mappings(app, user_email, 'param_overrides')
+        spec = __override_params(selections, destination_config, user_group_param_overrides)
+        log.debug('Spec from selections: %s', spec)
+    elif selections:
+        log.warning("Ignored invalid selections for destination '%s': %s", destination_id, selections)
+    return destination_id, spec
+
+'''
     try:
         # validate params
-        cores = int(param_dict['__job_resource'].get('cores', 0))
-        time = int(param_dict['__job_resource'].get('time', 0))
+        cores = int(resource_params.get('cores', 0))
+        time = int(resource_params.get('time', 0))
         destination_id = param_dict['__job_resource'][COMPUTE_RESOURCE_SELECTOR]
-        for destination in SELECTABLE_DESTINATIONS:
+        #for destination in SELECTABLE_DESTINATIONS:
             # TODO: right now it's just going to select the first dest in a tag, if we actually added more dests to a
             # tag we would need an algorithm to select between them
             if destination.id == destination_id or destination_id in destination.tags:
@@ -368,6 +337,7 @@ def __parse_resource_selector(job, param_dict):
         # resource param selector not sent with tool form, job_conf.xml misconfigured
         log.exception('(%s) job resource error, keys were: %s', job.id, param_dict.keys())
         raise JobMappingException(FAILURE_MESSAGE)
+'''
 
 
 def __BORK_queued_job_count(app, destination_configs):
@@ -593,23 +563,22 @@ def dynamic_bridges(app, job, tool, resource_params, user_email):
     param_dict = job.get_param_values(app)
     log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
 
+    # find any mapping for this tool and params
+    # tool_mapping = an item in tools[iool_id] in tool_mappings yaml
+    tool_mapping = __tool_mapping(tool_id, param_dict)
+
+    spec = None
+
     # resource_params is an empty dict if not set
     if resource_params:
         # TODO: validate whether resources are valid for tool (galaxy should do this)
         log.debug("(%s) Job resource parameters seleted: %s", job.id, resource_params)
         # FIXME: only valid for multi
-        cores, time, destination_config = __parse_resource_selector(job, resource_params)
+        destination_id, spec = __parse_resource_selector(app, job, user_email, resource_params)
         # FIXME: do what with tool_mapping here?
         # return something
-        raise NotImplementedError
 
-    # find any mapping for this tool and params
-    # tool_mapping = an item in tools[iool_id] in tool_mappings yaml
-    tool_mapping = __tool_mapping(tool_id, param_dict)
-
-    #is_priority_user = __user_in_priority_group(app, user_email)
-
-    if tool_mapping:
+    elif tool_mapping:
         destination_id = tool_mapping['destination']
         destination_id = __resolve_destination(app, job, user_email, destination_id)
         #destination_config = __destination_config(destination_id)
@@ -623,6 +592,7 @@ def dynamic_bridges(app, job, tool, resource_params, user_email):
         #    destination_spec = destination_config.get('spec', {})
         #    queued_job_threshold = destination_config.get('queued_job_threshold', queued_job_threshold)
         #destination_spec.update(tool_mapping.get('spec', {}))
+        spec = tool_mapping.get('spec', {})
         log.debug("(%s) Tool '%s' mapped to '%s' native specification overrides: %s", job.id, tool_id, destination_id, destination_spec or 'none')
     else:
         # FIXME:
@@ -640,10 +610,10 @@ def dynamic_bridges(app, job, tool, resource_params, user_email):
     #native_spec = destination.params.get(native_spec_param, '') + ' ' + ' '.join(params)
     native_spec = destination.params.get(native_spec_param, '')
 
-    if tool_mapping:
-        for param, value in tool_mapping.get('spec', {}).items():
+    if spec:
+        for param, value in spec.items():
             if param == 'mem':
-                value = int(size_to_bytes(str(tool_mapping['spec']['mem'])) / (1024 ** 2))
+                value = int(size_to_bytes(str(value)) / (1024 ** 2))
             elif param == 'time':
                 try:
                     int(value)

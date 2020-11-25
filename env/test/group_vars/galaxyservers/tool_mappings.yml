@@ -1,14 +1,13 @@
 ---
 
 # by default, tools are assigned 1 core, 8 GB of memory, and a 36 hour walltime
-
-# either a key in destinations below, a job_conf destination id or tag, or the special 'dynamic'
 tools:
   kraken:
     # can be a list if you want to do different things with different params (or one thing with no checked params)
     - params:
         - name: kraken_database
           value: bacteria
+      # can be a real id or key in 'destinations' dict below
       destination: stampede_skx_normal
       reserved: false
   trinity:
@@ -44,6 +43,90 @@ tools:
         mem: 720G
         time: 96
     # TODO: separate vals if normalizing/not, plus param matches for non-pair
+    - params:
+        - name: pool.inputs.paired_or_single
+          value: paired
+        # comparison is implicitly on size of pair member 0
+        #- name: pool.inputs.pair_input
+        #  op: '<'
+        #  value: 10G
+      destination: bridges_normal
+      spec:
+        # 5 * 48GB
+        mem: 240G
+        time: 72
+  gemini_load:
+    destination: multi
+  foo:
+    destination: normal_16gb
+
+
+# can contain spec like tool mapping, tool mapping keys override
+#destinations:
+  #normal:
+  #  id: slurm_normal
+  #  #priority_id: reserved_normal
+  #normal_16gb:
+  #  id: slurm_normal_16gb
+  #  #priority_id: reserved_normal_16gb
+  #multi:
+  #  - id: slurm_multi
+  #    #priority_id: reserved_multi
+  #  - id: jetstream_iu_multi
+  #    # no reserved? what happens now?
+  #  #priority_id: reserved_multi
+  #  #queued_job_threshold: 4   # do we need separate for each dest?
+destinations:
+  multi:
+    - slurm_multi
+    - jetstream_iu_multi
+  jetstream_multi:
+    - jetstream_iu_multi
+  stampede_normal:
+    max:
+      ntasks: 272
+  bridges_normal:
+    override:
+      mem: 720G
+  bridges_development:
+    max:
+    # FIXME: test this undo max above
+    #override:
+      mem: 720G
+
+
+
+
+#  jetstream_iu_multi:
+
+groups:
+  Job Priority Users:
+    destination_overrides:
+      slurm_normal: reserved_normal
+      slurm_normal_16gb: reserved_normal_16gb
+      #slurm_multi: reserved_multi
+      multi: reserved_multi
+  Job Resource Param Users:
+    param_overrides: true
+
+#destination_configs:
+#  slurm_multi:
+#    native_spec_param: native_specification
+#    partition: multi
+#    default_cores: 6
+#    max_cores: 6
+#    default_walltime: 36
+#    max_walltime: 36
+#    queued_job_threshold: 4
+#  jetstream_multi:
+#    native_spec_param: submit_native_specification
+#    partition: multi
+#    default_cores: 10
+#    max_cores: 10
+#    default_walltime: 36
+#    max_walltime: 36
+#    queued_job_threshold: 4
+
 
 # don't overlap destinations defined in job_conf for confusion purposes
 #destinations:

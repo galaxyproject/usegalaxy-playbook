@@ -28,9 +28,7 @@
         <option value="bridges_normal">PSC Bridges (default)</option>
         <option value="bridges_development">PSC Bridges test/development</option>
     </param>
-    <param label="[Galaxy Tool Development] Cores" name="cores" type="integer" size="3" min="0" max="272" value="0" help="Option ignored for unauthorized users. Value will be capped for the resource on which the tool runs. Use '0' for default." />
+    <param label="[Galaxy Tool Development] Cores" name="ntasks" type="integer" size="3" min="0" max="272" value="0" help="Option ignored for unauthorized users. Value will be capped for the resource on which the tool runs. Use '0' for default." />
+    <param label="[Galaxy Tool Development] Memory (GB)" name="mem" type="integer" size="3" min="0" max="720" value="0" help="Option ignored for unauthorized users. Value will be capped for the resource on which the tool runs. Use '0' for default." />
     <param label="[Galaxy Tool Development] Time Limit" name="time" type="integer" size="3" min="0" max="72" value="0" help="Maximum job time in hours, ('walltime' value). Value will be capped for the resource on which the tool runs. Max of 36 for most resources, 2 for test partitions. Shorter limit = runs sooner. Use '0' for default." />
-    <!-- Test-only -->
-    <param label="[Galaxy Tool Development] CPUs" name="team_cpus" type="integer" size="3" min="0" max="272" value="0" help="Use '0' for default. If more cores are chosen than available on the selected compute resource, the value will be capped. Option ignored for non-developer users."/>
-    <param label="[Galaxy Tool Development] Memory (GB)" name="team_memory" type="integer" size="3" min="0" max="192" value="0" help="Use '0' for default. If more memory is chosen than available on the selected compute resource, the value will be capped. Option ignored for non-developer users."/>
 </parameters>
