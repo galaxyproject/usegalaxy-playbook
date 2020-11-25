@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 TOOL_MAPPINGS_FILE = '/srv/galaxy/test/config/tool_mappings.yml'
 
 # Users in this group will have their jobs sent to reserved destinations
-JOB_PRIORITY_USERS_GROUP_NAME = 'Job Priority Users'
+#JOB_PRIORITY_USERS_GROUP_NAME = 'Job Priority Users'
 #JOB_PRIORITY_USERS_GROUP = None
 #JOB_PRIORITY_USERS_GROUP_CACHE_TIME = None
 #JOB_PRIORITY_USERS_GROUP_CACHE_TTL = 300
@@ -97,7 +97,20 @@ OPERATIONS = {
     '<=': operator.le,
 }
 
+NATIVE_SPEC_PARAMS = (
+    'submit_native_specification',
+    'native_specification',
+    'nativeSpecification',
+)
+
 deferred_jobs = {}
+
+
+def __short_tool_id(tool_id):
+    if '/' in tool_id:
+        # extract short tool id from tool shed id
+        tool_id = tool_id.split('/')[-2]
+    return tool_id
 
 
 #def __job_priority_users_group(app):
@@ -133,6 +146,22 @@ def __tool_mappings():
         with open(TOOL_MAPPINGS_FILE) as fh:
             return yaml.safe_load(fh.read())
     return __get_cached('tool_mappings', _tool_mappings_refresh_func)
+
+
+def __destination_configs():
+    tool_mappings = __tool_mappings()
+    try:
+        return tool_mappings['destinations']
+    except KeyError:
+        return {}
+
+
+def __destination_config(destination_id):
+    destination_configs = __destination_configs()
+    try:
+        return destination_configs[destination_id]
+    except KeyError:
+        return destination_id
 
 
 def __check_param(param_dict, param, value, op):
@@ -203,38 +232,92 @@ def __tool_destination(tool_id, param_dict):
     return destination_id
 
 
-'''
-    if destination_id == 'dynamic':
-        # TODO: full dynamic
-    elif destination_id in tool_mappings['destinations']:
-        mapping = tool_mappings['destinations'][destination_id]
-        destination_id = mapping['id']
-        #for param 
-'''
+#    if destination_id == 'dynamic':
+#        # TODO: full dynamic
+#    elif destination_id in tool_mappings['destinations']:
+#        mapping = tool_mappings['destinations'][destination_id]
+#        destination_id = mapping['id']
+#        #for param 
 
 
-def __job_priority_users_group(app):
+#def __job_priority_users_group(app):
+#    return app.model.context.query(app.model.Group).filter(
+#        app.model.Group.table.c.name == JOB_PRIORITY_USERS_GROUP_NAME,
+#        app.model.Group.table.c.deleted.is_(False)
+#    ).first()
+#
+#
+#def __job_priority_users_group_members(app):
+#    # returns email strings, not user objects
+#    def _job_priority_users_refresh_func(app):
+#        group = __job_priority_users_group(app)
+#        if group:
+#            app.model.context.refresh(group)
+#            return [uga.user.email for uga in group.users]
+#        else:
+#            return []
+#    return __get_cached('job_priority_users', partial(_job_priority_users_refresh_func, app))
+#
+#
+#def __user_in_priority_group(app, user_email):
+#    members = __job_priority_users_group_members(app)
+#    return user_email in members
+
+
+def __group_mappings():
+    return __tool_mappings().get('groups', {})
+
+
+def __map_groups(app):
+    group_mappings = __group_mappings()
+    group_names = group_mappings.keys()
     return app.model.context.query(app.model.Group).filter(
-        app.model.Group.table.c.name == JOB_PRIORITY_USERS_GROUP_NAME,
+        app.model.Group.table.c.name.in_(group_names),
         app.model.Group.table.c.deleted.is_(False)
-    ).first()
+    ).all()
 
 
-def __job_priority_users_group_members(app):
+def __map_group_members(app):
     # returns email strings, not user objects
-    def _job_priority_users_refresh_func(app):
-        group = __job_priority_users_group(app)
-        if group:
+    def _map_group_members_refresh_func(app):
+        rval = {}
+        groups = __map_groups(app)
+        for group in groups:
             app.model.context.refresh(group)
-            return [uga.user.email for uga in group.users]
-        else:
-            return []
-    return __get_cached('job_priority_users', partial(_job_priority_users_refresh_func, app))
+            rval[group.name] = [uga.user.email for uga in group.users]
+        return rval
+    return __get_cached('map_group_members', partial(_map_group_members_refresh_func, app))
 
 
-def __user_in_priority_group(app, user_email):
-    members = __job_priority_users_group_members(app)
-    return user_email in members
+def __user_group_destination_mappings(app, user_email):
+    rval = {}
+    groups = __map_group_members(app)
+    for group_name, members in groups.items():
+        if user_email in members:
+            log.debug("User '%s' found in mapped group '%s'", user_email, group_name)
+            if rval:
+                log.warning("User '%s' found in more than one mapped group, an arbitrary one will be used!", user_email)
+            rval = __group_mappings().get(group_name, {})
+    return rval
+
+
+def __resolve_destination(app, job, user_email, destination_id, threshold=4):
+    # TODO destination_id function param is after tool mapping, maybe this function should do tool mapping as well and
+    # just pass in tool_id and param_dict?
+    # if user is in a special group (named in `groups` dict in tool_mappings yaml) then get destination id overrides
+    user_group_destination_mappings = __user_group_destination_mappings(app, user_email)
+    # if an override exists then use it, otherwise use what was passed in
+    destination_id = user_group_destination_mappings.get(destination_id, destination_id)
+    # resolve using the `destinations` dict in tool_mappings yaml
+    # FIXME: if all you're using it for is grouping you could just use destination tags
+    destination_id = __destination_config(destination_id)
+    if isinstance(destination_id, list):
+        # if it's a list then we need to use the best dest algorithm
+        # FIXME: pass in job, threshold
+        destination_id = __get_best_destination(app, job, destination_id, threshold)
+    # FIXME: what about spec? that was on the tool_mapping - what if it mapped to a dest that doesn't use some of the
+    # param(s) in the spec?
+    return destination_id
 
 
 def __dynamic_reserved_mapped(key, app, job, tool, user_email):
@@ -244,11 +327,7 @@ def __dynamic_reserved_mapped(key, app, job, tool, user_email):
     param_dict = job.get_param_values(app)
     log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
 
-    tool_id = tool.id
-    if '/' in tool.id:
-        # extract short tool id from tool shed id
-        tool_id = tool.id.split('/')[-2]
-
+    tool_id = __short_tool_id(tool.id)
     destination_id = __tool_destination(tool_id, param_dict)
 
     # TODO: mapped dests override reserved, there may be cases where we don't want to do that
@@ -291,7 +370,7 @@ def __parse_resource_selector(job, param_dict):
         raise JobMappingException(FAILURE_MESSAGE)
 
 
-def __queued_job_count(app, destination_configs):
+def __BORK_queued_job_count(app, destination_configs):
     destination_ids = set()
     for destination_config in destination_configs:
         destination_ids.add(destination_config.id)
@@ -315,7 +394,7 @@ def __replace_param_value(native_spec, param, value):
     return native_spec
 
 
-def __get_best_destination(app, job, destination_configs):
+def __BORK_get_best_destination(app, job, destination_configs):
     """Given a preference-ordered list of DestinationConfigs, attempt to determine the best place to send a job.
 
     It works like this:
@@ -430,41 +509,164 @@ def __dynamic_multi_cores_time(app, job, tool, destination_configs, dynamic_rese
     return destination
 
 
-def __dynamic_bridges(app, job, tool, destination_config, user_email):
-    # FIXME: DEDUP
+def __queued_job_count(app, destination_ids):
+    #destination_ids = set()
+    #for destination_config in destination_configs:
+    #    destination_ids.add(destination_config.id)
+    #    # FIXME:
+    #    #[destination_ids.add(st) for st in destination_config.shared_thresholds]
+    job_counts = app.model.context.query(app.model.Job.table.c.destination_id, func.count(app.model.Job.table.c.destination_id)).filter(
+        app.model.Job.table.c.destination_id.in_(destination_ids),
+        app.model.Job.table.c.state == app.model.Job.states.QUEUED
+    ).group_by(app.model.Job.destination_id).all()
+    return dict([(d, c) for d, c in job_counts])
+
+
+def __get_best_destination(app, job, destination_ids, threshold):
+    """Given a preference-ordered list of DestinationConfigs, attempt to determine the best place to send a job.
+
+    It works like this:
+
+    1. Each destination in the list is checked in order
+    2. If fewer jobs are queued at the destination than its thresholds (and destinations listed in shared_thresholds),
+       the job will be assigned to the destination
+    3. Otherwise, repeat step 2 on the next destination in the list
+    4. If all destinations are over their queued job threshold, defer assignment until the next scheduling loop, where
+       steps 1-3 will be retried.
+    5. If MAX_DEFER_SECONDS is reached and there are still no destinations under the threshold,, choose the destination
+       with the fewest queued jobs.
+    """
+    job_counts = __queued_job_count(app, destination_ids)
+    priority_destinations = []
+    for destination_id in destination_ids:
+        count = job_counts.get(destination_id, 0) #\
+        # FIXME:
+        #    + sum([job_counts.get(shared_threshold, 0) for shared_threshold in destination_config.shared_thresholds])
+        # select the first destination under the threshold
+        if count <= threshold:
+            log.debug("(%s) selecting preferred destination with %s queued jobs: %s", job.id, count, destination_id)
+            deferred_jobs.pop(job.id, None)
+            return destination_id
+        heapq.heappush(priority_destinations, (count, destination_id))
+    if job.id not in deferred_jobs:
+        deferred_jobs[job.id] = time.time()
+    elif time.time() - deferred_jobs[job.id] > MAX_DEFER_SECONDS:
+        count, destination_id = heapq.heappop(priority_destinations)
+        log.debug(
+            "(%s) all destinations over threshold (%s), reached max deferrment, selecting least busy (ct: %s) "
+            "destination: %s", job.id, threshold, count, destination_id)
+        deferred_jobs.pop(job.id, None)
+        return destination_id
+    log.debug("(%s) all destinations over threshold, deferring job scheduling: %s", job.id, job_counts)
+    raise JobNotReadyException(message="All destinations over max queued thresholds")
+
+
+def __native_spec_param(destination):
+    for param in NATIVE_SPEC_PARAMS:
+        if param in destination.params:
+            return param
+    raise Exception(
+        "Could not determine native spec param for destination '{}' with params: {}".format(
+            destination.id, destination.params))
+
+
+# FIXME: rename
+def dynamic_bridges(app, job, tool, resource_params, user_email):
     tool_mapping = None
+    tool_id = __short_tool_id(tool.id)
+
+    destination_id = None
+    destination_spec = {}
+    priority_id = None
+    destination = None
+    queued_job_threshold = 4
+
+    # FIXME: destination_config removed from args
+
+    # 1. check resource params
+    # 2. check mapping
+    # 3. check queued (if multiple)
+    # 4. check priority
+    # 5. ???
 
     # build the param dictionary
     param_dict = job.get_param_values(app)
     log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
 
-    tool_id = tool.id
-    if '/' in tool.id:
-        # extract short tool id from tool shed id
-        tool_id = tool.id.split('/')[-2]
+    # resource_params is an empty dict if not set
+    if resource_params:
+        # TODO: validate whether resources are valid for tool (galaxy should do this)
+        log.debug("(%s) Job resource parameters seleted: %s", job.id, resource_params)
+        # FIXME: only valid for multi
+        cores, time, destination_config = __parse_resource_selector(job, resource_params)
+        # FIXME: do what with tool_mapping here?
+        # return something
+        raise NotImplementedError
 
-    if param_dict.get('__job_resource', {}).get('__job_resource__select') != 'yes':
-        tool_mapping = __tool_mapping(tool_id, param_dict)
+    # find any mapping for this tool and params
+    # tool_mapping = an item in tools[iool_id] in tool_mappings yaml
+    tool_mapping = __tool_mapping(tool_id, param_dict)
+
+    #is_priority_user = __user_in_priority_group(app, user_email)
+
+    if tool_mapping:
+        destination_id = tool_mapping['destination']
+        destination_id = __resolve_destination(app, job, user_email, destination_id)
+        #destination_config = __destination_config(destination_id)
+        # TODO: if user is in priority should we pull priority ids here?
+        #if isinstance(destination_configs, list):
+        #    # gah what do we do if some dests have priority_id and others don't?
+        #    BORK
+        #if destination_config:
+        #    destination_id = destination_config.get['id']
+        #    priority_id = destination_config.get('priority_id')
+        #    destination_spec = destination_config.get('spec', {})
+        #    queued_job_threshold = destination_config.get('queued_job_threshold', queued_job_threshold)
+        #destination_spec.update(tool_mapping.get('spec', {}))
+        log.debug("(%s) Tool '%s' mapped to '%s' native specification overrides: %s", job.id, tool_id, destination_id, destination_spec or 'none')
     else:
-        raise NotImplementedError()
+        # FIXME:
+        #destination_id = DEFAULT_DESTINATION_ID
+        destination_id = 'slurm_normal'
+        destination_id = __resolve_destination(app, job, user_email, destination_id)
+        log.debug("(%s) Tool '%s' has no mapping, using default '%s'", job.id, tool_id, destination_id)
 
     # FIXME: handle when tool_mapping is None
 
-    # FIXME:
-    time = tool_mapping['spec']['time']
-    # convert to MB
-    mem = int(size_to_bytes(str(tool_mapping['spec']['mem'])) / (1024 ** 2))
+    destination = app.job_config.get_destination(destination_id)
+    #native_spec_param = destination_config.native_spec_param
+    # FIXME: requires native spec to be set on all dests, you could do this by plugin instead
+    native_spec_param = __native_spec_param(destination)
+    #native_spec = destination.params.get(native_spec_param, '') + ' ' + ' '.join(params)
+    native_spec = destination.params.get(native_spec_param, '')
 
-    params = [
-        '--mem={}'.format(mem),
-        '--time={}:00:00'.format(time),
-    ]
+    if tool_mapping:
+        for param, value in tool_mapping.get('spec', {}).items():
+            if param == 'mem':
+                value = int(size_to_bytes(str(tool_mapping['spec']['mem'])) / (1024 ** 2))
+            elif param == 'time':
+                try:
+                    int(value)
+                    value = '{}:00:00'.format(value)
+                except:
+                    pass
+            native_spec = __replace_param_value(native_spec, param, value)
+    else:
+        # FIXME:
+        raise NotImplementedError()
+
+    # FIXME:
+    #time = tool_mapping['spec']['time']
+    # convert to MB
+    #mem = int(size_to_bytes(str(tool_mapping['spec']['mem'])) / (1024 ** 2))
+
+    #params = [
+    #    '--mem={}'.format(mem),
+    #    '--time={}:00:00'.format(time),
+    #]
     # FIXME: should come from tool mapping
-    destination_id = destination_config.id
+    #destination_id = destination_config.id
     # FIXME: can return None
-    destination = app.job_config.get_destination('bridges_normal')
-    native_spec_param = destination_config.native_spec_param
-    native_spec = destination.params.get(native_spec_param, '') + ' ' + ' '.join(params)
     destination.params[native_spec_param] = native_spec
 
     log.info('(%s) Returning destination: %s', job.id, destination_id)
@@ -500,5 +702,5 @@ def dynamic_multi_long_reserved(app, job, user_email):
     return __dynamic_multi_cores_time(app, job, tool, MULTI_LONG_DESTINATIONS, 'multi_long', user_email)
 
 
-def dynamic_bridges(app, job, tool, user_email):
-    return __dynamic_bridges(app, job, tool, BRIDGES_DESTINATION, user_email)
+#def dynamic_bridges(app, job, tool, user_email):
+#    return __dynamic_bridges(app, job, tool, BRIDGES_DESTINATION, user_email)
