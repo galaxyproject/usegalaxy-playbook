@@ -78,10 +78,10 @@ tools:
   #  #queued_job_threshold: 4   # do we need separate for each dest?
 destinations:
   multi:
-    - slurm_multi
-    - jetstream_iu_multi
+    - id: slurm_multi
+    - id: jetstream_iu_multi
   jetstream_multi:
-    - jetstream_iu_multi
+    - id: jetstream_iu_multi
   stampede_normal:
     max:
       ntasks: 272

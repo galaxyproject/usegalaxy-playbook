@@ -24,6 +24,9 @@ log = logging.getLogger(__name__)
 ## FIXME
 TOOL_MAPPINGS_FILE = '/srv/galaxy/test/config/tool_mappings.yml'
 
+# TODO: could pull this from the job config as well
+DEFAULT_DESTINATION_ID = 'slurm_normal'
+
 # Users in this group will have their jobs sent to reserved destinations
 #JOB_PRIORITY_USERS_GROUP_NAME = 'Job Priority Users'
 #JOB_PRIORITY_USERS_GROUP = None
@@ -37,6 +40,7 @@ PARAM_RES = {}
 
 # we can't fully trust galaxy not to leave jobs stuck in 'queued', so don't defer assignment indefinitely
 MAX_DEFER_SECONDS = 30
+DEFAULT_THRESHOLD = 4
 
 # FIXME:
 COMPUTE_RESOURCE_SELECTOR = 'multi_compute_resource'
@@ -238,7 +242,7 @@ def __user_group_mappings(app, user_email, group_type):
     return rval
 
 
-def __resolve_destination(app, job, user_email, destination_id, threshold=4):
+def __resolve_destination(app, job, user_email, destination_id):
     # TODO destination_id function param is after tool mapping, maybe this function should do tool mapping as well and
     # just pass in tool_id and param_dict?
     # if user is in a special group (named in `groups` dict in tool_mappings yaml) then get destination id overrides
@@ -248,12 +252,9 @@ def __resolve_destination(app, job, user_email, destination_id, threshold=4):
     #destination_id = user_group_destination_mappings.get('destination_overrides', {}).get(destination_id, destination_id)
     destination_id = user_group_destination_mappings.get(destination_id, destination_id)
     # resolve using the `destinations` dict in tool_mappings yaml
-    # FIXME: if all you're using it for is grouping you could just use destination tags
     destination_config = __destination_config(destination_id)
-    if isinstance(destination_config, list):
-        # if it's a list then we need to use the best dest algorithm
-        # FIXME: pass in job, threshold
-        destination_id = __get_best_destination(app, job, destination_config, threshold)
+    # if it's a list then we need to use the best dest algorithm
+    destination_id = __get_best_destination(app, job, destination_config) or destination_id
     # FIXME: what about spec? that was on the tool_mapping - what if it mapped to a dest that doesn't use some of the
     # param(s) in the spec?
     return destination_id
@@ -292,7 +293,7 @@ def __override_params(selections, destination_config, override_allowed):
 
 def __parse_resource_selector(app, job, user_email, resource_params):
     # handle job resource parameters
-    # NOTE: key and value validation is done in Galaxy prior to job creation
+    # NOTE: key and value validation is done in Galaxy prior to job creation, so it is not necessary to do it here
     spec = {}
     selections = {}
     destination_id = None
@@ -303,11 +304,9 @@ def __parse_resource_selector(app, job, user_email, resource_params):
             # currently these are all integers
             selections[param] = int(value)
     assert destination_id is not None, "Failed to get destination_id from params"
-    # FIXME: dedup
     destination_config = __destination_config(destination_id)
-    if isinstance(destination_id, list):
-        destination_id = __get_best_destination(app, job, destination_config, threshold)
-        destination_config = __destination_config(destination_id)
+    destination_id = __get_best_destination(app, job, destination_config) or destination_id
+    destination_config = __destination_config(destination_id)
     if destination_config:
         # true if user is allowed to override params up to the value in destination_config.override
         user_group_param_overrides = __user_group_mappings(app, user_email, 'param_overrides')
@@ -492,8 +491,8 @@ def __queued_job_count(app, destination_ids):
     return dict([(d, c) for d, c in job_counts])
 
 
-def __get_best_destination(app, job, destination_ids, threshold):
-    """Given a preference-ordered list of DestinationConfigs, attempt to determine the best place to send a job.
+def __get_best_destination(app, job, destination_configs):
+    """Given a preference-ordered list of destination configs, attempt to determine the best place to send a job.
 
     It works like this:
 
@@ -506,9 +505,19 @@ def __get_best_destination(app, job, destination_ids, threshold):
     5. If MAX_DEFER_SECONDS is reached and there are still no destinations under the threshold,, choose the destination
        with the fewest queued jobs.
     """
+    # short circuit for cases where there aren't multiple to choose from
+    if not isinstance(destination_configs, list):
+        # nothing to do
+        return None
+    elif len(destination_configs) == 1:
+        return destination_configs[0]['id']
+
+    destination_ids = [d['id'] for d in destination_configs]
     job_counts = __queued_job_count(app, destination_ids)
     priority_destinations = []
-    for destination_id in destination_ids:
+    for destination_config in destination_configs:
+        destination_id = destination_config['id']
+        threshold = destination_config.get('threshold', DEFAULT_THRESHOLD)
         count = job_counts.get(destination_id, 0) #\
         # FIXME:
         #    + sum([job_counts.get(shared_threshold, 0) for shared_threshold in destination_config.shared_thresholds])
@@ -561,69 +570,47 @@ def dynamic_bridges(app, job, tool, resource_params, user_email):
 
     # build the param dictionary
     param_dict = job.get_param_values(app)
-    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
+    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool_id, param_dict)
 
     # find any mapping for this tool and params
     # tool_mapping = an item in tools[iool_id] in tool_mappings yaml
     tool_mapping = __tool_mapping(tool_id, param_dict)
-
-    spec = None
+    spec = tool_mapping.get('spec', {})
 
     # resource_params is an empty dict if not set
     if resource_params:
-        # TODO: validate whether resources are valid for tool (galaxy should do this)
         log.debug("(%s) Job resource parameters seleted: %s", job.id, resource_params)
-        # FIXME: only valid for multi
-        destination_id, spec = __parse_resource_selector(app, job, user_email, resource_params)
-        # FIXME: do what with tool_mapping here?
-        # return something
-
+        destination_id, user_spec = __parse_resource_selector(app, job, user_email, resource_params)
+        if spec and user_spec:
+            log.debug("(%s) Mapped spec for tool '%s' was (prior to resource param selection): %s", job.id, tool_id, spec)
+        spec.update(user_spec)
+        log.debug("(%s) Spec for tool '%s' after resource param selection: %s", job.id, tool_id, spec or 'none')
     elif tool_mapping:
         destination_id = tool_mapping['destination']
         destination_id = __resolve_destination(app, job, user_email, destination_id)
-        #destination_config = __destination_config(destination_id)
-        # TODO: if user is in priority should we pull priority ids here?
-        #if isinstance(destination_configs, list):
-        #    # gah what do we do if some dests have priority_id and others don't?
-        #    BORK
-        #if destination_config:
-        #    destination_id = destination_config.get['id']
-        #    priority_id = destination_config.get('priority_id')
-        #    destination_spec = destination_config.get('spec', {})
-        #    queued_job_threshold = destination_config.get('queued_job_threshold', queued_job_threshold)
-        #destination_spec.update(tool_mapping.get('spec', {}))
-        spec = tool_mapping.get('spec', {})
-        log.debug("(%s) Tool '%s' mapped to '%s' native specification overrides: %s", job.id, tool_id, destination_id, destination_spec or 'none')
+        log.debug("(%s) Tool '%s' mapped to '%s' native specification overrides: %s", job.id, tool_id, destination_id, spec or 'none')
     else:
-        # FIXME:
-        #destination_id = DEFAULT_DESTINATION_ID
-        destination_id = 'slurm_normal'
+        destination_id = DEFAULT_DESTINATION_ID
         destination_id = __resolve_destination(app, job, user_email, destination_id)
         log.debug("(%s) Tool '%s' has no mapping, using default '%s'", job.id, tool_id, destination_id)
 
-    # FIXME: handle when tool_mapping is None
-
     destination = app.job_config.get_destination(destination_id)
-    #native_spec_param = destination_config.native_spec_param
-    # FIXME: requires native spec to be set on all dests, you could do this by plugin instead
+    # TODO: requires native spec to be set on all dests, you could do this by plugin instead
     native_spec_param = __native_spec_param(destination)
     #native_spec = destination.params.get(native_spec_param, '') + ' ' + ' '.join(params)
     native_spec = destination.params.get(native_spec_param, '')
 
-    if spec:
-        for param, value in spec.items():
-            if param == 'mem':
-                value = int(size_to_bytes(str(value)) / (1024 ** 2))
-            elif param == 'time':
-                try:
-                    int(value)
-                    value = '{}:00:00'.format(value)
-                except:
-                    pass
-            native_spec = __replace_param_value(native_spec, param, value)
-    else:
-        # FIXME:
-        raise NotImplementedError()
+    for param, value in spec.items():
+        # FIXME: special casing
+        if param == 'mem':
+            value = int(size_to_bytes(str(value)) / (1024 ** 2))
+        elif param == 'time':
+            try:
+                int(value)
+                value = '{}:00:00'.format(value)
+            except:
+                pass
+        native_spec = __replace_param_value(native_spec, param, value)
 
     # FIXME:
     #time = tool_mapping['spec']['time']
