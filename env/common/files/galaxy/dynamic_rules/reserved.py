@@ -62,7 +62,27 @@ NATIVE_SPEC_PARAMS = (
     'nativeSpecification',
 )
 
+RESOURCE_PARAM_CONVERSIONS = {
+    # in: int in GB; out: int in bytes
+    'mem': lambda x: x * (1024 ** 3),
+}
+
+TOOL_MAPPING_PARAM_CONVERSIONS = {
+    # in: size str; out: int in bytes
+    'mem': lambda x: size_to_bytes(str(x)),
+}
+
+NATIVE_SPEC_PARAM_CONVERSIONS = {
+    # in: int in bytes or size str; out: int in mb
+    'mem': lambda x: int(size_to_bytes(str(x)) / (1024 ** 2)),
+    'time': lambda x: '{}:00:00'.format(x) if isinstance(x, int) else x,
+}
+
 deferred_jobs = {}
+
+
+def __int_gb_to_bytes(gb):
+    return gb * (1024 ** 3)
 
 
 def __short_tool_id(tool_id):
@@ -260,6 +280,24 @@ def __resolve_destination(app, job, user_email, destination_id):
     return destination_id
 
 
+def __convert_param(name, value, conversion_map):
+    conversion = conversion_map.get(name)
+    if conversion:
+        value = conversion(value)
+    return value
+
+def __convert_resource_param(name, value):
+    return __convert_param(name, value, RESOURCE_PARAM_CONVERSIONS)
+
+
+def __convert_tool_mapping_param(name, value):
+    return __convert_param(name, value, TOOL_MAPPING_PARAM_CONVERSIONS)
+
+
+def __convert_native_spec_param(name, value):
+    return __convert_param(name, value, NATIVE_SPEC_PARAM_CONVERSIONS)
+
+
 def __override_params(selections, destination_config, override_allowed):
     rval = {}
     for param, value in selections.items():
@@ -269,21 +307,30 @@ def __override_params(selections, destination_config, override_allowed):
             max_value = destination_config.get('override', {}).get(param, 0)
         else:
             max_value = destination_config.get('max', {}).get(param, 0)
+        value = __convert_resource_param(param, value)
+        max_value = __convert_tool_mapping_param(param, max_value)
         # FIXME:
-        if param == 'mem':
-            # convert GB to MB
-            value = value * 1024
-            # convert size string to MB
-            max_value = int(size_to_bytes(str(max_value)) / (1024 ** 2))
+        #if param == 'mem':
+        #    # convert GB to MB
+        #    value = value * 1024
+        #    # convert size string to MB
+        #    max_value = int(size_to_bytes(str(max_value)) / (1024 ** 2))
         value = min(value, max_value)
         # FIXME: special casing
-        if param == 'mem':  # and destination_id = bridges
-            value = int((value / 1024) / 48) * 48 * 1024
-            log.debug('Normalized to %s MB (%s GB)', value, value / 1024)
+        #if param == 'mem':  # and destination_id = bridges
+        #    value = int((value / 1024) / 48) * 48 * 1024
+        #    log.debug('Normalized to %s MB (%s GB)', value, value / 1024)
+        normalize = destination_config.get('normalize', {}).get(param, None)
+        if normalize:
+            log.debug("Normalizing '%s bytes' by '%s'", value, normalize)
+            normalize_bytes = size_to_bytes(str(normalize))
+            floor_factor = int(value / normalize_bytes)
+            value = floor_factor * normalize_bytes
+            log.debug("Normalized to '%s * %s = %s'", floor_factor, normalize_bytes, value)
         if value > 0:
-            if param == 'mem':
-                # FIXME: will be run through size_to_bytes in call, so, terrible hack here:
-                value = '{}M'.format(value)
+            #if param == 'mem':
+            #    # FIXME: will be run through size_to_bytes in call, so, terrible hack here:
+            #    value = '{}M'.format(value)
             rval[param] = value
             log.debug("Value of param '%s' set by user: %s", param, value)
         else:
@@ -602,14 +649,15 @@ def dynamic_bridges(app, job, tool, resource_params, user_email):
 
     for param, value in spec.items():
         # FIXME: special casing
-        if param == 'mem':
-            value = int(size_to_bytes(str(value)) / (1024 ** 2))
-        elif param == 'time':
-            try:
-                int(value)
-                value = '{}:00:00'.format(value)
-            except:
-                pass
+        #if param == 'mem':
+        #    value = int(size_to_bytes(str(value)) / (1024 ** 2))
+        #elif param == 'time':
+        #    try:
+        #        int(value)
+        #        value = '{}:00:00'.format(value)
+        #    except:
+        #        pass
+        value = __convert_native_spec_param(param, value)
         native_spec = __replace_param_value(native_spec, param, value)
 
     # FIXME:
