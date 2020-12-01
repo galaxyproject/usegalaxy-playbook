@@ -51,7 +51,7 @@
 {#- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) #}
 {#- (id, native_spec) #}
 {%- set bridges_destinations = (
-    ('normal', '--partition=LM --constraint=LM&EGRESS'),
+    ('normal', '--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem=147456'),
     ('development', '--partition=LM --constraint=LM&EGRESS --time=00:30:00 --mem=147456'),
 ) %}
 
@@ -173,12 +173,16 @@ handling:
 {% endfor %}
 
 execution:
-  default: dynamic_normal_reserved
+  #default: dynamic_normal_reserved
+  default: slurm_normal
   environments:
 
     #
     # dynamic destinations
     #
+    dynamic_full:
+      runner: dynamic
+      function: dynamic_full
     dynamic_normal_reserved:
       # single core roundup and TACC-discretionary Jetstream, priority (reserved)
       runner: dynamic
@@ -192,10 +196,6 @@ execution:
     dynamic_stampede_select:
       runner: dynamic
       function: dynamic_stampede_select
-    dynamic_bridges_select:
-      runner: dynamic
-      #function: dynamic_bridges_select
-      function: dynamic_bridges
     dynamic_nvc_dynamic_memory:
       runner: dynamic
       function: dynamic_nvc_dynamic_memory
@@ -316,8 +316,8 @@ execution:
 #
 resources:
   groups:
-    multi: [multi_compute_resource, cores, time]
-    bridges: [bridges_compute_resource]
+    multi: [multi_compute_resource, ntasks, time]
+    bridges: [bridges_compute_resource, mem, time]
 
 #
 # Job mapping configuration
@@ -329,9 +329,22 @@ tools:
     environment: tacc_k8s
     handler: multi
   - id: trinity
-    environment: dynamic_bridges_select
+    environment: dynamic_full
     handler: multi
     resources: bridges
+  - id: unicycler
+    environment: dynamic_full
+    handler: multi
+    resources: bridges
+  - id: spades
+    environment: dynamic_full
+    handler: multi
+    resources: bridges
+  ### FIXME: remove once generic is the default
+  - id: bwa
+    environment: dynamic_full
+    handler: multi
+    resources: multi
 {% for id in multi_tools %}
   - id: {{ id }}
     handler: multi

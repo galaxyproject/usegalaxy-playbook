@@ -124,8 +124,9 @@ tools:
     env:
       - execute: ulimit -s 24576
 
-  gemini_load:
+  bwa:
     destination: multi
+
   foo:
     destination: normal_16gb
 
@@ -154,6 +155,15 @@ destinations:
   stampede_normal:
     max:
       ntasks: 272
+  stampede_development:
+    max:
+      ntasks: 272
+  stampede_skx_normal:
+    max:
+      ntasks: 96
+  stampede_skx_development:
+    max:
+      ntasks: 96
   bridges_normal:
     override:
       mem: 720G
@@ -225,7 +235,7 @@ multi_tools:
   - deeptools_plot_fingerprint
   - kraken
   - ideas
-  - bwa
+  #- bwa
   - bwa_mem
   - bwa_wrapper
   - bowtie2
