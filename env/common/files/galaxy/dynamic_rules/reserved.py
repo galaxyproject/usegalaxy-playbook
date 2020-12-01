@@ -128,6 +128,8 @@ def __check_param(param_dict, param, value, op):
 
     param_dict should be a series of nested dicts
     param should be a string in dotted format e.g. 'reference_source.reference_source_selector'`
+
+    value can be a list, in which case the return is the logical OR of the checks against all values in the list
     """
     subpd = param_dict.copy()
     try:
@@ -136,18 +138,23 @@ def __check_param(param_dict, param, value, op):
             subpd = subpd[name]
     except KeyError:
         return False
+    if not isinstance(value, list):
+        value = [value]
     # TODO: probably shouldn't assume size but that's good enough for now
     if isinstance(subpd, model.HistoryDatasetCollectionAssociation):
         # FIXME: this is probably only valid for pairs, do we want to maybe do sum([x.get_size() for x in subpd.dataset_instances]) ?
         runtime_value = subpd.dataset_instances[0].get_size()
         # TODO: maybe store this since it will never change
-        value = size_to_bytes(str(value))
+        value = [size_to_bytes(str(x)) for x in value]
+    elif isinstance(subpd, model.DatasetCollectionElement):
+        runtime_value = subpd.first_dataset_instance().get_size()
+        value = [size_to_bytes(str(x)) for x in value]
     elif isinstance(subpd, model.DatasetInstance):
         runtime_value = subpd.get_size()
-        value = size_to_bytes(str(value))
+        value = [size_to_bytes(str(x)) for x in value]
     else:
         runtime_value = subpd
-    return OPERATIONS[op](runtime_value, value)
+    return any([OPERATIONS[op](runtime_value, x) for x in value])
 
 
 def __tool_mapping(tool_id, param_dict):
@@ -309,17 +316,7 @@ def __override_params(selections, destination_config, override_allowed):
             max_value = destination_config.get('max', {}).get(param, 0)
         value = __convert_resource_param(param, value)
         max_value = __convert_tool_mapping_param(param, max_value)
-        # FIXME:
-        #if param == 'mem':
-        #    # convert GB to MB
-        #    value = value * 1024
-        #    # convert size string to MB
-        #    max_value = int(size_to_bytes(str(max_value)) / (1024 ** 2))
         value = min(value, max_value)
-        # FIXME: special casing
-        #if param == 'mem':  # and destination_id = bridges
-        #    value = int((value / 1024) / 48) * 48 * 1024
-        #    log.debug('Normalized to %s MB (%s GB)', value, value / 1024)
         normalize = destination_config.get('normalize', {}).get(param, None)
         if normalize:
             log.debug("Normalizing '%s bytes' by '%s'", value, normalize)
@@ -328,9 +325,6 @@ def __override_params(selections, destination_config, override_allowed):
             value = floor_factor * normalize_bytes
             log.debug("Normalized to '%s * %s = %s'", floor_factor, normalize_bytes, value)
         if value > 0:
-            #if param == 'mem':
-            #    # FIXME: will be run through size_to_bytes in call, so, terrible hack here:
-            #    value = '{}M'.format(value)
             rval[param] = value
             log.debug("Value of param '%s' set by user: %s", param, value)
         else:
@@ -596,16 +590,26 @@ def __native_spec_param(destination):
             destination.id, destination.params))
 
 
-# FIXME: rename
-def dynamic_bridges(app, job, tool, resource_params, user_email):
+def __update_env(destination, envs):
+    for env in envs:
+        log.debug("Setting env on destination '%s': %s", destination.id, env)
+        destination.env.append({
+            'name': env.get('name'),
+            'file': env.get('file'),
+            'execute': env.get('execute'),
+            'value': env.get('value'),
+            'raw': env.get('raw', False),
+        })
+
+
+def dynamic_full(app, job, tool, resource_params, user_email):
     tool_mapping = None
     tool_id = __short_tool_id(tool.id)
 
+    envs = []
+    spec = {}
     destination_id = None
-    destination_spec = {}
-    priority_id = None
     destination = None
-    queued_job_threshold = 4
 
     # FIXME: destination_config removed from args
 
@@ -622,7 +626,9 @@ def dynamic_bridges(app, job, tool, resource_params, user_email):
     # find any mapping for this tool and params
     # tool_mapping = an item in tools[iool_id] in tool_mappings yaml
     tool_mapping = __tool_mapping(tool_id, param_dict)
-    spec = tool_mapping.get('spec', {})
+    if tool_mapping:
+        spec = tool_mapping.get('spec', {})
+        envs = tool_mapping.get('env', [])
 
     # resource_params is an empty dict if not set
     if resource_params:
@@ -659,6 +665,8 @@ def dynamic_bridges(app, job, tool, resource_params, user_email):
         #        pass
         value = __convert_native_spec_param(param, value)
         native_spec = __replace_param_value(native_spec, param, value)
+
+    __update_env(destination, envs)
 
     # FIXME:
     #time = tool_mapping['spec']['time']
