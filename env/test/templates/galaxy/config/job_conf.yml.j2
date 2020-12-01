@@ -183,19 +183,19 @@ execution:
     dynamic_full:
       runner: dynamic
       function: dynamic_full
-    dynamic_normal_reserved:
-      # single core roundup and TACC-discretionary Jetstream, priority (reserved)
-      runner: dynamic
-      function: dynamic_normal_reserved
-    dynamic_multi_reserved:
-      runner: dynamic
-      function: dynamic_multi_reserved
-    dynamic_multi_bridges_select:
-      runner: dynamic
-      function: dynamic_multi_bridges_select
-    dynamic_stampede_select:
-      runner: dynamic
-      function: dynamic_stampede_select
+    #dynamic_normal_reserved:
+    #  # single core roundup and TACC-discretionary Jetstream, priority (reserved)
+    #  runner: dynamic
+    #  function: dynamic_normal_reserved
+    #dynamic_multi_reserved:
+    #  runner: dynamic
+    #  function: dynamic_multi_reserved
+    #dynamic_multi_bridges_select:
+    #  runner: dynamic
+    #  function: dynamic_multi_bridges_select
+    #dynamic_stampede_select:
+    #  runner: dynamic
+    #  function: dynamic_stampede_select
     dynamic_nvc_dynamic_memory:
       runner: dynamic
       function: dynamic_nvc_dynamic_memory
@@ -348,7 +348,7 @@ tools:
 {% for id in multi_tools %}
   - id: {{ id }}
     handler: multi
-    environment: dynamic_multi_reserved
+    environment: slurm_multi
     resources: multi
 {% endfor %}
 

@@ -42,9 +42,6 @@ PARAM_RES = {}
 MAX_DEFER_SECONDS = 30
 DEFAULT_THRESHOLD = 4
 
-# FIXME:
-COMPUTE_RESOURCE_SELECTOR = 'multi_compute_resource'
-
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
 
 OPERATIONS = {
@@ -140,11 +137,14 @@ def __check_param(param_dict, param, value, op):
         return False
     if not isinstance(value, list):
         value = [value]
-    # TODO: probably shouldn't assume size but that's good enough for now
+    # TODO: probably shouldn't assume size but that's good enough for now since it's all we're interested in. if this
+    # needed to be on something other than size we could add a 'property' key that indicates what property of the param
+    # to check
     if isinstance(subpd, model.HistoryDatasetCollectionAssociation):
-        # FIXME: this is probably only valid for pairs, do we want to maybe do sum([x.get_size() for x in subpd.dataset_instances]) ?
+        # TODO: this is probably only valid for pairs, do we want to maybe do sum([x.get_size() for x in subpd.dataset_instances]) ?
         runtime_value = subpd.dataset_instances[0].get_size()
-        # TODO: maybe store this since it will never change
+        # TODO: maybe store this since it will never change, but the YAML is reloaded frequently via the caching
+        # function so that's easier said than done for probably negligible gain
         value = [size_to_bytes(str(x)) for x in value]
     elif isinstance(subpd, model.DatasetCollectionElement):
         runtime_value = subpd.first_dataset_instance().get_size()
@@ -198,38 +198,6 @@ def __tool_destination(tool_id, param_dict):
     return destination_id
 
 
-#    if destination_id == 'dynamic':
-#        # TODO: full dynamic
-#    elif destination_id in tool_mappings['destinations']:
-#        mapping = tool_mappings['destinations'][destination_id]
-#        destination_id = mapping['id']
-#        #for param 
-
-
-#def __job_priority_users_group(app):
-#    return app.model.context.query(app.model.Group).filter(
-#        app.model.Group.table.c.name == JOB_PRIORITY_USERS_GROUP_NAME,
-#        app.model.Group.table.c.deleted.is_(False)
-#    ).first()
-#
-#
-#def __job_priority_users_group_members(app):
-#    # returns email strings, not user objects
-#    def _job_priority_users_refresh_func(app):
-#        group = __job_priority_users_group(app)
-#        if group:
-#            app.model.context.refresh(group)
-#            return [uga.user.email for uga in group.users]
-#        else:
-#            return []
-#    return __get_cached('job_priority_users', partial(_job_priority_users_refresh_func, app))
-#
-#
-#def __user_in_priority_group(app, user_email):
-#    members = __job_priority_users_group_members(app)
-#    return user_email in members
-
-
 def __group_mappings():
     return __tool_mappings().get('groups', {})
 
@@ -270,13 +238,9 @@ def __user_group_mappings(app, user_email, group_type):
 
 
 def __resolve_destination(app, job, user_email, destination_id):
-    # TODO destination_id function param is after tool mapping, maybe this function should do tool mapping as well and
-    # just pass in tool_id and param_dict?
     # if user is in a special group (named in `groups` dict in tool_mappings yaml) then get destination id overrides
-    #user_group_destination_mappings = __user_group_destination_mappings(app, user_email)
     user_group_destination_mappings = __user_group_mappings(app, user_email, 'destination_overrides')
     # if an override exists then use it, otherwise use what was passed in
-    #destination_id = user_group_destination_mappings.get('destination_overrides', {}).get(destination_id, destination_id)
     destination_id = user_group_destination_mappings.get(destination_id, destination_id)
     # resolve using the `destinations` dict in tool_mappings yaml
     destination_config = __destination_config(destination_id)
@@ -359,40 +323,6 @@ def __parse_resource_selector(app, job, user_email, resource_params):
         log.warning("Ignored invalid selections for destination '%s': %s", destination_id, selections)
     return destination_id, spec
 
-'''
-    try:
-        # validate params
-        cores = int(resource_params.get('cores', 0))
-        time = int(resource_params.get('time', 0))
-        destination_id = param_dict['__job_resource'][COMPUTE_RESOURCE_SELECTOR]
-        #for destination in SELECTABLE_DESTINATIONS:
-            # TODO: right now it's just going to select the first dest in a tag, if we actually added more dests to a
-            # tag we would need an algorithm to select between them
-            if destination.id == destination_id or destination_id in destination.tags:
-                # if 0, set to destination default
-                cores = cores or destination.default_cores
-                time = time or destination.max_walltime
-                return (cores, time, destination)
-        else:
-            raise Exception("Destination '{}' not found in valid destination list".format(destination_id))
-    except:
-        # resource param selector not sent with tool form, job_conf.xml misconfigured
-        log.exception('(%s) job resource error, keys were: %s', job.id, param_dict.keys())
-        raise JobMappingException(FAILURE_MESSAGE)
-'''
-
-
-def __BORK_queued_job_count(app, destination_configs):
-    destination_ids = set()
-    for destination_config in destination_configs:
-        destination_ids.add(destination_config.id)
-        [destination_ids.add(st) for st in destination_config.shared_thresholds]
-    job_counts = app.model.context.query(app.model.Job.table.c.destination_id, func.count(app.model.Job.table.c.destination_id)).filter(
-        app.model.Job.table.c.destination_id.in_(destination_ids),
-        app.model.Job.table.c.state == app.model.Job.states.QUEUED
-    ).group_by(app.model.Job.destination_id).all()
-    return dict([(d, c) for d, c in job_counts])
-
 
 def __replace_param_value(native_spec, param, value):
     if param not in PARAM_RES:
@@ -404,121 +334,6 @@ def __replace_param_value(native_spec, param, value):
     else:
         native_spec += ' ' + new_param
     return native_spec
-
-
-def __BORK_get_best_destination(app, job, destination_configs):
-    """Given a preference-ordered list of DestinationConfigs, attempt to determine the best place to send a job.
-
-    It works like this:
-
-    1. Each destination in the list is checked in order
-    2. If fewer jobs are queued at the destination than its thresholds (and destinations listed in shared_thresholds),
-       the job will be assigned to the destination
-    3. Otherwise, repeat step 2 on the next destination in the list
-    4. If all destinations are over their queued job threshold, defer assignment until the next scheduling loop, where
-       steps 1-3 will be retried.
-    5. If MAX_DEFER_SECONDS is reached and there are still no destinations under the threshold,, choose the destination
-       with the fewest queued jobs.
-    """
-    job_counts = __queued_job_count(app, destination_configs)
-    priority_destinations = []
-    for destination_config in destination_configs:
-        destination_id = destination_config.id
-        threshold = destination_config.queued_job_threshold
-        count = job_counts.get(destination_id, 0) \
-            + sum([job_counts.get(shared_threshold, 0) for shared_threshold in destination_config.shared_thresholds])
-        # select the first destination under the threshold
-        if count <= threshold:
-            log.debug("(%s) selecting preferred destination with %s queued jobs: %s", job.id, count, destination_id)
-            deferred_jobs.pop(job.id, None)
-            return destination_config
-        heapq.heappush(priority_destinations, (count, destination_config))
-    if job.id not in deferred_jobs:
-        deferred_jobs[job.id] = time.time()
-    elif time.time() - deferred_jobs[job.id] > MAX_DEFER_SECONDS:
-        count, destination_config = heapq.heappop(priority_destinations)
-        log.debug(
-            "(%s) all destinations over threshold (%s), reached max deferrment, selecting least busy (ct: %s) "
-            "destination: %s", job.id, destination_config.queued_job_threshold, count, destination_config.id)
-        deferred_jobs.pop(job.id, None)
-        return destination_config
-    log.debug("(%s) all destinations over threshold, deferring job scheduling: %s", job.id, job_counts)
-    raise JobNotReadyException(message="All destinations over max queued thresholds")
-
-
-def __dynamic_multi_cores_time(app, job, tool, destination_configs, dynamic_reserved_key, user_email):
-
-    # build the param dictionary
-    param_dict = job.get_param_values(app)
-    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
-
-    if param_dict.get('__job_resource', {}).get('__job_resource__select') != 'yes':
-        log.debug("(%s) Job resource parameters not seleted", job.id)
-        # bypass best destination selection when the user is in the priority users list
-        destination_id, mapped = __dynamic_reserved_mapped(dynamic_reserved_key, app, job, tool, user_email)
-        if mapped:
-            return destination_id
-        destination_config = __get_best_destination(app, job, destination_configs)
-        cores = destination_config.default_cores
-        time = destination_config.max_walltime
-    else:
-        log.debug("(%s) Job resource parameters seleted", job.id)
-        cores, time, destination_config = __parse_resource_selector(job, param_dict)
-
-    destination_id = destination_config.id
-    destination = app.job_config.get_destination(destination_id)
-    native_spec_param = destination_config.native_spec_param
-    cores = min(destination_config.max_cores, cores)
-    time = min(destination_config.max_walltime, time)
-
-    # <env id="_JAVA_OPTIONS">$_JAVA_OPTIONS -Xmx@JAVA_MEM@ -Xms256m</env>
-    #destination.env.append({
-    #    'name': '_JAVA_OPTIONS',
-    #    'value': '$_JAVA_OPTIONS -Xmx{} -Xms256m',
-    #})
-
-    # Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks.
-    # GALAXY_SLOTS should be explicitly overridden to SLURM_NTASKS in an <env> tag in Stampede destinations in
-    # job_conf.xml.
-    #if destination_config.force_slots:
-    #    destination.env.append({
-    #        'name': 'GALAXY_SLOTS',
-    #        'value': '$SLURM_NTASKS',
-    #    })
-
-    #if destination_id.startswith('stampede_mpi_skx_'):
-    #    cores = min(cores, 48)
-    #elif destination_id.startswith('stampede_mpi_'):
-    #    cores = min(cores, 272)
-    #elif destination_id == 'slurm_mpi_multi_development':
-    #    cores = 1
-    #else:
-    #    # slurm_mpi_multi
-    #    cores = min(cores, 6)
-
-    #if destination_id.endswith('_development'):
-    #    time = min(time, 2)
-    #elif destination_id == 'slurm_mpi_multi':
-    #    time = min(time, 24)
-    #else:
-    #    # normal stampede destinations
-    #    time = min(time, 48)
-
-    #destination = app.job_config.get_destination(destination_id)
-
-    # stampede_mpi_* dests already contain: --account=TG-MCB140147 --partition=... --nodes=1
-    # slurm_mpi_* dests already contains: --partition=... --nodes=1
-    params = [
-        '--cpus-per-task=1',
-        '--ntasks={}'.format(cores),
-        '--time={}:00:00'.format(time),
-    ]
-    native_spec = destination.params.get(native_spec_param, '') + ' ' + ' '.join(params)
-    destination.params[native_spec_param] = native_spec
-
-    log.info('(%s) Returning destination: %s', job.id, destination_id)
-    log.info('(%s) Native specification: %s', job.id, destination.params.get(native_spec_param))
-    return destination
 
 
 def __queued_job_count(app, destination_ids):
@@ -613,8 +428,6 @@ def dynamic_full(app, job, tool, resource_params, user_email):
     destination_id = None
     destination = None
 
-    # FIXME: destination_config removed from args
-
     # 1. check resource params
     # 2. check mapping
     # 3. check queued (if multiple)
@@ -652,70 +465,16 @@ def dynamic_full(app, job, tool, resource_params, user_email):
     destination = app.job_config.get_destination(destination_id)
     # TODO: requires native spec to be set on all dests, you could do this by plugin instead
     native_spec_param = __native_spec_param(destination)
-    #native_spec = destination.params.get(native_spec_param, '') + ' ' + ' '.join(params)
     native_spec = destination.params.get(native_spec_param, '')
 
     for param, value in spec.items():
-        # FIXME: special casing
-        #if param == 'mem':
-        #    value = int(size_to_bytes(str(value)) / (1024 ** 2))
-        #elif param == 'time':
-        #    try:
-        #        int(value)
-        #        value = '{}:00:00'.format(value)
-        #    except:
-        #        pass
         value = __convert_native_spec_param(param, value)
         native_spec = __replace_param_value(native_spec, param, value)
 
     __update_env(destination, envs)
 
-    # FIXME:
-    #time = tool_mapping['spec']['time']
-    # convert to MB
-    #mem = int(size_to_bytes(str(tool_mapping['spec']['mem'])) / (1024 ** 2))
-
-    #params = [
-    #    '--mem={}'.format(mem),
-    #    '--time={}:00:00'.format(time),
-    #]
-    # FIXME: should come from tool mapping
-    #destination_id = destination_config.id
-    # FIXME: can return None
     destination.params[native_spec_param] = native_spec
 
     log.info('(%s) Returning destination: %s', job.id, destination_id)
     log.info('(%s) Native specification: %s', job.id, destination.params.get(native_spec_param))
     return destination
-
-
-def dynamic_normal_reserved(app, job, tool, user_email):
-    return __dynamic_reserved('normal', app, job, tool, user_email)
-
-
-#def dynamic_normal_16gb_reserved(app, job, user_email):
-#    return __dynamic_reserved('normal_16gb', app, job, user_email)
-
-
-#def dynamic_normal_16gb_long_reserved(app, job, user_email):
-#    return __dynamic_reserved('normal_16gb_long', app, job, user_email)
-
-
-#def dynamic_normal_32gb_reserved(app, job, user_email):
-#    return __dynamic_reserved('normal_32gb', app, job, user_email)
-
-
-#def dynamic_normal_64gb_reserved(app, job, user_email):
-#    return __dynamic_reserved('normal_64gb', app, job, user_email)
-
-
-def dynamic_multi_reserved(app, job, tool, user_email):
-    return __dynamic_multi_cores_time(app, job, tool, MULTI_DESTINATIONS, 'multi', user_email)
-
-
-def dynamic_multi_long_reserved(app, job, user_email):
-    return __dynamic_multi_cores_time(app, job, tool, MULTI_LONG_DESTINATIONS, 'multi_long', user_email)
-
-
-#def dynamic_bridges(app, job, tool, user_email):
-#    return __dynamic_bridges(app, job, tool, BRIDGES_DESTINATION, user_email)

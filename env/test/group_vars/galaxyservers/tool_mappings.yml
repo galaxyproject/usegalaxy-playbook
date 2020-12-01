@@ -187,11 +187,6 @@ destinations:
     normalize:
       mem: 48G
 
-
-
-
-#  jetstream_iu_multi:
-
 groups:
   Job Priority Users:
     destination_overrides:
@@ -201,33 +196,6 @@ groups:
       multi: reserved_multi
   Job Resource Param Users:
     param_overrides: true
-
-#destination_configs:
-#  slurm_multi:
-#    native_spec_param: native_specification
-#    partition: multi
-#    default_cores: 6
-#    max_cores: 6
-#    default_walltime: 36
-#    max_walltime: 36
-#    queued_job_threshold: 4
-#  jetstream_multi:
-#    native_spec_param: submit_native_specification
-#    partition: multi
-#    default_cores: 10
-#    max_cores: 10
-#    default_walltime: 36
-#    max_walltime: 36
-#    queued_job_threshold: 4
-
-
-# don't overlap destinations defined in job_conf for confusion purposes
-#destinations:
-#  slurm_normal_16gb:
-#    id: slurm_normal
-#    reserved: true
-#    params:
-#      mem: 16384
 
 multi_tools:
   - gemini_load
