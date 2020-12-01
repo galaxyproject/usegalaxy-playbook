@@ -41,11 +41,11 @@
 
 {#- (id, native_spec, memory_mb) #}
 {%- set stampede_destinations = (
-    ('normal', '--partition=normal --nodes=1 --account=TG-MCB140147', 94208),
-    ('development', '--partition=development --nodes=1 --account=TG-MCB140147', 94208),
-    ('skx_normal', '--partition=skx-normal --nodes=1 --account=TG-MCB140147', 192512),
-    ('skx_development', '--partition=skx-dev --nodes=1 --account=TG-MCB140147', 192512),
-    ('long', '--partition=long --nodes=1 --account=TG-MCB140147', 94208),
+    ('normal', '--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=24:00:00', 94208),
+    ('development', '--partition=development --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=00:30:00', 94208),
+    ('skx_normal', '--partition=skx-normal --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=24:00:00', 192512),
+    ('skx_development', '--partition=skx-dev --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=00:30:00', 192512),
+    ('long', '--partition=long --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=72:00:00', 94208),
 ) %}
 
 {#- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) #}

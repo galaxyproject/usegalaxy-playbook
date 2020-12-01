@@ -146,6 +146,7 @@ tools:
   #    # no reserved? what happens now?
   #  #priority_id: reserved_multi
   #  #queued_job_threshold: 4   # do we need separate for each dest?
+
 destinations:
   multi:
     - id: slurm_multi
@@ -155,24 +156,33 @@ destinations:
   stampede_normal:
     max:
       ntasks: 272
+    override:
+      time: 48
   stampede_development:
     max:
       ntasks: 272
+    override:
+      time: 2
   stampede_skx_normal:
     max:
       ntasks: 96
+    override:
+      time: 48
   stampede_skx_development:
     max:
       ntasks: 96
+    override:
+      time: 2
+  stampede_long:
+    max:
+      time: 120
   bridges_normal:
     override:
       mem: 720G
     normalize:
       mem: 48G
   bridges_development:
-    max:
-    # FIXME: test this undo max above
-    #override:
+    override:
       mem: 720G
     normalize:
       mem: 48G

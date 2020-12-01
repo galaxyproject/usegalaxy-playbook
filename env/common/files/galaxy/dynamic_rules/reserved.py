@@ -308,11 +308,13 @@ def __convert_native_spec_param(name, value):
 def __override_params(selections, destination_config, override_allowed):
     rval = {}
     for param, value in selections.items():
+        orig_value = value
         if value == 0:
             continue
         if override_allowed:
+            # if override is not specified for this param then it can still be set to the max (in the next block) if specified
             max_value = destination_config.get('override', {}).get(param, 0)
-        else:
+        if max_value == 0:
             max_value = destination_config.get('max', {}).get(param, 0)
         value = __convert_resource_param(param, value)
         max_value = __convert_tool_mapping_param(param, max_value)
@@ -328,7 +330,7 @@ def __override_params(selections, destination_config, override_allowed):
             rval[param] = value
             log.debug("Value of param '%s' set by user: %s", param, value)
         else:
-            log.warning("User set param '%s' to '%s' but that is not allowed, so it will be ignored", param, value)
+            log.warning("User set param '%s' to '%s' but that is not allowed, so it will be ignored", param, orig_value)
     return rval
 
 
