@@ -5,6 +5,7 @@
 import heapq
 import logging
 import operator
+import os
 import re
 import time
 from functools import partial
@@ -20,8 +21,8 @@ from galaxy.util import size_to_bytes
 log = logging.getLogger(__name__)
 
 
-## FIXME
-TOOL_MAPPINGS_FILE = '/srv/galaxy/test/config/tool_mappings.yml'
+TOOL_MAPPINGS_FILE = None
+TOOL_MAPPINGS_FILENAME = 'tool_mappings.yml'
 
 # TODO: could pull this from the job config as well
 DEFAULT_DESTINATION_ID = 'slurm_normal'
@@ -91,6 +92,11 @@ def __get_cached(key, refresh_func):
         CACHE_MEMBERS[key] = refresh_func()
         CACHE_TIMES[key] = time.time()
     return CACHE_MEMBERS[key]
+
+
+def __set_tool_mappings_file_path(app):
+    global TOOL_MAPPINGS_FILE
+    TOOL_MAPPINGS_FILE = os.path.join(app.config.config_dir, TOOL_MAPPINGS_FILENAME)
 
 
 def __tool_mappings():
@@ -219,7 +225,6 @@ def __map_group_members(app):
     return __get_cached('map_group_members', partial(_map_group_members_refresh_func, app))
 
 
-#def __user_group_destination_mappings(app, user_email):
 def __user_group_mappings(app, user_email, group_type):
     rval = {}
     groups = __map_group_members(app)
@@ -242,8 +247,6 @@ def __resolve_destination(app, job, user_email, destination_id):
     destination_config = __destination_config(destination_id)
     # if it's a list then we need to use the best dest algorithm
     destination_id = __get_best_destination(app, job, destination_config) or destination_id
-    # FIXME: what about spec? that was on the tool_mapping - what if it mapped to a dest that doesn't use some of the
-    # param(s) in the spec?
     return destination_id
 
 
@@ -421,11 +424,8 @@ def dynamic_full(app, job, tool, resource_params, user_email):
     destination_id = None
     destination = None
 
-    # 1. check resource params
-    # 2. check mapping
-    # 3. check queued (if multiple)
-    # 4. check priority
-    # 5. ???
+    if TOOL_MAPPINGS_FILE is None:
+        __set_tool_mappings_file_path(app)
 
     # build the param dictionary
     param_dict = job.get_param_values(app)
