@@ -7,7 +7,6 @@ import logging
 import operator
 import re
 import time
-from collections import namedtuple
 from functools import partial
 
 import yaml
@@ -27,19 +26,16 @@ TOOL_MAPPINGS_FILE = '/srv/galaxy/test/config/tool_mappings.yml'
 # TODO: could pull this from the job config as well
 DEFAULT_DESTINATION_ID = 'slurm_normal'
 
-# Users in this group will have their jobs sent to reserved destinations
-#JOB_PRIORITY_USERS_GROUP_NAME = 'Job Priority Users'
-#JOB_PRIORITY_USERS_GROUP = None
-#JOB_PRIORITY_USERS_GROUP_CACHE_TIME = None
-#JOB_PRIORITY_USERS_GROUP_CACHE_TTL = 300
-#JOB_PRIORITY_USERS_GROUP_MEMBERS = None
+# Contents of the tool mappings file and special group assignments will be cached
 CACHE_TTL = 300
 CACHE_TIMES = {}
 CACHE_MEMBERS = {}
 PARAM_RES = {}
 
-# we can't fully trust galaxy not to leave jobs stuck in 'queued', so don't defer assignment indefinitely
+# We can't fully trust Galaxy not to leave jobs stuck in 'queued', so don't defer assignment indefinitely
 MAX_DEFER_SECONDS = 30
+
+# If max queued job thresholds are not specified for destination lists, a default is used
 DEFAULT_THRESHOLD = 4
 
 FAILURE_MESSAGE = 'This tool could not be run because of a misconfiguration in the Galaxy job running system, please report this error'
@@ -336,12 +332,11 @@ def __replace_param_value(native_spec, param, value):
     return native_spec
 
 
-def __queued_job_count(app, destination_ids):
-    #destination_ids = set()
-    #for destination_config in destination_configs:
-    #    destination_ids.add(destination_config.id)
-    #    # FIXME:
-    #    #[destination_ids.add(st) for st in destination_config.shared_thresholds]
+def __queued_job_count(app, destination_configs):
+    destination_ids = set()
+    for destination_config in destination_configs:
+        destination_ids.add(destination_config['id'])
+        [destination_ids.add(st) for st in destination_config.get('shared_thresholds', [])]
     job_counts = app.model.context.query(app.model.Job.table.c.destination_id, func.count(app.model.Job.table.c.destination_id)).filter(
         app.model.Job.table.c.destination_id.in_(destination_ids),
         app.model.Job.table.c.state == app.model.Job.states.QUEUED
@@ -370,15 +365,13 @@ def __get_best_destination(app, job, destination_configs):
     elif len(destination_configs) == 1:
         return destination_configs[0]['id']
 
-    destination_ids = [d['id'] for d in destination_configs]
-    job_counts = __queued_job_count(app, destination_ids)
+    job_counts = __queued_job_count(app, destination_configs)
     priority_destinations = []
     for destination_config in destination_configs:
         destination_id = destination_config['id']
         threshold = destination_config.get('threshold', DEFAULT_THRESHOLD)
-        count = job_counts.get(destination_id, 0) #\
-        # FIXME:
-        #    + sum([job_counts.get(shared_threshold, 0) for shared_threshold in destination_config.shared_thresholds])
+        shared_thresholds = destination_config.get('shared_thresholds', [])
+        count = job_counts.get(destination_id, 0) + sum([job_counts.get(st, 0) for st in shared_thresholds])
         # select the first destination under the threshold
         if count <= threshold:
             log.debug("(%s) selecting preferred destination with %s queued jobs: %s", job.id, count, destination_id)

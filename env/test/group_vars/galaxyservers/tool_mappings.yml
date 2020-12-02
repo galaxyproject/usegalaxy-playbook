@@ -151,6 +151,12 @@ destinations:
   multi:
     - id: slurm_multi
     - id: jetstream_iu_multi
+  multi_long:
+    - id: slurm_multi_long
+      # this counts slurm_multi's queued jobs against slurm_multi_long when determining a destination
+      shared_thresholds:
+        - slurm_multi
+    - id: stampede_long
   jetstream_multi:
     - id: jetstream_iu_multi
   stampede_normal:
