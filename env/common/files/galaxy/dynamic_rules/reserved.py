@@ -166,7 +166,11 @@ def __tool_mapping(tool_id, param_dict):
     try:
         tool_mappings_for_tool = tool_mappings['tools'][tool_id]
     except KeyError:
-        log.debug("Tool '%s' not in tool_mapping", tool_id)
+        tool_id = __short_tool_id(tool.id)
+        try:
+            tool_mappings_for_tool = tool_mappings['tools'][tool_id]
+        except KeyError:
+            log.debug("Tool '%s' not in tool_mapping", tool_id)
     if isinstance(tool_mappings_for_tool, dict):
         tool_mappings_for_tool = [tool_mappings_for_tool]
     if isinstance(tool_mappings_for_tool, list):
@@ -417,7 +421,6 @@ def __update_env(destination, envs):
 
 def dynamic_full(app, job, tool, resource_params, user_email):
     tool_mapping = None
-    tool_id = __short_tool_id(tool.id)
 
     envs = []
     spec = {}
@@ -433,10 +436,12 @@ def dynamic_full(app, job, tool, resource_params, user_email):
 
     # find any mapping for this tool and params
     # tool_mapping = an item in tools[iool_id] in tool_mappings yaml
-    tool_mapping = __tool_mapping(tool_id, param_dict)
+    tool_mapping = __tool_mapping(tool.id, param_dict)
     if tool_mapping:
         spec = tool_mapping.get('spec', {})
         envs = tool_mapping.get('env', [])
+
+    tool_id = __short_tool_id(tool.id)
 
     # resource_params is an empty dict if not set
     if resource_params:

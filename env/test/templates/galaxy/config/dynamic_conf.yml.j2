@@ -5,6 +5,19 @@
 # WARNING: Anything defined in a spec must be valid for all possible destinations of a tool!
 
 tools:
+
+  # python 2 legacy tools
+{% for tool_id in galaxy_python2_legacy_tools %}
+{% set short_tool_id = tool_id.split('/')[-2] %}
+  {{ tool_id }}: {destination: {{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'slurm') }}_legacy}
+{% endfor %}
+
+  # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
+{# this is a large automatically generated list maintained in env/test/group_vars/galaxyservers/tools_conf.yml #}
+{% for tool_id in galaxy_multicore_tools %}
+  {{ tool_id }}: {destination: multi}
+{% endfor %}
+
   kraken:
     # can be a list if you want to do different things with different params (or one thing with no checked params)
     - params:
@@ -12,6 +25,7 @@ tools:
           value: bacteria
       # can be a real id or key in 'destinations' dict below
       destination: stampede_skx_normal
+    - destination: multi
 
   trinity:
     # first matching param set is used
@@ -127,9 +141,6 @@ tools:
     env:
       - execute: ulimit -s 24576
 
-  bwa:
-    destination: multi
-
   foo:
     destination: normal_16gb
 
@@ -150,10 +161,31 @@ tools:
   #  #priority_id: reserved_multi
   #  #queued_job_threshold: 4   # do we need separate for each dest?
 
+# FIXME: relisting all these shared thresholds isn't ideal, just create a tag section like:
+#shared_thresholds:
+#-
+#  - slurm_multi_legacy
+#  - slurm_multi
+#  - slurm_long
+
 destinations:
+  #normal_legacy:
+  #  - id: slurm_legacy
+  #  - id: jetstream_iu_normal_legacy
+  multi_legacy:
+    - id: slurm_multi_legacy
+      shared_thresholds:
+        - slurm_multi
+    - id: jetstream_iu_multi_legacy
+      shared_thresholds:
+        - jetstream_iu_multi
   multi:
     - id: slurm_multi
+      shared_thresholds:
+        - slurm_multi_legacy
     - id: jetstream_iu_multi
+      shared_thresholds:
+      - jetstream_iu_multi_legacy
   multi_long:
     - id: slurm_multi_long
       # this counts slurm_multi's queued jobs against slurm_multi_long when determining a destination
@@ -205,54 +237,3 @@ groups:
       multi: reserved_multi
   Job Resource Param Users:
     param_overrides: true
-
-multi_tools:
-  - gemini_load
-  - dada2_assignTaxonomyAddspecies
-  - deeptools_bam_compare
-  - deeptools_bam_coverage
-  - deeptools_bam_pe_fragmentsize
-  - deeptools_bigwig_compare
-  - deeptools_compute_gc_bias
-  - deeptools_compute_matrix
-  - deeptools_correct_gc_bias
-  - deeptools_multi_bam_summary
-  - deeptools_multi_bigwig_summary
-  - deeptools_plot_coverage
-  - deeptools_plot_fingerprint
-  - kraken
-  - ideas
-  #- bwa
-  - bwa_mem
-  - bwa_wrapper
-  - bowtie2
-  - bowtie_wrapper
-  - tophat
-  - tophat2
-  - cuffdiff
-  - cufflinks
-  - cuffmerge
-  - cuffnorm
-  - cuffquant
-  - stringtie
-  - hisat2
-  - prokka
-  - rbc_mafft
-  - kc-align
-  - hyphy_absrel
-  - hyphy_fel
-  - hyphy_gard
-  - hyphy_meme
-  - kraken
-
-# these tools get 1 core and 16 GB of memory
-#normal_16gb_tools: []
-
-# these tools get 1 core and 32 GB of memory
-#normal_32gb_tools: []
-
-# these tools get 1 core and 32 GB of memory
-#normal_32gb_tools: []
-
-# these tools are fully dynamic
-#dynamic_tools:

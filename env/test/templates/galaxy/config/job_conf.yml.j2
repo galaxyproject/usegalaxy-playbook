@@ -22,21 +22,21 @@
 {#-
 ## these will create the destinations 'slurm_[0]' and 'reserved_[0]'
 #}
-{#- (id, native_spec, java_mem, create_reserved_dest?) #}
+{#- (id, native_spec, java_mem, create_reserved_dest?, create_legacy_dest?) #}
 {%- set slurm_destinations = (
-    ('normal', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00', 7, true),
-    ('normal_16gb', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360', 15, true),
-    ('normal_32gb', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=30720', 30, true),
-    ('normal_32gb', '--partition=normal --nodes=1 --ntasks=1 --time=36:00:00 --mem=61440', 60, true),
-    ('multi', '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00', 28, true),
-    ('multi_development', '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:30:00', 15, false),
+    ('normal', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00', 7, true, true),
+    ('normal_16gb', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360', 15, true, false),
+    ('normal_32gb', '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=30720', 30, true, false),
+    ('normal_32gb', '--partition=normal --nodes=1 --ntasks=1 --time=36:00:00 --mem=61440', 60, true, false),
+    ('multi', '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00', 28, true, true),
+    ('multi_development', '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:30:00', 15, false, false),
 ) %}
 
-{#- (id, runner, native_spec, java_mem, create_reserved_dest?) #}
+{#- (id, runner, native_spec, java_mem, create_reserved_dest?, create_legacy_dest?) #}
 {%- set jetstream_destinations = (
-    ('iu_multi', 'jetstream_iu', '--partition=multi --nodes=1 =-time=36:00:00', 28, true),
-    ('tacc_multi', 'jetstream_tacc', '--partition=multi --nodes=1 =-time=36:00:00', 28, false),
-    ('tacc_xlarge', 'jetstream_tacc', '--partition=xlarge --nodes=1 =-time=36:00:00', 58, false),
+    ('iu_multi', 'jetstream_iu', '--partition=multi --nodes=1 =-time=36:00:00', 28, true, true),
+    ('tacc_multi', 'jetstream_tacc', '--partition=multi --nodes=1 =-time=36:00:00', 28, false, false),
+    ('tacc_xlarge', 'jetstream_tacc', '--partition=xlarge --nodes=1 =-time=36:00:00', 58, false, false),
 ) %}
 
 {#- (id, native_spec, memory_mb) #}
@@ -206,7 +206,7 @@ execution:
     #
     # roundup and TACC-discretionary Jetstream destinations
     #
-{% for id, native_spec, java_mem, create_reserved_dest in slurm_destinations %}
+{% for id, native_spec, java_mem, create_reserved_dest, create_legacy_dest in slurm_destinations %}
     slurm_{{ id }}:
       runner: slurm
       native_specification: {{ native_spec }}
@@ -215,9 +215,22 @@ execution:
 {% if create_reserved_dest %}
     reserved_{{ id }}:
       runner: slurm
-      native_specification: {{ native_spec | replace('normal', 'reserved') | replace('multi', 'reserved')  }}
+      native_specification: {{ native_spec | replace('normal', 'reserved') | replace('multi', 'reserved') }}
       env:
         {{ dest_local_env(java_mem=java_mem) }}
+{% endif %}
+{% if create_legacy_dest %}
+    slurm_{{ id }}_legacy:
+      runner: slurm
+      native_specification: {{ native_spec }}
+      use_metadata_binary: true
+      env:
+        {{ dest_local_env(java_mem=java_mem) }}
+        - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
+        - name: GALAXY_VIRTUAL_ENV
+          value: None
+        - name: PATH
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
 {% endif %}
 {% endfor %}
 
@@ -246,7 +259,7 @@ execution:
     #
     # Jetstream destinations
     #
-{% for id, runner, native_spec, java_mem, create_reserved_dest in jetstream_destinations %}
+{% for id, runner, native_spec, java_mem, create_reserved_dest, create_legacy_dest in jetstream_destinations %}
     jetstream_{{ id }}:
       runner: {{ runner }}
       submit_native_specification: {{ native_spec }}
@@ -255,8 +268,21 @@ execution:
       env:
         {{ dest_pulsar_env() }}
         - name: PATH
-          value: /jetstream/scratch0/test/conda/envs/set_metadata@20171114/bin:$PATH
+          value: /jetstream/scratch0/{{ galaxy_instance_codename }}/conda/envs/set_metadata@20171114/bin:$PATH
         {{ dest_temp_env() }}
+{% if create_legacy_dest %}
+    jetstream_{{ id }}_legacy:
+      runner: {{ runner }}
+      native_specification: {{ native_spec }}
+      use_metadata_binary: true
+      env:
+        {{ dest_pulsar_env() }}
+        - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
+        - name: GALAXY_VIRTUAL_ENV
+          value: None
+        - name: PATH
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
+{% endif %}
 {% endfor %}
 
     #
@@ -345,7 +371,7 @@ tools:
     environment: dynamic_full
     handler: multi
     resources: multi
-{% for id in multi_tools %}
+{% for id in galaxy_multicore_tools %}
   - id: {{ id }}
     handler: multi
     environment: slurm_multi
