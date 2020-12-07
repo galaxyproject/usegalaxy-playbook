@@ -2,7 +2,41 @@
 
 # by default, tools are assigned 1 core, 8 GB of memory, and a 36 hour walltime
 
-# WARNING: Anything defined in a spec must be valid for all possible destinations of a tool!
+# tools dict:
+#   keys are long or short tool IDs
+#   values are either a dict specifying destination params or a list of dicts:
+#     keys are:
+#
+#       params (optional): a list of dicts of tool params that will be checked for a match:
+#         name: tool param to check
+#           - if the param refers to a dataset, comparison will be against the size
+#           - if the param refers to a dataset collection, comparison will be against the size of the first element
+#         op (optional, default: '=='): comparison operation (python operator)
+#         value: value against which to compare the tool param, using op
+#           - value is the rhs of the operator: <param> <op> <value>
+#           - if value is a list, comparisons are performed against all values and the param set is considered a match
+#             if the comparison is true for any value in the list (i.e. a logical OR)
+#           - if the comparison is against a size, the value will be converted from a size string  to bytes
+#         type (optional, default: null): 'data_table_lookup' to perform a data table lookup using the tool param listed
+#                                         in 'name' as the lookup key
+#         if the type is 'data_table_lookup', additional params keys are:
+#           table_name (required): data table name
+#           lookup_column (optional, default: 'value'): data table column name to perform lookup on
+#           value_column (optional, default: 'path'): data table column name providing the value to compare against
+#           value_template (optional, default: '{value}'): str.format() string, allows manipulation of the lookup results.
+#                                                          only 'value' (contents of value_column) is currently supported.
+#
+#       destination: a destination id in the Galaxy job conf or a destination grouping in the destinations: section
+#
+#       spec: dict of native spec params. keys/values should be valid for ALL possible desetinations of the tool. if the
+#             key is already specified in the native spec for a dest, the value is overridden with the one in spec. if
+#             not, the key/val are appended to the native spec. subject to authorization in the 'destinations' section
+#             below.
+#
+#   - the destination/spec for the first set of matching param(s) is used
+#   - if no params match, a default (dict without a 'params' key is used)
+#   - if no default is specified, a hardcoded default in job_router.py is used
+
 
 tools:
 
@@ -17,6 +51,39 @@ tools:
 {% for tool_id in galaxy_multicore_tools %}
   {{ tool_id }}: {destination: multi}
 {% endfor %}
+
+  rna_star:
+    # for built-in refs we need (refsize * 1.5) + 2GB
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      - name: refGenomeSource.GTFconditional.genomeDir
+        type: data_table_lookup
+        table_name: rnastar_index2
+        value_template: '{value}/SA'
+        op: '<'
+        value: 18G
+      destination: multi
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      destination: jetstream_tacc_xlarge
+
+    # for history refs we need (refsize * 11.0) + 2GB
+    - params:
+      - name: refGenomeSource.geneSource
+        value: history
+      - name: refGenomeSource.genomeFastaFiles
+        op: '<'
+        value: 2.5G
+      destination: multi
+    - params:
+      - name: refGenomeSource.geneSource
+        value: history
+      destination: jetstream_tacc_xlarge
+
+    # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
+    #- destination: slurm_normal
 
   kraken:
     # can be a list if you want to do different things with different params (or one thing with no checked params)
@@ -161,12 +228,15 @@ tools:
   #  #priority_id: reserved_multi
   #  #queued_job_threshold: 4   # do we need separate for each dest?
 
-# FIXME: relisting all these shared thresholds isn't ideal, just create a tag section like:
-#shared_thresholds:
-#-
-#  - slurm_multi_legacy
-#  - slurm_multi
-#  - slurm_long
+# FIXME: maybe implement like this?
+#share_job_counts:
+#  slurm_multi_all:
+#    - slurm_multi
+#    - slurm_multi_legacy
+#    - slurm_long
+#  jetstream_iu_multi_all:
+#    - jetstream_iu_multi
+#    - jetstream_iu_multi_legacy
 
 destinations:
   #normal_legacy:
@@ -174,9 +244,11 @@ destinations:
   #  - id: jetstream_iu_normal_legacy
   multi_legacy:
     - id: slurm_multi_legacy
+      #share_counts_with: slurm_multi_all
       shared_thresholds:
         - slurm_multi
     - id: jetstream_iu_multi_legacy
+      #share_counts_with: jetstream_iu_multi_all
       shared_thresholds:
         - jetstream_iu_multi
   multi:

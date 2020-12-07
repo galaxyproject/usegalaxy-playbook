@@ -21,6 +21,7 @@ from galaxy.util import size_to_bytes
 log = logging.getLogger(__name__)
 
 
+# TODO: might be cleaner to make `app` a global
 JOB_ROUTER_CONF_FILE = None
 JOB_ROUTER_CONF_FILENAME = 'job_router_conf.yml'
 
@@ -122,7 +123,34 @@ def __destination_config(destination_id):
         return None
 
 
-def __check_param(param_dict, param, value, op):
+def __data_table_lookup(app, param, lookup_value):
+    # TODO: possible to get table name from the tool?
+    table_name = param['table_name']
+    lookup_column = param.get('lookup_column', 'value')
+    value_column = param.get('value_column', 'path')
+    value_template = param.get('value_template', '{value}')
+
+    # FIXME: what does this return on failure?
+    runtime_value = app.tool_data_tables.get(table_name).get_entry(lookup_column, lookup_value, value_column)
+    runtime_value = value_template.format(value=runtime_value)
+
+    if value_column == 'path':
+        # TODO: cache this value
+        try:
+            _t = runtime_value
+            runtime_value = os.path.getsize(runtime_value)
+            log.debug("Data table '%s' lookup '%s=%s: %s=%s' (converted value: %s bytes)",
+                      table_name, lookup_column, value, value_column, _t, rumtime_value)
+        except OSError:
+            log.exception('Failed to get size of: %s', runtime_value)
+            runtime_value = 0
+    else:
+        log.debug("Data table '%s' lookup '%s=%s: %s=%s'", table_name, lookup_column, value, value_column, runtime_value)
+
+    return runtime_value
+
+
+def __check_param(app, param_dict, param):
     """Check if a tool param is set to a given value.
 
     param_dict should be a series of nested dicts
@@ -130,36 +158,46 @@ def __check_param(param_dict, param, value, op):
 
     value can be a list, in which case the return is the logical OR of the checks against all values in the list
     """
+    name = param['name']
+    value = param['value']
+    op = param.get('op', '==')
+    type_ = param.get('type')
+
     subpd = param_dict.copy()
     try:
         # walk the param dict
-        for name in param.split('.'):
-            subpd = subpd[name]
+        for subname in name.split('.'):
+            subpd = subpd[subname]
     except KeyError:
         return False
+    runtime_value = subpd
+
     if not isinstance(value, list):
         value = [value]
     # TODO: probably shouldn't assume size but that's good enough for now since it's all we're interested in. if this
     # needed to be on something other than size we could add a 'property' key that indicates what property of the param
     # to check
-    if isinstance(subpd, model.HistoryDatasetCollectionAssociation):
-        # TODO: this is probably only valid for pairs, do we want to maybe do sum([x.get_size() for x in subpd.dataset_instances]) ?
-        runtime_value = subpd.dataset_instances[0].get_size()
+    if type_ == 'data_table_lookup':
+        # TODO: any way to automatically detect if a param is a data table value
+        runtime_value = __data_table_lookup(app, param, runtime_value)
+        value = [size_to_bytes(str(x)) for x in value]
+    elif isinstance(runtime_value, model.HistoryDatasetCollectionAssociation):
+        # TODO: this is probably only valid for pairs, do we want to maybe do sum([x.get_size() for x in runtime_value.dataset_instances]) ?
+        runtime_value = runtime_value.dataset_instances[0].get_size()
         # TODO: maybe store this since it will never change, but the YAML is reloaded frequently via the caching
         # function so that's easier said than done for probably negligible gain
         value = [size_to_bytes(str(x)) for x in value]
-    elif isinstance(subpd, model.DatasetCollectionElement):
-        runtime_value = subpd.first_dataset_instance().get_size()
+    elif isinstance(runtime_value, model.DatasetCollectionElement):
+        runtime_value = runtime_value.first_dataset_instance().get_size()
         value = [size_to_bytes(str(x)) for x in value]
-    elif isinstance(subpd, model.DatasetInstance):
-        runtime_value = subpd.get_size()
+    elif isinstance(runtime_value, model.DatasetInstance):
+        runtime_value = runtime_value.get_size()
         value = [size_to_bytes(str(x)) for x in value]
-    else:
-        runtime_value = subpd
+
     return any([OPERATIONS[op](runtime_value, x) for x in value])
 
 
-def __tool_mapping(tool_id, param_dict):
+def __tool_mapping(app, tool_id, param_dict):
     job_router_conf = __job_router_conf()
     tool_mappings = None
     tool_mapping = None
@@ -178,7 +216,7 @@ def __tool_mapping(tool_id, param_dict):
         for _tool_mapping in tool_mappings:
             if 'params' in _tool_mapping:
                 for param in _tool_mapping['params']:
-                    if not __check_param(param_dict, param['name'], param['value'], param.get('op', '==')):
+                    if not __check_param(app, param_dict, param): #param['name'], param['value'], param.get('op', '==')):
                         break  # try next
                 else:
                     tool_mapping = _tool_mapping
@@ -433,7 +471,7 @@ def job_router(app, job, tool, resource_params, user_email):
 
     # find any mapping for this tool and params
     # tool_mapping = an item in tools[iool_id] in job_router_conf yaml
-    tool_mapping = __tool_mapping(tool.id, param_dict)
+    tool_mapping = __tool_mapping(app, tool.id, param_dict)
     if tool_mapping:
         spec = tool_mapping.get('spec', {})
         envs = tool_mapping.get('env', [])

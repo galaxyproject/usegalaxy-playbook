@@ -3,6 +3,8 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
+# NOTE: many template values can be found in env/test/group_vars/galaxyservers/tools_conf.yml
+
 {# (id, load) #}
 {%- set pulsar_plugins = (
     ('jetstream_iu', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
@@ -10,14 +12,6 @@
     ('stampede', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
     ('bridges', 'galaxy.jobs.runners.pulsar:PulsarMQJobRunner'),
 ) %}
-
-{#-
-## FIXME: so, better to have these as defined dests so they can have defined limits. but better to make all tool mapping
-## dynamic so you don't have to restart handlers to update them. ah but then they can't get an appropriate resource
-## selector. or you could just give all tools the resource selector and then it'd be ignored if not valid...
-##
-## maybe use static mappings for multicore tools and dynamic for singlecore tools
-#}
 
 {#-
 ## these will create the destinations 'slurm_[0]' and 'reserved_[0]'
@@ -371,6 +365,10 @@ tools:
     environment: job_router
     handler: multi
     resources: bridges
+
+  - id: rna_star
+    handler: multi
+    environment: job_router
 
   ### FIXME: remove once generic is the default
   - id: bwa
