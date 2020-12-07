@@ -1,0 +1,1 @@
+../../../../common/files/galaxy/dynamic_rules/job_router.py
