@@ -86,6 +86,7 @@ usegalaxy_nagios_tools:
 ## used by usegalaxy_privileged
 galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
 usegalaxy_dynamic_job_rules:
+  - job_router.py
   - reserved.py
   - multi_dynamic_walltime.py
   - bridges_select.py
@@ -226,8 +227,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['blacklist_file'] }}"
   - src: files/galaxy/config/workflow_schedulers_conf.xml
     dest: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
-  - src: group_vars/galaxyservers/tool_mappings.yml
-    dest: "{{ galaxy_config_dir }}/tool_mappings.yml"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
@@ -243,3 +242,5 @@ galaxy_config_templates:
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_config_file'] }}"
   - src: templates/galaxy/config/oidc_backends_config.xml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_backends_config_file'] }}"
+  - src: templates/galaxy/config/job_router_conf.yml.j2
+    dest: "{{ galaxy_config_dir }}/job_router_conf.yml"

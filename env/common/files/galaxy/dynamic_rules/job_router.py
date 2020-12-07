@@ -21,8 +21,8 @@ from galaxy.util import size_to_bytes
 log = logging.getLogger(__name__)
 
 
-TOOL_MAPPINGS_FILE = None
-TOOL_MAPPINGS_FILENAME = 'tool_mappings.yml'
+JOB_ROUTER_CONF_FILE = None
+JOB_ROUTER_CONF_FILENAME = 'job_router_conf.yml'
 
 # TODO: could pull this from the job config as well
 DEFAULT_DESTINATION_ID = 'slurm_normal'
@@ -94,22 +94,22 @@ def __get_cached(key, refresh_func):
     return CACHE_MEMBERS[key]
 
 
-def __set_tool_mappings_file_path(app):
-    global TOOL_MAPPINGS_FILE
-    TOOL_MAPPINGS_FILE = os.path.join(app.config.config_dir, TOOL_MAPPINGS_FILENAME)
+def __set_job_router_conf_file_path(app):
+    global JOB_ROUTER_CONF_FILE
+    JOB_ROUTER_CONF_FILE = os.path.join(app.config.config_dir, JOB_ROUTER_CONF_FILENAME)
 
 
-def __tool_mappings():
-    def _tool_mappings_refresh_func():
-        with open(TOOL_MAPPINGS_FILE) as fh:
+def __job_router_conf():
+    def _job_router_conf_refresh_func():
+        with open(JOB_ROUTER_CONF_FILE) as fh:
             return yaml.safe_load(fh.read())
-    return __get_cached('tool_mappings', _tool_mappings_refresh_func)
+    return __get_cached('job_router_conf', _job_router_conf_refresh_func)
 
 
 def __destination_configs():
-    tool_mappings = __tool_mappings()
+    job_router_conf = __job_router_conf()
     try:
-        return tool_mappings['destinations']
+        return job_router_conf['destinations']
     except KeyError:
         return {}
 
@@ -160,32 +160,33 @@ def __check_param(param_dict, param, value, op):
 
 
 def __tool_mapping(tool_id, param_dict):
-    tool_mappings = __tool_mappings()
-    tool_mappings_for_tool = None
+    job_router_conf = __job_router_conf()
+    tool_mappings = None
     tool_mapping = None
     try:
-        tool_mappings_for_tool = tool_mappings['tools'][tool_id]
+        tool_mappings = job_router_conf['tools'][tool_id]
     except KeyError:
         tool_id = __short_tool_id(tool.id)
         try:
-            tool_mappings_for_tool = tool_mappings['tools'][tool_id]
+            tool_mappings = job_router_conf['tools'][tool_id]
         except KeyError:
             log.debug("Tool '%s' not in tool_mapping", tool_id)
-    if isinstance(tool_mappings_for_tool, dict):
-        tool_mappings_for_tool = [tool_mappings_for_tool]
-    if isinstance(tool_mappings_for_tool, list):
+    if isinstance(tool_mappings, dict):
+        tool_mappings = [tool_mappings]
+    if isinstance(tool_mappings, list):
         default_tool_mapping = None
-        for tm in tool_mappings_for_tool:
-            if 'params' in tm:
-                for param in tm['params']:
+        for _tool_mapping in tool_mappings:
+            if 'params' in _tool_mapping:
+                for param in _tool_mapping['params']:
                     if not __check_param(param_dict, param['name'], param['value'], param.get('op', '==')):
                         break  # try next
                 else:
-                    tool_mapping = tm
-                    log.debug("Tool '%s' mapped to destination '%s' due to params: %s", tool_id, tm['destination'], tm['params'])
+                    tool_mapping = _tool_mapping
+                    log.debug("Tool '%s' mapped to destination '%s' due to params: %s",
+                              tool_id, _tool_mapping['destination'], _tool_mapping['params'])
                     break
             else:
-                default_tool_mapping = tm
+                default_tool_mapping = _tool_mapping
         if not tool_mapping:
             if default_tool_mapping:
                 tool_mapping = default_tool_mapping
@@ -195,17 +196,8 @@ def __tool_mapping(tool_id, param_dict):
     return tool_mapping
 
 
-def __tool_destination(tool_id, param_dict):
-    # For when you don't care about mem/walltime etc.
-    destination_id = None
-    tool_mapping = __tool_mapping(tool_id, param_dict)
-    if tool_mapping:
-        destination_id = tool_mapping['destination']
-    return destination_id
-
-
 def __group_mappings():
-    return __tool_mappings().get('groups', {})
+    return __job_router_conf().get('groups', {})
 
 
 def __map_groups(app):
@@ -243,11 +235,11 @@ def __user_group_mappings(app, user_email, group_type):
 
 
 def __resolve_destination(app, job, user_email, destination_id):
-    # if user is in a special group (named in `groups` dict in tool_mappings yaml) then get destination id overrides
+    # if user is in a special group (named in `groups` dict in job_router_conf yaml) then get destination id overrides
     user_group_destination_mappings = __user_group_mappings(app, user_email, 'destination_overrides')
     # if an override exists then use it, otherwise use what was passed in
     destination_id = user_group_destination_mappings.get(destination_id, destination_id)
-    # resolve using the `destinations` dict in tool_mappings yaml
+    # resolve using the `destinations` dict in job_router_conf yaml
     destination_config = __destination_config(destination_id)
     # if it's a list then we need to use the best dest algorithm
     destination_id = __get_best_destination(app, job, destination_config) or destination_id
@@ -419,7 +411,7 @@ def __update_env(destination, envs):
         })
 
 
-def dynamic_full(app, job, tool, resource_params, user_email):
+def job_router(app, job, tool, resource_params, user_email):
     tool_mapping = None
 
     envs = []
@@ -427,15 +419,15 @@ def dynamic_full(app, job, tool, resource_params, user_email):
     destination_id = None
     destination = None
 
-    if TOOL_MAPPINGS_FILE is None:
-        __set_tool_mappings_file_path(app)
+    if JOB_ROUTER_CONF_FILE is None:
+        __set_job_router_conf_file_path(app)
 
     # build the param dictionary
     param_dict = job.get_param_values(app)
     log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool_id, param_dict)
 
     # find any mapping for this tool and params
-    # tool_mapping = an item in tools[iool_id] in tool_mappings yaml
+    # tool_mapping = an item in tools[iool_id] in job_router_conf yaml
     tool_mapping = __tool_mapping(tool.id, param_dict)
     if tool_mapping:
         spec = tool_mapping.get('spec', {})

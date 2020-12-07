@@ -180,9 +180,9 @@ execution:
     #
     # dynamic destinations
     #
-    dynamic_full:
+    job_router:
       runner: dynamic
-      function: dynamic_full
+      function: job_router
     #dynamic_normal_reserved:
     #  # single core roundup and TACC-discretionary Jetstream, priority (reserved)
     #  runner: dynamic
@@ -355,20 +355,20 @@ tools:
     environment: tacc_k8s
     handler: multi
   - id: trinity
-    environment: dynamic_full
+    environment: job_router
     handler: multi
     resources: bridges
   - id: unicycler
-    environment: dynamic_full
+    environment: job_router
     handler: multi
     resources: bridges
   - id: spades
-    environment: dynamic_full
+    environment: job_router
     handler: multi
     resources: bridges
   ### FIXME: remove once generic is the default
   - id: bwa
-    environment: dynamic_full
+    environment: job_router
     handler: multi
     resources: multi
 {% for id in galaxy_multicore_tools %}
