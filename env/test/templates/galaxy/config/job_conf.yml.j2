@@ -34,9 +34,9 @@
 
 {#- (id, runner, native_spec, java_mem, create_reserved_dest?, create_legacy_dest?) #}
 {%- set jetstream_destinations = (
-    ('iu_multi', 'jetstream_iu', '--partition=multi --nodes=1 =-time=36:00:00', 28, true, true),
-    ('tacc_multi', 'jetstream_tacc', '--partition=multi --nodes=1 =-time=36:00:00', 28, false, false),
-    ('tacc_xlarge', 'jetstream_tacc', '--partition=xlarge --nodes=1 =-time=36:00:00', 58, false, false),
+    ('iu_multi', 'jetstream_iu', '--partition=multi --nodes=1 --time=36:00:00', 28, true, true),
+    ('tacc_multi', 'jetstream_tacc', '--partition=multi --nodes=1 --time=36:00:00', 28, false, false),
+    ('tacc_xlarge', 'jetstream_tacc', '--partition=xlarge --nodes=1 --time=36:00:00', 58, false, false),
 ) %}
 
 {#- (id, native_spec, memory_mb) #}
@@ -349,11 +349,16 @@ resources:
 # Job mapping configuration
 #
 tools:
+  # Python 2 legacy tools are handled in the job router conf
+
+  # Testing
   - id: cat1
     environment: tacc_k8s
   - id: interactive_tool_jupyter_notebook
     environment: tacc_k8s
     handler: multi
+
+  # Bridges tools
   - id: trinity
     environment: job_router
     handler: multi
@@ -366,6 +371,7 @@ tools:
     environment: job_router
     handler: multi
     resources: bridges
+
   ### FIXME: remove once generic is the default
   - id: bwa
     environment: job_router

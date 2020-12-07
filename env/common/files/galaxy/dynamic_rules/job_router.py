@@ -166,7 +166,7 @@ def __tool_mapping(tool_id, param_dict):
     try:
         tool_mappings = job_router_conf['tools'][tool_id]
     except KeyError:
-        tool_id = __short_tool_id(tool.id)
+        tool_id = __short_tool_id(tool_id)
         try:
             tool_mappings = job_router_conf['tools'][tool_id]
         except KeyError:
@@ -424,7 +424,7 @@ def job_router(app, job, tool, resource_params, user_email):
 
     # build the param dictionary
     param_dict = job.get_param_values(app)
-    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool_id, param_dict)
+    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
 
     # find any mapping for this tool and params
     # tool_mapping = an item in tools[iool_id] in job_router_conf yaml
