@@ -336,10 +336,15 @@ def __queued_job_count(app, destination_configs):
     for destination_config in destination_configs:
         destination_ids.add(destination_config['id'])
         [destination_ids.add(st) for st in destination_config.get('shared_thresholds', [])]
+    query_timer = app.execution_timer_factory.get_timer(
+        'usegalaxy.jobs.rules.job_router',
+        'job_router.__queued_job_count query for destination IDs ${destination_ids} executed'
+    )
     job_counts = app.model.context.query(app.model.Job.table.c.destination_id, func.count(app.model.Job.table.c.destination_id)).filter(
         app.model.Job.table.c.destination_id.in_(destination_ids),
         app.model.Job.table.c.state == app.model.Job.states.QUEUED
     ).group_by(app.model.Job.destination_id).all()
+    log.debug(query_timer.to_str(destination_ids=str(sorted(destination_ids))))
     return dict([(d, c) for d, c in job_counts])
 
 
