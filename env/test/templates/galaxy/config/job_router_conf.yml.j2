@@ -4,8 +4,12 @@
 
 # tools dict:
 #   keys are long or short tool IDs
-#   values are either a dict specifying destination params or a list of dicts:
-#     keys are:
+#   values are either:
+#     - a string: alias to another key in the dictionary
+#     - a dict: specifying params to check (for match), destination, and native spec param overrides
+#     - a list of dicts: for multiple possibilities based on different param selection
+#
+#     keys (in the case of dict or list of dicts) are:
 #
 #       params (optional): a list of dicts of tool params that will be checked for a match:
 #         name: tool param to check
@@ -37,7 +41,6 @@
 #   - if no params match, a default (dict without a 'params' key is used)
 #   - if no default is specified, a hardcoded default in job_router.py is used
 
-
 tools:
 
   # python 2 legacy tools
@@ -52,6 +55,14 @@ tools:
   {{ tool_id }}: {destination: multi}
 {% endfor %}
 
+  #
+  # Tools with special mappings
+  #
+
+  # STARSolo uses the same params and has the same requirements as STAR
+  rna_starsolo: rna_star
+
+  # STAR goes to either standard multi partitions (roundup/jetstream) or a special Jetstream m1.xlarge partition
   rna_star:
     # for built-in refs we need (refsize * 1.5) + 2GB
     - params:
@@ -85,6 +96,7 @@ tools:
     # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
     #- destination: slurm_normal
 
+  # Kraken goes to Stampede 2 SKX if the bacteria database is selected, otherwise it goes to standard multi
   kraken:
     # can be a list if you want to do different things with different params (or one thing with no checked params)
     - params:
@@ -93,6 +105,45 @@ tools:
       # can be a real id or key in 'destinations' dict below
       destination: stampede_skx_normal
     - destination: multi
+
+  # align_families gets 192 hours of walltime
+  align_families:
+    destination: slurm_multi_long
+    spec:
+     time: 192
+
+  fasterq_dump:
+    destination: multi_long
+
+  #
+  # Bridges Tools
+  #
+
+  # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
+  star_fusion:
+    destination: bridges_normal
+
+  abyss-pe:
+    destination: bridges_normal
+
+  # SPAdes (and thus Unicycler) uses at most 250GB
+  spades:
+    destination: bridges_normal
+    spec:
+      mem: 288G
+    env:
+      - execute: ulimit -s 24576
+
+  unicycler:
+    destination: bridges_normal
+    spec:
+      mem: 288G
+    env:
+      - execute: ulimit -s 24576
+
+  # Users should use the new version of Trinity
+  trinity_psc:
+    destination: bridges_normal
 
   trinity:
     # first matching param set is used
@@ -194,23 +245,18 @@ tools:
     - destination: bridges_normal
       spec: {time: 24}
 
-# SPAdes (and thus Unicycler) uses at most 250GB
-  unicycler:
-    destination: bridges_normal
-    spec:
-      mem: 288G
-    env:
-      - execute: ulimit -s 24576
-  spades:
-    destination: bridges_normal
-    spec:
-      mem: 288G
-    env:
-      - execute: ulimit -s 24576
-
-  foo:
-    destination: normal_16gb
-
+  #
+  # Stampede tools
+  #
+  bwa_color_wrapper: {destination: stampede_normal}
+  bowtie_color_wrapper: {destination: stampede_normal}
+  megablast_wrapper: {destination: stampede_normal}
+  ncbi_blastn_wrapper: {destination: stampede_normal}
+  ncbi_blastp_wrapper: {destination: stampede_normal}
+  ncbi_blastx_wrapper: {destination: stampede_normal}
+  ncbi_rpsblast_wrapper: {destination: stampede_normal}
+  ncbi_tblastn_wrapper: {destination: stampede_normal}
+  ncbi_tblastx_wrapper: {destination: stampede_normal}
 
 # can contain spec like tool mapping, tool mapping keys override
 #destinations:
@@ -247,22 +293,31 @@ destinations:
       #share_counts_with: slurm_multi_all
       shared_thresholds:
         - slurm_multi
+        - slurm_multi_long
     - id: jetstream_iu_multi_legacy
       #share_counts_with: jetstream_iu_multi_all
       shared_thresholds:
         - jetstream_iu_multi
+        - jetstream_iu_multi_long
   multi:
     - id: slurm_multi
       shared_thresholds:
         - slurm_multi_legacy
+        - slurm_multi_long
     - id: jetstream_iu_multi
       shared_thresholds:
       - jetstream_iu_multi_legacy
+      - jetstream_iu_multi_long
   multi_long:
     - id: slurm_multi_long
       # this counts slurm_multi's queued jobs against slurm_multi_long when determining a destination
       shared_thresholds:
         - slurm_multi
+        - slurm_multi_legacy
+    - id: jetstream_iu_long
+      shared_thresholds:
+        - jetstream_iu_multi
+        - jetstream_iu_multi_legacy
     - id: stampede_long
   jetstream_multi:
     - id: jetstream_iu_multi
@@ -286,6 +341,12 @@ destinations:
       ntasks: 96
     override:
       time: 2
+  #multi_long:
+  #  max:
+  #    time: 72
+  #jetstream_iu_long:
+  #  max:
+  #    time: 72
   stampede_long:
     max:
       time: 120

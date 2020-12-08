@@ -24,11 +24,13 @@
     ('normal_32gb', '--partition=normal --nodes=1 --ntasks=1 --time=36:00:00 --mem=61440', 60, true, false),
     ('multi', '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00', 28, true, true),
     ('multi_development', '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:30:00', 15, false, false),
+    ('multi_long', '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00', 28, false, false),
 ) %}
 
 {#- (id, runner, native_spec, java_mem, create_reserved_dest?, create_legacy_dest?) #}
 {%- set jetstream_destinations = (
     ('iu_multi', 'jetstream_iu', '--partition=multi --nodes=1 --time=36:00:00', 28, true, true),
+    ('iu_multi_long', 'jetstream_iu', '--partition=multi --nodes=1 --time=72:00:00', 28, true, true),
     ('tacc_multi', 'jetstream_tacc', '--partition=multi --nodes=1 --time=36:00:00', 28, false, false),
     ('tacc_xlarge', 'jetstream_tacc', '--partition=xlarge --nodes=1 --time=36:00:00', 58, false, false),
 ) %}
@@ -168,7 +170,8 @@ handling:
 
 execution:
   #default: dynamic_normal_reserved
-  default: slurm_normal
+  #default: slurm_normal
+  default: job_router
   environments:
 
     #
@@ -337,7 +340,9 @@ execution:
 resources:
   groups:
     multi: [multi_compute_resource, ntasks, time]
+    multi_long: [multi_long_compute_resource, ntasks, time]
     bridges: [bridges_compute_resource, mem, time]
+    stampede: [stampede_compute_resource, ntasks, time]
 
 #
 # Job mapping configuration
@@ -353,32 +358,39 @@ tools:
     handler: multi
 
   # Bridges tools
-  - id: trinity
-    environment: job_router
-    handler: multi
-    resources: bridges
-  - id: unicycler
-    environment: job_router
-    handler: multi
-    resources: bridges
-  - id: spades
-    environment: job_router
-    handler: multi
-    resources: bridges
-
-  - id: rna_star
-    handler: multi
-    environment: job_router
-
-  ### FIXME: remove once generic is the default
-  - id: bwa
-    environment: job_router
-    handler: multi
-    resources: multi
-{% for id in galaxy_multicore_tools %}
+{% for id in galaxy_large_memory_tools %}
   - id: {{ id }}
     handler: multi
-    environment: slurm_multi
+    resources: bridges
+{% endfor %}
+
+  # Stampede tools
+{% for id in galaxy_low_priority_tools %}
+  - id: {{ id }}
+    handler: multi
+    resources: stampede
+{% endfor %}
+
+  # Long walltime tools
+  - id: fasterq_dump
+    handler: multi
+    resources: multi_long
+
+  # Specially mapped (no resource selector) multicore tools
+  - id: rna_star
+    handler: multi
+  - id: rna_starsolo
+    handler: multi
+
+  # This is an even longer walltime tool overridden in the job router spec
+  - id: align_families
+    handler: multi
+
+  # Standard multicore tools
+{% for id in galaxy_multicore_tools %}
+  - id: {{ id }}
+    environment: job_router
+    handler: multi
     resources: multi
 {% endfor %}
 
@@ -411,13 +423,13 @@ limits:
     id: slurm_multi
     value: 2
   - type: environment_user_concurrent_jobs
-    id: slurm_multi_dynamic_walltime
-    value: 2
-  - type: environment_user_concurrent_jobs
     id: slurm_multi_development
     value: 1
   - type: environment_user_concurrent_jobs
     id: slurm_multi_trackster
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: slurm_multi_long
     value: 1
   - type: environment_user_concurrent_jobs
     id: stampede_normal
@@ -437,6 +449,7 @@ limits:
   #- type: environment_user_concurrent_jobs
   #  id: bridges_development
   #  value: 1
+  # FIXME: jetstream limits
   - type: environment_user_concurrent_jobs
     id: jetstream
     value: 4
@@ -452,22 +465,13 @@ limits:
     id: stampede_skx_normal
     value: 50
   - type: environment_total_concurrent_jobs
-    id: stampede_mpi_normal
-    value: 20
-  - type: environment_total_concurrent_jobs
-    id: stampede_mpi_skx_normal
-    value: 20
+    id: stampede_long
+    value: 1
   - type: environment_total_concurrent_jobs
     id: stampede_development
     value: 1
   - type: environment_total_concurrent_jobs
     id: stampede_skx_development
-    value: 1
-  - type: environment_total_concurrent_jobs
-    id: stampede_mpi_development
-    value: 1
-  - type: environment_total_concurrent_jobs
-    id: stampede_mpi_skx_development
     value: 1
   #- type: environment_total_concurrent_jobs
   #  id: bridges_normal

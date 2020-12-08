@@ -4,19 +4,21 @@
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
-galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) }}"
+galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) }}"
 
-# some tools have explicit mappings (e.g. for Bridges)
-__galaxy_multicore_tools_exclude:
+# tools that should run on Bridges
+galaxy_large_memory_tools:
   - abyss-pe
-  - align_families
+  - spades
+  - trinity
+  - trinity_psc
+  - unicycler
+  - star_fusion
+
+# tools that should run on Stampede
+galaxy_low_priority_tools:
   - bwa_color_wrapper
   - bowtie_color_wrapper
-  - fasterq_dump
-  - hyphy_absrel
-  - hyphy_fel
-  - hyphy_gard
-  - hyphy_meme
   - megablast_wrapper
   - ncbi_blastn_wrapper
   - ncbi_blastp_wrapper
@@ -24,12 +26,13 @@ __galaxy_multicore_tools_exclude:
   - ncbi_rpsblast_wrapper
   - ncbi_tblastn_wrapper
   - ncbi_tblastx_wrapper
+
+# some tools have explicit mappings (e.g. for Bridges)
+__galaxy_multicore_tools_exclude:
+  - align_families
+  - fasterq_dump
   - rna_star
-  - star_fusion
-  - spades
-  - trinity
-  - trinity_psc
-  - unicycler
+  - rna_starsolo
 
 # tools missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
@@ -44,6 +47,10 @@ __galaxy_multicore_tools_include:
   - deeptools_multi_bigwig_summary
   - deeptools_plot_coverage
   - deeptools_plot_fingerprint
+  - hyphy_absrel
+  - hyphy_fel
+  - hyphy_gard
+  - hyphy_meme
 
 # generated with:
 #     grep -rlI GALAXY_SLOTS /cvmfs/main.galaxyproject.org/{shed,migrated}_tools/toolshed.g2.bx.psu.edu/repos \

@@ -140,12 +140,12 @@ def __data_table_lookup(app, param, lookup_value):
             _t = runtime_value
             runtime_value = os.path.getsize(runtime_value)
             log.debug("Data table '%s' lookup '%s=%s: %s=%s' (converted value: %s bytes)",
-                      table_name, lookup_column, value, value_column, _t, rumtime_value)
+                      table_name, lookup_column, lookup_value, value_column, _t, runtime_value)
         except OSError:
             log.exception('Failed to get size of: %s', runtime_value)
             runtime_value = 0
     else:
-        log.debug("Data table '%s' lookup '%s=%s: %s=%s'", table_name, lookup_column, value, value_column, runtime_value)
+        log.debug("Data table '%s' lookup '%s=%s: %s=%s'", table_name, lookup_column, lookup_value, value_column, runtime_value)
 
     return runtime_value
 
@@ -209,6 +209,8 @@ def __tool_mapping(app, tool_id, param_dict):
             tool_mappings = job_router_conf['tools'][tool_id]
         except KeyError:
             log.debug("Tool '%s' not in tool_mapping", tool_id)
+    if isinstance(tool_mappings, str):
+        tool_mappings = job_router_conf['tools'][tool_mappings]
     if isinstance(tool_mappings, dict):
         tool_mappings = [tool_mappings]
     if isinstance(tool_mappings, list):
