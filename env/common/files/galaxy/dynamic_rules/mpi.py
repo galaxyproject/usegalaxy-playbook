@@ -49,7 +49,7 @@ def dynamic_mpi(app, job):
     param_dict = job.get_param_values(app)
 
     if param_dict.get('__job_resource', {}).get('__job_resource__select') != 'yes':
-        log.debug("Job resource parameters not seleted, using default destination: %s", destination_id)
+        log.debug("Job resource parameters not selected, using default destination: %s", destination_id)
     else:
         cores, time, destination_id = __parse_resource_selector(param_dict)
 
