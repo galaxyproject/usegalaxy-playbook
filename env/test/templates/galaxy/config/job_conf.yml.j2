@@ -341,6 +341,7 @@ resources:
   groups:
     multi: [multi_compute_resource, ntasks, time]
     multi_long: [multi_long_compute_resource, ntasks, time]
+    multi_bridges: [multi_bridges_compute_resource, ntasks, time]
     bridges: [bridges_compute_resource, mem, time]
     stampede: [stampede_compute_resource, ntasks, time]
 
@@ -356,6 +357,8 @@ tools:
   - id: interactive_tool_jupyter_notebook
     environment: tacc_k8s
     handler: multi
+  - id: unicycler
+    resources: multi_bridges
 
   # Bridges tools
 {% for id in galaxy_large_memory_tools %}

@@ -435,6 +435,17 @@ def __get_best_destination(app, job, destination_configs):
     raise JobNotReadyException(message="All destinations over max queued thresholds")
 
 
+def __update_native_spec(destination_id, spec, native_spec):
+    destination_config = __destination_config(destination_id)
+    for param, value in spec.items():
+        if param not in destination_config.get('valid', []):
+            log.debug("Setting param '%s' on destination '%s' is not valid, so it will be ignored", param, destination_id)
+        else:
+            value = __convert_native_spec_param(param, value)
+            native_spec = __replace_param_value(native_spec, param, value)
+    return native_spec
+
+
 def __native_spec_param(destination):
     for param in NATIVE_SPEC_PARAMS:
         if param in destination.params:
@@ -475,8 +486,8 @@ def job_router(app, job, tool, resource_params, user_email):
     # tool_mapping = an item in tools[iool_id] in job_router_conf yaml
     tool_mapping = __tool_mapping(app, tool.id, param_dict)
     if tool_mapping:
-        spec = tool_mapping.get('spec', {})
-        envs = tool_mapping.get('env', [])
+        spec = tool_mapping.get('spec', {}).copy()
+        envs = tool_mapping.get('env', []).copy()
 
     tool_id = __short_tool_id(tool.id)
 
@@ -502,9 +513,7 @@ def job_router(app, job, tool, resource_params, user_email):
     native_spec_param = __native_spec_param(destination)
     native_spec = destination.params.get(native_spec_param, '')
 
-    for param, value in spec.items():
-        value = __convert_native_spec_param(param, value)
-        native_spec = __replace_param_value(native_spec, param, value)
+    native_spec = __update_native_spec(destination_id, spec, native_spec)
 
     __update_env(destination, envs)
 

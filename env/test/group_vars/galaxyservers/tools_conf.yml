@@ -12,7 +12,7 @@ galaxy_large_memory_tools:
   - spades
   - trinity
   - trinity_psc
-  - unicycler
+  #- unicycler
   - star_fusion
 
 # tools that should run on Stampede
@@ -33,6 +33,8 @@ __galaxy_multicore_tools_exclude:
   - fasterq_dump
   - rna_star
   - rna_starsolo
+  # temp
+  - unicycler
 
 # tools missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
