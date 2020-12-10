@@ -82,8 +82,8 @@
         - execute: mkdir -p $TEMP
 {%- endmacro %}
 
-{%- macro dest_pulsar_params() -%}
-      remote_metadata: true
+{%- macro dest_pulsar_params(remote_metadata='true') -%}
+      remote_metadata: {{ remote_metadata }}
       transport: curl
       default_file_action: remote_transfer
       dependency_resolution: remote
@@ -317,7 +317,7 @@ execution:
     bridges_{{ id }}:
       runner: bridges
       submit_native_specification: {{ native_spec }}
-      {{ dest_pulsar_params() }}
+      {{ dest_pulsar_params(remote_metadata='false') }}
       jobs_directory: /pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {# see stampede comments -#}
       remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
