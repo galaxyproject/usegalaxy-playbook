@@ -74,6 +74,7 @@ NATIVE_SPEC_PARAM_CONVERSIONS = {
 }
 
 deferred_jobs = {}
+share_job_counts = {}
 
 
 def __int_gb_to_bytes(gb):
@@ -121,6 +122,19 @@ def __destination_config(destination_id):
         return destination_configs[destination_id]
     except KeyError:
         return None
+
+
+def __share_job_counts(destination_id):
+    # NOTE: rval should always include the ID that was passed in
+    job_router_conf = __job_router_conf()
+    if destination_id not in share_job_counts:
+        share_with = set([destination_id])
+        shares = job_router_conf.get('share_job_counts', [])
+        for share_set in shares:
+            if destination_id in share_set:
+                share_with.update(share_set)
+        share_job_counts[destination_id] = share_with
+    return share_job_counts[destination_id]
 
 
 def __data_table_lookup(app, param, lookup_value):
@@ -374,8 +388,9 @@ def __replace_param_value(native_spec, param, value):
 def __queued_job_count(app, destination_configs):
     destination_ids = set()
     for destination_config in destination_configs:
-        destination_ids.add(destination_config['id'])
-        [destination_ids.add(st) for st in destination_config.get('shared_thresholds', [])]
+        # this set includes the destination_id passed in
+        share_job_counts = __share_job_counts(destination_config['id'])
+        destination_ids.update(share_job_counts)
     query_timer = app.execution_timer_factory.get_timer(
         'usegalaxy.jobs.rules.job_router',
         'job_router.__queued_job_count query for destination IDs ${destination_ids} executed'
@@ -394,7 +409,7 @@ def __get_best_destination(app, job, destination_configs):
     It works like this:
 
     1. Each destination in the list is checked in order
-    2. If fewer jobs are queued at the destination than its thresholds (and destinations listed in shared_thresholds),
+    2. If fewer jobs are queued at the destination (and destinations listed in share_job_counts) than the threshold,
        the job will be assigned to the destination
     3. Otherwise, repeat step 2 on the next destination in the list
     4. If all destinations are over their queued job threshold, defer assignment until the next scheduling loop, where
@@ -414,8 +429,9 @@ def __get_best_destination(app, job, destination_configs):
     for destination_config in destination_configs:
         destination_id = destination_config['id']
         threshold = destination_config.get('threshold', DEFAULT_THRESHOLD)
-        shared_thresholds = destination_config.get('shared_thresholds', [])
-        count = job_counts.get(destination_id, 0) + sum([job_counts.get(st, 0) for st in shared_thresholds])
+        share_job_counts = __share_job_counts(destination_id)
+        count = sum([job_counts.get(destination_id, 0) for destination_id in share_job_counts])
+        log.debug("Sum of job counts for '%s' (includes: %s): %s", destination_id, share_job_counts, count)
         # select the first destination under the threshold
         if count <= threshold:
             log.debug("(%s) selecting preferred destination with %s queued jobs: %s", job.id, count, destination_id)

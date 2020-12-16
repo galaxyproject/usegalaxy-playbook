@@ -287,66 +287,32 @@ tools:
   ncbi_tblastn_wrapper: {destination: stampede_normal}
   ncbi_tblastx_wrapper: {destination: stampede_normal}
 
-# can contain spec like tool mapping, tool mapping keys override
-#destinations:
-  #normal:
-  #  id: slurm_normal
-  #  #priority_id: reserved_normal
-  #normal_16gb:
-  #  id: slurm_normal_16gb
-  #  #priority_id: reserved_normal_16gb
-  #multi:
-  #  - id: slurm_multi
-  #    #priority_id: reserved_multi
-  #  - id: jetstream_iu_multi
-  #    # no reserved? what happens now?
-  #  #priority_id: reserved_multi
-  #  #queued_job_threshold: 4   # do we need separate for each dest?
+# count of queued jobs in these destinations count against the other destinations (i.e. they're probably just slightly
+# different params on the same queue)
+share_job_counts:
+  -
+    - slurm_multi
+    - slurm_multi_legacy
+    - slurm_long
+  -
+    - jetstream_iu_multi
+    - jetstream_iu_multi_legacy
+    - jetstream_iu_multi_long
 
-# FIXME: maybe implement like this?
-#share_job_counts:
-#  slurm_multi_all:
-#    - slurm_multi
-#    - slurm_multi_legacy
-#    - slurm_long
-#  jetstream_iu_multi_all:
-#    - jetstream_iu_multi
-#    - jetstream_iu_multi_legacy
-
+# TODO: now that share_job_counts is implemented, drop dict in list dests?
 destinations:
   #normal_legacy:
   #  - id: slurm_legacy
   #  - id: jetstream_iu_normal_legacy
   multi_legacy:
     - id: slurm_multi_legacy
-      #share_counts_with: slurm_multi_all
-      shared_thresholds:
-        - slurm_multi
-        - slurm_multi_long
     - id: jetstream_iu_multi_legacy
-      #share_counts_with: jetstream_iu_multi_all
-      shared_thresholds:
-        - jetstream_iu_multi
-        - jetstream_iu_multi_long
   multi:
     - id: slurm_multi
-      shared_thresholds:
-        - slurm_multi_legacy
-        - slurm_multi_long
     - id: jetstream_iu_multi
-      shared_thresholds:
-      - jetstream_iu_multi_legacy
-      - jetstream_iu_multi_long
   multi_long:
     - id: slurm_multi_long
-      # this counts slurm_multi's queued jobs against slurm_multi_long when determining a destination
-      shared_thresholds:
-        - slurm_multi
-        - slurm_multi_legacy
     - id: jetstream_iu_long
-      shared_thresholds:
-        - jetstream_iu_multi
-        - jetstream_iu_multi_legacy
     - id: stampede_long
   jetstream_multi:
     - id: jetstream_iu_multi
