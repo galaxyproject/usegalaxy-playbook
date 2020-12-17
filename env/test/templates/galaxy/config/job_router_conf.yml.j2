@@ -294,10 +294,12 @@ share_job_counts:
     - slurm_multi
     - slurm_multi_legacy
     - slurm_long
+    - reserved_slurm_multi
   -
     - jetstream_iu_multi
     - jetstream_iu_multi_legacy
     - jetstream_iu_multi_long
+    - reserved_jetstream_iu_multi
 
 # TODO: now that share_job_counts is implemented, drop dict in list dests?
 destinations:
@@ -310,6 +312,9 @@ destinations:
   multi:
     - id: slurm_multi
     - id: jetstream_iu_multi
+  reserved_multi:
+    - id: reserved_slurm_multi
+    - id: reserved_jetstream_iu_multi
   multi_long:
     - id: slurm_multi_long
     - id: jetstream_iu_long
@@ -389,9 +394,9 @@ destinations:
 groups:
   Job Priority Users:
     destination_overrides:
-      slurm_normal: reserved_normal
-      slurm_normal_16gb: reserved_normal_16gb
-      #slurm_multi: reserved_multi
+      slurm_normal: reserved_slurm_normal
+      slurm_normal_16gb: reserved_slurm_normal_16gb
+      slurm_normal_32gb: reserved_slurm_normal_32gb
       multi: reserved_multi
   Job Resource Param Users:
     param_overrides: true
