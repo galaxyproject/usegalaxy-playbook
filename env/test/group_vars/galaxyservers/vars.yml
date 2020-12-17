@@ -51,6 +51,130 @@ galaxy_tool_dependency_dir: /galaxy/test/deps
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 
+## used by: job_conf.yml template
+__handler_default_plugins:
+  - local
+  - slurm
+
+__handler_multi_plugins:
+  - slurm
+  - jetstream_iu
+  - jetstream_tacc
+  - stampede
+  - bridges
+  - tacc_k8s
+
+galaxy_job_conf_handlers:
+  - id: test_handler0
+    plugins: "{{ __handler_default_plugins }}"
+    tags:
+      - handlers
+  - id: test_handler1
+    plugins: "{{ __handler_default_plugins }}"
+    tags:
+      - handlers
+  - id: test_handler2
+    plugins: "{{ __handler_multi_plugins }}"
+    tags:
+      - multi
+  - id: test_handler3
+    plugins: "{{ __handler_multi_plugins }}"
+    tags:
+      - multi
+
+galaxy_job_conf_extra_dynamic_rules:
+  - dynamic_nvc_dynamic_memory
+
+galaxy_job_conf_resource_groups:
+  multi: [multi_compute_resource, ntasks, time]
+  multi_long: [multi_long_compute_resource, ntasks, time]
+  multi_bridges: [multi_bridges_compute_resource, ntasks, time]
+  bridges: [bridges_compute_resource, mem, time]
+  stampede: [stampede_compute_resource, ntasks, time]
+
+# tool mappings are in tools_conf.yml
+
+galaxy_job_conf_limits:
+  # this is a failsafe more than anything - actual limits are enforced on the environments
+  - type: registered_user_concurrent_jobs
+    value: 8
+  - type: anonymous_user_concurrent_jobs
+    value: 1
+
+  # these probably don't really work
+  - type: walltime
+    value: '49:00:00'
+  - type: output_size
+    value: 50G
+
+  # per-environments per-user limits
+  - type: environment_user_concurrent_jobs
+    id: normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal_16gb
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal_32gb
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal_64gb
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: slurm_multi_development
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: multi
+    value: 2
+  - type: environment_user_concurrent_jobs
+    id: slurm_multi_long
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: stampede_normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: stampede_skx_normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: stampede_development
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: stampede_skx_development
+    value: 1
+  #- type: environment_user_concurrent_jobs
+  #  id: bridges_normal
+  #  value: 6
+  #- type: environment_user_concurrent_jobs
+  #  id: bridges_development
+  #  value: 1
+  - type: environment_user_concurrent_jobs
+    id: jetstream_tacc_xlarge
+    value: 1
+
+  # per-environments total limits
+  - type: environment_total_concurrent_jobs
+    id: stampede_normal
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: stampede_skx_normal
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: stampede_long
+    value: 1
+  - type: environment_total_concurrent_jobs
+    id: stampede_development
+    value: 1
+  - type: environment_total_concurrent_jobs
+    id: stampede_skx_development
+    value: 1
+  #- type: environment_total_concurrent_jobs
+  #  id: bridges_normal
+  #  value: 10
+  - type: environment_total_concurrent_jobs
+    id: bridges_development
+    value: 4
+
+
 ## used by: supervisor
 galaxy_handlers:
   - count: 2

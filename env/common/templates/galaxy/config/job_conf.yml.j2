@@ -1,0 +1,409 @@
+---
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+{#
+## WARNING: this file is shared between Test and Main!
+##
+## NOTE: many template values can be found in env/<env>/group_vars/galaxyservers/tools_conf.yml
+-#}
+
+{%- set slurm_environments = (
+    {'id': 'normal', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00', 'java_mem': 7, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['normal']},
+    {'id': 'normal_16gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360', 'java_mem': 15, 'create_reserved_env': true},
+    {'id': 'normal_32gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=30720', 'java_mem': 30, 'create_reserved_env': true},
+    {'id': 'normal_64gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=61440', 'java_mem': 60, 'create_reserved_env': true, 'tags': ['multi']},
+    {'id': 'multi', 'native_spec': '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true},
+    {'id': 'multi_development', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:30:00', 'java_mem': 15},
+    {'id': 'multi_long', 'native_spec': '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00', 'java_mem': 28, 'tags': ['multi_long']},
+) %}
+
+{%- set jetstream_environments = (
+    {'id': 'iu_multi', 'runner': 'jetstream_iu', 'native_spec': '--partition=multi --nodes=1 --time=36:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
+    {'id': 'iu_multi_long', 'runner': 'jetstream_iu', 'native_spec': '--partition=multi --nodes=1 --time=72:00:00', 'java_mem': 28, 'tags': ['multi_long']},
+    {'id': 'tacc_multi', 'runner': 'jetstream_tacc', 'native_spec': '--partition=multi --nodes=1 --time=36:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
+    {'id': 'tacc_multi_long', 'runner': 'jetstream_tacc', 'native_spec': '--partition=multi --nodes=1 --time=72:00:00', 'java_mem': 28, 'tags': ['multi_long']},
+    {'id': 'tacc_xlarge', 'runner': 'jetstream_tacc', 'native_spec': '--partition=xlarge --nodes=1 --time=36:00:00', 'java_mem': 58},
+) %}
+
+{%- set stampede_environments = (
+    {'id': 'normal', 'native_spec': '--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=24:00:00', 'memory_mb': 94208},
+    {'id': 'development', 'native_spec': '--partition=development --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=00:30:00', 'memory_mb': 94208},
+    {'id': 'skx_normal', 'native_spec': '--partition=skx-normal --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=24:00:00', 'memory_mb': 192512},
+    {'id': 'skx_development', 'native_spec': '--partition=skx-dev --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=00:30:00', 'memory_mb': 192512},
+    {'id': 'long', 'native_spec': '--partition=long --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=72:00:00', 'memory_mb': 94208, 'tags': ['multi_long']},
+) %}
+
+{#- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) #}
+{%- set bridges_environments = (
+    {'id': 'normal', 'native_spec': '--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem=147456'},
+    {'id': 'development', 'native_spec': '--partition=LM --constraint=LM&EGRESS --time=00:30:00 --mem=147456'},
+) %}
+
+{#-
+## template macros
+#}
+
+{%- macro runner_pulsar_params() -%}
+    amqp_url: {{ galaxy_job_conf_amqp_url }}
+    galaxy_url: https://{{ galaxy_instance_hostname }}
+    persistence_directory: /srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack
+    amqp_acknowledge: true
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
+{%- endmacro %}
+
+{%- macro env_local_envs(java_mem=7) -%}
+        # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
+        - name: PATH
+          value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+        - name: XDG_DATA_HOME
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/xdg/data
+        {{ env_temp_envs() }}
+        - name: _JAVA_OPTIONS
+          value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
+{%- endmacro %}
+
+{%- macro env_legacy_envs(java_mem=7) -%}
+        - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
+        - name: GALAXY_VIRTUAL_ENV
+          value: None
+        - name: PATH
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
+{%- endmacro %}
+
+{%- macro env_pulsar_envs() -%}
+        - name: LC_ALL
+          value: C
+{%- endmacro %}
+
+{%- macro env_temp_envs() -%}
+        - name: TEMP
+          #raw: true
+          value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
+        - name: TMPDIR
+          value: $TEMP
+        - name: _JAVA_OPTIONS
+          value: -Djava.io.tmpdir=$TEMP
+        - execute: mkdir -p $TEMP
+{%- endmacro %}
+
+{%- macro env_tag_params(tags) -%}
+{% if tags is not none -%}
+      tags:
+{% for tag in tags %}
+        - {{ tag }}
+{%- endfor -%}
+{%- endif -%}
+{%- endmacro %}
+
+{%- macro env_pulsar_params(remote_metadata='true') -%}
+      remote_metadata: {{ remote_metadata }}
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: true
+      submit_user_email: $__user_email__
+{%- endmacro %}
+
+{%- macro env_jetstream_params() -%}
+      jobs_directory: /jetstream/scratch0/{{ galaxy_instance_codename }}/jobs
+      # this doesn't work, set in supervisor environment instead
+      #remote_property_galaxy_virtual_env: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv
+      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      file_action_config: {{ galaxy_config_dir }}/pulsar_jetstream_actions.yml
+{%- endmacro %}
+
+#
+# Job runner plugin configuration
+#
+runners:
+  dynamic:
+    # these live in the virtualenv
+    rules_module: usegalaxy.jobs.rules
+  local:
+    load: galaxy.jobs.runners.local:LocalJobRunner
+    workers: 2
+  slurm:
+    load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    workers: 2
+    drmaa_library_path: /usr/lib64/libdrmaa.so
+    invalidjobexception_retries: 5
+    internalexception_retries: 5
+  jetstream_iu:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: jetstream_iu
+    {{ runner_pulsar_params() }}
+  jetstream_tacc:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    {{ runner_pulsar_params() }}
+  stampede:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    {{ runner_pulsar_params() }}
+  bridges:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    {{ runner_pulsar_params() }}
+  tacc_k8s:
+    load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
+    # FIXME:
+    #manager: tacc_k8s
+    {{ runner_pulsar_params() }}
+
+#
+# Job handler configuration
+#
+handling:
+  #default: handlers
+  assign:
+    - db-skip-locked
+  max_grab: 4
+  processes:
+{% for handler in galaxy_job_conf_handlers %}
+    {{ handler.id }}:
+      plugins:
+{% for plugin in handler.plugins %}
+        - {{ plugin }}
+{% endfor %}
+      tags:
+{% for tag in handler.tags %}
+        - {{ tag }}
+{% endfor %}
+{% endfor %}
+
+#
+# Job execution configuration
+#
+execution:
+  default: {{ galaxy_job_conf_default_environment | default('job_router') }}
+  environments:
+
+    #
+    # dynamic environments
+    #
+    job_router:
+      runner: dynamic
+      function: job_router
+{% for rule in galaxy_job_conf_extra_dynamic_rules %}
+    {{ rule }}:
+      runner: dynamic
+      function: {{ rule }}
+{% endfor %}
+
+    #
+    # roundup and TACC-discretionary Jetstream environments
+    #
+{% for env in slurm_environments %}
+    slurm_{{ env.id }}:
+      runner: slurm
+      native_specification: {{ env.native_spec }}
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        {{ env_local_envs(java_mem=env.java_mem) }}
+{% if env.create_reserved_env | default(false) %}
+    reserved_slurm_{{ env.id }}:
+      runner: slurm
+      native_specification: {{ env.native_spec | replace('normal', 'reserved') | replace('multi', 'reserved') }}
+      env:
+        {{ env_local_envs(java_mem=env.java_mem) }}
+{% endif %}
+{% if env.create_legacy_env | default(false) %}
+    slurm_{{ env.id }}_legacy:
+      runner: slurm
+      native_specification: {{ env.native_spec }}
+      use_metadata_binary: true
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        {{ env_local_envs(java_mem=env.java_mem) }}
+        {{ env_legacy_envs() }}
+{% endif %}
+{% endfor %}
+
+    #
+    # Kubernetes environments
+    #
+    tacc_k8s:
+      runner: tacc_k8s
+      docker_enabled: true  # probably shouldn't be needed but is still
+      docker_default_container_id: 'conda/miniconda3'
+      k8s_namespace: ndc
+      #jobs_directory: /not/a/real/path
+      pulsar_app_config:
+        message_queue_url: {{ galaxy_job_conf_amqp_url }}
+        #managers:
+        #  tacc_k8s:
+        #    type: queued_python
+      # Specify a non-default Pulsar staging container.
+      #pulsar_container_image: 'galaxy/pulsar-pod-staging:0.12.0'
+      # Generate job names with a string unique to this Galaxy (see
+      # Kubernetes runner description).
+      #k8s_galaxy_instance_id: mycoolgalaxy
+      # Path to Kubernetes configuration fil (see Kubernetes runner description.)
+      #k8s_config_path: /path/to/kubeconfig
+
+    #
+    # Jetstream environments
+    #
+{% for env in jetstream_environments %}
+    jetstream_{{ env.id }}:
+      runner: {{ env.runner }}
+      submit_native_specification: {{ env.native_spec }}
+      {{ env_pulsar_params() }}
+      {{ env_jetstream_params() }}
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        {{ env_pulsar_envs() }}
+        - name: PATH
+          value: /jetstream/scratch0/{{ galaxy_instance_codename }}/conda/envs/set_metadata@20171114/bin:$PATH
+        {{ env_temp_envs() }}
+{% if env.create_reserved_env | default(false) %}
+    reserved_jetstream_{{ env.id }}:
+      runner: {{ env.runner }}
+      native_specification: {{ env.native_spec | replace('normal', 'reserved') | replace('multi', 'reserved') }}
+      {{ env_pulsar_params() }}
+      {{ env_jetstream_params() }}
+      env:
+        {{ env_pulsar_envs() }}
+        - name: PATH
+          value: /jetstream/scratch0/{{ galaxy_instance_codename }}/conda/envs/set_metadata@20171114/bin:$PATH
+        {{ env_temp_envs() }}
+{% endif %}
+{% if env.create_legacy_env | default(false) %}
+    jetstream_{{ env.id }}_legacy:
+      runner: {{ env.runner }}
+      native_specification: {{ env.native_spec }}
+      use_metadata_binary: true
+      {{ env_pulsar_params() }}
+      {{ env_jetstream_params() }}
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        {{ env_pulsar_envs() }}
+        {{ env_legacy_envs() }}
+{% endif %}
+{% endfor %}
+
+    #
+    # Stampede environments
+    #
+{% for env in stampede_environments %}
+    stampede_{{ env.id }}:
+      runner: stampede
+      submit_native_specification: {{ env.native_spec }}
+      {{ env_pulsar_params() }}
+      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      {# this doesn't work, set in supervisor environment instead
+       #remote_property_galaxy_virtual_env: /work/galaxy/{{ galaxy_instance_codename }}/galaxy/venv
+      -#}
+      {# this used to work but doesn't now either, set in supervisor environment instead, however, the Pulsar client
+       # still requires it to be set when remote_metadata is enabled -#}
+      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        {{ env_pulsar_envs() }}
+        - execute: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
+        - execute: ulimit -c 0
+        {# Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
+        - name: GALAXY_SLOTS
+          value: "$SLURM_NTASKS"
+        {# Mem=0 if the Slurm -mem param is not used, which is not allowed on Stampede2 -#}
+        - name: GALAXY_MEMORY_MB
+          value: "{{ env.memory_mb }}"
+{% endfor %}
+
+    #
+    # Bridges environments
+    #
+{% for env in bridges_environments %}
+    bridges_{{ env.id }}:
+      runner: bridges
+      submit_native_specification: {{ env.native_spec }}
+      {{ env_pulsar_params(remote_metadata='false') }}
+      jobs_directory: /pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      {# see stampede comments -#}
+      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      file_action_config: {{ galaxy_config_dir }}/pulsar_bridges_actions.yml
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        {{ env_pulsar_envs() }}
+        - execute: eval `modulecmd sh purge`
+        {# SPAdes as run by Unicycler is leaving cores in Pulsar's site-packages dir (but should be fixed with proper working dir in Pulsar -#}
+        - execute: ulimit -c 0
+        {# https://bugs.openjdk.java.net/browse/JDK-7085890 -#}
+        - name: _JAVA_OPTIONS
+          value: -Dsun.zip.disableMemoryMapping=true
+        - name: PATH
+          value: /pylon5/mc48nsp/xcgalaxy/openjdk8/bin:$PATH
+{% endfor %}
+
+#
+# Job resource selector configuration
+#
+resources:
+  groups:
+{% for group, elements in galaxy_job_conf_resource_groups.items() %}
+    {{ group }}:
+{% for element in elements %}
+      - {{ element }}
+{% endfor %}
+{% endfor %}
+
+#
+# Job mapping configuration
+#
+tools:
+  # Because job_router is the default environment, you should not need to define explicit mappings here unless:
+  #   1. you want them to have a job resource param selector (but there are lists for that in tools_conf.yml
+  #   2. you want them to have explicit handlers
+  #   3. you don't want a tool to use the router
+
+  # Explicit mappings
+{% for tool in galaxy_job_conf_tools %}
+  - {{ tool | to_yaml | trim }}
+{% endfor %}
+
+  # Bridges tools
+{% for id in galaxy_large_memory_tools %}
+  - id: {{ id }}
+    handler: multi
+    resources: bridges
+{% endfor %}
+
+  # Stampede tools
+{% for id in galaxy_low_priority_tools %}
+  - id: {{ id }}
+    handler: multi
+    resources: stampede
+{% endfor %}
+
+  # Long walltime tools
+  - id: fasterq_dump
+    handler: multi
+    resources: multi_long
+
+  # Specially mapped (no resource selector) multicore tools
+  - id: rna_star
+    handler: multi
+  - id: rna_starsolo
+    handler: multi
+
+  # This is an even longer walltime tool overridden in the job router spec
+  - id: align_families
+    handler: multi
+
+  # Standard multicore tools
+{% for id in galaxy_multicore_tools %}
+  - id: {{ id }}
+    handler: multi
+    resources: multi
+{% endfor %}
+
+#
+# Job limits configuration
+#
+limits:
+{% for limit in galaxy_job_conf_limits %}
+  - {{ limit | to_yaml | trim }}
+{% endfor %}

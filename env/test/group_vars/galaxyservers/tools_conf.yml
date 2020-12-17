@@ -1,6 +1,17 @@
 ---
+#
+# TODO: merge this w/ Main (it is almost identical)
 
-# these lists are consumed in both the job_conf.yml and job_router_conf.yml templates
+# these vars are consumed in both the job_conf.yml and job_router_conf.yml templates
+
+# this is used in the "tools" section of the job_conf - make sure any you define here don't appear in lists below
+galaxy_job_conf_tools:
+  - id: cat1
+    environment: tacc_k8s
+    handler: multi
+  - id: interactive_tool_jupyter_notebook
+    environment: tacc_k8s
+    handler: multi
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
@@ -12,7 +23,7 @@ galaxy_large_memory_tools:
   - spades
   - trinity
   - trinity_psc
-  #- unicycler
+  - unicycler
   - star_fusion
 
 # tools that should run on Stampede
@@ -33,8 +44,6 @@ __galaxy_multicore_tools_exclude:
   - fasterq_dump
   - rna_star
   - rna_starsolo
-  # temp
-  - unicycler
 
 # tools missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
@@ -145,6 +154,8 @@ __galaxy_multicore_tools:
   - trinity_psc
   - unicycler
 
+# legacy tools that expect `python` to be Python 2
+#
 # generated with https://gist.github.com/mvdbeek/590213f65520c498321e1850ed8d44e6
 
 galaxy_python2_legacy_tools:
