@@ -81,7 +81,7 @@
         <!-- bridges destinations -->
         <!-- walltime and mem are set dynamically -->
         <!-- use constraint to avoid running on xl nodes, which do not mount /pylon5 -->
-        <expand macro="bridges_destination" id="normal" native_specification="-p LM --constraint=LM --mem=8192" />
+        <expand macro="bridges_destination" id="normal" native_specification="-p LM --constraint=LM --time=48:00:00 --mem=8192" />
         <!-- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) -->
         <expand macro="bridges_destination" id="development" native_specification="-p LM --constraint=LM -t 00:30:00 --mem=147456" />
         <expand macro="bridges_nagios_destination" />
