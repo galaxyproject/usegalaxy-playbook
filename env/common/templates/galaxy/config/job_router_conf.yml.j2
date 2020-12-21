@@ -51,7 +51,7 @@ tools:
   # python 2 legacy tools
 {% for tool_id in galaxy_python2_legacy_tools %}
 {% set short_tool_id = tool_id.split('/')[-2] %}
-  {{ tool_id }}: {destination: {{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'slurm') }}_legacy}
+  {{ tool_id }}: {destination: slurm_{{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'normal') }}_legacy}
 {% endfor %}
 
   # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime

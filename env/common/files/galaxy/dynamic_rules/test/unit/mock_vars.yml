@@ -1,0 +1,27 @@
+---
+
+galaxy_config_dir: "{{ playbook_dir }}/env/common/files/galaxy/dynamic_rules/test/unit"
+
+galaxy_job_conf_amqp_url: amqp://user:pass@amqp.example.org:5671//vhost?ssl=1
+galaxy_instance_hostname: galaxy.example.org
+galaxy_instance_codename: test
+
+galaxy_job_conf_handlers:
+  - id: test_handler0
+    plugins: []
+    tags: [handlers]
+
+galaxy_job_conf_extra_dynamic_rules: []
+
+galaxy_job_conf_resource_groups:
+  multi: [multi_compute_resource, ntasks, time]
+  multi_long: [multi_long_compute_resource, ntasks, time]
+  multi_bridges: [multi_bridges_compute_resource, ntasks, time]
+  bridges: [bridges_compute_resource, mem, time]
+  stampede: [stampede_compute_resource, ntasks, time]
+
+galaxy_job_conf_limits:
+  - type: registered_user_concurrent_jobs
+    value: 8
+  - type: anonymous_user_concurrent_jobs
+    value: 1

@@ -3,16 +3,25 @@ This unit test module is stretching the dynamic rules used for Galaxy Main
 while using an actual Main's job_conf and job_resource_params_conf configuration
 files. The rest of the stack is mocked.
 """
+import logging
 import pytest
 import mock
 import os
 
+import galaxy.model
+
 from galaxy.jobs.mapper import JobMappingException
 from galaxy.jobs import JobConfiguration
 
-from ... import multi_dynamic_walltime as mdw
+#from ... import multi_dynamic_walltime as mdw
+from ... import job_router
 
-MAIN_JOB_CONF = os.path.join(os.path.dirname(__file__), "job_conf.xml")
+NORMAL_NATIVE_SPEC = "--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00"
+MULTI_NATIVE_SPEC = "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00"
+
+job_router.JOB_ROUTER_CONF_FILE = os.path.join(os.path.dirname(__file__), 'job_router_conf.yml')
+#MAIN_JOB_CONF = os.path.join(os.path.dirname(__file__), "job_conf.xml")
+MAIN_JOB_CONF = os.path.join(os.path.dirname(__file__), "job_conf.yml")
 MAIN_JOB_RESOURCE_PARAMS_CONF = os.path.join(
     os.path.dirname(__file__), "job_resource_params_conf.xml")
 
@@ -20,14 +29,11 @@ KILOBYTE = 1024
 MEGABYTE = 1024 * KILOBYTE
 GIGABYTE = 1024 * MEGABYTE
 
-tool_rnastar_indexed = mock.Mock()
-tool_rnastar_indexed.id = "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1"
-tool_rnastar_indexed.params_from_strings.return_value = {"refGenomeSource": {"geneSource": "indexed",
-                                                                             "GTFconditional": {"genomeDir": "hg19"}}}
-tool_rnastar_history = mock.Mock()
-tool_rnastar_history.id = "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1"
-tool_rnastar_history.params_from_strings.return_value = {"refGenomeSource": {"geneSource": "history",
-                                                                            "genomeFastaFiles": mock.Mock()}}
+mock_dataset = mock.Mock()
+mock_dataset.get_size = lambda: os.stat('mock_path').st_size
+
+
+
 tool_bowtie2_indexed = mock.Mock()
 tool_bowtie2_indexed.id = "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.3.4.2"
 tool_bowtie2_indexed.params_from_strings.return_value = {"reference_genome": {
@@ -55,15 +61,20 @@ tool_align_families.id = "toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_familie
 The following configuration list provides dicts with both input params and
 expected output params (prefixed with 'return_').
 """
+"""
 test_configs = [
     # tool: rnastar
     # indexed reference
-    {"ref_size": 1 * GIGABYTE,  # 1
+    #{"ref_size": 1 * GIGABYTE,  # 1
+    {"ref_size": 23 * GIGABYTE,  # 1
      "tool": tool_rnastar_indexed,
      "sbatch_node": "jetstream-iu-large",
-     "resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
-     "return_nativeSpecification": "--partition=multi --nodes=1 --cpus-per-task=6 --time=36:00:00 --mem=8192",
-     "return_destination_id": "slurm_multi"},
+     #"resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
+     "resource_params": {},
+     #"return_nativeSpecification": "--partition=multi --nodes=1 --cpus-per-task=6 --time=36:00:00 --bork",
+     "return_nativeSpecification": "--partition=xlarge --nodes=1 --time=36:00:00",
+     #"return_destination_id": "slurm_multi"},
+     "return_destination_id": "jetstream_tacc_xlarge"},
     {"ref_size": 1 * GIGABYTE,  # 2
      "tool": tool_rnastar_indexed,
      "sbatch_node": "jetstream-iu-large",
@@ -309,6 +320,7 @@ test_configs = [
     #  "return_submit_native_specification": "--partition=development --nodes=1 --cpus-per-task=16 --time=00:30:00 --account=TG-MCB140147",
     #  "return_destination_id": "stampede_development"},
 ]
+"""
 
 mock_app = mock.MagicMock()
 mock_app.tool_data_tables.get.return_value.get_entry.return_value = "mock_path"
@@ -320,48 +332,374 @@ mock_job.parameters = []
 mock_job.id = 1
 
 
-def test_user_presence():
-    with pytest.raises(JobMappingException):
-        mdw.dynamic_multi_bridges_select(
-            mock_app, tool_rnastar_indexed, mock_job, user_email=None, resource_params=[])
+#def test_user_presence():
+#    with pytest.raises(JobMappingException):
+#        mdw.dynamic_multi_bridges_select(
+#            mock_app, tool_rnastar_indexed, mock_job, user_email=None, resource_params=[])
 
 
 @mock.patch("subprocess.Popen")
 @mock.patch("os.stat")
-def test_dynamic_multi_bridges_select(os_stat, subprocess_popen):
-    for i, testconfig in enumerate(test_configs):
-        print("TESTING CASE {0}".format(i + 1))
-        print(testconfig)
-        # Retrieve the tool id from mock object
-        tool_id = testconfig["tool"].id.split('/')[-2]
-        # Retrieve destination from job conf
-        tool_destination = mock_app.job_config.tools[
-            tool_id][0].get("destination")
-        # Mock the size of ref data
-        os_stat.return_value.st_size = testconfig["ref_size"]
-        # Mock sbatch test run
-        mock_sbatch = (
-            "sbatch: Job 1968650 to start at 2020-04-11T16:58:40 using 10 processors on nodes {} in partition "
-            "multi".format(testconfig["sbatch_node"])
-        )
-        subprocess_popen.return_value.stderr.read.return_value = mock_sbatch
-        subprocess_popen.return_value.returncode = 0
-        destination = None
-        if tool_destination == "dynamic_multi_bridges_select":
-            destination = mdw.dynamic_multi_bridges_select(
-                mock_app, testconfig["tool"], mock_job, "test@example.com", testconfig["resource_params"])
-        elif tool_destination == "dynamic_local_stampede_select_dynamic_walltime":
-            destination = mdw.dynamic_local_stampede_select_dynamic_walltime(
-                mock_app, testconfig["tool"], mock_job, "test@example.com", testconfig["resource_params"])
-        elif tool_destination == "dynamic_stampede_select":
-            destination = mdw.dynamic_stampede_select(
-                mock_app, testconfig["tool"], mock_job, "test@example.com", testconfig["resource_params"])
-        # print(destination)
-        if "return_nativeSpecification" in testconfig:
-            assert destination.params["nativeSpecification"] == testconfig[
-                "return_nativeSpecification"]
-        if "return_submit_native_specification" in testconfig:
-            assert destination.params["submit_native_specification"] == testconfig[
-                "return_submit_native_specification"]
-        if "return_destination_id" in testconfig:
-            assert destination.id == testconfig["return_destination_id"]
+def __test_job_router(testconfig, os_stat, subprocess_popen):
+    #for i, testconfig in enumerate(test_configs):
+    #print("TESTING CASE {0}".format(i + 1))
+    #print(testconfig)
+    # Retrieve the tool id from mock object
+    tool_id = testconfig["tool"].id
+    if '/' in tool_id:
+        tool_id = tool_id.split('/')[-2]
+    # Retrieve destination from job conf
+    #tool_destination = mock_app.job_config.tools[tool_id][0].get("destination")
+    # Mock the size of ref data
+    os_stat.return_value.st_size = testconfig.get("ref_size", 0)
+    # Mock sbatch test run
+    #mock_sbatch = (
+    #    "sbatch: Job 1968650 to start at 2020-04-11T16:58:40 using 10 processors on nodes {} in partition "
+    #    "multi".format(testconfig["sbatch_node"])
+    #)
+    #subprocess_popen.return_value.stderr.read.return_value = mock_sbatch
+    subprocess_popen.return_value.returncode = 0
+    destination = None
+    mock_job.get_param_values.return_value = testconfig["tool"].params
+    destination = job_router.job_router(mock_app, mock_job, testconfig["tool"], {}, "test@example.org")
+    #if tool_destination == "dynamic_multi_bridges_select":
+    #    destination = mdw.dynamic_multi_bridges_select(
+    #        mock_app, testconfig["tool"], mock_job, "test@example.com", testconfig["resource_params"])
+    #elif tool_destination == "dynamic_local_stampede_select_dynamic_walltime":
+    #    destination = mdw.dynamic_local_stampede_select_dynamic_walltime(
+    #        mock_app, testconfig["tool"], mock_job, "test@example.com", testconfig["resource_params"])
+    #elif tool_destination == "dynamic_stampede_select":
+    #    destination = mdw.dynamic_stampede_select(
+    #        mock_app, testconfig["tool"], mock_job, "test@example.com", testconfig["resource_params"])
+    #elif tool_destination == "dynamic_rnastar":
+    #    destination = mdw.dynamic_rnastar(
+    #        mock_app, testconfig["tool"], mock_job, "test@example.com")
+    #else:
+    #    raise("Unknown destination %s" % tool_destination)
+    # print(destination)
+    native_spec = destination.params.get('nativeSpecification')
+    if not native_spec:
+        native_spec = destination.params.get('native_specification')
+    if not native_spec:
+        native_spec = destination.params['submit_native_specification']
+
+    assert native_spec == testconfig["return_native_spec"]
+
+    #if "return_nativeSpecification" in testconfig:
+    #    assert native_spec == testconfig["return_nativeSpecification"]
+    #if "return_submit_native_specification" in testconfig:
+    #    assert native_spec == testconfig["return_submit_native_specification"]
+
+    if "return_destination_id" in testconfig:
+        assert destination.id == testconfig["return_destination_id"]
+
+
+def test_normal():
+    tool = mock.Mock()
+    tool.id = "cat1"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": NORMAL_NATIVE_SPEC,
+        "return_destination_id": "slurm_normal",
+    }
+    __test_job_router(test)
+
+
+def test_normal_legacy():
+    tool = mock.Mock()
+    tool.id = "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cut_tool/1.0.0"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": NORMAL_NATIVE_SPEC,
+        "return_destination_id": "slurm_normal_legacy",
+    }
+    __test_job_router(test)
+
+
+def test_normal_16gb():
+    tool = mock.Mock()
+    tool.id = "join1"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": NORMAL_NATIVE_SPEC + " --mem=15360",
+        "return_destination_id": "slurm_normal_16gb",
+    }
+    __test_job_router(test)
+
+
+def test_normal_32gb():
+    tool = mock.Mock()
+    tool.id = "Interval2Maf1"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": NORMAL_NATIVE_SPEC + " --mem=30720",
+        "return_destination_id": "slurm_normal_32gb",
+    }
+    __test_job_router(test)
+
+
+def test_normal_64gb():
+    tool = mock.Mock()
+    tool.id = "wig_to_bigWig"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": NORMAL_NATIVE_SPEC + " --mem=61440",
+        "return_destination_id": "slurm_normal_64gb",
+    }
+    __test_job_router(test)
+
+
+def test_multi():
+    tool= mock.Mock()
+    tool.id = "bowtie2"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": MULTI_NATIVE_SPEC,
+        "return_destination_id": "slurm_multi",
+    }
+    __test_job_router(test)
+
+
+def test_multi_legacy():
+    tool= mock.Mock()
+    tool.id = "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.2"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": MULTI_NATIVE_SPEC,
+        "return_destination_id": "slurm_multi_legacy",
+    }
+    __test_job_router(test)
+
+
+def test_rnastar_indexed_small():
+    tool = mock.Mock()
+    tool.id = "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1"
+    tool.params = {"refGenomeSource": {"geneSource": "indexed", "GTFconditional": {"genomeDir": "hg19"}}}
+    test = {
+        "ref_size": 12 * GIGABYTE,
+        "tool": tool,
+        #"resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
+        "return_native_spec": "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00",
+        "return_destination_id": "slurm_multi",
+    }
+    __test_job_router(test)
+
+
+def test_rnastar_indexed_large():
+    tool = mock.Mock()
+    tool.id = "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1"
+    tool.params = {"refGenomeSource": {"geneSource": "indexed", "GTFconditional": {"genomeDir": "hg19"}}}
+    test = {
+        "ref_size": 24 * GIGABYTE,
+        "tool": tool,
+        #"resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
+        "return_native_spec": "--partition=xlarge --nodes=1 --time=36:00:00",
+        "return_destination_id": "jetstream_tacc_xlarge",
+    }
+    __test_job_router(test)
+
+
+def test_rnastar_history_small():
+    tool = mock.Mock()
+    tool.id = "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1"
+    tool.params = {"refGenomeSource": {"geneSource": "history", "genomeFastaFiles": mock_dataset}}
+    test = {
+        "ref_size": 2 * GIGABYTE,
+        "tool": tool,
+        #"resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
+        "return_native_spec": "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00",
+        "return_destination_id": "slurm_multi",
+    }
+    __test_job_router(test)
+
+
+def test_rnastar_history_large():
+    tool = mock.Mock()
+    tool.id = "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1"
+    tool.params = {"refGenomeSource": {"geneSource": "history", "genomeFastaFiles": mock_dataset}}
+    test = {
+        "ref_size": 4 * GIGABYTE,
+        "tool": tool,
+        #"resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
+        "return_native_spec": "--partition=xlarge --nodes=1 --time=36:00:00",
+        "return_destination_id": "jetstream_tacc_xlarge",
+    }
+    __test_job_router(test)
+
+
+def test_rnastarsolo_alias():
+    tool = mock.Mock()
+    tool.id = "rna_starsolo"
+    tool.params = {"refGenomeSource": {"geneSource": "history", "genomeFastaFiles": mock_dataset}}
+    test = {
+        "ref_size": 4 * GIGABYTE,
+        "tool": tool,
+        #"resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
+        "return_native_spec": "--partition=xlarge --nodes=1 --time=36:00:00",
+        "return_destination_id": "jetstream_tacc_xlarge",
+    }
+    __test_job_router(test)
+
+
+def test_kraken_bacteria():
+    tool = mock.Mock()
+    tool.id = "kraken"
+    tool.params = {"kraken_database": "bacteria"}
+    test = {
+        "tool": tool,
+        "return_native_spec": "--partition=skx-normal --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=24:00:00",
+        "return_destination_id": "stampede_skx_normal",
+    }
+    __test_job_router(test)
+
+
+def test_kraken_other():
+    tool = mock.Mock()
+    tool.id = "kraken"
+    tool.params = {"kraken_database": "foo"}
+    test = {
+        "tool": tool,
+        "return_native_spec": MULTI_NATIVE_SPEC,
+        "return_destination_id": "slurm_multi",
+    }
+    __test_job_router(test)
+
+
+def test_align_families():
+    tool = mock.Mock()
+    tool.id = "align_families"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=192:00:00",
+        "return_destination_id": "slurm_multi_long",
+    }
+    __test_job_router(test)
+
+
+def test_multi_long():
+    tool = mock.Mock()
+    tool.id = "fasterq_dump"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00",
+        "return_destination_id": "slurm_multi_long",
+    }
+    __test_job_router(test)
+
+
+def test_bridges_normal():
+    tool = mock.Mock()
+    tool.id = "unicycler"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={288 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    __test_job_router(test)
+
+
+def test_trinity_normalize_small():
+    tool = mock.Mock()
+    tool.id = "trinity"
+    tool.params = {"pool": {"inputs": {"paired_or_single": "single", "input": mock_dataset}}, "norm": True}
+    test = {
+        "ref_size": 8 * GIGABYTE,
+        "tool": tool,
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={240 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    __test_job_router(test)
+
+
+def test_trinity_normalize_medium():
+    tool = mock.Mock()
+    tool.id = "trinity"
+    tool.params = {"pool": {"inputs": {"paired_or_single": "single", "input": mock_dataset}}, "norm": True}
+    test = {
+        "ref_size": 64 * GIGABYTE,
+        "tool": tool,
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={480 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    __test_job_router(test)
+
+
+def test_trinity_normalize_large():
+    tool = mock.Mock()
+    tool.id = "trinity"
+    tool.params = {"pool": {"inputs": {"paired_or_single": "single", "input": mock_dataset}}, "norm": True}
+    test = {
+        "ref_size": 128 * GIGABYTE,
+        "tool": tool,
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={720 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    __test_job_router(test)
+
+
+def test_trinity_no_normalize_small():
+    tool = mock.Mock()
+    tool.id = "trinity"
+    tool.params = {"pool": {"inputs": {"paired_or_single": "single", "input": mock_dataset}}, "norm": False}
+    test = {
+        "ref_size": 8 * GIGABYTE,
+        "tool": tool,
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={480 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    __test_job_router(test)
+
+
+def test_trinity_no_normalize_medium():
+    tool = mock.Mock()
+    tool.id = "trinity"
+    tool.params = {"pool": {"inputs": {"paired_or_single": "single", "input": mock_dataset}}, "norm": False}
+    test = {
+        "ref_size": 64 * GIGABYTE,
+        "tool": tool,
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={720 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    __test_job_router(test)
+
+
+def test_trinity_no_normalize_large():
+    tool = mock.Mock()
+    tool.id = "trinity"
+    tool.params = {"pool": {"inputs": {"paired_or_single": "single", "input": mock_dataset}}, "norm": False}
+    test = {
+        "ref_size": 128 * GIGABYTE,
+        "tool": tool,
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={960 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    __test_job_router(test)
+
+
+def test_stampede_normal():
+    tool = mock.Mock()
+    tool.id = "ncbi_blastn_wrapper"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": "--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=24:00:00",
+        "return_destination_id": "stampede_normal",
+    }
+    __test_job_router(test)
+
+
+# TODO:
+#  - priority groups
+#  - resource selector
+#  - resource overrides
+#  - queued job threshold stuff (but probably test this in production first)

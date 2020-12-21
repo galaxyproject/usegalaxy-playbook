@@ -204,7 +204,8 @@ def __check_param(app, param_dict, param):
     elif isinstance(runtime_value, model.DatasetCollectionElement):
         runtime_value = runtime_value.first_dataset_instance().get_size()
         value = [size_to_bytes(str(x)) for x in value]
-    elif isinstance(runtime_value, model.DatasetInstance):
+    elif isinstance(runtime_value, model.DatasetInstance) or hasattr(runtime_value, 'get_size'):
+        # hasattr for tests, is there a better way to mock it?
         runtime_value = runtime_value.get_size()
         value = [size_to_bytes(str(x)) for x in value]
 

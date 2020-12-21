@@ -1,8 +1,13 @@
 language: python
-python: 2.7
+python: 3.6
 script:
+  - rm ${TRAVIS_BUILD_DIR}/ansible.cfg
+  - virtualenv ${TRAVIS_BUILD_DIR}/.ansible-venv
+  - ${TRAVIS_BUILD_DIR}/.ansible-venv/bin/pip install ansible
+  - ${TRAVIS_BUILD_DIR}/.ansible-venv/bin/ansible -i localhost, localhost -c local -m template -a "src=${TRAVIS_BUILD_DIR}/env/common/templates/galaxy/config/job_router_conf.yml.j2 dest=${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/unit/job_router_conf.yml" --extra-vars=@${TRAVIS_BUILD_DIR}/env/main/group_vars/galaxyservers/tools_conf.yml
+  - ${TRAVIS_BUILD_DIR}/.ansible-venv/bin/ansible -i localhost, localhost -c local -m template -a "src=${TRAVIS_BUILD_DIR}/env/common/templates/galaxy/config/job_conf.yml.j2 dest=${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/unit/job_conf.yml" --extra-vars=@${TRAVIS_BUILD_DIR}/env/main/group_vars/galaxyservers/tools_conf.yml --extra-vars=@${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/unit/mock_vars.yml
   - export GALAXY_SKIP_CLIENT_BUILD=1
-  - export GALAXY_VERSION=release_19.05
+  - export GALAXY_VERSION=release_20.09
   - cd ${TRAVIS_BUILD_DIR}
   - wget https://github.com/galaxyproject/galaxy/archive/${GALAXY_VERSION}.tar.gz
   - tar xvzf ${GALAXY_VERSION}.tar.gz | tail
@@ -16,6 +21,6 @@ script:
   - pip install pytest
   - export PYTHONPATH=$PYTHONPATH:${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/lib/
   - cd ${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/
-  - pytest -s
+  - pytest -s --log-level=debug
 notifications:
   email: false
