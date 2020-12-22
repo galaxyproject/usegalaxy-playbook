@@ -6,6 +6,7 @@ script:
   - ${TRAVIS_BUILD_DIR}/.ansible-venv/bin/pip install ansible
   - ${TRAVIS_BUILD_DIR}/.ansible-venv/bin/ansible -i localhost, localhost -c local -m template -a "src=${TRAVIS_BUILD_DIR}/env/common/templates/galaxy/config/job_router_conf.yml.j2 dest=${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/unit/job_router_conf.yml" --extra-vars=@${TRAVIS_BUILD_DIR}/env/main/group_vars/galaxyservers/tools_conf.yml
   - ${TRAVIS_BUILD_DIR}/.ansible-venv/bin/ansible -i localhost, localhost -c local -m template -a "src=${TRAVIS_BUILD_DIR}/env/common/templates/galaxy/config/job_conf.yml.j2 dest=${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/unit/job_conf.yml" --extra-vars=@${TRAVIS_BUILD_DIR}/env/main/group_vars/galaxyservers/tools_conf.yml --extra-vars=@${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/unit/mock_vars.yml
+  - cp ${TRAVIS_BUILD_DIR}/env/common/files/galaxy/config/job_resource_params_conf.xml ${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/unit
   - export GALAXY_SKIP_CLIENT_BUILD=1
   - export GALAXY_VERSION=release_20.09
   - cd ${TRAVIS_BUILD_DIR}
