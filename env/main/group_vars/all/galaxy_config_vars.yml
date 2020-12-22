@@ -27,10 +27,10 @@ galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/to
 base_app_main: &BASE_APP_MAIN
 
   # message box
-  #message_box_visible: "True"
+  message_box_visible: "True"
 
   #message_box_class: info
-  #message_box_class: warning
+  message_box_class: warning
   #message_box_class: error
 
   # informational messages
@@ -44,6 +44,7 @@ base_app_main: &BASE_APP_MAIN
   # scheduled downtimes
   #message_box_content: Galaxy will be down for four hours beginning at <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20200618T090000&p1=24&ah=">2:00 PM UTC, Thursday, June 18</a> for database server upgrades
   #message_box_content: Cluster upgrades are in progress, jobs will not run until upgrades are complete (by <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20180417T160000&p1=24&ah=">9:00 PM UTC, Tuesday, April 17</a>).
+  message_box_content: Tools that run on <a target="_blank" href="https://www.psc.edu/resources/bridges/">PSC Bridges</a> (Unicycler, SPAdes, Trinity) are experiencing delays due to heavy utilization on that system. Please leave your jobs queued, they will run when resources are available.
 
   # this can be removed after 9/22 and the datatypes_conf.xml update
   gbrowse_display_sites: wormbase,tair,modencode_worm,modencode_fly
