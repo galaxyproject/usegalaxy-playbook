@@ -322,6 +322,7 @@ def __convert_native_spec_param(name, value):
 def __override_params(selections, destination_config, override_allowed):
     rval = {}
     for param, value in selections.items():
+        max_value = 0
         orig_value = value
         if value == 0:
             continue

@@ -361,7 +361,8 @@ def __test_job_router(testconfig, os_stat, subprocess_popen):
     subprocess_popen.return_value.returncode = 0
     destination = None
     mock_job.get_param_values.return_value = testconfig["tool"].params
-    destination = job_router.job_router(mock_app, mock_job, testconfig["tool"], {}, "test@example.org")
+    resource_params = testconfig.get('resource_params', {})
+    destination = job_router.job_router(mock_app, mock_job, testconfig["tool"], resource_params, "test@example.org")
     #if tool_destination == "dynamic_multi_bridges_select":
     #    destination = mdw.dynamic_multi_bridges_select(
     #        mock_app, testconfig["tool"], mock_job, "test@example.com", testconfig["resource_params"])
@@ -720,7 +721,87 @@ def test_priority_group_override():
         __test_job_router(test)
 
 
+def test_resource_selector():
+    tool = mock.Mock()
+    tool.id = "bowtie2"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "resource_params": {"multi_compute_resource": "jetstream_multi"},
+        "return_native_spec": "--partition=multi --nodes=1 --time=36:00:00",
+        "return_destination_id": "jetstream_iu_multi",
+    }
+    __test_job_router(test)
+
+
+def test_resource_decrease():
+    tool = mock.Mock()
+    tool.id = "bowtie2"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "resource_params": {"multi_compute_resource": "stampede_normal", "ntasks": 24, "time": 12},
+        "return_native_spec": "--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=24 --time=12:00:00",
+        "return_destination_id": "stampede_normal",
+    }
+    __test_job_router(test)
+
+
+def test_resource_cap():
+    tool = mock.Mock()
+    tool.id = "bowtie2"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "resource_params": {"multi_compute_resource": "stampede_normal", "ntasks": 512, "time": 72},
+        "return_native_spec": "--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=272 --time=48:00:00",
+        "return_destination_id": "stampede_normal",
+    }
+    __test_job_router(test)
+
+
+def test_resource_no_override():
+    tool = mock.Mock()
+    tool.id = "spades"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "resource_params": {"multi_compute_resource": "bridges_normal", "mem": 720 * KILOBYTE},
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={288 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    __test_job_router(test)
+
+
+def test_resource_group_override():
+    tool = mock.Mock()
+    tool.id = "spades"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "resource_params": {"multi_compute_resource": "bridges_normal", "mem": 720 * KILOBYTE},
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={720 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    options = {"param_overrides": True}
+    with mock.patch.object(job_router, '__user_group_mappings', mock.Mock(return_value=options)):
+        __test_job_router(test)
+
+
+def test_resource_group_override_cap():
+    tool = mock.Mock()
+    tool.id = "spades"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "resource_params": {"multi_compute_resource": "bridges_normal", "mem": 912 * KILOBYTE},
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={720 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    options = {"param_overrides": True}
+    with mock.patch.object(job_router, '__user_group_mappings', mock.Mock(return_value=options)):
+        __test_job_router(test)
+
+
 # TODO:
-#  - resource selector
-#  - resource overrides
 #  - queued job threshold stuff (but probably test this in production first)
