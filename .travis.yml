@@ -22,6 +22,6 @@ script:
   - pip install pytest
   - export PYTHONPATH=$PYTHONPATH:${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/lib/
   - cd ${TRAVIS_BUILD_DIR}/env/common/files/galaxy/dynamic_rules/test/
-  - pytest -s --log-level=debug
+  - pytest -v  -s --log-level=debug
 notifications:
   email: false
