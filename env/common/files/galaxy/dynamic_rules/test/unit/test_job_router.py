@@ -394,6 +394,10 @@ def __test_job_router(testconfig, os_stat, subprocess_popen):
         assert destination.id == testconfig["return_destination_id"]
 
 
+#
+# Tool mappings
+#
+
 def test_normal():
     tool = mock.Mock()
     tool.id = "cat1"
@@ -523,20 +527,6 @@ def test_rnastar_history_small():
 def test_rnastar_history_large():
     tool = mock.Mock()
     tool.id = "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1"
-    tool.params = {"refGenomeSource": {"geneSource": "history", "genomeFastaFiles": mock_dataset}}
-    test = {
-        "ref_size": 4 * GIGABYTE,
-        "tool": tool,
-        #"resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
-        "return_native_spec": "--partition=xlarge --nodes=1 --time=36:00:00",
-        "return_destination_id": "jetstream_tacc_xlarge",
-    }
-    __test_job_router(test)
-
-
-def test_rnastarsolo_alias():
-    tool = mock.Mock()
-    tool.id = "rna_starsolo"
     tool.params = {"refGenomeSource": {"geneSource": "history", "genomeFastaFiles": mock_dataset}}
     test = {
         "ref_size": 4 * GIGABYTE,
@@ -698,8 +688,39 @@ def test_stampede_normal():
     __test_job_router(test)
 
 
+#
+# Features
+#
+
+def test_tool_mapping_alias():
+    tool = mock.Mock()
+    tool.id = "rna_starsolo"
+    tool.params = {"refGenomeSource": {"geneSource": "history", "genomeFastaFiles": mock_dataset}}
+    test = {
+        "ref_size": 4 * GIGABYTE,
+        "tool": tool,
+        #"resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
+        "return_native_spec": "--partition=xlarge --nodes=1 --time=36:00:00",
+        "return_destination_id": "jetstream_tacc_xlarge",
+    }
+    __test_job_router(test)
+
+
+def test_priority_group_override():
+    tool = mock.Mock()
+    tool.id = "cat1"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": "--partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=36:00:00",
+        "return_destination_id": "reserved_slurm_normal",
+    }
+    destinations = {"slurm_normal": "reserved_slurm_normal"}
+    with mock.patch.object(job_router, '__user_group_mappings', mock.Mock(return_value=destinations)):
+        __test_job_router(test)
+
+
 # TODO:
-#  - priority groups
 #  - resource selector
 #  - resource overrides
 #  - queued job threshold stuff (but probably test this in production first)
