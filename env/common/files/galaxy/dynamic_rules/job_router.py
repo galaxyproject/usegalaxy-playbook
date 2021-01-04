@@ -7,6 +7,7 @@ import logging
 import operator
 import os
 import re
+import threading
 import time
 from functools import partial
 
@@ -20,6 +21,8 @@ from galaxy.util import size_to_bytes
 
 log = logging.getLogger(__name__)
 
+# Use a thread-local var for storing per-job logger adapter
+local = threading.local()
 
 # TODO: might be cleaner to make `app` a global
 JOB_ROUTER_CONF_FILE = None
@@ -29,6 +32,8 @@ JOB_ROUTER_CONF_FILENAME = 'job_router_conf.yml'
 DEFAULT_DESTINATION_ID = 'slurm_normal'
 
 # Contents of the tool mappings file and special group assignments will be cached
+# this is an rlock because getting group member cache also hits the job router conf cache
+CACHE_LOCK = threading.RLock()
 CACHE_TTL = 300
 CACHE_TIMES = {}
 CACHE_MEMBERS = {}
@@ -77,6 +82,12 @@ deferred_jobs = {}
 share_job_counts = {}
 
 
+class JobLogger(logging.LoggerAdapter):
+    """Custom logger adapter to prepend job id to all messages"""
+    def process(self, msg, kwargs):
+        return '(%s) %s' % (self.extra['job_id'], msg), kwargs
+
+
 def __int_gb_to_bytes(gb):
     return gb * (1024 ** 3)
 
@@ -89,16 +100,23 @@ def __short_tool_id(tool_id):
 
 
 def __get_cached(key, refresh_func):
-    cache_time = CACHE_TIMES.get(key, None)
-    if not cache_time or (time.time() - cache_time > CACHE_TTL):
-        CACHE_MEMBERS[key] = refresh_func()
-        CACHE_TIMES[key] = time.time()
-    return CACHE_MEMBERS[key]
+    # TODO: this may be too much locking...
+    # cache is shared across job worker threads, lock to prevent cache update collisions
+    CACHE_LOCK.acquire()
+    try:
+        cache_time = CACHE_TIMES.get(key, None)
+        if not cache_time or (time.time() - cache_time > CACHE_TTL):
+            CACHE_MEMBERS[key] = refresh_func()
+            CACHE_TIMES[key] = time.time()
+        return CACHE_MEMBERS[key]
+    finally:
+        CACHE_LOCK.release()
 
 
 def __set_job_router_conf_file_path(app):
     global JOB_ROUTER_CONF_FILE
     JOB_ROUTER_CONF_FILE = os.path.join(app.config.config_dir, JOB_ROUTER_CONF_FILENAME)
+    log.info("Set job router config file path to: %s", JOB_ROUTER_CONF_FILE)
 
 
 def __job_router_conf():
@@ -144,8 +162,11 @@ def __data_table_lookup(app, param, lookup_value):
     value_column = param.get('value_column', 'path')
     value_template = param.get('value_template', '{value}')
 
-    # FIXME: what does this return on failure?
     runtime_value = app.tool_data_tables.get(table_name).get_entry(lookup_column, lookup_value, value_column)
+    if runtime_value is None:
+        local.log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to 0",
+                          table_name, lookup_column, lookup_value, value_column)
+        return 0
     runtime_value = value_template.format(value=runtime_value)
 
     if value_column == 'path':
@@ -153,13 +174,13 @@ def __data_table_lookup(app, param, lookup_value):
         try:
             _t = runtime_value
             runtime_value = os.path.getsize(runtime_value)
-            log.debug("Data table '%s' lookup '%s=%s: %s=%s' (converted value: %s bytes)",
-                      table_name, lookup_column, lookup_value, value_column, _t, runtime_value)
+            local.log.debug("Data table '%s' lookup '%s=%s: %s=%s' (converted value: %s bytes)",
+                            table_name, lookup_column, lookup_value, value_column, _t, runtime_value)
         except OSError:
-            log.exception('Failed to get size of: %s', runtime_value)
+            local.log.exception('Failed to get size of: %s', runtime_value)
             runtime_value = 0
     else:
-        log.debug("Data table '%s' lookup '%s=%s: %s=%s'", table_name, lookup_column, lookup_value, value_column, runtime_value)
+        local.log.debug("Data table '%s' lookup '%s=%s: %s=%s'", table_name, lookup_column, lookup_value, value_column, runtime_value)
 
     return runtime_value
 
@@ -223,7 +244,7 @@ def __tool_mapping(app, tool_id, param_dict):
         try:
             tool_mappings = job_router_conf['tools'][tool_id]
         except KeyError:
-            log.debug("Tool '%s' not in tool_mapping", tool_id)
+            local.log.debug("Tool '%s' not in tool_mapping", tool_id)
     if isinstance(tool_mappings, str):
         tool_mappings = job_router_conf['tools'][tool_mappings]
     if isinstance(tool_mappings, dict):
@@ -237,17 +258,17 @@ def __tool_mapping(app, tool_id, param_dict):
                         break  # try next
                 else:
                     tool_mapping = _tool_mapping
-                    log.debug("Tool '%s' mapped to destination '%s' due to params: %s",
-                              tool_id, _tool_mapping['destination'], _tool_mapping['params'])
+                    local.log.debug("Tool '%s' mapped to destination '%s' due to params: %s",
+                                    tool_id, _tool_mapping['destination'], _tool_mapping['params'])
                     break
             else:
                 default_tool_mapping = _tool_mapping
         if not tool_mapping:
             if default_tool_mapping:
                 tool_mapping = default_tool_mapping
-                log.debug("Tool '%s' mapped to param-less default: %s", tool_id, tool_mapping['destination'])
+                local.log.debug("Tool '%s' mapped to param-less default: %s", tool_id, tool_mapping['destination'])
             else:
-                log.debug("Tool '%s' has mapping but no default", tool_id)
+                local.log.debug("Tool '%s' has mapping but no default", tool_id)
     return tool_mapping
 
 
@@ -282,9 +303,9 @@ def __user_group_mappings(app, user_email, group_type):
     for group_name, members in groups.items():
         map_group = __group_mappings().get(group_name, {})
         if user_email in members and group_type in map_group.keys():
-            log.debug("User '%s' found in map group '%s'", user_email, group_name)
+            local.log.debug("User '%s' found in map group '%s'", user_email, group_name)
             if rval:
-                log.warning("User '%s' found in more than one map group, an arbitrary one will be used!", user_email)
+                local.log.warning("User '%s' found in more than one map group, an arbitrary one will be used!", user_email)
             rval = map_group[group_type]
     return rval
 
@@ -336,16 +357,16 @@ def __override_params(selections, destination_config, override_allowed):
         value = min(value, max_value)
         normalize = destination_config.get('normalize', {}).get(param, None)
         if normalize:
-            log.debug("Normalizing '%s bytes' by '%s'", value, normalize)
+            local.log.debug("Normalizing '%s bytes' by '%s'", value, normalize)
             normalize_bytes = size_to_bytes(str(normalize))
             floor_factor = int(value / normalize_bytes)
             value = floor_factor * normalize_bytes
-            log.debug("Normalized to '%s * %s = %s'", floor_factor, normalize_bytes, value)
+            local.log.debug("Normalized to '%s * %s = %s'", floor_factor, normalize_bytes, value)
         if value > 0:
             rval[param] = value
-            log.debug("Value of param '%s' set by user: %s", param, value)
+            local.log.debug("Value of param '%s' set by user: %s", param, value)
         else:
-            log.warning("User set param '%s' to '%s' but that is not allowed, so it will be ignored", param, orig_value)
+            local.log.warning("User set param '%s' to '%s' but that is not allowed, so it will be ignored", param, orig_value)
     return rval
 
 
@@ -369,9 +390,9 @@ def __parse_resource_selector(app, job, user_email, resource_params):
         # true if user is allowed to override params up to the value in destination_config.override
         user_group_param_overrides = __user_group_mappings(app, user_email, 'param_overrides')
         spec = __override_params(selections, destination_config, user_group_param_overrides)
-        log.debug('Spec from selections: %s', spec)
+        local.log.debug('Spec from selections: %s', spec)
     elif selections:
-        log.warning("Ignored invalid selections for destination '%s': %s", destination_id, selections)
+        local.log.warning("Ignored invalid selections for destination '%s': %s", destination_id, selections)
     return destination_id, spec
 
 
@@ -401,7 +422,7 @@ def __queued_job_count(app, destination_configs):
         app.model.Job.table.c.destination_id.in_(destination_ids),
         app.model.Job.table.c.state == app.model.Job.states.QUEUED
     ).group_by(app.model.Job.destination_id).all()
-    log.debug(query_timer.to_str(destination_ids=str(sorted(destination_ids))))
+    local.log.debug(query_timer.to_str(destination_ids=str(sorted(destination_ids))))
     return dict([(d, c) for d, c in job_counts])
 
 
@@ -433,10 +454,10 @@ def __get_best_destination(app, job, destination_configs):
         threshold = destination_config.get('threshold', DEFAULT_THRESHOLD)
         share_job_counts = __share_job_counts(destination_id)
         count = sum([job_counts.get(destination_id, 0) for destination_id in share_job_counts])
-        log.debug("Sum of job counts for '%s' (includes: %s): %s", destination_id, share_job_counts, count)
+        local.log.debug("Sum of job counts for '%s' (includes: %s): %s", destination_id, share_job_counts, count)
         # select the first destination under the threshold
         if count <= threshold:
-            log.debug("(%s) selecting preferred destination with %s queued jobs: %s", job.id, count, destination_id)
+            local.log.debug("selecting preferred destination with %s queued jobs: %s", count, destination_id)
             deferred_jobs.pop(job.id, None)
             return destination_id
         heapq.heappush(priority_destinations, (count, destination_id))
@@ -444,12 +465,12 @@ def __get_best_destination(app, job, destination_configs):
         deferred_jobs[job.id] = time.time()
     elif time.time() - deferred_jobs[job.id] > MAX_DEFER_SECONDS:
         count, destination_id = heapq.heappop(priority_destinations)
-        log.debug(
-            "(%s) all destinations over threshold (%s), reached max deferrment, selecting least busy (ct: %s) "
-            "destination: %s", job.id, threshold, count, destination_id)
+        local.log.debug(
+            "all destinations over threshold (%s), reached max deferrment, selecting least busy (ct: %s) "
+            "destination: %s", threshold, count, destination_id)
         deferred_jobs.pop(job.id, None)
         return destination_id
-    log.debug("(%s) all destinations over threshold, deferring job scheduling: %s", job.id, job_counts)
+    local.log.debug("all destinations over threshold, deferring job scheduling: %s", job_counts)
     raise JobNotReadyException(message="All destinations over max queued thresholds")
 
 
@@ -457,7 +478,7 @@ def __update_native_spec(destination_id, spec, native_spec):
     destination_config = __destination_config(destination_id)
     for param, value in spec.items():
         if param not in destination_config.get('valid', []):
-            log.debug("Setting param '%s' on destination '%s' is not valid, so it will be ignored", param, destination_id)
+            local.log.debug("Setting param '%s' on destination '%s' is not valid, so it will be ignored", param, destination_id)
         else:
             value = __convert_native_spec_param(param, value)
             native_spec = __replace_param_value(native_spec, param, value)
@@ -475,7 +496,7 @@ def __native_spec_param(destination):
 
 def __update_env(destination, envs):
     for env in envs:
-        log.debug("Setting env on destination '%s': %s", destination.id, env)
+        local.log.debug("Setting env on destination '%s': %s", destination.id, env)
         destination.env.append({
             'name': env.get('name'),
             'file': env.get('file'),
@@ -498,7 +519,8 @@ def job_router(app, job, tool, resource_params, user_email):
 
     # build the param dictionary
     param_dict = job.get_param_values(app)
-    log.debug("(%s) param dict for execution of tool '%s': %s", job.id, tool.id, param_dict)
+    local.log = JobLogger(log, {'job_id': job.id})
+    local.log.debug("param dict for execution of tool '%s': %s", tool.id, param_dict)
 
     # find any mapping for this tool and params
     # tool_mapping = an item in tools[iool_id] in job_router_conf yaml
@@ -511,20 +533,20 @@ def job_router(app, job, tool, resource_params, user_email):
 
     # resource_params is an empty dict if not set
     if resource_params:
-        log.debug("(%s) Job resource parameters seleted: %s", job.id, resource_params)
+        local.log.debug("Job resource parameters seleted: %s", resource_params)
         destination_id, user_spec = __parse_resource_selector(app, job, user_email, resource_params)
         if spec and user_spec:
-            log.debug("(%s) Mapped spec for tool '%s' was (prior to resource param selection): %s", job.id, tool_id, spec)
+            local.log.debug("Mapped spec for tool '%s' was (prior to resource param selection): %s", tool_id, spec)
         spec.update(user_spec)
-        log.debug("(%s) Spec for tool '%s' after resource param selection: %s", job.id, tool_id, spec or 'none')
+        local.log.debug("Spec for tool '%s' after resource param selection: %s", tool_id, spec or 'none')
     elif tool_mapping:
         destination_id = tool_mapping['destination']
         destination_id = __resolve_destination(app, job, user_email, destination_id)
-        log.debug("(%s) Tool '%s' mapped to '%s' native specification overrides: %s", job.id, tool_id, destination_id, spec or 'none')
+        local.log.debug("Tool '%s' mapped to '%s' native specification overrides: %s", tool_id, destination_id, spec or 'none')
     else:
         destination_id = DEFAULT_DESTINATION_ID
         destination_id = __resolve_destination(app, job, user_email, destination_id)
-        log.debug("(%s) Tool '%s' has no mapping, using default '%s'", job.id, tool_id, destination_id)
+        local.log.debug("'%s' has no mapping, using default '%s'", tool_id, destination_id)
 
     destination = app.job_config.get_destination(destination_id)
     # TODO: requires native spec to be set on all dests, you could do this by plugin instead
@@ -537,6 +559,6 @@ def job_router(app, job, tool, resource_params, user_email):
 
     destination.params[native_spec_param] = native_spec
 
-    log.info('(%s) Returning destination: %s', job.id, destination_id)
-    log.info('(%s) Native specification: %s', job.id, destination.params.get(native_spec_param))
+    local.log.info('Returning destination: %s', destination_id)
+    local.log.info('Native specification: %s', destination.params.get(native_spec_param))
     return destination
