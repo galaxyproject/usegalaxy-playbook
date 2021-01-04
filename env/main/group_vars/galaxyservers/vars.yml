@@ -35,6 +35,157 @@ galaxy_cache_dir: "{{ galaxy_mutable_data_dir }}/cache"
 
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
+
+## used by: job_conf.yml template
+galaxy_job_conf_pulsar_galaxy_url: "https://{{ inventory_hostname_short }}.galaxyproject.org"
+
+__handler_default_plugins:
+  - local
+  - slurm
+
+__handler_multi_plugins:
+  - slurm
+  - jetstream_iu
+  - jetstream_tacc
+  - stampede
+  - bridges
+  - tacc_k8s
+
+galaxy_job_conf_handlers:
+  - id: main_w3_handler0
+    plugins: "{{ __handler_default_plugins }}"
+    tags:
+      - handlers
+  - id: main_w3_handler1
+    plugins: "{{ __handler_default_plugins }}"
+    tags:
+      - handlers
+  - id: main_w3_handler2
+    plugins: "{{ __handler_multi_plugins }}"
+    tags:
+      - multi
+  - id: main_w4_handler0
+    plugins: "{{ __handler_default_plugins }}"
+    tags:
+      - handlers
+  - id: main_w4_handler1
+    plugins: "{{ __handler_default_plugins }}"
+    tags:
+      - handlers
+  - id: main_w4_handler2
+    plugins: "{{ __handler_multi_plugins }}"
+    tags:
+      - multi
+
+# NOTE: do not include job_router, it is included by default
+galaxy_job_conf_extra_dynamic_rules:
+  - dynamic_nvc_dynamic_memory
+  # TODO: remove all below once everything runs through the job router
+  #- dynamic_normal_reserved
+  #- dynamic_normal_16gb_reserved
+  #- dynamic_normal_32gb_reserved
+  #- dynamic_normal_64gb_reserved
+  #- dynamic_multi_reserved
+  #- dynamic_multi_long_reserved
+  #- dynamic_local_stampede_select_dynamic_walltime
+  #- dynamic_multi_bridges_select
+  #- dynamic_stampede_select
+  #- dynamic_bridges_select
+  #- dynamic_rnastar
+
+#galaxy_job_conf_default_environment: dynamic_normal_reserved
+galaxy_job_conf_default_environment: job_router
+
+galaxy_job_conf_resource_groups:
+  multi: [multi_compute_resource]
+  multi_long: [multi_long_compute_resource]
+  multi_bridges: [multi_bridges_compute_resource]
+  bridges: [bridges_compute_resource]
+  stampede: [stampede_compute_resource]
+
+# tool mappings are in tools_conf.yml
+
+galaxy_job_conf_limits:
+  # this is a failsafe more than anything - actual limits are enforced on the environments
+  - type: registered_user_concurrent_jobs
+    value: 16
+  - type: anonymous_user_concurrent_jobs
+    value: 1
+
+  # these probably don't really work
+  - type: walltime
+    value: '49:00:00'
+  - type: output_size
+    value: 50G
+
+  # per-environments per-user limits
+  - type: environment_user_concurrent_jobs
+    id: normal
+    value: 6
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal_16gb
+    value: 2
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal_32gb
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal_64gb
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: multi
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: slurm_multi_development
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: multi_long
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: stampede_normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: stampede_skx_normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: stampede_development
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: stampede_skx_development
+    value: 1
+  #- type: environment_user_concurrent_jobs
+  #  id: bridges_normal
+  #  value: 6
+  #- type: environment_user_concurrent_jobs
+  #  id: bridges_development
+  #  value: 1
+  - type: environment_user_concurrent_jobs
+    id: jetstream_tacc_xlarge
+    value: 1
+
+  # per-environments total limits
+  - type: environment_total_concurrent_jobs
+    id: stampede_normal
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: stampede_skx_normal
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: stampede_long
+    value: 1
+  - type: environment_total_concurrent_jobs
+    id: stampede_development
+    value: 1
+  - type: environment_total_concurrent_jobs
+    id: stampede_skx_development
+    value: 1
+  #- type: environment_total_concurrent_jobs
+  #  id: bridges_normal
+  #  value: 10
+  - type: environment_total_concurrent_jobs
+    id: bridges_development
+    value: 4
+
+
 ## used by: galaxyproject.galaxy
 galaxy_errordocs_dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/error"
 galaxy_errordocs_502_message: |
@@ -120,7 +271,9 @@ galaxy_config_files:
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
-  - src: templates/galaxy/config/job_conf.xml.j2
-    dest: "{{ galaxy_config_dir }}/job_conf.xml"
+  - src: templates/galaxy/config/job_conf.yml.j2
+    dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: templates/galaxy/config/build_sites.yml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
+  - src: templates/galaxy/config/job_router_conf.yml.j2
+    dest: "{{ galaxy_config_dir }}/job_router_conf.yml"

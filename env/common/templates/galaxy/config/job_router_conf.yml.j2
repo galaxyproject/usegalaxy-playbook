@@ -1,0 +1,406 @@
+---
+#
+# This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+#
+
+# WARNING: this file is shared between Test and Main!
+
+# by default, tools are assigned 1 core, 8 GB of memory, and a 36 hour walltime
+
+# tools dict:
+#   keys are long or short tool IDs
+#   values are either:
+#     - a string: alias to another key in the dictionary
+#     - a dict: specifying params to check (for match), destination, and native spec param overrides
+#     - a list of dicts: for multiple possibilities based on different param selection
+#
+#     keys (in the case of dict or list of dicts) are:
+#
+#       params (optional): a list of dicts of tool params that will be checked for a match:
+#         name: tool param to check
+#           - if the param refers to a dataset, comparison will be against the size
+#           - if the param refers to a dataset collection, comparison will be against the size of the first element
+#         op (optional, default: '=='): comparison operation (python operator)
+#         value: value against which to compare the tool param, using op
+#           - value is the rhs of the operator: <param> <op> <value>
+#           - if value is a list, comparisons are performed against all values and the param set is considered a match
+#             if the comparison is true for any value in the list (i.e. a logical OR)
+#           - if the comparison is against a size, the value will be converted from a size string  to bytes
+#         type (optional, default: null): 'data_table_lookup' to perform a data table lookup using the tool param listed
+#                                         in 'name' as the lookup key
+#         if the type is 'data_table_lookup', additional params keys are:
+#           table_name (required): data table name
+#           lookup_column (optional, default: 'value'): data table column name to perform lookup on
+#           value_column (optional, default: 'path'): data table column name providing the value to compare against
+#           value_template (optional, default: '{value}'): str.format() string, allows manipulation of the lookup results.
+#                                                          only 'value' (contents of value_column) is currently supported.
+#
+#       destination: a destination id in the Galaxy job conf or a destination grouping in the destinations: section
+#
+#       spec: dict of native spec params. keys/values not valid for whatever destination is ultimately chosen will be
+#             ignored. if the key is already specified in the native spec for a dest, the value is overridden with the
+#             one in spec. if not, the key/val are appended to the native spec. subject to authorization in the
+#             'destinations' section below.
+#
+#   - the destination/spec for the first set of matching param(s) is used
+#   - if no params match, a default (dict without a 'params' key is used)
+#   - if no default is specified, a hardcoded default in job_router.py is used
+
+tools:
+
+  # python 2 legacy tools
+{% for tool_id in galaxy_python2_legacy_tools %}
+{% set short_tool_id = tool_id.split('/')[-2] %}
+  {{ tool_id }}: {destination: slurm_{{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'normal') }}_legacy}
+{% endfor %}
+
+  # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
+{# this is a large automatically generated list maintained in env/<env>/group_vars/galaxyservers/tools_conf.yml #}
+{% for tool_id in galaxy_multicore_tools %}
+  {{ tool_id }}: {destination: multi}
+{% endfor %}
+
+  # 1 core, 16 GB of memory, and a 36 hour walltime
+  join1: {destination: slurm_normal_16gb}
+  gops_join_1: {destination: slurm_normal_16gb}
+  gatk_indel_realigner: {destination: slurm_normal_16gb}
+  gatk_depth_of_coverage: {destination: slurm_normal_16gb}
+  gatk_table_recalibration: {destination: slurm_normal_16gb}
+  fastq_paired_end_joiner: {destination: slurm_normal_16gb}
+  bamtools: {destination: slurm_normal_16gb}
+  varscan: {destination: slurm_normal_16gb}
+  scatterplot_rpy: {destination: slurm_normal_16gb}
+  htseq_count: {destination: slurm_normal_16gb}
+  flanking_features_1: {destination: slurm_normal_16gb}
+  cummeRbund: {destination: slurm_normal_16gb}
+  collection_column_join: {destination: slurm_normal_16gb}
+  rseqc_read_duplication: {destination: slurm_normal_16gb}
+  rseqc_RPKM_saturation: {destination: slurm_normal_16gb}
+  rseqc_bam2wig: {destination: slurm_normal_16gb}
+  seqtk_sample: {destination: slurm_normal_16gb}
+  ggplot2_heatmap2: {destination: slurm_normal_16gb}
+  kc-align: {destination: slurm_normal_16gb}
+  porechop: {destination: slurm_normal_16gb}
+
+  # 1 core, 32 GB of memory, and a 36 hour walltime
+  Interval2Maf1: {destination: slurm_normal_32gb}
+
+  # TODO: maybe just send these to stampede?
+  # 1 core, 64 GB of memory, and a 36 hour walltime
+  wig_to_bigWig: {destination: slurm_normal_64gb}
+  CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb}
+
+  #
+  # Tools with special mappings
+  #
+
+  # STARSolo uses the same params and has the same requirements as STAR
+  rna_starsolo: rna_star
+
+  # STAR goes to either standard multi partitions (roundup/jetstream) or a special Jetstream m1.xlarge partition
+  rna_star:
+    # for built-in refs we need (refsize * 1.5) + 2GB
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      - name: refGenomeSource.GTFconditional.genomeDir
+        type: data_table_lookup
+        table_name: rnastar_index2
+        value_template: '{value}/SA'
+        op: '<'
+        value: 18G
+      destination: multi
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      destination: jetstream_tacc_xlarge
+
+    # for history refs we need (refsize * 11.0) + 2GB
+    - params:
+      - name: refGenomeSource.geneSource
+        value: history
+      - name: refGenomeSource.genomeFastaFiles
+        op: '<'
+        value: 2.5G
+      destination: multi
+    - params:
+      - name: refGenomeSource.geneSource
+        value: history
+      destination: jetstream_tacc_xlarge
+
+    # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
+    #- destination: slurm_normal
+
+  # Kraken goes to Stampede 2 SKX if the bacteria database is selected, otherwise it goes to standard multi
+  kraken:
+    # can be a list if you want to do different things with different params (or one thing with no checked params)
+    - params:
+        - name: kraken_database
+          value: bacteria
+      # can be a real id or key in 'destinations' dict below
+      destination: stampede_skx_normal
+    - destination: multi
+
+  # align_families gets 192 hours of walltime
+  align_families:
+    destination: slurm_multi_long
+    spec:
+     time: 192
+
+  fasterq_dump:
+    destination: multi_long
+
+  #
+  # Bridges Tools
+  #
+
+  # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
+  star_fusion:
+    destination: bridges_normal
+
+  abyss-pe:
+    destination: bridges_normal
+
+  # SPAdes (and thus Unicycler) uses at most 250GB
+  spades:
+    destination: bridges_normal
+    spec:
+      mem: 288G
+    env:
+      - execute: ulimit -s 24576
+
+  unicycler:
+    destination: bridges_normal
+    spec:
+      mem: 288G
+    env:
+      - execute: ulimit -s 24576
+
+  # Users should use the new version of Trinity
+  trinity_psc:
+    destination: bridges_normal
+
+  trinity:
+    # first matching param set is used
+    # for collection params, comparison is implicitly on size of pair member 0
+
+    # normalizing inputs < 10GB get 5 * 48GB = 240GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 10G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 240G, time: 72}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 10G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 240G, time: 72}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 10G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 240G, time: 72}
+
+    # normalizing 10G <= inputs < 100G get 10 * 48GB = 480GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 100G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 100G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 100G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+
+    # normalizing inputs >= 100G get 15 * 48GB = 720GB
+    - params:
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 720G, time: 96}
+
+    # not normalizing inputs < 10GB get 10 * 48GB = 480GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 10G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 10G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 10G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+
+    # not normalizing 10G <= inputs < 100G get 15 * 48GB = 720GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 100G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 720G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 100G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 720G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 100G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 720G, time: 96}
+
+    # not normalizing inputs >= 100G get 20 * 48GB = 960GB
+    - params:
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 960G, time: 96}
+
+    # default if no matching params (shouldn't happen)
+    - destination: bridges_normal
+      spec: {time: 24}
+
+  #
+  # Stampede tools
+  #
+  bwa_color_wrapper: {destination: stampede_normal}
+  bowtie_color_wrapper: {destination: stampede_normal}
+  megablast_wrapper: {destination: stampede_normal}
+  ncbi_blastn_wrapper: {destination: stampede_normal}
+  ncbi_blastp_wrapper: {destination: stampede_normal}
+  ncbi_blastx_wrapper: {destination: stampede_normal}
+  ncbi_rpsblast_wrapper: {destination: stampede_normal}
+  ncbi_tblastn_wrapper: {destination: stampede_normal}
+  ncbi_tblastx_wrapper: {destination: stampede_normal}
+
+# count of queued jobs in these destinations count against the other destinations (i.e. they're probably just slightly
+# different params on the same queue)
+share_job_counts:
+  -
+    - slurm_multi
+    - slurm_multi_legacy
+    - slurm_long
+    - reserved_slurm_multi
+  -
+    - jetstream_iu_multi
+    - jetstream_iu_multi_legacy
+    - jetstream_iu_multi_long
+    - reserved_jetstream_iu_multi
+
+# TODO: now that share_job_counts is implemented, drop dict in list dests?
+destinations:
+  #normal_legacy:
+  #  - id: slurm_legacy
+  #  - id: jetstream_iu_normal_legacy
+  multi_legacy:
+    - id: slurm_multi_legacy
+    - id: jetstream_iu_multi_legacy
+  multi:
+    - id: slurm_multi
+    - id: jetstream_iu_multi
+  reserved_multi:
+    - id: reserved_slurm_multi
+    - id: reserved_jetstream_iu_multi
+  multi_long:
+    - id: slurm_multi_long
+    - id: jetstream_iu_long
+    - id: stampede_long
+  jetstream_multi:
+    - id: jetstream_iu_multi
+  slurm_multi:
+    valid:
+      - time
+  slurm_multi_long:
+    valid:
+      - time
+  jetstream_iu_multi:
+    valid:
+      - time
+  jetstream_iu_xlarge:
+    valid:
+      - time
+  stampede_normal:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 272
+      time: 48
+  stampede_development:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 272
+    override:
+      time: 2
+  stampede_skx_normal:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 96
+      time: 48
+  stampede_skx_development:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 96
+    override:
+      time: 2
+  #multi_long:
+  #  max:
+  #    time: 72
+  #jetstream_iu_long:
+  #  max:
+  #    time: 72
+  stampede_long:
+    max:
+      time: 120
+  bridges_normal:
+    valid:
+      - mem
+      - time
+    override:
+      mem: 720G
+    normalize:
+      mem: 48G
+  bridges_development:
+    valid:
+      - mem
+      - time
+    override:
+      mem: 720G
+    normalize:
+      mem: 48G
+
+groups:
+  Job Priority Users:
+    destination_overrides:
+      slurm_normal: reserved_slurm_normal
+      slurm_normal_16gb: reserved_slurm_normal_16gb
+      slurm_normal_32gb: reserved_slurm_normal_32gb
+      multi: reserved_multi
+  Job Resource Param Users:
+    param_overrides: true
