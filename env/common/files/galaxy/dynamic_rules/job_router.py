@@ -2,6 +2,10 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
+# TODO: weighting on grouped destinations - the destination with 6 jobs queued but that has 20 slots total should be
+# preferred over the destination with 4 jobs queued w/ 5 slots total since the 20 slot destinatioon will have much
+# higher throughput
+
 import heapq
 import logging
 import operator
