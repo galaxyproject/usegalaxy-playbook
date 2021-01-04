@@ -47,7 +47,7 @@
 
 {%- macro runner_pulsar_params() -%}
     amqp_url: {{ galaxy_job_conf_amqp_url }}
-    galaxy_url: https://{{ galaxy_instance_hostname }}
+    galaxy_url: {{ galaxy_job_conf_pulsar_galaxy_url }}
     persistence_directory: /srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack
     amqp_acknowledge: true
     amqp_ack_republish_time: 1200
@@ -139,12 +139,15 @@ runners:
     {{ runner_pulsar_params() }}
   jetstream_tacc:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: jetstream_tacc
     {{ runner_pulsar_params() }}
   stampede:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: stampede
     {{ runner_pulsar_params() }}
   bridges:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: bridges
     {{ runner_pulsar_params() }}
   tacc_k8s:
     load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner

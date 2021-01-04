@@ -52,6 +52,8 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 
 ## used by: job_conf.yml template
+galaxy_job_conf_pulsar_galaxy_url: "https://{{ galaxy_instance_hostname }}"
+
 __handler_default_plugins:
   - local
   - slurm
