@@ -48,7 +48,7 @@
         <expand macro="slurm_reserved_destination" dest="multi" partition="multi" native_specification="--cpus-per-task=6 --time=36:00:00 --mem=8192" java_mem="30g" />
 
         <!-- local destinations -->
-        <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--cpus-per-task=2 --time=00:30:00 --mem-per-cpu=5120" java_mem="10g" />
+        <expand macro="slurm_destination" dest="multi_development" partition="normal" native_specification="--cpus-per-task=2 --time=00:30:00 --mem-per-cpu=5120 --mem=8192" java_mem="10g" />
 
         <!-- temporary concurrency limit increase for du novo: align families -->
         <expand macro="slurm_destination" dest="multi_align_families" partition="multi" native_specification="--cpus-per-task=6 --time=96:00:00" />
