@@ -165,6 +165,12 @@
 
     <section id="text_manipulation" name="Text Manipulation" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/split_file_on_column/tp_split_on_column/0.2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regex1/1.0.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regexColumn1/1.0.1" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/mvdbeek/add_input_name_as_column/addName/0.2.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/column_maker/Add_a_column1/1.3.1" />
@@ -813,10 +819,6 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3" />
 
-        <label id="samtools_label" text="SAMTools" version="" />
-
-        <label id="bamtools_label" text="BAMTools" version="" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/1.0.0" />
@@ -840,6 +842,10 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/0.0.1" />
+
+        <label id="samtools_label" text="SAMTools" version="" />
+
+        <label id="bamtools_label" text="BAMTools" version="" />
 
     </section>
 
@@ -2129,6 +2135,8 @@
 
     <section id="mapping" name="Mapping" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/2.17+galaxy2" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/megablast_xml_parser/megablast_xml_parser/1.0.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/2.7.5b" />
@@ -2136,8 +2144,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/star_fusion/star_fusion/0.5.4-3+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/2.7.2b1" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/2.17+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/2.17+galaxy0" />
 
@@ -2215,6 +2221,8 @@
 
     <section id="variant_calling" name="Variant Calling" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/snpfreqplot/snpfreqplot/1.0+galaxy2" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/snpfreqplot/snpfreqplot/1.0+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/snpfreqplot/snpfreqplot/1.0+galaxy0" />
@@ -2226,6 +2234,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/lofreq_viterbi/lofreq_viterbi/2.1.5+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/lofreq_indelqual/lofreq_indelqual/2.1.5+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_filter/4.3+t.galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/lofreq_filter/lofreq_filter/2.1.5+galaxy0" />
 
@@ -2410,12 +2420,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.2" />
 
     </section>
-
-    <label id="genomics_toolkits_label" text="Genomics Toolkits" version="" />
-
-    <label id="metagenomics_label" text="Metagenomics" version="" />
-
-    <label id="deprecated_tools_label" text="Deprecated Tools" version="" />
 
     <section id="chip_seq" name="ChIP-seq" version="">
 
@@ -2793,8 +2797,6 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/tyty/structurefold/predict_pipeline/1.0" />
 
-        <label id="structurefold_label" text="RNA Structure Prediction" version="" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.5" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.6" />
@@ -2804,6 +2806,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/filter_transcripts_via_tracking/filter_combined_via_tracking/0.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tophat/tophat/1.5.0" />
+
+        <label id="structurefold_label" text="RNA Structure Prediction" version="" />
 
     </section>
 
@@ -3039,9 +3043,13 @@
 
     </section>
 
+    <label id="metagenomics_label" text="Metagenomics" version="" />
+
     <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/2.1.1+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/2.0.8_beta+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.7.1" />
 
@@ -3156,8 +3164,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/cat_prepare/cat_prepare/5.0.3.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/cat_add_names/cat_add_names/5.0.3.0" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/2.0.8_beta+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/2.1.5.2" />
 
@@ -4052,6 +4058,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/mothur_align_check/mothur_align_check/1.36.1.0" />
 
     </section>
+
+    <label id="genomics_toolkits_label" text="Genomics Toolkits" version="" />
 
     <section id="picard" name="Picard" version="">
 
@@ -5103,6 +5111,28 @@
 
     <section id="hyphy" name="HyPhy" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_sm19/hyphy_sm19/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_slac/hyphy_slac/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_relax/hyphy_relax/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_prime/hyphy_prime/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_meme/hyphy_meme/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/hyphy_gard/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fubar/hyphy_fubar/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fel/hyphy_fel/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fade/hyphy_fade/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_bgm/hyphy_bgm/2.5.24+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/2.5.24+galaxy0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_sm19/hyphy_sm19/2.5.23+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_slac/hyphy_slac/2.5.23+galaxy0" />
@@ -6007,10 +6037,6 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/best_regression_subsets/BestSubsetsRegression1/1.0.0" />
 
-        <label id="multiple_regression_label" text="Multiple Regression" version="" />
-
-        <label id="multivariate_analysis_label" text="Multivariate Analysis" version="" />
-
         <tool id="Summary_Statistics1" />
 
         <tool id="Count1" />
@@ -6038,6 +6064,10 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/partialr_square/partialRsq/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/rcve/rcve1/1.0.0" />
+
+        <label id="multiple_regression_label" text="Multiple Regression" version="" />
+
+        <label id="multivariate_analysis_label" text="Multivariate Analysis" version="" />
 
     </section>
 
@@ -6219,6 +6249,8 @@
 
     </section>
 
+    <label id="deprecated_tools_label" text="Deprecated Tools" version="" />
+
     <section id="genome_diversity" name="Genome Diversity" version="">
 
         <label id="gd_init" text="Basic analyses" version="" />
@@ -6271,6 +6303,10 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_extract_primers/1.0.0" />
 
+        <label id="gd_kin" text="Kinship" version="" />
+
+        <label id="gd_mito" text="Mitochondria" version="" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.1.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0" />
@@ -6319,8 +6355,6 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.2.0" />
 
-        <label id="gd_kin" text="Kinship" version="" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_discover_familial_relationships/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity/1.0.0" />
@@ -6332,8 +6366,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_inbreeding_and_kinship/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_cluster_kegg/1.0.0" />
-
-        <label id="gd_mito" text="Mitochondria" version="" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_diversity_pi/1.1.0" />
 
