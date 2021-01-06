@@ -537,7 +537,7 @@ def job_router(app, job, tool, resource_params, user_email):
 
     # resource_params is an empty dict if not set
     if resource_params:
-        local.log.debug("Job resource parameters seleted: %s", resource_params)
+        local.log.debug("Job resource parameters selected: %s", resource_params)
         destination_id, user_spec = __parse_resource_selector(app, job, user_email, resource_params)
         if spec and user_spec:
             local.log.debug("Mapped spec for tool '%s' was (prior to resource param selection): %s", tool_id, spec)
