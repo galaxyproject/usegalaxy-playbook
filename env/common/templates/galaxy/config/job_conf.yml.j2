@@ -232,6 +232,7 @@ execution:
       docker_enabled: true  # probably shouldn't be needed but is still
       docker_default_container_id: 'conda/miniconda3'
       k8s_namespace: ndc
+      k8s_walltime_limit: 86400  # 24 hours
       #jobs_directory: /not/a/real/path
       pulsar_app_config:
         message_queue_url: {{ galaxy_job_conf_amqp_url }}
