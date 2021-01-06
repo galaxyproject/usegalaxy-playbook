@@ -25,6 +25,48 @@
     <label id="genomics_toolkits_label" text="Genomics Toolkits"/>
     <label id="metagenomics_label" text="Metagenomics"/>
     <label id="deprecated_tools_label" text="Deprecated Tools"/>
+    <section id="assembly" name="Assembly" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/37d88f41c810/velvetoptimiser/velvetoptimiser.xml" guid="toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/2.2.6" labels="deprecated">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>velvetoptimiser</repository_name>
+            <repository_owner>simon-gladman</repository_owner>
+            <installed_changeset_revision>37d88f41c810</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/2.2.6</id>
+            <version>2.2.6</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/velvet/5da9a0e2fb2d/velvet/velvetg.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/1.2.10.1" labels="deprecated">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>velvet</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>5da9a0e2fb2d</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/1.2.10.1</id>
+            <version>1.2.10.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/velvet/5da9a0e2fb2d/velvet/velveth.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/1.2.10.1" labels="deprecated">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>velvet</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>5da9a0e2fb2d</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/1.2.10.1</id>
+            <version>1.2.10.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/velvet/8d09f8be269e/velvet/velvetg.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/1.2.10.2" labels="deprecated">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>velvet</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>8d09f8be269e</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/1.2.10.2</id>
+            <version>1.2.10.2</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/velvet/8d09f8be269e/velvet/velveth.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/1.2.10.2" labels="deprecated">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>velvet</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>8d09f8be269e</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/1.2.10.2</id>
+            <version>1.2.10.2</version>
+        </tool>
+    </section>
     <section id="variant_calling" name="Variant Calling" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/c052639fa666/snpeff/snpEff_2_1a/snpEff_2_1a/galaxy/snpSift_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/pcingola/snpeff/snpSift_filter/1.0" hidden="true">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -22249,16 +22291,6 @@
             <version>3.12.0+galaxy1</version>
         </tool>
     </section>
-    <section id="assembly" name="Assembly" version="">
-        <tool file="toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/37d88f41c810/velvetoptimiser/velvetoptimiser.xml" guid="toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/2.2.6">
-            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-            <repository_name>velvetoptimiser</repository_name>
-            <repository_owner>simon-gladman</repository_owner>
-            <installed_changeset_revision>37d88f41c810</installed_changeset_revision>
-            <id>toolshed.g2.bx.psu.edu/repos/simon-gladman/velvetoptimiser/velvetoptimiser/2.2.6</id>
-            <version>2.2.6</version>
-        </tool>
-    </section>
     <section id="collection_operations" name="Collection Operations" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/collection_element_identifiers/d3c07d270a50/collection_element_identifiers/collection_element_identifiers.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/collection_element_identifiers/collection_element_identifiers/0.0.2">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -24325,24 +24357,6 @@
             <installed_changeset_revision>4aaabd55eab8</installed_changeset_revision>
             <id>toolshed.g2.bx.psu.edu/repos/iuc/transit_tn5gaps/transit_tn5gaps/3.0.2+galaxy0</id>
             <version>3.0.2+galaxy0</version>
-        </tool>
-    </section>
-    <section id="assembly" name="Assembly" version="">
-        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/velvet/5da9a0e2fb2d/velvet/velvetg.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/1.2.10.1">
-            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-            <repository_name>velvet</repository_name>
-            <repository_owner>devteam</repository_owner>
-            <installed_changeset_revision>5da9a0e2fb2d</installed_changeset_revision>
-            <id>toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/1.2.10.1</id>
-            <version>1.2.10.1</version>
-        </tool>
-        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/velvet/5da9a0e2fb2d/velvet/velveth.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/1.2.10.1">
-            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-            <repository_name>velvet</repository_name>
-            <repository_owner>devteam</repository_owner>
-            <installed_changeset_revision>5da9a0e2fb2d</installed_changeset_revision>
-            <id>toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/1.2.10.1</id>
-            <version>1.2.10.1</version>
         </tool>
     </section>
     <section id="convert_formats" name="Convert Formats" version="">
@@ -29275,24 +29289,6 @@
             <version>1.1.0+galaxy0</version>
         </tool>
     </section>
-    <section id="assembly" name="Assembly" version="">
-        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/velvet/8d09f8be269e/velvet/velvetg.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/1.2.10.2">
-            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-            <repository_name>velvet</repository_name>
-            <repository_owner>devteam</repository_owner>
-            <installed_changeset_revision>8d09f8be269e</installed_changeset_revision>
-            <id>toolshed.g2.bx.psu.edu/repos/devteam/velvet/velvetg/1.2.10.2</id>
-            <version>1.2.10.2</version>
-        </tool>
-        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/velvet/8d09f8be269e/velvet/velveth.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/1.2.10.2">
-            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
-            <repository_name>velvet</repository_name>
-            <repository_owner>devteam</repository_owner>
-            <installed_changeset_revision>8d09f8be269e</installed_changeset_revision>
-            <id>toolshed.g2.bx.psu.edu/repos/devteam/velvet/velveth/1.2.10.2</id>
-            <version>1.2.10.2</version>
-        </tool>
-    </section>
     <section id="graph_display_data" name="Graph/Display Data" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/devteam/histogram/6f134426c2b0/histogram/histogram2.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/histogram/histogram_rpy/1.0.4">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -30495,6 +30491,220 @@
             <installed_changeset_revision>e362b3143cde</installed_changeset_revision>
             <id>toolshed.g2.bx.psu.edu/repos/iuc/snpfreqplot/snpfreqplot/1.0+galaxy1</id>
             <version>1.0+galaxy1</version>
+        </tool>
+    </section>
+    <section id="variant_calling" name="Variant Calling" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpfreqplot/dc51db22310c/snpfreqplot/snpfreqplot.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpfreqplot/snpfreqplot/1.0+galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpfreqplot</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>dc51db22310c</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpfreqplot/snpfreqplot/1.0+galaxy2</id>
+            <version>1.0+galaxy2</version>
+        </tool>
+    </section>
+    <section id="variant_calling" name="Variant Calling" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/2e497a770bca/snpsift/snpSift_vartype.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpsift_vartype/4.3+t.galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpsift</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2e497a770bca</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpsift_vartype/4.3+t.galaxy0</id>
+            <version>4.3+t.galaxy0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/2e497a770bca/snpsift/snpSift_rmInfo.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_rmInfo/4.3+t.galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpsift</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2e497a770bca</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_rmInfo/4.3+t.galaxy0</id>
+            <version>4.3+t.galaxy0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/2e497a770bca/snpsift/snpSift_extractFields.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_extractFields/4.3+t.galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpsift</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2e497a770bca</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_extractFields/4.3+t.galaxy0</id>
+            <version>4.3+t.galaxy0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/2e497a770bca/snpsift/snpSift_vcfCheck.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_vcfCheck/4.3+t.galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpsift</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2e497a770bca</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_vcfCheck/4.3+t.galaxy0</id>
+            <version>4.3+t.galaxy0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/2e497a770bca/snpsift/snpSift_caseControl.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_caseControl/4.3+t.galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpsift</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2e497a770bca</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_caseControl/4.3+t.galaxy0</id>
+            <version>4.3+t.galaxy0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/2e497a770bca/snpsift/snpSift_int.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_int/4.3+t.galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpsift</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2e497a770bca</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_int/4.3+t.galaxy0</id>
+            <version>4.3+t.galaxy0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/2e497a770bca/snpsift/snpSift_annotate.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_annotate/4.3+t.galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpsift</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2e497a770bca</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_annotate/4.3+t.galaxy1</id>
+            <version>4.3+t.galaxy1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/2e497a770bca/snpsift/snpSift_filter.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_filter/4.3+t.galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>snpsift</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>2e497a770bca</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_filter/4.3+t.galaxy1</id>
+            <version>4.3+t.galaxy1</version>
+        </tool>
+    </section>
+    <section id="text_manipulation" name="Text Manipulation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/ae8c4b2488e7/regex_find_replace/regex.xml" guid="toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regex1/1.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>regex_find_replace</repository_name>
+            <repository_owner>galaxyp</repository_owner>
+            <installed_changeset_revision>ae8c4b2488e7</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regex1/1.0.1</id>
+            <version>1.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/ae8c4b2488e7/regex_find_replace/regex_tabular.xml" guid="toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regexColumn1/1.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>regex_find_replace</repository_name>
+            <repository_owner>galaxyp</repository_owner>
+            <installed_changeset_revision>ae8c4b2488e7</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regexColumn1/1.0.1</id>
+            <version>1.0.1</version>
+        </tool>
+    </section>
+    <section id="text_manipulation" name="Text Manipulation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/split_file_on_column/b60f2452580e/split_file_on_column/split_file_on_column.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/split_file_on_column/tp_split_on_column/0.2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>split_file_on_column</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>b60f2452580e</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/split_file_on_column/tp_split_on_column/0.2</id>
+            <version>0.2</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/d7c7ef3353fe/hyphy_absrel/hyphy_absrel.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_absrel</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>d7c7ef3353fe</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_bgm/63b9f220f585/hyphy_bgm/hyphy_bgm.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_bgm/hyphy_bgm/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_bgm</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>63b9f220f585</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_bgm/hyphy_bgm/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fade/3b8114109e84/hyphy_fade/hyphy_fade.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fade/hyphy_fade/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_fade</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>3b8114109e84</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fade/hyphy_fade/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fel/31b7af192fd3/hyphy_fel/hyphy_fel.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fel/hyphy_fel/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_fel</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>31b7af192fd3</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fel/hyphy_fel/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fubar/c8f912a7a967/hyphy_fubar/hyphy_fubar.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fubar/hyphy_fubar/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_fubar</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>c8f912a7a967</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fubar/hyphy_fubar/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/b0af57c1a968/hyphy_gard/hyphy_gard.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/hyphy_gard/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_gard</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>b0af57c1a968</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/hyphy_gard/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_meme/82a3221ca3aa/hyphy_meme/hyphy_meme.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_meme/hyphy_meme/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_meme</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>82a3221ca3aa</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_meme/hyphy_meme/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_prime/82665e97c156/hyphy_prime/hyphy_prime.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_prime/hyphy_prime/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_prime</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>82665e97c156</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_prime/hyphy_prime/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_relax/b8bdfac5a326/hyphy_relax/hyphy_relax.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_relax/hyphy_relax/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_relax</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>b8bdfac5a326</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_relax/hyphy_relax/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_slac/4b63a5c3c6da/hyphy_slac/hyphy_slac.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_slac/hyphy_slac/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_slac</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>4b63a5c3c6da</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_slac/hyphy_slac/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
+        </tool>
+    </section>
+    <section id="hyphy" name="HyPhy" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_sm19/77d74f012ecc/hyphy_sm19/hyphy_sm19.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_sm19/hyphy_sm19/2.5.24+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>hyphy_sm19</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>77d74f012ecc</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/hyphy_sm19/hyphy_sm19/2.5.24+galaxy0</id>
+            <version>2.5.24+galaxy0</version>
         </tool>
     </section>
 </toolbox>
