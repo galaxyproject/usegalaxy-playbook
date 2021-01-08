@@ -2,7 +2,7 @@
 
 ## these vars are defined in vault.yml
 #
-# used by: galaxyproject.galaxy (templating job_conf.xml)
+# used by: galaxyproject.galaxy (templating job_conf.yml)
 galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
 
 ## used by: galaxyproject.galaxy and the play itself
@@ -214,7 +214,7 @@ usegalaxy_nagios_tools:
   - echo_main_bridges
 
 
-## used by usegalaxy_privileged and templating job_conf.xml
+## used by usegalaxy_privileged and templating job_conf.yml
 galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
 
 galaxy_pgcleanup_actions:

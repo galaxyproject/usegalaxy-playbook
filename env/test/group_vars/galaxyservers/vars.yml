@@ -2,7 +2,7 @@
 
 ## these vars are defined in vault.yml
 #
-# used by: galaxyproject.galaxy (templating job_conf.xml)
+# used by: galaxyproject.galaxy (templating job_conf.yml)
 galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
 
 # used by: object store config template
@@ -358,8 +358,6 @@ galaxy_config_files:
 galaxy_config_templates:
   - src: templates/galaxy/config/job_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
-  - src: templates/galaxy/config/job_conf.xml.j2
-    dest: "{{ galaxy_config_dir }}/job_conf.xml"
   - src: templates/galaxy/config/build_sites.yml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
   - src: templates/galaxy/config/object_store_conf.xml.j2
