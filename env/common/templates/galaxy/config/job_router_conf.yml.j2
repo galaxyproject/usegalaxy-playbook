@@ -18,8 +18,9 @@
 #
 #       params (optional): a list of dicts of tool params that will be checked for a match:
 #         name: tool param to check
-#           - if the param refers to a dataset, comparison will be against the size
-#           - if the param refers to a dataset collection, comparison will be against the size of the first element
+#           - if the param value is a list, comparison will be against its first element
+#           - if the param value refers to a dataset, comparison will be against the size
+#           - if the param value refers to a dataset collection, comparison will be against the size of the first element
 #         op (optional, default: '=='): comparison operation (python operator)
 #         value: value against which to compare the tool param, using op
 #           - value is the rhs of the operator: <param> <op> <value>
