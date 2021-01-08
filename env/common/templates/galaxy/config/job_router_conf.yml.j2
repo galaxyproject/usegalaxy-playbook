@@ -94,6 +94,11 @@ tools:
   # Tools with special mappings
   #
 
+  # Multicore tools that are not Pulsar/Jetstream friendly
+
+  # needs tool_files/get_deseq_dataset.R
+  deseq2: {destination: slurm_multi}
+
   # STARSolo uses the same params and has the same requirements as STAR
   rna_starsolo: rna_star
 

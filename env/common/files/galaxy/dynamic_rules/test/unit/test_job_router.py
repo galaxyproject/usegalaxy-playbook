@@ -40,6 +40,7 @@ mock_job.parameters = []
 mock_job.id = 1
 
 
+# FIXME: force user login...
 #def test_user_presence():
 #    with pytest.raises(JobMappingException):
 #        mdw.dynamic_multi_bridges_select(
@@ -358,6 +359,18 @@ def test_stampede_normal():
         "tool": tool,
         "return_native_spec": "--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=24:00:00",
         "return_destination_id": "stampede_normal",
+    }
+    __test_job_router(test)
+
+
+def test_deseq2():
+    tool = mock.Mock()
+    tool.id = "deseq2"
+    tool.params = {}
+    test = {
+        "tool": tool,
+        "return_native_spec": MULTI_NATIVE_SPEC,
+        "return_destination_id": "slurm_multi",
     }
     __test_job_router(test)
 
