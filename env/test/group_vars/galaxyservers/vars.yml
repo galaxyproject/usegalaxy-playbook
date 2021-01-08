@@ -213,12 +213,12 @@ usegalaxy_nagios_tools:
 galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
 usegalaxy_dynamic_job_rules:
   - job_router.py
-  - reserved.py
-  - multi_dynamic_walltime.py
-  - bridges_select.py
-  - stampede_select.py
+  #- reserved.py
+  #- multi_dynamic_walltime.py
+  #- bridges_select.py
+  #- stampede_select.py
   - nvc_dynamic_memory.py
-  - mpi.py
+  #- mpi.py
 
 galaxy_pgcleanup_actions:
   - delete_userless_histories
