@@ -213,6 +213,12 @@ def __check_param(app, param_dict, param):
 
     if not isinstance(value, list):
         value = [value]
+    if isinstance(runtime_value, list):
+        # Trinity paired inputs are lists of (single?) HDA which is the reason for doing this, but is it really what we
+        # want to do?
+        local.log.warning("Converting list param to single (first) element: %s", runtime_value)
+        runtime_value = runtime_value[0]
+
     # TODO: probably shouldn't assume size but that's good enough for now since it's all we're interested in. if this
     # needed to be on something other than size we could add a 'property' key that indicates what property of the param
     # to check

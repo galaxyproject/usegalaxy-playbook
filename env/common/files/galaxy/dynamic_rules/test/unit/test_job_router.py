@@ -351,6 +351,19 @@ def test_trinity_no_normalize_large():
     __test_job_router(test)
 
 
+def test_trinity_no_normalize_large_paired():
+    tool = mock.Mock()
+    tool.id = "trinity"
+    tool.params = {"pool": {"inputs": {"paired_or_single": "paired", "left_input": [mock_dataset]}}, "norm": False}
+    test = {
+        "ref_size": 128 * GIGABYTE,
+        "tool": tool,
+        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={960 * KILOBYTE}",
+        "return_destination_id": "bridges_normal",
+    }
+    __test_job_router(test)
+
+
 def test_stampede_normal():
     tool = mock.Mock()
     tool.id = "ncbi_blastn_wrapper"
@@ -490,3 +503,4 @@ def test_resource_group_override_cap():
 
 # TODO:
 #  - queued job threshold stuff (but probably test this in production first)
+#  - collection elements, HDCAs, etc.
