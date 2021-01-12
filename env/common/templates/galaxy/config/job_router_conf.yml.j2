@@ -98,8 +98,11 @@ tools:
 
   # Multicore tools that are not Pulsar/Jetstream friendly
 
-  # needs tool_files/get_deseq_dataset.R
+  # https://github.com/galaxyproject/tools-iuc/pull/3420
+  # add version comparison to job_router and you can undo this for newer versions
   deseq2: {destination: slurm_multi}
+  # https://github.com/galaxyproject/pulsar/issues/239
+  cutadapt: {destination: slurm_multi}
 
   # STARSolo uses the same params and has the same requirements as STAR
   rna_starsolo: rna_star
