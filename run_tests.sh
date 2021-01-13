@@ -8,6 +8,7 @@ function trap_handler() {
 }
 trap "trap_handler" SIGTERM SIGINT ERR EXIT
 
+# TODO: populate from Ansible vars
 GALAXY_VERSION=release_20.09
 
 if [ -z "${GITHUB_WORKSPACE:-}" ]; then

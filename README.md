@@ -19,22 +19,20 @@ for anyone wishing to emulate a setup like usegalaxy.org.
 Usage
 -----
 
-Usage documentation can be found in the [usegalaxy-playbook wiki][wiki].
+Usage documentation can be found in the [usegalaxy-playbook wiki][wiki]. All standard playbook operations can be done
+using the targets in the [Makefile](Makefile).
 
 You will need the vault password to run most plays. These can be found in the galaxyproject [`pass(1)` password
-store][pass]. If you have configured a `gpg-agent(1)`, you can pipe `pass` directly to `ansible-playbook` like so:
-
-```console
-% pass ansible/vault/usegalaxy | ansible-playbook --vault-password-file=/bin/cat [additional options...]
-```
+store][pass]. If you have configured a `gpg-agent(1)`, you can avoid being prompted for your passphrase on every
+execution.
 
 [wiki]: https://github.com/galaxyproject/usegalaxy-playbook/wiki
 [pass]: http://www.passwordstore.org/
 
-A handy shell function to run the common playbooks with pass can be found in the [wiki][wiki].
-
 Build Notes
 -----------
+
+NOTE: out of date now, need to update
 
 Building Pulsar's dependencies' dependencies as an unprivileged user on some
 HPC systems was a difficult manual process, so I made some notes, which may be
@@ -57,21 +55,6 @@ Python + virtualenv compiled and installed by hand on Stampede:
     ./configure --prefix=/work/galaxy/test/python --enable-unicode=ucs4 && make && make install
     cd ../virtualenv-1.11.5
     /work/galaxy/test/python/bin/python setup.py install
-
-Dependency Notes
-----------------
-
-Prior to conda integration there was no good way to install dependencies for Pulsar. What I'd done for those
-dependencies was:
-
-1. rsync the `tool_dependency_dir` from the Galaxy server to the Pulsar server.
-
-1. Use `find` and `sed` to alter paths in env.sh
-
-1. Recreate virtualenvs in deps using a local copy of virtualenv but this
-   requires removing `include/python2.7`, `lib/python2.7`, and copying
-   site-packages from the old venv to the new venv. Obviously not a sustainable
-   model.
 
 License
 -------
