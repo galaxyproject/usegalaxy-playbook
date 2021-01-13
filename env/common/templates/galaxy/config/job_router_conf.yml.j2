@@ -328,6 +328,10 @@ destinations:
   multi:
     - id: slurm_multi
     - id: jetstream_iu_multi
+      # jetstream can run far fewer jobs than roundup, so we weight its job count by a factor of 2 since its throughput
+      # will be lower
+      queue_factor: 2
+      # could also set threshold: on each member, default is 4
   reserved_multi:
     - id: reserved_slurm_multi
     - id: reserved_jetstream_iu_multi
