@@ -2,10 +2,6 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
-# TODO: weighting on grouped destinations - the destination with 6 jobs queued but that has 20 slots total should be
-# preferred over the destination with 4 jobs queued w/ 5 slots total since the 20 slot destinatioon will have much
-# higher throughput
-
 import heapq
 import logging
 import operator
@@ -461,10 +457,14 @@ def __get_best_destination(app, job, destination_configs):
     priority_destinations = []
     for destination_config in destination_configs:
         destination_id = destination_config['id']
+        queue_factor = destination_config.get('queue_factor', 1)
         threshold = destination_config.get('threshold', DEFAULT_THRESHOLD)
         share_job_counts = __share_job_counts(destination_id)
         count = sum([job_counts.get(destination_id, 0) for destination_id in share_job_counts])
         local.log.debug("Sum of job counts for '%s' (includes: %s): %s", destination_id, share_job_counts, count)
+        if queue_factor != 1:
+            count *= queue_factor
+            local.log.debug("Adjusted job count with applied queue factor of %s: %s", queue_factor, count)
         # select the first destination under the threshold
         if count <= threshold:
             local.log.debug("selecting preferred destination with %s queued jobs: %s", count, destination_id)

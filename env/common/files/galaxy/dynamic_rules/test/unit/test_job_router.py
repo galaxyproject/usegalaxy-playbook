@@ -7,16 +7,26 @@ import logging
 import pytest
 import mock
 import os
+import time
 
 import galaxy.model
 
-from galaxy.jobs.mapper import JobMappingException
+from galaxy.jobs.mapper import JobMappingException, JobNotReadyException
 from galaxy.jobs import JobConfiguration
 
 from ... import job_router
 
+
+# TODO:
+#  - collection elements, HDCAs, etc.
+
+
+# for test purposes we want this to be very low
+job_router.MAX_DEFER_SECONDS = 2
+
 NORMAL_NATIVE_SPEC = "--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00"
 MULTI_NATIVE_SPEC = "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00"
+JETSTREAM_MULTI_NATIVE_SPEC = "--partition=multi --nodes=1 --time=36:00:00"
 
 job_router.JOB_ROUTER_CONF_FILE = os.path.join(os.path.dirname(__file__), 'job_router_conf.yml')
 MAIN_JOB_CONF = os.path.join(os.path.dirname(__file__), "job_conf.yml")
@@ -47,8 +57,9 @@ mock_job.id = 1
 #            mock_app, tool_rnastar_indexed, mock_job, user_email=None, resource_params=[])
 
 
+@mock.patch.object(job_router, '__queued_job_count')
 @mock.patch("os.stat")
-def __test_job_router(testconfig, os_stat):
+def __test_job_router(testconfig, os_stat, queued_job_count):
     tool_id = testconfig["tool"].id
     if '/' in tool_id:
         tool_id = tool_id.split('/')[-2]
@@ -56,9 +67,15 @@ def __test_job_router(testconfig, os_stat):
     os_stat.return_value.st_size = testconfig.get("ref_size", 0)
 
     mock_job.get_param_values.return_value = testconfig["tool"].params
+    queued_job_count.return_value = testconfig.get("queued_job_counts", {})
     resource_params = testconfig.get('resource_params', {})
 
-    destination = job_router.job_router(mock_app, mock_job, testconfig["tool"], resource_params, "test@example.org")
+    for i in range(0, 3):
+        try:
+            destination = job_router.job_router(mock_app, mock_job, testconfig["tool"], resource_params, "test@example.org")
+            break
+        except JobNotReadyException:
+            time.sleep(1)
 
     native_spec = destination.params.get('nativeSpecification')
     if not native_spec:
@@ -501,6 +518,62 @@ def test_resource_group_override_cap():
         __test_job_router(test)
 
 
-# TODO:
-#  - queued job threshold stuff (but probably test this in production first)
-#  - collection elements, HDCAs, etc.
+def test_best_destination_roundup():
+    tool = mock.Mock()
+    tool.id = "hisat2"
+    test = {
+        "tool": tool,
+        "queued_job_counts": {
+            "slurm_multi": 3,
+            "jetstream_iu_multi": 0,
+        },
+        "return_native_spec": MULTI_NATIVE_SPEC,
+        "return_destination_id": "slurm_multi",
+    }
+    __test_job_router(test)
+
+
+def test_best_destination_jetstream():
+    tool = mock.Mock()
+    tool.id = "hisat2"
+    test = {
+        "tool": tool,
+        "queued_job_counts": {
+            "slurm_multi": 10,
+            "jetstream_iu_multi": 2,
+        },
+        "return_native_spec": JETSTREAM_MULTI_NATIVE_SPEC,
+        "return_destination_id": "jetstream_iu_multi",
+    }
+    __test_job_router(test)
+
+
+def test_best_destination_with_queue_factor_roundup():
+    # both over threshold so it should go to the queue with the lowest, but jetstream has a queue factor of 2
+    tool = mock.Mock()
+    tool.id = "hisat2"
+    test = {
+        "tool": tool,
+        "queued_job_counts": {
+            "slurm_multi": 10,
+            "jetstream_iu_multi": 6,
+        },
+        "return_native_spec": MULTI_NATIVE_SPEC,
+        "return_destination_id": "slurm_multi",
+    }
+    __test_job_router(test)
+
+
+def test_best_destination_with_queue_factor_jetstream():
+    tool = mock.Mock()
+    tool.id = "hisat2"
+    test = {
+        "tool": tool,
+        "queued_job_counts": {
+            "slurm_multi": 14,
+            "jetstream_iu_multi": 6,
+        },
+        "return_native_spec": JETSTREAM_MULTI_NATIVE_SPEC,
+        "return_destination_id": "jetstream_iu_multi",
+    }
+    __test_job_router(test)
