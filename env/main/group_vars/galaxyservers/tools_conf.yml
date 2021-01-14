@@ -6,6 +6,9 @@
 
 # this is used in the "tools" section of the job_conf - make sure any you define here don't appear in lists below
 galaxy_job_conf_tools:
+  #- id: random_lines1
+  #  environment: tacc_k8s
+  #  handler: multi
   - id: interactive_tool_jupyter_notebook
     environment: tacc_k8s
     handler: multi
