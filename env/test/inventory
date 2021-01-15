@@ -88,7 +88,7 @@ jetstream-iu0.galaxyproject.org ansible_ssh_user=centos
 #vm027.bridges.psc.edu ansible_ssh_user=xcgalaxy
 
 [cvmfsstratum0servers]
-cvmfs0-psu1.galaxyproject.org
+cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu1.galaxyproject.org" ansible_host="localhost" ansible_port="2222"
 
 [cvmfsstratum1servers]
 cvmfs1-tacc0.galaxyproject.org
