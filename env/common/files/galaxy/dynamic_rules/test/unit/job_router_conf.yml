@@ -1,0 +1,962 @@
+---
+#
+# This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+#
+
+# WARNING: this file is shared between Test and Main!
+
+# by default, tools are assigned 1 core, 8 GB of memory, and a 36 hour walltime
+
+# tools dict:
+#   keys are long or short tool IDs
+#   values are either:
+#     - a string: alias to another key in the dictionary
+#     - a dict: specifying params to check (for match), destination, and native spec param overrides
+#     - a list of dicts: for multiple possibilities based on different param selection
+#
+#     keys (in the case of dict or list of dicts) are:
+#
+#       params (optional): a list of dicts of tool params that will be checked for a match:
+#         name: tool param to check
+#           - if the param value is a list, comparison will be against its first element
+#           - if the param value refers to a dataset, comparison will be against the size
+#           - if the param value refers to a dataset collection, comparison will be against the size of the first element
+#         op (optional, default: '=='): comparison operation (python operator)
+#         value: value against which to compare the tool param, using op
+#           - value is the rhs of the operator: <param> <op> <value>
+#           - if value is a list, comparisons are performed against all values and the param set is considered a match
+#             if the comparison is true for any value in the list (i.e. a logical OR)
+#           - if the comparison is against a size, the value will be converted from a size string  to bytes
+#         type (optional, default: null): 'data_table_lookup' to perform a data table lookup using the tool param listed
+#                                         in 'name' as the lookup key
+#         if the type is 'data_table_lookup', additional params keys are:
+#           table_name (required): data table name
+#           lookup_column (optional, default: 'value'): data table column name to perform lookup on
+#           value_column (optional, default: 'path'): data table column name providing the value to compare against
+#           value_template (optional, default: '{value}'): str.format() string, allows manipulation of the lookup results.
+#                                                          only 'value' (contents of value_column) is currently supported.
+#
+#       destination: a destination id in the Galaxy job conf or a destination grouping in the destinations: section
+#
+#       spec: dict of native spec params. keys/values not valid for whatever destination is ultimately chosen will be
+#             ignored. if the key is already specified in the native spec for a dest, the value is overridden with the
+#             one in spec. if not, the key/val are appended to the native spec. subject to authorization in the
+#             'destinations' section below.
+#
+#   - the destination/spec for the first set of matching param(s) is used
+#   - if no params match, a default (dict without a 'params' key is used)
+#   - if no default is specified, a hardcoded default in job_router.py is used
+
+tools:
+
+  # python 2 legacy tools
+  toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_diamond_database_builder/diamond_database_builder/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/0.1.6.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond_makedb/0.6.13: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/2.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/0.7.6.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cut_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tac/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_text_file_with_recurring_lines/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_unfold_column_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_uniq_tool/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/boris/hetbox/hetbox/1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/analyze_covariates/gatk_analyze_covariates/0.0.5: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/annotation_profiler/Annotation_Profiler_0/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/1.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/basecoverage/gops_basecoverage_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/best_regression_subsets/BestSubsetsRegression1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.4: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie_color_wrappers/bowtie_color_wrapper/1.1.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/1.1.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.4.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.7.12.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.4.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.7.12.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/bwa_color_wrapper/1.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/bwa_wrapper/1.2.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/canonical_correlation_analysis/cca1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cluster/gops_cluster_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/complement/gops_complement_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/concat/gops_concat_1/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/correlation/cor2/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/count_covariates/gatk_count_covariates/0.0.5: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/count_gff_features/count_gff_features/0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/coverage/gops_coverage_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.5: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffcompare/cuffcompare/0.0.6: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/0.0.6: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/0.0.7: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2.2.1.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2.2.1.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2.2.1.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.6: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.7: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/0.0.5: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/0.0.6: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/cummeRbund/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/depth_of_coverage/gatk_depth_of_coverage/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/dna_filtering/histogram_rpy/1.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_concatenate_by_species/fasta_concatenate0/0.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/fastq_combiner/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_filter/fastq_filter/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.0.4: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/fastq_manipulation/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_masker_by_quality/fastq_masker_by_quality/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/2.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_converter/cshl_fastq_quality_converter/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_filter/cshl_fastq_quality_filter/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_tabular/fastq_to_tabular/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.64: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.65: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_artifacts_filter/cshl_fastx_artifacts_filter/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_barcode_splitter/cshl_fastx_barcode_splitter/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_clipper/cshl_fastx_clipper/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/cshl_fastx_renamer/0.0.11: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_reverse_complement/cshl_fastx_reverse_complement/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/featurecounter/featureCoverage1/2.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/find_diag_hits/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/4.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/freebayes/bamleftalign/0.4: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.4.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/freebayes-0.9.14: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/freebayes_wrapper/freebayes_wrapper/0.5.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/get_flanks/get_flanks1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/getindelrates_3way/indelRates_3way/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/getindels_2way/getIndels_2way/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/gi2taxonomy/Fetch Taxonomic Ranks/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/hgv_hilbertvis/hgv_hilbertvis/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/histogram/histogram_rpy/1.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/indel_realigner/gatk_indel_realigner/0.0.6: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/intersect/gops_intersect_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kernel_canonical_correlation_analysis/kcca1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kernel_principal_component_analysis/kpca1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/1.1.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/1.1.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/1.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken_filter/kraken-filter/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken_report/kraken-mpa-report/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken_report/kraken-mpa-report/1.1.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken_report/kraken-report/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken_translate/kraken-translate/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.2.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/lca_wrapper/lca1/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/linear_regression/LinearRegression1/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/logistic_regression_vif/LogisticRegression/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/maf_cpg_filter/cpgFilter/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/megablast_wrapper/megablast_wrapper/1.2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/merge/gops_merge_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/microsats_mutability/microsats_mutability1/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/mine/maximal_information_based_nonparametric_exploration/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/partialr_square/partialRsq/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/plot_from_lda/plot_for_lda_output1/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/poisson2test/poisson2test/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/principal_component_analysis/pca1/1.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/print_reads/gatk_print_reads/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/print_reads/gatk_print_reads/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/quality_filter/qualityFilter/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/rcve/rcve1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/realigner_target_creator/gatk_realigner_target_creator/0.0.4: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_merge/sam_merge2/1.1.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_merge/sam_merge2/1.2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/2.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/2.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.1.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.1.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_bedcov/samtools_bedcov/2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_calmd/samtools_calmd/2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.1.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_reheader/samtools_reheader/2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/0.0.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/2.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/samtools_sort/2.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_split/samtools_split/1.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/scatterplot_rpy/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/quality_score_distribution/1.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/snpfreq/hgv_snpFreq/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/subtract/gops_subtract_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/subtract_query/subtract_query1/0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/t2ps/Draw_phylogram/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/t_test_two_samples/t_test_two_samples/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/table_recalibration/gatk_table_recalibration/0.0.5: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fastq/tabular_to_fastq/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat/tophat/1.5.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.6: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.7: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.9: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/2.1.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat_fusion_post/tophat_fusion_post/0.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/unified_genotyper/gatk_unified_genotyper/0.0.6: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/variant_annotator/gatk_variant_annotator/0.0.5: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/variant_apply_recalibration/gatk_variant_apply_recalibration/0.0.4: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/variant_combine/gatk_variant_combine/0.0.4: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/variant_eval/gatk_variant_eval/0.0.8: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/variant_filtration/gatk_variant_filtration/0.0.5: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/variant_recalibrator/gatk_variant_recalibrator/0.0.4: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/variant_select/gatk_variant_select/0.0.2: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/variant_select/gatk_variant_select/0.0.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/variants_validate/gatk_validate_variants/0.0.4: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcf2tsv/vcf2tsv/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfaddinfo/vcfaddinfo/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfallelicprimitives/vcfallelicprimitives/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfannotate/vcfannotate/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfannotategenotypes/vcfannotategenotypes/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfbedintersect/vcfbedintersect/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfbreakcreatemulti/vcfbreakcreatemulti/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfcheck/vcfcheck/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.4: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfcommonsamples/vcfcommonsamples/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcffixup/vcffixup/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfflatten/vcfflatten2/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfgeno2haplo/vcfgeno2haplo/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfgenotypes/vcfgenotypes/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfhethom/vcfhethom/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfleftalign/vcfleftalign/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfprimers/vcfprimers/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfrandomsample/vcfrandomsample/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfselectsamples/vcfselectsamples/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfvcfintersect/vcfvcfintersect/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/weblogo3/rgweblogo3/0.4: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/weightedaverage/wtavg/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/weightedaverage/wtavg/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/XY_Plot_1/1.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/guerler/charts/charts/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/guru-ananda/karyotype_plot/karyotype_Plot_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/guru-ananda/rhmm/hmm_1/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/cwpair2/cwpair2/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/2.1.8.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/genetrack/genetrack/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1.0.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1.0.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/2.0.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgbroadcall/2.1.0.20140616.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgbroadcall/2.1.0.20151222.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/2.1.0.20140616.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/2.1.0.20151222.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgdiff/2.1.0.20140616.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgdiff/2.1.0.20151222.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgpeakcall/2.1.0.20140616.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgpeakcall/2.1.0.20151222.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/2.1.0.20140616.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/2.1.0.20151222.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_filterdup/2.1.0.20140616.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_filterdup/2.1.0.20151222.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_predictd/2.1.0.20140616.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_predictd/2.1.0.20151222.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_randsample/2.1.0.20140616.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_randsample/2.1.0.20151222.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_refinepeak/2.1.0.20140616.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_refinepeak/2.1.0.20151222.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_meme/meme_meme/4.11.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_meme/meme_meme/4.11.0.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_meme/meme_meme/4.11.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/ngsutils_bam_filter/0.5.7.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/repmatch_gff3/repmatch_gff3/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.0.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.1.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.2.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie_merge/0.1.0: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vegan_diversity/vegan_diversity/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vegan_diversity/vegan_diversity/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vegan_fisher_alpha/vegan_fisher_alpha/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vegan_fisher_alpha/vegan_fisher_alpha/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vegan_rarefaction/vegan_rarefaction/0.0.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vegan_rarefaction/vegan_rarefaction/0.0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_alignment/1.1.3.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_alignment/1.9.7.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/1.1.3.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/1.9.7.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/1.1.3.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/1.9.7.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_dereplication/1.1.3.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_dereplication/1.9.7.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_masking/1.1.3.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_masking/1.9.7.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/1.1.3.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/1.9.7.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_shuffling/1.1.3.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_shuffling/1.9.7.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_sorting/1.1.3.2: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_sorting/1.9.7.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/fastq_join/1.1.2-806.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_cluster_kegg/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_coverage_distributions/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_discover_familial_relationships/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_diversity_pi/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_dpmix/1.2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_draw_variants/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_filter_gd_snp/1.2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_find_intervals/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_inbreeding_and_kinship/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_nucleotide_diversity_pi/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_offspring_heterozygosity_pedigree/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pathway_image/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_pca/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_phylogenetic_tree/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_prepare_population_structure/1.2.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_raxml/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/nick/duplex/align_families/0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/nick/duplex/align_families/0.5: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/nick/duplex/duplex/0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/nick/duplex/duplex/0.5: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/nick/duplex/make_families/0.3: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/nick/duplex/make_families/0.5: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/peterjc/venn_list/venn_list/0.0.9: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.1: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.3: {destination: slurm_multi_legacy}
+  toolshed.g2.bx.psu.edu/repos/tyty/structurefold/get_read_pipeline/1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/tyty/structurefold/iterative_map_pipeline/1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/tyty/structurefold/predict_pipeline/1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/tyty/structurefold/react_cal_pipeline/1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/combineproballelecom/2.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/fetchflank/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/GenotypeSTR/2.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/heteroprob/2.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/microsatcompat/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/microsatellite/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/microsatpurity/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/PEsortedSAM2readprofile/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/PEsortedSAM2readprofile/1.1.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/Profilegenerator/2.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/readdepth2seqdepth/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/space2underscore_readname/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/sam_bitwise_flag_filter/sam_bw_filter/1.0.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ARRG/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BamIndexStats/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReorderSam/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.56.1: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardASMetrics/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicFixMate/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardGCBiasMetrics/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardHsMetrics/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/PicardInsertSize/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/rgEstLibComp/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/rgPicardMarkDups/1.56.0: {destination: slurm_normal_legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.0: {destination: slurm_normal_legacy}
+
+  # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
+  alleyoop: {destination: multi}
+  bg_diamond: {destination: multi}
+  bg_diamond_makedb: {destination: multi}
+  bio_hansel: {destination: multi}
+  bowtie2: {destination: multi}
+  bowtie_wrapper: {destination: multi}
+  busco: {destination: multi}
+  bwa: {destination: multi}
+  bwa_mem: {destination: multi}
+  bwameth: {destination: multi}
+  bwa_wrapper: {destination: multi}
+  correct_barcodes: {destination: multi}
+  cuffdiff: {destination: multi}
+  cufflinks: {destination: multi}
+  cuffmerge: {destination: multi}
+  cuffnorm: {destination: multi}
+  cuffquant: {destination: multi}
+  cutadapt: {destination: multi}
+  dada2_assignTaxonomyAddspecies: {destination: multi}
+  dada2_dada: {destination: multi}
+  dada2_learnErrors: {destination: multi}
+  deseq2: {destination: multi}
+  dexseq: {destination: multi}
+  disco: {destination: multi}
+  dunovo: {destination: multi}
+  egsea: {destination: multi}
+  exonerate: {destination: multi}
+  fargene: {destination: multi}
+  fastp: {destination: multi}
+  featurecounts: {destination: multi}
+  flash: {destination: multi}
+  freebayes: {destination: multi}
+  gatk4_mutect2: {destination: multi}
+  gatk_count_covariates: {destination: multi}
+  gatk_realigner_target_creator: {destination: multi}
+  gatk_unified_genotyper: {destination: multi}
+  gatk_variant_eval: {destination: multi}
+  gatk_variant_recalibrator: {destination: multi}
+  gatk_variant_select: {destination: multi}
+  gubbins: {destination: multi}
+  heinz: {destination: multi}
+  hifive: {destination: multi}
+  hisat2: {destination: multi}
+  iqtree: {destination: multi}
+  iuc_pear: {destination: multi}
+  kallisto_pseudo: {destination: multi}
+  kallisto_quant: {destination: multi}
+  kobas_annotate: {destination: multi}
+  kraken: {destination: multi}
+  kraken2: {destination: multi}
+  lastz_wrapper_2: {destination: multi}
+  lofreq_call: {destination: multi}
+  lofreq_viterbi: {destination: multi}
+  maker: {destination: multi}
+  maxbin2: {destination: multi}
+  metaspades: {destination: multi}
+  migmap: {destination: multi}
+  minimap2: {destination: multi}
+  mlst: {destination: multi}
+  mothur_align_seqs: {destination: multi}
+  mothur_chimera_bellerophon: {destination: multi}
+  mothur_chimera_ccode: {destination: multi}
+  mothur_chimera_check: {destination: multi}
+  mothur_chimera_perseus: {destination: multi}
+  mothur_chimera_pintail: {destination: multi}
+  mothur_chimera_slayer: {destination: multi}
+  mothur_chimera_uchime: {destination: multi}
+  mothur_chimera_vsearch: {destination: multi}
+  mothur_chop_seqs: {destination: multi}
+  mothur_classify_seqs: {destination: multi}
+  mothur_cluster_split: {destination: multi}
+  mothur_dist_seqs: {destination: multi}
+  mothur_dist_shared: {destination: multi}
+  mothur_filter_seqs: {destination: multi}
+  mothur_get_communitytype: {destination: multi}
+  mothur_indicator: {destination: multi}
+  mothur_make_contigs: {destination: multi}
+  mothur_metastats: {destination: multi}
+  mothur_pairwise_seqs: {destination: multi}
+  mothur_parsimony: {destination: multi}
+  mothur_pcr_seqs: {destination: multi}
+  mothur_phylo_diversity: {destination: multi}
+  mothur_pre_cluster: {destination: multi}
+  mothur_primer_design: {destination: multi}
+  mothur_rarefaction_single: {destination: multi}
+  mothur_screen_seqs: {destination: multi}
+  mothur_seq_error: {destination: multi}
+  mothur_shhh_flows: {destination: multi}
+  mothur_shhh_seqs: {destination: multi}
+  mothur_summary_seqs: {destination: multi}
+  mothur_summary_shared: {destination: multi}
+  mothur_tree_shared: {destination: multi}
+  mothur_trim_flows: {destination: multi}
+  mothur_trim_seqs: {destination: multi}
+  mothur_unifrac_unweighted: {destination: multi}
+  mothur_unifrac_weighted: {destination: multi}
+  multigps: {destination: multi}
+  mummer_nucmer: {destination: multi}
+  nanoplot: {destination: multi}
+  nonpareil: {destination: multi}
+  pilon: {destination: multi}
+  pipelign: {destination: multi}
+  plant_tribes_assembly_post_processor: {destination: multi}
+  plant_tribes_gene_family_aligner: {destination: multi}
+  plant_tribes_gene_family_classifier: {destination: multi}
+  plant_tribes_gene_family_phylogeny_builder: {destination: multi}
+  plant_tribes_kaks_analysis: {destination: multi}
+  presto_alignsets: {destination: multi}
+  presto_assemblepairs: {destination: multi}
+  presto_buildconsensus: {destination: multi}
+  presto_filterseq: {destination: multi}
+  presto_maskprimers: {destination: multi}
+  prokka: {destination: multi}
+  qualimap_bamqc: {destination: multi}
+  quast: {destination: multi}
+  rbc_mafft: {destination: multi}
+  repeatmasker_wrapper: {destination: multi}
+  rnaspades: {destination: multi}
+  roary: {destination: multi}
+  sailfish: {destination: multi}
+  salmon: {destination: multi}
+  sam_to_bam: {destination: multi}
+  samtools_slice_bam: {destination: multi}
+  samtools_sort: {destination: multi}
+  scpipe: {destination: multi}
+  seqtk_mergefa: {destination: multi}
+  seqtk_mergepe: {destination: multi}
+  shovill: {destination: multi}
+  sina: {destination: multi}
+  sklearn_build_pipeline: {destination: multi}
+  sklearn_ensemble: {destination: multi}
+  sklearn_model_validation: {destination: multi}
+  sklearn_numeric_clustering: {destination: multi}
+  slamdunk: {destination: multi}
+  snippy: {destination: multi}
+  socru: {destination: multi}
+  spaln: {destination: multi}
+  stringtie: {destination: multi}
+  stringtie_merge: {destination: multi}
+  tag_pileup_frequency: {destination: multi}
+  tb_profiler_profile: {destination: multi}
+  td: {destination: multi}
+  tetyper: {destination: multi}
+  tophat: {destination: multi}
+  tophat2: {destination: multi}
+  tophat_fusion_post: {destination: multi}
+  transdecoder: {destination: multi}
+  trimmomatic: {destination: multi}
+  trinity_align_and_estimate_abundance: {destination: multi}
+  valet: {destination: multi}
+  varscan_somatic: {destination: multi}
+  velvetoptimiser: {destination: multi}
+  deeptools_bam_compare: {destination: multi}
+  deeptools_bam_coverage: {destination: multi}
+  deeptools_bam_pe_fragmentsize: {destination: multi}
+  deeptools_bigwig_compare: {destination: multi}
+  deeptools_compute_gc_bias: {destination: multi}
+  deeptools_compute_matrix: {destination: multi}
+  deeptools_correct_gc_bias: {destination: multi}
+  deeptools_multi_bam_summary: {destination: multi}
+  deeptools_multi_bigwig_summary: {destination: multi}
+  deeptools_plot_coverage: {destination: multi}
+  deeptools_plot_fingerprint: {destination: multi}
+  hyphy_absrel: {destination: multi}
+  hyphy_fel: {destination: multi}
+  hyphy_gard: {destination: multi}
+  hyphy_meme: {destination: multi}
+
+  # 1 core, 16 GB of memory, and a 36 hour walltime
+  join1: {destination: slurm_normal_16gb}
+  gops_join_1: {destination: slurm_normal_16gb}
+  gatk_indel_realigner: {destination: slurm_normal_16gb}
+  gatk_depth_of_coverage: {destination: slurm_normal_16gb}
+  gatk_table_recalibration: {destination: slurm_normal_16gb}
+  fastq_paired_end_joiner: {destination: slurm_normal_16gb}
+  bamtools: {destination: slurm_normal_16gb}
+  varscan: {destination: slurm_normal_16gb}
+  scatterplot_rpy: {destination: slurm_normal_16gb}
+  htseq_count: {destination: slurm_normal_16gb}
+  flanking_features_1: {destination: slurm_normal_16gb}
+  cummeRbund: {destination: slurm_normal_16gb}
+  collection_column_join: {destination: slurm_normal_16gb}
+  rseqc_read_duplication: {destination: slurm_normal_16gb}
+  rseqc_RPKM_saturation: {destination: slurm_normal_16gb}
+  rseqc_bam2wig: {destination: slurm_normal_16gb}
+  seqtk_sample: {destination: slurm_normal_16gb}
+  ggplot2_heatmap2: {destination: slurm_normal_16gb}
+  kc-align: {destination: slurm_normal_16gb}
+  porechop: {destination: slurm_normal_16gb}
+  read2mut: {destination: slurm_normal_16gb}
+  annotatemyids: {destination: slurm_normal_16gb}
+
+  # 1 core, 32 GB of memory, and a 36 hour walltime
+  Interval2Maf1: {destination: slurm_normal_32gb}
+
+  # TODO: maybe just send these to stampede?
+  # 1 core, 64 GB of memory, and a 36 hour walltime
+  wig_to_bigWig: {destination: slurm_normal_64gb}
+  CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb}
+
+  #
+  # Tools with special mappings
+  #
+
+  # Multicore tools that are not Pulsar/Jetstream friendly
+
+  # https://github.com/galaxyproject/tools-iuc/pull/3420
+  # add version comparison to job_router and you can undo this for newer versions
+  deseq2: {destination: slurm_multi}
+  # https://github.com/galaxyproject/pulsar/issues/239
+  cutadapt: {destination: slurm_multi}
+  # still investigating
+  stringtie: {destination: slurm_multi}
+
+  # STARSolo uses the same params and has the same requirements as STAR
+  rna_starsolo: rna_star
+
+  # STAR goes to either standard multi partitions (roundup/jetstream) or a special Jetstream m1.xlarge partition
+  rna_star:
+    # for built-in refs we need (refsize * 1.5) + 2GB
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      - name: refGenomeSource.GTFconditional.genomeDir
+        type: data_table_lookup
+        table_name: rnastar_index2
+        value_template: '{value}/SA'
+        op: '<'
+        value: 18G
+      destination: multi
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      destination: jetstream_tacc_xlarge
+
+    # for history refs we need (refsize * 11.0) + 2GB
+    - params:
+      - name: refGenomeSource.geneSource
+        value: history
+      - name: refGenomeSource.genomeFastaFiles
+        op: '<'
+        value: 2.5G
+      destination: multi
+    - params:
+      - name: refGenomeSource.geneSource
+        value: history
+      destination: jetstream_tacc_xlarge
+
+    # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
+    #- destination: slurm_normal
+
+  # Kraken goes to Stampede 2 SKX if the bacteria database is selected, otherwise it goes to standard multi
+  kraken:
+    # can be a list if you want to do different things with different params (or one thing with no checked params)
+    - params:
+        - name: kraken_database
+          value: bacteria
+      # can be a real id or key in 'destinations' dict below
+      destination: stampede_skx_normal
+    - destination: multi
+
+  # align_families gets 192 hours of walltime
+  align_families:
+    destination: slurm_multi_long
+    spec:
+     time: 192
+
+  fasterq_dump:
+    destination: multi_long
+
+  #
+  # Bridges Tools
+  #
+
+  # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
+  star_fusion:
+    destination: bridges_normal
+
+  abyss-pe:
+    destination: bridges_normal
+
+  # SPAdes (and thus Unicycler) uses at most 250GB
+  spades:
+    destination: bridges_normal
+    spec:
+      mem: 288G
+    env:
+      - execute: ulimit -s 24576
+
+  unicycler:
+    destination: bridges_normal
+    spec:
+      mem: 288G
+    env:
+      - execute: ulimit -s 24576
+
+  # Users should use the new version of Trinity
+  trinity_psc:
+    destination: bridges_normal
+
+  trinity:
+    # first matching param set is used
+    # for collection params, comparison is implicitly on size of pair member 0
+
+    # normalizing inputs < 10GB get 5 * 48GB = 240GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 10G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 240G, time: 72}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 10G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 240G, time: 72}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 10G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 240G, time: 72}
+
+    # normalizing 10G <= inputs < 100G get 10 * 48GB = 480GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 100G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 100G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 100G}
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+
+    # normalizing inputs >= 100G get 15 * 48GB = 720GB
+    - params:
+        - {name: norm, value: true}
+      destination: bridges_normal
+      spec: {mem: 720G, time: 96}
+
+    # not normalizing inputs < 10GB get 10 * 48GB = 480GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 10G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 10G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 10G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 480G, time: 96}
+
+    # not normalizing 10G <= inputs < 100G get 15 * 48GB = 720GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 100G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 720G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 100G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 720G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 100G}
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 720G, time: 96}
+
+    # not normalizing inputs >= 100G get 20 * 48GB = 960GB
+    - params:
+        - {name: norm, value: false}
+      destination: bridges_normal
+      spec: {mem: 960G, time: 96}
+
+    # default if no matching params (shouldn't happen)
+    - destination: bridges_normal
+      spec: {time: 24}
+
+  #
+  # Stampede tools
+  #
+  bwa_color_wrapper: {destination: stampede_normal}
+  bowtie_color_wrapper: {destination: stampede_normal}
+  megablast_wrapper: {destination: stampede_normal}
+  ncbi_blastn_wrapper: {destination: stampede_normal}
+  ncbi_blastp_wrapper: {destination: stampede_normal}
+  ncbi_blastx_wrapper: {destination: stampede_normal}
+  ncbi_rpsblast_wrapper: {destination: stampede_normal}
+  ncbi_tblastn_wrapper: {destination: stampede_normal}
+  ncbi_tblastx_wrapper: {destination: stampede_normal}
+
+# count of queued jobs in these destinations count against the other destinations (i.e. they're probably just slightly
+# different params on the same queue)
+share_job_counts:
+  -
+    - slurm_multi
+    - slurm_multi_legacy
+    - slurm_long
+    - reserved_slurm_multi
+  -
+    - jetstream_iu_multi
+    - jetstream_iu_multi_legacy
+    - jetstream_iu_multi_long
+    - reserved_jetstream_iu_multi
+
+# TODO: now that share_job_counts is implemented, drop dict in list dests?
+destinations:
+  #normal_legacy:
+  #  - id: slurm_legacy
+  #  - id: jetstream_iu_normal_legacy
+  multi_legacy:
+    - id: slurm_multi_legacy
+    - id: jetstream_iu_multi_legacy
+  multi:
+    - id: slurm_multi
+    - id: jetstream_iu_multi
+      # jetstream can run far fewer jobs than roundup, so we weight its job count by a factor of 2 since its throughput
+      # will be lower
+      queue_factor: 2
+      # could also set threshold: on each member, default is 4
+  reserved_multi:
+    - id: reserved_slurm_multi
+    - id: reserved_jetstream_iu_multi
+  multi_long:
+    - id: slurm_multi_long
+    - id: jetstream_iu_multi_long
+    - id: stampede_long
+  jetstream_multi:
+    - id: jetstream_iu_multi
+  slurm_multi:
+    valid:
+      - time
+  slurm_multi_long:
+    valid:
+      - time
+  jetstream_iu_multi:
+    valid:
+      - time
+  jetstream_iu_xlarge:
+    valid:
+      - time
+  stampede_normal:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 272
+      time: 48
+  stampede_development:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 272
+    override:
+      time: 2
+  stampede_skx_normal:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 96
+      time: 48
+  stampede_skx_development:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 96
+    override:
+      time: 2
+  #multi_long:
+  #  max:
+  #    time: 72
+  #jetstream_iu_multi_long:
+  #  max:
+  #    time: 72
+  stampede_long:
+    max:
+      time: 120
+  bridges_normal:
+    valid:
+      - mem
+      - time
+    override:
+      mem: 720G
+    normalize:
+      mem: 48G
+  bridges_development:
+    valid:
+      - mem
+      - time
+    override:
+      mem: 720G
+    normalize:
+      mem: 48G
+
+groups:
+  Job Priority Users:
+    destination_overrides:
+      slurm_normal: reserved_slurm_normal
+      slurm_normal_16gb: reserved_slurm_normal_16gb
+      slurm_normal_32gb: reserved_slurm_normal_32gb
+      multi: reserved_multi
+  Job Resource Param Users:
+    param_overrides: true
