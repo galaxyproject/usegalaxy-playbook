@@ -234,8 +234,9 @@ execution:
       k8s_namespace: ndc
       k8s_walltime_limit: 86400  # 24 hours
       #jobs_directory: /not/a/real/path
-      pulsar_app_config:
-        message_queue_url: {{ galaxy_job_conf_amqp_url }}
+      pulsar_app_config_path: {{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml
+      #pulsar_app_config:
+      #  message_queue_url: {{ galaxy_job_conf_amqp_url }}
         #managers:
         #  tacc_k8s:
         #    type: queued_python

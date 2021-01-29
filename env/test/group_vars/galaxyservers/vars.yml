@@ -368,3 +368,5 @@ galaxy_config_templates:
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_backends_config_file'] }}"
   - src: templates/galaxy/config/job_router_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/job_router_conf.yml"
+  - src: templates/galaxy/config/tacc_k8s_pulsar_app_config.yml.j2
+    dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
