@@ -21,6 +21,7 @@ galaxy_log_dir: "{{ galaxy_root }}/log"
 galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_cache"
 galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
 galaxy_object_store_cache_path: "/galaxy-repl/{{ galaxy_instance_codename }}/object_store_cache"
+galaxy_interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite"
 
 
 ## used by: galaxyproject.galaxy
@@ -143,7 +144,7 @@ base_app_main: &BASE_APP_MAIN
   interactivetools_enable: true
   # TODO: required?
   interactivetools_proxy_host: test.galaxyproject.org
-  interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite"
+  interactivetools_map: "{{ galaxy_interactivetools_map }}"
 
   # general stuff
 

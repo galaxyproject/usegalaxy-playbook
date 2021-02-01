@@ -4,7 +4,7 @@
 
 [program:galaxy_{{ galaxy_instance_codename }}_gxit_proxy]
 ; FIXME: IP and port should not be hardcoded
-command         = /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/node /srv/galaxy/{{ galaxy_instance_codename }}/var/gx-it-proxy/lib/main.js  --port 8910 --sessions /srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite --forwardIP 172.16.120.50 --forwardPort 31946 --verbose
+command         = /{{ gxit_proxy_nodeenv }}/bin/node /srv/galaxy/{{ galaxy_instance_codename }}/var/gx-it-proxy/lib/main.js  --port 8910 --sessions {{ galaxy_interactivetools_map }} --forwardIP {{ gxit_proxy_forward_ip }} --forwardPort {{ gxit_proxy_forward_port }} --verbose
 directory       = /srv/galaxy/{{ galaxy_instance_codename }}/var
 umask           = 022
 autostart       = true

@@ -206,4 +206,35 @@ server {
 
 }
 
+# Galaxy Interactive Tools (GxITs)
+server {
+    listen       *:443 ssl;
+    server_name  *.interactivetool.usegalaxy.org;
+
+    # Enable HSTS (age is 180 days)
+    add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
+
+    access_log  /var/log/nginx/main-gxit-proxy.access.log;
+    error_log   /var/log/nginx/main-gxit-proxy.error.log;
+
+    location / {
+        proxy_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_pass http://localhost:8910;
+    }
+
+    # error docs
+    error_page  502 503 504 /error/502/index.shtml;
+    error_page  413         /error/413/index.html;
+    location /error {
+        ssi on;
+        root /srv/nginx/galaxy;
+    }
+
+}
+
 # vim: set filetype=nginx
