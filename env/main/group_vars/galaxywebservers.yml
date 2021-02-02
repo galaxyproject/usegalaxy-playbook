@@ -29,10 +29,12 @@ nginx_extra_configs:
 
 certbot_domains:
   - usegalaxy.org
+  - '*.interactivetoolentrypoint.interactivetool.usegalaxy.org'
   - "{{ inventory_hostname_short }}.galaxyproject.org"
   - www.usegalaxy.org
-  - main.g2.bx.psu.edu
-  - test.g2.bx.psu.edu
+  # FIXME: can't DNS-01 these, move to somewhere that we can WEB-01 them and just redirect appropriately
+  #- main.g2.bx.psu.edu
+  #- test.g2.bx.psu.edu
 
 
 ## used by the sysctl task in the galaxy_infrastructure playbook

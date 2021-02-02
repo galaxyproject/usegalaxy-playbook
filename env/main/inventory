@@ -15,6 +15,23 @@ galaxywebservers
 galaxywebservers
 galaxystagingservers
 
+[certbotservers]
+[certbotservers:children]
+certbotdnsservers
+
+# provides:
+#   - certbot DNS-01 rfc2136 provider config
+# overrides WEB-01 (webroot) mode
+[certbotdnsservers]
+[certbotdnsservers:children]
+galaxywebservers
+
+# provides:
+#   - certbot TSIG key to certbot webservers
+[certbottsigkeyservers]
+[certbottsigkeyservers:children]
+certbotdnsservers
+
 [dbservers]
 [dbservers:children]
 galaxydbservers

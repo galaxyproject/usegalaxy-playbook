@@ -28,6 +28,8 @@ nginx_ssl_servers:
 certbot_domains:
   - "{{ inventory_hostname_short }}.galaxyproject.org"
 
+certbot_auth_method: --webroot
+
 
 ## used by the sysctl task in the galaxy_infrastructure playbook
 sysctl_conf:
