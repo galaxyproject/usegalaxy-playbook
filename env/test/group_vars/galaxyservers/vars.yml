@@ -1,6 +1,7 @@
 ---
 
 # FIXME:
+gxit_proxy_port: 8910
 gxit_proxy_forward_ip: 172.16.120.50
 gxit_proxy_forward_port: 31946
 gxit_proxy_nodeenv: /cvmfs/test.galaxyproject.org/venv
@@ -204,16 +205,6 @@ galaxy_installer_venv_dir: "{{ galaxy_venv_dir }}"
 galaxy_datamanager_venv_dir: "{{ galaxy_venv_dir }}"
 
 
-usegalaxy_nagios_tools:
-  - echo_test_handler0
-  - echo_test_handler1
-  - echo_test_cluster
-  - echo_test_jetstream_iu
-  - echo_test_jetstream_tacc
-  - echo_test_stampede
-  - echo_test_bridges
-
-
 ## used by usegalaxy_privileged
 galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
 usegalaxy_dynamic_job_rules:
@@ -332,8 +323,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
   - src: files/galaxy/config/tool_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
-  - src: files/galaxy/config/nagios_tool_conf.xml
-    dest: "{{ galaxy_config_dir }}/nagios_tool_conf.xml"
   - src: files/galaxy/config/data_manager_conf.xml
     dest: "{{ galaxy_config[galaxy_app_config_section]['data_manager_config_file'] }}"
   - src: files/galaxy/config/tool_sheds_conf.xml

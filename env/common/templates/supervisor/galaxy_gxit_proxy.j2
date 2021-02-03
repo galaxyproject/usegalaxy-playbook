@@ -4,13 +4,13 @@
 
 [program:galaxy_{{ galaxy_instance_codename }}_gxit_proxy]
 ; FIXME: IP and port should not be hardcoded
-command         = /{{ gxit_proxy_nodeenv }}/bin/node /srv/galaxy/{{ galaxy_instance_codename }}/var/gx-it-proxy/lib/main.js  --port 8910 --sessions {{ galaxy_interactivetools_map }} --forwardIP {{ gxit_proxy_forward_ip }} --forwardPort {{ gxit_proxy_forward_port }} --verbose
+command         = {{ gxit_proxy_nodeenv }}/bin/node /srv/galaxy/{{ galaxy_instance_codename }}/var/gx-it-proxy/lib/main.js  --port {{ gxit_proxy_port }} --sessions {{ galaxy_interactivetools_map }} --forwardIP {{ gxit_proxy_forward_ip }} --forwardPort {{ gxit_proxy_forward_port }} --verbose
 directory       = /srv/galaxy/{{ galaxy_instance_codename }}/var
 umask           = 022
 autostart       = true
 autorestart     = true
 startsecs       = 5
-user            = g2test
+user            = {{ galaxy_user }}
 numprocs        = 1
 stdout_logfile  = /srv/galaxy/{{ galaxy_instance_codename }}/log/gxit_proxy.log
 redirect_stderr = true

@@ -8,10 +8,10 @@
 galaxy_job_conf_tools:
   - id: random_lines1
     environment: tacc_k8s
-    handler: multi
+    handler: k8s
   - id: interactive_tool_jupyter_notebook
     environment: tacc_k8s
-    handler: multi
+    handler: k8s
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"

@@ -1,11 +1,5 @@
 ---
 
-- name: Copy nagios tools
-  copy:
-    src: files/galaxy/nagios/{{ item }}.xml
-    dest: /srv/galaxy/{{ galaxy_instance_codename }}/nagios/{{ item }}.xml
-  with_items: "{{ usegalaxy_nagios_tools }}"
-
 # set up dynamic rules
 - name: Create dynamic rule directories
   file:

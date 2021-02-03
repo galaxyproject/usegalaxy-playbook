@@ -22,8 +22,7 @@ galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/to
 # for future use
 #galaxy_object_store_cache_path: "/galaxy-repl/{{ galaxy_instance_codename }}/object_store_cache"
 
-# this is probably not going to work
-galaxy_interactivetools_map: "/galaxy-repl/{{ galaxy_instance_codename }}/config/interactivetools_map.sqlite"
+galaxy_interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite"
 
 
 ## used by: galaxyproject.galaxy
@@ -66,7 +65,7 @@ base_app_main: &BASE_APP_MAIN
   # paths
 
   config_dir: "{{ galaxy_config_dir }}"
-  tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }},{{ galaxy_config_dir }}/nagios_tool_conf.xml"
+  tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }}"
   tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
   job_working_directory: "{{ galaxy_job_working_directory }}"
   tool_data_path: /galaxy-repl/main/tool_data

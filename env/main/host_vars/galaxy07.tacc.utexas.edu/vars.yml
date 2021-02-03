@@ -1,0 +1,20 @@
+---
+
+# NOTE: this is duplicated from group_vars/supervisorservers in the test env. This overrides the group var setting for
+# creating ~g2main/etc/supervisor.conf since Test and Main's supervisords use different passwords.
+supervisord_inet_pass: "{{ vault_supervisord_inet_pass }}"
+
+galaxy_job_conf_pulsar_galaxy_url: https://galaxy-web-03.galaxyproject.org
+
+galaxy_host_codename: main_k8s
+
+## used by: supervisor
+galaxy_handlers:
+  - pool: k8s
+    count: 1
+
+#galaxyjobservers_group_supervisor_configs:
+host_supervisor_configs:
+  - galaxy_main_k8s
+
+# NOTE: nginx configs are in the test env

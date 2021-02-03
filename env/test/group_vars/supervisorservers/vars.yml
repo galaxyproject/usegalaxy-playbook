@@ -1,5 +1,7 @@
 ---
 
+# NOTE: supervisord_inet_pass is duplicated in the host config for galaxy07 in the main env for Main's k8s runner
+
 supervisord_install: package
 
 supervisord_inet_user: "{{ vault_supervisord_inet_user }}"

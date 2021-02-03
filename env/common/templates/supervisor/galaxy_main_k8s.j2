@@ -1,0 +1,40 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+{% set ns = namespace(numprocs_start=0) %}
+{% for handler_specs in galaxy_handlers %}
+
+[program:galaxy_handler_{{ handler_specs.pool | default('default') }}]
+command         = /usr/bin/sg {{ galaxy_system_group }} '{{ galaxy_venv_dir }}/bin/python ./scripts/galaxy-main -c {{ galaxy_config_file }} --server-name={{ galaxy_host_codename }}_handler%(process_num)s --attach-to-pool=job-handlers{{ '.' ~ handler_specs.pool if handler_specs.pool is defined else '' }}'
+directory       = {{ galaxy_server_dir }}
+process_name    = handler%(process_num)s
+numprocs        = {{ handler_specs.count }}
+numprocs_start  = {{ ns.numprocs_start }}
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 30
+stopwaitsecs    = 180
+user            = {{ galaxy_user }}
+environment     = HOME={{ ('~' ~ galaxy_user) | expanduser }},VIRTUAL_ENV={{ galaxy_venv_dir }},PATH={{ galaxy_venv_dir }}/bin:/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_conda/envs/set_meta/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin,PYTHONPATH={{ galaxy_dynamic_rule_dir }}
+stdout_logfile  = {{ galaxy_log_dir }}/handler%(process_num)s.log
+stdout_logfile_maxbytes = 128MB
+stdout_logfile_backups = 64
+redirect_stderr = true
+{% set ns.numprocs_start = ns.numprocs_start + handler_specs.count %}
+{% endfor %}
+
+[program:galaxy_{{ galaxy_instance_codename }}_gxit_proxy]
+command         = {{ gxit_proxy_nodeenv }}/bin/node /srv/galaxy/{{ galaxy_instance_codename }}/proxy/gx-it-proxy/lib/main.js  --port {{ gxit_proxy_port }} --sessions {{ galaxy_interactivetools_map }} --forwardIP {{ gxit_proxy_forward_ip }} --forwardPort {{ gxit_proxy_forward_port }} --verbose
+directory       = /srv/galaxy/{{ galaxy_instance_codename }}/var
+umask           = 022
+autostart       = true
+autorestart     = true
+startsecs       = 5
+user            = {{ galaxy_user }}
+numprocs        = 1
+stdout_logfile  = /srv/galaxy/{{ galaxy_instance_codename }}/log/gxit_proxy.log
+redirect_stderr = true
+
+[group:galaxy_{{ galaxy_instance_codename }}]
+programs = galaxy_handler_k8s

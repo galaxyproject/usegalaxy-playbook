@@ -5,7 +5,6 @@ galaxywebservers_group_supervisor_configs:
   - galaxy
   - galaxy_impersonate
   - galaxy_group
-  - galaxy_gxit_proxy
 
 
 # TODO: disable 1.0, 1.1
@@ -28,7 +27,6 @@ nginx_extra_configs:
 
 certbot_domains:
   - usegalaxy.org
-  - '*.interactivetoolentrypoint.interactivetool.usegalaxy.org'
   - "{{ inventory_hostname_short }}.galaxyproject.org"
   - www.usegalaxy.org
   # FIXME: can't DNS-01 these, move to somewhere that we can WEB-01 them and just redirect appropriately

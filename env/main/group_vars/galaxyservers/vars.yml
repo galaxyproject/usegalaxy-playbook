@@ -1,11 +1,15 @@
 ---
 
 # FIXME:
-# this is the real IP tunneled with `ssh -fNT -L 31946:172.16.120.50:31946 galaxy09`
-#gxit_proxy_forward_ip: 172.16.120.50
-gxit_proxy_forward_ip: 127.0.0.1
+#   - The proxy was cloned by hand in /srv/galaxy/main/proxy/gx-it-proxy
+#   - venv w/ nodeenv and node 10.15.3 installed by hand in /srv/galaxy/main/proxy/venv
+#   - npm install run by hand (must activate venv or otherwise have venv's node on path)
+#   - NOTE: node 12+ does not work with the pinned sqlite3 package.
+#   - gxit_proxy_port is hardcoded in the nginx template since that template is deployed from the test env
+gxit_proxy_port: 8980
+gxit_proxy_forward_ip: 172.16.120.50
 gxit_proxy_forward_port: 31946
-gxit_proxy_nodeenv: /srv/galaxy/main/var/gx-it-proxy/nodeenv
+gxit_proxy_nodeenv: /srv/galaxy/main/proxy/venv
 
 ## these vars are defined in vault.yml
 #
@@ -56,7 +60,6 @@ __handler_multi_plugins:
   - jetstream_tacc
   - stampede
   - bridges
-  - tacc_k8s
 
 galaxy_job_conf_handlers:
   - id: main_w3_handler0
@@ -83,6 +86,11 @@ galaxy_job_conf_handlers:
     plugins: "{{ __handler_multi_plugins }}"
     tags:
       - multi
+  - id: main_k8s_handler0
+    plugins:
+      - tacc_k8s
+    tags:
+      - k8s
 
 # NOTE: do not include job_router, it is included by default
 galaxy_job_conf_extra_dynamic_rules:
@@ -206,20 +214,6 @@ galaxy_errordocs_502_message: |
   or the
   <a href="https://twitter.com/galaxyproject">@galaxyproject Twitter feed</a>.
 
-## used by: usegalaxy_privileged
-usegalaxy_nagios_tools:
-  - echo_main_w1_handler0
-  - echo_main_w1_handler1
-  - echo_main_w1_handler2
-  - echo_main_w2_handler0
-  - echo_main_w2_handler1
-  - echo_main_w2_handler2
-  - echo_main_cluster
-  - echo_main_jetstream_iu
-  - echo_main_jetstream_tacc
-  - echo_main_stampede
-  - echo_main_bridges
-
 
 ## used by usegalaxy_privileged and templating job_conf.yml
 galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
@@ -249,8 +243,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
   - src: files/galaxy/config/tool_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
-  - src: files/galaxy/config/nagios_tool_conf.xml
-    dest: "{{ galaxy_config_dir }}/nagios_tool_conf.xml"
   - src: files/galaxy/config/object_store_conf.xml
     dest: "{{ galaxy_config[galaxy_app_config_section]['object_store_config_file'] }}"
   - src: files/galaxy/config/data_manager_conf.xml
