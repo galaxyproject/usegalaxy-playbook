@@ -58,7 +58,11 @@ tools:
   # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
 {# this is a large automatically generated list maintained in env/<env>/group_vars/galaxyservers/tools_conf.yml #}
 {% for tool_id in galaxy_multicore_tools %}
+{% if tool_id in galaxy_pulsar_incompatible_tools %}
+  {{ tool_id }}: {destination: slurm_multi}
+{% else %}
   {{ tool_id }}: {destination: multi}
+{% endif %}
 {% endfor %}
 
   # 1 core, 16 GB of memory, and a 36 hour walltime
@@ -102,8 +106,6 @@ tools:
   # https://github.com/galaxyproject/tools-iuc/pull/3420
   # add version comparison to job_router and you can undo this for newer versions
   deseq2: {destination: slurm_multi}
-  # https://github.com/galaxyproject/pulsar/issues/239
-  cutadapt: {destination: slurm_multi}
   # still investigating
   stringtie: {destination: slurm_multi}
 
