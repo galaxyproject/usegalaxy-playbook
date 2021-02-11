@@ -188,7 +188,6 @@ __galaxy_multicore_tools_include:
 # in the lists above.
 #
 __galaxy_multicore_tools:
-  - abyss-pe
   - align_families
   - alleyoop
   - bg_diamond
@@ -204,6 +203,8 @@ __galaxy_multicore_tools:
   - bwameth
   - bwa_wrapper
   - correct_barcodes
+  - ctb_pubchem_download_assays
+  - ctb_pubchem_download_as_smiles
   - cuffdiff
   - cufflinks
   - cuffmerge
@@ -224,6 +225,7 @@ __galaxy_multicore_tools:
   - fastp
   - featurecounts
   - flash
+  - flye
   - freebayes
   - gatk4_mutect2
   - gatk_count_covariates
@@ -232,12 +234,16 @@ __galaxy_multicore_tools:
   - gatk_variant_eval
   - gatk_variant_recalibrator
   - gatk_variant_select
+  - gmx_em
+  - gmx_sim
   - gubbins
   - heinz
   - hifive
   - hisat2
+  - hyphy_relax
   - iqtree
   - iuc_pear
+  - ivar_trim
   - kallisto_pseudo
   - kallisto_quant
   - kobas_annotate
@@ -248,6 +254,10 @@ __galaxy_multicore_tools:
   - lofreq_viterbi
   - maker
   - maxbin2
+  - medaka_consensus
+  - medaka_consensus_pipeline
+  - medaka_variant_pipeline
+  - megahit
   - metaspades
   - migmap
   - minimap2
@@ -291,8 +301,10 @@ __galaxy_multicore_tools:
   - mothur_unifrac_weighted
   - multigps
   - mummer_nucmer
+  - mz_to_sqlite
   - nanoplot
   - nonpareil
+  - peptide_shaker
   - pilon
   - pipelign
   - plant_tribes_assembly_post_processor
@@ -308,17 +320,22 @@ __galaxy_multicore_tools:
   - prokka
   - qualimap_bamqc
   - quast
+  - racon
+  - rapidnj
   - rbc_mafft
   - repeatmasker_wrapper
   - rnaspades
   - rna_star
+  - rna_starsolo
   - roary
   - sailfish
   - salmon
   - sam_to_bam
   - samtools_slice_bam
   - samtools_sort
+  - scanpy_remove_confounders
   - scpipe
+  - search_gui
   - seqtk_mergefa
   - seqtk_mergepe
   - shovill
@@ -332,6 +349,7 @@ __galaxy_multicore_tools:
   - socru
   - spades
   - spaln
+  - staramr_search
   - star_fusion
   - stringtie
   - stringtie_merge
@@ -350,6 +368,7 @@ __galaxy_multicore_tools:
   - unicycler
   - valet
   - varscan_somatic
+  - velveth
   - velvetoptimiser
 
 # legacy tools that expect `python` to be Python 2
