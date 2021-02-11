@@ -179,6 +179,9 @@ galaxy_job_conf_limits:
   - type: environment_user_concurrent_jobs
     id: jetstream_tacc_xlarge
     value: 1
+  - type: environment_user_concurrent_jobs
+    id: tacc_k8s
+    value: 1
 
   # per-environments total limits
   - type: environment_total_concurrent_jobs
