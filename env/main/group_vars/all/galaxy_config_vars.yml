@@ -169,9 +169,19 @@ base_app_main: &BASE_APP_MAIN
   monitor_thread_join_timeout: 60
   cache_user_job_count: "True"
   max_metadata_value_size: 1000000
-  tool_search_limit: 30
-  tool_name_boost: 12
-  tool_section_boost: 5
+
+  #tool_search_limit: 30
+  #tool_name_boost: 12
+  #tool_section_boost: 5
+
+  # tool search index build params from usegalaxy.eu
+  tool_name_boost: 0.1
+  tool_section_boost: 1
+  tool_description_boost: 0.1
+  tool_label_boost: 1
+  tool_stub_boost: 1
+  tool_help_boost: 1
+  tool_search_limit: 160
 
   conda_prefix: "/cvmfs/main.galaxyproject.org/deps/_conda"
 
