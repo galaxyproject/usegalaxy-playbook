@@ -158,6 +158,9 @@ galaxy_job_conf_limits:
   - type: environment_user_concurrent_jobs
     id: jetstream_tacc_xlarge
     value: 1
+  - type: environment_user_concurrent_jobs
+    id: tacc_k8s
+    value: 1
 
   # per-environments total limits
   - type: environment_total_concurrent_jobs
@@ -316,6 +319,10 @@ containers_yaml:
 
 
 # galaxy_config hash moved to group_vars/all/galaxy_config_vars.yml
+
+galaxy_local_tools_dir: "{{ galaxy_root }}/tools"
+galaxy_local_tools:
+  - echo.xml
 
 # specifies config files to copy from the playbook
 galaxy_config_files:
