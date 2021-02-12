@@ -518,7 +518,7 @@ def __update_env(destination, envs):
 
 def __is_training_history(job, tool_id):
     try:
-        return (any([hta.user_value == 'training' for hta in job.history.tags])
+        return (any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags])
                 and not tool_id.startswith('interactive_tool_'))
     except:
         local.log.warning("Failed to read tags")
@@ -560,8 +560,11 @@ def job_router(app, job, tool, resource_params, user_email):
         local.log.debug("Spec for tool '%s' after resource param selection: %s", tool_id, spec or 'none')
     elif __is_training_history(job, tool_id):
         # FIXME: short circuit for training jobs, make configurable
-        local.log.info("Job is in a training history, mapped to slurm_training destination")
-        return 'slurm_training'
+        destination_id = 'slurm_training'
+        if tool_mapping and 'multi' in tool_mapping['destination']:
+            destination_id = 'slurm_training_multi'
+        local.log.info("Job is in a training history, mapped to %s destination", destination_id)
+        return destination_id
     elif tool_mapping:
         destination_id = tool_mapping['destination']
         destination_id = __resolve_destination(app, job, user_email, destination_id)

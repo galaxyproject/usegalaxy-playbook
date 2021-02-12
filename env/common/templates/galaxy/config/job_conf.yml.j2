@@ -10,7 +10,8 @@
 -#}
 
 {%- set slurm_environments = (
-    {'id': 'training', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=00:40:00 --mem=1920', 'java_mem': 1, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
+    {'id': 'training', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=00:40:00 --mem=3840', 'java_mem': 3, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
+    {'id': 'training_multi', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:40:00 --mem=7680', 'java_mem': 7, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
     {'id': 'normal', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00', 'java_mem': 7, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['normal']},
     {'id': 'normal_16gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360', 'java_mem': 15, 'create_reserved_env': true},
     {'id': 'normal_32gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=30720', 'java_mem': 30, 'create_reserved_env': true},
@@ -79,6 +80,8 @@
 {%- macro env_pulsar_envs() -%}
         - name: LC_ALL
           value: C
+        - name: TERM
+          value: vt100
 {%- endmacro %}
 
 {%- macro env_temp_envs() -%}
