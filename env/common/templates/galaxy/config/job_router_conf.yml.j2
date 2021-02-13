@@ -185,11 +185,16 @@ tools:
       - execute: ulimit -s 24576
 
   unicycler:
-    destination: bridges_normal
-    spec:
-      mem: 288G
-    env:
-      - execute: ulimit -s 24576
+    # Use multi for very small (e.g. training) datasets
+    - params:
+        - {name: fastq_input1, op: '<', value: 100M}
+      destination: multi
+    # Otherwise standard Bridges
+    - destination: bridges_normal
+      spec:
+        mem: 288G
+      env:
+        - execute: ulimit -s 24576
 
   # Users should use the new version of Trinity
   trinity_psc:
