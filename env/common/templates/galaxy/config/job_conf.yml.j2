@@ -166,6 +166,7 @@ handling:
   assign:
     - db-skip-locked
   max_grab: 16
+  ready_window_size: 32
   processes:
 {% for handler in galaxy_job_conf_handlers %}
     {{ handler.id }}:
