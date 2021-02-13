@@ -136,7 +136,7 @@ galaxy_job_conf_limits:
   # per-environments per-user limits
   - type: environment_user_concurrent_jobs
     id: training
-    value: 4
+    value: 3
   - type: environment_user_concurrent_jobs
     id: normal
     #value: 6
@@ -154,7 +154,7 @@ galaxy_job_conf_limits:
   - type: environment_user_concurrent_jobs
     id: multi
     #value: 3
-    value: 2
+    value: 1
   - type: environment_user_concurrent_jobs
     id: slurm_multi_development
     value: 1
