@@ -165,7 +165,7 @@ handling:
   #default: handlers
   assign:
     - db-skip-locked
-  max_grab: 4
+  max_grab: 16
   processes:
 {% for handler in galaxy_job_conf_handlers %}
     {{ handler.id }}:

@@ -57,12 +57,13 @@ base_app_main: &BASE_APP_MAIN
         filters:
         - stack
         formatter: stack
-        level: TRACE
+        #level: TRACE
+        level: DEBUG
         stream: ext://sys.stderr
     loggers:
-      galaxy:
-        level: TRACE
-        qualname: galaxy
+      #galaxy:
+      #  level: TRACE
+      #  qualname: galaxy
       paste.httpserver.ThreadPool:
         level: WARN
         qualname: paste.httpserver.ThreadPool
