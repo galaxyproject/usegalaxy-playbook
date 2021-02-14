@@ -525,6 +525,13 @@ def __is_training_history(job, tool_id):
         return False
 
 
+def __is_training_compatible_tool(tool_id):
+    return tool_id not in (
+        'kraken2',
+        'unicycler',
+    )
+
+
 def job_router(app, job, tool, resource_params, user_email):
     tool_mapping = None
 
@@ -558,7 +565,7 @@ def job_router(app, job, tool, resource_params, user_email):
             local.log.debug("Mapped spec for tool '%s' was (prior to resource param selection): %s", tool_id, spec)
         spec.update(user_spec)
         local.log.debug("Spec for tool '%s' after resource param selection: %s", tool_id, spec or 'none')
-    elif __is_training_history(job, tool_id):
+    elif __is_training_history(job, tool_id) and __is_training_compatible_tool(tool_id):
         # FIXME: short circuit for training jobs, make configurable
         destination_id = 'slurm_training'
         if tool_mapping and 'multi' in tool_mapping['destination']:
