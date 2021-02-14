@@ -534,6 +534,12 @@ def __is_training_compatible_tool(tool_id):
     )
 
 
+def __is_training_multi_large_tool(tool_id):
+    return tool_id in (
+        'minimap2',
+    )
+
+
 def job_router(app, job, tool, resource_params, user_email):
     tool_mapping = None
 
@@ -570,7 +576,9 @@ def job_router(app, job, tool, resource_params, user_email):
     elif __is_training_history(job, tool_id) and __is_training_compatible_tool(tool_id):
         # FIXME: short circuit for training jobs, make configurable
         destination_id = 'slurm_training'
-        if tool_mapping and 'multi' in tool_mapping['destination']:
+        if __is_training_multi_large_tool(tool_id):
+            destination_id = 'slurm_training_multi_large'
+        elif tool_mapping and 'multi' in tool_mapping['destination']:
             destination_id = 'slurm_training_multi'
         local.log.info("Job is in a training history, mapped to %s destination", destination_id)
         return destination_id
