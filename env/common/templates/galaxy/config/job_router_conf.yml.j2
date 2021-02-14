@@ -127,6 +127,17 @@ tools:
         value: indexed
       - name: refGenomeSource.GTFconditional.genomeDir
         type: data_table_lookup
+        table_name: rnastar_index2x_versioned
+        value_template: '{value}/SA'
+        op: '<'
+        value: 18G
+      destination: multi
+    # same as above but for older versions of the tool
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      - name: refGenomeSource.GTFconditional.genomeDir
+        type: data_table_lookup
         table_name: rnastar_index2
         value_template: '{value}/SA'
         op: '<'
@@ -161,6 +172,25 @@ tools:
           value: bacteria
       # can be a real id or key in 'destinations' dict below
       destination: stampede_skx_normal
+    - destination: multi
+
+  kraken2:
+    - params:
+      - name: kraken2_database
+        type: data_table_lookup
+        table_name: kraken2_databases
+        value_template: '{value}/hash.k2d'
+        op: '>'
+        value: 84G
+      destination: stampede_skx_normal
+    - params:
+      - name: kraken2_database
+        type: data_table_lookup
+        table_name: kraken2_databases
+        value_template: '{value}/hash.k2d'
+        op: '>'
+        value: 24G
+      destination: stampede_normal
     - destination: multi
 
   # align_families gets 192 hours of walltime
