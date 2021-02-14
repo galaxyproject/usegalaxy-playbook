@@ -531,12 +531,13 @@ def __is_training_compatible_tool(tool_id):
         'unicycler',
         'rna_starsolo',
         'rna_star',
+        'minimap2',
     )
 
 
 def __is_training_multi_large_tool(tool_id):
     return tool_id in (
-        'minimap2',
+        'bowtie2',
     )
 
 
