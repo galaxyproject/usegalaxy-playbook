@@ -529,6 +529,8 @@ def __is_training_compatible_tool(tool_id):
     return tool_id not in (
         'kraken2',
         'unicycler',
+        'rna_starsolo',
+        'rna_star',
     )
 
 
