@@ -114,6 +114,13 @@ tools:
 
   # STAR goes to either standard multi partitions (roundup/jetstream) or a special Jetstream m1.xlarge partition
   rna_star:
+    # small input test
+    #   nope - STAR memory requirements are based on the size of the reference
+    #- params:
+    #  - name: sc.input_types.input1
+    #    op: '<'
+    #    value: 100M
+    #  destination: multi
     # for built-in refs we need (refsize * 1.5) + 2GB
     - params:
       - name: refGenomeSource.geneSource
