@@ -11,35 +11,35 @@
 
 {%- set slurm_environments = (
     {'id': 'training', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=00:40:00 --mem=3840', 'java_mem': 3, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
-    {'id': 'training_multi', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:40:00 --mem=7680', 'java_mem': 7, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
-    {'id': 'normal', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00', 'java_mem': 7, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['normal']},
-    {'id': 'normal_16gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360', 'java_mem': 15, 'create_reserved_env': true},
-    {'id': 'normal_32gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=30720', 'java_mem': 30, 'create_reserved_env': true},
-    {'id': 'normal_64gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=61440', 'java_mem': 60, 'create_reserved_env': true},
-    {'id': 'multi', 'native_spec': '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
+    {'id': 'training_multi', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=01:20:00 --mem=7680', 'java_mem': 7, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
+    {'id': 'normal', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=08:00:00', 'java_mem': 7, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['normal']},
+    {'id': 'normal_16gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=06:00:00 --mem=15360', 'java_mem': 15, 'create_reserved_env': true},
+    {'id': 'normal_32gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=04:00:00 --mem=30720', 'java_mem': 30, 'create_reserved_env': true},
+    {'id': 'normal_64gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=02:00:00 --mem=61440', 'java_mem': 60, 'create_reserved_env': true},
+    {'id': 'multi', 'native_spec': '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=12:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
     {'id': 'multi_development', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:30:00', 'java_mem': 15},
-    {'id': 'multi_long', 'native_spec': '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00', 'java_mem': 28, 'tags': ['multi_long']},
+    {'id': 'multi_long', 'native_spec': '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=12:00:00', 'java_mem': 28, 'tags': ['multi_long']},
 ) %}
 
 {%- set jetstream_environments = (
-    {'id': 'iu_multi', 'runner': 'jetstream_iu', 'native_spec': '--partition=multi --nodes=1 --time=36:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
-    {'id': 'iu_multi_long', 'runner': 'jetstream_iu', 'native_spec': '--partition=multi --nodes=1 --time=72:00:00', 'java_mem': 28, 'tags': ['multi_long']},
-    {'id': 'tacc_multi', 'runner': 'jetstream_tacc', 'native_spec': '--partition=multi --nodes=1 --time=36:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
-    {'id': 'tacc_multi_long', 'runner': 'jetstream_tacc', 'native_spec': '--partition=multi --nodes=1 --time=72:00:00', 'java_mem': 28, 'tags': ['multi_long']},
-    {'id': 'tacc_xlarge', 'runner': 'jetstream_tacc', 'native_spec': '--partition=xlarge --nodes=1 --time=36:00:00', 'java_mem': 58},
+    {'id': 'iu_multi', 'runner': 'jetstream_iu', 'native_spec': '--partition=multi --nodes=1 --time=12:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
+    {'id': 'iu_multi_long', 'runner': 'jetstream_iu', 'native_spec': '--partition=multi --nodes=1 --time=12:00:00', 'java_mem': 28, 'tags': ['multi_long']},
+    {'id': 'tacc_multi', 'runner': 'jetstream_tacc', 'native_spec': '--partition=multi --nodes=1 --time=16:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
+    {'id': 'tacc_multi_long', 'runner': 'jetstream_tacc', 'native_spec': '--partition=multi --nodes=1 --time=12:00:00', 'java_mem': 28, 'tags': ['multi_long']},
+    {'id': 'tacc_xlarge', 'runner': 'jetstream_tacc', 'native_spec': '--partition=xlarge --nodes=1 --time=12:00:00', 'java_mem': 58},
 ) %}
 
 {%- set stampede_environments = (
-    {'id': 'normal', 'native_spec': '--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=24:00:00', 'memory_mb': 94208},
+    {'id': 'normal', 'native_spec': '--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=12:00:00', 'memory_mb': 94208},
     {'id': 'development', 'native_spec': '--partition=development --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=00:30:00', 'memory_mb': 94208},
-    {'id': 'skx_normal', 'native_spec': '--partition=skx-normal --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=24:00:00', 'memory_mb': 192512},
+    {'id': 'skx_normal', 'native_spec': '--partition=skx-normal --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=12:00:00', 'memory_mb': 192512},
     {'id': 'skx_development', 'native_spec': '--partition=skx-dev --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=00:30:00', 'memory_mb': 192512},
-    {'id': 'long', 'native_spec': '--partition=long --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=72:00:00', 'memory_mb': 94208, 'tags': ['multi_long']},
+    {'id': 'long', 'native_spec': '--partition=long --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=12:00:00', 'memory_mb': 94208, 'tags': ['multi_long']},
 ) %}
 
 {#- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) #}
 {%- set bridges_environments = (
-    {'id': 'normal', 'native_spec': '--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem=147456'},
+    {'id': 'normal', 'native_spec': '--partition=LM --constraint=LM&EGRESS --time=12:00:00 --mem=147456'},
     {'id': 'development', 'native_spec': '--partition=LM --constraint=LM&EGRESS --time=00:30:00 --mem=147456'},
 ) %}
 
