@@ -204,6 +204,11 @@ server {
         root {{ nginx_srv }}/{{ galaxy_instance_hostname }};
     }
 
+    # GTN proxy for the GTN in Galaxy webhook
+    location /training-material/ {
+        proxy_pass https://training.galaxyproject.org/training-material/;
+    }
+
 }
 
 # vim: set filetype=nginx
