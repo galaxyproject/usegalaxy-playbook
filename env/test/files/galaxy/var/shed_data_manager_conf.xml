@@ -925,4 +925,22 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager id="custom_pro_db_annotation_builder" version="0.0.1" guid="toolshed.g2.bx.psu.edu/repos/galaxyp/custom_pro_db_annotation_data_manager/data_manager/custom_pro_db_annotation_builder/0.0.1" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/galaxyp/custom_pro_db_annotation_data_manager/9ee512decde8/custom_pro_db_annotation_data_manager/data_manager/customProDB_annotation.xml" guid="toolshed.g2.bx.psu.edu/repos/galaxyp/custom_pro_db_annotation_data_manager/custom_pro_db_annotation_data_manager/1.16.1.0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>custom_pro_db_annotation_data_manager</repository_name><repository_owner>galaxyp</repository_owner><installed_changeset_revision>9ee512decde8</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/galaxyp/custom_pro_db_annotation_data_manager/custom_pro_db_annotation_data_manager/1.16.1.0</id><version>1.16.1.0</version></tool><data_table name="customProDB">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">${dbkey}/customProDB</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/${dbkey}/customProDB</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+
 </data_managers>
