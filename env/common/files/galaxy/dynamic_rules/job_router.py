@@ -541,6 +541,12 @@ def __is_training_multi_large_tool(tool_id):
     )
 
 
+def __is_training_normal_long_tool(tool_id):
+    return tool_id in (
+        'rseqc_geneBody_coverage',
+    )
+
+
 def job_router(app, job, tool, resource_params, user_email):
     tool_mapping = None
 
@@ -577,7 +583,9 @@ def job_router(app, job, tool, resource_params, user_email):
     elif __is_training_history(job, tool_id) and __is_training_compatible_tool(tool_id):
         # FIXME: short circuit for training jobs, make configurable
         destination_id = 'slurm_training'
-        if __is_training_multi_large_tool(tool_id):
+        if __is_training_normal_long_tool(tool_id):
+            destination_id = 'slurm_training_long'
+        elif __is_training_multi_large_tool(tool_id):
             destination_id = 'slurm_training_multi_large'
         elif tool_mapping and 'multi' in tool_mapping['destination']:
             destination_id = 'slurm_training_multi'
