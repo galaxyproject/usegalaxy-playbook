@@ -16,13 +16,13 @@
 
 # default $PATH contains puppet bin/sbin, which contain a newer curl that isn't found at pycurl runtime
 pulsar_env:
-  PATH: /pylon5/mc48nsp/xcgalaxy/conda/envs/__curl@7.71/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/bin:/sbin:/home/xcgalaxy/.local/bin:/home/xcgalaxy/bin
+  PATH: "{{ _bridges_conda_root }}/envs/__curl@7.71/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/bin:/sbin:/home/xcgalaxy/.local/bin:/home/xcgalaxy/bin"
   # FIXME: isn't working, using LD_LIBRARY_PATH in supervisor for the moment
   #LD_RUN_PATH: /pylon5/mc48nsp/xcgalaxy/conda/envs/__curl@7.71/lib
 
-_bridges_home_root: "/home/xcgalaxy/{{ galaxy_instance_codename }}"
-_bridges_scratch_root: "/pylon5/mc48nsp/xcgalaxy/{{ galaxy_instance_codename }}"
-_bridges_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
+_bridges_home_root: "/jet/home/xcgalaxy/{{ galaxy_instance_codename }}"
+_bridges_scratch_root: "/ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}"
+_bridges_conda_root: "/ocean/projects/mcb140028p/xcgalaxy/conda"
 
 pulsar_root: "{{ _bridges_home_root }}/pulsar"
 #galaxy_root: not required
@@ -31,7 +31,7 @@ pulsar_root: "{{ _bridges_home_root }}/pulsar"
 #pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
 #_pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
 #pulsar_dependencies_dir: "/pylon5/mc48nsp/xcgalaxy"
-pulsar_persistence_dir: "{{ pulsar_root }}/var"
+pulsar_persistence_dir: "{{ _bridges_scratch_root }}/pulsar/var"
 pulsar_staging_dir: "{{ _bridges_scratch_root }}/staging"
 
 galaxy_user: xcgalaxy
@@ -39,7 +39,7 @@ pulsar_privsep_user: "{{ galaxy_user }}"
 # Override group_vars version
 #pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
 #pip_virtualenv_command: "/home/xcgalaxy/virtualenv/bin/virtualenv"
-pip_virtualenv_command: "/pylon5/mc48nsp/xcgalaxy/conda/envs/__python@3.8/bin/python3 -m venv"
+pip_virtualenv_command: "{{ _bridges_conda_root }}/envs/__python@3.8/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: openssl
@@ -55,7 +55,7 @@ pulsar_dependency_resolvers:
   - name: conda
     args:
       - name: prefix
-        value: "/pylon5/mc48nsp/xcgalaxy/conda"
+        value: "{{ _bridges_conda_root }}"
       - name: auto_install
         value: "true"
       - name: auto_init
@@ -81,7 +81,9 @@ pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
   #tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
-  conda_prefix: "/pylon5/mc48nsp/xcgalaxy/conda"
+  # FIXME: these should not be needed! Pulsar does not seem to be reading the dependency_resolvers_conf.xml
+  conda_prefix: "{{ _bridges_conda_root }}"
+  conda_auto_install: true
   job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
   dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
@@ -100,10 +102,10 @@ pulsar_yaml_config:
       preprocess_action_interval_start: 2
       preprocess_action_interval_step: 2
       preprocess_action_interval_max: 60
-      postprocess_action_max_retries: 20
-      postprocess_action_interval_start: 2
-      postprocess_action_interval_step: 4
-      postprocess_action_interval_max: 120
+      postprocess_action_max_retries: 5
+      postprocess_action_interval_start: 10
+      postprocess_action_interval_step: 10
+      postprocess_action_interval_max: 60
       min_polling_interval: 15
     bridges_nagios:
       type: queued_python

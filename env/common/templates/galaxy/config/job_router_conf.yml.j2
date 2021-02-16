@@ -221,9 +221,10 @@ tools:
   # SPAdes (and thus Unicycler) uses at most 250GB
   spades:
     destination: bridges_normal
-    spec:
-      mem: 288G
+    #spec:
+    #  mem: 288G
     env:
+      # TODO: appropriate value for Bridges-2?
       - execute: ulimit -s 24576
 
   unicycler:
@@ -233,8 +234,8 @@ tools:
       destination: multi
     # Otherwise standard Bridges
     - destination: bridges_normal
-      spec:
-        mem: 288G
+      #spec:
+      #  mem: 288G
       env:
         - execute: ulimit -s 24576
 
@@ -252,19 +253,19 @@ tools:
         - {name: pool.inputs.input, op: '<', value: 10G}
         - {name: norm, value: true}
       destination: bridges_normal
-      spec: {mem: 240G, time: 72}
+      #spec: {mem: 240G, time: 72}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 10G}
         - {name: norm, value: true}
       destination: bridges_normal
-      spec: {mem: 240G, time: 72}
+      #spec: {mem: 240G, time: 72}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 10G}
         - {name: norm, value: true}
       destination: bridges_normal
-      spec: {mem: 240G, time: 72}
+      #spec: {mem: 240G, time: 72}
 
     # normalizing 10G <= inputs < 100G get 10 * 48GB = 480GB
     - params:
@@ -272,25 +273,25 @@ tools:
         - {name: pool.inputs.input, op: '<', value: 100G}
         - {name: norm, value: true}
       destination: bridges_normal
-      spec: {mem: 480G, time: 96}
+      #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 100G}
         - {name: norm, value: true}
       destination: bridges_normal
-      spec: {mem: 480G, time: 96}
+      #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 100G}
         - {name: norm, value: true}
       destination: bridges_normal
-      spec: {mem: 480G, time: 96}
+      #spec: {mem: 480G, time: 96}
 
     # normalizing inputs >= 100G get 15 * 48GB = 720GB
     - params:
         - {name: norm, value: true}
       destination: bridges_normal
-      spec: {mem: 720G, time: 96}
+      #spec: {mem: 720G, time: 96}
 
     # not normalizing inputs < 10GB get 10 * 48GB = 480GB
     - params:
@@ -298,19 +299,19 @@ tools:
         - {name: pool.inputs.input, op: '<', value: 10G}
         - {name: norm, value: false}
       destination: bridges_normal
-      spec: {mem: 480G, time: 96}
+      #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 10G}
         - {name: norm, value: false}
       destination: bridges_normal
-      spec: {mem: 480G, time: 96}
+      #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 10G}
         - {name: norm, value: false}
       destination: bridges_normal
-      spec: {mem: 480G, time: 96}
+      #spec: {mem: 480G, time: 96}
 
     # not normalizing 10G <= inputs < 100G get 15 * 48GB = 720GB
     - params:
@@ -318,25 +319,25 @@ tools:
         - {name: pool.inputs.input, op: '<', value: 100G}
         - {name: norm, value: false}
       destination: bridges_normal
-      spec: {mem: 720G, time: 96}
+      #spec: {mem: 720G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 100G}
         - {name: norm, value: false}
       destination: bridges_normal
-      spec: {mem: 720G, time: 96}
+      #spec: {mem: 720G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 100G}
         - {name: norm, value: false}
       destination: bridges_normal
-      spec: {mem: 720G, time: 96}
+      #spec: {mem: 720G, time: 96}
 
     # not normalizing inputs >= 100G get 20 * 48GB = 960GB
     - params:
         - {name: norm, value: false}
       destination: bridges_normal
-      spec: {mem: 960G, time: 96}
+      #spec: {mem: 960G, time: 96}
 
     # default if no matching params (shouldn't happen)
     - destination: bridges_normal
