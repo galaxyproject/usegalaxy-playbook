@@ -383,7 +383,7 @@ def test_trinity_no_normalize_large_paired():
 
 def test_stampede_normal():
     tool = mock.Mock()
-    tool.id = "ncbi_blastn_wrapper"
+    tool.id = "megablast_wrapper"
     tool.params = {}
     test = {
         "tool": tool,

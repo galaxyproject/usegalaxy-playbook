@@ -547,6 +547,12 @@ def __is_training_normal_long_tool(tool_id):
     )
 
 
+def __is_training_normal_large_tool(tool_id):
+    return tool_id in (
+        'genrich',
+    )
+
+
 def job_router(app, job, tool, resource_params, user_email):
     tool_mapping = None
 
@@ -585,6 +591,8 @@ def job_router(app, job, tool, resource_params, user_email):
         destination_id = 'slurm_training'
         if __is_training_normal_long_tool(tool_id):
             destination_id = 'slurm_training_long'
+        elif __is_training_normal_large_tool(tool_id):
+            destination_id = 'slurm_training_large'
         elif __is_training_multi_large_tool(tool_id):
             destination_id = 'slurm_training_multi_large'
         elif tool_mapping and 'multi' in tool_mapping['destination']:
