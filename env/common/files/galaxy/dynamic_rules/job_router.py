@@ -532,6 +532,7 @@ def __is_training_compatible_tool(tool_id):
         'rna_starsolo',
         'rna_star',
         'minimap2',
+        'ncbi_blastp_wrapper',
     )
 
 
