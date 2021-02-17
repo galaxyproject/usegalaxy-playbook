@@ -154,9 +154,9 @@ galaxy_low_priority_tools:
   #- ncbi_blastn_wrapper
   #- ncbi_blastp_wrapper
   #- ncbi_blastx_wrapper
-  #- ncbi_rpsblast_wrapper
-  #- ncbi_tblastn_wrapper
-  #- ncbi_tblastx_wrapper
+  - ncbi_rpsblast_wrapper
+  - ncbi_tblastn_wrapper
+  - ncbi_tblastx_wrapper
 
 # some tools have explicit mappings (e.g. for Bridges)
 __galaxy_multicore_tools_exclude:
@@ -182,6 +182,9 @@ __galaxy_multicore_tools_include:
   - hyphy_fel
   - hyphy_gard
   - hyphy_meme
+  - ncbi_blastn_wrapper
+  - ncbi_blastp_wrapper
+  - ncbi_blastx_wrapper
 
 # generated with:
 #     grep -rlI GALAXY_SLOTS /cvmfs/main.galaxyproject.org/{shed,migrated}_tools/toolshed.g2.bx.psu.edu/repos \
