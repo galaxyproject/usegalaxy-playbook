@@ -112,6 +112,10 @@ tools:
   # still investigating
   stringtie: {destination: slurm_multi}
 
+  # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
+  star_fusion:
+    destination: jetstream_tacc_xlarge
+
   # STARSolo uses the same params and has the same requirements as STAR
   rna_starsolo: rna_star
 
@@ -210,10 +214,6 @@ tools:
   #
   # Bridges Tools
   #
-
-  # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
-  star_fusion:
-    destination: bridges_normal
 
   abyss-pe:
     destination: bridges_normal
