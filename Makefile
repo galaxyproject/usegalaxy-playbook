@@ -65,7 +65,7 @@ toolshed-update: toolshed
 
 
 test main testtoolshed toolshed:
-	ansible-playbook -i env/$@/inventory env/$@/$(PLAYBOOK).yml $(TAGS_ARG) $(LIMIT_ARG)
+	ansible-playbook -i env/$@/inventory env/$@/$(PLAYBOOK).yml --diff $(TAGS_ARG) $(LIMIT_ARG)
 
 Makefile: Makefile.in
 	sed "s/^## AUTOGEN TARGETS/$$(bash ./.support/targets.sh)/" Makefile.in > Makefile
