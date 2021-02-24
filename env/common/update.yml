@@ -34,12 +34,6 @@
       galaxy_build_client: no
       when: inventory_hostname in groups['galaxymasters']
 
-- name: Include GIE plays
-  import_playbook: _inc_gie.yml
-  tags:
-    - no-cvmfs
-    - no-restart
-
 - name: Include static content plays
   import_playbook: _inc_static.yml
   tags:

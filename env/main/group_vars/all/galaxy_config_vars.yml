@@ -106,15 +106,7 @@ base_app_main: &BASE_APP_MAIN
   builds_file_path: "/cvmfs/data.galaxyproject.org/managed/location/builds.txt"
   ucsc_build_sites: "/cvmfs/data.galaxyproject.org/managed/location/ucsc_build_sites.txt"
 
-  # interactive environments
-  interactive_environment_plugins_directory: "{{ galaxy_root }}/interactive_environments/plugins"
-  dynamic_proxy_manage: "False"
-  dynamic_proxy_session_map: /srv/galaxy/main/var/gie_proxy_session_map.sqlite
-  dynamic_proxy_bind_port: 4280
-  dynamic_proxy_bind_ip: 0.0.0.0
-  dynamic_proxy_debug: "True"
-  dynamic_proxy_external_proxy: "True"
-  dynamic_proxy_prefix: gie_proxy
+  # TODO: this was for GIEs but other stuff uses this now?
   galaxy_infrastructure_url: https://usegalaxy.org
   #trust_ipython_notebook_conversion: "True"
 

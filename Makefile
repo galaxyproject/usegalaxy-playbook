@@ -22,8 +22,6 @@ main-client: PLAYBOOK = client
 main-client: main
 main-config: PLAYBOOK = config
 main-config: main
-main-gie: PLAYBOOK = gie
-main-gie: main
 main-pulsar: PLAYBOOK = pulsar
 main-pulsar: main
 main-restart: PLAYBOOK = restart
@@ -42,8 +40,6 @@ test-client: PLAYBOOK = client
 test-client: test
 test-config: PLAYBOOK = config
 test-config: test
-test-gie: PLAYBOOK = gie
-test-gie: test
 test-pulsar: PLAYBOOK = pulsar
 test-pulsar: test
 test-restart: PLAYBOOK = restart

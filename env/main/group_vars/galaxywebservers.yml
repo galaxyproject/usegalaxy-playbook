@@ -29,9 +29,6 @@ certbot_domains:
   - usegalaxy.org
   - "{{ inventory_hostname_short }}.galaxyproject.org"
   - www.usegalaxy.org
-  # FIXME: can't DNS-01 these, move to somewhere that we can WEB-01 them and just redirect appropriately
-  #- main.g2.bx.psu.edu
-  #- test.g2.bx.psu.edu
 
 
 ## used by the sysctl task in the galaxy_infrastructure playbook
@@ -40,52 +37,3 @@ sysctl_conf:
     value: 15990784
   - name: net.core.wmem_max
     value: 15990784
-
-
-## used by: galaxygproject.interactive_environments
-interactive_environments_install_method: copy
-interactive_environments_plugins_path: "{{ galaxy_root }}/interactive_environments/plugins"
-interactive_environments_proxy_path: "{{ galaxy_root }}/interactive_environments/proxy"
-interactive_environments_enabled:
-  - jupyter
-interactive_environments_config_files:
-  - ie_name: jupyter
-    file: jupyter.ini
-    contents:
-      main: {}
-      docker:
-        galaxy_url: "https://usegalaxy.org"
-        docker_connect_port: "8888"
-        use_volumes: "False"
-        command_inject: --env DEFAULT_CONTAINER_RUNTIME=300
-  - ie_name: jupyter
-    file: allowed_images.yml
-    contents:
-      - image: "quay.io/bgruening/docker-jupyter-notebook:17.09"
-        description: >
-          The Jupyter notebook is the next iteration of IPython, allowing
-          analysis in many different languages. This image features the Python,
-          R, Julia, Haskell, Bash kernels and many scientific analysis stacks for
-          each.
-interactive_environments_nginx_conf_dir: "{{ galaxy_root }}/nginx.conf.d"
-interactive_environments_proxy_user: "{{ galaxy_user }}"
-interactive_environments_access_log_path: "{{ galaxy_log_dir }}/gie_proxy-access.log"
-interactive_environments_error_log_path: "{{ galaxy_log_dir }}/gie_proxy-error.log"
-
-
-## used by: play
-containers_yaml:
-  containers:
-    _default_:
-      type: docker_swarm
-      host:
-        - tcp://jetstream-tacc0.galaxyproject.org:2376
-        - tcp://jetstream-iu0.galaxyproject.org:2376
-        - tcp://cvmfs1-psu0.galaxyproject.org:2376
-      force_tlsverify: yes
-      cpus: 1.0
-      memory: 2684354560
-      node_prefix: swarm-
-      managed: yes
-      manager_autostart: no
-      #manager_conf: managed by test

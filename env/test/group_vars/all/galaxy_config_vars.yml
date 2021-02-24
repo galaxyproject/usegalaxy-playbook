@@ -14,7 +14,6 @@ galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
 galaxy_new_file_path: "/galaxy-repl/{{ galaxy_instance_codename }}/scratch"
 galaxy_job_working_directory: "/galaxy-repl/{{ galaxy_instance_codename }}/jobdir"
 galaxy_ftp_upload_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/ftp"
-#interactive_environments_plugins_path: "{{ galaxy_root }}/interactive_environments/plugins"
 galaxy_tool_dependency_dir: "/galaxy/{{ galaxy_instance_codename }}/deps"
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
@@ -138,15 +137,7 @@ base_app_main: &BASE_APP_MAIN
   # TODO: is this ever read anymore now that we have build_sites.yml?
   ucsc_build_sites: "/cvmfs/data.galaxyproject.org/managed/location/ucsc_build_sites.txt"
 
-  # interactive environments
-  #interactive_environment_plugins_directory: "{{ interactive_environments_plugins_path }}"
-  #dynamic_proxy_manage: "False"
-  #dynamic_proxy_session_map: /srv/galaxy/test/var/gie_proxy_session_map.sqlite
-  #dynamic_proxy_bind_port: 4280
-  #dynamic_proxy_bind_ip: 0.0.0.0
-  #dynamic_proxy_debug: "True"
-  #dynamic_proxy_external_proxy: "True"
-  #dynamic_proxy_prefix: gie_proxy
+  # TODO: this was for GIEs but other stuff uses this now?
   galaxy_infrastructure_url: https://test.galaxyproject.org
   #trust_ipython_notebook_conversion: "True"
 

@@ -2,9 +2,6 @@
 
 # Warning: vaulting this host would make the static.yml playbook require vault decryption
 
-host_supervisor_configs:
-  - galaxy_gie_proxy
-
 host_crontabs:
   - name: "Clean {{ galaxy_instance_codename }} jobs"
     id: "galaxy_{{ galaxy_instance_codename }}_clean_jobs"
