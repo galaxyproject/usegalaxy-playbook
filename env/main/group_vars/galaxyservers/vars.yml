@@ -212,13 +212,12 @@ galaxy_errordocs_dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/error"
 galaxy_errordocs_502_message: |
   You are seeing this message because a request to Galaxy timed out or was refused. This may be a temporary issue which
   could be resolved by retrying the operation you were performing. If you receive this message repeatedly or for an
-  extended amount of time, please report it to the Galaxy Team at
+  extended amount of time, please check for additional information on the
+  <a href="https://status.galaxyproject.org/">Galaxy status page</a> or the
+  <a href="https://twitter.com/galaxyproject">@galaxyproject Twitter feed</a>. If the issue is not addressed on those
+  sources, you may report it to the support team at
   <a href='mailto:galaxy-bugs@galaxyproject.org'>galaxy-bugs@galaxyproject.org</a>
-  with details on what you were trying to do and the URL in the address bar. More information on the current state of
-  Galaxy services may be available on the
-  <a href="https://status.galaxyproject.org/">Galaxy status page</a>
-  or the
-  <a href="https://twitter.com/galaxyproject">@galaxyproject Twitter feed</a>.
+  with details on what you were trying to do and the URL in the address bar.
 
 
 ## used by usegalaxy_privileged and templating job_conf.yml
