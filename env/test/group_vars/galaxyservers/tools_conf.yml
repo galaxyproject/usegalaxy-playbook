@@ -18,6 +18,9 @@ galaxy_job_conf_tools:
   - id: interactive_tool_panoply
     environment: tacc_k8s
     handler: multi
+  - id: unicycler
+    environment: slurm_multi_memory_resubmit
+    handler: multi
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
@@ -143,7 +146,7 @@ galaxy_large_memory_tools:
   - spades
   - trinity
   - trinity_psc
-  - unicycler
+  #- unicycler
   - star_fusion
 
 # tools that should run on Stampede
@@ -164,6 +167,7 @@ __galaxy_multicore_tools_exclude:
   - fasterq_dump
   - rna_star
   - rna_starsolo
+  - unicycler
 
 # tools missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:

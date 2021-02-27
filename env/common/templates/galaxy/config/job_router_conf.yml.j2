@@ -227,17 +227,17 @@ tools:
       # TODO: appropriate value for Bridges-2?
       - execute: ulimit -s 24576
 
-  unicycler:
-    # Use multi for very small (e.g. training) datasets
-    - params:
-        - {name: paired_unpaired.fastq_input1, op: '<', value: 100M}
-      destination: multi
-    # Otherwise standard Bridges
-    - destination: bridges_normal
-      #spec:
-      #  mem: 288G
-      env:
-        - execute: ulimit -s 24576
+  #unicycler:
+  #  # Use multi for very small (e.g. training) datasets
+  #  - params:
+  #      - {name: paired_unpaired.fastq_input1, op: '<', value: 100M}
+  #    destination: multi
+  #  # Otherwise standard Bridges
+  #  - destination: bridges_normal
+  #    #spec:
+  #    #  mem: 288G
+  #    env:
+  #      - execute: ulimit -s 24576
 
   # Users should use the new version of Trinity
   trinity_psc:
@@ -362,6 +362,7 @@ share_job_counts:
   -
     - slurm_multi
     - slurm_multi_legacy
+    - slurm_multi_memory_resubmit
     - slurm_long
     - reserved_slurm_multi
   -

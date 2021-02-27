@@ -70,6 +70,7 @@
         {{ env_temp_envs() }}
         - name: _JAVA_OPTIONS
           value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
+        - execute: ulimit -c 0
 {%- endmacro %}
 
 {%- macro env_legacy_envs(java_mem=7) -%}
@@ -85,6 +86,7 @@
           value: C
         - name: TERM
           value: vt100
+        - execute: ulimit -c 0
 {%- endmacro %}
 
 {%- macro env_temp_envs() -%}
@@ -231,6 +233,18 @@ execution:
 {% endif %}
 {% endfor %}
 
+    # FIXME: roundup-only since I'm pretty certain memory_limit_reached doesn't work on Pulsar dests
+    # resubmit to jetstream-tacc-xlarge on memory failure
+    slurm_multi_memory_resubmit:
+      runner: slurm
+      native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00
+      {{ env_tag_params(['multi'] | default(none)) }}
+      env:
+        {{ env_local_envs(java_mem=28) }}
+      resubmit:
+        condition: memory_limit_reached
+        environment: jetstream_tacc_xlarge
+
     #
     # Kubernetes environments
     #
@@ -318,7 +332,6 @@ execution:
       env:
         {{ env_pulsar_envs() }}
         - execute: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
-        - execute: ulimit -c 0
         {# Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
         - name: GALAXY_SLOTS
           value: "$SLURM_NTASKS"
@@ -343,8 +356,6 @@ execution:
       env:
         {{ env_pulsar_envs() }}
         #- execute: eval `modulecmd sh purge`
-        {# SPAdes as run by Unicycler is leaving cores in Pulsar's site-packages dir (but should be fixed with proper working dir in Pulsar -#}
-        - execute: ulimit -c 0
 {% endfor %}
 
 #
