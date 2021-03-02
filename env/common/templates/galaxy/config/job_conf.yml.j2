@@ -257,11 +257,15 @@ execution:
       pulsar_container_image: 'quay.io/galaxy/pulsar-pod-staging:0.14.0'
       k8s_namespace: ndc
       #k8s_walltime_limit: 86400  # 24 hours
-      k8s_walltime_limit: 10800  # 3 hours
-      requests_cpu: 0.5
-      requests_memory: 0.5Gi
-      limits_cpu: 0.5
-      limits_memory: 0.5Gi
+      k8s_walltime_limit: 43200  # 12 hours
+      pulsar_requests_cpu: 0.5
+      pulsar_requests_memory: 0.5Gi
+      pulsar_limits_cpu: 0.5
+      pulsar_limits_memory: 0.5Gi
+      tool_requests_cpu: 1.5
+      tool_requests_memory: 1.5Gi
+      tool_limits_cpu: 1.5
+      tool_limits_memory: 1.5Gi
       #jobs_directory: /not/a/real/path
       pulsar_app_config_path: {{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml
       # Specify a non-default Pulsar staging container.
