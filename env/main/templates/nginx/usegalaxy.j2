@@ -103,6 +103,11 @@ server {
             add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
             add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
         }
+        if ($http_referer ~ "^https://observablehq\.com/@spond/.*$") {
+            add_header Access-Control-Allow-Origin $http_origin;
+            add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
+            add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
+        }
     }
 
     location /_upload {
