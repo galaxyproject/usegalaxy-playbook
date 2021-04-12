@@ -59,9 +59,9 @@ tools:
 {# this is a large automatically generated list maintained in env/<env>/group_vars/galaxyservers/tools_conf.yml #}
 {% for tool_id in galaxy_multicore_tools %}
 {% if tool_id in galaxy_pulsar_incompatible_tools %}
-  {{ tool_id }}: {destination: slurm_multi}
+  {{ tool_id }}: {destination: slurm_multi, login_required: true}
 {% else %}
-  {{ tool_id }}: {destination: multi}
+  {{ tool_id }}: {destination: multi, login_required: true}
 {% endif %}
 {% endfor %}
 
@@ -108,13 +108,14 @@ tools:
 
   # https://github.com/galaxyproject/tools-iuc/pull/3420
   # add version comparison to job_router and you can undo this for newer versions
-  deseq2: {destination: slurm_multi}
+  deseq2: {destination: slurm_multi, login_required: true}
   # still investigating
-  stringtie: {destination: slurm_multi}
+  stringtie: {destination: slurm_multi, login_required: true}
 
   # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
   star_fusion:
     destination: jetstream_tacc_xlarge
+    login_required: true
 
   # STARSolo uses the same params and has the same requirements as STAR
   rna_starsolo: rna_star
@@ -139,6 +140,7 @@ tools:
         op: '<'
         value: 18G
       destination: multi
+      login_required: true
     # same as above but for older versions of the tool
     - params:
       - name: refGenomeSource.geneSource
@@ -150,10 +152,12 @@ tools:
         op: '<'
         value: 18G
       destination: multi
+      login_required: true
     - params:
       - name: refGenomeSource.geneSource
         value: indexed
       destination: jetstream_tacc_xlarge
+      login_required: true
 
     # for history refs we need (refsize * 11.0) + 2GB
     - params:
@@ -163,10 +167,12 @@ tools:
         op: '<'
         value: 2.5G
       destination: multi
+      login_required: true
     - params:
       - name: refGenomeSource.geneSource
         value: history
       destination: jetstream_tacc_xlarge
+      login_required: true
 
     # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
     #- destination: slurm_normal
@@ -179,7 +185,9 @@ tools:
           value: bacteria
       # can be a real id or key in 'destinations' dict below
       destination: stampede_skx_normal
+      login_required: true
     - destination: multi
+      login_required: true
 
   kraken2:
     - params:
@@ -190,6 +198,7 @@ tools:
         op: '>'
         value: 84G
       destination: stampede_skx_normal
+      login_required: true
     - params:
       - name: kraken2_database
         type: data_table_lookup
@@ -199,16 +208,20 @@ tools:
         value: 24G
       destination: jetstream_tacc_xlarge
       #destination: stampede_normal
+      login_required: true
     - destination: multi
+      login_required: true
 
   # align_families gets 192 hours of walltime
   align_families:
     destination: slurm_multi_long
+    login_required: true
     spec:
      time: 192
 
   fasterq_dump:
     destination: multi_long
+    login_required: true
 
   #
   # Bridges Tools
@@ -216,15 +229,53 @@ tools:
 
   abyss-pe:
     destination: bridges_normal
+    login_required: true
 
   # SPAdes (and thus Unicycler) uses at most 250GB
   spades:
-    destination: bridges_normal
+    - params:
+        - {name: libraries.files.file_type.type, value: separate}
+        - {name: libraries.files.file_type.fwd_reads, op: '<', value: 100M}
+      destination: multi
+      login_required: true
+    - params:
+        - {name: libraries.files.file_type.type, value: interleaved}
+        - {name: libraries.files.file_type.interleaved_reads, op: '<', value: 200M}
+      destination: multi
+      login_required: true
+    - params:
+        - {name: libraries.files.file_type.type, value: merged}
+        - {name: libraries.files.file_type.merged_reads, op: '<', value: 100M}
+      destination: multi
+      login_required: true
+    - params:
+        - {name: libraries.files.file_type.type, value: unpaired}
+        - {name: libraries.files.file_type.unpaired_reads, op: '<', value: 100M}
+      destination: multi
+      login_required: true
+    - params:
+        - {name: libraries.files.file_type.type, value: paired-collection}
+        - {name: libraries.files.file_type.fastq_collection, op: '<', value: 100M}
+      destination: multi
+      login_required: true
+    - destination: bridges_normal
+      login_required: true
+      env:
+        # SPAdes uses 2GB+ per thread regardless of what you set the memory limit to, so we have to decrease the threads
+        # to avoid using too much memory
+        - name: GALAXY_SLOTS
+          value: "64"
+    #destination: bridges_normal
+    #login_required: true
     #spec:
     #  mem: 288G
-    env:
-      # TODO: appropriate value for Bridges-2?
-      - execute: ulimit -s 24576
+    #env:
+    #  #- name: GALAXY_MEMORY_MB
+    #  #  value: "245760"
+    #  - name: GALAXY_SLOTS
+    #    value: "64"
+    #  # TODO: appropriate value for Bridges-2?
+    #  - execute: ulimit -s 24576
 
   #unicycler:
   #  # Use multi for very small (e.g. training) datasets
@@ -241,6 +292,7 @@ tools:
   # Users should use the new version of Trinity
   trinity_psc:
     destination: bridges_normal
+    login_required: true
 
   trinity:
     # first matching param set is used
@@ -252,18 +304,21 @@ tools:
         - {name: pool.inputs.input, op: '<', value: 10G}
         - {name: norm, value: true}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 240G, time: 72}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 10G}
         - {name: norm, value: true}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 240G, time: 72}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 10G}
         - {name: norm, value: true}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 240G, time: 72}
 
     # normalizing 10G <= inputs < 100G get 10 * 48GB = 480GB
@@ -272,24 +327,28 @@ tools:
         - {name: pool.inputs.input, op: '<', value: 100G}
         - {name: norm, value: true}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 100G}
         - {name: norm, value: true}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 100G}
         - {name: norm, value: true}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 480G, time: 96}
 
     # normalizing inputs >= 100G get 15 * 48GB = 720GB
     - params:
         - {name: norm, value: true}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 720G, time: 96}
 
     # not normalizing inputs < 10GB get 10 * 48GB = 480GB
@@ -298,18 +357,21 @@ tools:
         - {name: pool.inputs.input, op: '<', value: 10G}
         - {name: norm, value: false}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 10G}
         - {name: norm, value: false}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 10G}
         - {name: norm, value: false}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 480G, time: 96}
 
     # not normalizing 10G <= inputs < 100G get 15 * 48GB = 720GB
@@ -318,42 +380,47 @@ tools:
         - {name: pool.inputs.input, op: '<', value: 100G}
         - {name: norm, value: false}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 720G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 100G}
         - {name: norm, value: false}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 720G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 100G}
         - {name: norm, value: false}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 720G, time: 96}
 
     # not normalizing inputs >= 100G get 20 * 48GB = 960GB
     - params:
         - {name: norm, value: false}
       destination: bridges_normal
+      login_required: true
       #spec: {mem: 960G, time: 96}
 
     # default if no matching params (shouldn't happen)
     - destination: bridges_normal
+      login_required: true
       spec: {time: 24}
 
   #
   # Stampede tools
   #
-  bwa_color_wrapper: {destination: stampede_normal}
-  bowtie_color_wrapper: {destination: stampede_normal}
-  megablast_wrapper: {destination: stampede_normal}
-  #ncbi_blastn_wrapper: {destination: stampede_normal}
-  #ncbi_blastp_wrapper: {destination: stampede_normal}
-  #ncbi_blastx_wrapper: {destination: stampede_normal}
-  ncbi_rpsblast_wrapper: {destination: stampede_normal}
-  ncbi_tblastn_wrapper: {destination: stampede_normal}
-  ncbi_tblastx_wrapper: {destination: stampede_normal}
+  bwa_color_wrapper: {destination: stampede_normal, login_required: true}
+  bowtie_color_wrapper: {destination: stampede_normal, login_required: true}
+  megablast_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_blastn_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_blastp_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_blastx_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_rpsblast_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_tblastn_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_tblastx_wrapper: {destination: stampede_normal, login_required: true}
 
 # count of queued jobs in these destinations count against the other destinations (i.e. they're probably just slightly
 # different params on the same queue)

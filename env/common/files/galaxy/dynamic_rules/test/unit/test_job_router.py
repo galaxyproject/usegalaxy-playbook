@@ -50,16 +50,9 @@ mock_job.parameters = []
 mock_job.id = 1
 
 
-# FIXME: force user login...
-#def test_user_presence():
-#    with pytest.raises(JobMappingException):
-#        mdw.dynamic_multi_bridges_select(
-#            mock_app, tool_rnastar_indexed, mock_job, user_email=None, resource_params=[])
-
-
 @mock.patch.object(job_router, '__queued_job_count')
 @mock.patch("os.stat")
-def __test_job_router(testconfig, os_stat, queued_job_count):
+def __test_job_router(testconfig, os_stat, queued_job_count, user_email="test@example.org"):
     tool_id = testconfig["tool"].id
     if '/' in tool_id:
         tool_id = tool_id.split('/')[-2]
@@ -72,7 +65,7 @@ def __test_job_router(testconfig, os_stat, queued_job_count):
 
     for i in range(0, 3):
         try:
-            destination = job_router.job_router(mock_app, mock_job, testconfig["tool"], resource_params, "test@example.org")
+            destination = job_router.job_router(mock_app, mock_job, testconfig["tool"], resource_params, user_email)
             break
         except JobNotReadyException:
             time.sleep(1)
@@ -135,7 +128,7 @@ def test_normal_32gb():
     tool.params = {}
     test = {
         "tool": tool,
-        "return_native_spec": NORMAL_NATIVE_SPEC + " --mem=30720",
+        "return_native_spec": NORMAL_NATIVE_SPEC.replace('36:', '24:') + " --mem=30720",
         "return_destination_id": "slurm_normal_32gb",
     }
     __test_job_router(test)
@@ -147,7 +140,7 @@ def test_normal_64gb():
     tool.params = {}
     test = {
         "tool": tool,
-        "return_native_spec": NORMAL_NATIVE_SPEC + " --mem=61440",
+        "return_native_spec": NORMAL_NATIVE_SPEC.replace('36:', '4:') + " --mem=61440",
         "return_destination_id": "slurm_normal_64gb",
     }
     __test_job_router(test)
@@ -177,6 +170,30 @@ def test_multi_legacy():
     __test_job_router(test)
 
 
+def test_require_login():
+    tool= mock.Mock()
+    tool.id = "deseq2"
+    tool.params = {}
+    test = {
+        "tool": tool,
+    }
+    with pytest.raises(JobMappingException):
+        __test_job_router(test, user_email=None)
+
+
+def test_repeat_input_param():
+    tool= mock.Mock()
+    tool.id = "spades"
+    tool.params = {"libraries": {"files": [{"file_type": {"type": "separate", "fwd_reads": mock_dataset}}]}}
+    test = {
+        "ref_size": 1024,
+        "tool": tool,
+        "return_native_spec": MULTI_NATIVE_SPEC,
+        "return_destination_id": "slurm_multi",
+    }
+    __test_job_router(test)
+
+
 def test_rnastar_indexed_small():
     tool = mock.Mock()
     tool.id = "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.6.0b-1"
@@ -185,7 +202,7 @@ def test_rnastar_indexed_small():
         "ref_size": 12 * GIGABYTE,
         "tool": tool,
         #"resource_params": {"multi_bridges_compute_resource": "slurm_multi"},
-        "return_native_spec": "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00",
+        "return_native_spec": MULTI_NATIVE_SPEC,
         "return_destination_id": "slurm_multi",
     }
     __test_job_router(test)
@@ -236,7 +253,7 @@ def test_kraken_bacteria():
     tool.params = {"kraken_database": "bacteria"}
     test = {
         "tool": tool,
-        "return_native_spec": "--partition=skx-normal --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=24:00:00",
+        "return_native_spec": "--partition=skx-normal --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=36:00:00",
         "return_destination_id": "stampede_skx_normal",
     }
     __test_job_router(test)
@@ -280,11 +297,12 @@ def test_multi_long():
 
 def test_bridges_normal():
     tool = mock.Mock()
-    tool.id = "unicycler"
+    tool.id = "abyss-pe"
     tool.params = {}
     test = {
         "tool": tool,
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={288 * KILOBYTE}",
+        #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={288 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00",
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -297,7 +315,8 @@ def test_trinity_normalize_small():
     test = {
         "ref_size": 8 * GIGABYTE,
         "tool": tool,
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={240 * KILOBYTE}",
+        #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={240 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00",
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -310,7 +329,8 @@ def test_trinity_normalize_medium():
     test = {
         "ref_size": 64 * GIGABYTE,
         "tool": tool,
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={480 * KILOBYTE}",
+        #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={480 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00",
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -323,7 +343,8 @@ def test_trinity_normalize_large():
     test = {
         "ref_size": 128 * GIGABYTE,
         "tool": tool,
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={720 * KILOBYTE}",
+        #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={720 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00",
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -336,7 +357,8 @@ def test_trinity_no_normalize_small():
     test = {
         "ref_size": 8 * GIGABYTE,
         "tool": tool,
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={480 * KILOBYTE}",
+        #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={480 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00",
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -349,7 +371,8 @@ def test_trinity_no_normalize_medium():
     test = {
         "ref_size": 64 * GIGABYTE,
         "tool": tool,
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={720 * KILOBYTE}",
+        #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={720 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00",
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -362,7 +385,8 @@ def test_trinity_no_normalize_large():
     test = {
         "ref_size": 128 * GIGABYTE,
         "tool": tool,
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={960 * KILOBYTE}",
+        #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={960 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00",
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -375,7 +399,8 @@ def test_trinity_no_normalize_large_paired():
     test = {
         "ref_size": 128 * GIGABYTE,
         "tool": tool,
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={960 * KILOBYTE}",
+        #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={960 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00",
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -387,7 +412,7 @@ def test_stampede_normal():
     tool.params = {}
     test = {
         "tool": tool,
-        "return_native_spec": "--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=24:00:00",
+        "return_native_spec": "--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=36:00:00",
         "return_destination_id": "stampede_normal",
     }
     __test_job_router(test)
@@ -482,7 +507,8 @@ def test_resource_no_override():
     test = {
         "tool": tool,
         "resource_params": {"multi_compute_resource": "bridges_normal", "mem": 720 * KILOBYTE},
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={288 * KILOBYTE}",
+        #"return_native_spec": f"--partition=RM --time=36:00:00 --mem={288 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00",
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -495,7 +521,7 @@ def test_resource_group_override():
     test = {
         "tool": tool,
         "resource_params": {"multi_compute_resource": "bridges_normal", "mem": 720 * KILOBYTE},
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={720 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00 --mem={720 * KILOBYTE}",
         "return_destination_id": "bridges_normal",
     }
     options = {"param_overrides": True}
@@ -510,7 +536,7 @@ def test_resource_group_override_cap():
     test = {
         "tool": tool,
         "resource_params": {"multi_compute_resource": "bridges_normal", "mem": 912 * KILOBYTE},
-        "return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={720 * KILOBYTE}",
+        "return_native_spec": f"--partition=RM --time=36:00:00 --mem={720 * KILOBYTE}",
         "return_destination_id": "bridges_normal",
     }
     options = {"param_overrides": True}
