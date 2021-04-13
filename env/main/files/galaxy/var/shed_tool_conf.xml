@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<toolbox tool_path="/cvmfs/main.galaxyproject.org/shed_tools">
+<toolbox tool_path="/cvmfs/main.galaxyproject.org/shed_tools" tool_cache_data_dir="/cvmfs/main.galaxyproject.org/var/tool_cache">
     <section id="sam_bam" name="SAM/BAM">
         <label id="samtools_label" text="SAMTools"/>
         <label id="bamtools_label" text="BAMTools"/>
@@ -32485,6 +32485,1412 @@
             <installed_changeset_revision>f316caf098a6</installed_changeset_revision>
             <id>toolshed.g2.bx.psu.edu/repos/guerler/springsuite/spring_mcc/0.1.0</id>
             <version>0.1.0</version>
+        </tool>
+    </section>
+    <section id="protein_modeling" name="Protein Modeling" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/guerler/dbkit/184b00847620/dbkit/dbkit_extract.xml" guid="toolshed.g2.bx.psu.edu/repos/guerler/dbkit/dbkit_extract/0.1.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dbkit</repository_name>
+            <repository_owner>guerler</repository_owner>
+            <installed_changeset_revision>184b00847620</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/guerler/dbkit/dbkit_extract/0.1.1</id>
+            <version>0.1.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/guerler/dbkit/184b00847620/dbkit/dbkit_create.xml" guid="toolshed.g2.bx.psu.edu/repos/guerler/dbkit/dbkit_create/0.1.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dbkit</repository_name>
+            <repository_owner>guerler</repository_owner>
+            <installed_changeset_revision>184b00847620</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/guerler/dbkit/dbkit_create/0.1.1</id>
+            <version>0.1.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/guerler/dbkit/184b00847620/dbkit/dbkit_merge.xml" guid="toolshed.g2.bx.psu.edu/repos/guerler/dbkit/dbkit_merge/0.1.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dbkit</repository_name>
+            <repository_owner>guerler</repository_owner>
+            <installed_changeset_revision>184b00847620</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/guerler/dbkit/dbkit_merge/0.1.1</id>
+            <version>0.1.1</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/busco/cf13a1e03e5b/busco/busco.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.0.0+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>busco</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>cf13a1e03e5b</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.0.0+galaxy0</id>
+            <version>5.0.0+galaxy0</version>
+        </tool>
+    </section>
+    <section id="annotation" name="Annotation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/roary/78608ec02d62/roary/roary.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/3.13.0+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>roary</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>78608ec02d62</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/roary/roary/3.13.0+galaxy1</id>
+            <version>3.13.0+galaxy1</version>
+        </tool>
+    </section>
+    <section id="assembly" name="Assembly" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/a8a278849c18/rnaspades/rnaspades.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/3.9.0.2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>rnaspades</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>a8a278849c18</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/3.9.0.2</id>
+            <version>3.9.0.2</version>
+        </tool>
+    </section>
+    <section id="chip_seq" name="ChIP-seq" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/sicer/5c2cc3b58c7d/sicer/sicer_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/1.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>sicer</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>5c2cc3b58c7d</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/sicer/peakcalling_sicer/1.1</id>
+            <version>1.1</version>
+        </tool>
+    </section>
+    <section id="emboss" name="EMBOSS" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_plotcon.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: plotcon75/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: plotcon75/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_seqret.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: seqret84/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: seqret84/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_banana.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: banana3/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: banana3/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_degapseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: degapseq20/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: degapseq20/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_isochore.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: isochore47/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: isochore47/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_infoseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: infoseq46/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: infoseq46/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_chaos.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: chaos7/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: chaos7/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_union.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: union105/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: union105/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_extractseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: extractseq35/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: extractseq35/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_revseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: revseq82/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: revseq82/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_est2genome.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: est2genome32/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: est2genome32/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_showfeat.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: showfeat85/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: showfeat85/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_maskfeat.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: maskfeat50/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: maskfeat50/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_etandem.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: etandem33/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: etandem33/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_transeq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: transeq101/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: transeq101/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_newcpgreport.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newcpgreport57/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newcpgreport57/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_sigcleave.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sigcleave88/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sigcleave88/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_supermatcher.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: supermatcher95/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: supermatcher95/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_coderet.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: coderet13/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: coderet13/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_antigenic.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: antigenic1/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: antigenic1/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_plotorf.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: plotorf76/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: plotorf76/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_lindna.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: lindna48/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: lindna48/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_msbar.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: msbar55/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: msbar55/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_pepcoil.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepcoil68/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepcoil68/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_btwisted.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: btwisted5/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: btwisted5/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_skipseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: skipseq91/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: skipseq91/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_helixturnhelix.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: helixturnhelix43/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: helixturnhelix43/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_shuffleseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: shuffleseq87/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: shuffleseq87/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_needle.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: needle56/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: needle56/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_cusp.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cusp17/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cusp17/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_octanol.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: octanol63/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: octanol63/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_extractfeat.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: extractfeat34/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: extractfeat34/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_twofeat.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: twofeat104/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: twofeat104/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_cpgreport.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cpgreport16/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cpgreport16/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_patmatdb.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: patmatdb67/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: patmatdb67/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_wordmatch.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wordmatch110/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wordmatch110/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_cpgplot.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cpgplot15/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cpgplot15/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_megamerger.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: megamerger53/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: megamerger53/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_dreg.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dreg27/5.0.0+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dreg27/5.0.0+galaxy1</id>
+            <version>5.0.0+galaxy1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_codcmp.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: codcmp12/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: codcmp12/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_pepwindow.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwindow73/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwindow73/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_cai_custom.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cai_custom6/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cai_custom6/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_equicktandem.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: equicktandem31/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: equicktandem31/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_seqmatchall.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: seqmatchall83/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: seqmatchall83/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_fuzztran.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzztran39/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzztran39/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_dotmatcher.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dotmatcher24/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dotmatcher24/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_noreturn.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: noreturn60/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: noreturn60/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_notseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: notseq61/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: notseq61/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_pepstats.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepstats71/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepstats71/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_maskseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: maskseq51/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: maskseq51/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_trimseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: trimseq103/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: trimseq103/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_sirna.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sirna89/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sirna89/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_pepwindowall.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwindowall74/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwindowall74/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_charge.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: charge8/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: charge8/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_water.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: water107/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: water107/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_wordcount.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wordcount109/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wordcount109/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_preg.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: preg78/5.0.0+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: preg78/5.0.0+galaxy1</id>
+            <version>5.0.0+galaxy1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_newcpgseek.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newcpgseek58/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newcpgseek58/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_trimest.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: trimest102/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: trimest102/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_compseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: compseq14/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: compseq14/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_cai.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cai6/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cai6/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_tmap.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tmap99/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tmap99/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_pepinfo.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepinfo69/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepinfo69/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_pepwheel.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwheel72/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwheel72/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_descseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: descseq21/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: descseq21/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_polydot.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: polydot77/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: polydot77/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_cutseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cutseq18/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cutseq18/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_palindrome.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: palindrome65/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: palindrome65/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_splitter.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: splitter92/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: splitter92/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_hmoment.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: hmoment44/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: hmoment44/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_dotpath.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dotpath25/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dotpath25/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_einverted.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: einverted28/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: einverted28/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_marscan.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: marscan49/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: marscan49/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_nthseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: nthseq62/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: nthseq62/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_syco.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: syco96/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: syco96/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_prettyplot.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: prettyplot79/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: prettyplot79/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_textsearch.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: textsearch98/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: textsearch98/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_diffseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: diffseq22/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: diffseq22/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_geecee.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: geecee41/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: geecee41/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_garnier.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: garnier40/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: garnier40/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_wobble.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wobble108/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wobble108/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_cirdna.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cirdna11/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cirdna11/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_matcher.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: matcher52/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: matcher52/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_getorf.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: getorf42/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: getorf42/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_backtranseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: backtranseq2/6.6.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: backtranseq2/6.6.0</id>
+            <version>6.6.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_dan.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dan19/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dan19/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_primersearch.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: primersearch81/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: primersearch81/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_oddcomp.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: oddcomp64/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: oddcomp64/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_checktrans.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: checktrans9/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: checktrans9/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_sixpack.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sixpack90/5.0.0+galaxy2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sixpack90/5.0.0+galaxy2</id>
+            <version>5.0.0+galaxy2</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_digest.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: digest23/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: digest23/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_merger.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: merger54/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: merger54/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_prettyseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: prettyseq80/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: prettyseq80/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_fuzzpro.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzzpro38/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzzpro38/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_pepnet.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepnet70/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepnet70/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_tranalign.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tranalign100/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tranalign100/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_biosed.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: biosed4/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: biosed4/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_vectorstrip.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: vectorstrip106/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: vectorstrip106/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_chips.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: chips10/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: chips10/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_pasteseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pasteseq66/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pasteseq66/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_newseq.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newseq59/5.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newseq59/5.0.0</id>
+            <version>5.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_iep.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: iep45/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: iep45/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_fuzznuc.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzznuc37/5.0.2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzznuc37/5.0.2</id>
+            <version>5.0.2</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_tcode.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tcode97/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tcode97/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_dottup.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dottup26/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dottup26/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_epestfind.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: epestfind29/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: epestfind29/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/ce385837c160/emboss_5/emboss_freak.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: freak36/5.0.0.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>emboss_5</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>ce385837c160</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: freak36/5.0.0.1</id>
+            <version>5.0.0.1</version>
+        </tool>
+    </section>
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/75c93c70d094/multiqc/multiqc.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.9+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>multiqc</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>75c93c70d094</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.9+galaxy1</id>
+            <version>1.9+galaxy1</version>
+        </tool>
+    </section>
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/fastqe/819b8c1657d5/fastqe/fastqe.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/0.2.6+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>fastqe</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>819b8c1657d5</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/0.2.6+galaxy1</id>
+            <version>0.2.6+galaxy1</version>
+        </tool>
+    </section>
+    <section id="graph_display_data" name="Graph/Display Data" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/4542035c1075/jbrowse/jbrowse.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/1.16.11+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>jbrowse</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>4542035c1075</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/1.16.11+galaxy0</id>
+            <version>1.16.11+galaxy0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/4542035c1075/jbrowse/jbrowse-fromdir.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse_to_standalone/1.16.11+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>jbrowse</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>4542035c1075</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse_to_standalone/1.16.11+galaxy0</id>
+            <version>1.16.11+galaxy0</version>
+        </tool>
+    </section>
+    <section id="mapping" name="Mapping" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/09b2cdb7ace5/bowtie2/bowtie2_wrapper.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.4.2+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>bowtie2</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>09b2cdb7ace5</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.4.2+galaxy0</id>
+            <version>2.4.2+galaxy0</version>
+        </tool>
+    </section>
+    <section id="mapping" name="Mapping" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/minimap2/f54f5baedfdd/minimap2/minimap2.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/2.17+galaxy4">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>minimap2</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>f54f5baedfdd</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/2.17+galaxy4</id>
+            <version>2.17+galaxy4</version>
+        </tool>
+    </section>
+    <section id="mapping" name="Mapping" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/a6fba3d92531/rna_starsolo/rg_rnaStarSolo.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/2.7.8a">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>rna_starsolo</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>a6fba3d92531</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/2.7.8a</id>
+            <version>2.7.8a</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/kraken2/e674066930b2/kraken2/kraken2.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/2.1.1+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>kraken2</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>e674066930b2</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/2.1.1+galaxy1</id>
+            <version>2.1.1+galaxy1</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/9495df9dd6ef/vsearch/clustering.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/2.8.3.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>vsearch</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>9495df9dd6ef</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/2.8.3.0</id>
+            <version>2.8.3.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/9495df9dd6ef/vsearch/masking.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_masking/2.8.3.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>vsearch</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>9495df9dd6ef</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_masking/2.8.3.0</id>
+            <version>2.8.3.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/9495df9dd6ef/vsearch/dereplication.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_dereplication/2.8.3.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>vsearch</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>9495df9dd6ef</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_dereplication/2.8.3.0</id>
+            <version>2.8.3.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/9495df9dd6ef/vsearch/sorting.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_sorting/2.8.3.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>vsearch</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>9495df9dd6ef</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_sorting/2.8.3.0</id>
+            <version>2.8.3.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/9495df9dd6ef/vsearch/alignment.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_alignment/2.8.3.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>vsearch</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>9495df9dd6ef</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_alignment/2.8.3.0</id>
+            <version>2.8.3.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/9495df9dd6ef/vsearch/chimera.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/2.8.3.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>vsearch</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>9495df9dd6ef</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/2.8.3.0</id>
+            <version>2.8.3.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/9495df9dd6ef/vsearch/search.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/2.8.3.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>vsearch</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>9495df9dd6ef</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/2.8.3.1</id>
+            <version>2.8.3.1</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/9495df9dd6ef/vsearch/shuffling.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_shuffling/2.8.3.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>vsearch</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>9495df9dd6ef</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_shuffling/2.8.3.0</id>
+            <version>2.8.3.0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotqualityprofile/f947b4bb5107/dada2_plotqualityprofile/dada2_plotQualityProfile.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotqualityprofile/dada2_plotQualityProfile/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_plotqualityprofile</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>f947b4bb5107</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotqualityprofile/dada2_plotQualityProfile/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotcomplexity/ac72310b038a/dada2_plotcomplexity/dada2_plotComplexity.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotcomplexity/dada2_plotComplexity/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_plotcomplexity</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>ac72310b038a</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotcomplexity/dada2_plotComplexity/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/5b5a7af9fbb4/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_assigntaxonomyaddspecies</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>5b5a7af9fbb4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_removebimeradenovo/04144473e59e/dada2_removebimeradenovo/dada2_removeBimeraDenovo.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_removebimeradenovo/dada2_removeBimeraDenovo/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_removebimeradenovo</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>04144473e59e</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_removebimeradenovo/dada2_removeBimeraDenovo/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/f732237754fc/dada2_filterandtrim/dada2_filterAndTrim.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/dada2_filterAndTrim/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_filterandtrim</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>f732237754fc</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/dada2_filterAndTrim/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/18a502a9d287/dada2_dada/dada2_dada.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_dada</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>18a502a9d287</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/8c202e741d68/dada2_learnerrors/dada2_learnErrors.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/dada2_learnErrors/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_learnerrors</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>8c202e741d68</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/dada2_learnErrors/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_makesequencetable/1c9b3bcd4261/dada2_makesequencetable/dada2_makeSequenceTable.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_makesequencetable/dada2_makeSequenceTable/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_makesequencetable</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>1c9b3bcd4261</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_makesequencetable/dada2_makeSequenceTable/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_mergepairs/306a40d4bb8f/dada2_mergepairs/dada2_mergePairs.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_mergepairs/dada2_mergePairs/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_mergepairs</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>306a40d4bb8f</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_mergepairs/dada2_mergePairs/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="metagenomic_analysis" name="Metagenomic Analysis" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/dada2_seqcounts/d943081510da/dada2_seqcounts/dada2_seqCounts.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/dada2_seqcounts/dada2_seqCounts/1.18+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>dada2_seqcounts</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>d943081510da</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/dada2_seqcounts/dada2_seqCounts/1.18+galaxy0</id>
+            <version>1.18+galaxy0</version>
+        </tool>
+    </section>
+    <section id="mothur" name="Mothur" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_vsearch/de3cfb122105/mothur_chimera_vsearch/chimera.vsearch.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_vsearch/mothur_chimera_vsearch/1.39.5.2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>mothur_chimera_vsearch</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>de3cfb122105</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_vsearch/mothur_chimera_vsearch/1.39.5.2</id>
+            <version>1.39.5.2</version>
+        </tool>
+    </section>
+    <section id="nanopore" name="Nanopore" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/edf6d4003fad/medaka_variant/variant.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/1.0.3+galaxy6">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>medaka_variant</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>edf6d4003fad</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/1.0.3+galaxy6</id>
+            <version>1.0.3+galaxy6</version>
+        </tool>
+    </section>
+    <section id="rna_seq" name="RNA-seq" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/c772497b2c32/rgrnastar/rg_rnaStar.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.7.8a">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>rgrnastar</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>c772497b2c32</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.7.8a</id>
+            <version>2.7.8a</version>
+        </tool>
+    </section>
+    <section id="rna_seq" name="RNA-seq" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity/26d5493b20b6/trinity/trinity.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/2.9.1+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>trinity</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>26d5493b20b6</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/2.9.1+galaxy1</id>
+            <version>2.9.1+galaxy1</version>
+        </tool>
+    </section>
+    <section id="rna_seq" name="RNA-seq" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/893655fa55f9/trinity_align_and_estimate_abundance/align_and_estimate_abundance.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/2.9.1+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>trinity_align_and_estimate_abundance</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>893655fa55f9</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/2.9.1+galaxy1</id>
+            <version>2.9.1+galaxy1</version>
+        </tool>
+    </section>
+    <section id="sam_bam" name="SAM/BAM" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/9c1c0b947e46/pileup_interval/pileup_interval.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.3">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>pileup_interval</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>9c1c0b947e46</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.3</id>
+            <version>1.0.3</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/6adf98e782f3/scanpy_plot/plot.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/scanpy_plot/1.7.1+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>scanpy_plot</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>6adf98e782f3</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/scanpy_plot/1.7.1+galaxy0</id>
+            <version>1.7.1+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_inspect/9d33775ec67d/scanpy_inspect/inspect.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_inspect/scanpy_inspect/1.7.1+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>scanpy_inspect</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>9d33775ec67d</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/scanpy_inspect/scanpy_inspect/1.7.1+galaxy0</id>
+            <version>1.7.1+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_filter/f87ed6503715/scanpy_filter/filter.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_filter/scanpy_filter/1.7.1+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>scanpy_filter</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>f87ed6503715</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/scanpy_filter/scanpy_filter/1.7.1+galaxy0</id>
+            <version>1.7.1+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_normalize/5342ce58cd1e/scanpy_normalize/normalize.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_normalize/scanpy_normalize/1.7.1+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>scanpy_normalize</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>5342ce58cd1e</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/scanpy_normalize/scanpy_normalize/1.7.1+galaxy0</id>
+            <version>1.7.1+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_cluster_reduce_dimension/35bc2eb568ed/scanpy_cluster_reduce_dimension/cluster_reduce_dimension.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_cluster_reduce_dimension/scanpy_cluster_reduce_dimension/1.7.1+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>scanpy_cluster_reduce_dimension</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>35bc2eb568ed</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/scanpy_cluster_reduce_dimension/scanpy_cluster_reduce_dimension/1.7.1+galaxy0</id>
+            <version>1.7.1+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/80d4e2cac903/scanpy_remove_confounders/remove_confounders.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/1.7.1+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>scanpy_remove_confounders</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>80d4e2cac903</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/1.7.1+galaxy0</id>
+            <version>1.7.1+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/anndata_export/c5ac926c838f/anndata_export/export.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/anndata_export/anndata_export/0.7.5+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>anndata_export</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>c5ac926c838f</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/anndata_export/anndata_export/0.7.5+galaxy0</id>
+            <version>0.7.5+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/cfc3f5a57dc6/anndata_import/import.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/0.7.4+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>anndata_import</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>cfc3f5a57dc6</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/0.7.4+galaxy1</id>
+            <version>0.7.4+galaxy1</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/ae1e5d9d8972/anndata_import/import.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/0.7.5+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>anndata_import</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>ae1e5d9d8972</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/0.7.5+galaxy0</id>
+            <version>0.7.5+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/383dcb0500f9/anndata_inspect/inspect.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/anndata_inspect/0.7.5+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>anndata_inspect</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>383dcb0500f9</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/anndata_inspect/anndata_inspect/0.7.5+galaxy0</id>
+            <version>0.7.5+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/anndata_manipulate/8db95f488f0f/anndata_manipulate/manipulate.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/anndata_manipulate/anndata_manipulate/0.7.5+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>anndata_manipulate</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>8db95f488f0f</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/anndata_manipulate/anndata_manipulate/0.7.5+galaxy0</id>
+            <version>0.7.5+galaxy0</version>
+        </tool>
+    </section>
+    <section id="single_cell" name="Single-cell" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/modify_loom/7784821452ac/modify_loom/modify_loom.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/modify_loom/modify_loom/0.7.5+galaxy0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>modify_loom</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>7784821452ac</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/modify_loom/modify_loom/0.7.5+galaxy0</id>
+            <version>0.7.5+galaxy0</version>
+        </tool>
+    </section>
+    <section id="text_manipulation" name="Text Manipulation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/query_tabular/83069b38aa85/query_tabular/query_tabular.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/query_tabular/query_tabular/3.1.2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>query_tabular</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>83069b38aa85</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/query_tabular/query_tabular/3.1.2</id>
+            <version>3.1.2</version>
+        </tool>
+    </section>
+    <section id="text_manipulation" name="Text Manipulation" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/filter_tabular/6544e4b87a4f/filter_tabular/filter_tabular.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/filter_tabular/filter_tabular/3.1.2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>filter_tabular</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>6544e4b87a4f</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/filter_tabular/filter_tabular/3.1.2</id>
+            <version>3.1.2</version>
+        </tool>
+    </section>
+    <section id="vcf_bcf" name="VCF/BCF" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_consensus/d6dc477167f8/bcftools_consensus/bcftools_consensus.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/bcftools_consensus/bcftools_consensus/1.10+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>bcftools_consensus</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>d6dc477167f8</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/bcftools_consensus/bcftools_consensus/1.10+galaxy1</id>
+            <version>1.10+galaxy1</version>
+        </tool>
+    </section>
+    <section id="assembly" name="Assembly" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/29151e779524/purge_dups/purge_dups.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/1.2.5+galaxy1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>purge_dups</repository_name>
+            <repository_owner>iuc</repository_owner>
+            <installed_changeset_revision>29151e779524</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/1.2.5+galaxy1</id>
+            <version>1.2.5+galaxy1</version>
+        </tool>
+    </section>
+    <section id="mapping" name="Mapping" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/lastz/2ff111fac1d7/lastz/lastz_d.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_d_wrapper/1.3.2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>lastz</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>2ff111fac1d7</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_d_wrapper/1.3.2</id>
+            <version>1.3.2</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/lastz/2ff111fac1d7/lastz/lastz.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.3.3">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>lastz</repository_name>
+            <repository_owner>devteam</repository_owner>
+            <installed_changeset_revision>2ff111fac1d7</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.3.3</id>
+            <version>1.3.3</version>
         </tool>
     </section>
 </toolbox>
