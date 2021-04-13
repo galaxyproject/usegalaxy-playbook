@@ -177,6 +177,11 @@ tools:
     # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
     #- destination: slurm_normal
 
+  # TODO: refine, but per Björn "start with 52"
+  hifiasm:
+    destination: jetstream_tacc_xlarge
+    login_required: true
+
   # Kraken goes to Stampede 2 SKX if the bacteria database is selected, otherwise it goes to standard multi
   kraken:
     # can be a list if you want to do different things with different params (or one thing with no checked params)
@@ -264,7 +269,7 @@ tools:
         # SPAdes uses 2GB+ per thread regardless of what you set the memory limit to, so we have to decrease the threads
         # to avoid using too much memory
         - name: GALAXY_SLOTS
-          value: "64"
+          value: "16"
     #destination: bridges_normal
     #login_required: true
     #spec:
@@ -515,20 +520,30 @@ destinations:
       time: 120
   bridges_normal:
     valid:
-      - mem
+      #- mem
+      - ntasks
       - time
+    max:
+      ntasks: 128
+      time: 36
     override:
-      mem: 720G
-    normalize:
-      mem: 48G
+      time: 48
+      #mem: 720G
+    #normalize:
+    #  mem: 48G
   bridges_development:
     valid:
-      - mem
+      #- mem
+      - ntasks
       - time
+    max:
+      ntasks: 128
     override:
-      mem: 720G
-    normalize:
-      mem: 48G
+      time: 2
+    #override:
+    #  mem: 720G
+    #normalize:
+    #  mem: 48G
 
 groups:
   Job Priority Users:

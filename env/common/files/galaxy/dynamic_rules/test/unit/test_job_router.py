@@ -27,6 +27,7 @@ job_router.MAX_DEFER_SECONDS = 2
 NORMAL_NATIVE_SPEC = "--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00"
 MULTI_NATIVE_SPEC = "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00"
 JETSTREAM_MULTI_NATIVE_SPEC = "--partition=multi --nodes=1 --time=36:00:00"
+BRIDGES_NATIVE_SPEC = "--partition=RM --time=24:00:00 --ntasks=64"
 
 job_router.JOB_ROUTER_CONF_FILE = os.path.join(os.path.dirname(__file__), 'job_router_conf.yml')
 MAIN_JOB_CONF = os.path.join(os.path.dirname(__file__), "job_conf.yml")
@@ -302,7 +303,7 @@ def test_bridges_normal():
     test = {
         "tool": tool,
         #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={288 * KILOBYTE}",
-        "return_native_spec": f"--partition=RM --time=36:00:00",
+        "return_native_spec": BRIDGES_NATIVE_SPEC,
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -316,7 +317,7 @@ def test_trinity_normalize_small():
         "ref_size": 8 * GIGABYTE,
         "tool": tool,
         #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=72:00:00 --mem={240 * KILOBYTE}",
-        "return_native_spec": f"--partition=RM --time=36:00:00",
+        "return_native_spec": BRIDGES_NATIVE_SPEC,
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -330,7 +331,7 @@ def test_trinity_normalize_medium():
         "ref_size": 64 * GIGABYTE,
         "tool": tool,
         #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={480 * KILOBYTE}",
-        "return_native_spec": f"--partition=RM --time=36:00:00",
+        "return_native_spec": BRIDGES_NATIVE_SPEC,
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -344,7 +345,7 @@ def test_trinity_normalize_large():
         "ref_size": 128 * GIGABYTE,
         "tool": tool,
         #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={720 * KILOBYTE}",
-        "return_native_spec": f"--partition=RM --time=36:00:00",
+        "return_native_spec": BRIDGES_NATIVE_SPEC,
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -358,7 +359,7 @@ def test_trinity_no_normalize_small():
         "ref_size": 8 * GIGABYTE,
         "tool": tool,
         #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={480 * KILOBYTE}",
-        "return_native_spec": f"--partition=RM --time=36:00:00",
+        "return_native_spec": BRIDGES_NATIVE_SPEC,
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -372,7 +373,7 @@ def test_trinity_no_normalize_medium():
         "ref_size": 64 * GIGABYTE,
         "tool": tool,
         #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={720 * KILOBYTE}",
-        "return_native_spec": f"--partition=RM --time=36:00:00",
+        "return_native_spec": BRIDGES_NATIVE_SPEC,
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -386,7 +387,7 @@ def test_trinity_no_normalize_large():
         "ref_size": 128 * GIGABYTE,
         "tool": tool,
         #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={960 * KILOBYTE}",
-        "return_native_spec": f"--partition=RM --time=36:00:00",
+        "return_native_spec": BRIDGES_NATIVE_SPEC,
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -400,7 +401,7 @@ def test_trinity_no_normalize_large_paired():
         "ref_size": 128 * GIGABYTE,
         "tool": tool,
         #"return_native_spec": f"--partition=LM --constraint=LM&EGRESS --time=96:00:00 --mem={960 * KILOBYTE}",
-        "return_native_spec": f"--partition=RM --time=36:00:00",
+        "return_native_spec": BRIDGES_NATIVE_SPEC,
         "return_destination_id": "bridges_normal",
     }
     __test_job_router(test)
@@ -506,10 +507,11 @@ def test_resource_no_override():
     tool.params = {}
     test = {
         "tool": tool,
-        "resource_params": {"multi_compute_resource": "bridges_normal", "mem": 720 * KILOBYTE},
+        #"resource_params": {"multi_compute_resource": "bridges_normal", "mem": 720 * KILOBYTE},
+        "resource_params": {"multi_compute_resource": "bridges_development", "time": 4},
         #"return_native_spec": f"--partition=RM --time=36:00:00 --mem={288 * KILOBYTE}",
-        "return_native_spec": f"--partition=RM --time=36:00:00",
-        "return_destination_id": "bridges_normal",
+        "return_native_spec": BRIDGES_NATIVE_SPEC.replace("24:00", "00:30"),
+        "return_destination_id": "bridges_development",
     }
     __test_job_router(test)
 
@@ -520,8 +522,10 @@ def test_resource_group_override():
     tool.params = {}
     test = {
         "tool": tool,
-        "resource_params": {"multi_compute_resource": "bridges_normal", "mem": 720 * KILOBYTE},
-        "return_native_spec": f"--partition=RM --time=36:00:00 --mem={720 * KILOBYTE}",
+        #"resource_params": {"multi_compute_resource": "bridges_normal", "mem": 720 * KILOBYTE},
+        "resource_params": {"multi_compute_resource": "bridges_normal", "time": 42},
+        #"return_native_spec": f"--partition=RM --time=36:00:00 --mem={720 * KILOBYTE}",
+        "return_native_spec": BRIDGES_NATIVE_SPEC.replace("24:00", "42:00"),
         "return_destination_id": "bridges_normal",
     }
     options = {"param_overrides": True}
@@ -535,8 +539,10 @@ def test_resource_group_override_cap():
     tool.params = {}
     test = {
         "tool": tool,
-        "resource_params": {"multi_compute_resource": "bridges_normal", "mem": 912 * KILOBYTE},
-        "return_native_spec": f"--partition=RM --time=36:00:00 --mem={720 * KILOBYTE}",
+        #"resource_params": {"multi_compute_resource": "bridges_normal", "mem": 912 * KILOBYTE},
+        "resource_params": {"multi_compute_resource": "bridges_normal", "time": 62},
+        #"return_native_spec": f"--partition=RM --time=36:00:00 --mem={720 * KILOBYTE}",
+        "return_native_spec": BRIDGES_NATIVE_SPEC.replace("24:00", "48:00"),
         "return_destination_id": "bridges_normal",
     }
     options = {"param_overrides": True}

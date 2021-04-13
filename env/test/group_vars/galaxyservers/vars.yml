@@ -97,7 +97,7 @@ galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource, ntasks, time]
   multi_long: [multi_long_compute_resource, ntasks, time]
   multi_bridges: [multi_bridges_compute_resource, ntasks, time]
-  bridges: [bridges_compute_resource, mem, time]
+  bridges: [bridges_compute_resource, ntasks, time]
   stampede: [stampede_compute_resource, ntasks, time]
 
 # tool mappings are in tools_conf.yml
