@@ -147,7 +147,7 @@ galaxy_large_memory_tools:
   - trinity
   - trinity_psc
   #- unicycler
-  - star_fusion
+  #- star_fusion
 
 # tools that can run on both multi and Bridges
 galaxy_conditional_large_memory_tools:
@@ -171,7 +171,10 @@ __galaxy_multicore_tools_exclude:
   - fasterq_dump
   - rna_star
   - rna_starsolo
-  - unicycler
+  - spades
+  - star_fusion
+  # standard multicore now
+  #- unicycler
 
 # tools missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
