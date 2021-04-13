@@ -198,22 +198,26 @@ def __check_param(app, param_dict, param):
     op = param.get('op', '==')
     type_ = param.get('type')
 
+    # When walking the dict down to the param, any element that's a list will be replaced by the first element of that
+    # list. This handles repeats (you always check the first element of the repeat) and things like Trinity paired
+    # inputs, which are lists of (single?) HDAs. This may prevent more complex rules but it's good enough for our needs
+    # right now.
+
     subpd = param_dict.copy()
     try:
         # walk the param dict
         for subname in name.split('.'):
             subpd = subpd[subname]
-    except KeyError:
+            # replace lists by the first element of the list
+            if isinstance(subpd, list):
+                local.log.warning("Converting list param element '%s' to single (first) element: %s", subname, name)
+                subpd = subpd[0]
+    except (KeyError, IndexError):
         return False
     runtime_value = subpd
 
     if not isinstance(value, list):
         value = [value]
-    if isinstance(runtime_value, list):
-        # Trinity paired inputs are lists of (single?) HDA which is the reason for doing this, but is it really what we
-        # want to do?
-        local.log.warning("Converting list param to single (first) element: %s", runtime_value)
-        runtime_value = runtime_value[0]
 
     # TODO: probably shouldn't assume size but that's good enough for now since it's all we're interested in. if this
     # needed to be on something other than size we could add a 'property' key that indicates what property of the param
@@ -559,6 +563,7 @@ def job_router(app, job, tool, resource_params, user_email):
 
     envs = []
     spec = {}
+    login_required = False
     destination_id = None
     destination = None
 
@@ -576,8 +581,12 @@ def job_router(app, job, tool, resource_params, user_email):
     if tool_mapping:
         spec = tool_mapping.get('spec', {}).copy()
         envs = tool_mapping.get('env', []).copy()
+        login_required = tool_mapping.get('login_required', False)
 
     tool_id = __short_tool_id(tool.id)
+
+    if login_required and user_email is None:
+        raise JobMappingException('Please log in to use this tool')
 
     # resource_params is an empty dict if not set
     if resource_params:

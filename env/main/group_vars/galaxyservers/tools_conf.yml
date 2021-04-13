@@ -143,11 +143,15 @@ galaxy_pulsar_incompatible_tools:
 # tools that should run on Bridges
 galaxy_large_memory_tools:
   - abyss-pe
-  - spades
+  #- spades
   - trinity
   - trinity_psc
   #- unicycler
   - star_fusion
+
+# tools that can run on both multi and Bridges
+galaxy_conditional_large_memory_tools:
+  - spades
 
 # tools that should run on Stampede
 galaxy_low_priority_tools:
