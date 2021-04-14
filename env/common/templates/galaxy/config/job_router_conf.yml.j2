@@ -282,7 +282,10 @@ tools:
     #  # TODO: appropriate value for Bridges-2?
     #  - execute: ulimit -s 24576
 
-  #unicycler:
+  unicycler:
+    # Use multi for all (but Bridges can be selected from the resource selector)
+    - destination: multi
+      login_required: true
   #  # Use multi for very small (e.g. training) datasets
   #  - params:
   #      - {name: paired_unpaired.fastq_input1, op: '<', value: 100M}
