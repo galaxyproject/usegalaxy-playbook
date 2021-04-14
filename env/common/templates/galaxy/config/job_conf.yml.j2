@@ -40,10 +40,12 @@
     {'id': 'long', 'native_spec': '--partition=long --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=60:00:00', 'memory_mb': 94208, 'tags': ['multi_long']},
 ) %}
 
-{#- 147456 MB == 144 GB (3 cores) (128GB is the minimum for LM) #}
+{#- RM nodes are 128 core / 256 GB, RM-512 nodes are 256 core / 512 GB #}
 {%- set bridges_environments = (
-    {'id': 'normal', 'native_spec': '--partition=RM --time=24:00:00 --ntasks=64'},
-    {'id': 'development', 'native_spec': '--partition=RM --time=00:30:00 --ntasks=64'},
+    {'id': 'normal', 'native_spec': '--partition=RM --time=24:00:00 --nodes=1 --ntasks=64'},
+    {'id': 'shared_128gb', 'native_spec': '--partition=RM-shared --time=24:00:00 --nodes=1 --ntasks=64'},
+    {'id': 'shared_64gb', 'native_spec': '--partition=RM-shared --time=24:00:00 --nodes=1 --ntasks=32'},
+    {'id': 'development', 'native_spec': '--partition=RM-shared --time=00:30:00 --nodes=1 --ntasks=8'},
 ) %}
 
 {#-

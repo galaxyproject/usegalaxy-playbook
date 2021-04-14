@@ -283,6 +283,11 @@ tools:
     #  - execute: ulimit -s 24576
 
   unicycler:
+    - -params:
+        #- {name: paired_unpaired.fastq_input_selector, value: [paired, paired_collection, single]}
+        - {name: paired_unpaired.fastq_input1, op: '>', value: 800M}
+      destination: bridges_normal
+      login_required: true
     # Use multi for all (but Bridges can be selected from the resource selector)
     - destination: multi
       login_required: true
