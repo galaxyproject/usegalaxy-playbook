@@ -263,13 +263,13 @@ tools:
         - {name: libraries.files.file_type.fastq_collection, op: '<', value: 100M}
       destination: multi
       login_required: true
-    - destination: bridges_normal
+    - destination: bridges_shared_64gb
       login_required: true
       env:
         # SPAdes uses 2GB+ per thread regardless of what you set the memory limit to, so we have to decrease the threads
         # to avoid using too much memory
         - name: GALAXY_SLOTS
-          value: "16"
+          value: "24"
     #destination: bridges_normal
     #login_required: true
     #spec:
@@ -286,8 +286,11 @@ tools:
     - -params:
         #- {name: paired_unpaired.fastq_input_selector, value: [paired, paired_collection, single]}
         - {name: paired_unpaired.fastq_input1, op: '>', value: 800M}
-      destination: bridges_normal
+      destination: bridges_shared_64gb
       login_required: true
+      env:
+        - name: GALAXY_SLOTS
+          value: "24"
     # Use multi for all (but Bridges can be selected from the resource selector)
     - destination: multi
       login_required: true
