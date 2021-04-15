@@ -283,7 +283,7 @@ tools:
     #  - execute: ulimit -s 24576
 
   unicycler:
-    - -params:
+    - params:
         #- {name: paired_unpaired.fastq_input_selector, value: [paired, paired_collection, single]}
         - {name: paired_unpaired.fastq_input1, op: '>', value: 800M}
       destination: bridges_shared_64gb
