@@ -6,7 +6,8 @@
 
 # this is used in the "tools" section of the job_conf - make sure any you define here don't appear in lists below
 galaxy_job_conf_tools:
-  #- id: random_lines1
+  - id: random_lines1
+    environment: slurm_normal_singularity
   #  environment: tacc_k8s
   #  handler: multi
   - id: interactive_tool_jupyter_notebook

@@ -119,7 +119,7 @@ base_app_main: &BASE_APP_MAIN
   data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
   job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
   dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
-  #containers_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.yml"
+  containers_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.yml"
 
   migrated_tools_config: "/cvmfs/test.galaxyproject.org/config/migrated_tools_conf.xml"
   shed_tool_data_table_config: "/cvmfs/test.galaxyproject.org/config/shed_tool_data_table_conf.xml"
@@ -216,12 +216,13 @@ base_app_main: &BASE_APP_MAIN
 
   # dependency resolver config
   conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"
-  enable_beta_mulled_containers: "True"
+  #enable_beta_mulled_containers: "True"
+  enable_mulled_containers: "True"
   #container_image_cache_path: /cvmfs/sandbox.galaxyproject.org
-  #outputs_to_working_directory: "True"
+  outputs_to_working_directory: "True"
 
-  mulled_resolution_cache_data_dir: "{{ galaxy_mutable_data_dir }}/mulled/data"
-  mulled_resolution_cache_lock_dir: "{{ galaxy_mutable_data_dir }}/mulled/lock"
+  #mulled_resolution_cache_data_dir: "{{ galaxy_mutable_data_dir }}/mulled/data"
+  #mulled_resolution_cache_lock_dir: "{{ galaxy_mutable_data_dir }}/mulled/lock"
 
   # For handler heartbeats
   use_heartbeat: "True"

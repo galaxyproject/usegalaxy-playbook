@@ -272,8 +272,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['job_resource_params_file'] }}"
   - src: files/galaxy/config/dependency_resolvers_conf.xml
     dest: "{{ galaxy_config[galaxy_app_config_section]['dependency_resolvers_config_file'] }}"
-  #- src: files/galaxy/config/container_resolvers_conf.yml
-  #  dest: "{{ galaxy_config[galaxy_app_config_section]['containers_resolvers_config_file'] }}"
+  - src: files/galaxy/config/container_resolvers_conf.yml
+    dest: "{{ galaxy_config[galaxy_app_config_section]['containers_resolvers_config_file'] }}"
   - src: files/galaxy/config/pulsar_stampede_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
   - src: files/galaxy/config/pulsar_bridges_actions.yml

@@ -235,6 +235,17 @@ execution:
 {% endif %}
 {% endfor %}
 
+    slurm_normal_singularity:
+      runner: slurm
+      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=02:00:00
+      singularity_enabled: true
+      # /cvmfs/data?
+      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl:ro,/galaxy:ro'
+      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro'
+      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+      env:
+        {{ env_local_envs(java_mem=28) }}
+
     # FIXME: roundup-only since I'm pretty certain memory_limit_reached doesn't work on Pulsar dests
     # resubmit to jetstream-tacc-xlarge on memory failure
     slurm_multi_memory_resubmit:
