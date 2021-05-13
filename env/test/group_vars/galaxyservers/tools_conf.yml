@@ -8,6 +8,8 @@
 galaxy_job_conf_tools:
   - id: random_lines1
     environment: slurm_normal_singularity
+  - id: cat1
+    environment: slurm_normal_singularity
   #  environment: tacc_k8s
   #  handler: multi
   - id: interactive_tool_jupyter_notebook
@@ -176,6 +178,7 @@ __galaxy_multicore_tools_exclude:
   - spades
   - star_fusion
   - unicycler
+  - bowtie2  # for singularity testing
 
 # tools missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
@@ -309,6 +312,8 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0"
+  - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0"
+  - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.1.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tac/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/1.0.0"

@@ -14,9 +14,13 @@ from functools import partial
 import yaml
 from sqlalchemy import func
 
+import galaxy.tools
 from galaxy import model
 from galaxy.jobs.mapper import JobMappingException, JobNotReadyException
 from galaxy.util import size_to_bytes
+
+
+GALAXY_LIB_TOOLS = galaxy.tools.GALAXY_LIB_TOOLS_UNVERSIONED
 
 
 log = logging.getLogger(__name__)
@@ -27,6 +31,10 @@ local = threading.local()
 # TODO: might be cleaner to make `app` a global
 JOB_ROUTER_CONF_FILE = None
 JOB_ROUTER_CONF_FILENAME = 'job_router_conf.yml'
+
+# TODO: could pull this from the job config as well
+#DEFAULT_DESTINATION_ID = 'slurm_normal'
+#DEFAULT_DESTINATION_ID = 'slurm_normal_singularity'
 
 # Contents of the tool mappings file and special group assignments will be cached
 # this is an rlock because getting group member cache also hits the job router conf cache
@@ -573,6 +581,11 @@ def __is_training_history(job, tool_id):
         return False
 
 
+def __is_galaxy_lib_tool(tool_id):
+    # TODO: versioned?
+    return tool_id in GALAXY_LIB_TOOLS
+
+
 def job_router(app, job, tool, resource_params, user):
     tool_mapping = None
 
@@ -624,9 +637,14 @@ def job_router(app, job, tool, resource_params, user):
         local.log.debug("Tool '%s' mapped to '%s' native specification overrides: %s", tool_id, destination_id, spec or 'none')
 
     if destination_id is None:
-        tool_mapping = __tool_mapping(app, '_default_', {})
-        destination_id = tool_mapping['destination']
-        local.log.debug("'%s' has no mapping, using default destination '%s'", tool_id, destination_id)
+        if __is_galaxy_lib_tool(tool_id):
+            tool_mapping = __tool_mapping(app, '_galaxy_lib_', {})
+            destination_id = tool_mapping['destination']
+            local.log.debug("'%s' is a Galaxy lib too, using destination '%s'", tool_id, destination_id)
+        else:
+            tool_mapping = __tool_mapping(app, '_default_', {})
+            destination_id = tool_mapping['destination']
+            local.log.debug("'%s' has no mapping, using default destination '%s'", tool_id, destination_id)
         destination_id = __resolve_destination(app, job, user_email, destination_id)
 
     local.log.debug('Final destination after resolution is: %s', destination_id)

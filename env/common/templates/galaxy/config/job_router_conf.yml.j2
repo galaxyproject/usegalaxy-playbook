@@ -49,58 +49,66 @@
 
 tools:
 
-  _default_: {destination: slurm_normal}
+  #_default_: {destination: slurm_normal}
+  _default_: {destination: slurm_normal_singularity}
+  _galaxy_lib_: {destination: slurm_normal_singularity_galaxy_env}
+
+  # Singularity test
+  upload1: {destination: slurm_normal}
+  #toolshed.g2.bx.psu.edu/repos/devteam/count_gff_features/count_gff_features/0.2: {destination: slurm_normal_singularity_galaxy_env}
+  #toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.6: {destination: slurm_multi_singularity}
+  #bowtie2: {destination: slurm_multi_singularity}
 
   # python 2 legacy tools
 {% for tool_id in galaxy_python2_legacy_tools %}
 {% set short_tool_id = tool_id.split('/')[-2] %}
-  {{ tool_id }}: {destination: slurm_{{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'normal') }}_legacy}
+  {{ tool_id }}: {destination: slurm_{{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'normal') }}_singularity_legacy}
 {% endfor %}
 
   # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
 {# this is a large automatically generated list maintained in env/<env>/group_vars/galaxyservers/tools_conf.yml #}
 {% for tool_id in galaxy_multicore_tools %}
 {% if tool_id in galaxy_pulsar_incompatible_tools %}
-  {{ tool_id }}: {destination: slurm_multi, login_required: true}
+  {{ tool_id }}: {destination: slurm_multi_singularity, login_required: true}
 {% else %}
-  {{ tool_id }}: {destination: multi, login_required: true}
+  {{ tool_id }}: {destination: multi_singularity, login_required: true}
 {% endif %}
 {% endfor %}
 
   # 1 core, 16 GB of memory, and a 36 hour walltime
-  join1: {destination: slurm_normal_16gb}
-  gops_join_1: {destination: slurm_normal_16gb}
-  gatk_indel_realigner: {destination: slurm_normal_16gb}
-  gatk_depth_of_coverage: {destination: slurm_normal_16gb}
-  gatk_table_recalibration: {destination: slurm_normal_16gb}
-  fastq_paired_end_joiner: {destination: slurm_normal_16gb}
-  bamtools: {destination: slurm_normal_16gb}
-  varscan: {destination: slurm_normal_16gb}
-  scatterplot_rpy: {destination: slurm_normal_16gb}
-  htseq_count: {destination: slurm_normal_16gb}
-  flanking_features_1: {destination: slurm_normal_16gb}
-  cummeRbund: {destination: slurm_normal_16gb}
-  collection_column_join: {destination: slurm_normal_16gb}
-  rseqc_read_duplication: {destination: slurm_normal_16gb}
-  rseqc_RPKM_saturation: {destination: slurm_normal_16gb}
-  rseqc_bam2wig: {destination: slurm_normal_16gb}
-  seqtk_sample: {destination: slurm_normal_16gb}
-  ggplot2_heatmap2: {destination: slurm_normal_16gb}
-  kc-align: {destination: slurm_normal_16gb}
-  porechop: {destination: slurm_normal_16gb}
-  read2mut: {destination: slurm_normal_16gb}
-  annotatemyids: {destination: slurm_normal_16gb}
+  join1: {destination: slurm_normal_16gb_singularity}
+  gops_join_1: {destination: slurm_normal_16gb_singularity}
+  gatk_indel_realigner: {destination: slurm_normal_16gb_singularity}
+  gatk_depth_of_coverage: {destination: slurm_normal_16gb_singularity}
+  gatk_table_recalibration: {destination: slurm_normal_16gb_singularity}
+  fastq_paired_end_joiner: {destination: slurm_normal_16gb_singularity}
+  bamtools: {destination: slurm_normal_16gb_singularity}
+  varscan: {destination: slurm_normal_16gb_singularity}
+  scatterplot_rpy: {destination: slurm_normal_16gb_singularity}
+  htseq_count: {destination: slurm_normal_16gb_singularity}
+  flanking_features_1: {destination: slurm_normal_16gb_singularity}
+  cummeRbund: {destination: slurm_normal_16gb_singularity}
+  collection_column_join: {destination: slurm_normal_16gb_singularity}
+  rseqc_read_duplication: {destination: slurm_normal_16gb_singularity}
+  rseqc_RPKM_saturation: {destination: slurm_normal_16gb_singularity}
+  rseqc_bam2wig: {destination: slurm_normal_16gb_singularity}
+  seqtk_sample: {destination: slurm_normal_16gb_singularity}
+  ggplot2_heatmap2: {destination: slurm_normal_16gb_singularity}
+  kc-align: {destination: slurm_normal_16gb_singularity}
+  porechop: {destination: slurm_normal_16gb_singularity}
+  read2mut: {destination: slurm_normal_16gb_singularity}
+  annotatemyids: {destination: slurm_normal_16gb_singularity}
 
   # TODO: this can be a function of base pairs in the reference
-  genrich: {destination: slurm_normal_16gb}
+  genrich: {destination: slurm_normal_16gb_singularity}
 
   # 1 core, 32 GB of memory, and a 36 hour walltime
-  Interval2Maf1: {destination: slurm_normal_32gb}
+  Interval2Maf1: {destination: slurm_normal_32gb_singularity}
 
   # TODO: maybe just send these to stampede?
   # 1 core, 64 GB of memory, and a 36 hour walltime
-  wig_to_bigWig: {destination: slurm_normal_64gb}
-  CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb}
+  wig_to_bigWig: {destination: slurm_normal_64gb_singularity}
+  CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb_singularity}
 
   #
   # Tools with special mappings
@@ -110,9 +118,9 @@ tools:
 
   # https://github.com/galaxyproject/tools-iuc/pull/3420
   # add version comparison to job_router and you can undo this for newer versions
-  deseq2: {destination: slurm_multi, login_required: true}
+  deseq2: {destination: slurm_multi_singularity, login_required: true}
   # still investigating
-  stringtie: {destination: slurm_multi, login_required: true}
+  stringtie: {destination: slurm_multi_singularity, login_required: true}
 
   # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
   star_fusion:
@@ -460,11 +468,15 @@ share_job_counts:
     - slurm_multi
     - slurm_multi_legacy
     - slurm_multi_memory_resubmit
+    - slurm_multi_singularity
+    - slurm_multi_singularity_legacy
     - slurm_long
     - reserved_slurm_multi
   -
     - jetstream_iu_multi
     - jetstream_iu_multi_legacy
+    - jetstream_iu_multi_singularity
+    - jetstream_iu_multi_singularity_legacy
     - jetstream_iu_multi_long
     - reserved_jetstream_iu_multi
   -
@@ -491,6 +503,9 @@ destinations:
       # could also set threshold: on each member, default is 4
     - id: jetstream_tacc_multi
       queue_factor: 4
+  multi_singularity:
+    - id: slurm_multi_singularity
+    - id: jetstream_iu_multi_singularity
   reserved_multi:
     - id: reserved_slurm_multi
     # FIXME: not configured right in slurm
@@ -609,6 +624,17 @@ groups:
       multi: reserved_multi
   Job Test Users:
     destination_overrides:
+      slurm_normal: slurm_test
+      slurm_normal_16gb: slurm_test
+      slurm_normal_32gb: slurm_test
+      multi: slurm_test
+      slurm_multi: slurm_test
+      slurm_normal_singularity: slurm_test_singularity
+      slurm_normal_singularity_legacy: slurm_test_singularity_legacy
+      slurm_normal_singularity_galaxy_env: slurm_test_singularity_galaxy_env
+      multi_singularity: slurm_test_singularity
+      slurm_multi_singularity: slurm_test_singularity
+      slurm_multi_singularity_legacy: slurm_test_singularity_legacy
       frontera_small: frontera_development
   Job Resource Param Users:
     param_overrides: true
