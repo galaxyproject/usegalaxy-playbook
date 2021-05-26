@@ -285,6 +285,27 @@ execution:
 {% endif %}
 {% endfor %}
 
+    slurm_normal_singularity_deps:
+      runner: slurm
+      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=02:00:00
+      singularity_enabled: true
+      # /cvmfs/data?
+      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl:ro,/galaxy:ro'
+      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro'
+      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/cvmfs/data.galaxyproject.org:ro,/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps:ro'
+      #singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+      container_override:
+        - type: singularity
+          shell: '/bin/sh'
+          resolve_dependencies: true
+          identifier: '/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011'
+      env:
+        - name: SINGULARITYENV_LC_ALL
+          value: C
+        - name: SINGULARITYENV_PATH
+          value: $PATH
+        {{ env_temp_envs() }}
+
     slurm_test:
       runner: slurm
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
