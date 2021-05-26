@@ -7,40 +7,8 @@
 # this is used in the "tools" section of the job_conf - make sure any you define here don't appear in lists below
 galaxy_job_conf_tools:
   # FIXME: these conda-in-singularity tools should have their own list below and run through the router
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_build_pipeline/sklearn_build_pipeline/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_clf_metrics/sklearn_clf_metrics/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_data_preprocess/sklearn_data_preprocess/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_discriminant_classifier/sklearn_discriminant_classifier/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_ensemble/sklearn_ensemble/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_feature_selection/sklearn_feature_selection/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_generalized_linear/sklearn_generalized_linear/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_model_fit/sklearn_model_fit/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_model_validation/sklearn_model_validation/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_nn_classifier/sklearn_nn_classifier/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_numeric_clustering/sklearn_numeric_clustering/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_pairwise_metrics/sklearn_pairwise_metrics/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_regression_metrics/sklearn_regression_metrics/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_sample_generator/sklearn_sample_generator/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_stacking_ensemble_models/sklearn_stacking_ensemble_models/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_svm_classifier/sklearn_svm_classifier/1.0.8.1
-    environment: slurm_normal_singularity_deps
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_train_test_split/sklearn_train_test_split/1.0.8.1
-    environment: slurm_normal_singularity_deps
+  #- id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_train_test_split/sklearn_train_test_split/1.0.8.1
+  #  environment: slurm_normal_singularity_deps
   - id: random_lines1
     environment: slurm_normal_singularity
   - id: cat1
