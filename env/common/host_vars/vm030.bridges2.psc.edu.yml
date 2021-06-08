@@ -46,47 +46,24 @@ pulsar_pycurl_ssl_library: openssl
 
 pulsar_drmaa_library_path: "{{ _bridges_home_root }}/slurm-drmaa/lib/libdrmaa.so"
 
-pulsar_dependency_resolvers:
-  #- name: conda
-  #  args:
-  #    - name: prefix
-  #      value: "{{ _pulsar_dependencies_dir }}/_conda"
-  # local conda is shared between test/main, and hopefully won't be used anymore w/ parrot
-  - name: conda
-    args:
-      - name: prefix
-        value: "{{ _bridges_conda_root }}"
-      - name: auto_install
-        value: "true"
-      - name: auto_init
-        value: "true"
-  - name: modules
-    args:
-      - name: modulecmd
-        value: /usr/bin/modulecmd
-  - name: tool_shed_packages
-  - name: galaxy_packages
-
 pulsar_job_metrics_plugins:
-  - name: core
-  - name: cpuinfo
-    args:
-      - name: verbose
-        value: "true"
-  - name: meminfo
-  - name: uname
-  - name: cgroup
+  - type: core
+  - type: cpuinfo
+    verbose: true
+  - type: meminfo
+  - type: uname
+  - type: cgroup
 
 pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
   #tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
   # FIXME: these should not be needed! Pulsar does not seem to be reading the dependency_resolvers_conf.xml
-  conda_prefix: "{{ _bridges_conda_root }}"
-  conda_auto_install: true
-  job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
+  #conda_prefix: "{{ _bridges_conda_root }}"
+  #conda_auto_install: true
+  #job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
-  dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
+  #dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
   maximum_stream_size: 8388608  # 8 MB
   amqp_acknowledge: True
   amqp_ack_republish_time: 180
@@ -95,6 +72,12 @@ pulsar_yaml_config:
   amqp_publish_retry_interval_start: 10
   amqp_publish_retry_interval_step: 10
   amqp_publish_retry_interval_max: 60
+  dependency_resolution:
+    resolvers:
+      - type: conda
+        prefix: "{{ _bridges_conda_root }}"
+        auto_init: true
+        auto_install: true
   managers:
     bridges:
       type: queued_drmaa

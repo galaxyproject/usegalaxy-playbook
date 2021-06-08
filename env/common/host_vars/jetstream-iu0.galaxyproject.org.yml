@@ -33,39 +33,21 @@ pulsar_systemd_service_name: "pulsar-{{ galaxy_instance_codename }}"
 
 pulsar_drmaa_library_path: "/usr/lib64/libdrmaa.so"
 
-pulsar_dependency_resolvers:
-  - name: conda
-    args:
-      - name: prefix
-        value: "{{ _pulsar_dependencies_dir }}/_conda"
-  - name: conda
-    args:
-      - name: prefix
-        value: "{{ _jetstream_scratch_root }}/conda"
-      - name: auto_install
-        value: "true"
-      - name: auto_init
-        value: "true"
-  - name: tool_shed_packages
-  - name: galaxy_packages
-
 pulsar_job_metrics_plugins:
-  - name: core
-  - name: cpuinfo
-    args:
-      - name: verbose
-        value: "true"
-  - name: meminfo
-  - name: uname
-  - name: cgroup
+  - type: core
+  - type: cpuinfo
+    verbose: true
+  - type: meminfo
+  - type: uname
+  - type: cgroup
 
 pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
   tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
-  job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
+  #job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
-  dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
+  #dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
   maximum_stream_size: 8388608  # 8 MB
   amqp_acknowledge: True
   amqp_ack_republish_time: 180
@@ -74,6 +56,16 @@ pulsar_yaml_config:
   amqp_publish_retry_interval_start: 10
   amqp_publish_retry_interval_step: 10
   amqp_publish_retry_interval_max: 60
+  dependency_resolution:
+    resolvers:
+      - type: conda
+        prefix: "{{ _pulsar_dependencies_dir }}/_conda"
+      - type: conda
+        prefix: "{{ _jetstream_scratch_root }}/conda"
+        auto_init: true
+        auto_install: true
+      - type: tool_shed_packages
+      - type: galaxy_packages
   managers:
     jetstream_iu:
       type: queued_drmaa
