@@ -51,7 +51,7 @@ server {
     }
 
     rewrite ^/main/impersonate$ /main/impersonate/ last;
-    {% for host, authkey in supervisord_http_auth.iteritems() %}
+    {% for host, authkey in supervisord_http_auth.items() %}
 
     location /{{ host }}/supervisor/ {
         proxy_pass         http://{{ host }}.tacc.utexas.edu:9001/;
