@@ -14,6 +14,8 @@ galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
 galaxy_new_file_path: "/galaxy-repl/{{ galaxy_instance_codename }}/scratch"
 galaxy_job_working_directory: "/galaxy-repl/{{ galaxy_instance_codename }}/jobdir"
 galaxy_ftp_upload_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/ftp"
+galaxy_nginx_upload_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/upload"
+galaxy_nginx_upload_job_files_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/upload_job_files"
 galaxy_tool_dependency_dir: "/galaxy/{{ galaxy_instance_codename }}/deps"
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
@@ -97,8 +99,8 @@ base_app_main: &BASE_APP_MAIN
   tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
   job_working_directory: "{{ galaxy_job_working_directory }}"
   tool_data_path: /galaxy-repl/test/tool_data
-  nginx_upload_store: /galaxy-repl/test/upload
-  nginx_upload_job_files_store: /galaxy-repl/test/upload_job_files
+  nginx_upload_store: "{{ galaxy_nginx_upload_dir }}"
+  nginx_upload_job_files_store: "{{ galaxy_nginx_upload_job_files_dir }}"
   ftp_upload_dir: "{{ galaxy_ftp_upload_dir }}"
   user_library_import_dir: /galaxy-repl/test/ftp
   library_import_dir: /galaxy-repl/test/import
