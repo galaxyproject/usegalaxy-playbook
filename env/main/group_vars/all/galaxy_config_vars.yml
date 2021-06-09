@@ -183,9 +183,9 @@ base_app_main: &BASE_APP_MAIN
   mulled_resolution_cache_lock_dir: "{{ galaxy_mutable_data_dir }}/mulled/lock"
 
   # For handler heartbeats
-  use_heartbeat: "True"
-  heartbeat_interval: "-1"
-  heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}_{pid}.log"
+  #use_heartbeat: "True"
+  #heartbeat_interval: "-1"
+  #heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}_{pid}.log"
 
   # stats
   statsd_host: "127.0.0.1"
