@@ -1,0 +1,25 @@
+---
+
+tiaas_virtualenv_command: /opt/rh/rh-python36/root/usr/bin/python3 -m venv
+
+tiaas_dir: "/srv/tiaas/{{ galaxy_instance_codename }}"
+tiaas_user: tiaas
+tiaas_group: tiaas
+tiaas_version: master
+tiaas_admin_user: admin
+tiaas_admin_pass: "{{ vault_tiaas_admin_pass }}"
+tiaas_listen_url: 127.0.0.1:8084
+
+tiaas_tiaas_use_sqlite: false
+tiaas_tiaas_db_name: "tiaas_{{ galaxy_instance_codename }}"
+# FIXME: remove below after role version > 0.0.6
+tiaas_tiaas_db_user: ""
+tiaas_tiaas_db_pass: ""
+tiaas_tiaas_db_host: "/var/run/postgresql/"
+tiaas_tiaas_db_port: ""
+
+tiaas_info:
+  owner: default
+  owner_email: galaxy-bugs@galaxyproject.org
+  owner_site: "{{ galaxy_instance_hostname }}"
+  domain: "{{ galaxy_instance_hostname }}"

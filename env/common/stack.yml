@@ -143,6 +143,14 @@
     - zergmode
   tags: zergmode
 
+- name: Configure TIaaS
+  hosts: tiaasservers
+  remote_user: root
+  roles:
+    - usegalaxy_eu.tiaas2
+  tags: tiaas
+
+
 - name: Manage supervisor and root tasks
   hosts: supervisorservers
   remote_user: root
