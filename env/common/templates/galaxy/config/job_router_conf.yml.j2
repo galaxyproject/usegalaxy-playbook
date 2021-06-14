@@ -488,6 +488,8 @@ share_job_counts:
   -
     - jetstream_tacc_multi
     - jetstream_tacc_multi_legacy
+    - jetstream_tacc_multi_singularity
+    - jetstream_tacc_multi_singularity_legacy
     - jetstream_tacc_multi_long
     - reserved_jetstream_tacc_multi
 
@@ -512,6 +514,9 @@ destinations:
   multi_singularity:
     - id: slurm_multi_singularity
     - id: jetstream_iu_multi_singularity
+      queue_factor: 2
+    - id: jetstream_tacc_multi_singularity
+      queue_factor: 4
   reserved_multi:
     - id: reserved_slurm_multi
     # FIXME: not configured right in slurm

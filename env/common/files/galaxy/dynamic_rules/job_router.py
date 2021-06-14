@@ -32,10 +32,6 @@ local = threading.local()
 JOB_ROUTER_CONF_FILE = None
 JOB_ROUTER_CONF_FILENAME = 'job_router_conf.yml'
 
-# TODO: could pull this from the job config as well
-#DEFAULT_DESTINATION_ID = 'slurm_normal'
-#DEFAULT_DESTINATION_ID = 'slurm_normal_singularity'
-
 # Contents of the tool mappings file and special group assignments will be cached
 # this is an rlock because getting group member cache also hits the job router conf cache
 CACHE_LOCK = threading.RLock()
