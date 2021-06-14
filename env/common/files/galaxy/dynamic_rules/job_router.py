@@ -606,7 +606,7 @@ def job_router(app, job, tool, resource_params, user):
     user_email = None if user is None else user.email
 
     # resource_params is an empty dict if not set
-    if resource_params and not force_training:
+    if resource_params:
         local.log.debug("Job resource parameters selected: %s", resource_params)
         destination_id, user_spec = __parse_resource_selector(app, job, user_email, resource_params)
         if spec and user_spec:
