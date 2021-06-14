@@ -1,25 +1,34 @@
 ---
 
+# TIaaS doesn't log anything without a logging config so you can use this if you're having issues, but it should not be
+# left on in production.
+#tiaas_debug: 'True'
+
 tiaas_virtualenv_command: /opt/rh/rh-python36/root/usr/bin/python3 -m venv
+
+tiaas_galaxy_idsecret: "{{ galaxy_config_id_secret }}"
 
 tiaas_dir: "/srv/tiaas/{{ galaxy_instance_codename }}"
 tiaas_user: tiaas
 tiaas_group: tiaas
+#tiaas_repo: https://github.com/natefoo/tiaas2.git
 tiaas_version: master
+#tiaas_version: minor-fixes
 tiaas_admin_user: admin
 tiaas_admin_pass: "{{ vault_tiaas_admin_pass }}"
 tiaas_listen_url: 127.0.0.1:8084
 
+tiaas_galaxy_db_name: "galaxy_{{ galaxy_instance_codename }}"
+#tiaas_galaxy_db_user: ""
+#tiaas_galaxy_db_pass: ""
+tiaas_galaxy_db_host: "/var/run/postgresql/"
+#tiaas_galaxy_db_port: ""
+
 tiaas_tiaas_use_sqlite: false
 tiaas_tiaas_db_name: "tiaas_{{ galaxy_instance_codename }}"
-# FIXME: remove below after role version > 0.0.6
-tiaas_tiaas_db_user: ""
-tiaas_tiaas_db_pass: ""
-tiaas_tiaas_db_host: "/var/run/postgresql/"
-tiaas_tiaas_db_port: ""
 
 tiaas_info:
-  owner: default
+  owner: "{{ galaxy_instance_hostname }}"
   owner_email: galaxy-bugs@galaxyproject.org
-  owner_site: "{{ galaxy_instance_hostname }}"
+  owner_site: "https://{{ galaxy_instance_hostname }}/"
   domain: "{{ galaxy_instance_hostname }}"
