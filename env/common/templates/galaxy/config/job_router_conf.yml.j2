@@ -454,6 +454,11 @@ share_job_counts:
     - jetstream_iu_multi_legacy
     - jetstream_iu_multi_long
     - reserved_jetstream_iu_multi
+  -
+    - jetstream_tacc_multi
+    - jetstream_tacc_multi_legacy
+    - jetstream_tacc_multi_long
+    - reserved_jetstream_tacc_multi
 
 # TODO: now that share_job_counts is implemented, drop dict in list dests?
 destinations:
@@ -463,6 +468,7 @@ destinations:
   multi_legacy:
     - id: slurm_multi_legacy
     - id: jetstream_iu_multi_legacy
+    - id: jetstream_tacc_multi_legacy
   multi:
     - id: slurm_multi
     - id: jetstream_iu_multi
@@ -470,16 +476,21 @@ destinations:
       # will be lower
       queue_factor: 2
       # could also set threshold: on each member, default is 4
+    - id: jetstream_tacc_multi
+      queue_factor: 2
   reserved_multi:
     - id: reserved_slurm_multi
     # FIXME: not configured right in slurm
     #- id: reserved_jetstream_iu_multi
+    #- id: reserved_jetstream_tacc_multi
   multi_long:
     - id: slurm_multi_long
     - id: jetstream_iu_multi_long
+    - id: jetstream_tacc_multi_long
     - id: stampede_long
   jetstream_multi:
     - id: jetstream_iu_multi
+    - id: jetstream_tacc_multi
   slurm_multi:
     valid:
       - time
@@ -489,7 +500,10 @@ destinations:
   jetstream_iu_multi:
     valid:
       - time
-  jetstream_iu_xlarge:
+  jetstream_tacc_multi:
+    valid:
+      - time
+  jetstream_tacc_xlarge:
     valid:
       - time
   stampede_normal:

@@ -4,7 +4,9 @@
 <parameters>
     <param label="Compute Resource" name="multi_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main/' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
         <option value="slurm_multi">Galaxy cluster</option>
-        <option value="jetstream_multi">Jetstream</option>
+        <option value="jetstream_multi">Jetstream (first available zone)</option>
+        <option value="jetstream_iu_multi">Jetstream (IU)</option>
+        <option value="jetstream_tacc_multi">Jetstream (TACC)</option>
         <option value="stampede_normal">TACC Stampede 2 normal (KNL) partition</option>
         <option value="stampede_skx_normal">TACC Stampede 2 SKX partition</option>
         <option value="slurm_multi_development">[TESTING/DEVELOPMENT] Galaxy cluster</option>
@@ -13,12 +15,16 @@
     </param>
     <param label="Compute Resource" name="multi_long_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main/' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
         <option value="slurm_multi_long">Galaxy cluster</option>
-        <option value="jetstream_multi_long">Jetstream</option>
+        <option value="jetstream_multi_long">Jetstream (first available zone)</option>
+        <option value="jetstream_iu_multi_long">Jetstream (IU)</option>
+        <option value="jetstream_tacc_multi_long">Jetstream (TACC)</option>
         <option value="stampede_long">TACC Stampede 2 long (KNL) partition</option>
     </param>
     <param label="Compute Resource" name="multi_bridges_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
         <option value="slurm_multi">Galaxy cluster</option>
-        <option value="jetstream_multi">Jetstream</option>
+        <option value="jetstream_multi">Jetstream (first available zone)</option>
+        <option value="jetstream_iu_multi">Jetstream (IU)</option>
+        <option value="jetstream_tacc_multi">Jetstream (TACC)</option>
         <option value="bridges_normal">PSC Bridges-2 RM partition</option>
         <option value="bridges_shared_128gb">PSC Bridges-2 RM-shared partition (128 GB)</option>
         <option value="bridges_shared_64gb">PSC Bridges-2 RM-shared partition (64 GB)</option>
