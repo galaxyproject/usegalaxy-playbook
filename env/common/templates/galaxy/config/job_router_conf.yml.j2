@@ -59,6 +59,12 @@ tools:
   #toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.6: {destination: slurm_multi_singularity}
   #bowtie2: {destination: slurm_multi_singularity}
 
+  # Singularity-in-conda
+  # TODO: read from group vars
+  testtoolshed.g2.bx.psu.edu/repos/dave/dynamic_downsample/dynamic_downsample/1.0.0: {destination: slurm_normal_singularity_deps}
+  testtoolshed.g2.bx.psu.edu/repos/greg/ideas2/ideas/1.2.0: {destination: slurm_normal_singularity_deps}
+  testtoolshed.g2.bx.psu.edu/repos/greg/ideas_genome_tracks/ideas_genome_tracks/1.0.0: {destination: slurm_normal_singularity_deps}
+
   # python 2 legacy tools
 {% for tool_id in galaxy_python2_legacy_tools %}
 {% set short_tool_id = tool_id.split('/')[-2] %}
