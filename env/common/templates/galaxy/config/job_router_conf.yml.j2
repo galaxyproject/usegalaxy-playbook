@@ -49,6 +49,8 @@
 
 tools:
 
+  _default_: {destination: slurm_normal}
+
   # python 2 legacy tools
 {% for tool_id in galaxy_python2_legacy_tools %}
 {% set short_tool_id = tool_id.split('/')[-2] %}
@@ -565,3 +567,19 @@ groups:
       multi: reserved_multi
   Job Resource Param Users:
     param_overrides: true
+
+training_tools:
+  incompatible:
+    # kraken2 loads the entire selected reference into memory regardless of the input size
+    - kraken2
+    # TODO: document why these don't work
+    - unicycler
+    - rna_starsolo
+    - rna_star
+    - minimap2
+    - ncbi_blastp_wrapper
+  mapping:
+    _default_: slurm_training
+    bowtie2: slurm_training_multi_large
+    rseqc_geneBody_coverage: slurm_training_normal_long
+    genrich: slurm_training_normal_large

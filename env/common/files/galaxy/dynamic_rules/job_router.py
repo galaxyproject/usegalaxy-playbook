@@ -28,9 +28,6 @@ local = threading.local()
 JOB_ROUTER_CONF_FILE = None
 JOB_ROUTER_CONF_FILENAME = 'job_router_conf.yml'
 
-# TODO: could pull this from the job config as well
-DEFAULT_DESTINATION_ID = 'slurm_normal'
-
 # Contents of the tool mappings file and special group assignments will be cached
 # this is an rlock because getting group member cache also hits the job router conf cache
 CACHE_LOCK = threading.RLock()
@@ -38,6 +35,9 @@ CACHE_TTL = 300
 CACHE_TIMES = {}
 CACHE_MEMBERS = {}
 PARAM_RES = {}
+
+# Users' roles are cached for TIaaS and must be periodically expunged to prevent infinite growth
+USER_ROLES_CACHE_TTL = 900
 
 # We can't fully trust Galaxy not to leave jobs stuck in 'queued', so don't defer assignment indefinitely
 MAX_DEFER_SECONDS = 30
@@ -99,15 +99,25 @@ def __short_tool_id(tool_id):
     return tool_id
 
 
+def __clean_user_roles_cache():
+    # must be called w/ lock acquired
+    for key in [k for k, t in CACHE_TIMES.items() if k.startswith('user_roles_') and time.time() - t > USER_ROLES_CACHE_TTL]:
+        del CACHE_MEMBERS[key]
+        del CACHE_TIMES[key]
+        log.debug("Expired user roles from cache for key: %s", key)
+
+
 def __get_cached(key, refresh_func):
     # TODO: this may be too much locking...
     # cache is shared across job worker threads, lock to prevent cache update collisions
     CACHE_LOCK.acquire()
     try:
+        __clean_user_roles_cache()
         cache_time = CACHE_TIMES.get(key, None)
         if not cache_time or (time.time() - cache_time > CACHE_TTL):
             CACHE_MEMBERS[key] = refresh_func()
             CACHE_TIMES[key] = time.time()
+            log.debug("Added/updated cache for key: %s", key)
         return CACHE_MEMBERS[key]
     finally:
         CACHE_LOCK.release()
@@ -320,15 +330,31 @@ def __user_group_mappings(app, user_email, group_type):
     return rval
 
 
+def __user_roles(app, user):
+    def _user_roles_refresh_func(app, user):
+        return [role.name for role in user.all_roles() if not role.deleted]
+    return __get_cached(f'user_roles_{user.id}', partial(_user_roles_refresh_func, app, user))
+
+
+def __user_in_training(app, user):
+    return user is not None and any([role.startswith('training-') for role in __user_roles(app, user)])
+
+
+def __resolve_destination_list(app, job, destination_id):
+    # resolve using the `destinations` dict in job_router_conf yaml
+    destination_config = __destination_config(destination_id)
+    # if it's a list then we need to use the best dest algorithm
+    destination_id = __get_best_destination(app, job, destination_config) or destination_id
+    return destination_id
+
+
 def __resolve_destination(app, job, user_email, destination_id):
     # if user is in a special group (named in `groups` dict in job_router_conf yaml) then get destination id overrides
     user_group_destination_mappings = __user_group_mappings(app, user_email, 'destination_overrides')
     # if an override exists then use it, otherwise use what was passed in
     destination_id = user_group_destination_mappings.get(destination_id, destination_id)
-    # resolve using the `destinations` dict in job_router_conf yaml
-    destination_config = __destination_config(destination_id)
     # if it's a list then we need to use the best dest algorithm
-    destination_id = __get_best_destination(app, job, destination_config) or destination_id
+    destination_id = __resolve_destination_list(app, job, destination_id)
     return destination_id
 
 
@@ -393,8 +419,8 @@ def __parse_resource_selector(app, job, user_email, resource_params):
             # currently these are all integers
             selections[param] = int(value)
     assert destination_id is not None, "Failed to get destination_id from params"
-    destination_config = __destination_config(destination_id)
-    destination_id = __get_best_destination(app, job, destination_config) or destination_id
+    # bypass any group mappings and just pick a destination if the supplied dest is a list
+    destination_id = __resolve_destination_list(app, job, destination_id)
     destination_config = __destination_config(destination_id)
     if destination_config:
         # true if user is allowed to override params up to the value in destination_config.override
@@ -520,6 +546,24 @@ def __update_env(destination, envs):
         })
 
 
+def __training_tools():
+    job_router_conf = __job_router_conf()
+    try:
+        return job_router_conf['training_tools']
+    except KeyError:
+        return {}
+
+
+def __is_training_compatible_tool(tool_id):
+    return tool_id not in __training_tools().get('incompatible', [])
+
+
+def __training_tool_mapping(tool_id):
+    mapping = __training_tools().get('mapping', {})
+    default = mapping.get('_default_', None)
+    return mapping.get(tool_id, default)
+
+
 def __is_training_history(job, tool_id):
     try:
         return (any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags])
@@ -529,36 +573,7 @@ def __is_training_history(job, tool_id):
         return False
 
 
-def __is_training_compatible_tool(tool_id):
-    return tool_id not in (
-        'kraken2',
-        'unicycler',
-        'rna_starsolo',
-        'rna_star',
-        'minimap2',
-        'ncbi_blastp_wrapper',
-    )
-
-
-def __is_training_multi_large_tool(tool_id):
-    return tool_id in (
-        'bowtie2',
-    )
-
-
-def __is_training_normal_long_tool(tool_id):
-    return tool_id in (
-        'rseqc_geneBody_coverage',
-    )
-
-
-def __is_training_normal_large_tool(tool_id):
-    return tool_id in (
-        'genrich',
-    )
-
-
-def job_router(app, job, tool, resource_params, user_email):
+def job_router(app, job, tool, resource_params, user):
     tool_mapping = None
 
     envs = []
@@ -585,39 +600,36 @@ def job_router(app, job, tool, resource_params, user_email):
 
     tool_id = __short_tool_id(tool.id)
 
-    if login_required and user_email is None:
+    if login_required and user is None:
         raise JobMappingException('Please log in to use this tool')
 
+    user_email = None if user is None else user.email
+
     # resource_params is an empty dict if not set
-    if resource_params:
+    if resource_params and not force_training:
         local.log.debug("Job resource parameters selected: %s", resource_params)
         destination_id, user_spec = __parse_resource_selector(app, job, user_email, resource_params)
         if spec and user_spec:
             local.log.debug("Mapped spec for tool '%s' was (prior to resource param selection): %s", tool_id, spec)
         spec.update(user_spec)
         local.log.debug("Spec for tool '%s' after resource param selection: %s", tool_id, spec or 'none')
-    elif __is_training_history(job, tool_id) and __is_training_compatible_tool(tool_id):
-        # FIXME: short circuit for training jobs, make configurable
-        destination_id = 'slurm_training'
-        if __is_training_normal_long_tool(tool_id):
-            destination_id = 'slurm_training_long'
-        elif __is_training_normal_large_tool(tool_id):
-            destination_id = 'slurm_training_large'
-        elif __is_training_multi_large_tool(tool_id):
-            destination_id = 'slurm_training_multi_large'
-        elif tool_mapping and 'multi' in tool_mapping['destination']:
-            destination_id = 'slurm_training_multi'
-        local.log.info("Job is in a training history, mapped to %s destination", destination_id)
-        return destination_id
+    elif (__is_training_history(job, tool_id) or __user_in_training(app, user)) and __is_training_compatible_tool(tool_id):
+        destination_id = __training_tool_mapping(tool_id)
+        local.log.info("User %s is in a training, mapped to destination: %s", user_email, destination_id)
+        # bypass any group mappings and just pick a destination if the supplied dest is a list
+        destination_id = __resolve_destination_list(app, job, destination_id)
     elif tool_mapping:
         destination_id = tool_mapping['destination']
         destination_id = __resolve_destination(app, job, user_email, destination_id)
         local.log.debug("Tool '%s' mapped to '%s' native specification overrides: %s", tool_id, destination_id, spec or 'none')
-    else:
-        destination_id = DEFAULT_DESTINATION_ID
-        destination_id = __resolve_destination(app, job, user_email, destination_id)
-        local.log.debug("'%s' has no mapping, using default '%s'", tool_id, destination_id)
 
+    if destination_id is None:
+        tool_mapping = __tool_mapping(app, '_default_', {})
+        destination_id = tool_mapping['destination']
+        local.log.debug("'%s' has no mapping, using default destination '%s'", tool_id, destination_id)
+        destination_id = __resolve_destination(app, job, user_email, destination_id)
+
+    local.log.debug('Final destination after resolution is: %s', destination_id)
     destination = app.job_config.get_destination(destination_id)
     # TODO: requires native spec to be set on all dests, you could do this by plugin instead
     native_spec_param = __native_spec_param(destination)
