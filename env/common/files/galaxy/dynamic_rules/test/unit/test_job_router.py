@@ -27,7 +27,7 @@ job_router.MAX_DEFER_SECONDS = 2
 NORMAL_NATIVE_SPEC = "--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00"
 MULTI_NATIVE_SPEC = "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00"
 JETSTREAM_MULTI_NATIVE_SPEC = "--partition=multi --nodes=1 --time=36:00:00"
-BRIDGES_NATIVE_SPEC = "--partition=RM --time=24:00:00 --ntasks=64"
+BRIDGES_NATIVE_SPEC = "--partition=RM --time=24:00:00 --nodes=1 --ntasks=64"
 
 job_router.JOB_ROUTER_CONF_FILE = os.path.join(os.path.dirname(__file__), 'job_router_conf.yml')
 MAIN_JOB_CONF = os.path.join(os.path.dirname(__file__), "job_conf.yml")
@@ -77,6 +77,9 @@ def __test_job_router(testconfig, os_stat, queued_job_count, user_email="test@ex
         except JobNotReadyException:
             time.sleep(1)
 
+    if "return_destination_id" in testconfig:
+        assert destination.id == testconfig["return_destination_id"]
+
     native_spec = destination.params.get('nativeSpecification')
     if not native_spec:
         native_spec = destination.params.get('native_specification')
@@ -84,9 +87,6 @@ def __test_job_router(testconfig, os_stat, queued_job_count, user_email="test@ex
         native_spec = destination.params['submit_native_specification']
 
     assert native_spec == testconfig["return_native_spec"]
-
-    if "return_destination_id" in testconfig:
-        assert destination.id == testconfig["return_destination_id"]
 
 
 #
@@ -290,16 +290,17 @@ def test_align_families():
     __test_job_router(test)
 
 
-def test_multi_long():
-    tool = mock.Mock()
-    tool.id = "fasterq_dump"
-    tool.params = {}
-    test = {
-        "tool": tool,
-        "return_native_spec": "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00",
-        "return_destination_id": "slurm_multi_long",
-    }
-    __test_job_router(test)
+# no tools using this currently
+#def test_multi_long():
+#    tool = mock.Mock()
+#    tool.id = "fasterq_dump"
+#    tool.params = {}
+#    test = {
+#        "tool": tool,
+#        "return_native_spec": "--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00",
+#        "return_destination_id": "slurm_multi_long",
+#    }
+#    __test_job_router(test)
 
 
 def test_bridges_normal():
@@ -516,7 +517,8 @@ def test_resource_no_override():
         #"resource_params": {"multi_compute_resource": "bridges_normal", "mem": 720 * KILOBYTE},
         "resource_params": {"multi_compute_resource": "bridges_development", "time": 4},
         #"return_native_spec": f"--partition=RM --time=36:00:00 --mem={288 * KILOBYTE}",
-        "return_native_spec": BRIDGES_NATIVE_SPEC.replace("24:00", "00:30"),
+        #"return_native_spec": BRIDGES_NATIVE_SPEC.replace("24:00", "00:30"),
+        "return_native_spec": "--partition=RM-shared --time=00:30:00 --nodes=1 --ntasks=8",
         "return_destination_id": "bridges_development",
     }
     __test_job_router(test)
