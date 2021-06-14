@@ -64,8 +64,9 @@ def __test_job_router(testconfig, os_stat, queued_job_count, user_email="test@ex
     queued_job_count.return_value = testconfig.get("queued_job_counts", {})
     resource_params = testconfig.get('resource_params', {})
     if user_email:
-        user = mock.Mock()
+        user = mock.MagicMock()
         user.email = user_email
+        user.all_roles.return_value = []
     else:
         user = None
 
