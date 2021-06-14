@@ -63,10 +63,15 @@ def __test_job_router(testconfig, os_stat, queued_job_count, user_email="test@ex
     mock_job.get_param_values.return_value = testconfig["tool"].params
     queued_job_count.return_value = testconfig.get("queued_job_counts", {})
     resource_params = testconfig.get('resource_params', {})
+    if user_email:
+        user = mock.Mock()
+        user.email = user_email
+    else:
+        user = None
 
     for i in range(0, 3):
         try:
-            destination = job_router.job_router(mock_app, mock_job, testconfig["tool"], resource_params, user_email)
+            destination = job_router.job_router(mock_app, mock_job, testconfig["tool"], resource_params, user)
             break
         except JobNotReadyException:
             time.sleep(1)
