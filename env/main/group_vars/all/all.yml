@@ -1,5 +1,9 @@
 ---
 
+## these vars are defined in vault.yml
+galaxy_database_password: "{{ vault_galaxy_database_password }}"
+tiaas_database_password: "{{ vault_tiaas_database_password }}"
+
 galaxy_commit_id: release_21.05
 #galaxy_commit_id: usegalaxy
 galaxy_force_checkout: true
