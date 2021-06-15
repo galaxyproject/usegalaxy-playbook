@@ -3,7 +3,7 @@
 ;;
 
 [program:galaxy_workflow_scheduler]
-command         = /usr/bin/sg {{ galaxy_system_group }} '{{ galaxy_venv_dir }}/bin/python ./scripts/galaxy-main -c {{ galaxy_config_file }} --server-name={{ galaxy_host_codename }}_workflow_scheduler%(process_num)s'
+command         = /usr/bin/sg {{ galaxy_system_group }} '{{ galaxy_venv_dir }}/bin/python ./scripts/galaxy-main -c {{ galaxy_config_file }} --server-name={{ galaxy_host_codename }}_workflow_scheduler%(process_num)s --attach-to-pool=workflow-schedulers'
 directory       = {{ galaxy_server_dir }}
 process_name    = workflow_scheduler%(process_num)s
 numprocs        = {{ galaxy_workflow_scheduler_count }}
