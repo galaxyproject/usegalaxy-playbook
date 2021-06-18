@@ -98,7 +98,7 @@ server {
         add_header X-Content-Type-Options nosniff;
         # CORS
         #add_header Access-Control-Allow-Origin "http://registry.intermine.org";
-        if ($http_origin ~ "^https?://(covid19\.galaxyproject\.org|registry\.intermine\.org)$") {
+        if ($http_origin ~ "^https?://(observable\.com|covid19\.galaxyproject\.org|registry\.intermine\.org)$") {
             add_header Access-Control-Allow-Origin $http_origin;
             add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
             add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
