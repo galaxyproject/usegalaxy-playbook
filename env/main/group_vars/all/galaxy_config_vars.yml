@@ -31,15 +31,15 @@ galaxy_interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/int
 base_app_main: &BASE_APP_MAIN
 
   # message box
-  #message_box_visible: "True"
+  message_box_visible: "True"
 
-  #message_box_class: info
+  message_box_class: info
   #message_box_class: warning
   #message_box_class: error
 
   # informational messages
   #message_box_content: Galaxy has recently been upgraded to a pre-release of the next Galaxy stable release (18.05). Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@galaxyproject.org">galaxy-bugs</a>.
-  #message_box_content: Galaxy's <a href="https://galaxyproject.org/main/#user-data-and-job-quotas">job concurrency limits and maximum allowed run times</a> have been decreased in order to ensure enough resources are available to students participating in the <a href="https://shiltemann.github.io/global-galaxy-course/">GTN Smörgåsbord</a>.
+  message_box_content: Galaxy's <a target="_blank" href="https://galaxyproject.org/main/#user-data-and-job-quotas">job concurrency limits and maximum allowed run times</a> will be decreased from June 27 to July 8 in order to ensure enough resources are available to students participating in the GCC2021 <a target="_blank" href="https://galaxyproject.org/events/gcc2021/training/">Training Week</a> and <a target="_blank" href="https://www.vibconferences.be/events/gcc2021-virtual-edition">Meeting</a>.
 
   # emergency downtimes
   #message_box_content: Interactive tools (Jupyter, RStudio) are currently not running due to a cluster outage. We are working on the issue.
