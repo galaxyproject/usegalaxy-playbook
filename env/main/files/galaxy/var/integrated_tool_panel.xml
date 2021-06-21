@@ -1861,6 +1861,16 @@
 
     <section id="nanopore" name="Nanopore" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/1.3.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant_pipeline/medaka_variant_pipeline/1.3.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/1.3.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/1.3.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/0.2.4" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/1.0.3+galaxy6" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant/medaka_variant/1.0.3+galaxy4" />
@@ -2333,6 +2343,8 @@
 
     <section id="mapping" name="Mapping" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/2.20+galaxy1" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bioext_bealign/bioext_bealign/0.19.7.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/rna_starsolo/rna_starsolo/2.7.8a" />
@@ -2768,6 +2780,14 @@
     </section>
 
     <section id="rna_seq" name="RNA-seq" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/goseq/goseq/1.44.0+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/kallisto_pseudo/kallisto_pseudo/0.46.0.2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/edger/edger/3.34.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/limma_voom/limma_voom/3.48.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/trinity_align_and_estimate_abundance/trinity_align_and_estimate_abundance/2.9.1+galaxy1" />
 
@@ -3284,6 +3304,12 @@
     </section>
 
     <section id="virology" name="Virology" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/nextclade/nextclade/0.14.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/pangolin/pangolin/3.0.3+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/ivar_variants/ivar_variants/1.3.1+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/ivar_variants/ivar_variants/1.3.1+galaxy0" />
 
@@ -5419,6 +5445,8 @@
 
     <section id="hyphy" name="HyPhy" version="">
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_summary/hyphy_summary/1.1.0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_annotate/hyphy_annotate/2.5.31+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/hyphy_summary/hyphy_summary/1.0.0" />
@@ -6294,6 +6322,44 @@
     </section>
 
     <section id="single_cell" name="Single-cell" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_plot_embed/scanpy_plot_embed/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_find_markers/scanpy_find_markers/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_find_cluster/scanpy_find_cluster/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_umap/scanpy_run_umap/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_tsne/scanpy_run_tsne/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_compute_graph/scanpy_compute_graph/1.7.2+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_pca/scanpy_run_pca/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_scale_data/scanpy_scale_data/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_find_variable_genes/scanpy_find_variable_genes/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_normalise_data/scanpy_normalise_data/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_filter_genes/scanpy_filter_genes/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_filter_cells/scanpy_filter_cells/1.7.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/raceid_trajectory/raceid_trajectory/0.2.3+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/raceid_inspecttrajectory/raceid_inspecttrajectory/0.2.3+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/raceid_inspectclusters/raceid_inspectclusters/0.2.3+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/raceid_filtnormconf/raceid_filtnormconf/0.2.3+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/raceid_clustering/raceid_clustering/0.2.3+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/scanpy_plot/1.7.1+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/modify_loom/modify_loom/0.7.5+galaxy0" />
 
