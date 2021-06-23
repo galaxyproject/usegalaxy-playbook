@@ -278,10 +278,10 @@ execution:
       env:
         - name: SINGULARITYENV_LC_ALL
           value: C
-        - name: SINGULARITYENV_PATH
-          value: $PATH
         - name: PATH
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin:bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+        - name: SINGULARITYENV_PATH
+          value: $PATH
         {{ env_temp_envs() }}
 {% endif %}
 {% endfor %}
