@@ -293,3 +293,5 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/job_router_conf.yml"
   - src: templates/galaxy/config/tacc_k8s_pulsar_app_config.yml.j2
     dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
+  - src: templates/galaxy/config/file_sources_conf.yml.j2
+    dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
