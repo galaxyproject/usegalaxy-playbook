@@ -272,16 +272,14 @@ execution:
       runner: slurm
       native_specification: {{ env.native_spec }}
       singularity_enabled: true
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro'
+      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/ftp:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro,/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04'
       {{ env_tag_params(env.tags | default(none)) }}
       env:
         - name: SINGULARITYENV_LC_ALL
           value: C
-        - name: PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin:bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
-        - name: SINGULARITYENV_PATH
-          value: $PATH
+        - name: SINGULARITYENV_PREPEND_PATH
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
         {{ env_temp_envs() }}
 {% endif %}
 {% endfor %}
@@ -293,7 +291,8 @@ execution:
       # /cvmfs/data?
       #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl:ro,/galaxy:ro'
       #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro'
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro'
+      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro'
+      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/ftp:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro,/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro'
       #singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
       container_override:
         - type: singularity
@@ -303,7 +302,8 @@ execution:
       env:
         - name: SINGULARITYENV_LC_ALL
           value: C
-        - name: SINGULARITYENV_PATH
+        #- name: SINGULARITYENV_PATH
+        - name: SINGULARITYENV_PREPEND_PATH
           value: $PATH
         {{ env_temp_envs() }}
 
@@ -339,16 +339,14 @@ execution:
       runner: slurm
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
       singularity_enabled: true
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro'
+      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/ftp:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro,/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04'
       env:
         {{ env_local_envs(java_mem=3) }}
         - name: SINGULARITYENV_LC_ALL
           value: C
-        - name: PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin:bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
-        - name: SINGULARITYENV_PATH
-          value: $PATH
+        - name: SINGULARITYENV_PREPEND_PATH
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
         {{ env_temp_envs() }}
 
     # FIXME: roundup-only since I'm pretty certain memory_limit_reached doesn't work on Pulsar dests
