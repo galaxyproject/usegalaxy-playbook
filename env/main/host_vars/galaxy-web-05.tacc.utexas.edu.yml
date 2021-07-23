@@ -39,3 +39,7 @@ host_crontabs:
     hour: "5"
     minute: "0"
     job: "{{ galaxy_root }}/bin/cleanup_datasets.sh 14"
+
+# in here so it only runs on one host
+tiaas_disassociate_training_roles:
+  hour: 8
