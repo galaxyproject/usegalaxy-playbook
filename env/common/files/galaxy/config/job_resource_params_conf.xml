@@ -25,9 +25,10 @@
         <option value="jetstream_multi">Jetstream (first available zone)</option>
         <option value="jetstream_iu_multi">Jetstream (IU)</option>
         <option value="jetstream_tacc_multi">Jetstream (TACC)</option>
-        <option value="bridges_normal">PSC Bridges-2 RM partition</option>
-        <option value="bridges_shared_128gb">PSC Bridges-2 RM-shared partition (128 GB)</option>
         <option value="bridges_shared_64gb">PSC Bridges-2 RM-shared partition (64 GB)</option>
+        <option value="bridges_shared_128gb">PSC Bridges-2 RM-shared partition (128 GB)</option>
+        <option value="bridges_normal">PSC Bridges-2 RM partition (256 GB)</option>
+        <option value="bridges_extreme_1tb">PSC Bridges-2 EM partition (1 TB)</option>
         <option value="slurm_multi_development">[TESTING/DEVELOPMENT] Galaxy cluster</option>
         <option value="bridges_development">[TESTING/DEVELOPMENT] PSC Bridges-2</option>
     </param>
@@ -38,7 +39,10 @@
         <option value="stampede_skx_development">[TESTING/DEVELOPMENT] TACC Stampede 2 SKX partition</option>
     </param>
     <param label="Compute Resource" name="bridges_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main/' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
-        <option value="bridges_normal">PSC Bridges-2</option>
+        <option value="bridges_shared_64gb">PSC Bridges-2 RM-shared partition (64 GB)</option>
+        <option value="bridges_shared_128gb">PSC Bridges-2 RM-shared partition (128 GB)</option>
+        <option value="bridges_normal">PSC Bridges-2 RM partition (256 GB)</option>
+        <option value="bridges_extreme_1tb">PSC Bridges-2 EM partition (1 TB)</option>
         <option value="bridges_development">[TESTING/DEVELOPMENT] PSC Bridges-2</option>
     </param>
     <param label="[Galaxy Tool Development] Cores" name="ntasks" type="integer" size="3" min="0" max="272" value="0" help="Option ignored for unauthorized users. Value will be capped for the resource on which the tool runs. Use '0' for default." />
