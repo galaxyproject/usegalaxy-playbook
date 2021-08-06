@@ -238,7 +238,8 @@ usegalaxy_dynamic_job_rules:
 galaxy_pgcleanup_actions:
   - delete_userless_histories
   - delete_exported_histories
-  - purge_deleted_users
+  #- purge_deleted_users
+  - purge_deleted_users_gdpr
   - purge_deleted_histories
   - purge_deleted_hdas
   - purge_historyless_hdas
