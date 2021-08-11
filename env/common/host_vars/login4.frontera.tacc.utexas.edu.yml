@@ -1,0 +1,92 @@
+---
+#
+# WARNING: this is shared by both Test and Main
+#
+
+# FIXME:
+#   - slurm-drmaa installed by hand
+
+_frontera_work_root: "/work2/03166/xcgalaxy/frontera"
+_frontera_scratch_root: "/scratch1/03166/xcgalaxy"
+_frontera_instance_root: "{{ _frontera_work_root }}/{{ galaxy_instance_codename }}"
+
+host_directories:
+  - path: "{{ pulsar_root }}/log"
+    mode: "0750"
+  - path: "{{ supervisord_prefix }}/var/log"
+    mode: "0750"
+  - path: "{{ supervisord_prefix }}/var/run"
+    mode: "0750"
+
+miniconda_prefix: "{{ _frontera_work_root }}/conda"
+miniconda_channels:
+  - conda-forge
+  - defaults
+miniconda_conda_environments:
+  __python@3.9:
+    packages:
+      - python=3.9
+
+supervisord_install: virtualenv-unprivileged
+supervisord_prefix: "{{ _frontera_work_root }}/supervisor"
+supervisord_conf_path: "{{ supervisord_prefix }}/etc/supervisord.conf"
+supervisord_conf_dir: "{{ supervisord_prefix }}/etc/supervisord.d"
+supervisord_log_dir: "{{ supervisord_prefix }}/var/log"
+supervisord_run_dir: "{{ supervisord_prefix }}/var/run"
+host_supervisor_configs:
+  - "{{ galaxy_instance_codename }}_pulsar"
+
+pulsar_root: "{{ _frontera_instance_root }}/pulsar"
+pulsar_restart_handler_name: restart pulsar
+#galaxy_root: not required
+
+# Attempt to chown fails, let it create an empty dir instead
+pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
+pulsar_staging_dir: "{{ _frontera_scratch_root }}/{{ galaxy_instance_codename }}/staging"
+
+galaxy_user: xcgalaxy
+pulsar_privsep_user: "{{ galaxy_user }}"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.9/bin/python3 -m venv"
+pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
+
+pulsar_pycurl_ssl_library: nss
+pulsar_drmaa_library_path: "{{ _frontera_instance_root }}/slurm-drmaa/lib/libdrmaa.so"
+
+pulsar_job_metrics_plugins:
+  - type: core
+  - type: cpuinfo
+    verbose: true
+  - type: meminfo
+  - type: uname
+  - type: cgroup
+
+pulsar_yaml_config:
+  staging_directory: "{{ pulsar_staging_dir }}"
+  persistence_directory: "{{ pulsar_persistence_dir }}"
+  message_queue_url: "{{ pulsar_message_queue_url }}"
+  maximum_stream_size: 8388608  # 8 MB
+  amqp_acknowledge: True
+  amqp_ack_republish_time: 180
+  amqp_publish_retry: True
+  amqp_publish_retry_max_retries: 5
+  amqp_publish_retry_interval_start: 10
+  amqp_publish_retry_interval_step: 10
+  amqp_publish_retry_interval_max: 60
+  dependency_resolution:
+    resolvers:
+      - type: conda
+        prefix: "{{ miniconda_prefix }}"
+        auto_init: false
+        auto_install: true
+  managers:
+    frontera:
+      type: queued_drmaa
+      preprocess_action_max_retries: 10
+      preprocess_action_interval_start: 2
+      preprocess_action_interval_step: 2
+      preprocess_action_interval_max: 60
+      postprocess_action_max_retries: 20
+      postprocess_action_interval_start: 2
+      postprocess_action_interval_step: 4
+      postprocess_action_interval_max: 120
+      min_polling_interval: 15

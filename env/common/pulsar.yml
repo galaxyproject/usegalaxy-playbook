@@ -2,8 +2,17 @@
 
 - hosts: pulsarservers
   environment: "{{ pulsar_env | default({}) }}"
+  handlers:
+    - name: restart pulsar
+      supervisorctl:
+        name: "{{ galaxy_instance_codename }}_pulsar"
+        state: restarted
+        supervisorctl_path: "{{ supervisord_prefix }}/bin/supervisorctl"
+        config: "{{ supervisord_conf_path }}"
   roles:
-    # set up pulsar
-    - galaxyproject.pulsar
-    - paths
-    - copy
+    - role: galaxyproject.miniconda
+    - role: galaxyproject.pulsar
+    - role: paths
+    - role: copy
+    - role: supervisor
+      when: not pulsar_systemd
