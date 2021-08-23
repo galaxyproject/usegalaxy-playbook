@@ -63,6 +63,7 @@ __handler_multi_plugins:
   - jetstream_iu
   - jetstream_tacc
   - stampede
+  - frontera
   - bridges
 
 galaxy_job_conf_handlers:
@@ -119,8 +120,9 @@ galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource]
   multi_long: [multi_long_compute_resource]
   multi_bridges: [multi_bridges_compute_resource]
-  bridges: [bridges_compute_resource]
   stampede: [stampede_compute_resource]
+  frontera: [frontera_compute_resource, ntasks, time]
+  bridges: [bridges_compute_resource]
 
 # tool mappings are in tools_conf.yml
 
@@ -175,6 +177,12 @@ galaxy_job_conf_limits:
     id: stampede_skx_development
     value: 1
   - type: environment_user_concurrent_jobs
+    id: frontera_small
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: frontera_development
+    value: 1
+  - type: environment_user_concurrent_jobs
     id: bridges_normal
     value: 2
   - type: environment_user_concurrent_jobs
@@ -211,6 +219,12 @@ galaxy_job_conf_limits:
     value: 1
   - type: environment_total_concurrent_jobs
     id: stampede_skx_development
+    value: 1
+  - type: environment_total_concurrent_jobs
+    id: frontera_small
+    value: 15
+  - type: environment_total_concurrent_jobs
+    id: frontera_development
     value: 1
   - type: environment_total_concurrent_jobs
     id: bridges_normal

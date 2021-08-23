@@ -24,7 +24,7 @@ galaxy_job_conf_tools:
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
-galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) }}"
+galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) }}"
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -36,7 +36,7 @@ galaxy_pulsar_incompatible_tools:
   - annotatemyids
   - bacteria_tradis
   - bandage_image
-  - busco
+  #- busco
   - cutadapt
   - egsea
   - iqtree
@@ -165,6 +165,13 @@ galaxy_low_priority_tools:
   - ncbi_rpsblast_wrapper
   - ncbi_tblastn_wrapper
   - ncbi_tblastx_wrapper
+
+# tools that should run on Frontera
+galaxy_frontera_tools:
+  - bionano_scaffold
+  - busco
+  - hifiasm
+  - meryl
 
 # some tools have explicit mappings (e.g. for Bridges)
 __galaxy_multicore_tools_exclude:

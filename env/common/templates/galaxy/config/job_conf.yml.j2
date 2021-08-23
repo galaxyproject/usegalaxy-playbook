@@ -41,6 +41,11 @@
     {'id': 'long', 'native_spec': '--partition=long --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=60:00:00', 'memory_mb': 94208, 'tags': ['multi_long']},
 ) %}
 
+{%- set frontera_environments = (
+    {'id': 'small', 'native_spec': '--partition=small --nodes=1 --ntasks=56 --time=48:00:00', 'memory_mb': 194560},
+    {'id': 'development', 'native_spec': '--partition=development --nodes=1 --ntasks=56 --time=00:30:00', 'memory_mb': 194560},
+) %}
+
 {#- RM nodes are 128 core / 256 GB, RM-512 nodes are 256 core / 512 GB #}
 {%- set bridges_environments = (
     {'id': 'normal', 'native_spec': '--partition=RM --time=24:00:00 --nodes=1 --ntasks=64'},
@@ -157,6 +162,10 @@ runners:
   stampede:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: stampede
+    {{ runner_pulsar_params() }}
+  frontera:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: frontera
     {{ runner_pulsar_params() }}
   bridges:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
@@ -360,6 +369,35 @@ execution:
 {% endfor %}
 
     #
+    # Frontera environments
+    #
+{% for env in frontera_environments %}
+    frontera_{{ env.id }}:
+      runner: frontera
+      submit_native_specification: {{ env.native_spec }}
+      {{ env_pulsar_params(remote_metadata='false') }}
+      jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      {{ env_tag_params(env.tags | default(none)) }}
+      # FIXME: don't want this on all jobs probably? or do we?
+      singularity_enabled: true
+      singularity_volumes: null
+      container_resolvers:
+        - type: explicit_singularity
+        - type: mulled_singularity
+      require_container: true
+      env:
+        {{ env_pulsar_envs() }}
+        - file: /etc/profile.d/z01_lmod.sh
+        - execute: module load tacc-singularity
+        {# Frontera assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
+        - name: GALAXY_SLOTS
+          value: "$SLURM_NTASKS"
+        {# Mem=0 if the Slurm -mem param is not used, which is not allowed on Frontera -#}
+        - name: GALAXY_MEMORY_MB
+          value: "{{ env.memory_mb }}"
+{% endfor %}
+
+    #
     # Bridges environments
     #
 {% for env in bridges_environments %}
@@ -424,6 +462,13 @@ tools:
   - id: {{ id }}
     handler: multi
     resources: stampede
+{% endfor %}
+
+  # Frontera tools
+{% for id in galaxy_frontera_tools %}
+  - id: {{ id }}
+    handler: multi
+    resources: frontera
 {% endfor %}
 
   # Long walltime tools

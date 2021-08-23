@@ -440,6 +440,13 @@ tools:
   ncbi_tblastn_wrapper: {destination: stampede_normal, login_required: true}
   ncbi_tblastx_wrapper: {destination: stampede_normal, login_required: true}
 
+  #
+  # Frontera tools
+  #
+{% for tool_id in galaxy_frontera_tools %}
+  {{ tool_id }}: {destination: frontera_small, login_required: true}
+{% endfor %}
+
 # count of queued jobs in these destinations count against the other destinations (i.e. they're probably just slightly
 # different params on the same queue)
 share_job_counts:
@@ -545,6 +552,21 @@ destinations:
   stampede_long:
     max:
       time: 120
+  frontera_small:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 56
+      time: 48
+  frontera_development:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 56
+    override:
+      time: 2
   bridges_normal:
     valid:
       #- mem
@@ -579,6 +601,9 @@ groups:
       slurm_normal_16gb: reserved_slurm_normal_16gb
       slurm_normal_32gb: reserved_slurm_normal_32gb
       multi: reserved_multi
+  Job Test Users:
+    destination_overrides:
+      frontera_small: frontera_development
   Job Resource Param Users:
     param_overrides: true
 
