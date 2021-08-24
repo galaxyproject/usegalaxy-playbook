@@ -598,8 +598,8 @@ def test_best_destination_with_queue_factor_roundup():
             "slurm_multi": 10,
             "jetstream_iu_multi": 6,
         },
-        "return_native_spec": MULTI_NATIVE_SPEC,
-        "return_destination_id": "slurm_multi",
+        "return_native_spec": JETSTREAM_MULTI_NATIVE_SPEC,
+        "return_destination_id": "jetstream_tacc_multi",
     }
     __test_job_router(test)
 
@@ -614,6 +614,6 @@ def test_best_destination_with_queue_factor_jetstream():
             "jetstream_iu_multi": 6,
         },
         "return_native_spec": JETSTREAM_MULTI_NATIVE_SPEC,
-        "return_destination_id": "jetstream_iu_multi",
+        "return_destination_id": "jetstream_tacc_multi",
     }
     __test_job_router(test)
