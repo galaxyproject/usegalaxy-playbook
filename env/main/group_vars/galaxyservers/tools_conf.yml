@@ -18,6 +18,9 @@ galaxy_job_conf_tools:
   - id: interactive_tool_panoply
     environment: tacc_k8s
     handler: k8s
+  - id: busco
+    handler: multi
+    resources: frontera
   #- id: unicycler
   #  environment: slurm_multi_memory_resubmit
   #  handler: multi
@@ -169,13 +172,14 @@ galaxy_low_priority_tools:
 # tools that should run on Frontera
 galaxy_frontera_tools:
   - bionano_scaffold
-  - busco
+  #- busco
   - hifiasm
   - meryl
 
 # some tools have explicit mappings (e.g. for Bridges)
 __galaxy_multicore_tools_exclude:
   - align_families
+  - busco
   #- fasterq_dump
   - rna_star
   - rna_starsolo

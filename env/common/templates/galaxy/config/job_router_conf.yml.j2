@@ -180,9 +180,9 @@ tools:
     #- destination: slurm_normal
 
   # TODO: refine, but per Björn "start with 52"
-  hifiasm:
-    destination: jetstream_tacc_xlarge
-    login_required: true
+  #hifiasm:
+  #  destination: jetstream_tacc_xlarge
+  #  login_required: true
 
   # Kraken goes to Stampede 2 SKX if the bacteria database is selected, otherwise it goes to standard multi
   kraken:
@@ -446,6 +446,11 @@ tools:
 {% for tool_id in galaxy_frontera_tools %}
   {{ tool_id }}: {destination: frontera_small, login_required: true}
 {% endfor %}
+  busco:
+    destination: frontera_small
+    login_required: true
+    spec:
+     ntasks: 10
 
 # count of queued jobs in these destinations count against the other destinations (i.e. they're probably just slightly
 # different params on the same queue)
