@@ -3,16 +3,23 @@
 - hosts: pulsarservers
   environment: "{{ pulsar_env | default({}) }}"
   handlers:
-    - name: restart pulsar
+    - name: supervisor restart pulsar
       supervisorctl:
         name: "{{ galaxy_instance_codename }}_pulsar"
         state: restarted
         supervisorctl_path: "{{ supervisord_prefix }}/bin/supervisorctl"
         config: "{{ supervisord_conf_path }}"
+    - name: systemd restart pulsar
+      systemd:
+        name: "{{ pulsar_systemd_service_name }}.service"
+        state: restarted
+      become: true
   roles:
     - role: galaxyproject.miniconda
+      when: miniconda_prefix is defined
     - role: galaxyproject.pulsar
     - role: paths
     - role: copy
     - role: supervisor
       when: not pulsar_systemd
+    - role: cron

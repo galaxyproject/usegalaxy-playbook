@@ -4,48 +4,91 @@
 #
 
 # FIXME:
-#   - conda installed by hand
-#   - __python@3.8 conda-forge env installed by hand
-#   - __curl@7.71 env installed by hand
-#   - supervisor configured by hand
 #   - slurm-drmaa installed by hand
-#
-# Undid this:
-#   - parrot installed by hand in ~xcgalaxy
-#   - CVMFS keys installed by hand in ~xcgalaxy
-#   - running a branch of pulsar with a hardcoded parrot wrapper
+
+_bridges_home_root: "/jet/home/xcgalaxy"
+_bridges_project_root: "/ocean/projects/mcb140028p/xcgalaxy"
+_bridges_scratch_root: "{{ _bridges_project_root }}/{{ galaxy_instance_codename }}"
+_bridges_instance_root: "{{ _bridges_home_root }}/{{ galaxy_instance_codename }}"
+
+host_directories:
+  - path: "{{ _bridges_home_root }}/bin"
+    mode: "0755"
+  - path: "{{ _bridges_home_root }}/etc"
+    mode: "0750"
+  - path: "{{ pulsar_root }}/log"
+    mode: "0750"
+  #- path: "{{ supervisord_log_dir }}"
+  #  mode: "0750"
+  #- path: "{{ supervisord_run_dir }}"
+  #  mode: "0750"
+
+host_files:
+  - src: "files/pulsar/tmpwatch.el7"
+    dest: "{{ _bridges_home_root }}/bin/tmpwatch"
+    mode: "0755"
+
+host_templates:
+  - src: "templates/pulsar/bridges-supervisord-launch.sh.j2"
+    dest: "{{ _bridges_home_root }}/bin/supervisord-launch.sh"
+    mode: "0755"
+
+host_crontabs:
+  - id: "pulsar-clean-{{ galaxy_instance_codename }}-scratch"
+    use_cron_file: false
+    minute: "0"
+    hour: "*/6"
+    job: "{{ _bridges_home_root }}/bin/tmpwatch -v --all --mtime --dirmtime 7d '{{ pulsar_staging_dir }}' >> '{{ pulsar_root }}/log/cleanup.log'"
+
+miniconda_prefix: "{{ _bridges_project_root }}/conda"
+miniconda_channels:
+  - conda-forge
+  - defaults
+miniconda_conda_environments:
+  __python@3.8:
+    packages:
+      - python=3.8
+  __curl@7.71:
+    packages:
+      - curl=7.71
+
+supervisord_install: virtualenv-unprivileged
+supervisord_prefix: "{{ _bridges_home_root }}/supervisor"
+supervisord_conf_path: "{{ supervisord_prefix }}/etc/supervisord.conf"
+supervisord_conf_dir: "{{ supervisord_prefix }}/etc/supervisord.d"
+supervisord_log_dir: "{{ supervisord_prefix }}/var/log"
+supervisord_run_dir: "{{ supervisord_prefix }}/var/run"
+host_supervisor_configs:
+  - "{{ galaxy_instance_codename }}_pulsar"
+
+# Bridges-2 uses "configless" Slurm, which slurm-drmaa doesn't react well to, so we have a wrapper that writes a copy of
+# the config before starting up supervisor. More details in the wrapper.
+supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || /bin/bash '{{ _bridges_home_root }}/bin/supervisord-launch.sh'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
+
+pulsar_root: "{{ _bridges_instance_root }}/pulsar"
+pulsar_restart_handler_name: supervisor restart pulsar
+pulsar_persistence_dir: "{{ _bridges_scratch_root }}/pulsar/var"
+pulsar_staging_dir: "{{ _bridges_scratch_root }}/staging"
+#galaxy_root: not required
 
 # default $PATH contains puppet bin/sbin, which contain a newer curl that isn't found at pycurl runtime
 pulsar_env:
-  PATH: "{{ _bridges_conda_root }}/envs/__curl@7.71/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/bin:/sbin:/home/xcgalaxy/.local/bin:/home/xcgalaxy/bin"
-  # FIXME: isn't working, using LD_LIBRARY_PATH in supervisor for the moment
+  PATH: "{{ miniconda_prefix }}/envs/__curl@7.71/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/bin:/sbin:/home/xcgalaxy/.local/bin:/home/xcgalaxy/bin"
+  # this isn't working, using LD_LIBRARY_PATH in supervisor env instead
   #LD_RUN_PATH: /pylon5/mc48nsp/xcgalaxy/conda/envs/__curl@7.71/lib
 
-_bridges_home_root: "/jet/home/xcgalaxy/{{ galaxy_instance_codename }}"
-_bridges_scratch_root: "/ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}"
-_bridges_conda_root: "/ocean/projects/mcb140028p/xcgalaxy/conda"
-
-pulsar_root: "{{ _bridges_home_root }}/pulsar"
-#galaxy_root: not required
-
-# Attempt to chown fails, let it create an empty dir instead
-#pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
-#_pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
-#pulsar_dependencies_dir: "/pylon5/mc48nsp/xcgalaxy"
-pulsar_persistence_dir: "{{ _bridges_scratch_root }}/pulsar/var"
-pulsar_staging_dir: "{{ _bridges_scratch_root }}/staging"
+pulsar_supervisor_env:
+  - PATH="{{ pulsar_venv_dir }}/bin:/opt/packages/slurm/default/bin:%(ENV_PATH)s"
+  - LD_LIBRARY_PATH="{{ miniconda_prefix }}/envs/__curl@7.71/lib"
+  - SLURM_CONF="{{ _bridges_home_root }}/etc/slurm.conf"
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
-# Override group_vars version
-#pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
-#pip_virtualenv_command: "/home/xcgalaxy/virtualenv/bin/virtualenv"
-pip_virtualenv_command: "{{ _bridges_conda_root }}/envs/__python@3.8/bin/python3 -m venv"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.8/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: openssl
-
-pulsar_drmaa_library_path: "{{ _bridges_home_root }}/slurm-drmaa/lib/libdrmaa.so"
+pulsar_drmaa_library_path: "{{ _bridges_instance_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_job_metrics_plugins:
   - type: core
@@ -58,13 +101,7 @@ pulsar_job_metrics_plugins:
 pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
-  #tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
-  # FIXME: these should not be needed! Pulsar does not seem to be reading the dependency_resolvers_conf.xml
-  #conda_prefix: "{{ _bridges_conda_root }}"
-  #conda_auto_install: true
-  #job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
-  #dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
   maximum_stream_size: 8388608  # 8 MB
   amqp_acknowledge: True
   amqp_ack_republish_time: 180
@@ -76,8 +113,8 @@ pulsar_yaml_config:
   dependency_resolution:
     resolvers:
       - type: conda
-        prefix: "{{ _bridges_conda_root }}"
-        auto_init: true
+        prefix: "{{ miniconda_prefix }}"
+        auto_init: false
         auto_install: true
   managers:
     bridges:
@@ -86,15 +123,8 @@ pulsar_yaml_config:
       preprocess_action_interval_start: 2
       preprocess_action_interval_step: 2
       preprocess_action_interval_max: 60
-      postprocess_action_max_retries: 5
-      postprocess_action_interval_start: 10
-      postprocess_action_interval_step: 10
+      postprocess_action_max_retries: 10
+      postprocess_action_interval_start: 2
+      postprocess_action_interval_step: 2
       postprocess_action_interval_max: 60
       min_polling_interval: 15
-    bridges_nagios:
-      type: queued_python
-      min_polling_interval: 5
-
-#pulsar_install_environments:
-#  pycurl:
-#    PYCURL_SSL_LIBRARY: "openssl"

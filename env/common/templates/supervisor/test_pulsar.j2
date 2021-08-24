@@ -1,5 +1,9 @@
+;;
+;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+;;
+
 [program:{{ galaxy_instance_codename }}_pulsar]
-command         = {{ pulsar_root }}/venv/bin/pulsar -c {{ pulsar_config_dir }} -m webless
+command         = {{ pulsar_venv_dir }}/bin/pulsar -c {{ pulsar_config_dir }} -m webless
 directory       = {{ pulsar_root }}
 umask           = 077
 autostart       = true
@@ -11,4 +15,4 @@ stopasgroup     = true
 killasgroup     = true
 stdout_logfile  = {{ pulsar_root }}/log/pulsar.log
 redirect_stderr = true
-environment     = PATH="{{ pulsar_venv_dir }}/bin:%(ENV_PATH)s"
+environment     = {{ (pulsar_supervisor_env | default(['PATH="' ~ pulsar_venv_dir ~ '/bin:%(ENV_PATH)s"'])) | join(',') }}

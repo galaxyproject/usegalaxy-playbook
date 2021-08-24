@@ -30,6 +30,8 @@ pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url
 pulsar_systemd: true
 pulsar_systemd_runner: webless
 pulsar_systemd_service_name: "pulsar-{{ galaxy_instance_codename }}"
+# TODO: why don't the conditionalized restart handlers in the role work?
+pulsar_restart_handler_name: systemd restart pulsar
 
 pulsar_drmaa_library_path: "/usr/lib64/libdrmaa.so"
 
@@ -73,15 +75,10 @@ pulsar_yaml_config:
       preprocess_action_interval_start: 2
       preprocess_action_interval_step: 2
       preprocess_action_interval_max: 60
-      postprocess_action_max_retries: 20
+      postprocess_action_max_retries: 10
       postprocess_action_interval_start: 2
-      postprocess_action_interval_step: 4
-      postprocess_action_interval_max: 120
+      postprocess_action_interval_step: 2
+      postprocess_action_interval_max: 60
       min_polling_interval: 15
-      galaxy_home: "{{ _jetstream_galaxy_root }}"
-      galaxy_datatypes_config_file: "{{ _jetstream_galaxy_root }}/config/datatypes_conf.xml.sample"
-    jetstream_tacc_nagios:
-      type: queued_python
-      min_polling_interval: 5
       galaxy_home: "{{ _jetstream_galaxy_root }}"
       galaxy_datatypes_config_file: "{{ _jetstream_galaxy_root }}/config/datatypes_conf.xml.sample"

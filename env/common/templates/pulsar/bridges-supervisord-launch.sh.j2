@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Bridges-2 uses "configless" Slurm config: https://slurm.schedmd.com/configless_slurm.html
+#
+# `scontrol write config $PATH` will write the config to $PATH.<date>, the date append cannot be suppressed. Thus to
+# ensure the config exists before Pulsar starts up, we write it before starting supervisord
+#
+set -euo pipefail
+
+SLURM_CONF="${HOME}/etc/slurm.conf"
+
+# fetch updated slurm.conf
+conf_path=$(scontrol write config "${SLURM_CONF}" | awk '{print $NF}')
+if [ -f "$conf_path" ]; then
+    echo "slurm.conf fetched to ${conf_path}"
+    if diff -q <(grep -v '^#' "$SLURM_CONF") <(grep -v '^#' "$conf_path"); then
+        echo "No changes to slurm.conf since previous version, removing ${conf_path}"
+        rm -f "$conf_path"
+    else
+        ln -sf "$conf_path" "$SLURM_CONF"
+    fi
+else
+        echo "Conf fetched to ${conf_path} but does not exist!"
+    exit 1
+fi
+
+'{{ supervisord_prefix }}/bin/supervisord' -c '{{ supervisord_conf_path }}'
+

@@ -6,17 +6,33 @@
 # FIXME:
 #   - slurm-drmaa installed by hand
 
+_frontera_home_root: "/home1/03166/xcgalaxy"
 _frontera_work_root: "/work2/03166/xcgalaxy/frontera"
 _frontera_scratch_root: "/scratch1/03166/xcgalaxy"
 _frontera_instance_root: "{{ _frontera_work_root }}/{{ galaxy_instance_codename }}"
 
 host_directories:
+  - path: "{{ _frontera_home_root }}/bin"
+    mode: "0755"
   - path: "{{ pulsar_root }}/log"
     mode: "0750"
-  - path: "{{ supervisord_prefix }}/var/log"
-    mode: "0750"
-  - path: "{{ supervisord_prefix }}/var/run"
-    mode: "0750"
+  # these should be created by the supervisor role
+  #- path: "{{ supervisord_log_dir }}"
+  #  mode: "0750"
+  #- path: "{{ supervisord_run_dir }}"
+  #  mode: "0750"
+
+host_files:
+  - src: "files/pulsar/tmpwatch.el7"
+    dest: "{{ _frontera_home_root }}/bin/tmpwatch"
+    mode: "0755"
+
+host_crontabs:
+  - id: "pulsar-clean-{{ galaxy_instance_codename }}-scratch"
+    use_cron_file: false
+    minute: "0"
+    hour: "*/6"
+    job: "{{ _frontera_home_root }}/bin/tmpwatch -v --all --mtime --dirmtime 7d '{{ pulsar_staging_dir }}' >> '{{ pulsar_root }}/log/cleanup.log'"
 
 miniconda_prefix: "{{ _frontera_work_root }}/conda"
 miniconda_channels:
@@ -37,12 +53,10 @@ host_supervisor_configs:
   - "{{ galaxy_instance_codename }}_pulsar"
 
 pulsar_root: "{{ _frontera_instance_root }}/pulsar"
-pulsar_restart_handler_name: restart pulsar
-#galaxy_root: not required
-
-# Attempt to chown fails, let it create an empty dir instead
+pulsar_restart_handler_name: supervisor restart pulsar
 pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
 pulsar_staging_dir: "{{ _frontera_scratch_root }}/{{ galaxy_instance_codename }}/staging"
+#galaxy_root: not required
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
