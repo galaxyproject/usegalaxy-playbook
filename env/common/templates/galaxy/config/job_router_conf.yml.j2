@@ -450,7 +450,8 @@ tools:
     destination: frontera_small
     login_required: true
     spec:
-     ntasks: 10
+      # busco crashes with the full thread count because it uses too much memory (even 12 was too many)
+      ntasks: 10
 
 # count of queued jobs in these destinations count against the other destinations (i.e. they're probably just slightly
 # different params on the same queue)
