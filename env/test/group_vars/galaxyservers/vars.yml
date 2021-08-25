@@ -98,6 +98,17 @@ galaxy_job_conf_handlers:
 galaxy_job_conf_extra_dynamic_rules:
   - dynamic_nvc_dynamic_memory
 
+galaxy_job_conf_singularity_volumes:
+  - "$galaxy_root:ro"
+  - "$tool_directory:ro"
+  - "$working_directory:rw"
+  - "$job_directory:rw"
+  - "{{ galaxy_object_store_cache_path }}:ro"
+  - "{{ galaxy_new_file_path }}:ro"
+  - "/galaxy-repl/{{ galaxy_instance_codename }}/files:ro"
+  - "/cvmfs/data.galaxyproject.org:ro"
+  - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+
 galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource, ntasks, time]
   multi_long: [multi_long_compute_resource, ntasks, time]

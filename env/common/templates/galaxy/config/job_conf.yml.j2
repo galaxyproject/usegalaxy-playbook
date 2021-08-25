@@ -9,52 +9,6 @@
 ## NOTE: many template values can be found in env/<env>/group_vars/galaxyservers/tools_conf.yml
 -#}
 
-{%- set slurm_environments = (
-    {'id': 'training', 'native_spec': '--partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840', 'java_mem': 3, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
-    {'id': 'training_long', 'native_spec': '--partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=02:00:00 --mem=3840', 'java_mem': 3, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
-    {'id': 'training_large', 'native_spec': '--partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:20:00 --mem=15360', 'java_mem': 15, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
-    {'id': 'training_xlarge', 'native_spec': '--partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:10:00 --mem=23040', 'java_mem': 22, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
-    {'id': 'training_multi', 'native_spec': '--partition=reserved,jsreserved --nodes=1 --ntasks=2 --time=01:20:00 --mem=7680', 'java_mem': 7, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
-    {'id': 'training_multi_large', 'native_spec': '--partition=reserved,jsreserved --nodes=1 --ntasks=4 --time=01:20:00 --mem=15360', 'java_mem': 15, 'create_reserved_env': false, 'create_legacy_env': false, 'tags': ['training']},
-    {'id': 'normal', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00', 'java_mem': 7, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['normal']},
-    {'id': 'normal_16gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360', 'java_mem': 15, 'create_reserved_env': true},
-    {'id': 'normal_32gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=24:00:00 --mem=30720', 'java_mem': 30, 'create_reserved_env': true},
-    {'id': 'normal_64gb', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=1 --time=4:00:00 --mem=61440', 'java_mem': 60, 'create_reserved_env': true},
-    {'id': 'multi', 'native_spec': '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
-    {'id': 'multi_development', 'native_spec': '--partition=normal,jsnormal --nodes=1 --ntasks=2 --time=00:30:00', 'java_mem': 15},
-    {'id': 'multi_long', 'native_spec': '--partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00', 'java_mem': 28, 'tags': ['multi_long']},
-) %}
-
-{%- set jetstream_environments = (
-    {'id': 'iu_multi', 'runner': 'jetstream_iu', 'native_spec': '--partition=multi --nodes=1 --time=36:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
-    {'id': 'iu_multi_long', 'runner': 'jetstream_iu', 'native_spec': '--partition=multi --nodes=1 --time=60:00:00', 'java_mem': 28, 'tags': ['multi_long']},
-    {'id': 'tacc_multi', 'runner': 'jetstream_tacc', 'native_spec': '--partition=multi --nodes=1 --time=36:00:00', 'java_mem': 28, 'create_reserved_env': true, 'create_legacy_env': true, 'tags': ['multi']},
-    {'id': 'tacc_multi_long', 'runner': 'jetstream_tacc', 'native_spec': '--partition=multi --nodes=1 --time=60:00:00', 'java_mem': 28, 'tags': ['multi_long']},
-    {'id': 'tacc_xlarge', 'runner': 'jetstream_tacc', 'native_spec': '--partition=xlarge --nodes=1 --time=36:00:00', 'java_mem': 58},
-) %}
-
-{%- set stampede_environments = (
-    {'id': 'normal', 'native_spec': '--partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=36:00:00', 'memory_mb': 94208},
-    {'id': 'development', 'native_spec': '--partition=development --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=00:30:00', 'memory_mb': 94208},
-    {'id': 'skx_normal', 'native_spec': '--partition=skx-normal --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=36:00:00', 'memory_mb': 192512},
-    {'id': 'skx_development', 'native_spec': '--partition=skx-dev --nodes=1 --account=TG-MCB140147 --ntasks=48 --time=00:30:00', 'memory_mb': 192512},
-    {'id': 'long', 'native_spec': '--partition=long --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=60:00:00', 'memory_mb': 94208, 'tags': ['multi_long']},
-) %}
-
-{%- set frontera_environments = (
-    {'id': 'small', 'native_spec': '--partition=small --nodes=1 --ntasks=56 --time=48:00:00', 'memory_mb': 194560},
-    {'id': 'development', 'native_spec': '--partition=development --nodes=1 --ntasks=56 --time=00:30:00', 'memory_mb': 194560},
-) %}
-
-{#- RM nodes are 128 core / 256 GB, RM-512 nodes are 256 core / 512 GB #}
-{%- set bridges_environments = (
-    {'id': 'normal', 'native_spec': '--partition=RM --time=24:00:00 --nodes=1 --ntasks=64'},
-    {'id': 'shared_128gb', 'native_spec': '--partition=RM-shared --time=24:00:00 --nodes=1 --ntasks=64'},
-    {'id': 'shared_64gb', 'native_spec': '--partition=RM-shared --time=24:00:00 --nodes=1 --ntasks=32'},
-    {'id': 'extreme_1tb', 'native_spec': '--partition=EM --time=24:00:00 --nodes=1 --ntasks=24'},
-    {'id': 'development', 'native_spec': '--partition=RM-shared --time=00:30:00 --nodes=1 --ntasks=8'},
-) %}
-
 {#-
 ## template macros
 #}
@@ -72,16 +26,20 @@
 
 {%- macro env_local_envs(java_mem=7) -%}
         # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
-        - name: PATH
-          value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+        #- name: PATH
+        #  value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+        # TODO: what uses this (DejaVu fonts)?
         - name: XDG_DATA_HOME
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/xdg/data
         {{ env_temp_envs() }}
         - name: _JAVA_OPTIONS
           value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
         - execute: ulimit -c 0
+        - name: SINGULARITYENV_LC_ALL
+          value: C
 {%- endmacro %}
 
+# FIXME: remove
 {%- macro env_legacy_envs(java_mem=7) -%}
         - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
         - name: GALAXY_VIRTUAL_ENV
@@ -99,12 +57,14 @@
 {%- endmacro %}
 
 {%- macro env_temp_envs() -%}
-        - name: TEMP
+        - name: $TEMP
           #raw: true
           value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
-        - name: TMPDIR
+        - name: SINGULARITYENV_TEMP
           value: $TEMP
-        - name: _JAVA_OPTIONS
+        - name: SINGULARITYENV_TMPDIR
+          value: $TEMP
+        - name: SINGULARITYENV__JAVA_OPTIONS
           value: -Djava.io.tmpdir=$TEMP
         - execute: mkdir -p $TEMP
 {%- endmacro %}
@@ -222,133 +182,183 @@ execution:
     #
     # roundup and TACC-discretionary Jetstream environments
     #
-{% for env in slurm_environments %}
+{% for env in galaxy_job_conf_environments.slurm_environments %}
     slurm_{{ env.id }}:
       runner: slurm
       native_specification: {{ env.native_spec }}
       {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-    slurm_{{ env.id }}_singularity:
-      runner: slurm
-      native_specification: {{ env.native_spec }}
-      {{ env_tag_params(env.tags | default(none)) }}
       singularity_enabled: true
-      # /cvmfs/data?
-      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl:ro,/galaxy:ro'
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
       env:
         {{ env_local_envs(java_mem=env.java_mem) }}
-        - name: SINGULARITYENV_LC_ALL
-          value: C
+{% if env.create_test_env | default(false) %}
+    test_slurm_{{ env.id }}:
+      runner: slurm
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      tags:
+        - test
+      singularity_enabled: true
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+      env:
+        {{ env_local_envs(java_mem=env.java_mem) }}
+{% endif %}
 {% if env.create_reserved_env | default(false) %}
     reserved_slurm_{{ env.id }}:
       runner: slurm
       native_specification: {{ env.native_spec | replace('normal', 'reserved') | replace('multi', 'reserved') }}
+      singularity_enabled: true
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
       env:
         {{ env_local_envs(java_mem=env.java_mem) }}
 {% endif %}
-{% if env.create_legacy_env | default(false) %}
-    slurm_{{ env.id }}_legacy:
+{% if env.create_deps_env | default(false) %}
+    # Mount Conda deps in Singularity
+    slurm_{{ env.id }}_deps:
       runner: slurm
       native_specification: {{ env.native_spec }}
-      use_metadata_binary: true
       {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-        {{ env_legacy_envs() }}
-    slurm_{{ env.id }}_singularity_legacy:
-      runner: slurm
-      native_specification: {{ env.native_spec }}
       singularity_enabled: true
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:2.7.16'
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-        - name: SINGULARITYENV_LC_ALL
-          value: C
-    slurm_{{ env.id }}_singularity_galaxy_env:
-      runner: slurm
-      native_specification: {{ env.native_spec }}
-      singularity_enabled: true
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/ftp:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro,/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04'
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        - name: SINGULARITYENV_LC_ALL
-          value: C
-        - name: SINGULARITYENV_PREPEND_PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
-        {{ env_temp_envs() }}
-{% endif %}
-{% endfor %}
-
-    slurm_normal_singularity_deps:
-      runner: slurm
-      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=02:00:00
-      singularity_enabled: true
-      # /cvmfs/data?
-      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl:ro,/galaxy:ro'
-      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro'
-      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro'
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/ftp:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro,/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro'
-      #singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
       container_override:
         - type: singularity
           shell: '/bin/sh'
           resolve_dependencies: true
-          identifier: '/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011'
+          identifier: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
       env:
         - name: SINGULARITYENV_LC_ALL
           value: C
-        #- name: SINGULARITYENV_PATH
+        # FIXME: why?
         - name: SINGULARITYENV_PREPEND_PATH
           value: $PATH
         {{ env_temp_envs() }}
-
-    slurm_test:
+{% if env.create_test_env | default(false) %}
+    test_slurm_{{ env.id }}_deps:
       runner: slurm
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
-      env:
-        {{ env_local_envs(java_mem=3) }}
-
-    slurm_test_singularity:
-      runner: slurm
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      tags:
+        - test
       singularity_enabled: true
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
+      container_override:
+        - type: singularity
+          shell: '/bin/sh'
+          resolve_dependencies: true
+          identifier: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
       env:
-        {{ env_local_envs(java_mem=3) }}
         - name: SINGULARITYENV_LC_ALL
           value: C
-
-    slurm_test_singularity_legacy:
+        # FIXME: why?
+        - name: SINGULARITYENV_PREPEND_PATH
+          value: $PATH
+        {{ env_temp_envs() }}
+{% endif %}
+{% endif %}
+{% if env.create_legacy_env | default(false) %}
+    # FIXME: should more accurately be called "py2 env"
+    # the command will run in the py2 container and default to using the galaxy venv for set_meta so this is no longer
+    # needed
+    #slurm_{{ env.id }}_legacy:
+    #  runner: slurm
+    #  native_specification: {{ env.native_spec }}
+    #  use_metadata_binary: true
+    #  {{ env_tag_params(env.tags | default(none)) }}
+    #  env:
+    #    {{ env_local_envs(java_mem=env.java_mem) }}
+    #    {{ env_legacy_envs() }}
+    slurm_{{ env.id }}_legacy:
       runner: slurm
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      native_specification: {{ env.native_spec }}
       singularity_enabled: true
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:2.7.16'
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes | join(',') }}"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:2.7.16"
+      {{ env_tag_params(env.tags | default(none)) }}
       env:
-        {{ env_local_envs(java_mem=3) }}
+        {{ env_local_envs(java_mem=env.java_mem) }}
+    # FIXME: only normal version of this is currently used
+    slurm_{{ env.id }}_galaxy_env:
+      runner: slurm
+      native_specification: {{ env.native_spec }}
+      singularity_enabled: true
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
+      # FIXME: why ubuntu?
+      #singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
         - name: SINGULARITYENV_LC_ALL
           value: C
-
-    slurm_test_singularity_galaxy_env:
-      runner: slurm
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
-      singularity_enabled: true
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/ftp:rw,/galaxy-repl/test/object_store_cache:ro,/galaxy-repl/test/files:ro,/cvmfs/data.galaxyproject.org:ro,/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04'
-      env:
-        {{ env_local_envs(java_mem=3) }}
-        - name: SINGULARITYENV_LC_ALL
-          value: C
+        # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
         - name: SINGULARITYENV_PREPEND_PATH
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
         {{ env_temp_envs() }}
+{% if env.create_test_env | default(false) %}
+    test_slurm_{{ env.id }}_legacy:
+      runner: slurm
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      tags:
+        - test
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes | join(',') }}"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:2.7.16"
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        {{ env_local_envs(java_mem=env.java_mem) }}
+    # FIXME: only normal version of this is currently used
+    test_slurm_{{ env.id }}_galaxy_env:
+      runner: slurm
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      tags:
+        - test
+      singularity_enabled: true
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
+      # FIXME: why ubuntu?
+      #singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        - name: SINGULARITYENV_LC_ALL
+          value: C
+        # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
+        - name: SINGULARITYENV_PREPEND_PATH
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
+        {{ env_temp_envs() }}
+{% endif %}
+{% endif %}
+{% endfor %}
+
+    # FIXME:
+    slurm_upload:
+      runner: slurm
+      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=12:00:00 --mem=3840
+{#
+      singularity_enabled: true
+      singularity_volumes: "{{ (galaxy_job_conf_singularity_volumes + [galaxy_ftp_upload_dir ~ ':rw', galaxy_nginx_upload_dir ~ ':rw']) | join(',') }}"
+      # FIXME: why ubuntu?
+      #singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        - name: SINGULARITYENV_LC_ALL
+          value: C
+        # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
+        - name: SINGULARITYENV_PREPEND_PATH
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
+        {{ env_temp_envs() }}
+#}
+      env:
+        - name: TEMP
+          #raw: true
+          value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
+        - name: TMPDIR
+          value: $TEMP
+        - name: _JAVA_OPTIONS
+          value: -Djava.io.tmpdir=$TEMP
+        - execute: mkdir -p $TEMP
+        - name: LC_ALL
+          value: C
 
     # FIXME: roundup-only since I'm pretty certain memory_limit_reached doesn't work on Pulsar dests
     # resubmit to jetstream-tacc-xlarge on memory failure
@@ -395,7 +405,7 @@ execution:
     #
     # Jetstream environments
     #
-{% for env in jetstream_environments %}
+{% for env in galaxy_job_conf_environments.jetstream_environments %}
     jetstream_{{ env.id }}:
       runner: {{ env.runner }}
       submit_native_specification: {{ env.native_spec }}
@@ -449,7 +459,7 @@ execution:
     #
     # Stampede environments
     #
-{% for env in stampede_environments %}
+{% for env in galaxy_job_conf_environments.stampede_environments %}
     stampede_{{ env.id }}:
       runner: stampede
       submit_native_specification: {{ env.native_spec }}
@@ -477,15 +487,15 @@ execution:
     #
     # Frontera environments
     #
-{% for env in frontera_environments %}
+{% for env in galaxy_job_conf_environments.frontera_environments %}
     frontera_{{ env.id }}:
       runner: frontera
       submit_native_specification: {{ env.native_spec }}
       {{ env_pulsar_params(remote_metadata='false') }}
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {{ env_tag_params(env.tags | default(none)) }}
-      # FIXME: don't want this on all jobs probably? or do we?
       singularity_enabled: true
+      # the tacc-singularity module automatically sets up mounts
       singularity_volumes: null
       container_resolvers:
         - type: explicit_singularity
@@ -506,7 +516,7 @@ execution:
     #
     # Bridges environments
     #
-{% for env in bridges_environments %}
+{% for env in galaxy_job_conf_environments.bridges_environments %}
     bridges_{{ env.id }}:
       runner: bridges
       submit_native_specification: {{ env.native_spec }}

@@ -634,6 +634,8 @@ def job_router(app, job, tool, resource_params, user):
 
     if destination_id is None:
         if __is_galaxy_lib_tool(tool_id):
+            # TODO: should this be a mapping or something? e.g. s/$/_galaxy_env/ so that their regular tool mapping
+            # (16 GB or whatever) still applies
             tool_mapping = __tool_mapping(app, '_galaxy_lib_', {})
             destination_id = tool_mapping['destination']
             local.log.debug("'%s' is a Galaxy lib too, using destination '%s'", tool_id, destination_id)
