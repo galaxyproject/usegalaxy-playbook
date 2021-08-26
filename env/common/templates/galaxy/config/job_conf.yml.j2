@@ -257,6 +257,7 @@ execution:
 {% endif %}
 {% endif %}
 {% if env.create_legacy_env | default(false) %}
+{#
     # FIXME: should more accurately be called "py2 env"
     # the command will run in the py2 container and default to using the galaxy venv for set_meta so this is no longer
     # needed
@@ -268,6 +269,7 @@ execution:
     #  env:
     #    {{ env_local_envs(java_mem=env.java_mem) }}
     #    {{ env_legacy_envs() }}
+#}
     slurm_{{ env.id }}_legacy:
       runner: slurm
       native_specification: {{ env.native_spec }}
