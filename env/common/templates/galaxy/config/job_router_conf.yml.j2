@@ -67,6 +67,22 @@ tools:
   testtoolshed.g2.bx.psu.edu/repos/greg/ideas2/ideas/1.2.0: {destination: slurm_normal_deps}
   testtoolshed.g2.bx.psu.edu/repos/greg/ideas_genome_tracks/ideas_genome_tracks/1.0.0: {destination: slurm_normal_deps}
 
+  # FIXME: /usr/local/bin/zff2gff3.pl: line 9: /usr/local/share/snap/bin/zff2gff3.pl: not found
+  #   seems like an image problem
+  # DOUBLE FIXME: tool_script.sh: line 56: which: command not found
+  #               dirname: missing operand
+  # https://github.com/galaxyproject/tools-iuc/pull/3906
+  #   make a _deps_ubuntu dest w/ ubuntu:20.04 image to fix old versions =/
+  toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/3.4.0+galaxy1: {destination: slurm_normal_deps}
+  # FIXME: /galaxy-repl/test/jobdir/001/440/1440827/tool_script.sh: /usr/local/bin/ktImportText: /usr/bin/perl: bad interpreter: No such file or directory
+  #   image problem? newer version 2.7.1+galaxy0 works
+  # DOUBLE FIXME: /cvmfs/test.galaxyproject.org/deps/_conda/envs/__krona@2.6.1/bin/ktImportText: /usr/bin/perl: bad interpreter: No such file or directory
+  #   I bet the krona scripts in the 2.6.1 version have /usr/bin/perl hardcoded, just uninstall this version since the new one works
+  #toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.1.1: {destination: slurm_normal_deps}
+
+  # https://github.com/bioconda/bioconda-recipes/issues/11583
+  toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
+
   # python 2 legacy tools
 {% for tool_id in galaxy_python2_legacy_tools %}
 {% set short_tool_id = tool_id.split('/')[-2] %}
@@ -634,6 +650,7 @@ groups:
       slurm_normal_deps: test_slurm_normal_deps
       slurm_normal_legacy: test_slurm_normal_legacy
       slurm_normal_galaxy_env: test_slurm_normal_galaxy_env
+      slurm_normal_resolv_fix: test_slurm_normal_resolv_fix
       frontera_small: frontera_development
       stampede_normal: stampede_development
       stampede_skx_normal: stampede_skx_development

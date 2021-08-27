@@ -362,6 +362,34 @@ execution:
         - name: LC_ALL
           value: C
 
+    # FIXME
+    slurm_normal_resolv_fix:
+      runner: slurm
+      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
+      tags:
+        - normal
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes | join(',') }}"
+      # https://github.com/bioconda/bioconda-recipes/issues/11583
+      singularity_run_extra_arguments: --no-mount=tmp
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+      env:
+        {{ env_local_envs(java_mem=7) }}
+
+    # FIXME
+    test_slurm_normal_resolv_fix:
+      runner: slurm
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      tags:
+        - normal
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes | join(',') }}"
+      # https://github.com/bioconda/bioconda-recipes/issues/11583
+      singularity_run_extra_arguments: --no-mount=tmp
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+      env:
+        {{ env_local_envs(java_mem=3) }}
+
     # FIXME: roundup-only since I'm pretty certain memory_limit_reached doesn't work on Pulsar dests
     # resubmit to jetstream-tacc-xlarge on memory failure
     slurm_multi_memory_resubmit:
