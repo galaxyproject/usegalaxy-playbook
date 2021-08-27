@@ -29,8 +29,12 @@
         <option value="bridges_shared_128gb">PSC Bridges-2 RM-shared partition (128 GB)</option>
         <option value="bridges_normal">PSC Bridges-2 RM partition (256 GB)</option>
         <option value="bridges_extreme_1tb">PSC Bridges-2 EM partition (1 TB)</option>
+        <option value="expanse_shared_64gb">SDSC Expanse shared partition (64 GB)</option>
+        <option value="expanse_shared_128gb">SDSC Expanse shared partition (128 GB)</option>
+        <option value="expanse_normal">SDSC Expanse compute partition (256 GB)</option>
         <option value="slurm_multi_development">[TESTING/DEVELOPMENT] Galaxy cluster</option>
         <option value="bridges_development">[TESTING/DEVELOPMENT] PSC Bridges-2</option>
+        <option value="expanse_development">[TESTING/DEVELOPMENT] SDSC Expanse</option>
     </param>
     <param label="Compute Resource" name="stampede_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main/' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
         <option value="stampede_normal">TACC Stampede 2 normal (KNL) partition</option>
@@ -47,7 +51,11 @@
         <option value="bridges_shared_128gb">PSC Bridges-2 RM-shared partition (128 GB)</option>
         <option value="bridges_normal">PSC Bridges-2 RM partition (256 GB)</option>
         <option value="bridges_extreme_1tb">PSC Bridges-2 EM partition (1 TB)</option>
+        <option value="expanse_shared_64gb">SDSC Expanse shared partition (64 GB)</option>
+        <option value="expanse_shared_128gb">SDSC Expanse shared partition (128 GB)</option>
+        <option value="expanse_normal">SDSC Expanse compute partition (256 GB)</option>
         <option value="bridges_development">[TESTING/DEVELOPMENT] PSC Bridges-2</option>
+        <option value="expanse_development">[TESTING/DEVELOPMENT] SDSC Expanse</option>
     </param>
     <param label="[Galaxy Tool Development] Cores" name="ntasks" type="integer" size="3" min="0" max="272" value="0" help="Option ignored for unauthorized users. Value will be capped for the resource on which the tool runs. Use '0' for default." />
     <param label="[Galaxy Tool Development] Memory (GB)" name="mem" type="integer" size="3" min="0" max="720" value="0" help="Option ignored for unauthorized users. Value will be capped for the resource on which the tool runs. Use '0' for default." />

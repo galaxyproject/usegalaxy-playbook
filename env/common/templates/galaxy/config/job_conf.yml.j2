@@ -125,6 +125,10 @@ runners:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: bridges
     {{ runner_pulsar_params() }}
+  expanse:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: expanse
+    {{ runner_pulsar_params() }}
   tacc_k8s:
     load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
     manager: tacc_k8s
@@ -368,6 +372,22 @@ execution:
         {{ env_pulsar_envs() }}
         #- execute: eval `modulecmd sh purge`
         {# Bridges-2 assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
+        - name: GALAXY_SLOTS
+          value: "$SLURM_NTASKS"
+{% endfor %}
+
+    #
+    # Expanse environments
+    #
+{% for env in galaxy_job_conf_environments.expanse_environments %}
+    expanse_{{ env.id }}:
+      runner: expanse
+      submit_native_specification: {{ env.native_spec }}
+      {{ env_pulsar_params(remote_metadata='false') }}
+      jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging/
+      {{ env_tag_params(env.tags | default(none)) }}
+      env:
+        {{ env_pulsar_envs() }}
         - name: GALAXY_SLOTS
           value: "$SLURM_NTASKS"
 {% endfor %}

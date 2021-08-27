@@ -65,6 +65,7 @@ __handler_multi_plugins:
   - stampede
   - frontera
   - bridges
+  - expanse
 
 galaxy_job_conf_handlers:
   - id: main_w3_handler0
@@ -198,6 +199,18 @@ galaxy_job_conf_limits:
     id: bridges_development
     value: 1
   - type: environment_user_concurrent_jobs
+    id: expanse_normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: expanse_shared_128gb
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: expanse_shared_64gb
+    value: 8
+  - type: environment_user_concurrent_jobs
+    id: expanse_development
+    value: 2
+  - type: environment_user_concurrent_jobs
     id: jetstream_tacc_xlarge
     value: 1
   - type: environment_user_concurrent_jobs
@@ -230,7 +243,31 @@ galaxy_job_conf_limits:
     id: bridges_normal
     value: 100
   - type: environment_total_concurrent_jobs
+    id: bridges_shared_64gb
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: bridges_shared_128gb
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: bridges_extreme_1tb
+    value: 20
+  - type: environment_total_concurrent_jobs
     id: bridges_development
+    value: 4
+  - type: environment_total_concurrent_jobs
+    id: expanse_normal
+    value: 100
+  - type: environment_total_concurrent_jobs
+    id: expanse_shared_64gb
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: expanse_shared_128gb
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: expanse_extreme_1tb
+    value: 20
+  - type: environment_total_concurrent_jobs
+    id: expanse_development
     value: 4
 
 
