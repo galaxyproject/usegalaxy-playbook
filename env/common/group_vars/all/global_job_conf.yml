@@ -172,3 +172,12 @@ galaxy_job_conf_environments:
     - id: development
       native_spec: --partition=RM-shared --time=00:30:00 --nodes=1 --ntasks=8
 
+  expanse_environments:
+    - id: normal
+      native_spec: --account=TG-MCB140147 --partition=compute --time=24:00:00 --nodes=1 --ntasks=64
+    - id: shared_128gb
+      native_spec: --account=TG-MCB140147 --partition=shared --time=24:00:00 --nodes=1 --ntasks=64 --mem=131072
+    - id: shared_64gb
+      native_spec: --account=TG-MCB140147 --partition=shared --time=24:00:00 --nodes=1 --ntasks=32 --mem=65536
+    - id: development
+      native_spec: --account=TG-MCB140147 --partition=debug --time=00:30:00 --nodes=1 --ntasks=4 --mem=8192

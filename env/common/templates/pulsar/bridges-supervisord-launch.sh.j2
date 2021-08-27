@@ -7,22 +7,21 @@
 #
 set -euo pipefail
 
-SLURM_CONF="${HOME}/etc/slurm.conf"
+USER_SLURM_CONF="${HOME}/etc/slurm.conf"
 
 # fetch updated slurm.conf
-conf_path=$(scontrol write config "${SLURM_CONF}" | awk '{print $NF}')
+conf_path=$(scontrol write config "${USER_SLURM_CONF}" | awk '{print $NF}')
 if [ -f "$conf_path" ]; then
     echo "slurm.conf fetched to ${conf_path}"
-    if diff -q <(grep -v '^#' "$SLURM_CONF") <(grep -v '^#' "$conf_path"); then
+    if [ -e "$USER_SLURM_CONF" ] && diff -q <(grep -v '^#' "$USER_SLURM_CONF") <(grep -v '^#' "$conf_path"); then
         echo "No changes to slurm.conf since previous version, removing ${conf_path}"
         rm -f "$conf_path"
     else
-        ln -sf "$conf_path" "$SLURM_CONF"
+        ln -sf "$conf_path" "$USER_SLURM_CONF"
     fi
 else
-        echo "Conf fetched to ${conf_path} but does not exist!"
+    echo "Conf fetched to ${conf_path} but does not exist!"
     exit 1
 fi
 
 '{{ supervisord_prefix }}/bin/supervisord' -c '{{ supervisord_conf_path }}'
-

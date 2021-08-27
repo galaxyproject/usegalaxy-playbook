@@ -75,6 +75,7 @@ __handler_multi_plugins:
   - stampede
   - frontera
   - bridges
+  - expanse
   - tacc_k8s
 
 galaxy_job_conf_handlers:
@@ -191,6 +192,18 @@ galaxy_job_conf_limits:
     id: bridges_development
     value: 1
   - type: environment_user_concurrent_jobs
+    id: expanse_normal
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: expanse_shared_128gb
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: expanse_shared_64gb
+    value: 8
+  - type: environment_user_concurrent_jobs
+    id: expanse_development
+    value: 2
+  - type: environment_user_concurrent_jobs
     id: jetstream_tacc_xlarge
     value: 1
   - type: environment_user_concurrent_jobs
@@ -224,6 +237,9 @@ galaxy_job_conf_limits:
   #  value: 10
   - type: environment_total_concurrent_jobs
     id: bridges_development
+    value: 4
+  - type: environment_total_concurrent_jobs
+    id: expanse_development
     value: 4
 
 
