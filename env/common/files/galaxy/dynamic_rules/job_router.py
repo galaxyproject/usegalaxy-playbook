@@ -35,7 +35,7 @@ JOB_ROUTER_CONF_FILENAME = 'job_router_conf.yml'
 # Contents of the tool mappings file and special group assignments will be cached
 # this is an rlock because getting group member cache also hits the job router conf cache
 CACHE_LOCK = threading.RLock()
-CACHE_TTL = 300
+CACHE_TTL = 30  # FIXME: 300
 CACHE_TIMES = {}
 CACHE_MEMBERS = {}
 PARAM_RES = {}
