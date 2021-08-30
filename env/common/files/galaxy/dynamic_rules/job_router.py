@@ -282,15 +282,17 @@ def __tool_mapping(app, tool_id, param_dict):
                         break  # try next
                 else:
                     tool_mapping = _tool_mapping
+                    destination_id = _tool_mapping.get('destination', '_no_destination_provided_')
                     local.log.debug("Tool '%s' mapped to destination '%s' due to params: %s",
-                                    tool_id, _tool_mapping['destination'], _tool_mapping['params'])
+                                    tool_id, destination_id, _tool_mapping['params'])
                     break
             else:
                 default_tool_mapping = _tool_mapping
         if not tool_mapping:
             if default_tool_mapping:
                 tool_mapping = default_tool_mapping
-                local.log.debug("Tool '%s' mapped to param-less default: %s", tool_id, tool_mapping['destination'])
+                destination_id = tool_mapping.get('destination', '_no_destination_provided_')
+                local.log.debug("Tool '%s' mapped to param-less default: %s", tool_id, destination_id)
             else:
                 local.log.debug("Tool '%s' has mapping but no default", tool_id)
     return tool_mapping
@@ -590,6 +592,7 @@ def job_router(app, job, tool, resource_params, user):
     login_required = False
     destination_id = None
     destination = None
+    container_override = None
 
     if JOB_ROUTER_CONF_FILE is None:
         __set_job_router_conf_file_path(app)
@@ -606,6 +609,7 @@ def job_router(app, job, tool, resource_params, user):
         spec = tool_mapping.get('spec', {}).copy()
         envs = tool_mapping.get('env', []).copy()
         login_required = tool_mapping.get('login_required', False)
+        container_override = tool_mapping.get('container_override', None)
 
     tool_id = __short_tool_id(tool.id)
 
@@ -627,7 +631,7 @@ def job_router(app, job, tool, resource_params, user):
         local.log.info("User %s is in a training, mapped to destination: %s", user_email, destination_id)
         # bypass any group mappings and just pick a destination if the supplied dest is a list
         destination_id = __resolve_destination_list(app, job, destination_id)
-    elif tool_mapping:
+    elif tool_mapping and tool_mapping.get('destination'):
         destination_id = tool_mapping['destination']
         destination_id = __resolve_destination(app, job, user_email, destination_id)
         local.log.debug("Tool '%s' mapped to '%s' native specification overrides: %s", tool_id, destination_id, spec or 'none')
@@ -642,7 +646,7 @@ def job_router(app, job, tool, resource_params, user):
         else:
             tool_mapping = __tool_mapping(app, '_default_', {})
             destination_id = tool_mapping['destination']
-            local.log.debug("'%s' has no mapping, using default destination '%s'", tool_id, destination_id)
+            local.log.debug("'%s' has no destination mapping, using default destination '%s'", tool_id, destination_id)
         destination_id = __resolve_destination(app, job, user_email, destination_id)
 
     local.log.debug('Final destination after resolution is: %s', destination_id)
@@ -656,6 +660,10 @@ def job_router(app, job, tool, resource_params, user):
     __update_env(destination, envs)
 
     destination.params[native_spec_param] = native_spec
+
+    if container_override:
+        destination.params['container_override'] = container_override
+        local.log.debug("Container override from tool mapping: %s", container_override)
 
     local.log.info('Returning destination: %s', destination_id)
     local.log.info('Native specification: %s', destination.params.get(native_spec_param))
