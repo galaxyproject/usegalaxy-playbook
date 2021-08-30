@@ -73,12 +73,32 @@ tools:
   #               dirname: missing operand
   # https://github.com/galaxyproject/tools-iuc/pull/3906
   #   make a _deps_ubuntu dest w/ ubuntu:20.04 image to fix old versions =/
+  # TRIPLE FIXME: ok use a container override, just need to double check the versions
   toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/3.4.0+galaxy1: {destination: slurm_normal_deps}
   # FIXME: /galaxy-repl/test/jobdir/001/440/1440827/tool_script.sh: /usr/local/bin/ktImportText: /usr/bin/perl: bad interpreter: No such file or directory
   #   image problem? newer version 2.7.1+galaxy0 works
   # DOUBLE FIXME: /cvmfs/test.galaxyproject.org/deps/_conda/envs/__krona@2.6.1/bin/ktImportText: /usr/bin/perl: bad interpreter: No such file or directory
   #   I bet the krona scripts in the 2.6.1 version have /usr/bin/perl hardcoded, just uninstall this version since the new one works
   #toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.1.1: {destination: slurm_normal_deps}
+
+  # uses a very custom python dep package cd-hit-auxtools 0.5-2012-03-07-fix-dan-gh-0.0.1
+  toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1: {destination: slurm_normal_deps}
+
+  # no R 2.11.0 Singularity image. and it needs `which`
+  toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1:
+    destination: slurm_normal_deps
+    container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"}]
+
+  # no matching image (or no requirements, didn't check), but either way, used the default image but needed additional deps
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0: {destination: slurm_normal_deps}
+
+  # no requirements, just interpreter="perl"
+  toolshed.g2.bx.psu.edu/repos/devteam/generate_pc_lda_matrix/generate_matrix_for_pca_and_lda1/1.0.0:
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  # requires perl 5.22.0 - FIXED, we had an old migrated version that had to be manually updated to the wrapper that contained the requirement
+  #toolshed.g2.bx.psu.edu/repos/devteam/pileup_parser/pileup_parser/1.0.2:
+  #  container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  # devteam/sam_to_bam failure is due to VN (SAM/BAM version number) change 1.3 -> 1.6 in header, e.g. test data problem
 
   # https://github.com/bioconda/bioconda-recipes/issues/11583
   toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}

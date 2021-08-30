@@ -16,7 +16,7 @@ galaxy_job_working_directory: "/galaxy-repl/{{ galaxy_instance_codename }}/jobdi
 galaxy_ftp_upload_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/ftp"
 galaxy_nginx_upload_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/upload"
 galaxy_nginx_upload_job_files_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/upload_job_files"
-galaxy_tool_dependency_dir: "/galaxy/{{ galaxy_instance_codename }}/deps"
+galaxy_tool_dependency_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps"
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
 galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_cache"
@@ -215,7 +215,7 @@ base_app_main: &BASE_APP_MAIN
   tool_ngram_minsize: 3
   tool_ngram_maxsize: 4
 
-  expose_potentially_sensitive_job_metrics: "True"
+  expose_potentially_sensitive_job_metrics: true
 
   # dependency resolver config
   conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"
