@@ -61,6 +61,8 @@ tools:
   #toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.6: {destination: slurm_multi}
   #bowtie2: {destination: slurm_multi}
 
+  # TODO: really need to add version comparison to the router
+
   # Singularity-in-conda
   # TODO: read from group vars
   testtoolshed.g2.bx.psu.edu/repos/dave/dynamic_downsample/dynamic_downsample/1.0.0: {destination: slurm_normal_deps}
@@ -84,6 +86,9 @@ tools:
   # uses a very custom python dep package cd-hit-auxtools 0.5-2012-03-07-fix-dan-gh-0.0.1
   toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1: {destination: slurm_normal_deps}
 
+  # requirement is vcflib==8a5602bf07
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3: {destination: slurm_normal_deps}
+
   # no R 2.11.0 Singularity image. and it needs `which`
   toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1:
     destination: slurm_normal_deps
@@ -102,6 +107,17 @@ tools:
 
   # https://github.com/bioconda/bioconda-recipes/issues/11583
   toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
+
+  # requirement is taxonomy==1.0.0
+  toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0: {destination: slurm_normal_deps}
+
+  # just needs an update to get the latest tool revision that contains a requirement tag
+  #toolshed.g2.bx.psu.edu/repos/devteam/tables_arithmetic_operations/tables_arithmetic_operations/1.0.0
+
+  # https://github.com/galaxyproject/tools-iuc/pull/3920
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfsort/vcfsort/1.0.0_rc1+galaxy0:
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/coreutils:8.31--h14c3975_0"}]
+
 
   # python 2 legacy tools
 {% for tool_id in galaxy_python2_legacy_tools %}
