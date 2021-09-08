@@ -118,6 +118,54 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/vcfsort/vcfsort/1.0.0_rc1+galaxy0:
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/coreutils:8.31--h14c3975_0"}]
 
+  # has a requirements tag and it's got an associated image so not sure why this is necessary
+  # FIXME: still not fixed, outputs are empty why
+  toolshed.g2.bx.psu.edu/repos/fabio/iwtomics/iwtomics_testandplot/1.0.0.0:
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bioconductor-iwtomics:1.0.0--r3.4.1_0"}]
+  toolshed.g2.bx.psu.edu/repos/fabio/iwtomics/iwtomics_loadandplot/1.0.0.0:
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bioconductor-iwtomics:1.0.0--r3.4.1_0"}]
+
+  # FIXME Got it green by updating the repo so it would ignore the warning about the R version difference on stderr, but
+  # also produces some empty outputs why? Presumably the cause of the bacteria_tradis failure as well.
+  #tradis_essentiality: {destination: slurm_normal_deps}
+
+  # TODO: uninstall these tools and install the fixed/separated versions
+  # hhsuite/hhsearch uses non-standard GNU 'link' instead of 'ln', looks like this is fixed in a later standalone repo
+  # 'hhsearch' - FIXME: but the below also does not work, this results in "Invalid cross-device link" since it's trying
+  # to create a hard link
+  #toolshed.g2.bx.psu.edu/repos/guerler/hhsuite/hhsearch: {destination: slurm_normal_deps}
+  # same deal
+  #toolshed.g2.bx.psu.edu/repos/guerler/springsuite/spring_minz: {destination: slurm_normal_deps}
+
+  # bedtools_tagbed/2.29.2 failure is just some header diff issues:
+  # +@HD    VN:1.6  SO:coordinate
+  #  @SQ    SN:dummy_chr    LN:15057250
+  # +@RG    ID:tbprofiler   SM:tbprofiler   PL:Illumina
+  # FIXME bedtools_nucbed and bedtools_getfastabed write to the input dataset directory, which we cannot support. fix is
+  # here: https://github.com/galaxyproject/tools-iuc/pull/3930, for old versions maybe i fixed the tool on disk (blech)
+
+  # seems ancient, not even going to look into this - yeah, this is the original version, this fix does not work either,
+  # just ignoring, should be uninstalled if installed on Main
+  #toolshed.g2.bx.psu.edu/repos/iuc/circos/circgraph/0.9-RC2: {destination: slurm_normal_deps}
+
+  # updated version has deps in biocontainers, this does not. centos container has some missing lib that the conda env
+  # needs, in ubuntu container it still fails to import matplotlib despite activating the conda env, fixing this is not
+  # worth the effort when the new version (presumably) works
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/td/1.0.0:
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd_regions/1.0.0:
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd/1.0.0:
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd_beforevsafter/1.0.0:
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd/1.0.0:
+
+  # Missing coreutils requirement, is fixed in a newer version
+  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.2: {destination: slurm_normal_deps}
+
+  # toolshed.g2.bx.psu.edu/repos/iuc/flash/flash/1.2.11.4 tests -0 and -8, trim_galore test -9 fail due to:
+  # AttributeError: 'NoneType' object has no attribute 'get_datatype_by_extension'
+  # seems to be a problem with collection inputs
+
+  # toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/0.20.1+galaxy1 failing option seems to be removed from the
+  # latest version so don't care
 
   # python 2 legacy tools
 {% for tool_id in galaxy_python2_legacy_tools %}

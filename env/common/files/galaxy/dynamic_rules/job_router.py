@@ -96,6 +96,12 @@ def __int_gb_to_bytes(gb):
     return gb * (1024 ** 3)
 
 
+def __versionless_tool_id(tool_id):
+    if '/' in tool_id:
+        tool_id, version = tool_id.rsplit('/', 1)
+    return tool_id
+
+
 def __short_tool_id(tool_id):
     if '/' in tool_id:
         # extract short tool id from tool shed id
@@ -261,14 +267,15 @@ def __tool_mapping(app, tool_id, param_dict):
     job_router_conf = __job_router_conf()
     tool_mappings = None
     tool_mapping = None
-    try:
-        tool_mappings = job_router_conf['tools'][tool_id]
-    except KeyError:
-        tool_id = __short_tool_id(tool_id)
+    tool_ids = (tool_id, __versionless_tool_id(tool_id), __short_tool_id(tool_id))
+    for tool_id in tool_ids:
         try:
             tool_mappings = job_router_conf['tools'][tool_id]
+            break
         except KeyError:
-            local.log.debug("Tool '%s' not in tool_mapping", tool_id)
+            pass
+    else:
+        local.log.debug("Tool '%s' not in tool_mapping", tool_id)
     if isinstance(tool_mappings, str):
         tool_mappings = job_router_conf['tools'][tool_mappings]
     if isinstance(tool_mappings, dict):

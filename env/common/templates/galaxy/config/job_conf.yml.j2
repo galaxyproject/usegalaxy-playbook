@@ -57,7 +57,7 @@
 {%- endmacro %}
 
 {%- macro env_temp_envs() -%}
-        - name: $TEMP
+        - name: TEMP
           #raw: true
           value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
         - name: SINGULARITYENV_TEMP
