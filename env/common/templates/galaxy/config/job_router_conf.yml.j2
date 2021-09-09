@@ -156,6 +156,9 @@ tools:
   #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd/1.0.0:
   #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd_beforevsafter/1.0.0:
   #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd/1.0.0:
+  #
+  # Additionally, fsd_regions < 1.0.2 and fsd_beforevsafter < 1.0.3 will attempt to write to the input dataset dir. You
+  # can either manually fix these on disk or uninstall them.
 
   # Missing coreutils requirement, is fixed in a newer version
   toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.2: {destination: slurm_normal_deps}
@@ -166,6 +169,34 @@ tools:
 
   # toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/0.20.1+galaxy1 failing option seems to be removed from the
   # latest version so don't care
+
+  # as stated
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/0.2.5+galaxy0: {destination: slurm_normal_resolv_fix}
+
+  # old, didn't check.
+  toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/0.1: {destination: slurm_normal_deps}
+
+  # weirdly multiqc needs this but most other tools throw up warnings with it set:
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7:
+    env:
+      - name: SINGULARITYENV_LC_ALL
+        value: C.UTF-8
+      - name: SINGULARITYENV_LANG
+        value: C.UTF-8
+
+
+  # query tabular just differs by precision (new output has greater precision
+
+  # as stated
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/4.3r.1: {destination: slurm_normal_resolv_fix}
+
+  # java.lang.RuntimeException: java.lang.RuntimeException: Cannot create directory '/usr/local/share/snpeff-4.3.1r-0/data/ebola_zaire'
+  # still doesn't work, how did ths work before?... java.lang.RuntimeException: java.lang.RuntimeException: Cannot create directory '/cvmfs/test.galaxyproject.org/deps/_conda/pkgs/snpeff-4.3.1r-0/share/snpeff-4.3.1r-0/data/ebola_zaire'
+  #toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.3r.1: {destination: slurm_normal_deps}
+
+  # java.lang.RuntimeException: Property: 'should_not_match.genome' not found
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/4.3+T.galaxy2: {destination: slurm_normal_deps}
+
 
   # python 2 legacy tools
 {% for tool_id in galaxy_python2_legacy_tools %}
