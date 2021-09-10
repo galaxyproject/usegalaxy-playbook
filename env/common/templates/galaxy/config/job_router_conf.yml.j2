@@ -157,8 +157,8 @@ tools:
   #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd_beforevsafter/1.0.0:
   #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd/1.0.0:
   #
-  # Additionally, fsd_regions < 1.0.2 and fsd_beforevsafter < 1.0.3 will attempt to write to the input dataset dir. You
-  # can either manually fix these on disk or uninstall them.
+  # Additionally, fsd_regions and fsd_beforevsafter needed a non-version update to avoid writing to the input dir:
+  # https://github.com/galaxyproject/tools-iuc/pull/3934
 
   # Missing coreutils requirement, is fixed in a newer version
   toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.2: {destination: slurm_normal_deps}
@@ -187,6 +187,9 @@ tools:
 
   # query tabular just differs by precision (new output has greater precision
 
+  # snippy you are waiting on the rebuild of
+  # mulled-v2-246f3b0b9fa8d15fd96cbccd11dc328e19b263b1:bf21b66a687d5ebd7ccfacb3868656a1fc7f8bba-0
+
   # as stated
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/4.3r.1: {destination: slurm_normal_resolv_fix}
 
@@ -196,6 +199,20 @@ tools:
 
   # java.lang.RuntimeException: Property: 'should_not_match.genome' not found
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/4.3+T.galaxy2: {destination: slurm_normal_deps}
+
+  # snpSift_Annotate needs update https://github.com/galaxyproject/tools-iuc/pull/3938
+
+  # trinity_contig_exn50_statistic needs update https://github.com/galaxyproject/tools-iuc/pull/3940
+
+  # container missing /bin/bash for some reason
+  # nope, completely broken, see https://github.com/BioContainers/multi-package-containers/pull/1850
+  #toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.1.0:
+  #  container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/stringtie:1.1.0--0"}]
+
+  # has requirements but no matching container, maybe the new 2.0.0 version does? not gonna bother checking
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.0: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/mut2sscs/1.0.0: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/mut2read/1.0.0: {destination: slurm_normal_deps}
 
 
   # python 2 legacy tools
