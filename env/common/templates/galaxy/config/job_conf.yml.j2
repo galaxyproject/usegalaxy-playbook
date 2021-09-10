@@ -374,6 +374,8 @@ execution:
         {# Bridges-2 assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
         - name: GALAXY_SLOTS
           value: "$SLURM_NTASKS"
+        - name: TRINITY_SCRATCH_DIR
+          value: "$LOCAL"
 {% endfor %}
 
     #
@@ -390,6 +392,8 @@ execution:
         {{ env_pulsar_envs() }}
         - name: GALAXY_SLOTS
           value: "$SLURM_NTASKS"
+        - name: TRINITY_SCRATCH_DIR
+          value: "/scratch/xgalaxy/job_$SLURM_JOB_ID"
 {% endfor %}
 
 #
