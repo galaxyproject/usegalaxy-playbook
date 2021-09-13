@@ -78,11 +78,11 @@
 {%- endif -%}
 {%- endmacro %}
 
-{%- macro env_pulsar_params(remote_metadata='true') -%}
+{%- macro env_pulsar_params(remote_metadata='true', dependency_resolution='remote') -%}
       remote_metadata: {{ remote_metadata }}
       transport: curl
       default_file_action: remote_transfer
-      dependency_resolution: remote
+      dependency_resolution: {{ dependency_resolution }}
       rewrite_parameters: true
       submit_user_email: $__user_email__
       outputs_to_working_directory: false
@@ -453,14 +453,15 @@ execution:
         {{ env_temp_envs() }}
     jetstream_{{ env.id }}_singularity:
       runner: {{ env.runner }}
-      submit_native_specification: {{ env.native_spec }}
-      {{ env_pulsar_params() }}
+      submit_native_specification: --partition=small --nodes=1 --time=00:30:00
+      {{ env_pulsar_params(dependency_resolution='local') }}
       {{ env_jetstream_params() }}
       {{ env_tag_params(env.tags | default(none)) }}
       singularity_enabled: true
       # /cvmfs/data?
       #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl:ro,/galaxy:ro'
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/cvmfs/data.galaxyproject.org:ro'
+      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/cvmfs/data.galaxyproject.org:ro'
+      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/cvmfs/data.galaxyproject.org:ro,/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro'
       singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
       env:
         {{ env_local_envs(java_mem=env.java_mem) }}
