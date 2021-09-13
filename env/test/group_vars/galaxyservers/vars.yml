@@ -106,6 +106,7 @@ galaxy_job_conf_singularity_volumes:
   - "{{ galaxy_object_store_cache_path }}:ro"
   - "{{ galaxy_new_file_path }}:ro"
   - "/galaxy-repl/{{ galaxy_instance_codename }}/files:ro"
+  - "/galaxy-repl/{{ galaxy_instance_codename }}/files-test:ro"
   - "/cvmfs/data.galaxyproject.org:ro"
   - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
 
