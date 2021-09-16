@@ -54,8 +54,8 @@ tools:
   _galaxy_lib_: {destination: slurm_normal_galaxy_env}
 
   # Singularity test
-  upload1: {destination: slurm_upload}
-  __DATA_FETCH__: {destination: slurm_upload}
+  upload1: {destination: slurm_normal_direct}
+  __DATA_FETCH__: {destination: slurm_normal_direct}
   ncbi_datasets_source: {destination: slurm_normal}
   #toolshed.g2.bx.psu.edu/repos/devteam/count_gff_features/count_gff_features/0.2: {destination: slurm_normal_galaxy_env}
   #toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.6: {destination: slurm_multi}
@@ -221,7 +221,7 @@ tools:
   # python 2 legacy tools
 {% for tool_id in galaxy_python2_legacy_tools %}
 {% set short_tool_id = tool_id.split('/')[-2] %}
-  {{ tool_id }}: {destination: slurm_{{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'normal') }}_legacy}
+  {{ tool_id }}: {destination: slurm_{{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'normal') }}_py2}
 {% endfor %}
 
   # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
@@ -625,30 +625,30 @@ tools:
 share_job_counts:
   -
     - slurm_multi
-    - slurm_multi_legacy
+    - slurm_multi_py2
     - slurm_multi_memory_resubmit
     - slurm_long
-    - reserved_slurm_multi
+    - slurm_reserved_multi
   -
     - jetstream_iu_multi
-    - jetstream_iu_multi_legacy
+    - jetstream_iu_multi_py2
     - jetstream_iu_multi_long
     - reserved_jetstream_iu_multi
   -
     - jetstream_tacc_multi
-    - jetstream_tacc_multi_legacy
+    - jetstream_tacc_multi_py2
     - jetstream_tacc_multi_long
     - reserved_jetstream_tacc_multi
 
 # TODO: now that share_job_counts is implemented, drop dict in list dests?
 destinations:
-  #normal_legacy:
-  #  - id: slurm_legacy
-  #  - id: jetstream_iu_normal_legacy
-  multi_legacy:
-    - id: slurm_multi_legacy
-    - id: jetstream_iu_multi_legacy
-    - id: jetstream_tacc_multi_legacy
+  #normal_py2:
+  #  - id: slurm_py2
+  #  - id: jetstream_iu_normal_py2
+  multi_py2:
+    - id: slurm_multi_py2
+    - id: jetstream_iu_multi_py2
+    - id: jetstream_tacc_multi_py2
   multi:
     - id: slurm_multi
     - id: jetstream_iu_multi
@@ -659,7 +659,7 @@ destinations:
     - id: jetstream_tacc_multi
       queue_factor: 4
   reserved_multi:
-    - id: reserved_slurm_multi
+    - id: slurm_reserved_multi
     # FIXME: not configured right in slurm
     #- id: reserved_jetstream_iu_multi
     #- id: reserved_jetstream_tacc_multi
@@ -770,22 +770,22 @@ destinations:
 groups:
   Job Priority Users:
     destination_overrides:
-      slurm_normal: reserved_slurm_normal
-      slurm_normal_16gb: reserved_slurm_normal_16gb
-      slurm_normal_32gb: reserved_slurm_normal_32gb
+      slurm_normal: slurm_reserved_normal
+      slurm_normal_16gb: slurm_reserved_normal_16gb
+      slurm_normal_32gb: slurm_reserved_normal_32gb
       multi: reserved_multi
   Job Test Users:
     destination_overrides:
-      #slurm_upload: test_slurm_upload
-      slurm_normal: test_slurm_normal
-      slurm_normal_16gb: test_slurm_normal
-      slurm_normal_32gb: test_slurm_normal
-      multi: test_slurm_normal
-      slurm_multi: test_slurm_normal
-      slurm_normal_deps: test_slurm_normal_deps
-      slurm_normal_legacy: test_slurm_normal_legacy
-      slurm_normal_galaxy_env: test_slurm_normal_galaxy_env
-      slurm_normal_resolv_fix: test_slurm_normal_resolv_fix
+      #slurm_upload: slurm_test_upload
+      slurm_normal: slurm_test_normal
+      slurm_normal_16gb: slurm_test_normal
+      slurm_normal_32gb: slurm_test_normal
+      multi: slurm_test_normal
+      slurm_multi: slurm_test_normal
+      slurm_normal_deps: slurm_test_normal_deps
+      slurm_normal_py2: slurm_test_normal_py2
+      slurm_normal_galaxy_env: slurm_test_normal_galaxy_env
+      slurm_normal_resolv_fix: slurm_test_normal_resolv_fix
       frontera_small: frontera_development
       stampede_normal: stampede_development
       stampede_skx_normal: stampede_skx_development

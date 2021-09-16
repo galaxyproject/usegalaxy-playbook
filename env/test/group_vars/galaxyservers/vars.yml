@@ -98,17 +98,27 @@ galaxy_job_conf_handlers:
 galaxy_job_conf_extra_dynamic_rules:
   - dynamic_nvc_dynamic_memory
 
+galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:3.8.3
+
 galaxy_job_conf_singularity_volumes:
-  - "$galaxy_root:ro"
-  - "$tool_directory:ro"
-  - "$working_directory:rw"
-  - "$job_directory:rw"
-  - "{{ galaxy_object_store_cache_path }}:ro"
-  - "{{ galaxy_new_file_path }}:ro"
-  - "/galaxy-repl/{{ galaxy_instance_codename }}/files:ro"
-  - "/galaxy-repl/{{ galaxy_instance_codename }}/files-test:ro"
-  - "/cvmfs/data.galaxyproject.org:ro"
-  - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+  local:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "{{ galaxy_object_store_cache_path }}:ro"
+    - "{{ galaxy_new_file_path }}:ro"
+    - "/galaxy-repl/{{ galaxy_instance_codename }}/files:ro"
+    - "/galaxy-repl/{{ galaxy_instance_codename }}/files-test:ro"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+  jetstream:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
 
 galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource, ntasks, time]
@@ -133,7 +143,15 @@ galaxy_job_conf_limits:
   - type: output_size
     value: 50G
 
+  # TODO: transitionary temp remove
+  - type: environment_user_concurrent_jobs
+    id: multi_limit
+    value: 2
+
   # per-environments per-user limits
+  - type: environment_user_concurrent_jobs
+    id: test
+    value: 8
   - type: environment_user_concurrent_jobs
     id: training
     value: 2
@@ -156,7 +174,7 @@ galaxy_job_conf_limits:
     id: multi
     value: 2
   - type: environment_user_concurrent_jobs
-    id: slurm_multi_long
+    id: multi_long
     value: 1
   - type: environment_user_concurrent_jobs
     id: stampede_normal

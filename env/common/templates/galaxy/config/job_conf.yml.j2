@@ -24,57 +24,69 @@
     amqp_publish_retry_max_retries: 60
 {%- endmacro %}
 
-{%- macro env_local_envs(java_mem=7) -%}
+{%- macro env_local_envs(java_mem=7, singularity=true) -%}
+{#-
         # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
         #- name: PATH
         #  value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
         # TODO: what uses this (DejaVu fonts)?
+-#}
         - name: XDG_DATA_HOME
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/xdg/data
-        {{ env_temp_envs() }}
+        {{ env_temp_envs(singularity=singularity) }}
         - name: _JAVA_OPTIONS
           value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
         - execute: ulimit -c 0
-        - name: SINGULARITYENV_LC_ALL
+        - name: LC_ALL
           value: C
+{% if singularity %}
+        - name: SINGULARITYENV__JAVA_OPTIONS
+          value: $_JAVA_OPTIONS
+        - name: SINGULARITYENV_LC_ALL
+          value: $LC_ALL
+{% endif %}
 {%- endmacro %}
 
-# FIXME: remove
-{%- macro env_legacy_envs(java_mem=7) -%}
-        - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
-        - name: GALAXY_VIRTUAL_ENV
-          value: None
-        - name: PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
-{%- endmacro %}
-
-{%- macro env_pulsar_envs() -%}
+{%- macro env_pulsar_envs(java_mem=7, singularity=true) -%}
+        - name: _JAVA_OPTIONS
+          value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
         - name: LC_ALL
           value: C
         - name: TERM
           value: vt100
         - execute: ulimit -c 0
+{% if singularity %}
+        - name: SINGULARITYENV__JAVA_OPTIONS
+          value: $_JAVA_OPTIONS
+        - name: SINGULARITYENV_LC_ALL
+          value: $LC_ALL
+        - name: SINGULARITYENV_TERM
+          value: $TERM
+{% endif %}
 {%- endmacro %}
 
-{%- macro env_temp_envs() -%}
+{%- macro env_temp_envs(singularity=true) -%}
         - name: TEMP
           #raw: true
           value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
+        - name: TMPDIR
+          value: $TEMP
+        - name: _JAVA_OPTIONS
+          value: -Djava.io.tmpdir=$TEMP
+        - execute: mkdir -p $TEMP
+{% if singularity %}
         - name: SINGULARITYENV_TEMP
           value: $TEMP
         - name: SINGULARITYENV_TMPDIR
           value: $TEMP
         - name: SINGULARITYENV__JAVA_OPTIONS
-          value: -Djava.io.tmpdir=$TEMP
-        - execute: mkdir -p $TEMP
+          value: $_JAVA_OPTIONS
+{% endif %}
 {%- endmacro %}
 
 {%- macro env_tag_params(tags) -%}
 {% if tags is not none -%}
-      tags:
-{% for tag in tags %}
-        - {{ tag }}
-{%- endfor -%}
+      tags: {{ tags }}
 {%- endif -%}
 {%- endmacro %}
 
@@ -90,8 +102,10 @@
 
 {%- macro env_jetstream_params() -%}
       jobs_directory: /jetstream/scratch0/{{ galaxy_instance_codename }}/jobs
+{#
       # this doesn't work, set in supervisor environment instead
       #remote_property_galaxy_virtual_env: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv
+#}
       remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
       file_action_config: {{ galaxy_config_dir }}/pulsar_jetstream_actions.yml
       outputs_to_working_directory: false
@@ -187,161 +201,38 @@ execution:
     # roundup and TACC-discretionary Jetstream environments
     #
 {% for env in galaxy_job_conf_environments.slurm_environments %}
+{% set use_singularity = env.use_singularity | default(true) %}
+{% set java_mem = env.java_mem | default(7) %}
     slurm_{{ env.id }}:
       runner: slurm
-      native_specification: {{ env.native_spec }}
+      native_specification: {{ env.native_specification }}
       {{ env_tag_params(env.tags | default(none)) }}
+{% if use_singularity %}
       singularity_enabled: true
-      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-{% if env.create_test_env | default(false) %}
-    test_slurm_{{ env.id }}:
-      runner: slurm
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
-      tags:
-        - test
-      singularity_enabled: true
-      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-{% endif %}
-{% if env.create_reserved_env | default(false) %}
-    reserved_slurm_{{ env.id }}:
-      runner: slurm
-      native_specification: {{ env.native_spec | replace('normal', 'reserved') | replace('multi', 'reserved') }}
-      singularity_enabled: true
-      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-{% endif %}
-{% if env.create_deps_env | default(false) %}
-    # Mount Conda deps in Singularity
-    slurm_{{ env.id }}_deps:
-      runner: slurm
-      native_specification: {{ env.native_spec }}
-      {{ env_tag_params(env.tags | default(none)) }}
-      singularity_enabled: true
-      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
-      container_override:
-        - type: singularity
-          shell: '/bin/sh'
-          resolve_dependencies: true
-          identifier: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
-      env:
-        - name: SINGULARITYENV_LC_ALL
-          value: C
-        # FIXME: why?
-        - name: SINGULARITYENV_PREPEND_PATH
-          value: $PATH
-        {{ env_temp_envs() }}
-{% if env.create_test_env | default(false) %}
-    test_slurm_{{ env.id }}_deps:
-      runner: slurm
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
-      tags:
-        - test
-      singularity_enabled: true
-      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
-      container_override:
-        - type: singularity
-          shell: '/bin/sh'
-          resolve_dependencies: true
-          identifier: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
-      env:
-        - name: SINGULARITYENV_LC_ALL
-          value: C
-        # FIXME: why?
-        - name: SINGULARITYENV_PREPEND_PATH
-          value: $PATH
-        {{ env_temp_envs() }}
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.local)) | join(',') }}"
+{% if 'container_override' in env %}
+      container_override: {{ env.container_override }}
+{% else %}
+      singularity_default_container_id: "{{ env.default_container_id | default(galaxy_job_conf_default_container_id) }}"
 {% endif %}
 {% endif %}
-{% if env.create_legacy_env | default(false) %}
-{#
-    # FIXME: should more accurately be called "py2 env"
-    # the command will run in the py2 container and default to using the galaxy venv for set_meta so this is no longer
-    # needed
-    #slurm_{{ env.id }}_legacy:
-    #  runner: slurm
-    #  native_specification: {{ env.native_spec }}
-    #  use_metadata_binary: true
-    #  {{ env_tag_params(env.tags | default(none)) }}
-    #  env:
-    #    {{ env_local_envs(java_mem=env.java_mem) }}
-    #    {{ env_legacy_envs() }}
-#}
-    slurm_{{ env.id }}_legacy:
-      runner: slurm
-      native_specification: {{ env.native_spec }}
-      singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes | join(',') }}"
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:2.7.16"
-      {{ env_tag_params(env.tags | default(none)) }}
+{% for env_param_name, env_param_value in (env.extra_params | default({})).items() %}
+      {{ env_param_name }}: {{ env_param_value }}
+{% endfor %}
       env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-    # FIXME: only normal version of this is currently used
-    slurm_{{ env.id }}_galaxy_env:
-      runner: slurm
-      native_specification: {{ env.native_spec }}
-      singularity_enabled: true
-      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
-      # FIXME: why ubuntu?
-      #singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        - name: SINGULARITYENV_LC_ALL
-          value: C
-        # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
-        - name: SINGULARITYENV_PREPEND_PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
-        {{ env_temp_envs() }}
-{% if env.create_test_env | default(false) %}
-    test_slurm_{{ env.id }}_legacy:
-      runner: slurm
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
-      tags:
-        - test
-      singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes | join(',') }}"
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:2.7.16"
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-    # FIXME: only normal version of this is currently used
-    test_slurm_{{ env.id }}_galaxy_env:
-      runner: slurm
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
-      tags:
-        - test
-      singularity_enabled: true
-      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes)) | join(',') }}"
-      # FIXME: why ubuntu?
-      #singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        - name: SINGULARITYENV_LC_ALL
-          value: C
-        # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
-        - name: SINGULARITYENV_PREPEND_PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
-        {{ env_temp_envs() }}
-{% endif %}
-{% endif %}
+        {{ env_local_envs(java_mem=java_mem, singularity=use_singularity) }}
+{% for env_env in (env.append_envs | default([])) %}
+        - {{ env_env }}
+{% endfor %}
 {% endfor %}
 
+{#
     # FIXME:
     slurm_upload:
       runner: slurm
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=12:00:00 --mem=3840
-{#
       singularity_enabled: true
-      singularity_volumes: "{{ (galaxy_job_conf_singularity_volumes + [galaxy_ftp_upload_dir ~ ':rw', galaxy_nginx_upload_dir ~ ':rw']) | join(',') }}"
+      singularity_volumes: "{{ (galaxy_job_conf_singularity_volumes.local + [galaxy_ftp_upload_dir ~ ':rw', galaxy_nginx_upload_dir ~ ':rw']) | join(',') }}"
       # FIXME: why ubuntu?
       #singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"
       singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
@@ -353,7 +244,6 @@ execution:
         - name: SINGULARITYENV_PREPEND_PATH
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
         {{ env_temp_envs() }}
-#}
       env:
         - name: TEMP
           #raw: true
@@ -365,34 +255,7 @@ execution:
         - execute: mkdir -p $TEMP
         - name: LC_ALL
           value: C
-
-    # FIXME
-    slurm_normal_resolv_fix:
-      runner: slurm
-      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
-      tags:
-        - normal
-      singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes | join(',') }}"
-      # https://github.com/bioconda/bioconda-recipes/issues/11583
-      singularity_run_extra_arguments: --no-mount=tmp
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
-      env:
-        {{ env_local_envs(java_mem=7) }}
-
-    # FIXME
-    test_slurm_normal_resolv_fix:
-      runner: slurm
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
-      tags:
-        - normal
-      singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes | join(',') }}"
-      # https://github.com/bioconda/bioconda-recipes/issues/11583
-      singularity_run_extra_arguments: --no-mount=tmp
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
-      env:
-        {{ env_local_envs(java_mem=3) }}
+#}
 
     # FIXME: roundup-only since I'm pretty certain memory_limit_reached doesn't work on Pulsar dests
     # resubmit to jetstream-tacc-xlarge on memory failure
@@ -440,55 +303,35 @@ execution:
     # Jetstream environments
     #
 {% for env in galaxy_job_conf_environments.jetstream_environments %}
+{% set use_singularity = env.use_singularity | default(true) %}
+{% set java_mem = env.java_mem | default(7) %}
     jetstream_{{ env.id }}:
       runner: {{ env.runner }}
-      submit_native_specification: {{ env.native_spec }}
+      submit_native_specification: {{ env.native_specification }}
+      {{ env_tag_params(env.tags | default(none)) }}
       {{ env_pulsar_params() }}
       {{ env_jetstream_params() }}
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_pulsar_envs() }}
-        - name: PATH
-          value: /jetstream/scratch0/{{ galaxy_instance_codename }}/conda/envs/set_metadata@20171114/bin:$PATH
-        {{ env_temp_envs() }}
-    jetstream_{{ env.id }}_singularity:
-      runner: {{ env.runner }}
-      submit_native_specification: --partition=small --nodes=1 --time=00:30:00
-      {{ env_pulsar_params(dependency_resolution='local') }}
-      {{ env_jetstream_params() }}
-      {{ env_tag_params(env.tags | default(none)) }}
+{% if use_singularity %}
       singularity_enabled: true
-      # /cvmfs/data?
-      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl:ro,/galaxy:ro'
-      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro,/cvmfs/data.galaxyproject.org:ro'
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/cvmfs/data.galaxyproject.org:ro,/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.jetstream)) | join(',') }}"
+{% if 'container_override' in env %}
+      container_override: {{ env.container_override }}
+{% else %}
+      singularity_default_container_id: "{{ env.default_container_id | default(galaxy_job_conf_default_container_id) }}"
+{% endif %}
+{% endif %}
+{% for env_param_name, env_param_value in (env.extra_params | default({})).items() %}
+      {{ env_param_name }}: {{ env_param_value }}
+{% endfor %}
       env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-{% if env.create_reserved_env | default(false) %}
-    reserved_jetstream_{{ env.id }}:
-      runner: {{ env.runner }}
-      native_specification: {{ env.native_spec | replace('normal', 'reserved') | replace('multi', 'reserved') }}
-      {{ env_pulsar_params() }}
-      {{ env_jetstream_params() }}
-      env:
-        {{ env_pulsar_envs() }}
+        {{ env_temp_envs(singularity=use_singularity) }}
+        {{ env_pulsar_envs(java_mem=java_mem, singularity=use_singularity) }}
+{% for env_env in (env.append_envs | default([])) %}
+        - {{ env_env }}
+{% endfor %}
+        {#- FIXME: still necessary? #}
         - name: PATH
           value: /jetstream/scratch0/{{ galaxy_instance_codename }}/conda/envs/set_metadata@20171114/bin:$PATH
-        {{ env_temp_envs() }}
-{% endif %}
-{% if env.create_legacy_env | default(false) %}
-    jetstream_{{ env.id }}_legacy:
-      runner: {{ env.runner }}
-      native_specification: {{ env.native_spec }}
-      use_metadata_binary: true
-      {{ env_pulsar_params() }}
-      {{ env_jetstream_params() }}
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_pulsar_envs() }}
-        {{ env_legacy_envs() }}
-{% endif %}
 {% endfor %}
 
     #
@@ -497,7 +340,7 @@ execution:
 {% for env in galaxy_job_conf_environments.stampede_environments %}
     stampede_{{ env.id }}:
       runner: stampede
-      submit_native_specification: {{ env.native_spec }}
+      submit_native_specification: {{ env.native_specification }}
       {{ env_pulsar_params() }}
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {# this doesn't work, set in supervisor environment instead
@@ -525,7 +368,7 @@ execution:
 {% for env in galaxy_job_conf_environments.frontera_environments %}
     frontera_{{ env.id }}:
       runner: frontera
-      submit_native_specification: {{ env.native_spec }}
+      submit_native_specification: {{ env.native_specification }}
       {{ env_pulsar_params(remote_metadata='false') }}
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {{ env_tag_params(env.tags | default(none)) }}
@@ -554,7 +397,7 @@ execution:
 {% for env in galaxy_job_conf_environments.bridges_environments %}
     bridges_{{ env.id }}:
       runner: bridges
-      submit_native_specification: {{ env.native_spec }}
+      submit_native_specification: {{ env.native_specification }}
       {{ env_pulsar_params(remote_metadata='false') }}
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {# see stampede comments -#}
@@ -575,7 +418,7 @@ execution:
 {% for env in galaxy_job_conf_environments.expanse_environments %}
     expanse_{{ env.id }}:
       runner: expanse
-      submit_native_specification: {{ env.native_spec }}
+      submit_native_specification: {{ env.native_specification }}
       {{ env_pulsar_params(remote_metadata='false') }}
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging/
       {{ env_tag_params(env.tags | default(none)) }}
