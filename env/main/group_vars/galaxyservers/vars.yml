@@ -337,6 +337,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['blacklist_file'] }}"
   - src: files/galaxy/config/workflow_schedulers_conf.xml
     dest: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
+  - src: files/galaxy/config/user_preferences.yml
+    dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
