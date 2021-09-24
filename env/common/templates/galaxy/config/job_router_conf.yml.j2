@@ -68,9 +68,9 @@ tools:
 
   # Singularity-in-conda
   # TODO: read from group vars
-  testtoolshed.g2.bx.psu.edu/repos/dave/dynamic_downsample/dynamic_downsample/1.0.0: {destination: slurm_normal_deps}
-  testtoolshed.g2.bx.psu.edu/repos/greg/ideas2/ideas/1.2.0: {destination: slurm_normal_deps}
-  testtoolshed.g2.bx.psu.edu/repos/greg/ideas_genome_tracks/ideas_genome_tracks/1.0.0: {destination: slurm_normal_deps}
+  testtoolshed.g2.bx.psu.edu/repos/dave/dynamic_downsample/dynamic_downsample/1.0.0: {destination: slurm_normal_conda}
+  testtoolshed.g2.bx.psu.edu/repos/greg/ideas2/ideas/1.2.0: {destination: slurm_normal_conda}
+  testtoolshed.g2.bx.psu.edu/repos/greg/ideas_genome_tracks/ideas_genome_tracks/1.0.0: {destination: slurm_normal_conda}
 
   # FIXME: /usr/local/bin/zff2gff3.pl: line 9: /usr/local/share/snap/bin/zff2gff3.pl: not found
   #   seems like an image problem
@@ -79,26 +79,26 @@ tools:
   # https://github.com/galaxyproject/tools-iuc/pull/3906
   #   make a _deps_ubuntu dest w/ ubuntu:20.04 image to fix old versions =/
   # TRIPLE FIXME: ok use a container override, just need to double check the versions
-  toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/3.4.0+galaxy1: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/3.4.0+galaxy1: {destination: slurm_normal_conda}
   # FIXME: /galaxy-repl/test/jobdir/001/440/1440827/tool_script.sh: /usr/local/bin/ktImportText: /usr/bin/perl: bad interpreter: No such file or directory
   #   image problem? newer version 2.7.1+galaxy0 works
   # DOUBLE FIXME: /cvmfs/test.galaxyproject.org/deps/_conda/envs/__krona@2.6.1/bin/ktImportText: /usr/bin/perl: bad interpreter: No such file or directory
   #   I bet the krona scripts in the 2.6.1 version have /usr/bin/perl hardcoded, just uninstall this version since the new one works
-  #toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.1.1: {destination: slurm_normal_deps}
+  #toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.1.1: {destination: slurm_normal_conda}
 
   # uses a very custom python dep package cd-hit-auxtools 0.5-2012-03-07-fix-dan-gh-0.0.1
-  toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1: {destination: slurm_normal_conda}
 
   # requirement is vcflib==8a5602bf07
-  toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3: {destination: slurm_normal_conda}
 
   # no R 2.11.0 Singularity image. and it needs `which`
   toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1:
-    destination: slurm_normal_deps
+    destination: slurm_normal_conda
     container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"}]
 
   # no matching image (or no requirements, didn't check), but either way, used the default image but needed additional deps
-  toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0: {destination: slurm_normal_conda}
 
   # no requirements, just interpreter="perl"
   toolshed.g2.bx.psu.edu/repos/devteam/generate_pc_lda_matrix/generate_matrix_for_pca_and_lda1/1.0.0:
@@ -112,7 +112,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
 
   # requirement is taxonomy==1.0.0
-  toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0: {destination: slurm_normal_conda}
 
   # just needs an update to get the latest tool revision that contains a requirement tag
   #toolshed.g2.bx.psu.edu/repos/devteam/tables_arithmetic_operations/tables_arithmetic_operations/1.0.0
@@ -130,15 +130,15 @@ tools:
 
   # FIXME Got it green by updating the repo so it would ignore the warning about the R version difference on stderr, but
   # also produces some empty outputs why? Presumably the cause of the bacteria_tradis failure as well.
-  #tradis_essentiality: {destination: slurm_normal_deps}
+  #tradis_essentiality: {destination: slurm_normal_conda}
 
   # TODO: uninstall these tools and install the fixed/separated versions
   # hhsuite/hhsearch uses non-standard GNU 'link' instead of 'ln', looks like this is fixed in a later standalone repo
   # 'hhsearch' - FIXME: but the below also does not work, this results in "Invalid cross-device link" since it's trying
   # to create a hard link
-  #toolshed.g2.bx.psu.edu/repos/guerler/hhsuite/hhsearch: {destination: slurm_normal_deps}
+  #toolshed.g2.bx.psu.edu/repos/guerler/hhsuite/hhsearch: {destination: slurm_normal_conda}
   # same deal
-  #toolshed.g2.bx.psu.edu/repos/guerler/springsuite/spring_minz: {destination: slurm_normal_deps}
+  #toolshed.g2.bx.psu.edu/repos/guerler/springsuite/spring_minz: {destination: slurm_normal_conda}
 
   # bedtools_tagbed/2.29.2 failure is just some header diff issues:
   # +@HD    VN:1.6  SO:coordinate
@@ -149,7 +149,7 @@ tools:
 
   # seems ancient, not even going to look into this - yeah, this is the original version, this fix does not work either,
   # just ignoring, should be uninstalled if installed on Main
-  #toolshed.g2.bx.psu.edu/repos/iuc/circos/circgraph/0.9-RC2: {destination: slurm_normal_deps}
+  #toolshed.g2.bx.psu.edu/repos/iuc/circos/circgraph/0.9-RC2: {destination: slurm_normal_conda}
 
   # updated version has deps in biocontainers, this does not. centos container has some missing lib that the conda env
   # needs, in ubuntu container it still fails to import matplotlib despite activating the conda env, fixing this is not
@@ -164,7 +164,7 @@ tools:
   # https://github.com/galaxyproject/tools-iuc/pull/3934
 
   # Missing coreutils requirement, is fixed in a newer version
-  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.2: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.2: {destination: slurm_normal_conda}
 
   # toolshed.g2.bx.psu.edu/repos/iuc/flash/flash/1.2.11.4 tests -0 and -8, trim_galore test -9 fail due to:
   # AttributeError: 'NoneType' object has no attribute 'get_datatype_by_extension'
@@ -177,7 +177,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/0.2.5+galaxy0: {destination: slurm_normal_resolv_fix}
 
   # old, didn't check.
-  toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/0.1: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/0.1: {destination: slurm_normal_conda}
 
   # weirdly multiqc needs this but most other tools throw up warnings with it set:
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7:
@@ -198,10 +198,10 @@ tools:
 
   # java.lang.RuntimeException: java.lang.RuntimeException: Cannot create directory '/usr/local/share/snpeff-4.3.1r-0/data/ebola_zaire'
   # still doesn't work, how did ths work before?... java.lang.RuntimeException: java.lang.RuntimeException: Cannot create directory '/cvmfs/test.galaxyproject.org/deps/_conda/pkgs/snpeff-4.3.1r-0/share/snpeff-4.3.1r-0/data/ebola_zaire'
-  #toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.3r.1: {destination: slurm_normal_deps}
+  #toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.3r.1: {destination: slurm_normal_conda}
 
   # java.lang.RuntimeException: Property: 'should_not_match.genome' not found
-  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/4.3+T.galaxy2: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/4.3+T.galaxy2: {destination: slurm_normal_conda}
 
   # snpSift_Annotate needs update https://github.com/galaxyproject/tools-iuc/pull/3938
 
@@ -213,9 +213,9 @@ tools:
   #  container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/stringtie:1.1.0--0"}]
 
   # has requirements but no matching container, maybe the new 2.0.0 version does? not gonna bother checking
-  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.0: {destination: slurm_normal_deps}
-  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/mut2sscs/1.0.0: {destination: slurm_normal_deps}
-  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/mut2read/1.0.0: {destination: slurm_normal_deps}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/mut2sscs/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/mut2read/1.0.0: {destination: slurm_normal_conda}
 
 
   # python 2 legacy tools
@@ -782,7 +782,7 @@ groups:
       slurm_normal_32gb: slurm_test_normal
       multi: slurm_test_normal
       slurm_multi: slurm_test_normal
-      slurm_normal_deps: slurm_test_normal_deps
+      slurm_normal_conda: slurm_test_normal_conda
       slurm_normal_py2: slurm_test_normal_py2
       slurm_normal_galaxy_env: slurm_test_normal_galaxy_env
       slurm_normal_resolv_fix: slurm_test_normal_resolv_fix
