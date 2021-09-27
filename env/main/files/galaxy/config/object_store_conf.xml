@@ -1,15 +1,25 @@
 <?xml version="1.0"?>
-<object_store type="distributed" id="primary" order="0">
+<object_store type="distributed">
     <backends>
-        <backend type="disk" id="corral-repl" weight="1">
-            <files_dir path="/galaxy-repl/main/files"/>
-            <extra_dir type="temp" path="/galaxy-repl/main/scratch"/>
-            <extra_dir type="job_work" path="/galaxy-repl/main/jobdir"/>
+        <backend type="disk" id="corral4" weight="1" store_by="uuid">
+            <files_dir path="/corral4/main/objects"/>
+            <extra_dir type="job_work" path="/corral4/main/jobs"/>
         </backend>
-        <backend type="disk" id="corral-repl-psu" weight="0">
+        <backend type="hierarchical" id="corral-repl" weight="0">
+            <backends>
+                <!-- Try Corral 4 first, then Corral 3 -->
+                <backend type="disk" order="0" store_by="id">
+                    <files_dir path="/corral4/main/files"/>
+                    <extra_dir type="job_work" path="/galaxy-repl/main/jobdir"/>
+                </backend>
+                <backend type="disk" order="1" store_by="id">
+                    <files_dir path="/galaxy-repl/main/files"/>
+                    <extra_dir type="job_work" path="/galaxy-repl/main/jobdir"/>
+                </backend>
+            </backends>
+        </backend>
+        <backend type="disk" id="corral-repl-psu" weight="0" store_by="id">
             <files_dir path="/galaxy-repl/main/psufiles"/>
-            <extra_dir type="temp" path="/galaxy-repl/main/scratch"/>
-            <extra_dir type="job_work" path="/galaxy-repl/main/jobdir"/>
         </backend>
     </backends>
 </object_store>

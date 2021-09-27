@@ -11,11 +11,11 @@ galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_co
 galaxy_config_database_connection: "postgresql://g2main:{{ galaxy_database_password }}@{{ groups.galaxydbservers[0] }}/galaxy_main"
 
 galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
-galaxy_new_file_path: "/galaxy-repl/{{ galaxy_instance_codename }}/scratch2"
-galaxy_job_working_directory: "/galaxy-repl/{{ galaxy_instance_codename }}/jobdir"
+galaxy_new_file_path: "/corral4/{{ galaxy_instance_codename }}/scratch3"
+galaxy_job_working_directory: "/corral4/{{ galaxy_instance_codename }}/jobs"
 galaxy_ftp_upload_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/ftp"
-galaxy_nginx_upload_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/upload"
-galaxy_nginx_upload_job_files_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/upload_job_files"
+galaxy_nginx_upload_dir: "/corral4/{{ galaxy_instance_codename }}/_upload"
+galaxy_nginx_upload_job_files_dir: "/corral4/{{ galaxy_instance_codename }}/_upload_job_files"
 galaxy_tool_dependency_dir: "/galaxy/{{ galaxy_instance_codename }}/deps"
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
@@ -31,16 +31,16 @@ galaxy_interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/int
 base_app_main: &BASE_APP_MAIN
 
   # message box
-  #message_box_visible: "True"
+  message_box_visible: "True"
 
-  #message_box_class: info
+  message_box_class: info
   #message_box_class: warning
   #message_box_class: error
 
   # informational messages
   #message_box_content: Galaxy has recently been upgraded to a pre-release of the next Galaxy stable release (18.05). Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@galaxyproject.org">galaxy-bugs</a>.
   #message_box_content: Galaxy's <a href="https://galaxyproject.org/main/#user-data-and-job-quotas">job concurrency limits and maximum allowed run times</a> have been decreased in order to ensure enough resources are available to students participating in the <a href="https://shiltemann.github.io/global-galaxy-course/">GTN Smörgåsbord</a>.
-  #message_box_content: Scheduled filesystem maintanence is complete and Galaxy is now back in service, however our cluster is temporarily operating at reduced capacity, so you may experience longer job waiting times than usual.
+  message_box_content: Galaxy is migrating to new storage in the background. We are trying to do this without interrupting service, but if you encounter an error, please try the operation again and report it if it fails repeatedly.
 
   # emergency downtimes
   #message_box_content: Interactive tools (Jupyter, RStudio) are currently not running due to a cluster outage. We are working on the issue.
@@ -71,7 +71,7 @@ base_app_main: &BASE_APP_MAIN
   config_dir: "{{ galaxy_config_dir }}"
   tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }}"
   tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
-  job_working_directory: "{{ galaxy_job_working_directory }}"
+  #job_working_directory: "{{ galaxy_job_working_directory }}"
   tool_data_path: /galaxy-repl/main/tool_data
   nginx_upload_store: "{{ galaxy_nginx_upload_dir }}"
   nginx_upload_job_files_store: "{{ galaxy_nginx_upload_job_files_dir }}"
