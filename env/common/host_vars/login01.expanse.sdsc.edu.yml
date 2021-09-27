@@ -7,9 +7,11 @@
 #   - slurm-drmaa installed by hand
 
 _expanse_home_root: "/home/xgalaxy"
-_expanse_project_root: "/expanse/lustre/projects/pen160/xgalaxy"
+_expanse_nfs_root: "/expanse/projects/qstore/pen160/xgalaxy"
+#_expanse_project_root: "/expanse/lustre/projects/pen160/xgalaxy"
 _expanse_scratch_root: "/expanse/lustre/scratch/xgalaxy/temp_project"
-_expanse_instance_root: "{{ _expanse_project_root }}/{{ galaxy_instance_codename }}"
+#_expanse_instance_root: "{{ _expanse_project_root }}/{{ galaxy_instance_codename }}"
+_expanse_instance_root: "{{ _expanse_nfs_root }}/{{ galaxy_instance_codename }}"
 
 host_directories:
   - path: "{{ _expanse_home_root }}/bin"
@@ -37,7 +39,7 @@ host_templates:
 #    hour: "*/6"
 #    job: "{{ _expanse_home_root }}/bin/tmpwatch -v --all --mtime --dirmtime 7d '{{ pulsar_staging_dir }}' >> '{{ pulsar_root }}/log/cleanup.log'"
 
-miniconda_prefix: "{{ _expanse_project_root }}/conda"
+miniconda_prefix: "{{ _expanse_nfs_root }}/conda"
 miniconda_channels:
   - conda-forge
   - defaults
@@ -50,7 +52,8 @@ miniconda_conda_environments:
       - curl=7.71
 
 supervisord_install: virtualenv-unprivileged
-supervisord_prefix: "{{ _expanse_project_root }}/supervisor"
+#supervisord_prefix: "{{ _expanse_project_root }}/supervisor"
+supervisord_prefix: "{{ _expanse_nfs_root }}/supervisor"
 supervisord_conf_path: "{{ supervisord_prefix }}/etc/supervisord.conf"
 supervisord_conf_dir: "{{ supervisord_prefix }}/etc/supervisord.d"
 supervisord_log_dir: "{{ supervisord_prefix }}/var/log"
