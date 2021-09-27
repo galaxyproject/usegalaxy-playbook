@@ -10,12 +10,22 @@
             <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
             <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
         </backend>
-        <backend type="disk" id="corral-test" weight="0" store_by="uuid">
-            <files_dir path="/galaxy-repl/test/files-test"/>
-            <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
-            <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+        <backend type="hierarchical" id="corral-test" weight="0">
+            <!-- testing nesting for Main Corral 4 transition -->
+            <backends>
+                <backend type="disk" order="0" store_by="uuid">
+                    <files_dir path="/corral4/test-new/files-test"/>
+                    <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
+                    <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+                </backend>
+                <backend type="disk" order="1" store_by="uuid">
+                    <files_dir path="/galaxy-repl/test/files-test"/>
+                    <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
+                    <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+                </backend>
+            </backends>
         </backend>
-        <backend type="disk" id="corral" weight="0">
+        <backend type="disk" id="corral" weight="0" store_by="id">
             <files_dir path="/galaxy-repl/test/files"/>
             <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
             <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>

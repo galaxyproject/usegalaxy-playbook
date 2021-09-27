@@ -319,7 +319,9 @@ tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
 
 # galaxy_config hash moved to group_vars/all/galaxy_config_vars.yml
 
-galaxy_local_tools_dir: "{{ galaxy_root }}/tools"
+# FIXME: fails with Singularity volumes because this path does not exist on compute
+#galaxy_local_tools_dir: "{{ galaxy_root }}/tools"
+galaxy_local_tools_dir: "/galaxy-repl/gxsrc/{{ galaxy_instance_codename }}/local_tools"
 galaxy_local_tools:
   - echo.xml
 
