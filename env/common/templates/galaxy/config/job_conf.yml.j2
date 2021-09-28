@@ -26,9 +26,6 @@
 
 {%- macro env_local_envs(java_mem=7, singularity=true) -%}
 {#-
-        # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
-        #- name: PATH
-        #  value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
         # TODO: what uses this (DejaVu fonts)?
 -#}
         - name: XDG_DATA_HOME
@@ -44,6 +41,12 @@
           value: $_JAVA_OPTIONS
         - name: SINGULARITYENV_LC_ALL
           value: $LC_ALL
+{% else %}
+{#-
+        # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
+#}
+        - name: PATH
+          value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 {% endif %}
 {%- endmacro %}
 
