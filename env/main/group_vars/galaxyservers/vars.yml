@@ -117,6 +117,30 @@ galaxy_job_conf_extra_dynamic_rules:
 #galaxy_job_conf_default_environment: dynamic_normal_reserved
 galaxy_job_conf_default_environment: job_router
 
+galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:3.8.3
+
+galaxy_job_conf_singularity_volumes:
+  local:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    #- "{{ galaxy_object_store_cache_path }}:ro"
+    - "{{ galaxy_new_file_path }}:ro"
+    - "/corral4/{{ galaxy_instance_codename }}/objects:ro"
+    - "/corral4/{{ galaxy_instance_codename }}/files:ro"
+    - "/galaxy-repl/{{ galaxy_instance_codename }}/files:ro"
+    - "/galaxy-repl/{{ galaxy_instance_codename }}/psufiles:ro"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+  jetstream:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+
 galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource]
   multi_long: [multi_long_compute_resource]
@@ -130,7 +154,7 @@ galaxy_job_conf_resource_groups:
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 16
+    value: 32
   - type: anonymous_user_concurrent_jobs
     value: 1
 
@@ -141,9 +165,31 @@ galaxy_job_conf_limits:
     value: 200G
 
   # per-environments per-user limits
+
+  # env tags (groups) for limits
   - type: environment_user_concurrent_jobs
-    id: training
+    id: training_limit
     value: 2
+  - type: environment_user_concurrent_jobs
+    id: normal_limit
+    value: 8
+  - type: environment_user_concurrent_jobs
+    id: multi_limit
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: multi_long_limit
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: test_limit
+    value: 8
+  - type: environment_user_concurrent_jobs
+    id: xlarge_limit
+    value: 1
+
+  # granular limits for singularity envs
+  - type: environment_user_concurrent_jobs
+    id: slurm_normal
+    value: 6
   - type: environment_user_concurrent_jobs
     id: normal
     value: 6
@@ -157,14 +203,10 @@ galaxy_job_conf_limits:
     id: slurm_normal_64gb
     value: 1
   - type: environment_user_concurrent_jobs
-    id: multi
-    value: 3
-  - type: environment_user_concurrent_jobs
     id: slurm_multi_development
     value: 1
-  - type: environment_user_concurrent_jobs
-    id: multi_long
-    value: 1
+
+  # pulsar envs
   - type: environment_user_concurrent_jobs
     id: stampede_normal
     value: 4
@@ -210,9 +252,6 @@ galaxy_job_conf_limits:
   - type: environment_user_concurrent_jobs
     id: expanse_development
     value: 2
-  - type: environment_user_concurrent_jobs
-    id: jetstream_tacc_xlarge
-    value: 1
   - type: environment_user_concurrent_jobs
     id: tacc_k8s
     value: 1

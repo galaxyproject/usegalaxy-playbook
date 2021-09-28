@@ -14,38 +14,33 @@ galaxy_job_conf_environments:
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
       use_singularity: false
       extra_params: {use_metadata_binary: true}
-      tags: [normal_direct]
+      tags: [normal_limit]
       append_envs:
         - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
         - name: GALAXY_VIRTUAL_ENV
           value: None
         - name: PATH
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
-    - id: normal_galaxy_env_direct
-      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
-      use_singularity: false
-      java_mem: 7
-      tags: [normal_direct]
     - id: normal_direct
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
       use_singularity: false
       java_mem: 7
-      tags: [normal_direct]
+      tags: [normal_limit]
     - id: normal_16gb_direct
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360
       use_singularity: false
       java_mem: 7
-      tags: [normal_direct]
+      tags: [normal_limit]
     - id: normal_32gb_direct
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=24:00:00 --mem=30720
       use_singularity: false
       java_mem: 7
-      tags: [normal_direct]
+      tags: [normal_limit]
     - id: normal_64gb_direct
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=4:00:00 --mem=61440
       use_singularity: false
       java_mem: 7
-      tags: [normal_direct]
+      tags: [normal_limit]
     - id: multi_direct
       native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00
       use_singularity: false
@@ -67,32 +62,32 @@ galaxy_job_conf_environments:
     - id: training
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
-      tags: [training]
+      tags: [training_limit]
     - id: training_long
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=02:00:00 --mem=3840
       java_mem: 3
-      tags: [training]
+      tags: [training_limit]
     - id: training_large
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:20:00 --mem=15360
       java_mem: 15
-      tags: [training]
+      tags: [training_limit]
     - id: training_xlarge
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:10:00 --mem=23040
       java_mem: 22
-      tags: [training]
+      tags: [training_limit]
     - id: training_multi
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=2 --time=01:20:00 --mem=7680
       java_mem: 7
-      tags: [training]
+      tags: [training_limit]
     - id: training_multi_large
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=4 --time=01:20:00 --mem=15360
       java_mem: 15
-      tags: [training]
+      tags: [training_limit]
 
     # legacy/conda environments
     - id: normal_conda
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
-      tags: [normal]
+      tags: [normal_limit]
       container_override:
         - type: singularity
           shell: /bin/sh
@@ -106,7 +101,7 @@ galaxy_job_conf_environments:
     - id: test_normal_conda
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
       java_mem: 3
-      tags: [test]
+      tags: [test_limit]
       container_override:
         - type: singularity
           shell: /bin/sh
@@ -120,18 +115,19 @@ galaxy_job_conf_environments:
     - id: normal_py2
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
       default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:2.7.16
-      tags: [normal]
+      tags: [normal_limit]
     - id: test_normal_py2
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
       java_mem: 3
       default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:2.7.16
-      tags: [test]
+      tags: [test_limit]
     - id: multi_py2
       native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00
       default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:2.7.16
       tags: [multi_py2, multi_limit]
     - id: normal_galaxy_env
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
+      tags: [normal_limit]
       append_envs:
         # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
         - name: SINGULARITYENV_PREPEND_PATH
@@ -139,7 +135,7 @@ galaxy_job_conf_environments:
     - id: test_normal_galaxy_env
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
       java_mem: 3
-      tags: [test]
+      tags: [test_limit]
       append_envs:
         # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
         - name: SINGULARITYENV_PREPEND_PATH
@@ -147,14 +143,14 @@ galaxy_job_conf_environments:
     - id: normal_resolv_fix
       runner: slurm
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
-      tags: [normal]
+      tags: [normal_limit]
       # https://github.com/bioconda/bioconda-recipes/issues/11583
       extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
     - id: test_normal_resolv_fix
       runner: slurm
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
       java_mem: 3
-      tags: [test]
+      tags: [test_limit]
       # https://github.com/bioconda/bioconda-recipes/issues/11583
       extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
 
@@ -171,23 +167,23 @@ galaxy_job_conf_environments:
     - id: normal
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
       java_mem: 7
-      tags: [normal]
+      tags: [normal_limit]
     - id: test_normal
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
       java_mem: 3
-      tags: [test]
+      tags: [test_limit]
     - id: normal_16gb
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360
       java_mem: 15
-      tags: [normal]
+      tags: [normal_limit]
     - id: normal_32gb
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=24:00:00 --mem=30720
       java_mem: 30
-      tags: [normal]
+      tags: [normal_limit]
     - id: normal_64gb
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=4:00:00 --mem=61440
       java_mem: 60
-      tags: [normal]
+      tags: [normal_limit]
 
     # multicore environments
     - id: multi
@@ -200,7 +196,7 @@ galaxy_job_conf_environments:
     - id: multi_long
       native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00
       java_mem: 28
-      tags: [multi_long]
+      tags: [multi_long, multi_long_limit]
 
     # priority (reserved) environments
     - id: reserved_normal
@@ -265,6 +261,12 @@ galaxy_job_conf_environments:
       use_singularity: false
       java_mem: 28
       tags: [multi_direct, multi_limit]
+    - id: tacc_xlarge_direct
+      runner: jetstream_tacc
+      native_specification: --partition=xlarge --nodes=1 --time=36:00:00
+      use_singularity: false
+      java_mem: 58
+      tags: [xlarge_limit]
 
     # multicore environments
     - id: iu_multi
@@ -281,16 +283,17 @@ galaxy_job_conf_environments:
       runner: jetstream_iu
       native_specification: --partition=multi --nodes=1 --time=60:00:00
       java_mem: 28
-      tags: [multi_long]
+      tags: [multi_long, multi_long_limit]
     - id: tacc_multi_long
       runner: jetstream_tacc
       native_specification: --partition=multi --nodes=1 --time=60:00:00
       java_mem: 28
-      tags: [multi_long]
+      tags: [multi_long, multi_long_limit]
     - id: tacc_xlarge
       runner: jetstream_tacc
       native_specification: --partition=xlarge --nodes=1 --time=36:00:00
       java_mem: 58
+      tags: [xlarge_limit]
 
   stampede_environments:
     - id: normal
@@ -308,8 +311,7 @@ galaxy_job_conf_environments:
     - id: long
       memory_mb: 94208
       native_specification: --partition=long --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=60:00:00
-      tags:
-      - multi_long
+      tags: [multi_long, multi_long_limit]
 
   frontera_environments:
     - id: small

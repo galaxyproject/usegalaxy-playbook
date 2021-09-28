@@ -211,6 +211,7 @@ execution:
       native_specification: {{ env.native_specification }}
       {{ env_tag_params(env.tags | default(none)) }}
 {% if use_singularity %}
+      outputs_to_working_directory: true
       singularity_enabled: true
       singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.local)) | join(',') }}"
 {% if 'container_override' in env %}
