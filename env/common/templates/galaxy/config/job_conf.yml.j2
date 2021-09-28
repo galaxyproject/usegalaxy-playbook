@@ -279,6 +279,8 @@ execution:
     tacc_k8s:
       runner: tacc_k8s
       docker_enabled: true  # probably shouldn't be needed but is still
+      container_resolvers:
+        - type: explicit
       #docker_default_container_id: 'quay.io/biocontainers/coreutils:8.31--h14c3975_0'
       #docker_default_container_id: 'python:3.6-buster'
       docker_default_container_id: 'quay.io/biocontainers/python:3.6.7'
