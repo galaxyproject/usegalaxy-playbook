@@ -1,1 +1,817 @@
-../../../../common/templates/galaxy/config/job_router_conf.yml.j2
+---
+#
+# This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+#
+
+# WARNING: this file is shared between Test and Main!
+
+# by default, tools are assigned 1 core, 8 GB of memory, and a 36 hour walltime
+
+# tools dict:
+#   keys are long or short tool IDs
+#   values are either:
+#     - a string: alias to another key in the dictionary
+#     - a dict: specifying params to check (for match), destination, and native spec param overrides
+#     - a list of dicts: for multiple possibilities based on different param selection
+#
+#     keys (in the case of dict or list of dicts) are:
+#
+#       params (optional): a list of dicts of tool params that will be checked for a match:
+#         name: tool param to check
+#           - if the param value is a list, comparison will be against its first element
+#           - if the param value refers to a dataset, comparison will be against the size
+#           - if the param value refers to a dataset collection, comparison will be against the size of the first element
+#         op (optional, default: '=='): comparison operation (python operator)
+#         value: value against which to compare the tool param, using op
+#           - value is the rhs of the operator: <param> <op> <value>
+#           - if value is a list, comparisons are performed against all values and the param set is considered a match
+#             if the comparison is true for any value in the list (i.e. a logical OR)
+#           - if the comparison is against a size, the value will be converted from a size string  to bytes
+#         type (optional, default: null): 'data_table_lookup' to perform a data table lookup using the tool param listed
+#                                         in 'name' as the lookup key
+#         if the type is 'data_table_lookup', additional params keys are:
+#           table_name (required): data table name
+#           lookup_column (optional, default: 'value'): data table column name to perform lookup on
+#           value_column (optional, default: 'path'): data table column name providing the value to compare against
+#           value_template (optional, default: '{value}'): str.format() string, allows manipulation of the lookup results.
+#                                                          only 'value' (contents of value_column) is currently supported.
+#
+#       destination: a destination id in the Galaxy job conf or a destination grouping in the destinations: section
+#
+#       spec: dict of native spec params. keys/values not valid for whatever destination is ultimately chosen will be
+#             ignored. if the key is already specified in the native spec for a dest, the value is overridden with the
+#             one in spec. if not, the key/val are appended to the native spec. subject to authorization in the
+#             'destinations' section below.
+#
+#   - the destination/spec for the first set of matching param(s) is used
+#   - if no params match, a default (dict without a 'params' key is used)
+#   - if no default is specified, a hardcoded default in job_router.py is used
+
+tools:
+
+  #_default_: {destination: slurm_normal}
+  _default_: {destination: slurm_normal}
+  _galaxy_lib_: {destination: slurm_normal_galaxy_env}
+
+  # Singularity test
+  upload1: {destination: slurm_normal_direct}
+  __DATA_FETCH__: {destination: slurm_normal_direct}
+  #ncbi_datasets_source: {destination: slurm_normal_direct}
+  #toolshed.g2.bx.psu.edu/repos/devteam/count_gff_features/count_gff_features/0.2: {destination: slurm_normal_galaxy_env}
+  #toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/1.16.6: {destination: slurm_multi}
+  #bowtie2: {destination: slurm_multi}
+
+  # Pulsar Singularity test
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.7.17.4: {destination: jetstream_iu_multi_singularity}
+
+  # TODO: really need to add version comparison to the router
+
+  # Singularity-in-conda
+  # TODO: read from group vars
+  testtoolshed.g2.bx.psu.edu/repos/dave/dynamic_downsample/dynamic_downsample/1.0.0: {destination: slurm_normal_conda}
+  testtoolshed.g2.bx.psu.edu/repos/greg/ideas2/ideas/1.2.0: {destination: slurm_normal_conda}
+  testtoolshed.g2.bx.psu.edu/repos/greg/ideas_genome_tracks/ideas_genome_tracks/1.0.0: {destination: slurm_normal_conda}
+
+  # FIXME: /usr/local/bin/zff2gff3.pl: line 9: /usr/local/share/snap/bin/zff2gff3.pl: not found
+  #   seems like an image problem
+  # DOUBLE FIXME: tool_script.sh: line 56: which: command not found
+  #               dirname: missing operand
+  # https://github.com/galaxyproject/tools-iuc/pull/3906
+  #   make a _deps_ubuntu dest w/ ubuntu:20.04 image to fix old versions =/
+  # TRIPLE FIXME: ok use a container override, just need to double check the versions
+  toolshed.g2.bx.psu.edu/repos/bgruening/augustus_training/augustus_training/3.4.0+galaxy1: {destination: slurm_normal_conda}
+  # FIXME: /galaxy-repl/test/jobdir/001/440/1440827/tool_script.sh: /usr/local/bin/ktImportText: /usr/bin/perl: bad interpreter: No such file or directory
+  #   image problem? newer version 2.7.1+galaxy0 works
+  # DOUBLE FIXME: /cvmfs/test.galaxyproject.org/deps/_conda/envs/__krona@2.6.1/bin/ktImportText: /usr/bin/perl: bad interpreter: No such file or directory
+  #   I bet the krona scripts in the 2.6.1 version have /usr/bin/perl hardcoded, just uninstall this version since the new one works
+  #toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.1.1: {destination: slurm_normal_conda}
+
+  # uses a very custom python dep package cd-hit-auxtools 0.5-2012-03-07-fix-dan-gh-0.0.1
+  toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1: {destination: slurm_normal_conda}
+
+  # requirement is vcflib==8a5602bf07
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3: {destination: slurm_normal_conda}
+
+  # no R 2.11.0 Singularity image. and it needs `which`
+  toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1:
+    destination: slurm_normal_conda
+    container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"}]
+
+  # no matching image (or no requirements, didn't check), but either way, used the default image but needed additional deps
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0: {destination: slurm_normal_conda}
+
+  # no requirements, just interpreter="perl"
+  toolshed.g2.bx.psu.edu/repos/devteam/generate_pc_lda_matrix/generate_matrix_for_pca_and_lda1/1.0.0:
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  # requires perl 5.22.0 - FIXED, we had an old migrated version that had to be manually updated to the wrapper that contained the requirement
+  #toolshed.g2.bx.psu.edu/repos/devteam/pileup_parser/pileup_parser/1.0.2:
+  #  container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  # devteam/sam_to_bam failure is due to VN (SAM/BAM version number) change 1.3 -> 1.6 in header, e.g. test data problem
+
+  # https://github.com/bioconda/bioconda-recipes/issues/11583
+  toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
+
+  # requirement is taxonomy==1.0.0
+  toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0: {destination: slurm_normal_conda}
+
+  # just needs an update to get the latest tool revision that contains a requirement tag
+  #toolshed.g2.bx.psu.edu/repos/devteam/tables_arithmetic_operations/tables_arithmetic_operations/1.0.0
+
+  # https://github.com/galaxyproject/tools-iuc/pull/3920
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfsort/vcfsort/1.0.0_rc1+galaxy0:
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/coreutils:8.31--h14c3975_0"}]
+
+  # has a requirements tag and it's got an associated image so not sure why this is necessary
+  # FIXME: still not fixed, outputs are empty why
+  toolshed.g2.bx.psu.edu/repos/fabio/iwtomics/iwtomics_testandplot/1.0.0.0:
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bioconductor-iwtomics:1.0.0--r3.4.1_0"}]
+  toolshed.g2.bx.psu.edu/repos/fabio/iwtomics/iwtomics_loadandplot/1.0.0.0:
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bioconductor-iwtomics:1.0.0--r3.4.1_0"}]
+
+  # FIXME Got it green by updating the repo so it would ignore the warning about the R version difference on stderr, but
+  # also produces some empty outputs why? Presumably the cause of the bacteria_tradis failure as well.
+  #tradis_essentiality: {destination: slurm_normal_conda}
+
+  # TODO: uninstall these tools and install the fixed/separated versions
+  # hhsuite/hhsearch uses non-standard GNU 'link' instead of 'ln', looks like this is fixed in a later standalone repo
+  # 'hhsearch' - FIXME: but the below also does not work, this results in "Invalid cross-device link" since it's trying
+  # to create a hard link
+  #toolshed.g2.bx.psu.edu/repos/guerler/hhsuite/hhsearch: {destination: slurm_normal_conda}
+  # same deal
+  #toolshed.g2.bx.psu.edu/repos/guerler/springsuite/spring_minz: {destination: slurm_normal_conda}
+
+  # bedtools_tagbed/2.29.2 failure is just some header diff issues:
+  # +@HD    VN:1.6  SO:coordinate
+  #  @SQ    SN:dummy_chr    LN:15057250
+  # +@RG    ID:tbprofiler   SM:tbprofiler   PL:Illumina
+  # FIXME bedtools_nucbed and bedtools_getfastabed write to the input dataset directory, which we cannot support. fix is
+  # here: https://github.com/galaxyproject/tools-iuc/pull/3930, for old versions maybe i fixed the tool on disk (blech)
+
+  # seems ancient, not even going to look into this - yeah, this is the original version, this fix does not work either,
+  # just ignoring, should be uninstalled if installed on Main
+  #toolshed.g2.bx.psu.edu/repos/iuc/circos/circgraph/0.9-RC2: {destination: slurm_normal_conda}
+
+  # updated version has deps in biocontainers, this does not. centos container has some missing lib that the conda env
+  # needs, in ubuntu container it still fails to import matplotlib despite activating the conda env, fixing this is not
+  # worth the effort when the new version (presumably) works
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/td/1.0.0:
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd_regions/1.0.0:
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd/1.0.0:
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd_beforevsafter/1.0.0:
+  #toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd/1.0.0:
+  #
+  # Additionally, fsd_regions and fsd_beforevsafter needed a non-version update to avoid writing to the input dir:
+  # https://github.com/galaxyproject/tools-iuc/pull/3934
+
+  # Missing coreutils requirement, is fixed in a newer version
+  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.2: {destination: slurm_normal_conda}
+
+  # toolshed.g2.bx.psu.edu/repos/iuc/flash/flash/1.2.11.4 tests -0 and -8, trim_galore test -9 fail due to:
+  # AttributeError: 'NoneType' object has no attribute 'get_datatype_by_extension'
+  # seems to be a problem with collection inputs
+
+  # toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/0.20.1+galaxy1 failing option seems to be removed from the
+  # latest version so don't care
+
+  # as stated
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/0.2.5+galaxy0: {destination: slurm_normal_resolv_fix}
+
+  # old, didn't check.
+  toolshed.g2.bx.psu.edu/repos/iuc/pilon/pilon/0.1: {destination: slurm_normal_conda}
+
+  # weirdly multiqc needs this but most other tools throw up warnings with it set:
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7:
+    env:
+      - name: SINGULARITYENV_LC_ALL
+        value: C.UTF-8
+      - name: SINGULARITYENV_LANG
+        value: C.UTF-8
+
+
+  # query tabular just differs by precision (new output has greater precision
+
+  # snippy you are waiting on the rebuild of
+  # mulled-v2-246f3b0b9fa8d15fd96cbccd11dc328e19b263b1:bf21b66a687d5ebd7ccfacb3868656a1fc7f8bba-0
+
+  # as stated
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_download/4.3r.1: {destination: slurm_normal_resolv_fix}
+
+  # java.lang.RuntimeException: java.lang.RuntimeException: Cannot create directory '/usr/local/share/snpeff-4.3.1r-0/data/ebola_zaire'
+  # still doesn't work, how did ths work before?... java.lang.RuntimeException: java.lang.RuntimeException: Cannot create directory '/cvmfs/test.galaxyproject.org/deps/_conda/pkgs/snpeff-4.3.1r-0/share/snpeff-4.3.1r-0/data/ebola_zaire'
+  #toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff/4.3r.1: {destination: slurm_normal_conda}
+
+  # java.lang.RuntimeException: Property: 'should_not_match.genome' not found
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/4.3+T.galaxy2: {destination: slurm_normal_conda}
+
+  # snpSift_Annotate needs update https://github.com/galaxyproject/tools-iuc/pull/3938
+
+  # trinity_contig_exn50_statistic needs update https://github.com/galaxyproject/tools-iuc/pull/3940
+
+  # container missing /bin/bash for some reason
+  # nope, completely broken, see https://github.com/BioContainers/multi-package-containers/pull/1850
+  #toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.1.0:
+  #  container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/stringtie:1.1.0--0"}]
+
+  # has requirements but no matching container, maybe the new 2.0.0 version does? not gonna bother checking
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/mut2sscs/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/mut2read/1.0.0: {destination: slurm_normal_conda}
+
+
+  # python 2 legacy tools
+{% for tool_id in galaxy_python2_legacy_tools %}
+{% set short_tool_id = tool_id.split('/')[-2] %}
+  {{ tool_id }}: {destination: slurm_{{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'normal') }}_py2}
+{% endfor %}
+
+  # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
+{# this is a large automatically generated list maintained in env/<env>/group_vars/galaxyservers/tools_conf.yml #}
+{% for tool_id in galaxy_multicore_tools %}
+{% if tool_id in galaxy_pulsar_incompatible_tools %}
+  {{ tool_id }}: {destination: slurm_multi, login_required: true}
+{% else %}
+  {{ tool_id }}: {destination: multi, login_required: true}
+{% endif %}
+{% endfor %}
+
+  # 1 core, 16 GB of memory, and a 36 hour walltime
+  join1: {destination: slurm_normal_16gb}
+  gops_join_1: {destination: slurm_normal_16gb}
+  gatk_indel_realigner: {destination: slurm_normal_16gb}
+  gatk_depth_of_coverage: {destination: slurm_normal_16gb}
+  gatk_table_recalibration: {destination: slurm_normal_16gb}
+  fastq_paired_end_joiner: {destination: slurm_normal_16gb}
+  bamtools: {destination: slurm_normal_16gb}
+  varscan: {destination: slurm_normal_16gb}
+  scatterplot_rpy: {destination: slurm_normal_16gb}
+  htseq_count: {destination: slurm_normal_16gb}
+  flanking_features_1: {destination: slurm_normal_16gb}
+  cummeRbund: {destination: slurm_normal_16gb}
+  collection_column_join: {destination: slurm_normal_16gb}
+  rseqc_read_duplication: {destination: slurm_normal_16gb}
+  rseqc_RPKM_saturation: {destination: slurm_normal_16gb}
+  rseqc_bam2wig: {destination: slurm_normal_16gb}
+  seqtk_sample: {destination: slurm_normal_16gb}
+  ggplot2_heatmap2: {destination: slurm_normal_16gb}
+  kc-align: {destination: slurm_normal_16gb}
+  porechop: {destination: slurm_normal_16gb}
+  read2mut: {destination: slurm_normal_16gb}
+  annotatemyids: {destination: slurm_normal_16gb}
+
+  # TODO: this can be a function of base pairs in the reference
+  genrich: {destination: slurm_normal_16gb}
+
+  # 1 core, 32 GB of memory, and a 36 hour walltime
+  Interval2Maf1: {destination: slurm_normal_32gb}
+
+  # TODO: maybe just send these to stampede?
+  # 1 core, 64 GB of memory, and a 36 hour walltime
+  wig_to_bigWig: {destination: slurm_normal_64gb}
+  CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb}
+
+  #
+  # Tools with special mappings
+  #
+
+  # Multicore tools that are not Pulsar/Jetstream friendly
+
+  # https://github.com/galaxyproject/tools-iuc/pull/3420
+  # add version comparison to job_router and you can undo this for newer versions
+  deseq2: {destination: slurm_multi, login_required: true}
+  # still investigating
+  stringtie: {destination: slurm_multi, login_required: true}
+
+  # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
+  star_fusion:
+    destination: jetstream_tacc_xlarge
+    login_required: true
+
+  # STARSolo uses the same params and has the same requirements as STAR
+  rna_starsolo: rna_star
+
+  # STAR goes to either standard multi partitions (roundup/jetstream) or a special Jetstream m1.xlarge partition
+  rna_star:
+    # small input test
+    #   nope - STAR memory requirements are based on the size of the reference
+    #- params:
+    #  - name: sc.input_types.input1
+    #    op: '<'
+    #    value: 100M
+    #  destination: multi
+    # for built-in refs we need (refsize * 1.5) + 2GB
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      - name: refGenomeSource.GTFconditional.genomeDir
+        type: data_table_lookup
+        table_name: rnastar_index2x_versioned
+        value_template: '{value}/SA'
+        op: '<'
+        value: 18G
+      destination: multi
+      login_required: true
+    # same as above but for older versions of the tool
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      - name: refGenomeSource.GTFconditional.genomeDir
+        type: data_table_lookup
+        table_name: rnastar_index2
+        value_template: '{value}/SA'
+        op: '<'
+        value: 18G
+      destination: multi
+      login_required: true
+    - params:
+      - name: refGenomeSource.geneSource
+        value: indexed
+      destination: jetstream_tacc_xlarge
+      login_required: true
+
+    # for history refs we need (refsize * 11.0) + 2GB
+    - params:
+      - name: refGenomeSource.geneSource
+        value: history
+      - name: refGenomeSource.genomeFastaFiles
+        op: '<'
+        value: 2.5G
+      destination: multi
+      login_required: true
+    - params:
+      - name: refGenomeSource.geneSource
+        value: history
+      destination: jetstream_tacc_xlarge
+      login_required: true
+
+    # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
+    #- destination: slurm_normal
+
+  # TODO: refine, but per Björn "start with 52"
+  #hifiasm:
+  #  destination: jetstream_tacc_xlarge
+  #  login_required: true
+
+  # Kraken goes to Stampede 2 SKX if the bacteria database is selected, otherwise it goes to standard multi
+  kraken:
+    # can be a list if you want to do different things with different params (or one thing with no checked params)
+    - params:
+        - name: kraken_database
+          value: bacteria
+      # can be a real id or key in 'destinations' dict below
+      destination: stampede_skx_normal
+      login_required: true
+    - destination: multi
+      login_required: true
+
+  kraken2:
+    - params:
+      - name: kraken2_database
+        type: data_table_lookup
+        table_name: kraken2_databases
+        value_template: '{value}/hash.k2d'
+        op: '>'
+        value: 84G
+      destination: stampede_skx_normal
+      login_required: true
+    - params:
+      - name: kraken2_database
+        type: data_table_lookup
+        table_name: kraken2_databases
+        value_template: '{value}/hash.k2d'
+        op: '>'
+        value: 24G
+      destination: jetstream_tacc_xlarge
+      #destination: stampede_normal
+      login_required: true
+    - destination: multi
+      login_required: true
+
+  # align_families gets 192 hours of walltime
+  align_families:
+    destination: slurm_multi_long
+    login_required: true
+    spec:
+     time: 192
+
+  #fasterq_dump:
+  #  destination: multi_long
+  #  login_required: true
+
+  #
+  # Bridges Tools
+  #
+
+  abyss-pe:
+    destination: expanse_normal
+    login_required: true
+
+  # SPAdes (and thus Unicycler) uses at most 250GB
+  spades:
+    - params:
+        - {name: libraries.files.file_type.type, value: separate}
+        - {name: libraries.files.file_type.fwd_reads, op: '<', value: 100M}
+      destination: multi
+      login_required: true
+    - params:
+        - {name: libraries.files.file_type.type, value: interleaved}
+        - {name: libraries.files.file_type.interleaved_reads, op: '<', value: 200M}
+      destination: multi
+      login_required: true
+    - params:
+        - {name: libraries.files.file_type.type, value: merged}
+        - {name: libraries.files.file_type.merged_reads, op: '<', value: 100M}
+      destination: multi
+      login_required: true
+    - params:
+        - {name: libraries.files.file_type.type, value: unpaired}
+        - {name: libraries.files.file_type.unpaired_reads, op: '<', value: 100M}
+      destination: multi
+      login_required: true
+    - params:
+        - {name: libraries.files.file_type.type, value: paired-collection}
+        - {name: libraries.files.file_type.fastq_collection, op: '<', value: 100M}
+      destination: multi
+      login_required: true
+    - destination: expanse_shared_64gb
+      login_required: true
+      env:
+        # SPAdes uses 2GB+ per thread regardless of what you set the memory limit to, so we have to decrease the threads
+        # to avoid using too much memory
+        - name: GALAXY_SLOTS
+          value: "24"
+    #destination: bridges_normal
+    #login_required: true
+    #spec:
+    #  mem: 288G
+    #env:
+    #  #- name: GALAXY_MEMORY_MB
+    #  #  value: "245760"
+    #  - name: GALAXY_SLOTS
+    #    value: "64"
+    #  # TODO: appropriate value for Bridges-2?
+    #  - execute: ulimit -s 24576
+
+  unicycler:
+    - params:
+        #- {name: paired_unpaired.fastq_input_selector, value: [paired, paired_collection, single]}
+        - {name: paired_unpaired.fastq_input1, op: '>', value: 800M}
+      destination: expanse_shared_64gb
+      login_required: true
+      env:
+        - name: GALAXY_SLOTS
+          value: "24"
+    # Use multi for all (but Bridges can be selected from the resource selector)
+    - destination: multi
+      login_required: true
+  #  # Use multi for very small (e.g. training) datasets
+  #  - params:
+  #      - {name: paired_unpaired.fastq_input1, op: '<', value: 100M}
+  #    destination: multi
+  #  # Otherwise standard Bridges
+  #  - destination: bridges_normal
+  #    #spec:
+  #    #  mem: 288G
+  #    env:
+  #      - execute: ulimit -s 24576
+
+  # Users should use the new version of Trinity
+  trinity_psc:
+    destination: bridges_normal
+    login_required: true
+
+  trinity:
+    # first matching param set is used
+    # for collection params, comparison is implicitly on size of pair member 0
+
+    # normalizing inputs < 10GB get 5 * 48GB = 240GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 10G}
+        - {name: norm, value: true}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 240G, time: 72}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 10G}
+        - {name: norm, value: true}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 240G, time: 72}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 10G}
+        - {name: norm, value: true}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 240G, time: 72}
+
+    # normalizing 10G <= inputs < 100G get 10 * 48GB = 480GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 100G}
+        - {name: norm, value: true}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 100G}
+        - {name: norm, value: true}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 100G}
+        - {name: norm, value: true}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 480G, time: 96}
+
+    # normalizing inputs >= 100G get 15 * 48GB = 720GB
+    - params:
+        - {name: norm, value: true}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 720G, time: 96}
+
+    # not normalizing inputs < 10GB get 10 * 48GB = 480GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 10G}
+        - {name: norm, value: false}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 10G}
+        - {name: norm, value: false}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 480G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 10G}
+        - {name: norm, value: false}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 480G, time: 96}
+
+    # not normalizing 10G <= inputs < 100G get 15 * 48GB = 720GB
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+        - {name: pool.inputs.input, op: '<', value: 100G}
+        - {name: norm, value: false}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 720G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single,  value: paired}
+        - {name: pool.inputs.left_input, op: '<', value: 100G}
+        - {name: norm, value: false}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 720G, time: 96}
+    - params:
+        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+        - {name: pool.inputs.pair_input, op: '<', value: 100G}
+        - {name: norm, value: false}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 720G, time: 96}
+
+    # not normalizing inputs >= 100G get 20 * 48GB = 960GB
+    - params:
+        - {name: norm, value: false}
+      destination: expanse_normal
+      login_required: true
+      #spec: {mem: 960G, time: 96}
+
+    # default if no matching params (shouldn't happen)
+    - destination: expanse_normal
+      login_required: true
+      spec: {time: 24}
+
+  #
+  # Stampede tools
+  #
+  bwa_color_wrapper: {destination: stampede_normal, login_required: true}
+  bowtie_color_wrapper: {destination: stampede_normal, login_required: true}
+  megablast_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_blastn_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_blastp_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_blastx_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_rpsblast_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_tblastn_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_tblastx_wrapper: {destination: stampede_normal, login_required: true}
+
+  #
+  # Frontera tools
+  #
+{% for tool_id in galaxy_frontera_tools %}
+  {{ tool_id }}: {destination: frontera_small, login_required: true}
+{% endfor %}
+  busco:
+    destination: frontera_small
+    login_required: true
+    spec:
+      # busco crashes with the full thread count because it uses too much memory (even 12 was too many)
+      ntasks: 10
+
+# count of queued jobs in these destinations count against the other destinations (i.e. they're probably just slightly
+# different params on the same queue)
+share_job_counts:
+  -
+    - slurm_multi
+    - slurm_multi_py2
+    - slurm_multi_memory_resubmit
+    - slurm_long
+    - slurm_reserved_multi
+  -
+    - jetstream_iu_multi
+    - jetstream_iu_multi_py2
+    - jetstream_iu_multi_long
+    - reserved_jetstream_iu_multi
+  -
+    - jetstream_tacc_multi
+    - jetstream_tacc_multi_py2
+    - jetstream_tacc_multi_long
+    - reserved_jetstream_tacc_multi
+
+# TODO: now that share_job_counts is implemented, drop dict in list dests?
+destinations:
+  #normal_py2:
+  #  - id: slurm_py2
+  #  - id: jetstream_iu_normal_py2
+  multi_py2:
+    - id: slurm_multi_py2
+    - id: jetstream_iu_multi_py2
+    - id: jetstream_tacc_multi_py2
+  multi:
+    - id: slurm_multi
+    - id: jetstream_iu_multi
+      # jetstream can run far fewer jobs than roundup, so we weight its job count by a factor of 2 since its throughput
+      # will be lower
+      queue_factor: 2
+      # could also set threshold: on each member, default is 4
+    - id: jetstream_tacc_multi
+      queue_factor: 4
+  reserved_multi:
+    - id: slurm_reserved_multi
+    # FIXME: not configured right in slurm
+    #- id: reserved_jetstream_iu_multi
+    #- id: reserved_jetstream_tacc_multi
+  multi_long:
+    - id: slurm_multi_long
+    - id: jetstream_iu_multi_long
+    - id: jetstream_tacc_multi_long
+    - id: stampede_long
+  jetstream_multi:
+    - id: jetstream_iu_multi
+    - id: jetstream_tacc_multi
+  slurm_multi:
+    valid:
+      - time
+  slurm_multi_long:
+    valid:
+      - time
+  jetstream_iu_multi:
+    valid:
+      - time
+  jetstream_tacc_multi:
+    valid:
+      - time
+  jetstream_tacc_xlarge:
+    valid:
+      - time
+  stampede_normal:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 272
+      time: 48
+  stampede_development:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 272
+    override:
+      time: 2
+  stampede_skx_normal:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 96
+      time: 48
+  stampede_skx_development:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 96
+    override:
+      time: 2
+  #multi_long:
+  #  max:
+  #    time: 72
+  #jetstream_iu_multi_long:
+  #  max:
+  #    time: 72
+  stampede_long:
+    max:
+      time: 120
+  frontera_small:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 56
+      time: 48
+  frontera_development:
+    valid:
+      - ntasks
+      - time
+    max:
+      ntasks: 56
+    override:
+      time: 2
+  bridges_normal:
+    valid:
+      #- mem
+      - ntasks
+      - time
+    max:
+      ntasks: 128
+      time: 36
+    override:
+      time: 48
+      #mem: 720G
+    #normalize:
+    #  mem: 48G
+  bridges_development:
+    valid:
+      #- mem
+      - ntasks
+      - time
+    max:
+      ntasks: 128
+    override:
+      time: 2
+    #override:
+    #  mem: 720G
+    #normalize:
+    #  mem: 48G
+
+groups:
+  Job Priority Users:
+    destination_overrides:
+      slurm_normal: slurm_reserved_normal
+      slurm_normal_16gb: slurm_reserved_normal_16gb
+      slurm_normal_32gb: slurm_reserved_normal_32gb
+      multi: reserved_multi
+  Job Test Users:
+    destination_overrides:
+      #slurm_upload: slurm_test_upload
+      slurm_normal: slurm_test_normal
+      slurm_normal_16gb: slurm_test_normal
+      slurm_normal_32gb: slurm_test_normal
+      multi: slurm_test_normal
+      slurm_multi: slurm_test_normal
+      slurm_normal_conda: slurm_test_normal_conda
+      slurm_normal_py2: slurm_test_normal_py2
+      slurm_normal_galaxy_env: slurm_test_normal_galaxy_env
+      slurm_normal_resolv_fix: slurm_test_normal_resolv_fix
+      frontera_small: frontera_development
+      stampede_normal: stampede_development
+      stampede_skx_normal: stampede_skx_development
+      bridges_normal: bridges_development
+      bridges_shared_128gb: bridges_development
+      bridges_shared_64gb: bridges_development
+      bridges_extreme_1tb: bridges_development
+      expanse_normal: expanse_development
+      expanse_shared_128gb: expanse_development
+      expanse_shared_64gb: expanse_development
+  Job Resource Param Users:
+    param_overrides: true
+
+training_tools:
+  incompatible:
+    # kraken2 loads the entire selected reference into memory regardless of the input size
+    - kraken2
+    # TODO: document why these don't work
+    - unicycler
+    - rna_starsolo
+    - rna_star
+    - minimap2
+    - ncbi_blastp_wrapper
+  mapping:
+    _default_: slurm_training
+    bowtie2: slurm_training_multi_large
+    rseqc_geneBody_coverage: slurm_training_long
+    genrich: slurm_training_large
+    wig_to_bigWig: slurm_training_xlarge
