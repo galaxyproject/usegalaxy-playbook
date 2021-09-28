@@ -21,11 +21,27 @@ galaxy_job_conf_environments:
           value: None
         - name: PATH
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
+    - id: test_normal_py2_direct
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      use_singularity: false
+      extra_params: {use_metadata_binary: true}
+      tags: [test_limit]
+      append_envs:
+        - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
+        - name: GALAXY_VIRTUAL_ENV
+          value: None
+        - name: PATH
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
     - id: normal_direct
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
       use_singularity: false
       java_mem: 7
       tags: [normal_limit]
+    - id: test_normal_direct
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      use_singularity: false
+      java_mem: 3
+      tags: [test_limit]
     - id: normal_16gb_direct
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360
       use_singularity: false
