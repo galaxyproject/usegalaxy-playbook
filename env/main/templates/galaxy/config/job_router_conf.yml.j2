@@ -96,7 +96,7 @@ tools:
   kc-align: {destination: slurm_normal_16gb_direct}
   porechop: {destination: slurm_normal_16gb_direct}
   read2mut: {destination: slurm_normal_16gb_direct}
-  annotatemyids: {destination: slurm_normal_16gb_direct}
+  #annotatemyids: {destination: slurm_normal_16gb_direct}
 
   # TODO: this can be a function of base pairs in the reference
   genrich: {destination: slurm_normal_16gb_direct}
@@ -117,6 +117,22 @@ tools:
   cat1: {destination: slurm_normal}
   filter_tabular: {destination: slurm_normal}
   sqlite_to_tabular: {destination: slurm_normal}
+  query_tabular: {destination: slurm_normal}
+  table_compute: {destination: slurm_normal}
+  Add_a_column1: {destination: slurm_normal}
+  cat_multiple: {destination: slurm_normal}
+  regexColumn1: {destination: slurm_normal}
+  regex1: {destination: slurm_normal}
+  tp_split_on_column: {destination: slurm_normal}
+  addName: {destination: slurm_normal}
+  # FIXME: 1.1.2 is fine but the image for 1.1.1 uses a busybox awk that lacks --sandbox, tool should have requirement
+  # matching an image that exists though, what gives?
+  #tp_awk_tool: {destination: slurm_normal}
+
+  # Singularity 16GB
+  # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, this
+  # tool uses < 6.5 GB 90.8% of the time and is a good candidate for running w/ 8 GB and resubmitting on failure.
+  annotatemyids: {destination: slurm_normal_16gb}
 
   # Multicore tools that are not Pulsar/Jetstream friendly
 
