@@ -501,7 +501,15 @@ destinations:
   multi_py2:
     - id: slurm_multi_py2
     - id: jetstream_iu_multi_py2
+      queue_factor: 2
     - id: jetstream_tacc_multi_py2
+      queue_factor: 4
+  multi_py2_direct:
+    - id: slurm_multi_py2_direct
+    - id: jetstream_iu_multi_py2_direct
+      queue_factor: 2
+    - id: jetstream_tacc_multi_py2_direct
+      queue_factor: 4
   multi:
     - id: slurm_multi
     - id: jetstream_iu_multi
@@ -509,6 +517,12 @@ destinations:
       # will be lower
       queue_factor: 2
       # could also set threshold: on each member, default is 4
+    - id: jetstream_tacc_multi
+      queue_factor: 4
+  multi_direct:
+    - id: slurm_multi_direct
+    - id: jetstream_iu_multi
+      queue_factor: 2
     - id: jetstream_tacc_multi
       queue_factor: 4
   reserved_multi:
@@ -523,7 +537,9 @@ destinations:
     - id: stampede_long
   jetstream_multi:
     - id: jetstream_iu_multi
+      queue_factor: 2
     - id: jetstream_tacc_multi
+      queue_factor: 4
   slurm_multi:
     valid:
       - time
