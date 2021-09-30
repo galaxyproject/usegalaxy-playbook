@@ -125,9 +125,8 @@ tools:
   regex1: {destination: slurm_normal}
   tp_split_on_column: {destination: slurm_normal}
   addName: {destination: slurm_normal}
-  # FIXME: 1.1.2 is fine but the image for 1.1.1 uses a busybox awk that lacks --sandbox, tool should have requirement
-  # matching an image that exists though, what gives?
-  #tp_awk_tool: {destination: slurm_normal}
+  # Removed 1.1.1 from tool conf: https://github.com/bgruening/galaxytools/pull/1030
+  tp_awk_tool: {destination: slurm_normal}
 
   # Singularity 16GB
   # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, this
