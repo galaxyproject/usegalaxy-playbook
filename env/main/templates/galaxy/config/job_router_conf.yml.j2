@@ -75,7 +75,7 @@ tools:
 {% endfor %}
 
   # 1 core, 16 GB of memory, and a 36 hour walltime
-  join1: {destination: slurm_normal_16gb_direct}
+  #join1: {destination: slurm_normal_16gb_direct}
   gops_join_1: {destination: slurm_normal_16gb_direct}
   gatk_indel_realigner: {destination: slurm_normal_16gb_direct}
   gatk_depth_of_coverage: {destination: slurm_normal_16gb_direct}
@@ -125,13 +125,100 @@ tools:
   regex1: {destination: slurm_normal}
   tp_split_on_column: {destination: slurm_normal}
   addName: {destination: slurm_normal}
-  # Removed 1.1.1 from tool conf: https://github.com/bgruening/galaxytools/pull/1030
   tp_awk_tool: {destination: slurm_normal}
+  melt: {destination: slurm_normal}
+  tp_find_and_replace: {destination: slurm_normal}
+  cast: {destination: slurm_normal}
+  jq: {destination: slurm_normal}
+  gff3.rebase: {destination: slurm_normal}
+  column_remove_by_header: {destination: slurm_normal}
+  column_order_header_sort: {destination: slurm_normal}
+  tp_easyjoin_tool: {destination: slurm_normal}
+  tp_replace_in_line: {destination: slurm_normal}
+  uniprot: {destination: slurm_normal}
+  replace_column_with_key_value_file: {destination: slurm_normal}
+  tp_sed_tool: {destination: slurm_normal}
+  tp_unfold_column_tool: {destination: slurm_normal}
+  tp_uniq_tool: {destination: slurm_normal}
+  tp_replace_in_column: {destination: slurm_normal}
+  tp_multijoin_tool: {destination: slurm_normal}
+  tp_tail_tool: {destination: slurm_normal}
+  tp_cut_tool: {destination: slurm_normal}
+  tp_text_file_with_recurring_lines: {destination: slurm_normal}
+  tp_sorted_uniq: {destination: slurm_normal}
+  tp_sort_header_tool: {destination: slurm_normal}
+  tp_grep_tool: {destination: slurm_normal}
+  tp_head_tool: {destination: slurm_normal}
+  tp_tac: {destination: slurm_normal}
+  tp_cat: {destination: slurm_normal}
+  Convert characters1: {destination: slurm_normal}
+  cat1: {destination: slurm_normal}
+  random_lines1: {destination: slurm_normal}
+  Show beginning1: {destination: slurm_normal}
+  Show tail1: {destination: slurm_normal}
+  trimmer: {destination: slurm_normal}
+  wc_gnu: {destination: slurm_normal}
+  secure_hash_message_digest: {destination: slurm_normal}
+  mergeCols1: {destination: slurm_normal}
+  createInterval: {destination: slurm_normal}
+  Filter1: {destination: slurm_normal}
+  # FIXME: uncomment after this is merged and deployed: https://github.com/galaxyproject/galaxy/pull/12619
+  #sort1: {destination: slurm_normal}
+  Grep1: {destination: slurm_normal}
+  gtf_filter_by_attribute_values_list: {destination: slurm_normal}
+  Grouping1: {destination: slurm_normal}
+  subtract_query1: {destination: slurm_normal}
+
+  # Singularity normal + py2
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0: {destination: slurm_normal_py2}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.1.0: {destination: slurm_normal_py2}
+  gff_filter_by_attribute: {destination: slurm_normal_py2}
+
+  # Singularity normal + galaxy env (note: these should be handled by the job router if listed in galaxy-lib tools
+  gff_filter_by_feature_count: {destination: slurm_normal_galaxy_env}
+
+  # Singulariry normal + resolv.conf fix
+  toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
+
+  # Singularity w/ forced container
+
+  # as of 21.09, has no requirement tags
+  addValue:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  Paste1:
+    destination: slurm_normal
+    # coreutils=8.25,perl=5.22.0.1
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-c5660771860859a51697ce13d5d74251dc4c8eb6:254c9751502b0d56aa64890243ee9ebd88e94048-0"}]
+  Remove beginning1:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  Condense characters1:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  createInterval:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  Cut1:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  ChangeCase:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
+  Extract_features1:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bx-python:0.8.9--py38hb90e610_2"}]
+  comp1:
+    destination: slurm_normal
+    # python=3.7,coreutils=8.30
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-879928bcdd8adc5b4660a3f6de3703d7c7861de4:6ce96688844d469d84f94fabb34055d8dfa283c7-0"}]
 
   # Singularity 16GB
   # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, this
   # tool uses < 6.5 GB 90.8% of the time and is a good candidate for running w/ 8 GB and resubmitting on failure.
   annotatemyids: {destination: slurm_normal_16gb}
+  # tool uses < 6.5 GB 89.2% of the time
+  join1: {destination: slurm_normal_16gb}
 
   # Multicore tools that are not Pulsar/Jetstream friendly
 
@@ -516,31 +603,31 @@ destinations:
   #  - id: jetstream_iu_normal_py2
   multi_py2:
     - id: slurm_multi_py2
-    - id: jetstream_iu_multi_py2
-      queue_factor: 2
-    - id: jetstream_tacc_multi_py2
-      queue_factor: 4
+    #- id: jetstream_iu_multi_py2
+    #  queue_factor: 2
+    #- id: jetstream_tacc_multi_py2
+    #  queue_factor: 4
   multi_py2_direct:
     - id: slurm_multi_py2_direct
-    - id: jetstream_iu_multi_py2_direct
-      queue_factor: 2
-    - id: jetstream_tacc_multi_py2_direct
-      queue_factor: 4
+    #- id: jetstream_iu_multi_py2_direct
+    #  queue_factor: 2
+    #- id: jetstream_tacc_multi_py2_direct
+    #  queue_factor: 4
   multi:
     - id: slurm_multi
-    - id: jetstream_iu_multi
-      # jetstream can run far fewer jobs than roundup, so we weight its job count by a factor of 2 since its throughput
-      # will be lower
-      queue_factor: 2
-      # could also set threshold: on each member, default is 4
-    - id: jetstream_tacc_multi
-      queue_factor: 4
+    #- id: jetstream_iu_multi
+    #  # jetstream can run far fewer jobs than roundup, so we weight its job count by a factor of 2 since its throughput
+    #  # will be lower
+    #  queue_factor: 2
+    #  # could also set threshold: on each member, default is 4
+    #- id: jetstream_tacc_multi
+    #  queue_factor: 4
   multi_direct:
     - id: slurm_multi_direct
-    - id: jetstream_iu_multi
-      queue_factor: 2
-    - id: jetstream_tacc_multi
-      queue_factor: 4
+    #- id: jetstream_iu_multi
+    #  queue_factor: 2
+    #- id: jetstream_tacc_multi
+    #  queue_factor: 4
   reserved_multi:
     - id: slurm_reserved_multi
     # FIXME: not configured right in slurm
@@ -548,8 +635,8 @@ destinations:
     #- id: reserved_jetstream_tacc_multi
   multi_long:
     - id: slurm_multi_long
-    - id: jetstream_iu_multi_long
-    - id: jetstream_tacc_multi_long
+    #- id: jetstream_iu_multi_long
+    #- id: jetstream_tacc_multi_long
     - id: stampede_long
   jetstream_multi:
     - id: jetstream_iu_multi
