@@ -349,7 +349,7 @@ tools:
   #
 
   abyss-pe:
-    destination: expanse_normal
+    destination: bridges_normal
     login_required: true
 
   # SPAdes (and thus Unicycler) uses at most 250GB
@@ -379,7 +379,7 @@ tools:
         - {name: libraries.files.file_type.fastq_collection, op: '<', value: 100M}
       destination: multi_direct
       login_required: true
-    - destination: expanse_shared_64gb
+    - destination: bridges_shared_64gb
       login_required: true
       env:
         # SPAdes uses 2GB+ per thread regardless of what you set the memory limit to, so we have to decrease the threads
@@ -402,7 +402,7 @@ tools:
     - params:
         #- {name: paired_unpaired.fastq_input_selector, value: [paired, paired_collection, single]}
         - {name: paired_unpaired.fastq_input1, op: '>', value: 800M}
-      destination: expanse_shared_64gb
+      destination: bridges_shared_64gb
       login_required: true
       env:
         - name: GALAXY_SLOTS
@@ -435,21 +435,21 @@ tools:
         - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
         - {name: pool.inputs.input, op: '<', value: 10G}
         - {name: norm, value: true}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 240G, time: 72}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 10G}
         - {name: norm, value: true}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 240G, time: 72}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 10G}
         - {name: norm, value: true}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 240G, time: 72}
 
@@ -458,28 +458,28 @@ tools:
         - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
         - {name: pool.inputs.input, op: '<', value: 100G}
         - {name: norm, value: true}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 100G}
         - {name: norm, value: true}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 100G}
         - {name: norm, value: true}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 480G, time: 96}
 
     # normalizing inputs >= 100G get 15 * 48GB = 720GB
     - params:
         - {name: norm, value: true}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 720G, time: 96}
 
@@ -488,21 +488,21 @@ tools:
         - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
         - {name: pool.inputs.input, op: '<', value: 10G}
         - {name: norm, value: false}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 10G}
         - {name: norm, value: false}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 480G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 10G}
         - {name: norm, value: false}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 480G, time: 96}
 
@@ -511,33 +511,33 @@ tools:
         - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
         - {name: pool.inputs.input, op: '<', value: 100G}
         - {name: norm, value: false}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 720G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single,  value: paired}
         - {name: pool.inputs.left_input, op: '<', value: 100G}
         - {name: norm, value: false}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 720G, time: 96}
     - params:
         - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
         - {name: pool.inputs.pair_input, op: '<', value: 100G}
         - {name: norm, value: false}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 720G, time: 96}
 
     # not normalizing inputs >= 100G get 20 * 48GB = 960GB
     - params:
         - {name: norm, value: false}
-      destination: expanse_normal
+      destination: bridges_normal
       login_required: true
       #spec: {mem: 960G, time: 96}
 
     # default if no matching params (shouldn't happen)
-    - destination: expanse_normal
+    - destination: bridges_normal
       login_required: true
       spec: {time: 24}
 
@@ -603,31 +603,31 @@ destinations:
   #  - id: jetstream_iu_normal_py2
   multi_py2:
     - id: slurm_multi_py2
-    #- id: jetstream_iu_multi_py2
-    #  queue_factor: 2
-    #- id: jetstream_tacc_multi_py2
-    #  queue_factor: 4
+    - id: jetstream_iu_multi_py2
+      queue_factor: 2
+    - id: jetstream_tacc_multi_py2
+      queue_factor: 4
   multi_py2_direct:
     - id: slurm_multi_py2_direct
-    #- id: jetstream_iu_multi_py2_direct
-    #  queue_factor: 2
-    #- id: jetstream_tacc_multi_py2_direct
-    #  queue_factor: 4
+    - id: jetstream_iu_multi_py2_direct
+      queue_factor: 2
+    - id: jetstream_tacc_multi_py2_direct
+      queue_factor: 4
   multi:
     - id: slurm_multi
-    #- id: jetstream_iu_multi
-    #  # jetstream can run far fewer jobs than roundup, so we weight its job count by a factor of 2 since its throughput
-    #  # will be lower
-    #  queue_factor: 2
-    #  # could also set threshold: on each member, default is 4
-    #- id: jetstream_tacc_multi
-    #  queue_factor: 4
+    - id: jetstream_iu_multi
+      # jetstream can run far fewer jobs than roundup, so we weight its job count by a factor of 2 since its throughput
+      # will be lower
+      queue_factor: 2
+      # could also set threshold: on each member, default is 4
+    - id: jetstream_tacc_multi
+      queue_factor: 4
   multi_direct:
     - id: slurm_multi_direct
-    #- id: jetstream_iu_multi
-    #  queue_factor: 2
-    #- id: jetstream_tacc_multi
-    #  queue_factor: 4
+    - id: jetstream_iu_multi
+      queue_factor: 2
+    - id: jetstream_tacc_multi
+      queue_factor: 4
   reserved_multi:
     - id: slurm_reserved_multi
     # FIXME: not configured right in slurm
@@ -635,8 +635,8 @@ destinations:
     #- id: reserved_jetstream_tacc_multi
   multi_long:
     - id: slurm_multi_long
-    #- id: jetstream_iu_multi_long
-    #- id: jetstream_tacc_multi_long
+    - id: jetstream_iu_multi_long
+    - id: jetstream_tacc_multi_long
     - id: stampede_long
   jetstream_multi:
     - id: jetstream_iu_multi
