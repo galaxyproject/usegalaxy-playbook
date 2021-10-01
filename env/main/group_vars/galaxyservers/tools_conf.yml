@@ -28,7 +28,12 @@ galaxy_job_conf_tools:
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
-galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) }}"
+galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) | difference(galaxy_multicore_singularity_tools) }}"
+
+# TODO: right now this is just to get them on the right handlers, each tool is individually listed in the job router
+# conf while I get them tested and working
+galaxy_multicore_singularity_tools:
+  - cutadapt
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -41,7 +46,7 @@ galaxy_pulsar_incompatible_tools:
   - bacteria_tradis
   - bandage_image
   #- busco
-  - cutadapt
+  #- cutadapt
   - egsea
   - iqtree
   - kraken2
@@ -665,9 +670,9 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/guru-ananda/rhmm/hmm_1/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.1"
   - "toolshed.g2.bx.psu.edu/repos/iuc/cwpair2/cwpair2/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6"
+  #- "toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6"
+  #- "toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6"
+  #- "toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6"
   - "toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/2.1.8.3"
   - "toolshed.g2.bx.psu.edu/repos/iuc/genetrack/genetrack/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1.0.0"

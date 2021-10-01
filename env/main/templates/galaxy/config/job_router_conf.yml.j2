@@ -168,17 +168,35 @@ tools:
   gtf_filter_by_attribute_values_list: {destination: slurm_normal}
   Grouping1: {destination: slurm_normal}
   subtract_query1: {destination: slurm_normal}
+  datamash_reverse: {destination: slurm_normal}
+  datamash_transpose: {destination: slurm_normal}
+  datamash_ops: {destination: slurm_normal}
+  umi_tools_extract: {destination: slurm_normal}
+  filtlong: {destination: slurm_normal}
+  fasta-stats: {destination: slurm_normal}
 
   # Singularity normal + py2
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0: {destination: slurm_normal_py2}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.1.0: {destination: slurm_normal_py2}
   gff_filter_by_attribute: {destination: slurm_normal_py2}
 
-  # Singularity normal + galaxy env (note: these should be handled by the job router if listed in galaxy-lib tools
+  # Singularity normal + galaxy env (note: these should be handled by the job router if listed in galaxy-lib tools)
   gff_filter_by_feature_count: {destination: slurm_normal_galaxy_env}
 
-  # Singulariry normal + resolv.conf fix
+  # Singularity normal + resolv.conf fix
   toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
+
+  # Singularity normal + conda deps; we should try to fix or remove these over time
+  toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6: {destination: slurm_normal_conda}
+
+  # Singularity multicore
+  # FIXME: this works, but requires disabling remote metadata, why?
+  #cutadapt: {destination: jetstream_multi}
+  # FIXME: `multi` not:
+  #cutadapt: {destination: multi}
+  cutadapt: {destination: slurm_multi}
 
   # Singularity w/ forced container
 
