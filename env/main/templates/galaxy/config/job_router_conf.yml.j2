@@ -642,12 +642,12 @@ destinations:
       queue_factor: 4
   multi_direct:
     - id: slurm_multi_direct
-    - id: jetstream_iu_multi
+    - id: jetstream_iu_multi_direct
       queue_factor: 2
-    - id: jetstream_tacc_multi
+    - id: jetstream_tacc_multi_direct
       queue_factor: 4
   reserved_multi:
-    - id: slurm_reserved_multi
+    - id: slurm_reserved_multi_direct
     # FIXME: not configured right in slurm
     #- id: reserved_jetstream_iu_multi
     #- id: reserved_jetstream_tacc_multi
