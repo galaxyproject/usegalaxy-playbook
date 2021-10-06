@@ -34,6 +34,7 @@ galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_too
 # conf while I get them tested and working
 galaxy_multicore_singularity_tools:
   - cutadapt
+  - fastp
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -260,7 +261,7 @@ __galaxy_multicore_tools:
   - exonerate
   - fargene
   - fasterq_dump
-  - fastp
+  #- fastp
   - featurecounts
   - flash
   - flye
@@ -496,7 +497,7 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/cummeRbund/1.0.1"
   - "toolshed.g2.bx.psu.edu/repos/devteam/depth_of_coverage/gatk_depth_of_coverage/0.0.2"
   - "toolshed.g2.bx.psu.edu/repos/devteam/dna_filtering/histogram_rpy/1.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/fasta_concatenate_by_species/fasta_concatenate0/0.0.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/fasta_concatenate_by_species/fasta_concatenate0/0.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/fastq_combiner/1.0.1"
@@ -513,8 +514,8 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_tabular/fastq_to_tabular/1.1.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.0.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.64"

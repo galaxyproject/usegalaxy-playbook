@@ -174,11 +174,20 @@ tools:
   umi_tools_extract: {destination: slurm_normal}
   filtlong: {destination: slurm_normal}
   fasta-stats: {destination: slurm_normal}
+  fasta_merge_files_and_filter_unique_sequences: {destination: slurm_normal}
+  filter_by_fasta_ids: {destination: slurm_normal}
+  rbc_splitfasta: {destination: slurm_normal}
+  fasta_compute_length: {destination: slurm_normal}
+  fasta_concatenate0: {destination: slurm_normal}
+  fasta_filter_by_length: {destination: slurm_normal}
+  fastq_quality_trimmer: {destination: slurm_normal}
+  fastq_trimmer: {destination: slurm_normal}
 
   # Singularity normal + py2
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0: {destination: slurm_normal_py2}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.1.0: {destination: slurm_normal_py2}
   gff_filter_by_attribute: {destination: slurm_normal_py2}
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_filter_by_length/fasta_filter_by_length/1.1: {destination: slurm_normal_py2}
 
   # Singularity normal + galaxy env (note: these should be handled by the job router if listed in galaxy-lib tools)
   gff_filter_by_feature_count: {destination: slurm_normal_galaxy_env}
@@ -192,11 +201,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6: {destination: slurm_normal_conda}
 
   # Singularity multicore
-  # FIXME: this works, but requires disabling remote metadata, why?
-  #cutadapt: {destination: jetstream_multi}
-  # FIXME: `multi` not:
-  #cutadapt: {destination: multi}
-  cutadapt: {destination: slurm_multi}
+  cutadapt: {destination: multi, login_required: true}
+  fastp: {destination: multi, login_required: true}
 
   # Singularity w/ forced container
 
@@ -230,6 +236,12 @@ tools:
     destination: slurm_normal
     # python=3.7,coreutils=8.30
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-879928bcdd8adc5b4660a3f6de3703d7c7861de4:6ce96688844d469d84f94fabb34055d8dfa283c7-0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.0.0:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
 
   # Singularity 16GB
   # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, this

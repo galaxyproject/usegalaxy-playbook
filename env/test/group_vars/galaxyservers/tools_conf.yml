@@ -30,7 +30,12 @@ galaxy_job_conf_tools:
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
-galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) }}"
+galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) | difference(galaxy_multicore_singularity_tools) }}"
+
+# TODO: right now this is just to get them on the right handlers, each tool is individually listed in the job router
+# conf while I get them tested and working
+galaxy_multicore_singularity_tools:
+  - cutadapt
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -43,7 +48,7 @@ galaxy_pulsar_incompatible_tools:
   - bacteria_tradis
   - bandage_image
   #- busco
-  - cutadapt
+  #- cutadapt
   - egsea
   - iqtree
   - kraken2
