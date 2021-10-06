@@ -67,6 +67,9 @@ __handler_multi_plugins:
   - bridges
   - expanse
 
+# FIXME: remove this and its handling in the job conf template if you do end up making all handlers load all plugins
+galaxy_job_conf_multi_handler_tag: multi
+
 galaxy_job_conf_handlers:
   - id: main_w3_handler0
     plugins: "{{ __handler_default_plugins }}"

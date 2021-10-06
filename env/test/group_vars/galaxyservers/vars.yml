@@ -63,11 +63,7 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 ## used by: job_conf.yml template
 galaxy_job_conf_pulsar_galaxy_url: "https://{{ galaxy_instance_hostname }}"
 
-__handler_default_plugins:
-  - local
-  - slurm
-
-__handler_multi_plugins:
+__handler_plugins:
   - slurm
   - jetstream_iu
   - jetstream_tacc
@@ -79,21 +75,9 @@ __handler_multi_plugins:
 
 galaxy_job_conf_handlers:
   - id: test_handler0
-    plugins: "{{ __handler_default_plugins }}"
-    tags:
-      - handlers
+    plugins: "{{ __handler_plugins }}"
   - id: test_handler1
-    plugins: "{{ __handler_default_plugins }}"
-    tags:
-      - handlers
-  - id: test_handler2
-    plugins: "{{ __handler_multi_plugins }}"
-    tags:
-      - multi
-  - id: test_handler3
-    plugins: "{{ __handler_multi_plugins }}"
-    tags:
-      - multi
+    plugins: "{{ __handler_plugins }}"
 
 galaxy_job_conf_extra_dynamic_rules:
   - dynamic_nvc_dynamic_memory
@@ -264,8 +248,6 @@ galaxy_job_conf_limits:
 ## used by: supervisor
 galaxy_handlers:
   - count: 2
-  - pool: multi
-    count: 2
 
 galaxy_workflow_scheduler_count: 1
 galaxyservers_group_supervisor_configs:

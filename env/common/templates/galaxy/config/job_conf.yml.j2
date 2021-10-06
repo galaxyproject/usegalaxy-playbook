@@ -174,10 +174,12 @@ handling:
 {% for plugin in handler.plugins %}
         - {{ plugin }}
 {% endfor %}
+{% if handler.tags is defined and handler.tags %}
       tags:
 {% for tag in handler.tags %}
         - {{ tag }}
 {% endfor %}
+{% endif %}
 {% endfor %}
 
 #
@@ -467,56 +469,76 @@ tools:
   # Bridges tools
 {% for id in galaxy_large_memory_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: bridges
 {% endfor %}
 
 {% for id in galaxy_conditional_large_memory_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: multi_bridges
 {% endfor %}
 
   # Stampede tools
 {% for id in galaxy_low_priority_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: stampede
 {% endfor %}
 
   # Frontera tools
 {% for id in galaxy_frontera_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: frontera
 {% endfor %}
 
   # Long walltime tools
   - id: fasterq_dump
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: multi
 
   # Specially mapped (no resource selector) multicore tools
   - id: rna_star
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
   - id: rna_starsolo
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
 
   # This is an even longer walltime tool overridden in the job router spec
   - id: align_families
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
 
   # Standard multicore tools
 {% for id in galaxy_multicore_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: multi
 {% endfor %}
 
   # Singularity multicore tools
 {% for id in galaxy_multicore_singularity_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: multi
 {% endfor %}
 
