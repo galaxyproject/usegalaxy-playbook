@@ -3,6 +3,53 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Wed Oct  6 21:53:16 CDT 2021
+
+- Changed Main's `tool_dependency_path` from `/galaxy/main/deps` to `/cvmfs/main.galaxyproject.org/deps`. The former is
+  a symlink to the latter but does not exist inside Singularity containers
+- Used `sed` to update all the Galaxy Package and Tool Shed Package dep `env.sh` files to use the `/cvmfs` path instead
+  of `/galaxy`.
+
+Uninstalled the following old tool versions because they did not work even before Singularity, and newer, working
+versions exist:
+
+- `toolshed.g2.bx.psu.edu/repos/devteam/column_maker/Add_a_column1/1.1.0`: Incompatible Python 2 syntax
+- `toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regexColumn1/1.0.0`: Never worked, working version had been
+  installed immediately after.
+- `toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regex1/1.0.0`: Never worked, working version had been
+  installed immediately after.
+- `toolshed.g2.bx.psu.edu/repos/mvdbeek/add_input_name_as_column/addName/0.1.1`: Incompatible Python 2 syntax
+- `toolshed.g2.bx.psu.edu/repos/mvdbeek/add_input_name_as_column/addName/0.1.1`: Incompatible Python 2 syntax
+- `toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.1`: Incompatible Python 2 syntax
+- `toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/fastq_manipulation/1.0.1`: Incompatible Python 2 syntax
+- `toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/fastq_manipulation/1.1.1`: Incompatible Python 2 syntax
+- `toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3`: Dependency problems
+
+Uninstalled the following old tool versions because they could not made to run under Singularity with reasonable effort
+and newer, working versions exist:
+
+- `toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool/1.1.1`: 1.1.2 (installed) was literally just a fix
+  for container usage: https://github.com/bgruening/galaxytools/pull/1030
+- `toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/*/1.0.0`: No containers, requirements are a mess
+  (`gnu_coreutils` instead of `coreutils`), many newer versions already installed
+- `toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.0`: Only has requirement on cutadapt 1.8 but also
+  needs perl, no container exists, would have to hack the `__cutadapt@1.8` conda env to include Perl, this only worked
+  outside containers because `/usr/bin/perl`, newer working versions (including 0.4.3.1) already installed
+- `toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.1`: Same as 0.4.0
+- `toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.2`: Same as 0.4.0
+- `toolshed.g2.bx.psu.edu/repos/devteam/fastx_barcode_splitter/cshl_fastx_barcode_splitter/1.0.0`: Seems to only work
+  with a very old Perl version, has no dependency on Perl, deps are TS Packages
+- `toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0`: Needs
+  gnuplot which it probably previously got from `$PATH`
+- `toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0`: Same as
+  `cshl_fastx_nucleotides_distribution`
+
+And uninstalled the following tools that don't fit into the above bins:
+
+- `toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/quality_score_distribution/1.0.2`: Only has TS deps and
+  even running in a Python 2.7 container it doesn't work because rpy 1 can't find libR. But also hasn't run successfully
+  on Main since August 2020.
+
 ### Tue Apr  7 18:12:05 EDT 2020
 
 Upgraded Conda and recreated Galaxy venv as Conda Python 3.6 for Test on login2.stampede2.tacc.utexas.edu with:

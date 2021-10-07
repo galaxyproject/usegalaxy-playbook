@@ -80,7 +80,7 @@ tools:
   gatk_indel_realigner: {destination: slurm_normal_16gb_direct}
   gatk_depth_of_coverage: {destination: slurm_normal_16gb_direct}
   gatk_table_recalibration: {destination: slurm_normal_16gb_direct}
-  fastq_paired_end_joiner: {destination: slurm_normal_16gb_direct}
+  #fastq_paired_end_joiner: {destination: slurm_normal_16gb_direct}
   bamtools: {destination: slurm_normal_16gb_direct}
   varscan: {destination: slurm_normal_16gb_direct}
   scatterplot_rpy: {destination: slurm_normal_16gb_direct}
@@ -182,12 +182,51 @@ tools:
   fasta_filter_by_length: {destination: slurm_normal}
   fastq_quality_trimmer: {destination: slurm_normal}
   fastq_trimmer: {destination: slurm_normal}
+  fastq_combiner: {destination: slurm_normal}
+  fastq_filter: {destination: slurm_normal}
+  fastq_groomer: {destination: slurm_normal}
+  fastq_manipulation: {destination: slurm_normal}
+  fastq_masker_by_quality: {destination: slurm_normal}
+  fastq_paired_end_splitter: {destination: slurm_normal}
+  fastq_paired_end_deinterlacer: {destination: slurm_normal}
+  fastq_paired_end_interlacer: {destination: slurm_normal}
+  cshl_fastx_artifacts_filter: {destination: slurm_normal}
+  cshl_fastx_renamer: {destination: slurm_normal}
+  cshl_fastq_quality_filter: {destination: slurm_normal}
+  cshl_fastx_clipper: {destination: slurm_normal}
+  cshl_fastx_reverse_complement: {destination: slurm_normal}
+  cshl_fastx_trimmer: {destination: slurm_normal}
+  umi_tools_count: {destination: slurm_normal}
+  fasplit: {destination: slurm_normal}
+  sickle: {destination: slurm_normal}
+  trim_galore: {destination: slurm_normal}
+  flash: {destination: slurm_normal}
+  bg_find_subsequences: {destination: slurm_normal}
+  cshl_fasta_nucleotides_change: {destination: slurm_normal}
+  length_and_gc_content: {destination: slurm_normal}
+  cshl_fastx_barcode_splitter: {destination: slurm_normal}
+  cshl_fastq_quality_converter: {destination: slurm_normal}
+  cshl_fastx_collapser: {destination: slurm_normal}
+  cshl_fasta_formatter: {destination: slurm_normal}
+  fastq_join: {destination: slurm_normal}
+  tab2fasta: {destination: slurm_normal}
+  fasta2tab: {destination: slurm_normal}
+  fastqe: {destination: slurm_normal}
+  prinseq: {destination: slurm_normal}
+  #multiqc: {destination: slurm_normal}
+  #fastqc: {destination: slurm_normal}
+  fastq_stats: {destination: slurm_normal}
+  #trimmomatic: {destination: slurm_normal}
+  cshl_fastx_quality_statistics: {destination: slurm_normal}
+  cshl_fastx_nucleotides_distribution: {destination: slurm_normal}
+  cshl_fastq_quality_boxplot: {destination: slurm_normal}
 
   # Singularity normal + py2
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0: {destination: slurm_normal_py2}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.1.0: {destination: slurm_normal_py2}
   gff_filter_by_attribute: {destination: slurm_normal_py2}
   toolshed.g2.bx.psu.edu/repos/devteam/fasta_filter_by_length/fasta_filter_by_length/1.1: {destination: slurm_normal_py2}
+  toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0: {destination: slurm_normal_py2}
 
   # Singularity normal + galaxy env (note: these should be handled by the job router if listed in galaxy-lib tools)
   gff_filter_by_feature_count: {destination: slurm_normal_galaxy_env}
@@ -196,9 +235,48 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
 
   # Singularity normal + conda deps; we should try to fix or remove these over time
+  # No datamash=1.0.6 container
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6: {destination: slurm_normal_conda}
+  # No fastx_toolkit=0.0.13 container
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_artifacts_filter/cshl_fastx_artifacts_filter/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/cshl_fastx_renamer/0.0.11: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_filter/cshl_fastq_quality_filter/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_clipper/cshl_fastx_clipper/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_reverse_complement/cshl_fastx_reverse_complement/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_converter/cshl_fastq_quality_converter/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0: {destination: slurm_normal_conda}
+  # No ea-utils=1.1.2-806 container
+  toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/fastq_join/1.1.2-806.1: {destination: slurm_normal_conda}
+  # There is a fastqc=0.10.1 container but the tool is missing a dep on python=2.7
+  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52:
+  #  destination: slurm_normal_conda
+  #  container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/python:2.7.16"}]
+  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
+  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.64: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
+  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.65: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
+  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.67: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
+  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.68: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
+  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.69: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
+  ## There is a trimmomatic=0.36 container but the tool is missing a dep on coreutils
+  #toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.2: {destination: slurm_normal_conda}
+  #toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.3: toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.2
+  #toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.5: toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.2
+
+  # Singularity normal 16GB
+  # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, this
+  # tool uses < 6.5 GB 90.8% of the time and is a good candidate for running w/ 8 GB and resubmitting on failure.
+  annotatemyids: {destination: slurm_normal_16gb}
+  # tool uses < 6.5 GB 89.2% of the time
+  join1: {destination: slurm_normal_16gb}
+  fastq_paired_end_joiner: {destination: slurm_normal_16gb}
 
   # Singularity multicore
   cutadapt: {destination: multi, login_required: true}
@@ -242,13 +320,44 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0:
     destination: slurm_normal
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/fastq_combiner/1.0.1:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_filter/fastq_filter/1.0.0:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.0.4:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/fastq_manipulation/1.0.1:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_masker_by_quality/fastq_masker_by_quality/1.0.0:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/1.0.0:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/1.0.0:
+    destination: slurm_normal_16gb
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0:
+    destination: slurm_normal_16gb
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0"}]
+  toolshed.g2.bx.psu.edu/repos/bgruening/find_subsequences/bg_find_subsequences/0.2:
+    # depends: biopython 1.65, but no container exists
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/biopython:1.66--np110py36_0"}]
 
-  # Singularity 16GB
-  # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, this
-  # tool uses < 6.5 GB 90.8% of the time and is a good candidate for running w/ 8 GB and resubmitting on failure.
-  annotatemyids: {destination: slurm_normal_16gb}
-  # tool uses < 6.5 GB 89.2% of the time
-  join1: {destination: slurm_normal_16gb}
+  # Valiant efforts but no luck
+  # No fontconfig=2.11.1,rpy=1.0.3,R=2.11.0 container
+  #toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/quality_score_distribution/1.0.2:
+  #  destination: slurm_normal_conda
+  #  container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/python:2.7.16"}]
+  # No perl dependency, seems not work with 5.22 (EL7 has 5.16)
+  #toolshed.g2.bx.psu.edu/repos/devteam/fastx_barcode_splitter/cshl_fastx_barcode_splitter/1.0.0:
+  #  destination: slurm_normal_conda
+  #  container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.22.0--9"}]
 
   # Multicore tools that are not Pulsar/Jetstream friendly
 
