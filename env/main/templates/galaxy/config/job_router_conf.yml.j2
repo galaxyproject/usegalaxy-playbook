@@ -213,7 +213,7 @@ tools:
   fasta2tab: {destination: slurm_normal}
   fastqe: {destination: slurm_normal}
   prinseq: {destination: slurm_normal}
-  #multiqc: {destination: slurm_normal}
+  multiqc: {destination: slurm_normal}
   #fastqc: {destination: slurm_normal}
   fastq_stats: {destination: slurm_normal}
   #trimmomatic: {destination: slurm_normal}
@@ -258,7 +258,10 @@ tools:
   # There is a fastqc=0.10.1 container but the tool is missing a dep on python=2.7
   #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52:
   #  destination: slurm_normal_conda
+  #  # this doesn't work because these early versions are python wrappers around perl scripts around a java application
   #  container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/python:2.7.16"}]
+  #  # nope, no perl...
+  #  container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/centos:7.9.2009"}]
   #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
   #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.64: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
   #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.65: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
@@ -282,7 +285,7 @@ tools:
   cutadapt: {destination: multi, login_required: true}
   fastp: {destination: multi, login_required: true}
 
-  # Singularity w/ forced container
+  # Singularity w/ forced container and other special cases
 
   # as of 21.09, has no requirement tags
   addValue:
@@ -348,6 +351,16 @@ tools:
     # depends: biopython 1.65, but no container exists
     destination: slurm_normal
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/biopython:1.66--np110py36_0"}]
+
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1:
+    # container exists but Galaxy picks the python 3 version, which needs this due to
+    # https://click.palletsprojects.com/en/7.x/python3/#python-3-surrogate-handling
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.5.0: toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.6: toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7: toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7.1: toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1
 
   # Valiant efforts but no luck
   # No fontconfig=2.11.1,rpy=1.0.3,R=2.11.0 container
