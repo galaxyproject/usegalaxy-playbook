@@ -6,8 +6,13 @@
 
 # this is used in the "tools" section of the job_conf - make sure any you define here don't appear in lists below
 galaxy_job_conf_tools:
-  - id: random_lines1
-    environment: slurm_normal_singularity
+  # FIXME: these conda-in-singularity tools should have their own list below and run through the router
+  #- id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_train_test_split/sklearn_train_test_split/1.0.8.1
+  #  environment: slurm_normal_singularity_deps
+  #- id: random_lines1
+  #  environment: slurm_normal_singularity
+  #- id: cat1
+  #  environment: slurm_normal_singularity
   #  environment: tacc_k8s
   #  handler: multi
   - id: interactive_tool_jupyter_notebook
@@ -25,7 +30,12 @@ galaxy_job_conf_tools:
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
-galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) }}"
+galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) | difference(galaxy_multicore_singularity_tools) }}"
+
+# TODO: right now this is just to get them on the right handlers, each tool is individually listed in the job router
+# conf while I get them tested and working
+galaxy_multicore_singularity_tools:
+  - cutadapt
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -37,8 +47,8 @@ galaxy_pulsar_incompatible_tools:
   - annotatemyids
   - bacteria_tradis
   - bandage_image
-  - busco
-  - cutadapt
+  #- busco
+  #- cutadapt
   - egsea
   - iqtree
   - kraken2
@@ -167,6 +177,13 @@ galaxy_low_priority_tools:
   - ncbi_tblastn_wrapper
   - ncbi_tblastx_wrapper
 
+# tools that should run on Frontera
+galaxy_frontera_tools:
+  - bionano_scaffold
+  - busco
+  - hifiasm
+  - meryl
+
 # some tools have explicit mappings (e.g. for Bridges)
 __galaxy_multicore_tools_exclude:
   - align_families
@@ -176,6 +193,7 @@ __galaxy_multicore_tools_exclude:
   - spades
   - star_fusion
   - unicycler
+  - bowtie2  # for singularity testing
 
 # tools missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
@@ -309,6 +327,8 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0"
+  - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0"
+  - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.1.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tac/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/1.0.0"
@@ -353,7 +373,7 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/bwa_color_wrapper/1.0.2"
   - "toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/bwa_wrapper/1.2.3"
   - "toolshed.g2.bx.psu.edu/repos/devteam/canonical_correlation_analysis/cca1/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1"
   - "toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/0.1"
   - "toolshed.g2.bx.psu.edu/repos/devteam/cluster/gops_cluster_1/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/complement/gops_complement_1/1.0.0"
@@ -391,7 +411,7 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_converter/cshl_fastq_quality_converter/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_filter/cshl_fastq_quality_filter/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_tabular/fastq_to_tabular/1.1.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0"
@@ -440,7 +460,7 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/kraken_translate/kraken-translate/1.1.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.2.2"
   - "toolshed.g2.bx.psu.edu/repos/devteam/lca_wrapper/lca1/1.0.1"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1"
   - "toolshed.g2.bx.psu.edu/repos/devteam/linear_regression/LinearRegression1/1.0.1"
   - "toolshed.g2.bx.psu.edu/repos/devteam/logistic_regression_vif/LogisticRegression/1.0.1"
   - "toolshed.g2.bx.psu.edu/repos/devteam/maf_cpg_filter/cpgFilter/1.0.0"
@@ -493,7 +513,7 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/subtract/gops_subtract_1/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/subtract_query/subtract_query1/0.1"
   - "toolshed.g2.bx.psu.edu/repos/devteam/t2ps/Draw_phylogram/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/t_test_two_samples/t_test_two_samples/1.0.1"
   - "toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1"
   - "toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.2"
@@ -527,7 +547,7 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.3"
   - "toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.4"
   - "toolshed.g2.bx.psu.edu/repos/devteam/vcfcommonsamples/vcfcommonsamples/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3"
   - "toolshed.g2.bx.psu.edu/repos/devteam/vcffixup/vcffixup/0.0.3"
   - "toolshed.g2.bx.psu.edu/repos/devteam/vcfflatten/vcfflatten2/0.0.3"
   - "toolshed.g2.bx.psu.edu/repos/devteam/vcfgeno2haplo/vcfgeno2haplo/0.0.3"
@@ -585,7 +605,7 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/ngsutils_bam_filter/0.5.7.1"
   - "toolshed.g2.bx.psu.edu/repos/iuc/repmatch_gff3/repmatch_gff3/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.1.0"
+  #- "toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.1.0"
   - "toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.2.3"
   - "toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie_merge/0.1.0"
   - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_diversity/vegan_diversity/0.0.2"

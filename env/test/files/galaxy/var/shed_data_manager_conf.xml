@@ -942,5 +942,20 @@
             </output>
         </data_table>
     </data_manager>
-
+<data_manager id="selection_background" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_selection_background/data_manager/selection_background/0.0.1" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_selection_background/10ac95ec81d9/data_manager_selection_background/data_manager/data_manager_selection_background.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_selection_background/data_manager_selection_background/1.0.3"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_selection_background</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>10ac95ec81d9</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_selection_background/data_manager_selection_background/1.0.3</id><version>1.0.3</version></tool><data_table name="selection_background">
+            <output>
+                <column name="value"/>
+                <column name="label"/>
+                <column name="path" output_ref="selection_background_json">
+                    <move type="file">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">selection_background/${value}/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/selection_background/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>

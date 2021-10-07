@@ -24,35 +24,51 @@
     amqp_publish_retry_max_retries: 60
 {%- endmacro %}
 
-{%- macro env_local_envs(java_mem=7) -%}
-        # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
-        - name: PATH
-          value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+{%- macro env_local_envs(java_mem=7, singularity=true) -%}
+{#-
+        # TODO: what uses this (DejaVu fonts)?
+-#}
         - name: XDG_DATA_HOME
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/xdg/data
-        {{ env_temp_envs() }}
+        {{ env_temp_envs(singularity=singularity) }}
         - name: _JAVA_OPTIONS
           value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
         - execute: ulimit -c 0
-{%- endmacro %}
-
-{%- macro env_legacy_envs(java_mem=7) -%}
-        - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
-        - name: GALAXY_VIRTUAL_ENV
-          value: None
+        - name: LC_ALL
+          value: C
+{% if singularity %}
+        - name: SINGULARITYENV__JAVA_OPTIONS
+          value: $_JAVA_OPTIONS
+        - name: SINGULARITYENV_LC_ALL
+          value: $LC_ALL
+{% else %}
+{#-
+        # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
+#}
         - name: PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
+          value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+{% endif %}
 {%- endmacro %}
 
-{%- macro env_pulsar_envs() -%}
+{%- macro env_pulsar_envs(java_mem=7, singularity=true) -%}
+        - name: _JAVA_OPTIONS
+          value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
         - name: LC_ALL
           value: C
         - name: TERM
           value: vt100
         - execute: ulimit -c 0
+{% if singularity %}
+        - name: SINGULARITYENV__JAVA_OPTIONS
+          value: $_JAVA_OPTIONS
+        - name: SINGULARITYENV_LC_ALL
+          value: $LC_ALL
+        - name: SINGULARITYENV_TERM
+          value: $TERM
+{% endif %}
 {%- endmacro %}
 
-{%- macro env_temp_envs() -%}
+{%- macro env_temp_envs(singularity=true) -%}
         - name: TEMP
           #raw: true
           value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
@@ -61,30 +77,38 @@
         - name: _JAVA_OPTIONS
           value: -Djava.io.tmpdir=$TEMP
         - execute: mkdir -p $TEMP
+{% if singularity %}
+        - name: SINGULARITYENV_TEMP
+          value: $TEMP
+        - name: SINGULARITYENV_TMPDIR
+          value: $TEMP
+        - name: SINGULARITYENV__JAVA_OPTIONS
+          value: $_JAVA_OPTIONS
+{% endif %}
 {%- endmacro %}
 
 {%- macro env_tag_params(tags) -%}
 {% if tags is not none -%}
-      tags:
-{% for tag in tags %}
-        - {{ tag }}
-{%- endfor -%}
+      tags: {{ tags }}
 {%- endif -%}
 {%- endmacro %}
 
-{%- macro env_pulsar_params(remote_metadata='true') -%}
+{%- macro env_pulsar_params(remote_metadata='true', dependency_resolution='remote') -%}
       remote_metadata: {{ remote_metadata }}
       transport: curl
       default_file_action: remote_transfer
-      dependency_resolution: remote
+      dependency_resolution: {{ dependency_resolution }}
       rewrite_parameters: true
       submit_user_email: $__user_email__
+      outputs_to_working_directory: false
 {%- endmacro %}
 
 {%- macro env_jetstream_params() -%}
       jobs_directory: /jetstream/scratch0/{{ galaxy_instance_codename }}/jobs
+{#
       # this doesn't work, set in supervisor environment instead
       #remote_property_galaxy_virtual_env: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv
+#}
       remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
       file_action_config: {{ galaxy_config_dir }}/pulsar_jetstream_actions.yml
 {%- endmacro %}
@@ -150,10 +174,12 @@ handling:
 {% for plugin in handler.plugins %}
         - {{ plugin }}
 {% endfor %}
+{% if handler.tags is defined and handler.tags %}
       tags:
 {% for tag in handler.tags %}
         - {{ tag }}
 {% endfor %}
+{% endif %}
 {% endfor %}
 
 #
@@ -179,41 +205,62 @@ execution:
     # roundup and TACC-discretionary Jetstream environments
     #
 {% for env in galaxy_job_conf_environments.slurm_environments %}
+{% set use_singularity = env.use_singularity | default(true) %}
+{% set java_mem = env.java_mem | default(7) %}
     slurm_{{ env.id }}:
       runner: slurm
-      native_specification: {{ env.native_spec }}
+      native_specification: {{ env.native_specification }}
       {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-{% if env.create_reserved_env | default(false) %}
-    reserved_slurm_{{ env.id }}:
-      runner: slurm
-      native_specification: {{ env.native_spec | replace('normal', 'reserved') | replace('multi', 'reserved') }}
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
+{% if use_singularity %}
+      outputs_to_working_directory: true
+      singularity_enabled: true
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.local)) | join(',') }}"
+{% if 'container_override' in env %}
+      container_override: {{ env.container_override }}
+{% else %}
+      singularity_default_container_id: "{{ env.default_container_id | default(galaxy_job_conf_default_container_id) }}"
 {% endif %}
-{% if env.create_legacy_env | default(false) %}
-    slurm_{{ env.id }}_legacy:
-      runner: slurm
-      native_specification: {{ env.native_spec }}
-      use_metadata_binary: true
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_local_envs(java_mem=env.java_mem) }}
-        {{ env_legacy_envs() }}
 {% endif %}
+{% for env_param_name, env_param_value in (env.extra_params | default({})).items() %}
+      {{ env_param_name }}: {{ env_param_value }}
+{% endfor %}
+      env:
+        {{ env_local_envs(java_mem=java_mem, singularity=use_singularity) }}
+{% for env_env in (env.append_envs | default([])) %}
+        - {{ env_env }}
+{% endfor %}
 {% endfor %}
 
-    slurm_normal_singularity:
+{#
+    # FIXME:
+    slurm_upload:
       runner: slurm
-      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=02:00:00
+      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=12:00:00 --mem=3840
       singularity_enabled: true
-      # /cvmfs/data?
-      #singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl:ro,/galaxy:ro'
-      singularity_volumes: '$galaxy_root:ro,$tool_directory:ro,$working_directory:rw,$job_directory:rw,/galaxy-repl/test/object_store_cache:ro'
-      singularity_default_container_id: '/cvmfs/singularity.galaxyproject.org/all/python:3.8.3'
+      singularity_volumes: "{{ (galaxy_job_conf_singularity_volumes.local + [galaxy_ftp_upload_dir ~ ':rw', galaxy_nginx_upload_dir ~ ':rw']) | join(',') }}"
+      # FIXME: why ubuntu?
+      #singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
+      {{ env_tag_params(env.tags | default(none)) }}
       env:
-        {{ env_local_envs(java_mem=28) }}
+        - name: SINGULARITYENV_LC_ALL
+          value: C
+        # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
+        - name: SINGULARITYENV_PREPEND_PATH
+          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
+        {{ env_temp_envs() }}
+      env:
+        - name: TEMP
+          #raw: true
+          value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
+        - name: TMPDIR
+          value: $TEMP
+        - name: _JAVA_OPTIONS
+          value: -Djava.io.tmpdir=$TEMP
+        - execute: mkdir -p $TEMP
+        - name: LC_ALL
+          value: C
+#}
 
     # FIXME: roundup-only since I'm pretty certain memory_limit_reached doesn't work on Pulsar dests
     # resubmit to jetstream-tacc-xlarge on memory failure
@@ -233,6 +280,8 @@ execution:
     tacc_k8s:
       runner: tacc_k8s
       docker_enabled: true  # probably shouldn't be needed but is still
+      container_resolvers:
+        - type: explicit
       #docker_default_container_id: 'quay.io/biocontainers/coreutils:8.31--h14c3975_0'
       #docker_default_container_id: 'python:3.6-buster'
       docker_default_container_id: 'quay.io/biocontainers/python:3.6.7'
@@ -261,40 +310,35 @@ execution:
     # Jetstream environments
     #
 {% for env in galaxy_job_conf_environments.jetstream_environments %}
+{% set use_singularity = env.use_singularity | default(true) %}
+{% set java_mem = env.java_mem | default(7) %}
     jetstream_{{ env.id }}:
       runner: {{ env.runner }}
-      submit_native_specification: {{ env.native_spec }}
-      {{ env_pulsar_params() }}
-      {{ env_jetstream_params() }}
+      submit_native_specification: {{ env.native_specification }}
       {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_pulsar_envs() }}
-        - name: PATH
-          value: /jetstream/scratch0/{{ galaxy_instance_codename }}/conda/envs/set_metadata@20171114/bin:$PATH
-        {{ env_temp_envs() }}
-{% if env.create_reserved_env | default(false) %}
-    reserved_jetstream_{{ env.id }}:
-      runner: {{ env.runner }}
-      native_specification: {{ env.native_spec | replace('normal', 'reserved') | replace('multi', 'reserved') }}
-      {{ env_pulsar_params() }}
+      {{ env_pulsar_params(remote_metadata=(not use_singularity)) }}
       {{ env_jetstream_params() }}
-      env:
-        {{ env_pulsar_envs() }}
-        - name: PATH
-          value: /jetstream/scratch0/{{ galaxy_instance_codename }}/conda/envs/set_metadata@20171114/bin:$PATH
-        {{ env_temp_envs() }}
+{% if use_singularity %}
+      singularity_enabled: true
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.jetstream)) | join(',') }}"
+{% if 'container_override' in env %}
+      container_override: {{ env.container_override }}
+{% else %}
+      singularity_default_container_id: "{{ env.default_container_id | default(galaxy_job_conf_default_container_id) }}"
 {% endif %}
-{% if env.create_legacy_env | default(false) %}
-    jetstream_{{ env.id }}_legacy:
-      runner: {{ env.runner }}
-      native_specification: {{ env.native_spec }}
-      use_metadata_binary: true
-      {{ env_pulsar_params() }}
-      {{ env_jetstream_params() }}
-      {{ env_tag_params(env.tags | default(none)) }}
+{% endif %}
+{% for env_param_name, env_param_value in (env.extra_params | default({})).items() %}
+      {{ env_param_name }}: {{ env_param_value }}
+{% endfor %}
       env:
-        {{ env_pulsar_envs() }}
-        {{ env_legacy_envs() }}
+        {{ env_temp_envs(singularity=use_singularity) }}
+        {{ env_pulsar_envs(java_mem=java_mem, singularity=use_singularity) }}
+{% for env_env in (env.append_envs | default([])) %}
+        - {{ env_env }}
+{% endfor %}
+{% if not use_singularity %}
+        - name: PATH
+          value: /jetstream/scratch0/{{ galaxy_instance_codename }}/conda/envs/set_metadata@20171114/bin:$PATH
 {% endif %}
 {% endfor %}
 
@@ -304,7 +348,7 @@ execution:
 {% for env in galaxy_job_conf_environments.stampede_environments %}
     stampede_{{ env.id }}:
       runner: stampede
-      submit_native_specification: {{ env.native_spec }}
+      submit_native_specification: {{ env.native_specification }}
       {{ env_pulsar_params() }}
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {# this doesn't work, set in supervisor environment instead
@@ -332,12 +376,12 @@ execution:
 {% for env in galaxy_job_conf_environments.frontera_environments %}
     frontera_{{ env.id }}:
       runner: frontera
-      submit_native_specification: {{ env.native_spec }}
+      submit_native_specification: {{ env.native_specification }}
       {{ env_pulsar_params(remote_metadata='false') }}
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {{ env_tag_params(env.tags | default(none)) }}
-      # FIXME: don't want this on all jobs probably? or do we?
       singularity_enabled: true
+      # the tacc-singularity module automatically sets up mounts
       singularity_volumes: null
       container_resolvers:
         - type: explicit_singularity
@@ -361,7 +405,7 @@ execution:
 {% for env in galaxy_job_conf_environments.bridges_environments %}
     bridges_{{ env.id }}:
       runner: bridges
-      submit_native_specification: {{ env.native_spec }}
+      submit_native_specification: {{ env.native_specification }}
       {{ env_pulsar_params(remote_metadata='false') }}
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {# see stampede comments -#}
@@ -384,7 +428,7 @@ execution:
 {% for env in galaxy_job_conf_environments.expanse_environments %}
     expanse_{{ env.id }}:
       runner: expanse
-      submit_native_specification: {{ env.native_spec }}
+      submit_native_specification: {{ env.native_specification }}
       {{ env_pulsar_params(remote_metadata='false') }}
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging/
       {{ env_tag_params(env.tags | default(none)) }}
@@ -425,49 +469,76 @@ tools:
   # Bridges tools
 {% for id in galaxy_large_memory_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: bridges
 {% endfor %}
 
 {% for id in galaxy_conditional_large_memory_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: multi_bridges
 {% endfor %}
 
   # Stampede tools
 {% for id in galaxy_low_priority_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: stampede
 {% endfor %}
 
   # Frontera tools
 {% for id in galaxy_frontera_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: frontera
 {% endfor %}
 
   # Long walltime tools
   - id: fasterq_dump
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: multi
 
   # Specially mapped (no resource selector) multicore tools
   - id: rna_star
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
   - id: rna_starsolo
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
 
   # This is an even longer walltime tool overridden in the job router spec
   - id: align_families
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
 
   # Standard multicore tools
 {% for id in galaxy_multicore_tools %}
   - id: {{ id }}
-    handler: multi
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
+    resources: multi
+{% endfor %}
+
+  # Singularity multicore tools
+{% for id in galaxy_multicore_singularity_tools %}
+  - id: {{ id }}
+{% if galaxy_job_conf_multi_handler_tag is defined %}
+    handler: {{ galaxy_job_conf_multi_handler_tag }}
+{% endif %}
     resources: multi
 {% endfor %}
 

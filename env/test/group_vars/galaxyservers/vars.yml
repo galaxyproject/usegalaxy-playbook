@@ -56,7 +56,6 @@ galaxy_mutable_data_dir: "{{ galaxy_root }}/var"
 # these don't need to be set if using the layout module, but usegalaxy_backup uses galaxyproject.galaxy's defaults
 # without running the layout and breaks if they are unset
 galaxy_cache_dir: "{{ galaxy_mutable_data_dir }}/cache"
-galaxy_tool_dependency_dir: /galaxy/test/deps
 
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
@@ -64,46 +63,54 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 ## used by: job_conf.yml template
 galaxy_job_conf_pulsar_galaxy_url: "https://{{ galaxy_instance_hostname }}"
 
-__handler_default_plugins:
-  - local
-  - slurm
-
-__handler_multi_plugins:
+__handler_plugins:
   - slurm
   - jetstream_iu
   - jetstream_tacc
   - stampede
+  - frontera
   - bridges
   - expanse
   - tacc_k8s
 
 galaxy_job_conf_handlers:
   - id: test_handler0
-    plugins: "{{ __handler_default_plugins }}"
-    tags:
-      - handlers
+    plugins: "{{ __handler_plugins }}"
   - id: test_handler1
-    plugins: "{{ __handler_default_plugins }}"
-    tags:
-      - handlers
-  - id: test_handler2
-    plugins: "{{ __handler_multi_plugins }}"
-    tags:
-      - multi
-  - id: test_handler3
-    plugins: "{{ __handler_multi_plugins }}"
-    tags:
-      - multi
+    plugins: "{{ __handler_plugins }}"
 
 galaxy_job_conf_extra_dynamic_rules:
   - dynamic_nvc_dynamic_memory
+
+galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:3.8.3
+
+galaxy_job_conf_singularity_volumes:
+  local:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "{{ galaxy_object_store_cache_path }}:ro"
+    - "{{ galaxy_new_file_path }}:ro"
+    - "/galaxy-repl/{{ galaxy_instance_codename }}/files:ro"
+    - "/galaxy-repl/{{ galaxy_instance_codename }}/files-test:ro"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+  jetstream:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
 
 galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource, ntasks, time]
   multi_long: [multi_long_compute_resource, ntasks, time]
   multi_bridges: [multi_bridges_compute_resource, ntasks, time]
-  bridges: [bridges_compute_resource, ntasks, time]
   stampede: [stampede_compute_resource, ntasks, time]
+  frontera: [frontera_compute_resource, ntasks, time]
+  bridges: [bridges_compute_resource, ntasks, time]
 
 # tool mappings are in tools_conf.yml
 
@@ -120,7 +127,15 @@ galaxy_job_conf_limits:
   - type: output_size
     value: 50G
 
+  # TODO: transitionary temp remove
+  - type: environment_user_concurrent_jobs
+    id: multi_limit
+    value: 2
+
   # per-environments per-user limits
+  - type: environment_user_concurrent_jobs
+    id: test
+    value: 8
   - type: environment_user_concurrent_jobs
     id: training
     value: 2
@@ -143,7 +158,7 @@ galaxy_job_conf_limits:
     id: multi
     value: 2
   - type: environment_user_concurrent_jobs
-    id: slurm_multi_long
+    id: multi_long
     value: 1
   - type: environment_user_concurrent_jobs
     id: stampede_normal
@@ -156,6 +171,12 @@ galaxy_job_conf_limits:
     value: 1
   - type: environment_user_concurrent_jobs
     id: stampede_skx_development
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: frontera_small
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: frontera_development
     value: 1
   - type: environment_user_concurrent_jobs
     id: bridges_normal
@@ -207,6 +228,12 @@ galaxy_job_conf_limits:
   - type: environment_total_concurrent_jobs
     id: stampede_skx_development
     value: 1
+  - type: environment_total_concurrent_jobs
+    id: frontera_small
+    value: 15
+  - type: environment_total_concurrent_jobs
+    id: frontera_development
+    value: 1
   #- type: environment_total_concurrent_jobs
   #  id: bridges_normal
   #  value: 10
@@ -221,8 +248,6 @@ galaxy_job_conf_limits:
 ## used by: supervisor
 galaxy_handlers:
   - count: 2
-  - pool: multi
-    count: 2
 
 galaxy_workflow_scheduler_count: 1
 galaxyservers_group_supervisor_configs:
@@ -254,7 +279,8 @@ usegalaxy_dynamic_job_rules:
 galaxy_pgcleanup_actions:
   - delete_userless_histories
   - delete_exported_histories
-  - purge_deleted_users
+  #- purge_deleted_users
+  - purge_deleted_users_gdpr
   - purge_deleted_histories
   - purge_deleted_hdas
   - purge_historyless_hdas
@@ -275,7 +301,9 @@ tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
 
 # galaxy_config hash moved to group_vars/all/galaxy_config_vars.yml
 
-galaxy_local_tools_dir: "{{ galaxy_root }}/tools"
+# FIXME: fails with Singularity volumes because this path does not exist on compute
+#galaxy_local_tools_dir: "{{ galaxy_root }}/tools"
+galaxy_local_tools_dir: "/galaxy-repl/gxsrc/{{ galaxy_instance_codename }}/local_tools"
 galaxy_local_tools:
   - echo.xml
 
@@ -311,6 +339,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
   - src: files/galaxy/config/user_preferences.yml
     dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
+  - src: files/galaxy/config/trs_servers_conf.yml
+    dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
