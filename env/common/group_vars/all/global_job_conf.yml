@@ -114,12 +114,8 @@ galaxy_job_conf_environments:
         - type: singularity
           shell: /bin/sh
           resolve_dependencies: true
-          identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
-      #env:
-      #  # FIXME: why?
-      #  - name: SINGULARITYENV_PREPEND_PATH
-      #    value: $PATH
-      #  {{ env_temp_envs() }}
+          # TODO: commit to CVMFS
+          identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0
     - id: test_normal_conda
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
       java_mem: 3
@@ -128,12 +124,15 @@ galaxy_job_conf_environments:
         - type: singularity
           shell: /bin/sh
           resolve_dependencies: true
-          identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
-      #env:
-      #  # FIXME: why?
-      #  - name: SINGULARITYENV_PREPEND_PATH
-      #    value: $PATH
-      #  {{ env_temp_envs() }}
+          identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0
+    - id: multi_conda
+      native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00
+      tags: [multi_limit]
+      container_override:
+        - type: singularity
+          shell: /bin/sh
+          resolve_dependencies: true
+          identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0
     - id: normal_py2
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=36:00:00
       default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:2.7.16

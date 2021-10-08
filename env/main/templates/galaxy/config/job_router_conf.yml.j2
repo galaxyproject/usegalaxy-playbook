@@ -200,7 +200,6 @@ tools:
   fasplit: {destination: slurm_normal}
   sickle: {destination: slurm_normal}
   trim_galore: {destination: slurm_normal}
-  flash: {destination: slurm_normal}
   bg_find_subsequences: {destination: slurm_normal}
   cshl_fasta_nucleotides_change: {destination: slurm_normal}
   length_and_gc_content: {destination: slurm_normal}
@@ -214,16 +213,13 @@ tools:
   fastqe: {destination: slurm_normal}
   prinseq: {destination: slurm_normal}
   multiqc: {destination: slurm_normal}
-  #fastqc: {destination: slurm_normal}
+  fastqc: {destination: slurm_normal}
   fastq_stats: {destination: slurm_normal}
-  #trimmomatic: {destination: slurm_normal}
   cshl_fastx_quality_statistics: {destination: slurm_normal}
   cshl_fastx_nucleotides_distribution: {destination: slurm_normal}
   cshl_fastq_quality_boxplot: {destination: slurm_normal}
 
   # Singularity normal + py2
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0: {destination: slurm_normal_py2}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.1.0: {destination: slurm_normal_py2}
   gff_filter_by_attribute: {destination: slurm_normal_py2}
   toolshed.g2.bx.psu.edu/repos/devteam/fasta_filter_by_length/fasta_filter_by_length/1.1: {destination: slurm_normal_py2}
   toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0: {destination: slurm_normal_py2}
@@ -234,7 +230,7 @@ tools:
   # Singularity normal + resolv.conf fix
   toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
 
-  # Singularity normal + conda deps; we should try to fix or remove these over time
+  # Singularity normal + conda/TS/Galaxy deps; we should try to fix or remove these over time
   # No datamash=1.0.6 container
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6: {destination: slurm_normal_conda}
@@ -252,26 +248,64 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastx_barcode_splitter/cshl_fastx_barcode_splitter/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.0: {destination: slurm_normal_conda}
   # No ea-utils=1.1.2-806 container
   toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/fastq_join/1.1.2-806.1: {destination: slurm_normal_conda}
+  # No gnu_coreutils container, but most of these could probably run in the legacy container without traditional deps
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cut_tool/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/1.0.0: {destination: slurm_normal_conda}
+  # In this case, the conda dep is actually broken since grep is compiled without PCRE support, so just use the
+  # container grep
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0:
+    destination: slurm_normal_conda
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/1.0.0: {destination: slurm_normal_conda}
+  # Can't find strict.pm?
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0:
+    destination: slurm_normal_conda
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tac/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_text_file_with_recurring_lines/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_unfold_column_tool/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_uniq_tool/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.1.0: {destination: slurm_normal_conda}
+  # Has requirement for cutadapt but also needs /usr/bin/perl
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.2: {destination: slurm_normal_conda}
+  #
+  toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.0: {destination: slurm_normal_conda}
+
+  # Singularity multi + conda/TS/Galaxy deps;
+  toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.2: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.3: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.5: {destination: slurm_multi_conda}
+
   # There is a fastqc=0.10.1 container but the tool is missing a dep on python=2.7
-  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52:
+  # TODO: this should become a standard environment, possibly just the regular image for slurm_normal_conda
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52: {destination: slurm_normal_conda}
   #  destination: slurm_normal_conda
   #  # this doesn't work because these early versions are python wrappers around perl scripts around a java application
-  #  container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/python:2.7.16"}]
+  #  container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
   #  # nope, no perl...
   #  container_override: [{type: singularity, shell: '/bin/sh', resolve_dependencies: true, identifier: "/cvmfs/singularity.galaxyproject.org/all/centos:7.9.2009"}]
-  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
-  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.64: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
-  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.65: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
-  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.67: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
-  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.68: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
-  #toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.69: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52
-  ## There is a trimmomatic=0.36 container but the tool is missing a dep on coreutils
-  #toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.2: {destination: slurm_normal_conda}
-  #toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.3: toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.2
-  #toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.5: toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.2
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.64: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.65: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.67: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.68: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.69: {destination: slurm_normal_conda}
+  # FIXME: something seems wrong here, container should be good but singularity seems to die and java continues to run
+  # outside container?
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {destination: slurm_normal_conda}
 
   # Singularity normal 16GB
   # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, this
@@ -284,6 +318,8 @@ tools:
   # Singularity multicore
   cutadapt: {destination: multi, login_required: true}
   fastp: {destination: multi, login_required: true}
+  flash: {destination: multi, login_required: true}
+  trimmomatic: {destination: multi, login_required: true}
 
   # Singularity w/ forced container and other special cases
 
@@ -911,6 +947,7 @@ groups:
       slurm_normal_py2: slurm_test_normal_py2
       slurm_normal_galaxy_env: slurm_test_normal_galaxy_env
       slurm_normal_resolv_fix: slurm_test_normal_resolv_fix
+      slurm_multi_conda: slurm_test_normal_conda
       frontera_small: frontera_development
       stampede_normal: stampede_development
       stampede_skx_normal: stampede_skx_development

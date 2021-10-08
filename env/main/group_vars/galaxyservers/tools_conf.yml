@@ -36,6 +36,7 @@ galaxy_multicore_singularity_tools:
   - cutadapt
   - fastp
   - flash
+  - trimmomatic
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -403,7 +404,7 @@ __galaxy_multicore_tools:
   - tophat2
   - tophat_fusion_post
   - transdecoder
-  - trimmomatic
+  #- trimmomatic
   - trinity
   - trinity_align_and_estimate_abundance
   - trinity_psc
@@ -518,11 +519,11 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_tabular/fastq_to_tabular/1.1.0"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.0.0"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.64"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.65"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.0.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.52"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.63"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.64"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.65"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/fastqtofasta/fastq_to_fasta_python/1.0.0"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/fastx_artifacts_filter/cshl_fastx_artifacts_filter/1.0.0"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/fastx_barcode_splitter/cshl_fastx_barcode_splitter/1.0.0"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/fastx_clipper/cshl_fastx_clipper/1.0.1"
@@ -764,7 +765,7 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/nick/duplex/make_families/0.3"
   - "toolshed.g2.bx.psu.edu/repos/nick/duplex/make_families/0.5"
   - "toolshed.g2.bx.psu.edu/repos/peterjc/venn_list/venn_list/0.0.9"
-  - "toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3"
+  #- "toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3"
   - "toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.1"
   - "toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.3"
   - "toolshed.g2.bx.psu.edu/repos/tyty/structurefold/get_read_pipeline/1.0"

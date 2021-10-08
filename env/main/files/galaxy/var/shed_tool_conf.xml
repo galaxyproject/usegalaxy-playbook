@@ -3732,6 +3732,26 @@
             <version>1.2</version>
         </tool>
     </section>
+    <section id="fastq_quality_control" name="FASTQ Quality Control" version="">
+        <tool file="toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/f8a9a5eaca8a/trimmomatic/trimmomatic.xml" guid="toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>trimmomatic</repository_name>
+            <repository_owner>pjbriggs</repository_owner>
+            <installed_changeset_revision>f8a9a5eaca8a</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3</id>
+            <version>0.32.3</version>
+        </tool>
+    </section>
+    <section id="fasta_fastq" name="FASTA/FASTQ">
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/11962ce40855/trim_galore/trim_galore.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>trim_galore</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>11962ce40855</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.0</id>
+            <version>0.4.0</version>
+        </tool>
+    </section>
     <section id="multiple_alignments" name="Multiple Alignments" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/rnateam/mafft/d71e007323d4/mafft/mafft.xml" guid="toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -6900,6 +6920,128 @@
             <version>2.1.8.3</version>
         </tool>
     </section>
+    <section id="text_manipulation" name="Text Manipulation">
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/cat.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0</id>
+            <version>0.1.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/tac.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tac/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tac/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/cut.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cut_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cut_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/tail.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/head.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/sorted_uniq.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_uniq_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_uniq_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/recurring_lines.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_text_file_with_recurring_lines/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_text_file_with_recurring_lines/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/multijoin.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/easyjoin.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/sed.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/unfold_column.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_unfold_column_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_unfold_column_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/unsorted_uniq.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/sort.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/sort_rows.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/37e1eb05b1b4/text_processing/grep.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>text_processing</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>37e1eb05b1b4</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0</id>
+            <version>1.0.0</version>
+        </tool>
+    </section>
     <section id="chip_seq" name="ChIP-seq" version="">
         <tool file="toolshed.g2.bx.psu.edu/repos/iuc/resize_coordinate_window/0164d2edba9f/resize_coordinate_window/resize_coordinate_window.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/resize_coordinate_window/resize_coordinate_window/1.0.1">
             <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
@@ -7106,6 +7248,16 @@
             <installed_changeset_revision>6d4babad010f</installed_changeset_revision>
             <id>toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgpeakcall/2.1.0.20151222.0</id>
             <version>2.1.0.20151222.0</version>
+        </tool>
+    </section>
+    <section id="fasta_fastq" name="FASTA/FASTQ">
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/8352713cf939/trim_galore/trim_galore.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.1">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>trim_galore</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>8352713cf939</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.1</id>
+            <version>0.4.1</version>
         </tool>
     </section>
     <section id="emboss" name="EMBOSS" version="">
@@ -8700,6 +8852,16 @@
             <installed_changeset_revision>f0606dfd5195</installed_changeset_revision>
             <id>toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.3</id>
             <version>7.221.3</version>
+        </tool>
+    </section>
+    <section id="fasta_fastq" name="FASTA/FASTQ">
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/f1e71aeaa923/trim_galore/trim_galore.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.2">
+            <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+            <repository_name>trim_galore</repository_name>
+            <repository_owner>bgruening</repository_owner>
+            <installed_changeset_revision>f1e71aeaa923</installed_changeset_revision>
+            <id>toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.2</id>
+            <version>0.4.2</version>
         </tool>
     </section>
     <section id="sam_bam" name="SAM/BAM">
