@@ -130,6 +130,7 @@ base_app_main: &BASE_APP_MAIN
   integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
   sanitize_whitelist_file: /galaxy-repl/test/config/sanitize_whitelist.txt
 
+  user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences.yml"
   containers_config_file: "{{ galaxy_config_dir }}/containers.yml"
   container_image_cache_path: "{{ galaxy_mutable_data_dir }}/container_images"
   enable_beta_containers_interface: "True"
