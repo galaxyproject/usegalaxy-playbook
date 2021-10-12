@@ -3,6 +3,14 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Tue Oct 12 15:25:37 CDT 2021
+
+1. Uninstalled the following old tool versions because they did not work even before Singularity, and newer, working
+versions exist:
+
+- `toolshed.g2.bx.psu.edu/repos/devteam/sam_merge/sam_merge2/1.2.0`: Broken picard version, not updated since 2015.
+
+
 ### Thu Oct  7 20:23:05 CDT 2021
 
 Rolled back these uninstalls from the previous change (i.e. they are reinstalled) because I figured out how to make them
