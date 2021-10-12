@@ -542,9 +542,7 @@ def __native_spec_param(destination):
     for param in NATIVE_SPEC_PARAMS:
         if param in destination.params:
             return param
-    raise Exception(
-        "Could not determine native spec param for destination '{}' with params: {}".format(
-            destination.id, destination.params))
+    return None
 
 
 def __update_env(destination, envs):
@@ -660,13 +658,16 @@ def job_router(app, job, tool, resource_params, user):
     destination = app.job_config.get_destination(destination_id)
     # TODO: requires native spec to be set on all dests, you could do this by plugin instead
     native_spec_param = __native_spec_param(destination)
-    native_spec = destination.params.get(native_spec_param, '')
-
-    native_spec = __update_native_spec(destination_id, spec, native_spec)
+    if native_spec_param:
+        native_spec = destination.params.get(native_spec_param, '')
+        native_spec = __update_native_spec(destination_id, spec, native_spec)
+        destination.params[native_spec_param] = native_spec
+    elif spec:
+        local.log.warning(
+            "Could not determine native spec param for destination '%s', spec will not be applied: %s",
+            destination.id, destination.params)
 
     __update_env(destination, envs)
-
-    destination.params[native_spec_param] = native_spec
 
     if container_override:
         destination.params['container_override'] = container_override
