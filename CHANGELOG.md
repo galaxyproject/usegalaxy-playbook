@@ -3,6 +3,13 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Mon Oct 18 11:20:37 CDT 2021
+
+1. Uninstalled the following old tool versions because they did not work even before Singularity, and newer, working
+versions exist:
+
+- `toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.2`
+
 ### Tue Oct 12 15:25:37 CDT 2021
 
 1. Uninstalled the following old tool versions because they did not work even before Singularity, and newer, working

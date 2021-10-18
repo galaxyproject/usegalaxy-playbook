@@ -115,6 +115,7 @@ galaxy_job_conf_environments:
           shell: /bin/sh
           resolve_dependencies: true
           # TODO: commit to CVMFS
+          # image is https://github.com/natefoo/usegalaxy.org-legacy-environment
           identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0
     - id: test_normal_conda
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
