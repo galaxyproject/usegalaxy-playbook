@@ -226,6 +226,24 @@ tools:
   samtools_reheader: {destination: slurm_normal}
   sam_pileup: {destination: slurm_normal}
   bamtools: {destination: slurm_normal}
+  sam2interval: {destination: slurm_normal}
+  bamtools_split: {destination: slurm_normal}
+  bamSplit: {destination: slurm_normal}
+  qualimap_multi_bamqc: {destination: slurm_normal}
+  samtools_phase: {destination: slurm_normal}
+  samtools_merge: {destination: slurm_normal}
+  samtools_fixmate: {destination: slurm_normal}
+  samtools_fastx: {destination: slurm_normal}
+  samtools_depth: {destination: slurm_normal}
+  samtools_stats: {destination: slurm_normal}
+  samtools_split: {destination: slurm_normal}
+  samtools_bedcov: {destination: slurm_normal}
+  samtools_calmd: {destination: slurm_normal}
+  samtools_idxstats: {destination: slurm_normal}
+  samtool_filter2: {destination: slurm_normal}
+  samtools_flagstat: {destination: slurm_normal}
+  samtools_mpileup: {destination: slurm_normal}
+  bam_to_sam: {destination: slurm_normal}
 
   # Singularity normal + py2
   gff_filter_by_attribute: {destination: slurm_normal_py2}
@@ -295,6 +313,10 @@ tools:
   # no mulled container for requirements and it's too old to create one
   toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.2: toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.1
+  # dunno, can't look these all up
+  toolshed.g2.bx.psu.edu/repos/devteam/sam2interval/sam2interval/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.2: toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.1
 
   # Singularity multi + conda/TS/Galaxy deps;
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3: {destination: slurm_multi_conda}
@@ -334,6 +356,7 @@ tools:
   flash: {destination: multi, login_required: true}
   trimmomatic: {destination: multi, login_required: true}
   qualimap_bamqc: {destination: multi, login_required: true}
+  samtools_sort: {destination: multi, login_required: true}
 
   # Singularity w/ forced container and other special cases
 

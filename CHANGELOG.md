@@ -9,6 +9,24 @@ prior to the first entry have not been logged.
 versions exist:
 
 - `toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.2`
+- `toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/1.0.3`
+
+2. Applied manual fixes to the following tools:
+
+- `toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.0` -
+  https://github.com/galaxyproject/tools-iuc/pull/3951/
+- `toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.1` - same
+- `toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.1.3` - same
+- `toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.1.4` - same
+- `toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/2.0.1` - Tool previously symlinked the bai
+  next to the input dataset, changed to symlink both to the working dir.
+- `toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0` - Same issue/fix as samtools_mpileup
+- `toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0.1` - same
+
+3. Uninstalled for other reasons:
+
+- `toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/0.0.1` - Migrated version, has the same input
+  writing problem as the newer versions above but also uses a python wrapper and it's just not worth the trouble to fix.
 
 ### Tue Oct 12 15:25:37 CDT 2021
 
