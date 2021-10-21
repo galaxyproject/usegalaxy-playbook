@@ -873,9 +873,7 @@ destinations:
     - id: jetstream_tacc_multi_direct
       queue_factor: 4
   reserved_multi:
-    # FIXME: Marius: I have no clue what I'm doing, but slurm_reserved_multi_direct leads to `KeyError: 'slurm_reserved_multi_direct'`
-    # - id: slurm_reserved_multi_direct
-    - id: slurm_multi_direct
+    - id: slurm_reserved_multi
     # FIXME: not configured right in slurm
     #- id: reserved_jetstream_iu_multi
     #- id: reserved_jetstream_tacc_multi
@@ -992,6 +990,10 @@ groups:
       slurm_normal_16gb: slurm_reserved_normal_16gb
       slurm_normal_32gb: slurm_reserved_normal_32gb
       multi: reserved_multi
+      slurm_normal_direct: slurm_reserved_normal
+      slurm_normal_16gb_direct: slurm_reserved_normal_16gb
+      slurm_normal_32gb_direct: slurm_reserved_normal_32gb
+      multi_direct: reserved_multi
   Job Test Users:
     destination_overrides:
       #slurm_upload: slurm_test_upload
