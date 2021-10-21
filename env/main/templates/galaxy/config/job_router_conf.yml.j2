@@ -873,7 +873,9 @@ destinations:
     - id: jetstream_tacc_multi_direct
       queue_factor: 4
   reserved_multi:
-    - id: slurm_reserved_multi_direct
+    # FIXME: Marius: I have no clue what I'm doing, but slurm_reserved_multi_direct leads to `KeyError: 'slurm_reserved_multi_direct'`
+    # - id: slurm_reserved_multi_direct
+    - id: slurm_multi_direct
     # FIXME: not configured right in slurm
     #- id: reserved_jetstream_iu_multi
     #- id: reserved_jetstream_tacc_multi
