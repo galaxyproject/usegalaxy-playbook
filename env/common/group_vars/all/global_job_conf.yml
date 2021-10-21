@@ -225,6 +225,11 @@ galaxy_job_conf_environments:
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=36:00:00
       java_mem: 7
       tags: [reserved]
+    - id: reserved_normal_direct
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=36:00:00
+      use_singularity: false
+      java_mem: 7
+      tags: [reserved]
     - id: reserved_normal_16gb
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360
       java_mem: 15
