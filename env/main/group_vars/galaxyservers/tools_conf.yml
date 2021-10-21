@@ -39,6 +39,8 @@ galaxy_multicore_singularity_tools:
   - trimmomatic
   - qualimap_bamqc
   - samtools_sort
+  - sam_to_bam
+  - samtools_slice_bam
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -375,8 +377,8 @@ __galaxy_multicore_tools:
   - roary
   - sailfish
   - salmon
-  - sam_to_bam
-  - samtools_slice_bam
+  #- sam_to_bam
+  #- samtools_slice_bam
   #- samtools_sort
   - scanpy_remove_confounders
   - scpipe
@@ -457,8 +459,8 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.1"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/bamtools/bamtools/0.0.2"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.1"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.2"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.1"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/0.0.2"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.1"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.2"
   - "toolshed.g2.bx.psu.edu/repos/devteam/basecoverage/gops_basecoverage_1/1.0.0"
@@ -590,10 +592,10 @@ galaxy_python2_legacy_tools:
   #- "toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.1"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.2"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.2"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/2.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/2.1"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.2"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/2.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/2.1"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.1.1"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.1.2"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_bedcov/samtools_bedcov/2.0"
@@ -606,10 +608,10 @@ galaxy_python2_legacy_tools:
   #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.1"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.1.1"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_reheader/samtools_reheader/2.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/2.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/0.0.1"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/2.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/1.0.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_rmdup/samtools_rmdup/2.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/0.0.1"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/2.0"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/samtools_sort/2.0"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_split/samtools_split/1.1"
   #- "toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0"
@@ -786,7 +788,7 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/Profilegenerator/2.0.0"
   - "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/readdepth2seqdepth/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/space2underscore_readname/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/sam_bitwise_flag_filter/sam_bw_filter/1.0.0"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/sam_bitwise_flag_filter/sam_bw_filter/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ARRG/1.56.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BamIndexStats/1.56.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.56.0"
