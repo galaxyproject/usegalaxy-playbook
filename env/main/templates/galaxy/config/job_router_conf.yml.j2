@@ -249,6 +249,45 @@ tools:
   MDtag_filter: {destination: slurm_normal}
   pileup_parser: {destination: slurm_normal}
   sam_bw_filter: {destination: slurm_normal}
+  bedtools_makewindowsbed: {destination: slurm_normal}
+  bedtools_maskfastabed: {destination: slurm_normal}
+  bedtools_overlapbed: {destination: slurm_normal}
+  bedtools_genomecoveragebed: {destination: slurm_normal}
+  bedtools_flankbed: {destination: slurm_normal}
+  bedtools_expandbed: {destination: slurm_normal}
+  bedtools_randombed: {destination: slurm_normal}
+  bedtools_slopbed: {destination: slurm_normal}
+  bedtools_bedtobam: {destination: slurm_normal}
+  bedtools_bedpetobam: {destination: slurm_normal}
+  bedtools_nucbed: {destination: slurm_normal}
+  bedtools_multicovtbed: {destination: slurm_normal}
+  bedtools_fisher: {destination: slurm_normal}
+  bedtools_tagbed: {destination: slurm_normal}
+  bedtools_map: {destination: slurm_normal}
+  bedtools_bed12tobed6: {destination: slurm_normal}
+  bedtools_clusterbed: {destination: slurm_normal}
+  bedtools_multiintersectbed: {destination: slurm_normal}
+  bedtools_reldistbed: {destination: slurm_normal}
+  bedtools_windowbed: {destination: slurm_normal}
+  bedtools_links: {destination: slurm_normal}
+  bedtools_mergebed: {destination: slurm_normal}
+  bedtools_intersectbed: {destination: slurm_normal}
+  bedtools_complementbed: {destination: slurm_normal}
+  bedtools_shufflebed: {destination: slurm_normal}
+  bedtools_getfastabed: {destination: slurm_normal}
+  bedtools_bamtobed: {destination: slurm_normal}
+  bedtools_jaccard: {destination: slurm_normal}
+  bedtools_groupbybed: {destination: slurm_normal}
+  bedtools_closestbed: {destination: slurm_normal}
+  bedtools_spacingbed: {destination: slurm_normal}
+  bedtools_subtractbed: {destination: slurm_normal}
+  bedtools_sortbed: {destination: slurm_normal}
+  bedtools_coveragebed: {destination: slurm_normal}
+  bedtools_annotatebed: {destination: slurm_normal}
+  bedtools_bedtoigv: {destination: slurm_normal}
+  bedtools_unionbedgraph: {destination: slurm_normal}
+  bedtools_bamtofastq: {destination: slurm_normal}
+
 
   # Singularity normal + py2
   gff_filter_by_attribute: {destination: slurm_normal_py2}
@@ -328,6 +367,50 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/sam_to_bam/sam_to_bam/1.1.3: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/0.0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/sam_bitwise_flag_filter/sam_bw_filter/1.0.0: {destination: slurm_normal_conda}
+  # no bedtools:2.24.* biocontainer for whatever reason
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_makewindowsbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_maskfastabed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_overlapbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_genomecoveragebed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_flankbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_expandbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_randombed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_slopbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bedtobam/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bedpetobam/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_nucbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_multicovtbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_fisher/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_tagbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_map/2.24.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bed12tobed6/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_clusterbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_multiintersectbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_reldistbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_windowbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_links/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_mergebed/2.24.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_complementbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_shufflebed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_getfastabed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bamtobed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_jaccard/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_groupbybed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_closestbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_spacingbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_subtractbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_sortbed/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/2.24.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_annotatebed/2.24.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_unionbedgraph/2.24.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bamtofastq/2.24.0: {destination: slurm_normal_conda}
+  # bedtools=2.27.0 samtools=1.2 mulled container
+  # mulled-v2-8186960447c5cb2faa697666dc1e6d919ad23f3e:a3d46a26ecaad496382e8fcc83f7febe12e6c81f-0 has broken samtools
+  # also this tool uses bash syntax so we have to override /bin/sh
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/2.27.0.3:
+    destination: slurm_normal_conda
+    container_override: [{type: singularity, shell: '/bin/bash', resolve_dependencies: true, identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
 
   # Singularity multi + conda/TS/Galaxy deps;
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3: {destination: slurm_multi_conda}

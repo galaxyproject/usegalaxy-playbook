@@ -3,6 +3,14 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Thu Oct 21 13:39:44 CDT 2021
+
+2. Applied manual fixes to the following tools:
+
+- `toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_nucbed` (all versions) -
+  https://github.com/galaxyproject/tools-iuc/pull/3930
+- `toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_getfastabed` (all versions) - same
+
 ### Mon Oct 18 11:20:37 CDT 2021
 
 1. Uninstalled the following old tool versions because they did not work even before Singularity, and newer, working
