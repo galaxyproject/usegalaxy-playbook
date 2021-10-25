@@ -287,7 +287,36 @@ tools:
   bedtools_bedtoigv: {destination: slurm_normal}
   bedtools_unionbedgraph: {destination: slurm_normal}
   bedtools_bamtofastq: {destination: slurm_normal}
-
+  bcftools_consensus: {destination: slurm_normal}
+  bcftools_gtcheck: {destination: slurm_normal}
+  bcftools_plugin_fixploidy: {destination: slurm_normal}
+  bcftools_convert_to_vcf: {destination: slurm_normal}
+  bcftools_norm: {destination: slurm_normal}
+  bcftools_query_list_samples: {destination: slurm_normal}
+  bcftools_plugin_missing2ref: {destination: slurm_normal}
+  bcftools_cnv: {destination: slurm_normal}
+  bcftools_plugin_setgt: {destination: slurm_normal}
+  bcftools_plugin_counts: {destination: slurm_normal}
+  bcftools_mpileup: {destination: slurm_normal}
+  bcftools_plugin_mendelian: {destination: slurm_normal}
+  bcftools_concat: {destination: slurm_normal}
+  bcftools_convert_from_vcf: {destination: slurm_normal}
+  bcftools_plugin_impute_info: {destination: slurm_normal}
+  bcftools_reheader: {destination: slurm_normal}
+  bcftools_stats: {destination: slurm_normal}
+  bcftools_plugin_fill_an_ac: {destination: slurm_normal}
+  bcftools_plugin_fill_tags: {destination: slurm_normal}
+  bcftools_isec: {destination: slurm_normal}
+  bcftools_merge: {destination: slurm_normal}
+  bcftools_roh: {destination: slurm_normal}
+  bcftools_call: {destination: slurm_normal}
+  bcftools_view: {destination: slurm_normal}
+  bcftools_filter: {destination: slurm_normal}
+  bcftools_csq: {destination: slurm_normal}
+  bcftools_annotate: {destination: slurm_normal}
+  bcftools_plugin_dosage: {destination: slurm_normal}
+  bcftools_query: {destination: slurm_normal}
+  bcftools_plugin_tag2tag: {destination: slurm_normal}
 
   # Singularity normal + py2
   gff_filter_by_attribute: {destination: slurm_normal_py2}
@@ -411,6 +440,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/2.27.0.3:
     destination: slurm_normal_conda
     container_override: [{type: singularity, shell: '/bin/bash', resolve_dependencies: true, identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
+  # missing python dep, this runs in the biocontainer but prepends Galaxy's venv to $PATH, probably should rename this
+  # dest to be more apparent what it is
+  toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_counts/bcftools_plugin_counts/1.9+galaxy1: {destination: slurm_normal_galaxy_env}
+  toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/bcftools_stats/1.9+galaxy1: {destination: slurm_normal_conda}
 
   # Singularity multi + conda/TS/Galaxy deps;
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3: {destination: slurm_multi_conda}
