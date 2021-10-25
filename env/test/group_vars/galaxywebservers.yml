@@ -2,6 +2,19 @@
 
 # Warning: vaulting this group would make the static.yml playbook require vault decryption
 
+galaxy_tusd_port: 1080
+
+tusd_instances:
+  - name: galaxy-test
+    user: g2test
+    group: G-803372
+    args:
+      - -host=localhost
+      - -port={{ galaxy_tusd_port }}
+      - -upload-dir=/galaxy-repl/test/scratch
+      - -hooks-http=https://test.galaxyproject.org/api/upload/hooks
+      - -hooks-http-forward-headers=X-Api-Key,Cookie
+
 galaxy_errordocs_dest: /srv/nginx/{{ galaxy_instance_hostname }}/error
 galaxy_errordocs_502_message: |
   You are seeing this message because a request to Galaxy timed out or was refused. This may be a temporary issue which
