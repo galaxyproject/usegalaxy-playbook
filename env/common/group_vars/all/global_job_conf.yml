@@ -219,6 +219,12 @@ galaxy_job_conf_environments:
       native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00
       java_mem: 28
       tags: [multi_long, multi_long_limit]
+    - id: multi_resolv_fix
+      runner: slurm
+      native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00
+      tags: [multi_limit]
+      # https://github.com/bioconda/bioconda-recipes/issues/11583
+      extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
 
     # priority (reserved) environments
     - id: reserved_normal

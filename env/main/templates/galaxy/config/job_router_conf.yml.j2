@@ -631,6 +631,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.0: toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.3
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.2: toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.3
 
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/1.0.3+galaxy2: {destination: slurm_multi_resolv_fix, login_required: true}
+
   # Valiant efforts but no luck
   # No fontconfig=2.11.1,rpy=1.0.3,R=2.11.0 container
   #toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/quality_score_distribution/1.0.2:
@@ -1185,6 +1187,7 @@ groups:
       slurm_normal_galaxy_env: slurm_test_normal_galaxy_env
       slurm_normal_resolv_fix: slurm_test_normal_resolv_fix
       slurm_multi_conda: slurm_test_normal_conda
+      slurm_multi_resolv_fix: slurm_test_normal_resolv_fix
       frontera_small: frontera_development
       stampede_normal: stampede_development
       stampede_skx_normal: stampede_skx_development
