@@ -317,6 +317,35 @@ tools:
   bcftools_plugin_dosage: {destination: slurm_normal}
   bcftools_query: {destination: slurm_normal}
   bcftools_plugin_tag2tag: {destination: slurm_normal}
+  vcf2tsv: {destination: slurm_normal}
+  vcfaddinfo: {destination: slurm_normal}
+  vcfallelicprimitives: {destination: slurm_normal}
+  vcfannotate: {destination: slurm_normal}
+  vcfannotategenotypes: {destination: slurm_normal}
+  vcfbedintersect: {destination: slurm_normal}
+  vcfbreakcreatemulti: {destination: slurm_normal}
+  vcfcheck: {destination: slurm_normal}
+  vcfcombine: {destination: slurm_normal}
+  vcfcommonsamples: {destination: slurm_normal}
+  vcffixup: {destination: slurm_normal}
+  vcfflatten2: {destination: slurm_normal}
+  vcfgeno2haplo: {destination: slurm_normal}
+  vcfgenotypes: {destination: slurm_normal}
+  vcfhethom: {destination: slurm_normal}
+  vcfleftalign: {destination: slurm_normal}
+  vcfprimers: {destination: slurm_normal}
+  vcfrandomsample: {destination: slurm_normal}
+  vcfsort: {destination: slurm_normal}
+  vcfvcfintersect: {destination: slurm_normal}
+  vcfselectsamples: {destination: slurm_normal}
+  vcfdistance: {destination: slurm_normal}
+  vcffilter2: {destination: slurm_normal}
+  vcfdistance: {destination: slurm_normal}
+  vcftools_annotate: {destination: slurm_normal}
+  vcftools_slice: {destination: slurm_normal}
+  medaka_variant: {destination: slurm_normal}
+  porechop: {destination: slurm_normal}
+  nanoplot: {destination: slurm_normal}
 
   # Singularity normal + py2
   gff_filter_by_attribute: {destination: slurm_normal_py2}
@@ -444,6 +473,33 @@ tools:
   # dest to be more apparent what it is
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_plugin_counts/bcftools_plugin_counts/1.9+galaxy1: {destination: slurm_normal_galaxy_env}
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/bcftools_stats/1.9+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcf2tsv/vcf2tsv/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfaddinfo/vcfaddinfo/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfallelicprimitives/vcfallelicprimitives/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfannotate/vcfannotate/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfannotategenotypes/vcfannotategenotypes/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfbedintersect/vcfbedintersect/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfbreakcreatemulti/vcfbreakcreatemulti/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfcheck/vcfcheck/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.4: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfcommonsamples/vcfcommonsamples/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcffixup/vcffixup/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfflatten/vcfflatten2/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfgeno2haplo/vcfgeno2haplo/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfgenotypes/vcfgenotypes/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfhethom/vcfhethom/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfleftalign/vcfleftalign/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfprimers/vcfprimers/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfrandomsample/vcfrandomsample/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfsort/vcfsort/1.0.0_rc3+galaxy0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfsort/vcfsort/0.0.2: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfsort/vcfsort/1.0.0_rc1+galaxy0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfvcfintersect/vcfvcfintersect/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfselectsamples/vcfselectsamples/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1: {destination: slurm_normal_conda}
 
   # Singularity multi + conda/TS/Galaxy deps;
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3: {destination: slurm_multi_conda}
@@ -486,6 +542,11 @@ tools:
   samtools_sort: {destination: multi, login_required: true}
   sam_to_bam: {destination: multi, login_required: true}
   samtools_slice_bam: {destination: multi, login_required: true}
+  # FIXME: https://github.com/galaxyproject/tools-iuc/issues/4119
+  #medaka_consensus_pipeline: {destination: multi, login_required: true}
+  #medaka_variant_pipeline: {destination: multi, login_required: true}
+  medaka_consensus: {destination: multi, login_required: true}
+  flye: {destination: multi, login_required: true}
 
   # Singularity w/ forced container and other special cases
 

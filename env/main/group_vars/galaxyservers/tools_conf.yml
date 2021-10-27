@@ -41,6 +41,10 @@ galaxy_multicore_singularity_tools:
   - samtools_sort
   - sam_to_bam
   - samtools_slice_bam
+  - medaka_consensus
+  #- medaka_consensus_pipeline
+  #- medaka_variant_pipeline
+  - flye
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -148,9 +152,9 @@ galaxy_pulsar_incompatible_tools:
   - mothur_unifrac_unweighted
   - mothur_unifrac_weighted
   - mothur_unique_seqs
-  - nanoplot
+  #- nanoplot
   - pathview
-  - porechop
+  #- porechop
   - scanpy_plot
   - snpfreqplot
   - tradis_gene_insert_sites
@@ -271,7 +275,7 @@ __galaxy_multicore_tools:
   #- fastp
   - featurecounts
   #- flash
-  - flye
+  #- flye
   - freebayes
   - gatk4_mutect2
   - gatk_count_covariates
@@ -301,7 +305,7 @@ __galaxy_multicore_tools:
   - maker
   - maxbin2
   - maxquant
-  - medaka_consensus
+  #- medaka_consensus
   - medaka_consensus_pipeline
   - medaka_variant_pipeline
   - megahit
@@ -644,30 +648,30 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/variant_select/gatk_variant_select/0.0.3"
   - "toolshed.g2.bx.psu.edu/repos/devteam/variants_validate/gatk_validate_variants/0.0.4"
   - "toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcf2tsv/vcf2tsv/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfaddinfo/vcfaddinfo/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfallelicprimitives/vcfallelicprimitives/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfannotate/vcfannotate/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfannotategenotypes/vcfannotategenotypes/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfbedintersect/vcfbedintersect/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfbreakcreatemulti/vcfbreakcreatemulti/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfcheck/vcfcheck/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.4"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfcommonsamples/vcfcommonsamples/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcffixup/vcffixup/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfflatten/vcfflatten2/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfgeno2haplo/vcfgeno2haplo/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfgenotypes/vcfgenotypes/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfhethom/vcfhethom/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfleftalign/vcfleftalign/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfprimers/vcfprimers/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfrandomsample/vcfrandomsample/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfselectsamples/vcfselectsamples/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/vcfvcfintersect/vcfvcfintersect/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcf2tsv/vcf2tsv/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfaddinfo/vcfaddinfo/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfallelicprimitives/vcfallelicprimitives/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfannotate/vcfannotate/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfannotategenotypes/vcfannotategenotypes/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfbedintersect/vcfbedintersect/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfbreakcreatemulti/vcfbreakcreatemulti/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfcheck/vcfcheck/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfcombine/vcfcombine/0.0.4"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfcommonsamples/vcfcommonsamples/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcffixup/vcffixup/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfflatten/vcfflatten2/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfgeno2haplo/vcfgeno2haplo/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfgenotypes/vcfgenotypes/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfhethom/vcfhethom/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfleftalign/vcfleftalign/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfprimers/vcfprimers/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfrandomsample/vcfrandomsample/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfselectsamples/vcfselectsamples/0.0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/vcfvcfintersect/vcfvcfintersect/0.0.3"
   - "toolshed.g2.bx.psu.edu/repos/devteam/weblogo3/rgweblogo3/0.4"
   - "toolshed.g2.bx.psu.edu/repos/devteam/weightedaverage/wtavg/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/weightedaverage/wtavg/1.0.1"
