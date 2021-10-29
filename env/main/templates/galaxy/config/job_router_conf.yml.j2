@@ -343,9 +343,33 @@ tools:
   vcfdistance: {destination: slurm_normal}
   vcftools_annotate: {destination: slurm_normal}
   vcftools_slice: {destination: slurm_normal}
-  medaka_variant: {destination: slurm_normal}
+  # FIXME: disabled while we try to figure out locking issues
+  #medaka_variant: {destination: slurm_normal}
   porechop: {destination: slurm_normal}
   nanoplot: {destination: slurm_normal}
+  poretools_events: {destination: slurm_normal}
+  poretools_hist: {destination: slurm_normal}
+  poretools_occupancy: {destination: slurm_normal}
+  poretools_qualpos: {destination: slurm_normal}
+  poretools_squiggle: {destination: slurm_normal}
+  poretools_yield_plot: {destination: slurm_normal}
+  poretools_winner: {destination: slurm_normal}
+  poretools_times: {destination: slurm_normal}
+  poretools_tabular: {destination: slurm_normal}
+  poretools_stats: {destination: slurm_normal}
+  poretools_qualdist: {destination: slurm_normal}
+  poretools_nucdist: {destination: slurm_normal}
+  poretools_extract: {destination: slurm_normal}
+  crossmap_gff: {destination: slurm_normal}
+  crossmap_vcf: {destination: slurm_normal}
+  crossmap_wig: {destination: slurm_normal}
+  crossmap_bed: {destination: slurm_normal}
+  crossmap_bam: {destination: slurm_normal}
+  bax2bam: {destination: slurm_normal}
+  bioext_bam2msa: {destination: slurm_normal}
+  gfa_to_fa: {destination: slurm_normal}
+  gffcompare_to_bed: {destination: slurm_normal}
+  bed_to_protein_map: {destination: slurm_normal}
 
   # Singularity normal + py2
   gff_filter_by_attribute: {destination: slurm_normal_py2}
@@ -545,8 +569,10 @@ tools:
   # FIXME: https://github.com/galaxyproject/tools-iuc/issues/4119
   #medaka_consensus_pipeline: {destination: multi, login_required: true}
   #medaka_variant_pipeline: {destination: multi, login_required: true}
-  medaka_consensus: {destination: multi, login_required: true}
+  # FIXME: disabled while we try to figure out locking issues
+  #medaka_consensus: {destination: multi, login_required: true}
   flye: {destination: multi, login_required: true}
+  mz_to_sqlite: {destination: multi, login_required: true}
 
   # Singularity w/ forced container and other special cases
 
@@ -631,7 +657,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.0: toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.3
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.2: toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.3
 
-  toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/1.0.3+galaxy2: {destination: slurm_multi_resolv_fix, login_required: true}
+  # FIXME: disabled while we try to figure out locking issues
+  #toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/1.0.3+galaxy2: {destination: slurm_multi_resolv_fix, login_required: true}
 
   # Valiant efforts but no luck
   # No fontconfig=2.11.1,rpy=1.0.3,R=2.11.0 container

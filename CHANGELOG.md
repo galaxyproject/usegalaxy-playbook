@@ -3,6 +3,18 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Fri Oct 29 09:42:39 CDT 2021
+
+2. Applied manual fixes to the following tools:
+
+- `toolshed.g2.bx.psu.edu/repos/iuc/crossmap_vcf/crossmap_vcf/0.5.2+galaxy0` -
+  https://github.com/galaxyproject/tools-iuc/pull/4126
+- `toolshed.g2.bx.psu.edu/repos/iuc/crossmap_vcf/crossmap_vcf/0.3.7` - same
+- `toolshed.g2.bx.psu.edu/repos/iuc/crossmap_vcf/crossmap_vcf/0.3.7+galaxy1` - same
+- `toolshed.g2.bx.psu.edu/repos/iuc/bioext_bam2msa/bioext_bam2msa/0.20.1+galaxy0` -
+  https://github.com/galaxyproject/tools-iuc/pull/3986
+- `toolshed.g2.bx.psu.edu/repos/iuc/bioext_bam2msa/bioext_bam2msa/0.19.7.0` - same
+
 ### Thu Oct 21 13:39:44 CDT 2021
 
 2. Applied manual fixes to the following tools:

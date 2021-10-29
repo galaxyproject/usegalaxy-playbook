@@ -41,10 +41,11 @@ galaxy_multicore_singularity_tools:
   - samtools_sort
   - sam_to_bam
   - samtools_slice_bam
-  - medaka_consensus
+  #- medaka_consensus
   #- medaka_consensus_pipeline
   #- medaka_variant_pipeline
   - flye
+  - mz_to_sqlite
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -305,7 +306,7 @@ __galaxy_multicore_tools:
   - maker
   - maxbin2
   - maxquant
-  #- medaka_consensus
+  - medaka_consensus
   - medaka_consensus_pipeline
   - medaka_variant_pipeline
   - megahit
@@ -352,7 +353,7 @@ __galaxy_multicore_tools:
   - mothur_unifrac_weighted
   - multigps
   - mummer_nucmer
-  - mz_to_sqlite
+  #- mz_to_sqlite
   - nanoplot
   - nonpareil
   - peptide_shaker
