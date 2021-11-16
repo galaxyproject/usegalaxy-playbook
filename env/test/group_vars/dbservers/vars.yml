@@ -1,11 +1,11 @@
 ---
 
 postgresql_version: 12
-postgresql_backup_dir: /galaxy-repl/pgsql/backup/{{ inventory_hostname }}
-postgresql_backup_active_dir: /var/lib/pgsql/backup/active
-postgresql_backup_mail_recipient: root@galaxyproject.org
+postgresql_create_backup_dir: false
+postgresql_backup_dir: /corral4/backup/pgsql/{{ inventory_hostname }}
 
-postgresql_archive_wal_rsync_args: '--ignore-existing -ptg'
+postgresql_archive_wal_rsync_args: '--ignore-existing -pt --chown=postgres:G-803372 --info=skip1'
+postgresql_backup_rsync_backup_opts: '-rpt --chown=postgres:G-803372'
 
 postgresql_conf:
   listen_addresses: "'*'"
