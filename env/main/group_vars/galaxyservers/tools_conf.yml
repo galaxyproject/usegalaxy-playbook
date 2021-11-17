@@ -46,6 +46,7 @@ galaxy_multicore_singularity_tools:
   #- medaka_variant_pipeline
   - flye
   - mz_to_sqlite
+  - prokka
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -369,7 +370,7 @@ __galaxy_multicore_tools:
   - presto_buildconsensus
   - presto_filterseq
   - presto_maskprimers
-  - prokka
+  #- prokka
   #- qualimap_bamqc
   - quast
   - racon
