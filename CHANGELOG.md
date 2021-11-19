@@ -3,6 +3,12 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+1. Uninstalled the following old tool versions because they did not work even before Singularity, and newer, working
+versions exist:
+
+- `toolshed.g2.bx.psu.edu/repos/iuc/gfa_to_fa/gfa_to_fa/0.1.0`
+- `toolshed.g2.bx.psu.edu/repos/galaxyp/mz_to_sqlite/mz_to_sqlite/2.0.0`
+
 ### Fri Oct 29 09:42:39 CDT 2021
 
 2. Applied manual fixes to the following tools:
