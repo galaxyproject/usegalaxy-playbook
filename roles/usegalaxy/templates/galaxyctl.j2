@@ -14,6 +14,13 @@ HANDLERS="{%- for i in range(0, handler_count) -%}galaxy_{{ galaxy_instance_code
 
 
 graceful_uwsgi() {
+    local name="galaxy_${INSTANCE}_uwsgi:zergpool"
+    local state=$($HOME/bin/supervisorctl status "$name" | grep -v 'no such process' | awk '{print $2}')
+    if [ -z "$state" ]; then
+        echo "WARNING: supervisor program not found: ${name}"
+        return
+    fi
+
     case $($HOME/bin/supervisorctl status | grep "^galaxy_${INSTANCE}_uwsgi:zergling" | awk 'BEGIN {count=0} $2 ~ /RUNNING|STARTING/ {count++} END {print count}') in
         0)
             $HOME/bin/supervisorctl start "galaxy_${INSTANCE}_uwsgi:zergling0"
@@ -37,6 +44,27 @@ graceful_uwsgi() {
 }
 
 
+graceful_gunicorn() {
+    local name="galaxy_${INSTANCE}_web:unicornherder"
+    local state=$($HOME/bin/supervisorctl status "$name" | grep -v 'no such process' | awk '{print $2}')
+    case "$state" in
+        RUNNING)
+            $HOME/bin/supervisorctl signal HUP "$name"
+            ;;
+        STOPPED|EXITED)
+            $HOME/bin/supervisorctl start "$name"
+            ;;
+        '')
+            echo "WARNING: supervisor program not found: ${name}"
+            ;;
+        *)
+            echo "ERROR: ${name} in non-OK state: ${state}"
+            exit 1
+            ;;
+    esac
+}
+
+
 case "$1" in
     restarthandlers)
         $HOME/bin/supervisorctl restart $HANDLERS
@@ -50,8 +78,12 @@ case "$1" in
     gracefuluwsgi)
         graceful_uwsgi
         ;;
+    gracefulweb)
+        graceful_gunicorn
+        ;;
     graceful)
         graceful_uwsgi
+        graceful_gunicorn
         $HOME/bin/supervisorctl restart "galaxy_${INSTANCE}:*"
         ;;
     start)
