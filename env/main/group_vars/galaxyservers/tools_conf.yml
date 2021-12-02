@@ -48,6 +48,8 @@ galaxy_multicore_singularity_tools:
   - mz_to_sqlite
   - prokka
   - roary
+  - spaln
+  - mlst
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -315,7 +317,7 @@ __galaxy_multicore_tools:
   - metaspades
   - migmap
   - minimap2
-  - mlst
+  #- mlst
   - mothur_align_seqs
   - mothur_chimera_bellerophon
   - mothur_chimera_ccode
@@ -402,7 +404,7 @@ __galaxy_multicore_tools:
   - snippy
   - socru
   - spades
-  - spaln
+  #- spaln
   - staramr_search
   - star_fusion
   - stringtie

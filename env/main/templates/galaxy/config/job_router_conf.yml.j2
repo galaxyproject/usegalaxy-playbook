@@ -369,6 +369,9 @@ tools:
   gfa_to_fa: {destination: slurm_normal}
   gffcompare_to_bed: {destination: slurm_normal}
   bed_to_protein_map: {destination: slurm_normal}
+  list_spaln_tables: {destination: slurm_normal}
+  progressivemauve: {destination: slurm_normal}
+  mlst_list: {destination: slurm_normal}
 
   # Singularity normal + py2
   gff_filter_by_attribute: {destination: slurm_normal_py2}
@@ -578,6 +581,8 @@ tools:
   mz_to_sqlite: {destination: multi, login_required: true}
   prokka: {destination: multi, login_required: true}
   roary: {destination: multi, login_required: true}
+  spaln: {destination: multi, login_required: true}
+  mlst: {destination: multi, login_required: true}
 
   # Singularity w/ forced container and other special cases
 
