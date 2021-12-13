@@ -28,29 +28,7 @@ galaxy_job_conf_tools:
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
-galaxy_multicore_tools: "{{ (((__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude)) | difference(galaxy_large_memory_tools)) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) | difference(galaxy_multicore_singularity_tools) }}"
-
-# TODO: right now this is just to get them on the right handlers, each tool is individually listed in the job router
-# conf while I get them tested and working
-galaxy_multicore_singularity_tools:
-  - cutadapt
-  - fastp
-  - flash
-  - trimmomatic
-  - qualimap_bamqc
-  - samtools_sort
-  - sam_to_bam
-  - samtools_slice_bam
-  #- medaka_consensus
-  #- medaka_consensus_pipeline
-  #- medaka_variant_pipeline
-  - flye
-  - mz_to_sqlite
-  - prokka
-  - roary
-  - spaln
-  - mlst
-  - mimodd_align
+galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) | difference(galaxy_large_memory_tools) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) }}"
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -229,6 +207,7 @@ __galaxy_multicore_tools_include:
   - hyphy_gard
   - hyphy_meme
   - keras_train_and_eval
+  - mimodd_align
   - mimodd_varcall
   - model_prediction
   - ncbi_blastn_wrapper
@@ -279,10 +258,10 @@ __galaxy_multicore_tools:
   - exonerate
   - fargene
   - fasterq_dump
-  #- fastp
+  - fastp
   - featurecounts
-  #- flash
-  #- flye
+  - flash
+  - flye
   - freebayes
   - gatk4_mutect2
   - gatk_count_covariates
@@ -319,7 +298,7 @@ __galaxy_multicore_tools:
   - metaspades
   - migmap
   - minimap2
-  #- mlst
+  - mlst
   - mothur_align_seqs
   - mothur_chimera_bellerophon
   - mothur_chimera_ccode
@@ -359,7 +338,7 @@ __galaxy_multicore_tools:
   - mothur_unifrac_weighted
   - multigps
   - mummer_nucmer
-  #- mz_to_sqlite
+  - mz_to_sqlite
   - nanoplot
   - nonpareil
   - peptide_shaker
@@ -375,8 +354,8 @@ __galaxy_multicore_tools:
   - presto_buildconsensus
   - presto_filterseq
   - presto_maskprimers
-  #- prokka
-  #- qualimap_bamqc
+  - prokka
+  - qualimap_bamqc
   - quast
   - racon
   - rapidnj
@@ -385,12 +364,12 @@ __galaxy_multicore_tools:
   - rnaspades
   - rna_star
   - rna_starsolo
-  #- roary
+  - roary
   - sailfish
   - salmon
-  #- sam_to_bam
-  #- samtools_slice_bam
-  #- samtools_sort
+  - sam_to_bam
+  - samtools_slice_bam
+  - samtools_sort
   - scanpy_remove_confounders
   - scpipe
   - search_gui
@@ -406,7 +385,7 @@ __galaxy_multicore_tools:
   - snippy
   - socru
   - spades
-  #- spaln
+  - spaln
   - staramr_search
   - star_fusion
   - stringtie
@@ -419,7 +398,7 @@ __galaxy_multicore_tools:
   - tophat2
   - tophat_fusion_post
   - transdecoder
-  #- trimmomatic
+  - trimmomatic
   - trinity
   - trinity_align_and_estimate_abundance
   - trinity_psc

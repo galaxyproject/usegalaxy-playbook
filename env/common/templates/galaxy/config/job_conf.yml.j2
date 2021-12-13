@@ -535,15 +535,6 @@ tools:
     resources: multi
 {% endfor %}
 
-  # Singularity multicore tools
-{% for id in galaxy_multicore_singularity_tools %}
-  - id: {{ id }}
-{% if galaxy_job_conf_multi_handler_tag is defined %}
-    handler: {{ galaxy_job_conf_multi_handler_tag }}
-{% endif %}
-    resources: multi
-{% endfor %}
-
 #
 # Job limits configuration
 #

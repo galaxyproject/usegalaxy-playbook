@@ -49,9 +49,9 @@
 
 tools:
 
-  #_default_: {destination: slurm_normal}
+  _default_: {destination: slurm_normal}
   #_galaxy_lib_: {destination: slurm_normal_galaxy_env}
-  _default_: {destination: slurm_normal_direct}
+  #_default_: {destination: slurm_normal_direct}
   _galaxy_lib_: {destination: slurm_normal_direct}
 
   # these are for once you flip the switch on the defaults above (but we should make these work in Singularity!)
@@ -64,315 +64,291 @@ tools:
   {{ tool_id }}: {destination: slurm_{{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'normal') }}_py2_direct}
 {% endfor %}
 
-  # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
-{# this is a large automatically generated list maintained in env/<env>/group_vars/galaxyservers/tools_conf.yml #}
-{% for tool_id in galaxy_multicore_tools %}
-{% if tool_id in galaxy_pulsar_incompatible_tools %}
+  # tools not yet tested in Singularity - normal w/ default memory and multicore
+{% for tool_id in galaxy_conda_tools %}
+{% if '/' in tool_id %}
+{% set short_tool_id = tool_id.split('/')[-2] %}
+{% else %}
+{% set short_tool_id = tool_id %}
+{% endif %}
+{% if short_tool_id in galaxy_multicore_tools %}
+{% if short_tool_id in galaxy_pulsar_incompatible_tools %}
   {{ tool_id }}: {destination: slurm_multi_direct, login_required: true}
 {% else %}
   {{ tool_id }}: {destination: multi_direct, login_required: true}
 {% endif %}
+{% else %}
+  {{ tool_id }}: {destination: slurm_normal_direct}
+{% endif %}
+{% endfor %}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: antigenic1/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: antigenic1/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: backtranseq2/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: backtranseq2/6.6.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: banana3/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: biosed4/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: btwisted5/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cai6/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cai_custom6/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: chaos7/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: charge8/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: charge8/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: checktrans9/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: checktrans9/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: chips10/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cirdna11/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: codcmp12/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: coderet13/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: compseq14/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: compseq14/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cpgplot15/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cpgreport16/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cpgreport16/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cusp17/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cutseq18/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: cutseq18/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dan19/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dan19/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: degapseq20/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: descseq21/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: diffseq22/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: diffseq22/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: digest23/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dotmatcher24/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dotmatcher24/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dotpath25/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dotpath25/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dottup26/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dottup26/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dreg27/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: dreg27/5.0.0+galaxy1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: einverted28/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: einverted28/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: epestfind29/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: epestfind29/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: equicktandem31/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: equicktandem31/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: est2genome32/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: est2genome32/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: etandem33/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: etandem33/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: extractfeat34/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: extractfeat34/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: extractseq35/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: freak36/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: freak36/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzznuc37/5.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzznuc37/5.0.2': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzzpro38/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzzpro38/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzztran39/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: fuzztran39/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: garnier40/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: geecee41/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: getorf42/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: getorf42/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: helixturnhelix43/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: helixturnhelix43/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: hmoment44/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: hmoment44/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: iep45/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: iep45/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: infoseq46/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: isochore47/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: isochore47/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: lindna48/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: lindna48/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: marscan49/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: maskfeat50/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: maskseq51/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: matcher52/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: matcher52/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: megamerger53/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: megamerger53/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: merger54/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: merger54/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: msbar55/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: msbar55/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: needle56/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: needle56/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newcpgreport57/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newcpgreport57/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newcpgseek58/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newcpgseek58/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: newseq59/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: noreturn60/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: notseq61/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: nthseq62/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: nthseq62/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: octanol63/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: octanol63/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: oddcomp64/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: oddcomp64/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: palindrome65/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: palindrome65/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pasteseq66/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pasteseq66/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: patmatdb67/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepcoil68/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepcoil68/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepinfo69/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepinfo69/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepnet70/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepstats71/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwheel72/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwheel72/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwindow73/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwindow73/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwindowall74/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: pepwindowall74/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: plotcon75/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: plotcon75/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: plotorf76/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: polydot77/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: polydot77/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: preg78/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: preg78/5.0.0+galaxy1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: prettyplot79/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: prettyplot79/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: prettyseq80/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: prettyseq80/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: primersearch81/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: primersearch81/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: revseq82/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: seqmatchall83/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: seqmatchall83/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: seqret84/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: showfeat85/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: showfeat85/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: shuffleseq87/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: shuffleseq87/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sigcleave88/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sigcleave88/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sirna89/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sixpack90/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: sixpack90/5.0.0+galaxy2': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: skipseq91/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: skipseq91/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: splitter92/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: splitter92/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: supermatcher95/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: supermatcher95/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: syco96/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: syco96/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tcode97/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tcode97/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: textsearch98/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tmap99/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: tranalign100/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: transeq101/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: trimest102/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: trimest102/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: trimseq103/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: trimseq103/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: twofeat104/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: twofeat104/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: union105/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: vectorstrip106/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: vectorstrip106/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: water107/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: water107/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wobble108/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wobble108/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wordcount109/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wordcount109/5.0.0.1': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wordmatch110/5.0.0': {destination: slurm_normal_direct}
+  'toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: wordmatch110/5.0.0.1': {destination: slurm_normal_direct}
+
+  # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
+{# this is a large automatically generated list maintained in env/<env>/group_vars/galaxyservers/tools_conf.yml #}
+{% for tool_id in galaxy_multicore_tools %}
+{% if tool_id in galaxy_pulsar_incompatible_tools %}
+  {{ tool_id }}: {destination: slurm_multi, login_required: true}
+{% else %}
+  {{ tool_id }}: {destination: multi, login_required: true}
+{% endif %}
 {% endfor %}
 
-  # 1 core, 16 GB of memory, and a 36 hour walltime
-  #join1: {destination: slurm_normal_16gb_direct}
-  gops_join_1: {destination: slurm_normal_16gb_direct}
-  gatk_indel_realigner: {destination: slurm_normal_16gb_direct}
-  gatk_depth_of_coverage: {destination: slurm_normal_16gb_direct}
-  gatk_table_recalibration: {destination: slurm_normal_16gb_direct}
-  #fastq_paired_end_joiner: {destination: slurm_normal_16gb_direct}
-  bamtools: {destination: slurm_normal_16gb_direct}
-  varscan: {destination: slurm_normal_16gb_direct}
-  scatterplot_rpy: {destination: slurm_normal_16gb_direct}
-  htseq_count: {destination: slurm_normal_16gb_direct}
-  flanking_features_1: {destination: slurm_normal_16gb_direct}
-  cummeRbund: {destination: slurm_normal_16gb_direct}
-  collection_column_join: {destination: slurm_normal_16gb_direct}
-  rseqc_read_duplication: {destination: slurm_normal_16gb_direct}
-  rseqc_RPKM_saturation: {destination: slurm_normal_16gb_direct}
-  rseqc_bam2wig: {destination: slurm_normal_16gb_direct}
-  seqtk_sample: {destination: slurm_normal_16gb_direct}
-  ggplot2_heatmap2: {destination: slurm_normal_16gb_direct}
-  kc-align: {destination: slurm_normal_16gb_direct}
-  porechop: {destination: slurm_normal_16gb_direct}
-  read2mut: {destination: slurm_normal_16gb_direct}
-  #annotatemyids: {destination: slurm_normal_16gb_direct}
+  # Old versions not yet tested in Singularity
+  toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/2.4.2: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/scatterplot_rpy/1.0.0: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/scatterplot_rpy/1.0.3: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy3: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.9.1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/4.0.1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/cummeRbund/1.0.1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/cummeRbund/2.16.0: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/devteam/cummerbund/cummeRbund/2.16.0+galaxy1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.3: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_duplication/2.6.4: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/2.6.4: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/2.6.4.1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_bam2wig/2.6.4: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_sample/1.2.0: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_sample/1.3.1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_sample/1.3.2: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/2.2.1+galaxy0: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/2.2.1+galaxy1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/3.0.1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.0: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.2: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.3: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.4: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.5: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.6: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.7: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.2: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/1.0: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/1.0.2: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.0: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.1: {destination: slurm_normal_16gb_direct}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/2.0.0: {destination: slurm_normal_16gb_direct}
+  Interval2Maf1: {destination: slurm_normal_32gb_direct}
+  wig_to_bigWig: {destination: slurm_normal_64gb_direct}
+  CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb_direct}
 
+  # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, many
+  # tools in the following sections probably don't need this much memory
+
+  # 1 core, 16 GB of memory, and a 36 hour walltime
+  # tool uses < 6.5 GB 89.2% of the time
+  join1: {destination: slurm_normal_16gb}
+  gops_join_1: {destination: slurm_normal_16gb}
+  varscan: {destination: slurm_normal_16gb}
+  fastq_paired_end_joiner: {destination: slurm_normal_16gb}
+  scatterplot_rpy: {destination: slurm_normal_16gb}
+  htseq_count: {destination: slurm_normal_16gb}
+  flanking_features_1: {destination: slurm_normal_16gb}
+  cummeRbund: {destination: slurm_normal_16gb}
+  collection_column_join: {destination: slurm_normal_16gb}
+  rseqc_read_duplication: {destination: slurm_normal_16gb}
+  rseqc_RPKM_saturation: {destination: slurm_normal_16gb}
+  rseqc_bam2wig: {destination: slurm_normal_16gb}
+  seqtk_sample: {destination: slurm_normal_16gb}
+  ggplot2_heatmap2: {destination: slurm_normal_16gb}
+  kc-align: {destination: slurm_normal_16gb}
+  porechop: {destination: slurm_normal_16gb}
+  read2mut: {destination: slurm_normal_16gb}
+  # tool uses < 6.5 GB 90.8% of the time and is a good candidate for running w/ 8 GB and resubmitting on failure.
+  annotatemyids: {destination: slurm_normal_16gb}
   # TODO: this can be a function of base pairs in the reference
-  genrich: {destination: slurm_normal_16gb_direct}
+  genrich: {destination: slurm_normal_16gb}
 
   # 1 core, 32 GB of memory, and a 36 hour walltime
-  Interval2Maf1: {destination: slurm_normal_32gb_direct}
+  #Interval2Maf1: {destination: slurm_normal_32gb}
 
   # TODO: maybe just send these to stampede?
   # 1 core, 64 GB of memory, and a 36 hour walltime
-  wig_to_bigWig: {destination: slurm_normal_64gb_direct}
-  CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb_direct}
+  #wig_to_bigWig: {destination: slurm_normal_64gb}
+  #CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb}
 
   #
   # Tools with special mappings
   #
-
-  # Singularity - SEE TEST JOB ROUTER CONF
-  cat1: {destination: slurm_normal}
-  filter_tabular: {destination: slurm_normal}
-  sqlite_to_tabular: {destination: slurm_normal}
-  query_tabular: {destination: slurm_normal}
-  table_compute: {destination: slurm_normal}
-  Add_a_column1: {destination: slurm_normal}
-  cat_multiple: {destination: slurm_normal}
-  regexColumn1: {destination: slurm_normal}
-  regex1: {destination: slurm_normal}
-  tp_split_on_column: {destination: slurm_normal}
-  addName: {destination: slurm_normal}
-  tp_awk_tool: {destination: slurm_normal}
-  melt: {destination: slurm_normal}
-  tp_find_and_replace: {destination: slurm_normal}
-  cast: {destination: slurm_normal}
-  jq: {destination: slurm_normal}
-  gff3.rebase: {destination: slurm_normal}
-  column_remove_by_header: {destination: slurm_normal}
-  column_order_header_sort: {destination: slurm_normal}
-  tp_easyjoin_tool: {destination: slurm_normal}
-  tp_replace_in_line: {destination: slurm_normal}
-  uniprot: {destination: slurm_normal}
-  replace_column_with_key_value_file: {destination: slurm_normal}
-  tp_sed_tool: {destination: slurm_normal}
-  tp_unfold_column_tool: {destination: slurm_normal}
-  tp_uniq_tool: {destination: slurm_normal}
-  tp_replace_in_column: {destination: slurm_normal}
-  tp_multijoin_tool: {destination: slurm_normal}
-  tp_tail_tool: {destination: slurm_normal}
-  tp_cut_tool: {destination: slurm_normal}
-  tp_text_file_with_recurring_lines: {destination: slurm_normal}
-  tp_sorted_uniq: {destination: slurm_normal}
-  tp_sort_header_tool: {destination: slurm_normal}
-  tp_grep_tool: {destination: slurm_normal}
-  tp_head_tool: {destination: slurm_normal}
-  tp_tac: {destination: slurm_normal}
-  tp_cat: {destination: slurm_normal}
-  Convert characters1: {destination: slurm_normal}
-  cat1: {destination: slurm_normal}
-  random_lines1: {destination: slurm_normal}
-  Show beginning1: {destination: slurm_normal}
-  Show tail1: {destination: slurm_normal}
-  trimmer: {destination: slurm_normal}
-  wc_gnu: {destination: slurm_normal}
-  secure_hash_message_digest: {destination: slurm_normal}
-  mergeCols1: {destination: slurm_normal}
-  createInterval: {destination: slurm_normal}
-  Filter1: {destination: slurm_normal}
-  sort1: {destination: slurm_normal}
-  Grep1: {destination: slurm_normal}
-  gtf_filter_by_attribute_values_list: {destination: slurm_normal}
-  Grouping1: {destination: slurm_normal}
-  subtract_query1: {destination: slurm_normal}
-  datamash_reverse: {destination: slurm_normal}
-  datamash_transpose: {destination: slurm_normal}
-  datamash_ops: {destination: slurm_normal}
-  umi_tools_extract: {destination: slurm_normal}
-  filtlong: {destination: slurm_normal}
-  fasta-stats: {destination: slurm_normal}
-  fasta_merge_files_and_filter_unique_sequences: {destination: slurm_normal}
-  filter_by_fasta_ids: {destination: slurm_normal}
-  rbc_splitfasta: {destination: slurm_normal}
-  fasta_compute_length: {destination: slurm_normal}
-  fasta_concatenate0: {destination: slurm_normal}
-  fasta_filter_by_length: {destination: slurm_normal}
-  fastq_quality_trimmer: {destination: slurm_normal}
-  fastq_trimmer: {destination: slurm_normal}
-  fastq_combiner: {destination: slurm_normal}
-  fastq_filter: {destination: slurm_normal}
-  fastq_groomer: {destination: slurm_normal}
-  fastq_manipulation: {destination: slurm_normal}
-  fastq_masker_by_quality: {destination: slurm_normal}
-  fastq_paired_end_splitter: {destination: slurm_normal}
-  fastq_paired_end_deinterlacer: {destination: slurm_normal}
-  fastq_paired_end_interlacer: {destination: slurm_normal}
-  cshl_fastx_artifacts_filter: {destination: slurm_normal}
-  cshl_fastx_renamer: {destination: slurm_normal}
-  cshl_fastq_quality_filter: {destination: slurm_normal}
-  cshl_fastx_clipper: {destination: slurm_normal}
-  cshl_fastx_reverse_complement: {destination: slurm_normal}
-  cshl_fastx_trimmer: {destination: slurm_normal}
-  umi_tools_count: {destination: slurm_normal}
-  fasplit: {destination: slurm_normal}
-  sickle: {destination: slurm_normal}
-  trim_galore: {destination: slurm_normal}
-  bg_find_subsequences: {destination: slurm_normal}
-  cshl_fasta_nucleotides_change: {destination: slurm_normal}
-  length_and_gc_content: {destination: slurm_normal}
-  cshl_fastx_barcode_splitter: {destination: slurm_normal}
-  cshl_fastq_quality_converter: {destination: slurm_normal}
-  cshl_fastx_collapser: {destination: slurm_normal}
-  cshl_fasta_formatter: {destination: slurm_normal}
-  fastq_join: {destination: slurm_normal}
-  tab2fasta: {destination: slurm_normal}
-  fasta2tab: {destination: slurm_normal}
-  fastqe: {destination: slurm_normal}
-  prinseq: {destination: slurm_normal}
-  multiqc: {destination: slurm_normal}
-  fastqc: {destination: slurm_normal}
-  fastq_stats: {destination: slurm_normal}
-  cshl_fastx_quality_statistics: {destination: slurm_normal}
-  cshl_fastx_nucleotides_distribution: {destination: slurm_normal}
-  cshl_fastq_quality_boxplot: {destination: slurm_normal}
-  samtools_markdup: {destination: slurm_normal}
-  bamutil_clip_overlap: {destination: slurm_normal}
-  sam_merge2: {destination: slurm_normal}
-  pileup_interval: {destination: slurm_normal}
-  samtools_view: {destination: slurm_normal}
-  samtools_reheader: {destination: slurm_normal}
-  sam_pileup: {destination: slurm_normal}
-  bamtools: {destination: slurm_normal}
-  sam2interval: {destination: slurm_normal}
-  bamtools_split: {destination: slurm_normal}
-  bamSplit: {destination: slurm_normal}
-  qualimap_multi_bamqc: {destination: slurm_normal}
-  samtools_phase: {destination: slurm_normal}
-  samtools_merge: {destination: slurm_normal}
-  samtools_fixmate: {destination: slurm_normal}
-  samtools_fastx: {destination: slurm_normal}
-  samtools_depth: {destination: slurm_normal}
-  samtools_stats: {destination: slurm_normal}
-  samtools_split: {destination: slurm_normal}
-  samtools_bedcov: {destination: slurm_normal}
-  samtools_calmd: {destination: slurm_normal}
-  samtools_idxstats: {destination: slurm_normal}
-  samtool_filter2: {destination: slurm_normal}
-  samtools_flagstat: {destination: slurm_normal}
-  samtools_mpileup: {destination: slurm_normal}
-  bam_to_sam: {destination: slurm_normal}
-  bamFilter: {destination: slurm_normal}
-  samtools_rmdup: {destination: slurm_normal}
-  MDtag_filter: {destination: slurm_normal}
-  pileup_parser: {destination: slurm_normal}
-  sam_bw_filter: {destination: slurm_normal}
-  bedtools_makewindowsbed: {destination: slurm_normal}
-  bedtools_maskfastabed: {destination: slurm_normal}
-  bedtools_overlapbed: {destination: slurm_normal}
-  bedtools_genomecoveragebed: {destination: slurm_normal}
-  bedtools_flankbed: {destination: slurm_normal}
-  bedtools_expandbed: {destination: slurm_normal}
-  bedtools_randombed: {destination: slurm_normal}
-  bedtools_slopbed: {destination: slurm_normal}
-  bedtools_bedtobam: {destination: slurm_normal}
-  bedtools_bedpetobam: {destination: slurm_normal}
-  bedtools_nucbed: {destination: slurm_normal}
-  bedtools_multicovtbed: {destination: slurm_normal}
-  bedtools_fisher: {destination: slurm_normal}
-  bedtools_tagbed: {destination: slurm_normal}
-  bedtools_map: {destination: slurm_normal}
-  bedtools_bed12tobed6: {destination: slurm_normal}
-  bedtools_clusterbed: {destination: slurm_normal}
-  bedtools_multiintersectbed: {destination: slurm_normal}
-  bedtools_reldistbed: {destination: slurm_normal}
-  bedtools_windowbed: {destination: slurm_normal}
-  bedtools_links: {destination: slurm_normal}
-  bedtools_mergebed: {destination: slurm_normal}
-  bedtools_intersectbed: {destination: slurm_normal}
-  bedtools_complementbed: {destination: slurm_normal}
-  bedtools_shufflebed: {destination: slurm_normal}
-  bedtools_getfastabed: {destination: slurm_normal}
-  bedtools_bamtobed: {destination: slurm_normal}
-  bedtools_jaccard: {destination: slurm_normal}
-  bedtools_groupbybed: {destination: slurm_normal}
-  bedtools_closestbed: {destination: slurm_normal}
-  bedtools_spacingbed: {destination: slurm_normal}
-  bedtools_subtractbed: {destination: slurm_normal}
-  bedtools_sortbed: {destination: slurm_normal}
-  bedtools_coveragebed: {destination: slurm_normal}
-  bedtools_annotatebed: {destination: slurm_normal}
-  bedtools_bedtoigv: {destination: slurm_normal}
-  bedtools_unionbedgraph: {destination: slurm_normal}
-  bedtools_bamtofastq: {destination: slurm_normal}
-  bcftools_consensus: {destination: slurm_normal}
-  bcftools_gtcheck: {destination: slurm_normal}
-  bcftools_plugin_fixploidy: {destination: slurm_normal}
-  bcftools_convert_to_vcf: {destination: slurm_normal}
-  bcftools_norm: {destination: slurm_normal}
-  bcftools_query_list_samples: {destination: slurm_normal}
-  bcftools_plugin_missing2ref: {destination: slurm_normal}
-  bcftools_cnv: {destination: slurm_normal}
-  bcftools_plugin_setgt: {destination: slurm_normal}
-  bcftools_plugin_counts: {destination: slurm_normal}
-  bcftools_mpileup: {destination: slurm_normal}
-  bcftools_plugin_mendelian: {destination: slurm_normal}
-  bcftools_concat: {destination: slurm_normal}
-  bcftools_convert_from_vcf: {destination: slurm_normal}
-  bcftools_plugin_impute_info: {destination: slurm_normal}
-  bcftools_reheader: {destination: slurm_normal}
-  bcftools_stats: {destination: slurm_normal}
-  bcftools_plugin_fill_an_ac: {destination: slurm_normal}
-  bcftools_plugin_fill_tags: {destination: slurm_normal}
-  bcftools_isec: {destination: slurm_normal}
-  bcftools_merge: {destination: slurm_normal}
-  bcftools_roh: {destination: slurm_normal}
-  bcftools_call: {destination: slurm_normal}
-  bcftools_view: {destination: slurm_normal}
-  bcftools_filter: {destination: slurm_normal}
-  bcftools_csq: {destination: slurm_normal}
-  bcftools_annotate: {destination: slurm_normal}
-  bcftools_plugin_dosage: {destination: slurm_normal}
-  bcftools_query: {destination: slurm_normal}
-  bcftools_plugin_tag2tag: {destination: slurm_normal}
-  vcf2tsv: {destination: slurm_normal}
-  vcfaddinfo: {destination: slurm_normal}
-  vcfallelicprimitives: {destination: slurm_normal}
-  vcfannotate: {destination: slurm_normal}
-  vcfannotategenotypes: {destination: slurm_normal}
-  vcfbedintersect: {destination: slurm_normal}
-  vcfbreakcreatemulti: {destination: slurm_normal}
-  vcfcheck: {destination: slurm_normal}
-  vcfcombine: {destination: slurm_normal}
-  vcfcommonsamples: {destination: slurm_normal}
-  vcffixup: {destination: slurm_normal}
-  vcfflatten2: {destination: slurm_normal}
-  vcfgeno2haplo: {destination: slurm_normal}
-  vcfgenotypes: {destination: slurm_normal}
-  vcfhethom: {destination: slurm_normal}
-  vcfleftalign: {destination: slurm_normal}
-  vcfprimers: {destination: slurm_normal}
-  vcfrandomsample: {destination: slurm_normal}
-  vcfsort: {destination: slurm_normal}
-  vcfvcfintersect: {destination: slurm_normal}
-  vcfselectsamples: {destination: slurm_normal}
-  vcfdistance: {destination: slurm_normal}
-  vcffilter2: {destination: slurm_normal}
-  vcfdistance: {destination: slurm_normal}
-  vcftools_annotate: {destination: slurm_normal}
-  vcftools_slice: {destination: slurm_normal}
-  # FIXME: disabled while we try to figure out locking issues
-  #medaka_variant: {destination: slurm_normal}
-  porechop: {destination: slurm_normal}
-  nanoplot: {destination: slurm_normal}
-  poretools_events: {destination: slurm_normal}
-  poretools_hist: {destination: slurm_normal}
-  poretools_occupancy: {destination: slurm_normal}
-  poretools_qualpos: {destination: slurm_normal}
-  poretools_squiggle: {destination: slurm_normal}
-  poretools_yield_plot: {destination: slurm_normal}
-  poretools_winner: {destination: slurm_normal}
-  poretools_times: {destination: slurm_normal}
-  poretools_tabular: {destination: slurm_normal}
-  poretools_stats: {destination: slurm_normal}
-  poretools_qualdist: {destination: slurm_normal}
-  poretools_nucdist: {destination: slurm_normal}
-  poretools_extract: {destination: slurm_normal}
-  crossmap_gff: {destination: slurm_normal}
-  crossmap_vcf: {destination: slurm_normal}
-  crossmap_wig: {destination: slurm_normal}
-  crossmap_bed: {destination: slurm_normal}
-  crossmap_bam: {destination: slurm_normal}
-  bax2bam: {destination: slurm_normal}
-  bioext_bam2msa: {destination: slurm_normal}
-  gfa_to_fa: {destination: slurm_normal}
-  gffcompare_to_bed: {destination: slurm_normal}
-  bed_to_protein_map: {destination: slurm_normal}
-  list_spaln_tables: {destination: slurm_normal}
-  progressivemauve: {destination: slurm_normal}
-  mlst_list: {destination: slurm_normal}
-  trinotate: {destination: slurm_normal}
 
   # Singularity normal + py2
   gff_filter_by_attribute: {destination: slurm_normal_py2}
@@ -557,36 +533,6 @@ tools:
   # FIXME: something seems wrong here, container should be good but singularity seems to die and java continues to run
   # outside container?
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {destination: slurm_normal_conda}
-
-  # Singularity normal 16GB
-  # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, this
-  # tool uses < 6.5 GB 90.8% of the time and is a good candidate for running w/ 8 GB and resubmitting on failure.
-  annotatemyids: {destination: slurm_normal_16gb}
-  # tool uses < 6.5 GB 89.2% of the time
-  join1: {destination: slurm_normal_16gb}
-  fastq_paired_end_joiner: {destination: slurm_normal_16gb}
-
-  # Singularity multicore
-  cutadapt: {destination: multi, login_required: true}
-  fastp: {destination: multi, login_required: true}
-  flash: {destination: multi, login_required: true}
-  trimmomatic: {destination: multi, login_required: true}
-  qualimap_bamqc: {destination: multi, login_required: true}
-  samtools_sort: {destination: multi, login_required: true}
-  sam_to_bam: {destination: multi, login_required: true}
-  samtools_slice_bam: {destination: multi, login_required: true}
-  # FIXME: https://github.com/galaxyproject/tools-iuc/issues/4119
-  #medaka_consensus_pipeline: {destination: multi, login_required: true}
-  #medaka_variant_pipeline: {destination: multi, login_required: true}
-  # FIXME: disabled while we try to figure out locking issues
-  #medaka_consensus: {destination: multi, login_required: true}
-  flye: {destination: multi, login_required: true}
-  mz_to_sqlite: {destination: multi, login_required: true}
-  prokka: {destination: multi, login_required: true}
-  roary: {destination: multi, login_required: true}
-  spaln: {destination: multi, login_required: true}
-  mlst: {destination: multi, login_required: true}
-  mimodd_align: {destination: multi, login_required: true}
 
   # Singularity w/ forced container and other special cases
 
