@@ -1,34 +1,38 @@
 <?xml version="1.0"?>
 <object_store type="distributed">
     <backends>
-        <backend type="irods" id="corral-irods" weight="1" store_by="uuid">
-            <auth username="gtest" password="{{ galaxy_irods_password }}" />
+        <backend type="irods" id="corral-irods-galaxy" weight="1" store_by="uuid">
+            <auth username="g2test" password="{{ galaxy_icat_irods_password }}" />
+            <resource name="testCorralResc" />
+            <zone name="galaxyZ" />
+            <connection host="galaxy-icat.tacc.utexas.edu" port="1247" timeout="30" refresh_time="300"/>
+            <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
+            <extra_dir type="job_work" path="/corral4/test/jobs"/>
+        </backend>
+        <backend type="irods" id="corral-irods" weight="0" store_by="uuid">
+            <auth username="gtest" password="{{ galaxy_gs0_irods_password }}" />
             <resource name="corralResc" />
             <zone name="galaxy" />
             <connection host="gs-0.corral.tacc.utexas.edu" port="1247" timeout="30" refresh_time="300"/>
             <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
-            <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
-            <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+            <extra_dir type="job_work" path="/corral4/test/jobs"/>
         </backend>
         <backend type="hierarchical" id="corral-test" weight="0">
             <!-- testing nesting for Main Corral 4 transition -->
             <backends>
                 <backend type="disk" order="0" store_by="uuid">
                     <files_dir path="/corral4/test-new/files-test"/>
-                    <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
-                    <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+                    <extra_dir type="job_work" path="/corral4/test/jobs"/>
                 </backend>
                 <backend type="disk" order="1" store_by="uuid">
-                    <files_dir path="/galaxy-repl/test/files-test"/>
-                    <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
-                    <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+                    <files_dir path="/corral4/test/files-test"/>
+                    <extra_dir type="job_work" path="/corral4/test/jobs"/>
                 </backend>
             </backends>
         </backend>
         <backend type="disk" id="corral" weight="0" store_by="id">
-            <files_dir path="/galaxy-repl/test/files"/>
-            <extra_dir type="temp" path="/galaxy-repl/test/scratch"/>
-            <extra_dir type="job_work" path="/galaxy-repl/test/jobdir"/>
+            <files_dir path="/corral4/test/files"/>
+            <extra_dir type="job_work" path="/corral4/test/jobs"/>
         </backend>
     </backends>
 </object_store>
