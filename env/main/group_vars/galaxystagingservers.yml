@@ -10,11 +10,18 @@ galaxystagingservers_group_supervisor_configs:
 
 
 ## used by: galaxyproject.nginx
-# TODO: disable 1.0, 1.1
 nginx_conf_ssl_protocols:
-    - TLSv1
-    - TLSv1.1
-    - TLSv1.2
+  - TLSv1.2
+
+nginx_conf_ssl_ciphers:
+  - ECDHE-ECDSA-AES128-GCM-SHA256
+  - ECDHE-RSA-AES128-GCM-SHA256
+  - ECDHE-ECDSA-AES256-GCM-SHA384
+  - ECDHE-RSA-AES256-GCM-SHA384
+  - ECDHE-ECDSA-CHACHA20-POLY1305
+  - ECDHE-RSA-CHACHA20-POLY1305
+  - DHE-RSA-AES128-GCM-SHA256
+  - DHE-RSA-AES256-GCM-SHA384
 
 # this is just used in the webservers group vars
 nginx_conf_client_max_body_size: 80g
