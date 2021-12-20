@@ -108,7 +108,7 @@ server {
             add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
             add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
         }
-        if ($http_referer ~ "^https://(davebx|spond|dannon)\.static\.observableusercontent\.com/.*$") {
+        if ($http_referer ~ "^https://(davebx|spond|dannon|stephenshank|hyphy_software)\.static\.observableusercontent\.com/.*$") {
             add_header Access-Control-Allow-Origin $http_origin;
             add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
             add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
