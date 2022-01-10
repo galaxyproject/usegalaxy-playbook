@@ -150,6 +150,12 @@
     - usegalaxy_eu.tiaas2
   tags: tiaas
 
+# FIXME: requires Ansible 2.11, run from tusd.yml for now
+#- name: install tusd
+#  hosts: galaxywebservers
+#  remote_user: root
+#  roles:
+#    - galaxyproject.tusd
 
 - name: Manage supervisor and root tasks
   hosts: supervisorservers

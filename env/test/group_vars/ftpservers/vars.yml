@@ -36,6 +36,8 @@ proftpd_conf_ssl_ca_certificate: /etc/letsencrypt/live/test.galaxyproject.org/ch
 
 proftpd_tls_sesscache_timeout: 1800
 proftpd_tls_renegotiate: ctrl 1500 timeout 300
+proftpd_tls_protocol: TLSv1.2
+proftpd_tls_cipher_suite: ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
 
 proftpd_galaxy_auth: yes
 proftpd_galaxy_auth_context: global
