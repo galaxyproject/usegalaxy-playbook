@@ -141,7 +141,7 @@ server {
     }
 
     location /_upload {
-        upload_store /galaxy-repl/test/upload;
+        upload_store /corral4/test/upload;
         upload_store_access user:rw; # group:rw all:rw;
         upload_pass_form_field "";
         upload_set_form_field "__${upload_field_name}__is_composite" "true";
@@ -165,7 +165,7 @@ server {
         if ($request_method != POST) {
             rewrite "" /api/jobs/$arg_job_id/files last;
         }
-        upload_store /galaxy-repl/test/upload_job_files;
+        upload_store /corral4/test/upload_job_files;
         upload_store_access user:rw;
         upload_pass_form_field "";
         upload_set_form_field "__${upload_field_name}_path" "$upload_tmp_path";

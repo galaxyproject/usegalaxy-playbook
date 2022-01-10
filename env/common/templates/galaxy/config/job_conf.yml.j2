@@ -42,11 +42,8 @@
         - name: SINGULARITYENV_LC_ALL
           value: $LC_ALL
 {% else %}
-{#-
-        # cloudmap tools are still using R 2.11(!) from here, also the genome diversity tools use things in /galaxy/software -->
-#}
         - name: PATH
-          value: /galaxy/{{ galaxy_instance_codename }}/linux-x86_64/bin:/galaxy/software/linux-x86_64/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+          value: /usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 {% endif %}
 {%- endmacro %}
 
@@ -412,7 +409,6 @@ execution:
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {# see stampede comments -#}
       remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
-      file_action_config: {{ galaxy_config_dir }}/pulsar_bridges_actions.yml
       {{ env_tag_params(env.tags | default(none)) }}
       env:
         {{ env_pulsar_envs() }}

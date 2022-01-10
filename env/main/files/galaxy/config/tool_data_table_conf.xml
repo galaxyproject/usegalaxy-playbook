@@ -76,7 +76,7 @@
     <!-- Available of GATK references -->
     <table name="gatk_annotations" comment_char="#">
         <columns>value, name, gatk_value, tools_valid_for</columns>
-        <file path="/galaxy/data/location/gatk_annotations.txt" />
+        <file path="/corral4/data/location/gatk_annotations.txt" />
     </table>
     <!-- Location of SRMA dict file and other files -->
     <table name="srma_indexes" comment_char="#">
@@ -131,13 +131,13 @@
     <!-- Location of ANNOVAR databases -->
     <table name="annovar_indexes" comment_char="#">
         <columns>value, dbkey, type, path</columns>
-        <file path="/galaxy-repl/localdata/annovar/annovar_index.loc" />
+        <file path="/corral4/localdata/annovar/annovar_index.loc" />
     </table>
     <!-- Location of Tophat-fusion BLAST databases + gene annotations. -->
     <!-- 
     <table name="tophat_fusion_blastdb_indexes" comment_char="#">
         <columns>value, dbkey, name, path</columns>
-        <file path="/galaxy-repl/localdata/tophat/tophat_fusion_blastdb.loc" />
+        <file path="/corral4/localdata/tophat/tophat_fusion_blastdb.loc" />
     </table>
     -->
     <!-- Location of SAMTools generated FASTA indexes -->
@@ -183,6 +183,6 @@
     <!-- ffindex databases -->
     <table name="ffindex_indices" comment_char="#" allow_duplicate_entries="False">
         <columns>value, name, path, type</columns>
-        <file path="/galaxy-repl/data/location/ffindex_indices.loc" />
+        <file path="/corral4/data/location/ffindex_indices.loc" />
     </table>
 </tables>

@@ -22,7 +22,7 @@ galaxy_log_dir: "{{ galaxy_root }}/log"
 galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_cache"
 galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
 # for future use
-#galaxy_object_store_cache_path: "/galaxy-repl/{{ galaxy_instance_codename }}/object_store_cache"
+#galaxy_object_store_cache_path: "/corral4/{{ galaxy_instance_codename }}/object_store_cache"
 
 galaxy_interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite"
 
@@ -71,13 +71,13 @@ base_app_main: &BASE_APP_MAIN
   tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }}"
   tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
   #job_working_directory: "{{ galaxy_job_working_directory }}"
-  tool_data_path: /galaxy-repl/main/tool_data
+  tool_data_path: /corral4/main/tool_data
   nginx_upload_store: "{{ galaxy_nginx_upload_dir }}"
   nginx_upload_job_files_store: "{{ galaxy_nginx_upload_job_files_dir }}"
   ftp_upload_dir: "{{ galaxy_ftp_upload_dir }}"
   user_library_import_dir: "{{ galaxy_ftp_upload_dir }}"
-  #library_import_dir: /galaxy-repl/main/import
-  galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
+  #library_import_dir: /corral4/main/import
+  galaxy_data_manager_data_path: /corral4/manageddata/data
   tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
   tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
 
@@ -97,7 +97,7 @@ base_app_main: &BASE_APP_MAIN
   shed_tool_data_table_config: "/cvmfs/main.galaxyproject.org/config/shed_tool_data_table_conf.xml"
   shed_data_manager_config_file: "/cvmfs/main.galaxyproject.org/config/shed_data_manager_conf.xml"
   integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
-  sanitize_whitelist_file: /galaxy-repl/main/config/sanitize_whitelist.txt
+  sanitize_whitelist_file: /corral4/main/config/sanitize_whitelist.txt
 
   user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences.yml"
   containers_config_file: "{{ galaxy_config_dir }}/containers.yml"

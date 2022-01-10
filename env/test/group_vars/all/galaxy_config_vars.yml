@@ -11,11 +11,11 @@ galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_co
 
 
 galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
-galaxy_new_file_path: "/galaxy-repl/{{ galaxy_instance_codename }}/scratch"
-galaxy_job_working_directory: "/galaxy-repl/{{ galaxy_instance_codename }}/jobdir"
-galaxy_ftp_upload_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/ftp"
-galaxy_nginx_upload_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/upload"
-galaxy_nginx_upload_job_files_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/upload_job_files"
+galaxy_new_file_path: "/corral4/{{ galaxy_instance_codename }}/scratch"
+galaxy_job_working_directory: "/corral4/{{ galaxy_instance_codename }}/jobs"
+galaxy_ftp_upload_dir: "/corral4/{{ galaxy_instance_codename }}/ftp"
+galaxy_nginx_upload_dir: "/corral4/{{ galaxy_instance_codename }}/upload"
+galaxy_nginx_upload_job_files_dir: "/corral4/{{ galaxy_instance_codename }}/upload_job_files"
 galaxy_tool_dependency_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps"
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
@@ -98,13 +98,13 @@ base_app_main: &BASE_APP_MAIN
   shed_tool_config_file: "{{ galaxy_shed_tool_conf_file }}"
   tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
   job_working_directory: "{{ galaxy_job_working_directory }}"
-  tool_data_path: /galaxy-repl/test/tool_data
+  tool_data_path: /corral4/test/tool_data
   nginx_upload_store: "{{ galaxy_nginx_upload_dir }}"
   nginx_upload_job_files_store: "{{ galaxy_nginx_upload_job_files_dir }}"
   ftp_upload_dir: "{{ galaxy_ftp_upload_dir }}"
-  user_library_import_dir: /galaxy-repl/test/ftp
-  library_import_dir: /galaxy-repl/test/import
-  galaxy_data_manager_data_path: /galaxy-repl/manageddata/data
+  user_library_import_dir: /corral4/test/ftp
+  library_import_dir: /corral4/test/import
+  galaxy_data_manager_data_path: /corral4/manageddata/data
   tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
   tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
 
@@ -128,7 +128,7 @@ base_app_main: &BASE_APP_MAIN
   shed_tool_data_table_config: "/cvmfs/test.galaxyproject.org/config/shed_tool_data_table_conf.xml"
   shed_data_manager_config_file: "/cvmfs/test.galaxyproject.org/config/shed_data_manager_conf.xml"
   integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
-  sanitize_whitelist_file: /galaxy-repl/test/config/sanitize_whitelist.txt
+  sanitize_whitelist_file: /corral4/test/config/sanitize_whitelist.txt
 
   user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences.yml"
   containers_config_file: "{{ galaxy_config_dir }}/containers.yml"
@@ -306,7 +306,7 @@ datamanager_config_hash:
   galaxy:
     <<: *BASE_APP_MAIN
     base_server_name: datamanager
-    new_file_path: /galaxy-repl/test/data-scratch
+    new_file_path: /corral4/test/data-scratch
 
 # specifies config files to template from the playbook
 #galaxy_config_templates:

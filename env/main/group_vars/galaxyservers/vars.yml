@@ -43,7 +43,7 @@ galaxy_shed_tool_conf_file: /cvmfs/{{ galaxy_cvmfs_repo }}/config/shed_tool_conf
 galaxy_config_dir: "{{ galaxy_root }}/config"
 galaxy_config_file: "{{ galaxy_config_dir }}/galaxy.yml"
 galaxy_mutable_data_dir: "{{ galaxy_root }}/var"
-galaxy_mutable_config_dir: "/galaxy-repl/{{ galaxy_instance_codename }}/config"
+galaxy_mutable_config_dir: "/corral4/{{ galaxy_instance_codename }}/config"
 # these don't need to be set if the galaxyproject.galaxy layout tasks run, but usegalaxy_backup uses
 # galaxyproject.galaxy's defaults without running the layout tasks and breaks if they are unset
 galaxy_cache_dir: "{{ galaxy_mutable_data_dir }}/cache"
@@ -53,6 +53,8 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 ## used by: job_conf.yml template
 galaxy_job_conf_pulsar_galaxy_url: "https://{{ inventory_hostname_short }}.galaxyproject.org"
+
+pulsar_coexecution_container_image: quay.io/natefoo/pulsar-pod-staging:0.15.0.dev0
 
 __handler_default_plugins:
   - local
@@ -132,8 +134,7 @@ galaxy_job_conf_singularity_volumes:
     - "{{ galaxy_new_file_path }}:ro"
     - "/corral4/{{ galaxy_instance_codename }}/objects:ro"
     - "/corral4/{{ galaxy_instance_codename }}/files:ro"
-    - "/galaxy-repl/{{ galaxy_instance_codename }}/files:ro"
-    - "/galaxy-repl/{{ galaxy_instance_codename }}/psufiles:ro"
+    - "/corral4/{{ galaxy_instance_codename }}/psufiles:ro"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
   jetstream:
@@ -344,7 +345,7 @@ galaxy_pgcleanup_actions:
   - purge_datasets
 
 ## used by: usegalaxy_admin
-galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
+galaxy_log_archive_dir: /corral4/{{ galaxy_instance_codename }}/backup/log
 
 
 # galaxy_config hash moved to group_vars/all/galaxy_config_vars.yml
@@ -369,8 +370,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['dependency_resolvers_config_file'] }}"
   - src: files/galaxy/config/pulsar_stampede_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
-  - src: files/galaxy/config/pulsar_bridges_actions.yml
-    dest: "{{ galaxy_config_dir }}/pulsar_bridges_actions.yml"
   - src: files/galaxy/config/pulsar_jetstream.yml
     dest: "{{ galaxy_config_dir }}/pulsar_jetstream.yml"
   - src: files/galaxy/config/pulsar_jetstream_actions.yml

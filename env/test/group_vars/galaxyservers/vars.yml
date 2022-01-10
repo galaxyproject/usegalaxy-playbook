@@ -46,7 +46,7 @@ galaxy_become_users: {}
 
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
 galaxy_shed_tools_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/shed_tools
-#galaxy_server_dir: /galaxy-repl/test/livedebug
+#galaxy_server_dir: /corral4/test/livedebug
 galaxy_shed_tool_conf_file: /cvmfs/{{ galaxy_cvmfs_repo }}/config/shed_tool_conf.xml
 
 #galaxy_venv_dir: defined in all.yml
@@ -95,8 +95,8 @@ galaxy_job_conf_singularity_volumes:
     - "$job_directory:rw"
     - "{{ galaxy_object_store_cache_path }}:ro"
     - "{{ galaxy_new_file_path }}:ro"
-    - "/galaxy-repl/{{ galaxy_instance_codename }}/files:ro"
-    - "/galaxy-repl/{{ galaxy_instance_codename }}/files-test:ro"
+    - "/corral4/{{ galaxy_instance_codename }}/files:ro"
+    - "/corral4/{{ galaxy_instance_codename }}/files-test:ro"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
   jetstream:
@@ -295,7 +295,7 @@ galaxy_pgcleanup_actions:
 
 
 ## used by: usegalaxy_admin
-galaxy_log_archive_dir: /galaxy-repl/{{ galaxy_instance_codename }}/backup/log
+galaxy_log_archive_dir: /corral4/{{ galaxy_instance_codename }}/backup/log
 
 
 ## used by: galaxyproject.tools
@@ -307,7 +307,7 @@ tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
 
 # FIXME: fails with Singularity volumes because this path does not exist on compute
 #galaxy_local_tools_dir: "{{ galaxy_root }}/tools"
-galaxy_local_tools_dir: "/galaxy-repl/gxsrc/{{ galaxy_instance_codename }}/local_tools"
+galaxy_local_tools_dir: "/corral4/gxsrc/{{ galaxy_instance_codename }}/local_tools"
 galaxy_local_tools:
   - echo.xml
 
@@ -331,8 +331,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['containers_resolvers_config_file'] }}"
   - src: files/galaxy/config/pulsar_stampede_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
-  - src: files/galaxy/config/pulsar_bridges_actions.yml
-    dest: "{{ galaxy_config_dir }}/pulsar_bridges_actions.yml"
   - src: files/galaxy/config/pulsar_jetstream.yml
     dest: "{{ galaxy_config_dir }}/pulsar_jetstream.yml"
   - src: files/galaxy/config/pulsar_jetstream_actions.yml
