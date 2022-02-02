@@ -21,8 +21,7 @@ galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
 galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_cache"
 galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
-# for future use
-#galaxy_object_store_cache_path: "/corral4/{{ galaxy_instance_codename }}/object_store_cache"
+galaxy_object_store_cache_path: "/corral4/{{ galaxy_instance_codename }}/object_store_cache"
 
 galaxy_interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite"
 

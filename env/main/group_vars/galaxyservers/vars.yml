@@ -16,6 +16,9 @@ gxit_proxy_nodeenv: /srv/galaxy/main/proxy/venv
 # used by: galaxyproject.galaxy (templating job_conf.yml)
 galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
 
+# used by: object store config template
+galaxy_icat_irods_password: "{{ vault_galaxy_icat_irods_password }}"
+
 # file_sources_conf.yml
 covid_crg_ftp_staging_user: "{{ vault_covid_crg_ftp_staging_user }}"
 covid_crg_ftp_staging_passwd: "{{ vault_covid_crg_ftp_staging_passwd }}"
@@ -130,7 +133,7 @@ galaxy_job_conf_singularity_volumes:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
-    #- "{{ galaxy_object_store_cache_path }}:ro"
+    - "{{ galaxy_object_store_cache_path }}:ro"
     - "{{ galaxy_new_file_path }}:ro"
     - "/corral4/{{ galaxy_instance_codename }}/objects:ro"
     - "/corral4/{{ galaxy_instance_codename }}/files:ro"
@@ -356,8 +359,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
   - src: files/galaxy/config/tool_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_conf.xml"
-  - src: files/galaxy/config/object_store_conf.xml
-    dest: "{{ galaxy_config[galaxy_app_config_section]['object_store_config_file'] }}"
   - src: files/galaxy/config/data_manager_conf.xml
     dest: "{{ galaxy_config[galaxy_app_config_section]['data_manager_config_file'] }}"
   - src: files/galaxy/config/tool_sheds_conf.xml
@@ -387,6 +388,8 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: templates/galaxy/config/build_sites.yml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
+  - src: templates/galaxy/config/object_store_conf.xml.j2
+    dest: "{{ galaxy_config[galaxy_app_config_section]['object_store_config_file'] }}"
   - src: templates/galaxy/config/job_router_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/job_router_conf.yml"
   - src: templates/galaxy/config/tacc_k8s_pulsar_app_config.yml.j2
