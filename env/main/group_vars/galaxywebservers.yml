@@ -37,6 +37,18 @@ certbot_domains:
   - "{{ inventory_hostname_short }}.galaxyproject.org"
   - www.usegalaxy.org
 
+galaxy_tusd_port: 1080
+
+tusd_instances:
+  - name: galaxy-main
+    user: g2main
+    group: G-803372
+    args:
+      - -host=localhost
+      - -port={{ galaxy_tusd_port }}
+      - -upload-dir=/galaxy-repl/test/scratch
+      - -hooks-http=https://usegalaxy.org/api/upload/hooks
+      - -hooks-http-forward-headers=X-Api-Key,Cookie
 
 ## used by the sysctl task in the galaxy_infrastructure playbook
 sysctl_conf:
