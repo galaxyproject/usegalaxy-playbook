@@ -9,7 +9,7 @@
         args:
           - -host=localhost
           - -port={{ galaxy_tusd_port }}
-          - -upload-dir=/corral4/main/scratch3
+          - -upload-dir=/corral4/main/_upload_tus
           - -hooks-http=https://usegalaxy.org/api/upload/hooks
           - -hooks-http-forward-headers=X-Api-Key,Cookie
   roles:

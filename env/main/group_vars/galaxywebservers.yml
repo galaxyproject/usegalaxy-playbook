@@ -46,7 +46,7 @@ tusd_instances:
     args:
       - -host=localhost
       - -port={{ galaxy_tusd_port }}
-      - -upload-dir=/galaxy-repl/test/scratch
+      - -upload-dir=/corral4/main/_upload_tus
       - -hooks-http=https://usegalaxy.org/api/upload/hooks
       - -hooks-http-forward-headers=X-Api-Key,Cookie
 
