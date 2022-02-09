@@ -25,9 +25,15 @@ function setup_tests() {
 
     ${GITHUB_WORKSPACE}/.ansible-venv/bin/ansible -i localhost, localhost -c local -m template \
         -a "src=${GITHUB_WORKSPACE}/env/common/templates/galaxy/config/job_router_conf.yml.j2 dest=${GITHUB_WORKSPACE}/env/common/files/galaxy/dynamic_rules/test/unit/job_router_conf.yml" \
+        --extra-vars=@${GITHUB_WORKSPACE}/env/main/group_vars/galaxyservers/vars.yml \
+        --extra-vars=@${GITHUB_WORKSPACE}/env/main/group_vars/all/galaxy_config_vars.yml \
+        --extra-vars=@${GITHUB_WORKSPACE}/env/common/group_vars/all/global_job_conf.yml \
         --extra-vars=@${GITHUB_WORKSPACE}/env/main/group_vars/galaxyservers/tools_conf.yml 
     ${GITHUB_WORKSPACE}/.ansible-venv/bin/ansible -i localhost, localhost -c local -m template \
         -a "src=${GITHUB_WORKSPACE}/env/common/templates/galaxy/config/job_conf.yml.j2 dest=${GITHUB_WORKSPACE}/env/common/files/galaxy/dynamic_rules/test/unit/job_conf.yml" \
+        --extra-vars=@${GITHUB_WORKSPACE}/env/main/group_vars/galaxyservers/vars.yml \
+        --extra-vars=@${GITHUB_WORKSPACE}/env/main/group_vars/all/galaxy_config_vars.yml \
+        --extra-vars=@${GITHUB_WORKSPACE}/env/common/group_vars/all/global_job_conf.yml \
         --extra-vars=@${GITHUB_WORKSPACE}/env/main/group_vars/galaxyservers/tools_conf.yml \
         --extra-vars=@${GITHUB_WORKSPACE}/env/common/files/galaxy/dynamic_rules/test/unit/mock_vars.yml
     cp ${GITHUB_WORKSPACE}/env/common/files/galaxy/config/job_resource_params_conf.xml ${GITHUB_WORKSPACE}/env/common/files/galaxy/dynamic_rules/test/unit
