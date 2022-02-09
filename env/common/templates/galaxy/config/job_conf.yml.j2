@@ -213,7 +213,7 @@ execution:
       singularity_enabled: true
       singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.local)) | join(',') }}"
 {% if 'container_override' in env %}
-      container_override: {{ env.container_override }}
+      container_override: {{ env.container_override | to_yaml(width=9999, default_flow_style=True) }}
 {% else %}
       singularity_default_container_id: "{{ env.default_container_id | default(galaxy_job_conf_default_container_id) }}"
 {% endif %}
