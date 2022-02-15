@@ -6,6 +6,14 @@ postgresql_backup_dir: /corral4/backup/pgsql/{{ inventory_hostname }}
 
 postgresql_archive_wal_rsync_args: '--ignore-existing -pt --chown=postgres:G-803372 --info=skip1'
 postgresql_backup_rsync_backup_opts: '-rpt --chown=postgres:G-803372'
+postgresql_backup_command: >-
+  /usr/bin/sg G-803372 -c
+  "{{ postgresql_backup_local_dir | quote }}/bin/backup.py
+  {{ '--rsync-connect-opts ' ~ (postgresql_backup_rsync_connect_opts | quote) if postgresql_backup_rsync_connect_opts else '' }}
+  --rsync-backup-opts {{ postgresql_backup_rsync_backup_opts | quote }}
+  --keep {{ postgresql_backup_keep | quote }}
+  {{ '--pg-bin-dir ' ~ __postgresql_pgdg_bin_dir if ansible_os_family == 'RedHat' else '' }}
+  --backup --clean-archive {{ postgresql_backup_dir | quote }}"
 
 postgresql_conf:
   listen_addresses: "'*'"
