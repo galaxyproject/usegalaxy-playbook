@@ -73,6 +73,11 @@ galaxy_job_conf_environments:
           value: None
         - name: PATH
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
+    - id: multi_long_direct
+      native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=72:00:00
+      use_singularity: false
+      java_mem: 28
+      tags: [multi_long, multi_long_limit]
 
     # training environments
     - id: training
