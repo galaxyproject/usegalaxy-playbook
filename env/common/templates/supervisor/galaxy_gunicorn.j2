@@ -3,7 +3,7 @@
 ;;
 
 [program:galaxy_unicornherder]
-command         = {{ galaxy_venv_dir }}/bin/unicornherder --pidfile {{ galaxy_mutable_data_dir }}/herder.pid -- 'galaxy.webapps.galaxy.fast_factory:factory()' --timeout 300 --pythonpath lib -k galaxy.webapps.galaxy.workers.Worker -b 127.0.0.1:8080 --access-logfile {{ galaxy_log_dir }}/gunicorn.access.log --error-logfile {{ galaxy_log_dir }}/gunicorn.error.log --capture-output
+command         = {{ galaxy_venv_dir }}/bin/unicornherder --pidfile {{ galaxy_mutable_data_dir }}/herder.pid -- 'galaxy.webapps.galaxy.fast_factory:factory()' --timeout 600 --pythonpath lib -k galaxy.webapps.galaxy.workers.Worker -b 127.0.0.1:8080 --access-logfile {{ galaxy_log_dir }}/gunicorn.access.log --error-logfile {{ galaxy_log_dir }}/gunicorn.error.log --capture-output
 directory       = {{ galaxy_server_dir }}
 process_name    = unicornherder
 umask           = 022
