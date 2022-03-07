@@ -68,7 +68,8 @@
     - name: Add galaxy-set-metadata script
       ansible.builtin.copy:
         src: galaxy-set-metadata
-        dest: {{ galaxy_venv_dir }}/bin/galaxy-set-metadata
+        dest: "{{ galaxy_venv_dir }}/bin/galaxy-set-metadata"
+        mode: 0755
 
     - name: Set galaxy_version fact
       set_fact:
