@@ -333,6 +333,16 @@ galaxy_job_conf_environments:
       java_mem: 58
       tags: [xlarge_limit]
 
+  jetstream2_environments:
+    - id: normal
+      native_specification: --partition=normal --nodes=1 --time=36:00:00
+      java_mem: 5
+      tags: [normal_limit]
+    - id: multi
+      native_specification: --partition=multi --nodes=1 --time=36:00:00
+      java_mem: 28
+      tags: [multi, multi_limit]
+
   stampede_environments:
     - id: normal
       memory_mb: 94208
