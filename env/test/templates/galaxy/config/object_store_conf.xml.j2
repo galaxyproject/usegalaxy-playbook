@@ -5,15 +5,7 @@
             <auth username="g2test" password="{{ galaxy_icat_irods_password }}" />
             <resource name="testRootResc" />
             <zone name="galaxyZ" />
-            <connection host="galaxy-icat.tacc.utexas.edu" port="1247" timeout="30" refresh_time="300"/>
-            <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
-            <extra_dir type="job_work" path="/corral4/test/jobs"/>
-        </backend>
-        <backend type="irods" id="corral-irods" weight="0" store_by="uuid">
-            <auth username="gtest" password="{{ galaxy_gs0_irods_password }}" />
-            <resource name="corralResc" />
-            <zone name="galaxy" />
-            <connection host="gs-0.corral.tacc.utexas.edu" port="1247" timeout="30" refresh_time="300"/>
+            <connection host="galaxy-icat.tacc.utexas.edu" port="1247" timeout="3" refresh_time="300"/>
             <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
         </backend>
