@@ -110,6 +110,11 @@
       file_action_config: {{ galaxy_config_dir }}/pulsar_jetstream_actions.yml
 {%- endmacro %}
 
+{%- macro env_jetstream2_params() -%}
+      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
+      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+{%- endmacro %}
+
 #
 # Job runner plugin configuration
 #
@@ -134,6 +139,10 @@ runners:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: jetstream_tacc
     {{ runner_pulsar_params() }}
+  jetstream2:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: jetstream2
+    {{ runner_pulsar_params() }}
   stampede:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: stampede
@@ -145,10 +154,6 @@ runners:
   bridges:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: bridges
-    {{ runner_pulsar_params() }}
-  expanse:
-    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: expanse
     {{ runner_pulsar_params() }}
   tacc_k8s:
     load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
@@ -339,6 +344,38 @@ execution:
         - name: PATH
           value: /jetstream/scratch0/{{ galaxy_instance_codename }}/conda/envs/set_metadata@20171114/bin:$PATH
 {% endif %}
+{% endfor %}
+
+    #
+    # Jetstream2 environments
+    #
+{% for env in galaxy_job_conf_environments.jetstream2_environments %}
+{% set use_singularity = env.use_singularity | default(true) %}
+{% set java_mem = env.java_mem | default(5) %}
+    jetstream2_{{ env.id }}:
+      runner: jetstream2
+      submit_native_specification: {{ env.native_specification }}
+      {{ env_tag_params(env.tags | default(none)) }}
+      {{ env_pulsar_params(remote_metadata=(not use_singularity)) }}
+      {{ env_jetstream2_params() }}
+{% if use_singularity %}
+      singularity_enabled: true
+      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.jetstream)) | join(',') }}"
+{% if 'container_override' in env %}
+      container_override: {{ env.container_override }}
+{% else %}
+      singularity_default_container_id: "{{ env.default_container_id | default(galaxy_job_conf_default_container_id) }}"
+{% endif %}
+{% endif %}
+{% for env_param_name, env_param_value in (env.extra_params | default({})).items() %}
+      {{ env_param_name }}: {{ env_param_value }}
+{% endfor %}
+      env:
+        {{ env_temp_envs(singularity=use_singularity) }}
+        {{ env_pulsar_envs(java_mem=java_mem, singularity=use_singularity) }}
+{% for env_env in (env.append_envs | default([])) %}
+        - {{ env_env }}
+{% endfor %}
 {% endfor %}
 
     #

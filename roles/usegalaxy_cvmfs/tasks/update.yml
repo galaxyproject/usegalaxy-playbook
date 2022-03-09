@@ -65,6 +65,12 @@
         PYTHONPATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy/lib"
       register: version_response
 
+    - name: Add galaxy-set-metadata script
+      ansible.builtin.copy:
+        src: galaxy-set-metadata
+        dest: "{{ galaxy_venv_dir }}/bin/galaxy-set-metadata"
+        mode: 0755
+
     - name: Set galaxy_version fact
       set_fact:
         galaxy_version: "{{ version_response.stdout }}"
