@@ -59,13 +59,13 @@ pulsar_yaml_config:
   amqp_publish_retry_interval_max: 60
   dependency_resolution:
     resolvers:
-      - type: conda
-        prefix: "{{ _pulsar_dependencies_dir }}/_conda"
-      - type: conda
-        prefix: "{{ _jetstream_scratch_root }}/conda"
-        auto_init: true
-        auto_install: true
-      - type: tool_shed_packages
+      #- type: conda
+      #  prefix: "{{ _pulsar_dependencies_dir }}/_conda"
+      #- type: conda
+      #  prefix: "{{ _jetstream_scratch_root }}/conda"
+      #  auto_init: true
+      #  auto_install: true
+      #- type: tool_shed_packages
       - type: galaxy_packages
   managers:
     jetstream2:
