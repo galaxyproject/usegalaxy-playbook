@@ -50,7 +50,7 @@
 tools:
 
   #_default_: {destination: slurm_normal}
-  _default_: {destination: slurm_normal}
+  _default_: {destination: jetstream2_normal}
   _galaxy_lib_: {destination: slurm_normal_galaxy_env}
 
   # Singularity test
@@ -231,9 +231,9 @@ tools:
 {# this is a large automatically generated list maintained in env/<env>/group_vars/galaxyservers/tools_conf.yml #}
 {% for tool_id in galaxy_multicore_tools %}
 {% if tool_id in galaxy_pulsar_incompatible_tools %}
-  {{ tool_id }}: {destination: slurm_multi, login_required: true}
+  {{ tool_id }}: {destination: jetstream2_multi, login_required: true}
 {% else %}
-  {{ tool_id }}: {destination: multi, login_required: true}
+  {{ tool_id }}: {destination: jetstream2_multi, login_required: true}
 {% endif %}
 {% endfor %}
 
