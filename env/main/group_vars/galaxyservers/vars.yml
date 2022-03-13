@@ -176,19 +176,19 @@ galaxy_job_conf_limits:
   # env tags (groups) for limits
   - type: environment_user_concurrent_jobs
     id: training_limit
-    value: 2
+    value: 4
   - type: environment_user_concurrent_jobs
     id: normal_limit
-    value: 8
+    value: 2
   - type: environment_user_concurrent_jobs
     id: multi_limit
-    value: 4
+    value: 1
   - type: environment_user_concurrent_jobs
     id: multi_long_limit
     value: 1
   - type: environment_user_concurrent_jobs
     id: test_limit
-    value: 8
+    value: 4
   - type: environment_user_concurrent_jobs
     id: xlarge_limit
     value: 1
@@ -196,13 +196,13 @@ galaxy_job_conf_limits:
   # granular limits for singularity envs
   - type: environment_user_concurrent_jobs
     id: slurm_normal
-    value: 6
+    value: 2
   - type: environment_user_concurrent_jobs
     id: normal
-    value: 6
+    value: 2
   - type: environment_user_concurrent_jobs
     id: slurm_normal_16gb
-    value: 2
+    value: 1
   - type: environment_user_concurrent_jobs
     id: slurm_normal_32gb
     value: 1
