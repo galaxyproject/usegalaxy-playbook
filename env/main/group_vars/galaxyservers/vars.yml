@@ -152,6 +152,7 @@ galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource]
   multi_long: [multi_long_compute_resource]
   multi_bridges: [multi_bridges_compute_resource]
+  multi_frontera: [multi_frontera_compute_resource, ntasks, time]
   stampede: [stampede_compute_resource]
   frontera: [frontera_compute_resource, ntasks, time]
   bridges: [bridges_compute_resource]
@@ -228,7 +229,7 @@ galaxy_job_conf_limits:
     value: 1
   - type: environment_user_concurrent_jobs
     id: frontera_small
-    value: 4
+    value: 2
   - type: environment_user_concurrent_jobs
     id: frontera_development
     value: 1
