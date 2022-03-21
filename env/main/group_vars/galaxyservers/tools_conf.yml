@@ -22,17 +22,6 @@ galaxy_job_conf_tools:
   - id: busco
     handler: multi
     resources: frontera
-  # TEMP FOR TAPAS
-  - id: toolshed.g2.bx.psu.edu/repos/iuc/circos/circos/0.69.8+galaxy10
-    environment: slurm_normal
-  - id: toolshed.g2.bx.psu.edu/repos/bgruening/openbabel_compound_convert/openbabel_compound_convert/3.1.1+galaxy0
-    environment: slurm_normal
-  - id: toolshed.g2.bx.psu.edu/repos/ebi-gxa/salmon_kallisto_mtx_to_10x/_salmon_kallisto_mtx_to_10x/0.0.1+galaxy5
-    environment: slurm_normal
-  - id: toolshed.g2.bx.psu.edu/repos/chemteam/ambertools_acpype/ambertools_acpype/21.10+galaxy0
-    environment: slurm_normal
-  - id: toolshed.g2.bx.psu.edu/repos/chemteam/gmx_merge_topology_files/gmx_merge_topology_files/3.4.3+galaxy0
-    environment: slurm_normal
   #- id: unicycler
   #  environment: slurm_multi_memory_resubmit
   #  handler: multi
