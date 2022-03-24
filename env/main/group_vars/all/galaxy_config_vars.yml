@@ -190,6 +190,9 @@ base_app_main: &BASE_APP_MAIN
     - type: cached_mulled_singularity
       cache_directory: /cvmfs/singularity.galaxyproject.org/all
       cache_directory_cacher_type: dir_mtime
+    - type: cached_mulled_singularity
+      cache_directory: /corral4/singularity/precache
+      cache_directory_cacher_type: dir_mtime
     - type: explicit_singularity
 
   # For handler heartbeats
