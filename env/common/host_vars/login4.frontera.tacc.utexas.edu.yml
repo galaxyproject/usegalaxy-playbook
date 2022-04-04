@@ -52,6 +52,10 @@ supervisord_run_dir: "{{ supervisord_prefix }}/var/run"
 host_supervisor_configs:
   - "{{ galaxy_instance_codename }}_pulsar"
 
+# TODO: temp for memory var
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@no-overwrite-memory-var"
+pulsar_package_version: "{{ omit }}"
+
 pulsar_root: "{{ _frontera_instance_root }}/pulsar"
 pulsar_restart_handler_name: supervisor restart pulsar
 pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
