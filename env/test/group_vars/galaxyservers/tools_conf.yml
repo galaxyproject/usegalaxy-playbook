@@ -193,7 +193,6 @@ __galaxy_multicore_tools_exclude:
   - spades
   - star_fusion
   - unicycler
-  - bowtie2  # for singularity testing
 
 # tools missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
@@ -357,11 +356,11 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/devteam/bamtools_split/bamSplit/0.0.2"
   - "toolshed.g2.bx.psu.edu/repos/devteam/basecoverage/gops_basecoverage_1/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/best_regression_subsets/BestSubsetsRegression1/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.2"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.3"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.4"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6"
-  - "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6.2"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.2"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.3"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.4"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6"
+  #- "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6.2"
   - "toolshed.g2.bx.psu.edu/repos/devteam/bowtie_color_wrappers/bowtie_color_wrapper/1.1.2"
   - "toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/1.1.2"
   - "toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.1"
