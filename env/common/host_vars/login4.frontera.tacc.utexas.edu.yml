@@ -16,15 +16,10 @@ host_directories:
     mode: "0755"
   - path: "{{ pulsar_root }}/log"
     mode: "0750"
-  # these should be created by the supervisor role
-  #- path: "{{ supervisord_log_dir }}"
-  #  mode: "0750"
-  #- path: "{{ supervisord_run_dir }}"
-  #  mode: "0750"
 
 host_files:
-  - src: "files/pulsar/tmpwatch.el7"
-    dest: "{{ _frontera_home_root }}/bin/tmpwatch"
+  - src: "files/pulsar/el7/tmpwatch"
+    dest: "{{ _frontera_home_root }}/bin"
     mode: "0755"
 
 host_crontabs:

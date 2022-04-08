@@ -4,55 +4,87 @@
 #
 
 # FIXME:
-#   - conda installed by hand
-#   - __python@3.8 conda-forge env installed by hand
-#   - supervisor configured by hand
 #   - slurm-drmaa installed by hand
-#   - parrot installed by hand in ~xcgalaxy
-#   - CVMFS keys installed by hand in ~xcgalaxy
-#   - no stratum1 failover for parrot, not sure if it's possible
-#   - running a branch of pulsar with a hardcoded parrot wrapper
 
+_stampede_home_root: "/home1/03166/xcgalaxy"
 _stampede_work_root: "/work2/03166/xcgalaxy/stampede2"
 _stampede_scratch_root: "/scratch/03166/xcgalaxy"
 _stampede_instance_root: "{{ _stampede_work_root }}/{{ galaxy_instance_codename }}"
-_stampede_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
-
-# Isn't this what conda's special virtualenv is supposed to fix?
-#host_links:
-#  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libffi.so"
-#    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libffi.so"
-#  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libffi.so.7"
-#    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libffi.so.7"
-#  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libssl.so"
-#    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libssl.so"
-#  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libssl.so.1.1"
-#    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libssl.so.1.1"
-#  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libcrypto.so"
-#    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libcrypto.so"
-#  - src: "{{ _stampede_scratch_root }}/conda/envs/_pulsar_/lib/libcrypto.so.1.1"
-#    path: "{{ _stampede_instance_root }}/pulsar/venv/lib/libcrypto.so.1.1"
 
 host_directories:
+  - path: "{{ _stampede_home_root }}/bin"
+    mode: "0755"
+  - path: "{{ _stampede_home_root }}/cvmfs/bin"
+    mode: "0755"
+  - path: "{{ _stampede_home_root }}/cvmfs/keys"
+    mode: "0755"
   - path: "{{ pulsar_root }}/log"
     mode: "0750"
 
-pulsar_root: "{{ _stampede_instance_root }}/pulsar"
-#galaxy_root: not required
+host_files:
+  - src: "files/pulsar/el7/tmpwatch"
+    dest: "{{ _stampede_home_root }}/bin"
+    mode: "0755"
+  - src: "files/pulsar/mount_cvmfs"
+    dest: "{{ _stampede_home_root }}/bin"
+    mode: "0755"
+  - src: "files/pulsar/el7/cvmfs2"
+    dest: "{{ _stampede_home_root }}/cvmfs/bin"
+    mode: "0755"
+  - src: "files/pulsar/el7/libcvmfs_fuse_stub.so.2.9.2"
+    dest: "{{ _stampede_home_root }}/cvmfs/bin/libcvmfs_fuse_stub.so"
+    mode: "0755"
+  - src: "files/pulsar/el7/libcvmfs_fuse.so.2.9.2"
+    dest: "{{ _stampede_home_root }}/cvmfs/bin/libcvmfs_fuse.so"
+    mode: "0755"
+  - src: "files/pulsar/galaxyproject.org.pub"
+    dest: "{{ _stampede_home_root }}/cvmfs/keys"
+    mode: "0644"
+  - src: "files/pulsar/data.galaxyproject.org.pub"
+    dest: "{{ _stampede_home_root }}/cvmfs/keys"
+    mode: "0644"
 
-# Attempt to chown fails, let it create an empty dir instead
-#pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
-_pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
+host_crontabs:
+  - id: "pulsar-clean-{{ galaxy_instance_codename }}-scratch"
+    use_cron_file: false
+    minute: "0"
+    hour: "*/6"
+    job: "{{ _stampede_home_root }}/bin/tmpwatch -v --all --mtime --dirmtime 7d '{{ pulsar_staging_dir }}' >> '{{ pulsar_root }}/log/cleanup.log'"
+
+miniconda_prefix: "{{ _stampede_work_root }}/conda"
+miniconda_channels:
+  - conda-forge
+  - defaults
+miniconda_conda_environments:
+  __python@3.9:
+    packages:
+      - python=3.9
+
+supervisord_install: virtualenv-unprivileged
+supervisord_prefix: "{{ _stampede_work_root }}/supervisor"
+supervisord_conf_path: "{{ supervisord_prefix }}/etc/supervisord.conf"
+supervisord_conf_dir: "{{ supervisord_prefix }}/etc/supervisord.d"
+supervisord_log_dir: "{{ supervisord_prefix }}/var/log"
+supervisord_run_dir: "{{ supervisord_prefix }}/var/run"
+host_supervisor_configs:
+  - "{{ galaxy_instance_codename }}_pulsar"
+
+# TODO: temp for memory var
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@no-overwrite-memory-var"
+pulsar_package_version: "{{ omit }}"
+
+pulsar_root: "{{ _stampede_instance_root }}/pulsar"
+pulsar_restart_handler_name: supervisor restart pulsar
 pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
 pulsar_staging_dir: "{{ _stampede_scratch_root }}/{{ galaxy_instance_codename }}/staging"
+#galaxy_root: not required
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
-# Override group_vars version
-pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
-pip_virtualenv_command: "{{ _stampede_work_root }}/conda/envs/__python@3.8/bin/python3 -m venv"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.9/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
+pulsar_pycurl_ssl_library: nss
 pulsar_drmaa_library_path: "{{ _stampede_instance_root }}/slurm-drmaa/lib/libdrmaa.so"
 
 pulsar_job_metrics_plugins:
@@ -66,10 +98,7 @@ pulsar_job_metrics_plugins:
 pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
-  tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
-  #job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
-  #dependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
   maximum_stream_size: 8388608  # 8 MB
   amqp_acknowledge: True
   amqp_ack_republish_time: 180
@@ -81,13 +110,9 @@ pulsar_yaml_config:
   dependency_resolution:
     resolvers:
       - type: conda
-        prefix: "{{ _pulsar_dependencies_dir }}/_conda"
-      - type: conda
-        prefix: "{{ _stampede_work_root }}/conda"
-        auto_init: true
+        prefix: "{{ miniconda_prefix }}"
+        auto_init: false
         auto_install: true
-      - type: tool_shed_packages
-      - type: galaxy_packages
   managers:
     stampede:
       type: queued_drmaa
@@ -100,14 +125,3 @@ pulsar_yaml_config:
       postprocess_action_interval_step: 4
       postprocess_action_interval_max: 120
       min_polling_interval: 15
-    stampede_nagios:
-      type: queued_python
-      min_polling_interval: 5
-
-#pulsar_install_environments:
-#  pyOpenSSL:
-#    PKG_CONFIG_PATH: "{{ _stampede_work_root }}/libffi/lib64/pkgconfig"
-#    CFLAGS: "-I{{ _stampede_work_root }}/openssl/include"
-#    LDFLAGS: "-L{{ _stampede_work_root }}/openssl/lib"
-#  pycurl:
-#    PYCURL_SSL_LIBRARY: "nss"

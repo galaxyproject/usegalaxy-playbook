@@ -385,25 +385,44 @@ execution:
     stampede_{{ env.id }}:
       runner: stampede
       submit_native_specification: {{ env.native_specification }}
-      {{ env_pulsar_params() }}
+      {{ env_pulsar_params(remote_metadata='false') }}
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {# this doesn't work, set in supervisor environment instead
        #remote_property_galaxy_virtual_env: /work/galaxy/{{ galaxy_instance_codename }}/galaxy/venv
       -#}
       {# this used to work but doesn't now either, set in supervisor environment instead, however, the Pulsar client
        # still requires it to be set when remote_metadata is enabled -#}
+      {#
       remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
+      -#}
       file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
       {{ env_tag_params(env.tags | default(none)) }}
+      singularity_enabled: true
+      # the tacc-singularity module automatically sets up mounts
+      singularity_volumes: null
+      container_resolvers:
+        - type: explicit_singularity
+        - type: mulled_singularity
+      require_container: true
       env:
         {{ env_pulsar_envs() }}
-        - execute: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
+        #- execute: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
+        - file: /etc/profile.d/z01_lmod.sh
+        - execute: module unload xalt
+        - execute: module load tacc-singularity
         {# Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
         - name: GALAXY_SLOTS
           value: "$SLURM_NTASKS"
         {# Mem=0 if the Slurm -mem param is not used, which is not allowed on Stampede2 -#}
         - name: GALAXY_MEMORY_MB
           value: "{{ env.memory_mb }}"
+        {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
+        - name: SCRATCH
+          value: /scratch/03166/xcgalaxy
+        {# mount is in /work2 so the mountpoint (which will appear untouched/empty to tacc cleanup scripts) won't be removed, but also needs to be automatically mounted into singularity containers (which /run is not) -#}
+        - name: WORK2
+          value: /work2/03166/xcgalaxy/stampede2
+        - execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
 {% endfor %}
 
     #
@@ -426,6 +445,7 @@ execution:
       env:
         {{ env_pulsar_envs() }}
         - file: /etc/profile.d/z01_lmod.sh
+        - execute: module unload xalt
         - execute: module load tacc-singularity
         {# Frontera assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
         - name: GALAXY_SLOTS

@@ -1,0 +1,43 @@
+#!/bin/bash
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+set -euo pipefail
+
+: ${UID:="$(id -u)"}
+: ${CVMFS_LOCAL_ROOT:="/run/user/${UID}/cvmfs"}
+: ${CVMFS_MOUNT_ROOT:="${WORK2}/cvmfs"}
+: ${CVMFS_KEYS_DIR:="${HOME}/cvmfs/keys"}
+: ${CVMFS_LOG_FILE:="$(pwd)/cvmfs.log"}
+
+if [ -z "{$1:-}" ]; then
+    echo "usage: $0 <repo> [repo...]"
+    exit 1
+fi
+
+cache="${CVMFS_LOCAL_ROOT}/cache"
+mkdir -p "$cache"
+
+cat > "${CVMFS_LOCAL_ROOT}/cvmfs.conf" <<EOF
+CVMFS_CACHE_BASE="/run/user/${UID}/cvmfs/cache"
+CVMFS_RELOAD_SOCKETS="/run/user/${UID}/cvmfs/cache"
+CVMFS_QUOTA_LIMIT="-1"
+CVMFS_SHARED_CACHE="no"
+CVMFS_ALIEN_CACHE="${SCRATCH}/cvmfs"
+CVMFS_USYSLOG="${CVMFS_LOG_FILE}"
+CVMFS_CLAIM_OWNERSHIP="yes"
+CVMFS_SERVER_URL="http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
+CVMFS_KEYS_DIR="${CVMFS_KEYS_DIR}"
+CVMFS_HTTP_PROXY="DIRECT"
+EOF
+
+cd "${HOME}/cvmfs/bin"
+
+for repo in "$@"; do
+    mountpoint="${CVMFS_MOUNT_ROOT}/${repo}"
+    # a job exiting without unmounting causes a broken mountpoint if you get that node again
+    fusermount -u "$mountpoint" 2>/dev/null || true
+    mkdir -p "$mountpoint"
+    ./cvmfs2 -o "config=${CVMFS_LOCAL_ROOT}/cvmfs.conf" "$repo" "$mountpoint"
+    echo "mounted $repo on $mountpoint"
+done

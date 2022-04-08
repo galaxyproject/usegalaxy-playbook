@@ -24,8 +24,8 @@ host_directories:
   #  mode: "0750"
 
 host_files:
-  - src: "files/pulsar/tmpwatch.el7"
-    dest: "{{ _bridges_home_root }}/bin/tmpwatch"
+  - src: "files/pulsar/el7/tmpwatch"
+    dest: "{{ _bridges_home_root }}/bin"
     mode: "0755"
 
 host_templates:
