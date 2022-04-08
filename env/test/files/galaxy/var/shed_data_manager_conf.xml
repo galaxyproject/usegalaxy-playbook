@@ -958,4 +958,22 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager id="data_manager_pangolearn" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_pangolearn/data_manager/data_manager_pangolearn/0.0.1" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_pangolearn/6e24e79d3d69/data_manager_pangolearn/data_manager/pangolearn_dm.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_pangolearn/data_manager_pangolearn/0.0.3+galaxy1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_pangolearn</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>6e24e79d3d69</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_pangolearn/data_manager_pangolearn/0.0.3+galaxy1</id><version>0.0.3+galaxy1</version></tool><data_table name="pangolearn">
+            <output>
+                <column name="value"/>
+                <column name="description"/>
+                <column name="format_version"/>
+                <column name="path" output_ref="output_file">
+                    <!-- note: the Python script sanitises the possibly user-supplied scheme name ('value') -->
+                    <move type="directory" relativize_symlinks="True">
+                        <src>${path}</src>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">pangolearn/</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/pangolearn/#echo str($value)#</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
