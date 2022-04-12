@@ -1038,8 +1038,9 @@ destinations:
       # could also set threshold: on each member, default is 4
     - id: jetstream_tacc_multi
       queue_factor: 4
-    #- id: jetstream2
-    #  queue_factor: 2
+    - id: jetstream2_multi
+      # temp limit jobs to JS2
+      queue_factor: 8
   multi_direct:
     - id: slurm_multi_direct
     - id: jetstream_iu_multi_direct

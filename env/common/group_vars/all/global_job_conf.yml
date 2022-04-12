@@ -341,8 +341,7 @@ galaxy_job_conf_environments:
     - id: multi
       native_specification: --partition=multi --nodes=1 --time=36:00:00
       java_mem: 28
-      #tags: [multi, multi_limit]
-      tags: [multi_limit]
+      tags: [multi, multi_limit]
 
   stampede_environments:
     - id: normal
