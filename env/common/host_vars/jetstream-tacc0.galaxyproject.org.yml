@@ -62,10 +62,12 @@ pulsar_yaml_config:
     resolvers:
       - type: conda
         prefix: "{{ _pulsar_dependencies_dir }}/_conda"
-      - type: conda
-        prefix: "{{ _jetstream_scratch_root }}/conda"
-        auto_init: true
-        auto_install: true
+        auto_init: false
+        auto_install: false
+      #- type: conda
+      #  prefix: "{{ _jetstream_scratch_root }}/conda"
+      #  auto_init: true
+      #  auto_install: true
       - type: tool_shed_packages
       - type: galaxy_packages
   managers:
