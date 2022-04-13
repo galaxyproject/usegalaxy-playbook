@@ -519,6 +519,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6.2: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/4.6.3: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.1.0: {destination: slurm_multi_conda}
 
   # There is a fastqc=0.10.1 container but the tool is missing a dep on python=2.7
   # TODO: this should become a standard environment, possibly just the regular image for slurm_normal_conda
@@ -620,6 +621,14 @@ tools:
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bx-python:0.7.1"}]
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.0: toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.3
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.2: toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.3
+
+  # no /bin/bash, but has /bin/sh
+  toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.2.3:
+    destination: slurm_normal_conda
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/stringtie:1.2.3--0"}]
+  toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie_merge/0.1.0:
+    destination: slurm_normal_conda
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/stringtie:1.2.3--0"}]
 
   # FIXME: disabled while we try to figure out locking issues
   #toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/1.0.3+galaxy2: {destination: slurm_multi_resolv_fix, login_required: true}
