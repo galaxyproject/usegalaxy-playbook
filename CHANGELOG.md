@@ -3,6 +3,13 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Wed Apr 13 13:22:33 CDT 2022
+
+- `toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/PEsortedSAM2readprofile` (all versions) - removed import
+  of galaxy.eggs
+
+### Forgot to record the date
+
 1. Uninstalled the following old tool versions because they did not work even before Singularity, and newer, working
 versions exist:
 
