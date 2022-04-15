@@ -3,10 +3,15 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Thu Apr 14 14:59:02 CDT 2022
+
+- Uninstalled broken versions of deeptools: 2.2.2.0, 2.2.3.0, 2.3.6.0
+
 ### Wed Apr 13 13:22:33 CDT 2022
 
 - `toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/PEsortedSAM2readprofile` (all versions) - removed import
   of galaxy.eggs
+- Uninstalled all old versions of ChemicalToolBox tools and reinstalled at their latest versions.
 
 ### Forgot to record the date
 
