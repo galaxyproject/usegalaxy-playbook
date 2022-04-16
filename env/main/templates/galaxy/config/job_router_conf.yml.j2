@@ -378,6 +378,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/iuc/trinotate/trinotate/3.1.1: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/iuc/trinotate/trinotate/3.2.1: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/bgruening/get_online_data/get_pdb/0.1.0: {destination: slurm_normal_resolv_fix}
 
   # Singularity normal + conda/TS/Galaxy deps; we should try to fix or remove these over time
   # No datamash=1.0.6 container
@@ -521,6 +522,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/vcfdistance/vcfdistance/0.0.3: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/vcftools_annotate/vcftools_annotate/0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/vcftools_slice/vcftools_slice/0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/ml_visualization_ex/ml_visualization_ex/1.0.7.12: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/model_prediction/model_prediction/1.0.8.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/model_prediction/model_prediction/1.0.8.2: {destination: slurm_normal_conda}
 
   # Singularity multi + conda/TS/Galaxy deps;
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3: {destination: slurm_multi_conda}
@@ -571,6 +575,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_pca/deeptools_plot_pca/2.5.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_profile/deeptools_plot_profile/2.3.5.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_profile/deeptools_plot_profile/2.5.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/0.7.6.0: {destination: slurm_multi_conda}
 
   # There is a fastqc=0.10.1 container but the tool is missing a dep on python=2.7
   # TODO: this should become a standard environment, possibly just the regular image for slurm_normal_conda
