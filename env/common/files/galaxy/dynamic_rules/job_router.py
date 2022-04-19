@@ -673,6 +673,11 @@ def job_router(app, job, tool, resource_params, user):
         destination.params['container_override'] = container_override
         local.log.debug("Container override from tool mapping: %s", container_override)
 
+    object_store_id_override = __user_group_mappings(app, user_email, 'object_store_id')
+    if object_store_id_override:
+        destination.params['object_store_id'] = object_store_id_override
+        local.log.debug(f"Object store ID for this job set to {object_store_id_override}")
+
     local.log.info('Returning destination: %s', destination_id)
     local.log.info('Native specification: %s', destination.params.get(native_spec_param))
     return destination
