@@ -33,6 +33,8 @@
         {{ env_temp_envs(singularity=singularity) }}
         - name: _JAVA_OPTIONS
           value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
+        - name: TERM
+          value: vt100
         - execute: ulimit -c 0
         - name: LC_ALL
           value: C
@@ -41,6 +43,8 @@
           value: $_JAVA_OPTIONS
         - name: SINGULARITYENV_LC_ALL
           value: $LC_ALL
+        - name: SINGULARITYENV_TERM
+          value: $TERM
 {% else %}
         - name: PATH
           value: /usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin

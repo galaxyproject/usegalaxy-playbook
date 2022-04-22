@@ -3,6 +3,18 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Thu Apr 21 14:02:39 CDT 2022
+
+Uninstalled broken/unfixable:
+
+- `toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.0.0`
+- `toolshed.g2.bx.psu.edu/repos/devteam/canonical_correlation_analysis/cca1/1.0.0`
+- `toolshed.g2.bx.psu.edu/repos/devteam/correlation/cor2/1.0.0`
+- `toolshed.g2.bx.psu.edu/repos/devteam/count_gff_features/count_gff_features/0.1`
+- `toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.6`
+- `toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0.0.7`
+- All `cuff*` tools version `2.2.1.0`
+
 ### Thu Apr 14 14:59:02 CDT 2022
 
 - Uninstalled broken versions of deeptools: 2.2.2.0, 2.2.3.0, 2.3.6.0
