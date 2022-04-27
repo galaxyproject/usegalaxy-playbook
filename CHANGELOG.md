@@ -3,6 +3,14 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Wed Apr 27 12:43:48 CDT 2022
+
+Uninstalled:
+
+- `toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0.0.2`
+- `toolshed.g2.bx.psu.edu/repos/devteam/dna_filtering/histogram_rpy/1.0.3`
+- `toolshed.g2.bx.psu.edu/repos/devteam/histogram/histogram_rpy/1.0.3`
+
 ### Thu Apr 21 14:02:39 CDT 2022
 
 Uninstalled broken/unfixable:
