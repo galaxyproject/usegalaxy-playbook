@@ -96,7 +96,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0: {destination: slurm_normal_16gb_direct}
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {destination: slurm_normal_16gb_direct}
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/2.4.2: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/scatterplot_rpy/1.0.0: {destination: slurm_normal_16gb_direct}
   toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/scatterplot_rpy/1.0.3: {destination: slurm_normal_16gb_direct}
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy1: {destination: slurm_normal_16gb_direct}
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy3: {destination: slurm_normal_16gb_direct}
@@ -202,6 +201,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/trinotate/trinotate/3.1.1: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/iuc/trinotate/trinotate/3.2.1: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/bgruening/get_online_data/get_pdb/0.1.0: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/retrieve_scxa/retrieve_scxa/v0.0.2+galaxy2: {destination: slurm_normal_resolv_fix}
 
   # Singularity normal + conda/TS/Galaxy deps; we should try to fix or remove these over time
   # No datamash=1.0.6 container
@@ -457,6 +457,103 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/bwa_wrapper/1.2.3: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/find_diag_hits/1.0.0: {destination: slurm_normal_conda}
   "toolshed.g2.bx.psu.edu/repos/devteam/gi2taxonomy/Fetch Taxonomic Ranks/1.1.0": {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/1.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/lca_wrapper/lca1/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/linear_regression/LinearRegression1/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/logistic_regression_vif/LogisticRegression/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/megablast_xml_parser/megablast_xml_parser/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/microsats_mutability/microsats_mutability1/1.1.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/mutate_snp_codon/mutate_snp_codon_1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/mine/maximal_information_based_nonparametric_exploration/0.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/partialr_square/partialRsq/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddCommentsToBam/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddCommentsToBam/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddOrReplaceReadGroups/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddOrReplaceReadGroups/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BedToIntervalList/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_BedToIntervalList/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CASM/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CASM/1.136.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CleanSam/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CleanSam/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectBaseDistributionByCycle/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectBaseDistributionByCycle/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectGcBiasMetrics/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectGcBiasMetrics/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectInsertSizeMetrics/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectInsertSizeMetrics/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectRnaSeqMetrics/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectRnaSeqMetrics/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectWgsMetrics/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_CollectWgsMetrics/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_DownsampleSam/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_DownsampleSam/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_EstimateLibraryComplexity/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_EstimateLibraryComplexity/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FastqToSam/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FilterSamReads/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FilterSamReads/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FixMateInformation/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_FixMateInformation/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicatesWithMateCigar/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicatesWithMateCigar/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MeanQualityByCycle/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MeanQualityByCycle/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MergeBamAlignment/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MergeBamAlignment/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MergeSamFiles/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MergeSamFiles/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_NormalizeFasta/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_NormalizeFasta/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_QualityScoreDistribution/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_QualityScoreDistribution/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReorderSam/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReorderSam/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ReplaceSamHeader/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_RevertOriginalBaseQualitiesAndAddMateCigar/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_RevertOriginalBaseQualitiesAndAddMateCigar/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_RevertSam/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_RevertSam/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SamToFastq/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SortSam/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_SortSam/1.136.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ValidateSamFile/1.126.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ValidateSamFile/1.136.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/plot_from_lda/plot_for_lda_output1/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/poisson2test/poisson2test/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/principal_component_analysis/pca1/1.0.2: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/quality_filter/qualityFilter/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/rcve/rcve1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/snpfreq/hgv_snpFreq/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/substitution_rates/subRate1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/substitutions/substitutions1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/subtract/gops_subtract_1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/subtract_query/subtract_query1/0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/t2ps/Draw_phylogram/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/t_test_two_samples/t_test_two_samples/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.2: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/table_recalibration/gatk_table_recalibration/0.0.5: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fastq/tabular_to_fastq/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat/tophat/1.5.0: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.6: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.7: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/0.9: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/2.1.0: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat_fusion_post/tophat_fusion_post/0.1: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/ucsc_custom_track/build_ucsc_custom_track_1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/vcf2pgsnp/vcf2pgSnp/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/weblogo3/rgweblogo3/0.4: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/XY_Plot_1/1.0.1: {destination: slurm_normal_conda}
 
   # There is a fastqc=0.10.1 container but the tool is missing a dep on python=2.7
   # TODO: this should become a standard environment, possibly just the regular image for slurm_normal_conda
@@ -543,11 +640,45 @@ tools:
     destination: slurm_normal
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/biopython:1.66--np110py36_0"}]
 
+  # container exists but Galaxy picks the python 3 version, which needs this due to
+  # https://click.palletsprojects.com/en/7.x/python3/#python-3-surrogate-handling
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1:
-    # container exists but Galaxy picks the python 3 version, which needs this due to
-    # https://click.palletsprojects.com/en/7.x/python3/#python-3-surrogate-handling
     destination: slurm_normal
     env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_compute_graph/scanpy_compute_graph/1.6.0+galaxy3:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_filter_cells/scanpy_filter_cells/1.6.0+galaxy0:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_filter_genes/scanpy_filter_genes/1.6.0+galaxy0:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_find_cluster/scanpy_find_cluster/1.6.0+galaxy3:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_find_markers/scanpy_find_markers/1.6.0+galaxy4:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_find_variable_genes/scanpy_find_variable_genes/1.6.0+galaxy0:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_integrate_harmony/scanpy_integrate_harmony/1.6.0+galaxy1:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_read_10x/scanpy_read_10x/1.6.0+galaxy0:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_pca/scanpy_run_pca/1.6.0+galaxy1:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_tsne/scanpy_run_tsne/1.6.0+galaxy2:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_run_umap/scanpy_run_umap/1.6.0+galaxy1:
+    destination: slurm_normal
+    env: [{name: LC_ALL, value: C.UTF-8}, {name: SINGULARITYENV_LC_ALL, value: $LC_ALL}]
+
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.5.0: toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.6: toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.7: toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.3.1

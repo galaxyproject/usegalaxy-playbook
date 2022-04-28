@@ -3,6 +3,14 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Thu Apr 28 09:49:37 CDT 2022
+
+Uninstalled:
+
+- `toolshed.g2.bx.psu.edu/repos/devteam/lastz/lastz_wrapper_2/1.2.2`
+- `toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/scatterplot_rpy/1.0.0`
+- `toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/XY_Plot_1/1.0.1`
+
 ### Wed Apr 27 12:43:48 CDT 2022
 
 Uninstalled:
