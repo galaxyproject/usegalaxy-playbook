@@ -3,6 +3,14 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Fri Apr 29 12:36:39 CDT 2022
+
+Uninstalled:
+
+- `toolshed.g2.bx.psu.edu/repos/guerler/charts/charts/1.0.0`
+
+Fixed `anndata_import` old versions with fix from https://github.com/galaxyproject/tools-iuc/pull/3983
+
 ### Thu Apr 28 09:49:37 CDT 2022
 
 Uninstalled:

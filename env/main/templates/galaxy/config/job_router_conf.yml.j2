@@ -202,6 +202,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/trinotate/trinotate/3.2.1: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/bgruening/get_online_data/get_pdb/0.1.0: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/retrieve_scxa/retrieve_scxa/v0.0.2+galaxy2: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0: {destination: slurm_normal_resolv_fix}
 
   # Singularity normal + conda/TS/Galaxy deps; we should try to fix or remove these over time
   # No datamash=1.0.6 container
@@ -554,6 +555,20 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/weblogo3/rgweblogo3/0.4: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/XY_Plot_1/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/ethevenot/biosigner/biosigner/2.2.7: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/ethevenot/multivariate/Multivariate/2.3.10: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/ethevenot/univariate/Univariate/2.2.4: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/galaxyp/custom_pro_db/custom_pro_db/1.22.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/galaxyp/pep_pointer/pep_pointer/0.1.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/gregory-minevich/check_snpeff_candidates/check_snpeff_candidates/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_in_silico_complementation/in_silico_complementation/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/gregory-minevich/cloudmap_variant_discovery_mapping/cloudmap_variant_discovery_mapping/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/ems_variant_density_mapping/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/gregory-minevich/snp_mapping_using_wgs/snp_mapping_using_wgs/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/guerler/dbkit/dbkit_create/0.1.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/guru-ananda/karyotype_plot/karyotype_Plot_1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/guru-ananda/rhmm/hmm_1/1.0.0: {destination: slurm_normal_conda}
 
   # There is a fastqc=0.10.1 container but the tool is missing a dep on python=2.7
   # TODO: this should become a standard environment, possibly just the regular image for slurm_normal_conda
@@ -572,6 +587,10 @@ tools:
   # FIXME: something seems wrong here, container should be good but singularity seems to die and java continues to run
   # outside container?
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {destination: slurm_normal_conda}
+
+  # container exists but is broken (needs to be built with glibc)
+  toolshed.g2.bx.psu.edu/repos/ecology/xarray_metadata_info/xarray_metadata_info/0.15.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/ecology/xarray_select/xarray_select/0.15.1: {destination: slurm_normal_conda}
 
   # Singularity w/ forced container and other special cases
 
