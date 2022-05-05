@@ -60,8 +60,8 @@ galaxy_job_conf_pulsar_galaxy_url: "https://{{ inventory_hostname_short }}.galax
 pulsar_coexecution_container_image: quay.io/natefoo/pulsar-pod-staging:0.15.0.dev0
 
 __handler_default_plugins:
-  - local
   - slurm
+  - jetstream2
 
 __handler_multi_plugins:
   - slurm
@@ -79,24 +79,16 @@ galaxy_job_conf_multi_handler_tag: multi
 galaxy_job_conf_handlers:
   - id: main_w3_handler0
     plugins: "{{ __handler_default_plugins }}"
-    tags:
-      - handlers
   - id: main_w3_handler1
     plugins: "{{ __handler_default_plugins }}"
-    tags:
-      - handlers
   - id: main_w3_handler2
     plugins: "{{ __handler_multi_plugins }}"
     tags:
       - multi
   - id: main_w4_handler0
     plugins: "{{ __handler_default_plugins }}"
-    tags:
-      - handlers
   - id: main_w4_handler1
     plugins: "{{ __handler_default_plugins }}"
-    tags:
-      - handlers
   - id: main_w4_handler2
     plugins: "{{ __handler_multi_plugins }}"
     tags:
