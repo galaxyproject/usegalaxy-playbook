@@ -3,6 +3,24 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Wed May  4 12:15:13 CDT 2022
+
+- Manually applied [tools-iuc#3980](https://github.com/galaxyproject/tools-iuc/pull/3980/) to `toolshed.g2.bx.psu.edu/repos/iuc/feelnc/feelnc/0.1.1.1`
+- Updated and then hid `toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.2`
+
+Uninstalled:
+
+- `toolshed.g2.bx.psu.edu/repos/iuc/gffcompare/gffcompare/0.9.8`
+- `toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1`
+- Pre-2016 `macs2_*`
+
+### Tue May  3 15:45:37 CDT 2022
+
+- Set `LD_LIBRARY_PATH="$RHOME/lib"` in the `rpy/1.0.3` tool_shed_package `env.sh` because _rpy2110.so has an RPATH that
+  points to `/galaxy`, which has not existed since unmounting Corral 3 (and would not work on JS2 anyway).
+- Restored a bunch of tools that I had tested in Singularity that didn't work to their pre-Singularity configs
+- Manually applied [tools-iuc#3934](https://github.com/galaxyproject/tools-iuc/pull/3934) to 1.0.0 versions.
+
 ### Fri Apr 29 12:36:39 CDT 2022
 
 Uninstalled:

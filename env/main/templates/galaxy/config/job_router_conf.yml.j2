@@ -92,6 +92,12 @@ tools:
 {% endif %}
 {% endfor %}
 
+  # https://github.com/galaxyproject/tools-iuc/issues/4119
+  # These will probably never be able to run in Singularity until a deconstructed version exists (at which point the old
+  # versions should be removed)
+  medaka_variant_pipeline: {destination: slurm_normal_direct}
+  medaka_consensus_pipeline: {destination: slurm_normal_direct}
+
   # Old versions not yet tested in Singularity
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0: {destination: slurm_normal_16gb_direct}
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {destination: slurm_normal_16gb_direct}
@@ -126,7 +132,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.0: {destination: slurm_normal_16gb_direct}
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.1: {destination: slurm_normal_16gb_direct}
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/2.0.0: {destination: slurm_normal_16gb_direct}
-  Interval2Maf1: {destination: slurm_normal_32gb_direct}
+  #Interval2Maf1: {destination: slurm_normal_32gb_direct}
   wig_to_bigWig: {destination: slurm_normal_64gb_direct}
   CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb_direct}
 
@@ -160,6 +166,27 @@ tools:
 
   # 1 core, 32 GB of memory, and a 36 hour walltime
   #Interval2Maf1: {destination: slurm_normal_32gb}
+  # not sure why but the container does not resolve at runtime
+  #toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/Interval2Maf1/1.0.1:
+  #  destination: slurm_normal_32gb
+  #  container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bx-python:0.8.9--py38hb90e610_2"}]
+  #toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/Interval2Maf1/1.0.1+galaxy0:
+  #  destination: slurm_normal_32gb
+  #  container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bx-python:0.8.9--py38hb90e610_2"}]
+  # NOPE:
+  # File "/cvmfs/main.galaxyproject.org/shed_tools/toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/b79f6002b176/interval2maf/interval2maf.py", line 34, in <module>
+  #   from galaxy.tools.util import maf_utilities
+  # File "/cvmfs/main.galaxyproject.org/galaxy/lib/galaxy/tools/__init__.py", line 29, in <module>
+  #   import packaging.version
+  # ModuleNotFoundError: No module named 'packaging'
+  # Has a dep on bx-python 0.8.9 but the container doesn't resolve, but even if forced, it still fails because it has an
+  # undeclared dep on galaxy.tools
+  Interval2Maf1:
+    destination: slurm_normal_32gb
+    # this is what slurm_normal_galaxy_env does
+    env:
+      - name: SINGULARITYENV_PREPEND_PATH
+        value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
 
   # TODO: maybe just send these to stampede?
   # 1 core, 64 GB of memory, and a 36 hour walltime
@@ -203,6 +230,14 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/get_online_data/get_pdb/0.1.0: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/retrieve_scxa/retrieve_scxa/v0.0.2+galaxy2: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/ebi_metagenomics_run_downloader/ebi_metagenomics_run_downloader/0.1.0: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/ebi_search_rest_results/ebi_search_rest_results/0.1.1: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_convert/gprofiler_convert/0.1.7+galaxy11: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_gost/gprofiler_gost/0.1.7+galaxy11: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_orth/gprofiler_orth/0.1.7+galaxy11: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_random/gprofiler_random/0.1.7+galaxy11: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_snpense/gprofiler_snpense/0.1.7+galaxy11: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/1.0.3+galaxy2: {destination: slurm_multi_resolv_fix}
 
   # Singularity normal + conda/TS/Galaxy deps; we should try to fix or remove these over time
   # No datamash=1.0.6 container
@@ -402,11 +437,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/0.7.6.0: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/blankenberg/naive_variant_caller/naive_variant_caller/0.0.2: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1: {destination: slurm_normal_conda}
-  # FIXME nope
-  toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1:
-    destination: slurm_normal
-    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/rpy2:2.7.8--py27r3.3.2_1"}]
   toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.1: {destination: slurm_normal_conda}
@@ -448,8 +478,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/histogram/histogram_rpy/1.0.3: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/histogram/histogram_rpy/1.0.4: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/indels_3way/indels_3way/1.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/rcve/rcve1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/kernel_canonical_correlation_analysis/kcca1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/kernel_principal_component_analysis/kpca1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/principal_component_analysis/pca1/1.0.2: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/linear_regression/LinearRegression1/1.0.1: {destination: slurm_normal_conda}
+  #toolshed.g2.bx.psu.edu/repos/devteam/logistic_regression_vif/LogisticRegression/1.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/partialr_square/partialRsq/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/devteam/principal_component_analysis/pca1/1.0.2: {destination: slurm_normal_conda}
+  #toolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0: {destination: slurm_normal_conda}
 
   toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie_color_wrappers/bowtie_color_wrapper/1.1.2: {destination: slurm_multi_conda}
@@ -461,14 +498,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/kraken2tax/Kraken2Tax/1.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/lca_wrapper/lca1/1.0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/linear_regression/LinearRegression1/1.0.1: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/logistic_regression_vif/LogisticRegression/1.0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/megablast_xml_parser/megablast_xml_parser/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/microsats_mutability/microsats_mutability1/1.1.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/mutate_snp_codon/mutate_snp_codon_1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/mine/maximal_information_based_nonparametric_exploration/0.0.1: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/partialr_square/partialRsq/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddCommentsToBam/1.126.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddCommentsToBam/1.136.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_AddOrReplaceReadGroups/1.126.0: {destination: slurm_normal_conda}
@@ -529,19 +561,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_ValidateSamFile/1.136.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/plot_from_lda/plot_for_lda_output1/1.0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/poisson2test/poisson2test/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/principal_component_analysis/pca1/1.0.2: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/quality_filter/qualityFilter/1.0.1: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/rcve/rcve1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/snpfreq/hgv_snpFreq/1.0.1: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/substitution_rates/subRate1/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/substitutions/substitutions1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/subtract/gops_subtract_1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/subtract_query/subtract_query1/0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/t2ps/Draw_phylogram/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/t2t_report/t2t_report/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/t_test_two_samples/t_test_two_samples/1.0.1: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.1: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/table_annovar/table_annovar/0.2: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/table_recalibration/gatk_table_recalibration/0.0.5: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fastq/tabular_to_fastq/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/tophat/tophat/1.5.0: {destination: slurm_multi_conda}
@@ -566,9 +591,55 @@ tools:
   toolshed.g2.bx.psu.edu/repos/gregory-minevich/ems_variant_density_mapping/ems_variant_density_mapping/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/gregory-minevich/snp_mapping_using_wgs/snp_mapping_using_wgs/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/guerler/dbkit/dbkit_create/0.1.1: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/guru-ananda/karyotype_plot/karyotype_Plot_1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/guru-ananda/rhmm/hmm_1/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/4.1.2: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/4.1.4: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.0.0+galaxy0: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_aln_to_links/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_binlinks/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_bundlelinks/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_gc_skew/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_interval_to_text/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_interval_to_tile/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_resample/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_tableviewer/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos_wiggle_to_scatter/0.69.8+galaxy1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circgraph/0.9-RC2: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/cwpair2/cwpair2/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/2.1.8.3: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/2.1.8.4: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq_count/1.24.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/disco/disco/1.2.0: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/disco/disco/1.2.1: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd_beforevsafter/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/fsd_regions/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/duplex_family_size_distribution/td/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/1.10.0: {destination: slurm_multi_conda}
+  "toolshed.g2.bx.psu.edu/repos/iuc/extract_genomic_dna/Extract genomic DNA 1/3.0.3": {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.4.6.p5: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.2: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.6: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.2: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/genetrack/genetrack/1.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1.0.0: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1.0.1: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/2.0.3: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/1.16.1+galaxy0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse_to_standalone/1.16.1+galaxy0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.0.2: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.0.3: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.1.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.12.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_meme/meme_meme/4.11.0.0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/meme_meme/meme_meme/4.11.0.1: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/miniasm/miniasm/0.2+galaxy0: {destination: slurm_normal_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/migmap/migmap/1.0.2.1: {destination: slurm_multi_conda}
+  toolshed.g2.bx.psu.edu/repos/iuc/migmap/migmap/1.0.2.2: {destination: slurm_multi_conda}
 
   # There is a fastqc=0.10.1 container but the tool is missing a dep on python=2.7
   # TODO: this should become a standard environment, possibly just the regular image for slurm_normal_conda
@@ -717,8 +788,9 @@ tools:
     destination: slurm_normal_conda
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/stringtie:1.2.3--0"}]
 
-  # FIXME: disabled while we try to figure out locking issues
-  #toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/1.0.3+galaxy2: {destination: slurm_multi_resolv_fix, login_required: true}
+  # SQLite database locking problems inside Singularity on NFS, but not on Ceph
+  toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/0.8.4: {destination: jetstream2_normal}
+
 
   # Valiant efforts but no luck
   # No fontconfig=2.11.1,rpy=1.0.3,R=2.11.0 container
