@@ -22,7 +22,7 @@ galaxy_job_conf_environments:
         - name: PATH
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
     - id: test_normal_py2_direct
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       use_singularity: false
       extra_params: {use_metadata_binary: true}
       tags: [test_limit]
@@ -38,7 +38,7 @@ galaxy_job_conf_environments:
       java_mem: 7
       tags: [normal_limit]
     - id: test_normal_direct
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       use_singularity: false
       java_mem: 3
       tags: [test_limit]
@@ -123,7 +123,7 @@ galaxy_job_conf_environments:
           # image is https://github.com/natefoo/usegalaxy.org-legacy-environment
           identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0
     - id: test_normal_conda
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
       tags: [test_limit]
       container_override:
@@ -144,7 +144,7 @@ galaxy_job_conf_environments:
       default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:2.7.16
       tags: [normal_limit]
     - id: test_normal_py2
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
       default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:2.7.16
       tags: [test_limit]
@@ -160,7 +160,7 @@ galaxy_job_conf_environments:
         - name: SINGULARITYENV_PREPEND_PATH
           value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
     - id: test_normal_galaxy_env
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
       tags: [test_limit]
       append_envs:
@@ -175,7 +175,7 @@ galaxy_job_conf_environments:
       extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
     - id: test_normal_resolv_fix
       runner: slurm
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
       tags: [test_limit]
       # https://github.com/bioconda/bioconda-recipes/issues/11583
@@ -196,7 +196,7 @@ galaxy_job_conf_environments:
       java_mem: 7
       tags: [normal_limit]
     - id: test_normal
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=3840
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
       tags: [test_limit]
     - id: normal_16gb
