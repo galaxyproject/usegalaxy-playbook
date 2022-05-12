@@ -173,6 +173,7 @@ galaxy_job_conf_environments:
       tags: [normal_limit]
       # https://github.com/bioconda/bioconda-recipes/issues/11583
       extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
+      volumes: "{{ galaxy_job_conf_singularity_volumes.local + ['/etc/pki:ro', '/etc/ssl:ro'] }}"
     - id: test_normal_resolv_fix
       runner: slurm
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
@@ -180,6 +181,7 @@ galaxy_job_conf_environments:
       tags: [test_limit]
       # https://github.com/bioconda/bioconda-recipes/issues/11583
       extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
+      volumes: "{{ galaxy_job_conf_singularity_volumes.local + ['/etc/pki:ro', '/etc/ssl:ro'] }}"
 
     # upload should not need a ton of resources but also needs RW access to the FTP dir
     #- id: upload
@@ -230,6 +232,7 @@ galaxy_job_conf_environments:
       tags: [multi_limit]
       # https://github.com/bioconda/bioconda-recipes/issues/11583
       extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
+      volumes: "{{ galaxy_job_conf_singularity_volumes.local + ['/etc/pki:ro', '/etc/ssl:ro'] }}"
 
     # priority (reserved) environments
     - id: reserved_normal

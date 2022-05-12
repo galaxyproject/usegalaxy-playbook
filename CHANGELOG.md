@@ -3,6 +3,24 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+### Mon May  9 14:07:45 CDT 2022
+
+Uninstalled:
+
+- `toolshed.g2.bx.psu.edu/repos/iuc/newick_utils/newick_display/1.6` - broken version, working version 1.6+galaxy1 is
+  installed
+- `toolshed.g2.bx.psu.edu/repos/iuc/scpipe/scpipe/1.0.0+galaxy1` - `galaxy2` is installed and contains all the fixes
+  needed for this to run properly in a container and basically no other changes.
+- `toolshed.g2.bx.psu.edu/repos/iuc/sarscov2formatter/sarscov2formatter/` - versions `0.1` and `0.5.3+galaxy1`. These
+  run forever and never finish, the `1.0` version is installed and works properly.
+- `toolshed.g2.bx.psu.edu/repos/iuc/star_fusion/star_fusion/0.5.4-3` - The `galaxy1` version is installed and fixes the
+  dependency issues.
+- `toolshed.g2.bx.psu.edu/repos/iuc/tag_pileup_frequency/tag_pileup_frequency/1.0.1` - writes to input, 1.0.2 is
+  installed and fixed.
+- `toolshed.g2.bx.psu.edu/repos/iuc/tetyper/tetyper/1.1+galaxy0` - working `galaxy1` version is installed
+- `toolshed.g2.bx.psu.edu/repos/iuc/tbprofiler/tb_profiler_profile/2.6.1+galaxy0` - writes to dependency install dir,
+  newer versions are installed and fixed.
+
 ### Wed May  4 12:15:13 CDT 2022
 
 - Manually applied [tools-iuc#3980](https://github.com/galaxyproject/tools-iuc/pull/3980/) to `toolshed.g2.bx.psu.edu/repos/iuc/feelnc/feelnc/0.1.1.1`
