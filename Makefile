@@ -34,6 +34,8 @@ main-static: PLAYBOOK = static
 main-static: main
 main-update: PLAYBOOK = update
 main-update: main
+main-tusd: PLAYBOOK = tusd
+main-tusd: main
 test-backup: PLAYBOOK = backup
 test-backup: test
 test-client: PLAYBOOK = client
