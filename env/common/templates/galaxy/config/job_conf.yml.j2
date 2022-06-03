@@ -269,7 +269,7 @@ execution:
 #}
 
     # FIXME: roundup-only since I'm pretty certain memory_limit_reached doesn't work on Pulsar dests
-    # resubmit to jetstream-tacc-xlarge on memory failure
+    # resubmit to multi_largemem on memory failure
     slurm_multi_memory_resubmit:
       runner: slurm
       native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00
@@ -278,7 +278,7 @@ execution:
         {{ env_local_envs(java_mem=28) }}
       resubmit:
         condition: memory_limit_reached
-        environment: jetstream_tacc_xlarge
+        environment: multi_largemem
 
     #
     # Kubernetes environments

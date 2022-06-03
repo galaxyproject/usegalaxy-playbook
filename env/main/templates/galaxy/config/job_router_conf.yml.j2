@@ -979,10 +979,10 @@ tools:
         value_template: '{value}/hash.k2d'
         op: '>'
         value: 24G
-      destination: jetstream_tacc_xlarge_direct
+      destination: jetstream2_large
       #destination: stampede_normal
       login_required: true
-    - destination: multi_direct
+    - destination: multi
       login_required: true
 
   # align_families gets 192 hours of walltime
@@ -1276,7 +1276,7 @@ destinations:
       queue_factor: 4
     - id: jetstream2_multi
       # temp limit jobs to JS2
-      queue_factor: 8
+      queue_factor: 4
   multi_direct:
     - id: slurm_multi_direct
     - id: jetstream_iu_multi_direct

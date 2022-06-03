@@ -328,7 +328,7 @@ galaxy_job_conf_environments:
       runner: jetstream_tacc
       native_specification: --partition=xlarge --nodes=1 --time=36:00:00
       java_mem: 58
-      tags: [xlarge_limit]
+      tags: [multi_largemem, xlarge_limit]
 
   jetstream2_environments:
     - id: normal
@@ -339,6 +339,10 @@ galaxy_job_conf_environments:
       native_specification: --partition=multi --nodes=1 --time=36:00:00
       java_mem: 28
       tags: [multi, multi_limit]
+    - id: large
+      native_specification: --partition=large --nodes=1 --time=36:00:00
+      java_mem: 58
+      tags: [multi_largemem, xlarge_limit]
 
   stampede_environments:
     - id: normal
