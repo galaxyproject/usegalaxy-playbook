@@ -164,16 +164,16 @@ galaxy_conditional_large_memory_tools:
   - unicycler
 
 # tools that should run on Stampede
-galaxy_low_priority_tools:
-  - bwa_color_wrapper
-  - bowtie_color_wrapper
-  - megablast_wrapper
-  - ncbi_blastn_wrapper
-  - ncbi_blastp_wrapper
-  - ncbi_blastx_wrapper
-  - ncbi_rpsblast_wrapper
-  - ncbi_tblastn_wrapper
-  - ncbi_tblastx_wrapper
+galaxy_low_priority_tools: []
+#  - bwa_color_wrapper
+#  - bowtie_color_wrapper
+#  - megablast_wrapper
+#  - ncbi_blastn_wrapper
+#  - ncbi_blastp_wrapper
+#  - ncbi_blastx_wrapper
+#  - ncbi_rpsblast_wrapper
+#  - ncbi_tblastn_wrapper
+#  - ncbi_tblastx_wrapper
 
 # tools that should run on Frontera
 galaxy_frontera_tools:
@@ -193,6 +193,9 @@ __galaxy_multicore_tools_exclude:
   - spades
   #- star_fusion
   - unicycler
+  # nobody should be running these, but if they do, just grant single core resources
+  - bowtie_color_wrapper
+  - bwa_color_wrapper
 
 # missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
@@ -214,12 +217,16 @@ __galaxy_multicore_tools_include:
   - hyphy_gard
   - hyphy_meme
   - keras_train_and_eval
+  - megablast_wrapper
   - mimodd_align
   - mimodd_varcall
   - model_prediction
   - ncbi_blastn_wrapper
   - ncbi_blastp_wrapper
   - ncbi_blastx_wrapper
+  - ncbi_rpsblast_wrapper
+  - ncbi_tblastn_wrapper
+  - ncbi_tblastx_wrapper
   - sklearn_searchcv
   - stacking_ensemble_models
 

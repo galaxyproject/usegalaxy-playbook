@@ -219,6 +219,8 @@ tools:
 
   # Singularity normal + galaxy env (note: these should be handled by the job router if listed in galaxy-lib tools)
   gff_filter_by_feature_count: {destination: slurm_normal_galaxy_env}
+  # missing dep on python
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/2.10.1+galaxy0: {destination: slurm_normal_galaxy_env}
 
   # Singularity normal + resolv.conf fix
   toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.2: {destination: slurm_normal_resolv_fix}
@@ -957,9 +959,9 @@ tools:
         - name: kraken_database
           value: bacteria
       # can be a real id or key in 'destinations' dict below
-      destination: stampede_skx_normal
+      destination: frontera_small
       login_required: true
-    - destination: multi_direct
+    - destination: multi
       login_required: true
 
   kraken2:
@@ -969,8 +971,8 @@ tools:
         table_name: kraken2_databases
         value_template: '{value}/hash.k2d'
         op: '>'
-        value: 84G
-      destination: stampede_skx_normal
+        value: 52G
+      destination: frontera_small
       login_required: true
     - params:
       - name: kraken2_database
@@ -1196,15 +1198,15 @@ tools:
   #
   # Stampede tools
   #
-  bwa_color_wrapper: {destination: stampede_normal, login_required: true}
-  bowtie_color_wrapper: {destination: stampede_normal, login_required: true}
-  megablast_wrapper: {destination: stampede_normal, login_required: true}
-  ncbi_blastn_wrapper: {destination: stampede_normal, login_required: true}
-  ncbi_blastp_wrapper: {destination: stampede_normal, login_required: true}
-  ncbi_blastx_wrapper: {destination: stampede_normal, login_required: true}
-  ncbi_rpsblast_wrapper: {destination: stampede_normal, login_required: true}
-  ncbi_tblastn_wrapper: {destination: stampede_normal, login_required: true}
-  ncbi_tblastx_wrapper: {destination: stampede_normal, login_required: true}
+  #bwa_color_wrapper: {destination: stampede_normal, login_required: true}
+  #bowtie_color_wrapper: {destination: stampede_normal, login_required: true}
+  #megablast_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_blastn_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_blastp_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_blastx_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_rpsblast_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_tblastn_wrapper: {destination: stampede_normal, login_required: true}
+  #ncbi_tblastx_wrapper: {destination: stampede_normal, login_required: true}
 
   #
   # Frontera tools
@@ -1416,6 +1418,9 @@ groups:
       slurm_normal_32gb: slurm_test_normal
       slurm_normal_64gb: slurm_test_normal
       multi: slurm_test_normal
+      #multi: jetstream2_multi
+      #multi: jetstream2_large
+      #multi: jetstream_iu_multi_direct
       slurm_multi: slurm_test_normal
       slurm_normal_conda: slurm_test_normal_conda
       slurm_normal_py2: slurm_test_normal_py2
