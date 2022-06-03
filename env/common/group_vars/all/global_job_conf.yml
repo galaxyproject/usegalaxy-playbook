@@ -89,11 +89,11 @@ galaxy_job_conf_environments:
       java_mem: 3
       tags: [training_limit]
     - id: training_large
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:20:00 --mem=15360
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=15360
       java_mem: 15
       tags: [training_limit]
     - id: training_xlarge
-      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:10:00 --mem=23040
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:20:00 --mem=23040
       java_mem: 22
       tags: [training_limit]
     - id: training_multi
