@@ -2,12 +2,14 @@
 
 - name: Galaxy static configs
   hosts: galaxyservers
+  # NOTE: we also use privsep mode in the role
   remote_user: "{{ galaxy_privileged_user }}"
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
     # set up local galaxy clone and local config
     - role: galaxyproject.galaxy
+      galaxy_separate_privileges: yes
       galaxy_manage_clone: no
       galaxy_manage_static_setup: yes
       galaxy_manage_mutable_setup: no
@@ -15,6 +17,8 @@
       galaxy_fetch_dependencies: no
       galaxy_manage_errordocs: no
       galaxy_build_client: no
+      galaxy_manage_systemd: no
+      galaxy_manage_gravity: yes
   post_tasks:
     # create impersonation config on Main
     - name: Include config post-tasks
@@ -43,21 +47,5 @@
   tags:
     - no-restart
 
-- name: Galaxy error documents
-  hosts: galaxywebservers
-  remote_user: "{{ galaxy_privileged_user }}"
-  roles:
-    # set up local galaxy clone and local config
-    - role: galaxyproject.galaxy
-      galaxy_manage_clone: no
-      galaxy_manage_static_setup: no
-      galaxy_manage_mutable_setup: no
-      galaxy_manage_database: no
-      galaxy_fetch_dependencies: no
-      galaxy_manage_errordocs: yes
-      galaxy_build_client: no
-  tags:
-    - no-restart
-
-- name: Include restart plays
-  import_playbook: _inc_restart.yml
+#- name: Include restart plays
+#  import_playbook: _inc_restart.yml

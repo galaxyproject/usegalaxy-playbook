@@ -122,26 +122,26 @@
     - cron
   tags: galaxy,admin
 
-- name: Install swarm scale playbook
-  hosts: galaxyswarmscaleservers
-  remote_user: root
-  roles:
-    - usegalaxy_swarmscale
-  tags: galaxy,swarmscale
+#- name: Install swarm scale playbook
+#  hosts: galaxyswarmscaleservers
+#  remote_user: root
+#  roles:
+#    - usegalaxy_swarmscale
+#  tags: galaxy,swarmscale
 
-- name: Manage supervisor and root tasks
-  hosts: supervisorservers
-  remote_user: root
-  roles:
-    - supervisor
-  tags: supervisor
+#- name: Manage supervisor and root tasks
+#  hosts: supervisorservers
+#  remote_user: root
+#  roles:
+#    - supervisor
+#  tags: supervisor
 
-- name: Configure zerg mode
-  hosts: zergmodeservers
-  remote_user: root
-  roles:
-    - zergmode
-  tags: zergmode
+#- name: Configure zerg mode
+#  hosts: zergmodeservers
+#  remote_user: root
+#  roles:
+#    - zergmode
+#  tags: zergmode
 
 - name: Configure TIaaS
   hosts: tiaasservers
@@ -163,3 +163,20 @@
   roles:
     - supervisor
   tags: supervisor
+
+# NOTE: this would fail the first time stack is run if Galaxy is not yet installed
+- name: Manage Galaxy systemd tasks
+  hosts: galaxyservers
+  remote_user: root
+  roles:
+    - role: galaxyproject.galaxy
+      galaxy_manage_clone: no
+      galaxy_manage_static_setup: no
+      galaxy_manage_mutable_setup: no
+      galaxy_manage_database: no
+      galaxy_fetch_dependencies: no
+      galaxy_manage_errordocs: no
+      galaxy_build_client: no
+      galaxy_manage_systemd: yes
+      galaxy_manage_gravity: no
+  tags: gravity

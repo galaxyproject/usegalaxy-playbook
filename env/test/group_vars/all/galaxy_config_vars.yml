@@ -14,7 +14,7 @@ galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
 galaxy_new_file_path: "/corral4/{{ galaxy_instance_codename }}/scratch"
 galaxy_job_working_directory: "/corral4/{{ galaxy_instance_codename }}/jobs"
 galaxy_ftp_upload_dir: "/corral4/{{ galaxy_instance_codename }}/ftp"
-galaxy_nginx_upload_dir: "/corral4/{{ galaxy_instance_codename }}/upload"
+galaxy_tus_upload_store: "/corral4/{{ galaxy_instance_codename }}/upload"
 galaxy_nginx_upload_job_files_dir: "/corral4/{{ galaxy_instance_codename }}/upload_job_files"
 galaxy_tool_dependency_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps"
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
@@ -99,7 +99,7 @@ base_app_main: &BASE_APP_MAIN
   tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
   job_working_directory: "{{ galaxy_job_working_directory }}"
   tool_data_path: /corral4/test/tool_data
-  nginx_upload_store: "{{ galaxy_nginx_upload_dir }}"
+  tus_upload_store: "{{ galaxy_tus_upload_store }}"
   nginx_upload_job_files_store: "{{ galaxy_nginx_upload_job_files_dir }}"
   ftp_upload_dir: "{{ galaxy_ftp_upload_dir }}"
   user_library_import_dir: /corral4/test/ftp
@@ -122,7 +122,7 @@ base_app_main: &BASE_APP_MAIN
   data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
   job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
   dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
-  containers_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.yml"
+  container_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.yml"
 
   migrated_tools_config: "/cvmfs/test.galaxyproject.org/config/migrated_tools_conf.xml"
   shed_tool_data_table_config: "/cvmfs/test.galaxyproject.org/config/shed_tool_data_table_conf.xml"
@@ -179,7 +179,6 @@ base_app_main: &BASE_APP_MAIN
   enable_cloud_launch: "True"
   cloudlaunch_default_ami: ami-a7dbf6ce
   nginx_x_accel_redirect_base: /_x_accel_redirect
-  nginx_upload_path: /_upload
   nginx_upload_job_files_path: /_job_files
   log_events: "False"
   log_actions: "False"

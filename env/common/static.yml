@@ -2,3 +2,20 @@
 
 - name: Include static plays
   import_playbook: _inc_static.yml
+
+- name: Galaxy error documents
+  hosts: galaxywebservers
+  remote_user: "{{ galaxy_privileged_user }}"
+  roles:
+    # set up local galaxy clone and local config
+    - role: galaxyproject.galaxy
+      galaxy_manage_clone: no
+      galaxy_manage_static_setup: no
+      galaxy_manage_mutable_setup: no
+      galaxy_manage_database: no
+      galaxy_fetch_dependencies: no
+      galaxy_manage_errordocs: yes
+      galaxy_build_client: no
+      galaxy_manage_systemd: no
+  tags:
+    - no-restart

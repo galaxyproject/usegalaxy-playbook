@@ -39,6 +39,7 @@ galaxy_remote_users:
   privsep: "{{ galaxy_privileged_user }}"
   errdocs: "{{ galaxy_privileged_user }}"
   galaxy: "{{ galaxy_user }}"
+  root: root
 
 # FIXME: Same thing, the become log checks if galaxy_become_users.privsep is set and yet in the defaults we cause it to
 # be always set
@@ -59,6 +60,8 @@ galaxy_mutable_data_dir: "{{ galaxy_root }}/var"
 galaxy_cache_dir: "{{ galaxy_mutable_data_dir }}/cache"
 
 galaxy_admin_email_to: galaxy-lab@bx.psu.edu
+
+
 
 
 ## used by: job_conf.yml template
@@ -248,21 +251,58 @@ galaxy_job_conf_limits:
     value: 4
 
 
-## used by: supervisor
-galaxy_handlers:
-  - count: 2
+# Run Galaxy with Gravity (systemd service unit is set up in the stack playbook)
+galaxy_systemd_mode: gravity
+#galaxy_gravity_state_dir: "{{ (galaxy_mutable_data_dir, 'gravity') | path_join }}"
+galaxy_gravity_config_default:
+  galaxy_root: "{{ galaxy_server_dir }}"
+  log_dir: "{{ galaxy_log_dir }}"
+  virtualenv: "{{ galaxy_venv_dir }}"
+  # FIXME: pidfile is written >60 seconds after gunicorn forks, but unicornherder only waits ~5 seconds, how did this work before?
+  #app_server: unicornherder
+  gunicorn:
+    bind: localhost:8080
+  # FIXME: this works because /usr/local/bin is on $PATH but it should be configurable
+  # FIXME: i lied, it's not on path
+  #tusd:
+  #  enable: true
+  #  upload_dir: "{{ galaxy_tus_upload_store }}"
+  handlers:
+    # handlers are in the job conf
+    #test_handler:
+    #  processes: 2
+    #  pools:
+    #    - job-handlers
+    test_workflow_scheduler:
+      name_template: "{name}{process}"
+      processes: 1
+      pools:
+        - workflow-schedulers
 
-galaxy_workflow_scheduler_count: 1
-galaxyservers_group_supervisor_configs:
+# tus is run from gravity
+#tusd_systemd: false
+
+## used by: supervisor
+#galaxy_handlers:
+#  - count: 2
+
+#galaxy_workflow_scheduler_count: 1
+#galaxyservers_group_supervisor_configs:
+#  - galaxy
+#  - galaxy_gunicorn
+#  - galaxy_dynamic_handler
+#  - galaxy_workflow_scheduler
+#  - galaxy_datamanager
+#  - galaxy_group
+
+galaxyservers_group_absent_supervisor_configs:
   - galaxy
   - galaxy_gunicorn
+  - galaxy_handler
   - galaxy_dynamic_handler
   - galaxy_workflow_scheduler
   - galaxy_datamanager
   - galaxy_group
-
-galaxyservers_group_absent_supervisor_configs:
-  - galaxy_handler
 
 # supervisor template
 galaxy_installer_venv_dir: "{{ galaxy_venv_dir }}"
@@ -328,7 +368,7 @@ galaxy_config_files:
   - src: files/galaxy/config/dependency_resolvers_conf.xml
     dest: "{{ galaxy_config[galaxy_app_config_section]['dependency_resolvers_config_file'] }}"
   - src: files/galaxy/config/container_resolvers_conf.yml
-    dest: "{{ galaxy_config[galaxy_app_config_section]['containers_resolvers_config_file'] }}"
+    dest: "{{ galaxy_config[galaxy_app_config_section]['container_resolvers_config_file'] }}"
   - src: files/galaxy/config/pulsar_stampede_actions.yml
     dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
   - src: files/galaxy/config/pulsar_jetstream.yml
