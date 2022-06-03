@@ -868,6 +868,18 @@ tools:
   # still investigating
   #stringtie: {destination: slurm_multi_direct, login_required: true}
 
+  # WARNING: Temporary directory set to an NFS location.
+  # TMP=/corral4/main/jobs/043/126/43126138/_job_tmp
+  # The temporary directory in MAKER is specifically for
+  # operations that are not NFS-safe, but you have chosen
+  # to ignore this error. If you experience seemly random
+  # freezing and failures, the TMP directory is the cause.
+  maker:
+    destination: multi
+    env:
+      - name: TEMP
+        value: /tmp
+
   # STAR-fusion uses all_fasta, not rnastar_index2, and mostly under 12 GB of memory
   #star_fusion:
   #  destination: jetstream_tacc_xlarge
@@ -1449,3 +1461,4 @@ training_tools:
     rseqc_geneBody_coverage: slurm_training_long
     genrich: slurm_training_large
     wig_to_bigWig: slurm_training_xlarge
+    snippy: slurm_training_xlarge

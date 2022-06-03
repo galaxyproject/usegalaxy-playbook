@@ -546,15 +546,25 @@ def __native_spec_param(destination):
 
 
 def __update_env(destination, envs):
+    destination_envs = []
+    for destination_env in destination.env:
+        destination_envs.append(destination_env.get('name'))
     for env in envs:
-        local.log.debug("Setting env on destination '%s': %s", destination.id, env)
-        destination.env.append({
-            'name': env.get('name'),
+        # if a matching var is already set, we will override it in the same position
+        name = env.get('name')
+        new_env = {
+            'name': name,
             'file': env.get('file'),
             'execute': env.get('execute'),
             'value': env.get('value'),
             'raw': env.get('raw', False),
-        })
+        }
+        if name and name in destination_envs:
+            local.log.debug("Overriding env for var '%s' on destination '%s': %s", name, destination.id, env)
+            destination.env[destination_envs.index(name)] = new_env
+        else:
+            local.log.debug("Setting env on destination '%s': %s", destination.id, env)
+            destination.env.append(new_env)
 
 
 def __training_tools():
