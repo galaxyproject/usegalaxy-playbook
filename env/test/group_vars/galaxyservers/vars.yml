@@ -258,10 +258,13 @@ galaxy_gravity_config_default:
   galaxy_root: "{{ galaxy_server_dir }}"
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"
-  # FIXME: pidfile is written >60 seconds after gunicorn forks, but unicornherder only waits ~5 seconds, how did this work before?
-  #app_server: unicornherder
+  app_server: unicornherder
   gunicorn:
     bind: localhost:8080
+    # when preload is enabled, gunicorn still detaches shortly after spawn, but does not write the pidfile until after
+    # the application loads, so unicornherder fails after 5 tries (with a 1 second wait) to read the pidfile and then
+    # exits.
+    preload: false
   # FIXME: this works because /usr/local/bin is on $PATH but it should be configurable
   # FIXME: i lied, it's not on path
   #tusd:
