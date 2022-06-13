@@ -1,20 +1,13 @@
 ---
 
 ## used by: supervisor
-galaxy_handlers:
-  - count: 2
-  - pool: multi
-    count: 1
-
-galaxy_workflow_scheduler_count: 1
-
-galaxyjobservers_group_supervisor_configs:
-  - galaxy_dynamic_handler
-  - galaxy_workflow_scheduler
-  - galaxy_group
+galaxyjobservers_group_supervisor_configs: []
 
 galaxyjobservers_group_absent_supervisor_configs:
   - galaxy_handler
+  - galaxy_dynamic_handler
+  - galaxy_workflow_scheduler
+  - galaxy_group
 
 ## used by: usegalaxy_privileged
 usegalaxy_dynamic_job_rules:
@@ -25,3 +18,28 @@ usegalaxy_dynamic_job_rules:
   #- stampede_select.py
   - nvc_dynamic_memory.py
   #- mpi.py
+
+# Run Galaxy with Gravity (systemd service unit is set up in the stack playbook)
+galaxy_systemd_mode: gravity
+galaxy_gravity_config_default:
+  galaxy_root: "{{ galaxy_server_dir }}"
+  log_dir: "{{ galaxy_log_dir }}"
+  virtualenv: "{{ galaxy_venv_dir }}"
+  app_server: unicornherder
+  gunicorn:
+    bind: localhost:8080
+    workers: 4
+    # when preload is enabled, gunicorn still detaches shortly after spawn, but does not write the pidfile until after
+    # the application loads, so unicornherder fails after 5 tries (with a 1 second wait) to read the pidfile and then
+    # exits.
+    preload: false
+  celery:
+    enable: false
+    enable_beat: false
+  #tusd:
+  #  enable: false
+  #  tusd_path: /usr/local/sbin/tusd
+  #  upload_dir: "{{ galaxy_tus_upload_store }}"
+  handlers: "{{ galaxy_workflow_schedulers }}"
+    # job handlers are configured in host_vars and pulled by gravity from the job conf
+    # workflow schedulers are configured in host_vars

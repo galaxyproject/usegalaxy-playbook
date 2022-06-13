@@ -1,12 +1,12 @@
 ---
 
 # create impersonate config
-- name: Set galaxy_config to impersonate_config_hash
-  set_fact:
-    galaxy_config: "{{ impersonate_config_hash }}"
-
-- name: Create Galaxy impersonation configuration file
-  template:
-    src: "{{ inventory_dir }}/../../roles/galaxyproject.galaxy/templates/galaxy.yml.j2"
-    dest: "{{ galaxy_config_dir }}/impersonate.yml"
-    backup: yes
+#- name: Set galaxy_config to impersonate_config_hash
+#  set_fact:
+#    galaxy_config: "{{ impersonate_config_hash }}"
+#
+#- name: Create Galaxy impersonation configuration file
+#  template:
+#    src: "{{ inventory_dir }}/../../roles/galaxyproject.galaxy/templates/galaxy.yml.j2"
+#    dest: "{{ galaxy_config_dir }}/impersonate.yml"
+#    backup: yes

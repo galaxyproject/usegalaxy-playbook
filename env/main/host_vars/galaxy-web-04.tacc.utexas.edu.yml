@@ -1,3 +1,19 @@
 ---
 
 galaxy_host_codename: main_w4
+galaxy_job_conf_handlers:
+  - id: main_w4_handler0
+    plugins: "{{ __handler_default_plugins }}"
+  - id: main_w4_handler1
+    plugins: "{{ __handler_default_plugins }}"
+  - id: main_w4_handler2
+    plugins: "{{ __handler_multi_plugins }}"
+    tags:
+      - multi
+
+galaxy_workflow_schedulers:
+  main_w4_workflow_scheduler:
+    name_template: "{name}{process}"
+    processes: 1
+    pools:
+      - workflow-schedulers

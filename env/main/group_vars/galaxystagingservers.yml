@@ -5,9 +5,10 @@ galaxy_uwsgi_processes: 4
 
 
 ## used by: supervisor
-galaxystagingservers_group_supervisor_configs:
-  - galaxy
+galaxystagingservers_group_supervisor_configs: []
 
+galaxystagingservers_group_absent_supervisor_configs:
+  - galaxy
 
 ## used by: galaxyproject.nginx
 nginx_conf_ssl_protocols:
@@ -44,3 +45,5 @@ sysctl_conf:
     value: 15990784
   - name: net.core.wmem_max
     value: 15990784
+
+# Gravity config is in galaxyjobservers

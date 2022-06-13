@@ -3,6 +3,7 @@
 # also set in galaxyservers, but not set in all I think because it's invalid for pulsar contexts
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
 galaxy_config_dir: null
-galaxy_mutable_data_dir: null
+# This has to be set in order to set $GRAVITY_STATE_DIR in activate
+galaxy_mutable_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var"
 
 galaxy_client_make_target: null

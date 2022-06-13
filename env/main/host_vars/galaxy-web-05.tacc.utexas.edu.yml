@@ -39,6 +39,12 @@ host_crontabs:
     hour: "5"
     minute: "0"
     job: "{{ galaxy_root }}/bin/cleanup_datasets.sh 14"
+  - name: "Clean {{ galaxy_instance_codename }} tus upload store"
+    id: "galaxy_{{ galaxy_instance_codename }}_clean_tus_upload_store"
+    user: "{{ galaxy_user }}"
+    hour: "5"
+    minute: "30"
+    job: "/usr/bin/tmpwatch -v --all --mtime --dirmtime 7d {{ galaxy_tus_upload_store }} | tee -a {{ galaxy_log_dir }}/cleanup_tus_upload_store.log"
 
 # in here so it only runs on one host
 tiaas_disassociate_training_roles:

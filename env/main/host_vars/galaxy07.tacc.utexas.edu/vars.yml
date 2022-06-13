@@ -7,14 +7,27 @@ supervisord_inet_pass: "{{ vault_supervisord_inet_pass }}"
 galaxy_job_conf_pulsar_galaxy_url: https://galaxy-web-03.galaxyproject.org
 
 galaxy_host_codename: main_k8s
+galaxy_systemd_mode: gravity
+galaxy_gravity_config_default:
+  galaxy_root: "{{ galaxy_server_dir }}"
+  log_dir: "{{ galaxy_log_dir }}"
+  virtualenv: "{{ galaxy_venv_dir }}"
+  gunicorn:
+    enable: false
+  celery:
+    enable: false
+    enable_beat: false
+galaxy_job_conf_handlers:
+  - id: main_k8s_handler0
+    plugins:
+      - tacc_k8s
+    tags:
+      - k8s
 
 ## used by: supervisor
-galaxy_handlers:
-  - pool: k8s
-    count: 1
+host_supervisor_configs: []
 
-#galaxyjobservers_group_supervisor_configs:
-host_supervisor_configs:
+host_absent_supervisor_configs:
   - galaxy_main_k8s
 
 # NOTE: nginx configs are in the test env

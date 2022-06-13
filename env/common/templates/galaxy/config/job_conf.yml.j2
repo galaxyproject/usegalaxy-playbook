@@ -173,6 +173,7 @@ handling:
     - db-skip-locked
   max_grab: 16
   ready_window_size: 32
+{% if galaxy_job_conf_handlers is defined %}
   processes:
 {% for handler in galaxy_job_conf_handlers %}
     {{ handler.id }}:
@@ -187,6 +188,7 @@ handling:
 {% endfor %}
 {% endif %}
 {% endfor %}
+{% endif %}
 
 #
 # Job execution configuration

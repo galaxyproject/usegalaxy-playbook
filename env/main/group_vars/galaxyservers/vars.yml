@@ -33,6 +33,7 @@ galaxy_remote_users:
   privsep: "{{ galaxy_privileged_user }}"
   errdocs: "{{ galaxy_privileged_user }}"
   galaxy: "{{ galaxy_user }}"
+  root: root
 
 # FIXME: Same thing, the become log checks if galaxy_become_users.privsep is set and yet in the defaults we cause it to
 # be always set
@@ -73,31 +74,14 @@ __handler_multi_plugins:
   - bridges
   - expanse
 
+galaxy_systemd_memory_limit:
+  # FIXME: this shouldn't be mule anymore. also "G" is hardcoded, but % would be nice.
+  mule: 12
+
 # FIXME: remove this and its handling in the job conf template if you do end up making all handlers load all plugins
 galaxy_job_conf_multi_handler_tag: multi
 
-galaxy_job_conf_handlers:
-  - id: main_w3_handler0
-    plugins: "{{ __handler_default_plugins }}"
-  - id: main_w3_handler1
-    plugins: "{{ __handler_default_plugins }}"
-  - id: main_w3_handler2
-    plugins: "{{ __handler_multi_plugins }}"
-    tags:
-      - multi
-  - id: main_w4_handler0
-    plugins: "{{ __handler_default_plugins }}"
-  - id: main_w4_handler1
-    plugins: "{{ __handler_default_plugins }}"
-  - id: main_w4_handler2
-    plugins: "{{ __handler_multi_plugins }}"
-    tags:
-      - multi
-  - id: main_k8s_handler0
-    plugins:
-      - tacc_k8s
-    tags:
-      - k8s
+# galaxy_job_conf_handlers is in host_vars
 
 # NOTE: do not include job_router, it is included by default
 galaxy_job_conf_extra_dynamic_rules:
