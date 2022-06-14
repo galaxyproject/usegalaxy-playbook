@@ -170,6 +170,7 @@ base_app_main: &BASE_APP_MAIN
   monitor_thread_join_timeout: 60
   cache_user_job_count: "True"
   max_metadata_value_size: 1000000
+  allow_user_impersonation: "True"
 
   #tool_search_limit: 30
   #tool_name_boost: 12
@@ -256,21 +257,4 @@ galaxy_config_hash:
 
   galaxy:
     <<: *BASE_APP_MAIN
-    allow_user_impersonation: "False"
-    new_file_path: "{{ galaxy_new_file_path }}"
-
-impersonate_config_hash:
-  uwsgi:
-    - http: :9480
-    - master: true
-    - processes: 1
-    - threads: 2
-    - offload-threads: 2
-    - buffer-size: 16384
-    - pythonpath: lib
-    - mount: /main/impersonate=galaxy.webapps.galaxy.buildapp:uwsgi_app()
-    - manage-script-name: true
-  galaxy:
-    <<: *BASE_APP_MAIN
-    allow_user_impersonation: "True"
     new_file_path: "{{ galaxy_new_file_path }}"
