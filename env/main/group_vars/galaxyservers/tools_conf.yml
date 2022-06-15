@@ -199,7 +199,6 @@ __galaxy_multicore_tools_exclude:
 
 # missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
-  - bioext_bealign
   - deeptools_bam_compare
   - deeptools_bam_coverage
   - deeptools_bam_pe_fragmentsize
@@ -241,9 +240,15 @@ __galaxy_multicore_tools:
   - alevin
   - align_families
   - alleyoop
+  - antismash
+  - bedtools_bamtobed
+  - bellerophon
   - bg_diamond
   - bg_diamond_makedb
+  - bg_diamond_view
+  - bioext_bealign
   - bio_hansel
+  - bionano_scaffold
   - bowtie2
   - bowtie_color_wrapper
   - bowtie_wrapper
@@ -251,9 +256,11 @@ __galaxy_multicore_tools:
   - bwa
   - bwa_color_wrapper
   - bwa_mem
+  - bwa_mem2
   - bwameth
   - bwa_wrapper
   - correct_barcodes
+  - ctb_chemfp_butina_clustering
   - ctb_pubchem_download_assays
   - ctb_pubchem_download_as_smiles
   - cuffdiff
@@ -268,12 +275,14 @@ __galaxy_multicore_tools:
   - deseq2
   - dexseq
   - disco
+  - docking
   - dunovo
   - egsea
   - exonerate
   - fargene
   - fasterq_dump
   - fastp
+  - fastqc
   - featurecounts
   - flash
   - flye
@@ -289,14 +298,18 @@ __galaxy_multicore_tools:
   - gmx_sim
   - gubbins
   - heinz
+  - hhsearch
+  - hifiasm
   - hifive
   - hisat2
   - hyphy_relax
   - iqtree
   - iuc_pear
   - ivar_trim
+  - jasminesv
   - kallisto_pseudo
   - kallisto_quant
+  - kc-align
   - kobas_annotate
   - kraken
   - kraken2
@@ -310,6 +323,8 @@ __galaxy_multicore_tools:
   - medaka_consensus_pipeline
   - medaka_variant_pipeline
   - megahit
+  - meme_meme
+  - meryl
   - metaspades
   - migmap
   - minimap2
@@ -352,12 +367,19 @@ __galaxy_multicore_tools:
   - mothur_unifrac_unweighted
   - mothur_unifrac_weighted
   - multigps
+  - mummer_mummer
   - mummer_nucmer
   - mz_to_sqlite
   - nanoplot
   - nonpareil
+  - openbabel_multi_obgrep
+  - openbabel_obgrep
+  - openbabel_subsearch
+  - OpenPepXL
+  - orfipy
   - pangolin
   - peptide_shaker
+  - pileometh
   - pilon
   - pipelign
   - plant_tribes_assembly_post_processor
@@ -395,9 +417,12 @@ __galaxy_multicore_tools:
   - sina
   - sklearn_build_pipeline
   - sklearn_ensemble
+  - sklearn_lightgbm
   - sklearn_model_validation
   - sklearn_numeric_clustering
   - slamdunk
+  - smina
+  - sniffles
   - snippy
   - socru
   - spades
@@ -414,6 +439,7 @@ __galaxy_multicore_tools:
   - tophat2
   - tophat_fusion_post
   - transdecoder
+  - trim_galore
   - trimmomatic
   - trinity
   - trinity_align_and_estimate_abundance
