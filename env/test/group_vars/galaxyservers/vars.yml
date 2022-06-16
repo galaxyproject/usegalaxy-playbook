@@ -82,8 +82,12 @@ __handler_plugins:
 galaxy_job_conf_handlers:
   - id: test_handler0
     plugins: "{{ __handler_plugins }}"
+    environment:
+      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
   - id: test_handler1
     plugins: "{{ __handler_plugins }}"
+    environment:
+      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
 
 galaxy_job_conf_extra_dynamic_rules:
   - dynamic_nvc_dynamic_memory
@@ -265,8 +269,8 @@ galaxy_gravity_config_default:
     # the application loads, so unicornherder fails after 5 tries (with a 1 second wait) to read the pidfile and then
     # exits.
     preload: false
-  # FIXME: this works because /usr/local/bin is on $PATH but it should be configurable
-  # FIXME: i lied, it's not on path
+    environment:
+      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd
@@ -282,6 +286,8 @@ galaxy_gravity_config_default:
       processes: 1
       pools:
         - workflow-schedulers
+      environment:
+        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
 
 # tus is run from gravity
 tusd_systemd: false
