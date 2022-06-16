@@ -187,6 +187,9 @@ handling:
         - {{ tag }}
 {% endfor %}
 {% endif %}
+{% if handler.environment is defined and handler.environment %}
+      environment: {{ handler.environment }}
+{% endif %}
 {% endfor %}
 {% endif %}
 
