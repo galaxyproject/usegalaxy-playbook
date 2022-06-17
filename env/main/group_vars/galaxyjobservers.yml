@@ -35,9 +35,6 @@ galaxy_gravity_config_default:
     preload: false
     environment:
       PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
-  celery:
-    enable: false
-    enable_beat: false
   #tusd:
   #  enable: false
   #  tusd_path: /usr/local/sbin/tusd
