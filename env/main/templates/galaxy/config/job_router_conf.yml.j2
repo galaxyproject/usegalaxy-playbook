@@ -1462,6 +1462,9 @@ training_tools:
     - ncbi_blastp_wrapper
   mapping:
     _default_: slurm_training
+    _galaxy_lib_: slurm_training_direct
+    upload1: slurm_training_direct
+    __DATA_FETCH__: slurm_training_direct
     bowtie2: slurm_training_multi_large
     rseqc_geneBody_coverage: slurm_training_long
     genrich: slurm_training_large

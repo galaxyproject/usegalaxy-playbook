@@ -80,6 +80,11 @@ galaxy_job_conf_environments:
       tags: [multi_long, multi_long_limit]
 
     # training environments
+    - id: training_direct
+      native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
+      use_singularity: false
+      java_mem: 3
+      tags: [training_limit]
     - id: training
       native_specification: --partition=reserved,jsreserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
