@@ -605,6 +605,7 @@ def job_router(app, job, tool, resource_params, user):
     envs = []
     spec = {}
     login_required = False
+    tool_disabled = False
     destination_id = None
     destination = None
     container_override = None
@@ -624,12 +625,19 @@ def job_router(app, job, tool, resource_params, user):
         spec = tool_mapping.get('spec', {}).copy()
         envs = tool_mapping.get('env', []).copy()
         login_required = tool_mapping.get('login_required', False)
+        tool_disabled = tool_mapping.get('disabled', False)
         container_override = tool_mapping.get('container_override', None)
 
     tool_id = __short_tool_id(tool.id)
 
     if login_required and user is None:
         raise JobMappingException('Please log in to use this tool')
+
+    if tool_disabled:
+        local.log.info("Failing job because tool is disabled: %s", tool.id)
+        raise JobMappingException(
+            'This tool is currently disabled, please see the Galaxy Help site at help.galaxyproject.org for assistance'
+        )
 
     user_email = None if user is None else user.email
 

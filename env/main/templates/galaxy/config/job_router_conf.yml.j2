@@ -1076,11 +1076,15 @@ tools:
   #      - execute: ulimit -s 24576
 
   # Users should use the new version of Trinity
-  trinity_psc:
+  trinity:
+    disabled: true
+  __trinity_psc:
     destination: bridges_normal
     login_required: true
 
   trinity:
+    disabled: true
+  __trinity:
     # first matching param set is used
     # for collection params, comparison is implicitly on size of pair member 0
 
