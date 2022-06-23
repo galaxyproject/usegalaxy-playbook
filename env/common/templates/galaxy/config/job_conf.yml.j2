@@ -538,7 +538,7 @@ tools:
 {% if galaxy_job_conf_multi_handler_tag is defined %}
     handler: {{ galaxy_job_conf_multi_handler_tag }}
 {% endif %}
-    resources: bridges
+    resources: stampede
 {% endfor %}
 
 {% for id in galaxy_conditional_large_memory_tools %}
@@ -546,7 +546,7 @@ tools:
 {% if galaxy_job_conf_multi_handler_tag is defined %}
     handler: {{ galaxy_job_conf_multi_handler_tag }}
 {% endif %}
-    resources: multi_frontera
+    resources: multi_stampede
 {% endfor %}
 
   # Stampede tools

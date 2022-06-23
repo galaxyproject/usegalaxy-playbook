@@ -44,6 +44,18 @@
         <option value="slurm_multi_development">[TESTING/DEVELOPMENT] Galaxy cluster</option>
         <option value="frontera_development">[TESTING/DEVELOPMENT] TACC Frontera small partition</option>
     </param>
+    <param label="Compute Resource" name="multi_stampede_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
+        <option value="slurm_multi">Galaxy cluster</option>
+        <option value="jetstream_multi">Jetstream (first available zone)</option>
+        <option value="jetstream_iu_multi">Jetstream (IU)</option>
+        <option value="jetstream_tacc_multi">Jetstream (TACC)</option>
+        <option value="jetstream2_multi">Jetstream 2</option>
+        <option value="stampede_normal">TACC Stampede 2 normal (KNL) partition</option>
+        <option value="stampede_skx_normal">TACC Stampede 2 SKX partition</option>
+        <option value="slurm_multi_development">[TESTING/DEVELOPMENT] Galaxy cluster</option>
+        <option value="stampede_development">[TESTING/DEVELOPMENT] TACC Stampede 2 normal (KNL) partition</option>
+        <option value="stampede_skx_development">[TESTING/DEVELOPMENT] TACC Stampede 2 SKX partition</option>
+    </param>
     <param label="Compute Resource" name="stampede_compute_resource" type="select" help="Need help selecting a compute resource? Options and limits are explained in detail &lt;a href='https://galaxyproject.org/main/' target='_blank'&gt;in the Galaxy Hub&lt;/a&gt;">
         <option value="stampede_normal">TACC Stampede 2 normal (KNL) partition</option>
         <option value="stampede_skx_normal">TACC Stampede 2 SKX partition</option>
