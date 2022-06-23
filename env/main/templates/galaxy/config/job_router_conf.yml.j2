@@ -1081,132 +1081,140 @@ tools:
     login_required: true
 
   trinity:
-    # first matching param set is used
-    # for collection params, comparison is implicitly on size of pair member 0
+    destination: stampede_skx_normal
+    login_required: true
+    spec:
+      # Maybe too many cores causing memory usage to exceed limit
+      ntasks: 24
 
-    # normalizing inputs < 10GB get 5 * 48GB = 240GB
-    - params:
-        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
-        - {name: pool.inputs.input, op: '<', value: 10G}
-        - {name: norm, value: true}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 240G, time: 72}
-    - params:
-        - {name: pool.inputs.paired_or_single,  value: paired}
-        - {name: pool.inputs.left_input, op: '<', value: 10G}
-        - {name: norm, value: true}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 240G, time: 72}
-    - params:
-        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
-        - {name: pool.inputs.pair_input, op: '<', value: 10G}
-        - {name: norm, value: true}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 240G, time: 72}
+  # This is for when Trinity ran at PSC. For now we are just running all on SKX.
+  #trinity:
+  #  # first matching param set is used
+  #  # for collection params, comparison is implicitly on size of pair member 0
 
-    # normalizing 10G <= inputs < 100G get 10 * 48GB = 480GB
-    - params:
-        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
-        - {name: pool.inputs.input, op: '<', value: 100G}
-        - {name: norm, value: true}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 480G, time: 96}
-    - params:
-        - {name: pool.inputs.paired_or_single,  value: paired}
-        - {name: pool.inputs.left_input, op: '<', value: 100G}
-        - {name: norm, value: true}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 480G, time: 96}
-    - params:
-        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
-        - {name: pool.inputs.pair_input, op: '<', value: 100G}
-        - {name: norm, value: true}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 480G, time: 96}
+  #  # normalizing inputs < 10GB get 5 * 48GB = 240GB
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+  #      - {name: pool.inputs.input, op: '<', value: 10G}
+  #      - {name: norm, value: true}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 240G, time: 72}
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single,  value: paired}
+  #      - {name: pool.inputs.left_input, op: '<', value: 10G}
+  #      - {name: norm, value: true}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 240G, time: 72}
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+  #      - {name: pool.inputs.pair_input, op: '<', value: 10G}
+  #      - {name: norm, value: true}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 240G, time: 72}
 
-    # normalizing inputs >= 100G get 15 * 48GB = 720GB
-    - params:
-        - {name: norm, value: true}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 720G, time: 96}
+  #  # normalizing 10G <= inputs < 100G get 10 * 48GB = 480GB
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+  #      - {name: pool.inputs.input, op: '<', value: 100G}
+  #      - {name: norm, value: true}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 480G, time: 96}
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single,  value: paired}
+  #      - {name: pool.inputs.left_input, op: '<', value: 100G}
+  #      - {name: norm, value: true}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 480G, time: 96}
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+  #      - {name: pool.inputs.pair_input, op: '<', value: 100G}
+  #      - {name: norm, value: true}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 480G, time: 96}
 
-    # not normalizing inputs < 10GB get 10 * 48GB = 480GB
-    - params:
-        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
-        - {name: pool.inputs.input, op: '<', value: 10G}
-        - {name: norm, value: false}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 480G, time: 96}
-    - params:
-        - {name: pool.inputs.paired_or_single,  value: paired}
-        - {name: pool.inputs.left_input, op: '<', value: 10G}
-        - {name: norm, value: false}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 480G, time: 96}
-    - params:
-        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
-        - {name: pool.inputs.pair_input, op: '<', value: 10G}
-        - {name: norm, value: false}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 480G, time: 96}
+  #  # normalizing inputs >= 100G get 15 * 48GB = 720GB
+  #  - params:
+  #      - {name: norm, value: true}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 720G, time: 96}
 
-    # not normalizing 10G <= inputs < 100G get 15 * 48GB = 720GB
-    - params:
-        - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
-        - {name: pool.inputs.input, op: '<', value: 100G}
-        - {name: norm, value: false}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 720G, time: 96}
-    - params:
-        - {name: pool.inputs.paired_or_single,  value: paired}
-        - {name: pool.inputs.left_input, op: '<', value: 100G}
-        - {name: norm, value: false}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 720G, time: 96}
-    - params:
-        - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
-        - {name: pool.inputs.pair_input, op: '<', value: 100G}
-        - {name: norm, value: false}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 720G, time: 96}
+  #  # not normalizing inputs < 10GB get 10 * 48GB = 480GB
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+  #      - {name: pool.inputs.input, op: '<', value: 10G}
+  #      - {name: norm, value: false}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 480G, time: 96}
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single,  value: paired}
+  #      - {name: pool.inputs.left_input, op: '<', value: 10G}
+  #      - {name: norm, value: false}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 480G, time: 96}
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+  #      - {name: pool.inputs.pair_input, op: '<', value: 10G}
+  #      - {name: norm, value: false}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 480G, time: 96}
 
-    # not normalizing inputs >= 100G get 20 * 48GB = 960GB
-    - params:
-        - {name: norm, value: false}
-      destination: stampede_normal
-      login_required: true
-      #spec: {mem: 960G, time: 96}
+  #  # not normalizing 10G <= inputs < 100G get 15 * 48GB = 720GB
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single,  value: [single, unmerged_single_collection]}
+  #      - {name: pool.inputs.input, op: '<', value: 100G}
+  #      - {name: norm, value: false}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 720G, time: 96}
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single,  value: paired}
+  #      - {name: pool.inputs.left_input, op: '<', value: 100G}
+  #      - {name: norm, value: false}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 720G, time: 96}
+  #  - params:
+  #      - {name: pool.inputs.paired_or_single, value: [paired_collection, unmerged_paired_collection]}
+  #      - {name: pool.inputs.pair_input, op: '<', value: 100G}
+  #      - {name: norm, value: false}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 720G, time: 96}
 
-    # default if no matching params (shouldn't happen)
-    - destination: stampede_normal
-      login_required: true
-      spec: {time: 24}
+  #  # not normalizing inputs >= 100G get 20 * 48GB = 960GB
+  #  - params:
+  #      - {name: norm, value: false}
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #    #spec: {mem: 960G, time: 96}
+
+  #  # default if no matching params (shouldn't happen)
+  #  - destination: stampede_skx_normal
+  #    login_required: true
+  #    spec: {time: 24}
 
   #
   # Stampede tools
   #
-  #bwa_color_wrapper: {destination: stampede_normal, login_required: true}
-  #bowtie_color_wrapper: {destination: stampede_normal, login_required: true}
-  #megablast_wrapper: {destination: stampede_normal, login_required: true}
-  #ncbi_blastn_wrapper: {destination: stampede_normal, login_required: true}
-  #ncbi_blastp_wrapper: {destination: stampede_normal, login_required: true}
-  #ncbi_blastx_wrapper: {destination: stampede_normal, login_required: true}
-  #ncbi_rpsblast_wrapper: {destination: stampede_normal, login_required: true}
-  #ncbi_tblastn_wrapper: {destination: stampede_normal, login_required: true}
-  #ncbi_tblastx_wrapper: {destination: stampede_normal, login_required: true}
+  bwa_color_wrapper: {destination: stampede_normal, login_required: true}
+  bowtie_color_wrapper: {destination: stampede_normal, login_required: true}
+  megablast_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_blastn_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_blastp_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_blastx_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_rpsblast_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_tblastn_wrapper: {destination: stampede_normal, login_required: true}
+  ncbi_tblastx_wrapper: {destination: stampede_normal, login_required: true}
 
   #
   # Frontera tools

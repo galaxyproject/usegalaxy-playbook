@@ -391,6 +391,7 @@ execution:
     # Stampede environments
     #
 {% for env in galaxy_job_conf_environments.stampede_environments %}
+{% set java_mem = env.java_mem | default(64) %}
     stampede_{{ env.id }}:
       runner: stampede
       submit_native_specification: {{ env.native_specification }}
@@ -414,7 +415,7 @@ execution:
         - type: mulled_singularity
       require_container: true
       env:
-        {{ env_pulsar_envs() }}
+        {{ env_pulsar_envs(java_mem=java_mem) }}
         #- execute: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
         - file: /etc/profile.d/z01_lmod.sh
         - execute: module unload xalt
@@ -438,7 +439,7 @@ execution:
         - name: SINGULARITY_CACHEDIR
           value: /work2/03166/xcgalaxy/singularity_cache
         - name: SINGULARITY_PYTHREADS
-          value: 9
+          value: "9"
 {% endfor %}
 
     #
