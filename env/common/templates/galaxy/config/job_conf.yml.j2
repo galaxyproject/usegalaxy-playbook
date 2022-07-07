@@ -370,6 +370,9 @@ execution:
 {% if use_singularity %}
       singularity_enabled: true
       singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.jetstream)) | join(',') }}"
+{% if 'gpu' in env.id %}
+      singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
+{% endif %}
 {% if 'container_override' in env %}
       container_override: {{ env.container_override }}
 {% else %}

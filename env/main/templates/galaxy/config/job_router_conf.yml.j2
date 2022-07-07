@@ -92,6 +92,11 @@ tools:
 {% endif %}
 {% endfor %}
 
+  # GPU tools
+{% for tool_id in galaxy_gpu_tools %}
+  {{ tool_id }}: {destination: gpu, login_required: true}
+{% endfor %}
+
   # https://github.com/galaxyproject/tools-iuc/issues/4119
   # These will probably never be able to run in Singularity until a deconstructed version exists (at which point the old
   # versions should be removed)

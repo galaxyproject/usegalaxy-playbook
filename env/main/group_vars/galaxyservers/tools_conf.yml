@@ -33,7 +33,7 @@ galaxy_job_conf_tools:
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
-galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) | difference(galaxy_large_memory_tools) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) }}"
+galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) | difference(galaxy_large_memory_tools) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) | difference(galaxy_gpu_tools) }}"
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -149,6 +149,9 @@ galaxy_pulsar_incompatible_tools:
   - tradis_gene_insert_sites
   - velvetoptimiser
 
+galaxy_gpu_tools:
+  - gmx_sim
+
 # tools that should run on Bridges
 galaxy_large_memory_tools:
   - abyss-pe
@@ -187,6 +190,7 @@ __galaxy_multicore_tools_exclude:
   - align_families
   - busco
   #- fasterq_dump
+  - gmx_sim
   - maker
   - rna_star
   - rna_starsolo
