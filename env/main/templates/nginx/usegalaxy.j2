@@ -138,7 +138,7 @@ server {
         proxy_set_header Upgrade            $http_upgrade;
         proxy_set_header Connection         "upgrade";
         client_max_body_size        0;
-        proxy_pass http://localhost:{{ galaxy_tusd_port }}/files;
+        proxy_pass http://127.0.0.1:{{ galaxy_tusd_port }}/files;
     }
 
     location /_upload {
