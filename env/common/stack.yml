@@ -53,6 +53,19 @@
         sysctl_set: yes
       with_items: "{{ sysctl_conf }}"
 
+# Done before nginx is installed because it will fail to start in the next play if the module doesn't exist
+- name: Install nginx mod_zip
+  hosts: galaxywebservers
+  remote_user: root
+  tasks:
+    - name: Install ngx_http_zip_moodule.so
+      ansible.builtin.get_url:
+        url: "{{ nginx_mod_zip_url }}"
+        dest: /usr/lib64/nginx/modules/ngx_http_zip_module.so
+        mode: 0755
+      when: nginx_mod_zip_url is defined
+  tags: nginx
+
 - name: Install and manage nginx
   hosts: webservers
   remote_user: root

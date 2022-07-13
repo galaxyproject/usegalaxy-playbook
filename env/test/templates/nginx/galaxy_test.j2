@@ -128,6 +128,20 @@ server {
         add_header Access-Control-Allow-Origin "http://registry.intermine.org";
     }
 
+    # handle archive create via mod-zip
+    location {{ galaxy_object_store_cache_path }} {
+        internal;
+        alias {{ galaxy_object_store_cache_path }};
+    }
+    location /corral4/test/files-test {
+        internal;
+        alias /corral4/test/files-test;
+    }
+    location /corral4/test/files {
+        internal;
+        alias /corral4/test/files;
+    }
+
     location /api/upload/resumable_upload {
         # Disable request and response buffering
         proxy_request_buffering     off;
