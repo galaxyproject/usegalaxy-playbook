@@ -21,6 +21,11 @@ nginx_conf_ssl_ciphers:
   - DHE-RSA-AES128-GCM-SHA256
   - DHE-RSA-AES256-GCM-SHA384
 
+nginx_mod_zip_url: https://github.com/natefoo/mod-zip-dso/raw/main/nginx-1.12.2-el7/ngx_http_zip_module.so
+nginx_load_modules:
+  - order: 50
+    path: ngx_http_zip_module.so
+
 # this is just used in the webservers group vars
 nginx_conf_client_max_body_size: 20g
 

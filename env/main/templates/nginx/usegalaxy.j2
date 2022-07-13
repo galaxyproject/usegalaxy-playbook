@@ -125,6 +125,24 @@ server {
         }
     }
 
+    # handle archive create via mod-zip
+    location {{ galaxy_object_store_cache_path }} {
+        internal;
+        alias {{ galaxy_object_store_cache_path }};
+    }
+    location /corral4/main/objects {
+        internal;
+        alias /corral4/main/objects;
+    }
+    location /corral4/main/files {
+        internal;
+        alias /corral4/main/files;
+    }
+    location /corral4/main/psufiles {
+        internal;
+        alias /corral4/main/psufiles;
+    }
+
     location /api/upload/resumable_upload {
         # Disable request and response buffering
         proxy_request_buffering     off;
