@@ -265,7 +265,10 @@ galaxy_gravity_config_default:
   app_server: unicornherder
   gunicorn:
     bind: localhost:8080
+    workers: 2
     timeout: 600
+    # https://github.com/encode/uvicorn/issues/610
+    #extra_args: --statsd-host=127.0.0.1:8125 --statsd-prefix=test.galaxy.gunicorn
     # when preload is enabled, gunicorn still detaches shortly after spawn, but does not write the pidfile until after
     # the application loads, so unicornherder fails after 5 tries (with a 1 second wait) to read the pidfile and then
     # exits.
