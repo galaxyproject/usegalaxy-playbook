@@ -285,7 +285,7 @@ tools:
 
   # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
   star_fusion:
-    destination: jetstream_tacc_xlarge
+    destination: multi_largemem
     login_required: true
 
   # STARSolo uses the same params and has the same requirements as STAR
@@ -327,7 +327,7 @@ tools:
     - params:
       - name: refGenomeSource.geneSource
         value: indexed
-      destination: jetstream_tacc_xlarge
+      destination: multi_largemem
       login_required: true
 
     # for history refs we need (refsize * 11.0) + 2GB
@@ -342,7 +342,7 @@ tools:
     - params:
       - name: refGenomeSource.geneSource
         value: history
-      destination: jetstream_tacc_xlarge
+      destination: multi_largemem
       login_required: true
 
     # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
@@ -382,7 +382,7 @@ tools:
         value_template: '{value}/hash.k2d'
         op: '>'
         value: 24G
-      destination: jetstream_tacc_xlarge
+      destination: multi_largemem
       #destination: stampede_normal
       login_required: true
     - destination: multi
@@ -686,6 +686,9 @@ destinations:
     valid:
       - time
   jetstream_tacc_xlarge:
+    valid:
+      - time
+  jetstream2_large:
     valid:
       - time
   stampede_normal:

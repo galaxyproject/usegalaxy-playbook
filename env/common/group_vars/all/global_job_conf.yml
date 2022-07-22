@@ -306,7 +306,7 @@ galaxy_job_conf_environments:
       native_specification: --partition=xlarge --nodes=1 --time=36:00:00
       use_singularity: false
       java_mem: 58
-      tags: [xlarge_limit]
+      tags: [multi_largemem_direct, multi_largemem_limit]
 
     # multicore environments
     - id: iu_multi
@@ -333,9 +333,28 @@ galaxy_job_conf_environments:
       runner: jetstream_tacc
       native_specification: --partition=xlarge --nodes=1 --time=36:00:00
       java_mem: 58
-      tags: [multi_largemem, xlarge_limit]
+      tags: [multi_largemem, multi_largemem_limit]
 
   jetstream2_environments:
+
+    # non-singularity environments
+    - id: normal_direct
+      native_specification: --partition=normal --nodes=1 --time=36:00:00
+      use_singularity: false
+      java_mem: 5
+      tags: [normal_limit]
+    - id: multi_direct
+      native_specification: --partition=multi --nodes=1 --time=36:00:00
+      use_singularity: false
+      java_mem: 28
+      tags: [multi_direct, multi_limit]
+    - id: large_direct
+      native_specification: --partition=large --nodes=1 --time=36:00:00
+      use_singularity: false
+      java_mem: 58
+      tags: [multi_largemem_direct, multi_largemem_limit]
+
+    # singularity environments
     - id: normal
       native_specification: --partition=normal --nodes=1 --time=36:00:00
       java_mem: 5
@@ -347,7 +366,7 @@ galaxy_job_conf_environments:
     - id: large
       native_specification: --partition=large --nodes=1 --time=36:00:00
       java_mem: 58
-      tags: [multi_largemem, xlarge_limit]
+      tags: [multi_largemem, multi_largemem_limit]
     - id: gpu_small
       native_specification: --partition=gpu-small --nodes=1 --time=24:00:00
       java_mem: 13
