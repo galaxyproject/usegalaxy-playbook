@@ -952,10 +952,9 @@ tools:
     # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
     #- destination: slurm_normal
 
-  # TODO: refine, but per Björn "start with 52"
-  #hifiasm:
-  #  destination: jetstream_tacc_xlarge
-  #  login_required: true
+  # 64 < mem < 128
+  meryl: {destination: multi_xlargemem, login_required: true}
+  hifiasm: {destination: multi_xlargemem, login_required: true}
 
   # Kraken goes to Stampede 2 SKX if the bacteria database is selected, otherwise it goes to standard multi
   kraken:

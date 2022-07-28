@@ -283,6 +283,10 @@ tools:
   # still investigating
   stringtie: {destination: slurm_multi, login_required: true}
 
+  # 64 < mem < 128
+  meryl: {destination: multi_xlargemem, login_required: true}
+  hifiasm: {destination: multi_xlargemem, login_required: true}
+
   # STAR=fusion uses all_fasta, not rnastar_index2, and more details about the memory usage is needed
   star_fusion:
     destination: multi_largemem

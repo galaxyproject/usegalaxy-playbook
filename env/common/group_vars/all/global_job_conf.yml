@@ -367,6 +367,10 @@ galaxy_job_conf_environments:
       native_specification: --partition=large --nodes=1 --time=36:00:00
       java_mem: 58
       tags: [multi_largemem, multi_largemem_limit]
+    - id: xl
+      native_specification: --partition=xl --nodes=1 --time=36:00:00
+      java_mem: 120
+      tags: [multi_xlargemem, multi_xlargemem_limit]
     - id: gpu_small
       native_specification: --partition=gpu-small --nodes=1 --time=24:00:00
       java_mem: 13
