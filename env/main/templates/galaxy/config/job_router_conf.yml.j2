@@ -1275,43 +1275,43 @@ destinations:
   #  - id: jetstream_iu_normal_py2
   multi_py2:
     - id: slurm_multi_py2
-    - id: jetstream_iu_multi_py2
-      queue_factor: 2
-    - id: jetstream_tacc_multi_py2
-      queue_factor: 4
+    #- id: jetstream_iu_multi_py2
+    #  queue_factor: 2
+    #- id: jetstream_tacc_multi_py2
+    #  queue_factor: 4
   multi_py2_direct:
     - id: slurm_multi_py2_direct
-    - id: jetstream_iu_multi_py2_direct
-      queue_factor: 2
-    - id: jetstream_tacc_multi_py2_direct
-      queue_factor: 4
+    #- id: jetstream_iu_multi_py2_direct
+    #  queue_factor: 2
+    #- id: jetstream_tacc_multi_py2_direct
+    #  queue_factor: 4
   multi:
     - id: slurm_multi
     - id: jetstream2_multi
-      queue_factor: 2
-    - id: jetstream_iu_multi
-      # jetstream can run far fewer jobs than roundup, so we weight its job count by a factor of 2 since its throughput
-      # will be lower
-      queue_factor: 4
-      # could also set threshold: on each member, default is 4
-    - id: jetstream_tacc_multi
-      queue_factor: 4
+    #  queue_factor: 2
+    #- id: jetstream_iu_multi
+    #  # jetstream can run far fewer jobs than roundup, so we weight its job count by a factor of 2 since its throughput
+    #  # will be lower
+    #  queue_factor: 4
+    #  # could also set threshold: on each member, default is 4
+    #- id: jetstream_tacc_multi
+    #  queue_factor: 4
   multi_direct:
     - id: slurm_multi_direct
     - id: jetstream2_multi_direct
-      queue_factor: 2
-    - id: jetstream_iu_multi_direct
-      queue_factor: 4
-    - id: jetstream_tacc_multi_direct
-      queue_factor: 4
+    #  queue_factor: 2
+    #- id: jetstream_iu_multi_direct
+    #  queue_factor: 4
+    #- id: jetstream_tacc_multi_direct
+    #  queue_factor: 4
   multi_largemem:
     - id: jetstream2_large
-    - id: jetstream_tacc_xlarge
-      queue_factor: 2
+    #- id: jetstream_tacc_xlarge
+    #  queue_factor: 2
   multi_largemem_direct:
     - id: jetstream2_large_direct
-    - id: jetstream_tacc_xlarge_direct
-      queue_factor: 2
+    #- id: jetstream_tacc_xlarge_direct
+    #  queue_factor: 2
   reserved_multi:
     - id: slurm_reserved_multi
     # FIXME: not configured right in slurm
@@ -1319,16 +1319,16 @@ destinations:
     #- id: reserved_jetstream_tacc_multi
   multi_long:
     - id: slurm_multi_long
-    - id: jetstream_iu_multi_long
-    - id: jetstream_tacc_multi_long
+    #- id: jetstream_iu_multi_long
+    #- id: jetstream_tacc_multi_long
     - id: stampede_long
   jetstream_multi:
     - id: jetstream2_multi
       queue_factor: 2
-    - id: jetstream_iu_multi
-      queue_factor: 4
-    - id: jetstream_tacc_multi
-      queue_factor: 4
+    #- id: jetstream_iu_multi
+    #  queue_factor: 4
+    #- id: jetstream_tacc_multi
+    #  queue_factor: 4
   slurm_multi:
     valid:
       - time
