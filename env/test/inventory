@@ -3,7 +3,6 @@
 [sslservers]
 [sslservers:children]
 sslwebservers
-tlsftpservers
 
 [webservers]
 [webservers:children]
@@ -40,14 +39,6 @@ certbotdnsservers
 [dbservers]
 [dbservers:children]
 galaxydbservers
-
-[ftpservers]
-[ftpservers:children]
-tlsftpservers
-
-[tlsftpservers]
-[tlsftpservers:children]
-galaxywebservers
 
 [supervisorservers]
 [supervisorservers:children]

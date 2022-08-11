@@ -186,7 +186,7 @@ galaxy_job_conf_environments:
     #- id: upload
     #  native_specification: --partition=normal --nodes=1 --ntasks=1 --time=12:00:00 --mem=3840
     #  java_mem: 3
-    #  volumes: "{{ galaxy_job_conf_singularity_volumes + [galaxy_ftp_upload_dir ~ ':rw', galaxy_nginx_upload_dir ~ ':rw'] }}"
+    #  volumes: "{{ galaxy_job_conf_singularity_volumes + [galaxy_nginx_upload_dir ~ ':rw'] }}"
     #  create_test_env: true
     #  tags:
     #    - normal

@@ -119,13 +119,6 @@
     - logflux
   tags: logflux
 
-- name: Install and manage ProFTPD
-  hosts: ftpservers
-  remote_user: root
-  roles:
-    - galaxyproject.proftpd
-  tags: proftpd
-
 - name: Manage galaxy root tasks
   hosts: galaxyservers:toolshedservers
   remote_user: root
@@ -134,13 +127,6 @@
     - usegalaxy_admin
     - cron
   tags: galaxy,admin
-
-#- name: Install swarm scale playbook
-#  hosts: galaxyswarmscaleservers
-#  remote_user: root
-#  roles:
-#    - usegalaxy_swarmscale
-#  tags: galaxy,swarmscale
 
 #- name: Manage supervisor and root tasks
 #  hosts: supervisorservers

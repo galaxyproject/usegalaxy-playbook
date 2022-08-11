@@ -248,7 +248,7 @@ execution:
       runner: slurm
       native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=12:00:00 --mem=3840
       singularity_enabled: true
-      singularity_volumes: "{{ (galaxy_job_conf_singularity_volumes.local + [galaxy_ftp_upload_dir ~ ':rw', galaxy_nginx_upload_dir ~ ':rw']) | join(',') }}"
+      singularity_volumes: "{{ (galaxy_job_conf_singularity_volumes.local + [galaxy_nginx_upload_dir ~ ':rw']) | join(',') }}"
       # FIXME: why ubuntu?
       #singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"
       singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"

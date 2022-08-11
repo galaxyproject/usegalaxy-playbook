@@ -13,7 +13,6 @@ galaxy_config_database_connection: "postgresql://g2main:{{ galaxy_database_passw
 galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
 galaxy_new_file_path: "/corral4/{{ galaxy_instance_codename }}/scratch3"
 galaxy_job_working_directory: "/corral4/{{ galaxy_instance_codename }}/jobs"
-galaxy_ftp_upload_dir: "/corral4/{{ galaxy_instance_codename }}/ftp"
 galaxy_nginx_upload_dir: "/corral4/{{ galaxy_instance_codename }}/_upload"
 galaxy_nginx_upload_job_files_dir: "/corral4/{{ galaxy_instance_codename }}/_upload_job_files"
 galaxy_tus_upload_store: "/corral4/{{ galaxy_instance_codename }}/_upload_tus"
@@ -78,8 +77,6 @@ base_app_main: &BASE_APP_MAIN
   nginx_upload_store: "{{ galaxy_nginx_upload_dir }}"
   nginx_upload_job_files_store: "{{ galaxy_nginx_upload_job_files_dir }}"
   tus_upload_store: "{{ galaxy_tus_upload_store }}"
-  ftp_upload_dir: "{{ galaxy_ftp_upload_dir }}"
-  user_library_import_dir: "{{ galaxy_ftp_upload_dir }}"
   #library_import_dir: /corral4/main/import
   galaxy_data_manager_data_path: /corral4/manageddata/data
   tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
@@ -162,7 +159,6 @@ base_app_main: &BASE_APP_MAIN
   allow_user_deletion: "True"
   allow_user_dataset_purge: "True"
   enable_openid: "True"
-  ftp_upload_site: "ftp://{{ galaxy_instance_hostname }}"
   enable_quotas: "True"
   track_jobs_in_database: "True"
   retry_metadata_internally: "False"
