@@ -46,47 +46,59 @@ base_app_main: &BASE_APP_MAIN
   amqp_internal_connection: "{{ galaxy_config_amqp_internal_connection }}"
 
   # logging
-  logging:
-    filters:
-      stack:
-        (): galaxy.web_stack.application_stack_log_filter
-    formatters:
-      stack:
-        (): galaxy.web_stack.application_stack_log_formatter
-    handlers:
-      console:
-        class: logging.StreamHandler
-        filters:
-        - stack
-        formatter: stack
-        #level: TRACE
-        level: DEBUG
-        stream: ext://sys.stderr
-    loggers:
-      #galaxy:
-      #  level: TRACE
-      #  qualname: galaxy
-      paste.httpserver.ThreadPool:
-        level: WARN
-        qualname: paste.httpserver.ThreadPool
-      routes.middleware:
-        level: WARN
-        qualname: routes.middleware
-      amqp:
-        level: INFO
-        qualname: amqp
-      dogpile:
-        level: INFO
-        qualname: dogpile
-      irods:
-        level: INFO
-        qualname: irods
-    root:
-      handlers:
-      - console
-      level: DEBUG
-    disable_existing_loggers: false
-    version: 1
+  log_rotate_size: 50 MB
+  log_rotate_count: 10
+  #logging:
+  #  filters:
+  #    stack:
+  #      (): galaxy.web_stack.application_stack_log_filter
+  #  formatters:
+  #    stack:
+  #      (): galaxy.web_stack.application_stack_log_formatter
+  #  handlers:
+  #    console:
+  #      class: logging.StreamHandler
+  #      filters:
+  #      - stack
+  #      formatter: stack
+  #      #level: TRACE
+  #      level: DEBUG
+  #      stream: ext://sys.stderr
+  #    file:
+  #      class: logging.handlers.TimedRotatingFileHandler
+  #      filters:
+  #      - stack
+  #      formatter: stack
+  #      level: DEBUG
+  #      filename: "{{ galaxy_log_dir }}/gunicorn.log"
+  #      when: midnight
+  #      backupCount: 10
+  #  loggers:
+  #    #galaxy:
+  #    #  level: TRACE
+  #    #  qualname: galaxy
+  #    paste.httpserver.ThreadPool:
+  #      level: WARN
+  #      qualname: paste.httpserver.ThreadPool
+  #    routes.middleware:
+  #      level: WARN
+  #      qualname: routes.middleware
+  #    amqp:
+  #      level: INFO
+  #      qualname: amqp
+  #    dogpile:
+  #      level: INFO
+  #      qualname: dogpile
+  #    irods:
+  #      level: INFO
+  #      qualname: irods
+  #  root:
+  #    handlers:
+  #      #- console
+  #      - file
+  #    level: DEBUG
+  #  disable_existing_loggers: false
+  #  version: 1
 
   # paths
 
