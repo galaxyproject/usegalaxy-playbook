@@ -6,6 +6,18 @@ galaxy_config_dir: null
 # This has to be set in order to set $GRAVITY_STATE_DIR in activate
 galaxy_mutable_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var"
 
+galaxy_extra_dependencies:
+  - wheel
+  - drmaa
+  - python-irodsclient
+  - fs
+  - fs.dropboxfs
+  - fs.sshfs
+  - s3fs==0.4.2  # pinned to avoid upgrading botocore
+  - gunicorn==20.1.0
+  - uvloop
+  - unicornherder
+
 galaxy_client_make_target: null
 galaxy_client_node_env: development
 
