@@ -67,6 +67,10 @@ base_app_main: &BASE_APP_MAIN
   sentry_sloreq_threshold: 10.0
   amqp_internal_connection: "{{ galaxy_config_amqp_internal_connection }}"
 
+  # logging
+  log_rotate_size: 200 MB
+  log_rotate_count: 10
+
   # paths
 
   config_dir: "{{ galaxy_config_dir }}"
