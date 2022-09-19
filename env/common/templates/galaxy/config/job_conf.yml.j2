@@ -299,7 +299,7 @@ execution:
       #docker_default_container_id: 'python:3.6-buster'
       docker_default_container_id: 'quay.io/biocontainers/python:3.6.7'
       pulsar_container_image: '{{ pulsar_coexecution_container_image | default("quay.io/galaxy/pulsar-pod-staging:0.14.0") }}'
-      k8s_namespace: ndc
+      #k8s_namespace: ndc
       #k8s_walltime_limit: 86400  # 24 hours
       k8s_walltime_limit: 43200  # 12 hours
       pulsar_requests_cpu: 0.5
@@ -317,7 +317,7 @@ execution:
       # Kubernetes runner description).
       #k8s_galaxy_instance_id: mycoolgalaxy
       # Path to Kubernetes configuration fil (see Kubernetes runner description.)
-      #k8s_config_path: /path/to/kubeconfig
+      k8s_config_path: /home/{{ __galaxy_user_name }}/.kube/config
 
     #
     # Jetstream environments

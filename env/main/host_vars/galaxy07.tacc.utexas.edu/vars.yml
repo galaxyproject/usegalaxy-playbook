@@ -6,6 +6,8 @@ supervisord_inet_pass: "{{ vault_supervisord_inet_pass }}"
 
 galaxy_job_conf_pulsar_galaxy_url: https://galaxy-web-03.galaxyproject.org
 
+# gxit_proxy_port is hardcoded here and in the template since the nginx config is deployed from the test env
+
 galaxy_host_codename: main_k8s
 galaxy_systemd_mode: gravity
 galaxy_gravity_config_default:
@@ -17,6 +19,15 @@ galaxy_gravity_config_default:
   celery:
     enable: false
     enable_beat: false
+  gx_it_proxy:
+    enable: true
+    port: 8980
+    sessions: "{{ galaxy_interactivetools_map }}"
+    verbose: true
+    environment:
+      # FIXME: the systemd service unit sets this as /srv/galaxay/main, which is not writable. When this is the case the
+      # proxy fails to start with essentially no output (just writes an empty newline to the log file).
+      HOME: "/home/g2main"
 galaxy_job_conf_handlers:
   - id: main_k8s_handler0
     plugins:

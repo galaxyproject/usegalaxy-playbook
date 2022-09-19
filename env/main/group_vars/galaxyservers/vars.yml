@@ -1,16 +1,5 @@
 ---
 
-# FIXME:
-#   - The proxy was cloned by hand in /srv/galaxy/main/proxy/gx-it-proxy
-#   - venv w/ nodeenv and node 10.15.3 installed by hand in /srv/galaxy/main/proxy/venv
-#   - npm install run by hand (must activate venv or otherwise have venv's node on path)
-#   - NOTE: node 12+ does not work with the pinned sqlite3 package.
-#   - gxit_proxy_port is hardcoded in the nginx template since that template is deployed from the test env
-gxit_proxy_port: 8980
-gxit_proxy_forward_ip: 172.16.120.50
-gxit_proxy_forward_port: 31946
-gxit_proxy_nodeenv: /srv/galaxy/main/proxy/venv
-
 ## these vars are defined in vault.yml
 #
 # used by: galaxyproject.galaxy (templating job_conf.yml)

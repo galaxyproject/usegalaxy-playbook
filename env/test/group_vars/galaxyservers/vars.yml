@@ -1,11 +1,5 @@
 ---
 
-# FIXME:
-gxit_proxy_port: 8910
-gxit_proxy_forward_ip: 172.16.120.50
-gxit_proxy_forward_port: 31946
-gxit_proxy_nodeenv: /cvmfs/test.galaxyproject.org/venv
-
 ## these vars are defined in vault.yml
 #
 # used by: galaxyproject.galaxy (templating job_conf.yml)
@@ -257,6 +251,8 @@ galaxy_job_conf_limits:
     id: expanse_development
     value: 4
 
+# used in gravity config and nginx template
+gxit_proxy_port: 8910
 
 # Run Galaxy with Gravity (systemd service unit is set up in the stack playbook)
 galaxy_systemd_mode: gravity
@@ -282,6 +278,15 @@ galaxy_gravity_config_default:
     enable: true
     tusd_path: /usr/local/sbin/tusd
     upload_dir: "{{ galaxy_tus_upload_store }}"
+  gx_it_proxy:
+    enable: true
+    port: "{{ gxit_proxy_port }}"
+    sessions: "{{ galaxy_interactivetools_map }}"
+    verbose: true
+    environment:
+      # FIXME: the systemd service unit sets this as /srv/galaxay/test, which is not writable. When this is the case the
+      # proxy fails to start with essentially no output (just writes an empty newline to the log file).
+      HOME: "/home/g2test"
   handlers:
     # handlers are in the job conf
     #test_handler:
