@@ -179,3 +179,22 @@
       galaxy_manage_systemd: yes
       galaxy_manage_gravity: no
   tags: gravity
+
+- name: Kubernetes deployment
+  hosts: kubedeployers
+  gather_facts: false
+  tasks:
+    - debug:
+        var: kubernetes_deploy_resources
+    - debug:
+        var: kubedeployer_kubeconfig
+    - name: Deploy resources
+      kubernetes.core.k8s:
+        state: "{{ item.state | default('present') }}"
+        resource_definition: "{{ item.definition }}"
+        kubeconfig: "{{ kubedeployer_kubeconfig }}"
+      loop: "{{ kubernetes_deploy_resources | default([]) }}"
+      loop_control:
+        label: "{{ item.label | default(item.definition) }}"
+      delegate_to: localhost
+  tags: kubernetes,k8s

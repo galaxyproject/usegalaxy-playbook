@@ -1,19 +1,25 @@
 ---
-- name: galaxyproject.postgresql
-  version: 1.1.0
-- name: galaxyproject.galaxy
-  version: 0.10.0
-- name: galaxyproject.galaxy_toolshed
-  version: 0.2.3
-- name: usegalaxy_eu.certbot
-  version: 0.1.4
-- name: galaxyproject.nginx
-  version: 0.7.1
-- name: galaxyproject.pulsar
-  version: 1.0.9
-- name: usegalaxy_eu.tiaas2
-  version: 0.0.8
-- name: galaxyproject.miniconda
-  version: 0.2.0
-- name: galaxyproject.tusd
-  version: 0.0.1
+roles:
+  - name: galaxyproject.postgresql
+    version: 1.1.0
+  - name: galaxyproject.galaxy
+    version: 0.10.0
+  - name: galaxyproject.galaxy_toolshed
+    version: 0.2.3
+  - name: usegalaxy_eu.certbot
+    version: 0.1.4
+  - name: galaxyproject.nginx
+    version: 0.7.1
+  - name: galaxyproject.pulsar
+    version: 1.0.9
+  - name: usegalaxy_eu.tiaas2
+    version: 0.0.8
+  - name: galaxyproject.miniconda
+    version: 0.2.0
+  - name: galaxyproject.tusd
+    version: 0.0.1
+
+collections:
+  - name: kubernetes.core
+    # really we just need >= 2.2.0 and this could be installed with ansible
+    version: 2.3.2
