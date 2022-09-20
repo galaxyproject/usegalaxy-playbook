@@ -184,10 +184,6 @@
   hosts: kubedeployers
   gather_facts: false
   tasks:
-    - debug:
-        var: kubernetes_deploy_resources
-    - debug:
-        var: kubedeployer_kubeconfig
     - name: Deploy resources
       kubernetes.core.k8s:
         state: "{{ item.state | default('present') }}"

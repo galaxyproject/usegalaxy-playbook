@@ -56,35 +56,44 @@ kubernetes_deploy_resources:
         name: tailscale
         namespace: default
 
-  - label: tailscale pod
+  - label: tailscale deployment
     definition:
       apiVersion: v1
-      kind: Pod
+      kind: Deployment
       metadata:
         name: subnet-router
         namespace: default
-        labels:
-          app: tailscale
+      labels:
+        app: tailscale
       spec:
-        serviceAccountName: tailscale
-        containers:
-        - name: tailscale
-          imagePullPolicy: Always
-          image: "ghcr.io/tailscale/tailscale:latest"
-          env:
-          # Store the state in a k8s secret
-          - name: TS_KUBE_SECRET
-            value: tailscale-auth
-          - name: TS_USERSPACE
-            value: "true"
-          - name: TS_AUTH_KEY
-            valueFrom:
-              secretKeyRef:
-                name: tailscale-auth
-                key: AUTH_KEY
-                optional: true
-          - name: TS_ROUTES
-            value: "{{ tailscale_subnet_routes }}"
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
+        replicas: 1
+        selector:
+          matchLabels:
+            app: tailscale
+        template:
+          metadata:
+            labels:
+              app: tailscale
+          spec:
+            serviceAccountName: tailscale
+            containers:
+            - name: tailscale
+              imagePullPolicy: Always
+              image: "ghcr.io/tailscale/tailscale:latest"
+              env:
+              # Store the state in a k8s secret
+              - name: TS_KUBE_SECRET
+                value: tailscale-auth
+              - name: TS_USERSPACE
+                value: "true"
+              - name: TS_AUTH_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: tailscale-auth
+                    key: AUTH_KEY
+                    optional: true
+              - name: TS_ROUTES
+                value: "{{ tailscale_subnet_routes }}"
+              securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
