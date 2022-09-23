@@ -167,6 +167,9 @@ galaxy_job_conf_limits:
   - type: environment_user_concurrent_jobs
     id: gpu_limit
     value: 2
+  - type: environment_user_concurrent_jobs
+    id: gxit_limit
+    value: 1
 
   # granular limits for singularity envs
   - type: environment_user_concurrent_jobs

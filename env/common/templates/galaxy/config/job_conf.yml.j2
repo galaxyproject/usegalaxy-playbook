@@ -365,7 +365,7 @@ execution:
       runner: jetstream2
       submit_native_specification: {{ env.native_specification }}
       {{ env_tag_params(env.tags | default(none)) }}
-      {{ env_pulsar_params(remote_metadata=(not use_singularity), dependency_resolution=('local' if use_singularity else 'remote')) }}
+      {{ env_pulsar_params(remote_metadata=(env.remote_metadata | default(not use_singularity)), dependency_resolution=('local' if use_singularity else 'remote')) }}
       {{ env_jetstream2_params() }}
 {% if use_singularity %}
       singularity_enabled: true

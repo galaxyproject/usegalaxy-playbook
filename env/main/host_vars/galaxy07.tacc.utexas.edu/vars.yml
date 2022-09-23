@@ -1,5 +1,8 @@
 ---
 
+# FIXME: /etc/systemd/system/galaxy-main.service is manually deployed because you can't override the service name in
+# galaxyproject.org
+
 # NOTE: this is duplicated from group_vars/supervisorservers in the test env. This overrides the group var setting for
 # creating ~g2main/etc/supervisor.conf since Test and Main's supervisords use different passwords.
 supervisord_inet_pass: "{{ vault_supervisord_inet_pass }}"
