@@ -20,36 +20,23 @@ server {
     error_log /var/log/nginx/nate01.error.log;
 
     location / {
-        uwsgi_pass 127.0.0.1:8192;
-        uwsgi_param UWSGI_SCHEME $scheme;
-        include uwsgi_params;
+        proxy_pass         http://127.0.0.1:8192;
+        proxy_redirect     off;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Real-IP         $remote_addr;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
     }
 
     location /static {
-        alias /galaxy-repl/ndc/nate01/static;
-    }
-
-    location /static/style {
-        alias /galaxy-repl/ndc/nate01/static/style/blue;
-    }
-
-    location /static/scripts {
-        alias /galaxy-repl/ndc/nate01/static/scripts;
+        alias /corral4/ndc/nate01/static;
     }
 
     # serve visualization and interactive environment plugin static content
     location ~ ^/plugins/(?<plug_type>[^/]+?)/((?<vis_d>[^/_]*)_?)?(?<vis_name>[^/]*?)/static/(?<static_file>.*?)$ {
-        alias /galaxy-repl/ndc/nate01/config/plugins/$plug_type/;
+        alias /corral4/ndc/nate01/config/plugins/$plug_type/;
         try_files $vis_d/${vis_d}_${vis_name}/static/$static_file
                   $vis_d/static/$static_file =404;
-    }
-
-    location /robots.txt {
-        alias /galaxy-repl/ndc/nate01/static/robots.txt;
-    }
-
-    location /favicon.ico {
-        alias /galaxy-repl/ndc/nate01/static/favicon.ico;
     }
 
     location /_x_accel_redirect {
@@ -58,7 +45,7 @@ server {
     }
 
     #location /_upload {
-    #    upload_store /galaxy-repl/ndc/upload;
+    #    upload_store /corral4/ndc/upload;
     #    upload_store_access user:rw; # group:rw all:rw;
     #    upload_pass_form_field "";
     #    upload_set_form_field "__${upload_field_name}__is_composite" "true";
@@ -82,7 +69,7 @@ server {
     #    if ($request_method != POST) {
     #        rewrite "" /api/jobs/$arg_job_id/files last;
     #    }
-    #    upload_store /galaxy-repl/ndc/upload_job_files;
+    #    upload_store /corral4/ndc/upload_job_files;
     #    upload_store_access user:rw;
     #    upload_pass_form_field "";
     #    upload_set_form_field "__${upload_field_name}_path" "$upload_tmp_path";
@@ -107,6 +94,37 @@ server {
     location /static/welcome_img {
         alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome_img;
         expires 2h;
+    }
+
+    # error docs
+    error_page  502 503 504 /error/502/index.shtml;
+    error_page  413         /error/413/index.html;
+    location /error {
+        ssi on;
+        root {{ nginx_srv }}/{{ galaxy_instance_hostname }};
+    }
+
+}
+
+# Galaxy Interactive Tools (GxITs)
+server {
+    listen       *:443 ssl;
+    server_name  *.interactivetool.nate01.galaxyproject.org;
+
+    # Enable HSTS (age is 180 days)
+    add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
+
+    access_log  /var/log/nginx/nate01-gxit-proxy.access.log;
+    error_log   /var/log/nginx/nate01-gxit-proxy.error.log;
+
+    location / {
+        proxy_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_pass http://localhost:8193;
     }
 
     # error docs
