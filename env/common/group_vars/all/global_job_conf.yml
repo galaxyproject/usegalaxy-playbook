@@ -395,7 +395,7 @@ galaxy_job_conf_environments:
         require_container: true
         container_monitor_command: /opt/galaxy-job-execution/bin/galaxy-container-monitor
         container_monitor_result: callback
-        get_ip_method: tailscale
+        container_monitor_get_ip_method: command:/usr/bin/tailscale ip -4
 
     # singularity environments
     - id: normal
