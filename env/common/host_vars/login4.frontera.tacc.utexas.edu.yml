@@ -48,7 +48,7 @@ host_supervisor_configs:
   - "{{ galaxy_instance_codename }}_pulsar"
 
 # TODO: temp for memory var
-pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@no-overwrite-memory-var"
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@no-overwrite-memory-var-0.14.13#egg=pulsar-app"
 pulsar_package_version: "{{ omit }}"
 
 pulsar_root: "{{ _frontera_instance_root }}/pulsar"
