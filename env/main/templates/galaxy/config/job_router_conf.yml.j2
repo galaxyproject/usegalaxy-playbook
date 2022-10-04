@@ -1225,10 +1225,14 @@ tools:
   # Frontera tools
   #
 {% for tool_id in galaxy_frontera_tools %}
+{#
   {{ tool_id }}: {destination: frontera_small, login_required: true}
+#}
+  {{ tool_id }}: {destination: stampede_skx_normal, login_required: true}
 {% endfor %}
   busco:
-    destination: frontera_small
+    #destination: frontera_small
+    destination: stampede_skx_normal
     login_required: true
     spec:
       # busco crashes with the full thread count because it uses too much memory (even 12 was too many)

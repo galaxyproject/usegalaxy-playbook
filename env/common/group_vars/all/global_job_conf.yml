@@ -444,10 +444,10 @@ galaxy_job_conf_environments:
 
   frontera_environments:
     - id: small
-      native_specification: --partition=small --nodes=1 --ntasks=56 --time=48:00:00
+      native_specification: --partition=small --nodes=1 --ntasks=56 --time=48:00:00 --account=ASC21038
       memory_mb: 194560
     - id: development
-      native_specification: --partition=development --nodes=1 --ntasks=56 --time=00:30:00
+      native_specification: --partition=development --nodes=1 --ntasks=56 --time=00:30:00 --account=ASC21038
       memory_mb: 194560
 
   bridges_environments:
