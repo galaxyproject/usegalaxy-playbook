@@ -359,6 +359,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
   - src: files/galaxy/config/user_preferences.yml
     dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
+  - src: files/galaxy/config/trs_servers_conf.yml
+    dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
