@@ -243,11 +243,14 @@ galaxy_job_conf_limits:
 
   # per-environments total limits
   - type: environment_total_concurrent_jobs
+    id: stampede_limit
+    value: 48
+  - type: environment_total_concurrent_jobs
     id: stampede_normal
-    value: 50
+    value: 40
   - type: environment_total_concurrent_jobs
     id: stampede_skx_normal
-    value: 50
+    value: 40
   - type: environment_total_concurrent_jobs
     id: stampede_long
     value: 1
