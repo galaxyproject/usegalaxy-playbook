@@ -221,6 +221,7 @@ execution:
       function: map_tool_to_destination
       rules_module: tpv.rules
       tpv_config_files:
+        - "{{ galaxy_tpv_config_dir }}/defaults.yaml"
         - "{{ galaxy_tpv_config_dir }}/environments.yaml"
         - "{{ galaxy_tpv_config_dir }}/tools.yaml"
 

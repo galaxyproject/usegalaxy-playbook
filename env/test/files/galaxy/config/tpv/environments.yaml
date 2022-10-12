@@ -7,12 +7,14 @@ destinations:
     scheduling:
       accept:
       - roundup
+      - general
   jetstream2:
     cores: 32
     mem: 125
     scheduling:
       accept:
       - jetstream2
+      - general
       require:
       - pulsar
   frontera:

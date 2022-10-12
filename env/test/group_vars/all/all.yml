@@ -18,6 +18,10 @@ galaxy_config_perms: 0644
 galaxy_additional_venv_packages:
   - unicornherder
 
+# FIXME: don't want the backups of the TPV configs to be watched, maybe add a per-item backup option to
+# galaxy_config_{files,templates}, or maybe we really don't need backups
+galaxy_backup_configfiles: false
+
 nginx_srv: /srv/nginx
 
 galaxy_layout: custom

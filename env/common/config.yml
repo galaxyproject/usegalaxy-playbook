@@ -12,6 +12,10 @@
         path: "{{ galaxy_tpv_config_dir }}"
         state: directory
         mode: "0755"
+    - name: Locate TPV python blobs
+      set_fact:
+        tpv_python_blobs: "{{ (tpv_python_blobs | default({})) | combine({(item | basename | splitext | first): lookup('file', item)}) }}"
+      with_fileglob: "{{ inventory_dir }}/files/galaxy/config/tpv/*.py"
   roles:
     # set up local galaxy clone and local config
     - role: galaxyproject.galaxy
