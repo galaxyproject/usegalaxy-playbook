@@ -6,6 +6,12 @@
   remote_user: "{{ galaxy_privileged_user }}"
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
+  pre_tasks:
+    - name: Create TPV config dir
+      file:
+        path: "{{ galaxy_tpv_config_dir }}"
+        state: directory
+        mode: "0755"
   roles:
     # set up local galaxy clone and local config
     - role: galaxyproject.galaxy

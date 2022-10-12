@@ -9,12 +9,13 @@ galaxy_job_conf_tools:
   # FIXME: these conda-in-singularity tools should have their own list below and run through the router
   #- id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_train_test_split/sklearn_train_test_split/1.0.8.1
   #  environment: slurm_normal_singularity_deps
-  #- id: random_lines1
-  #  environment: slurm_normal_singularity
-  #- id: cat1
-  #  environment: slurm_normal_singularity
-  #  environment: tacc_k8s
-  #  handler: multi
+  - id: random_lines1
+    environment: tpv_dispatcher
+  - id: cat1
+    environment: tpv_dispatcher
+  - id: bwa
+    environment: tpv_dispatcher
+  # explicit GxIT dispatching
   - id: interactive_tool_jupyter_notebook
     environment: jetstream2_gxit
     #handler: multi

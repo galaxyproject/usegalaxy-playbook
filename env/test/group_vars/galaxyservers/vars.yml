@@ -20,6 +20,8 @@ covid_crg_ftp_staging_passwd: "{{ vault_covid_crg_ftp_staging_passwd }}"
 genomeark_galaxy_aws_secret_access_key: "{{ vault_genomeark_galaxy_aws_secret_access_key }}"
 genomeark_galaxy_aws_access_key_id: "{{ vault_genomeark_galaxy_aws_access_key_id }}"
 
+galaxy_tpv_config_dir: "{{ galaxy_config_dir }}/tpv"
+
 ## used by: galaxy supervisor templates
 galaxy_host_codename: test
 
@@ -409,6 +411,10 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
   - src: files/galaxy/config/trs_servers_conf.yml
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: files/galaxy/config/tpv/environments.yaml
+    dest: "{{ galaxy_tpv_config_dir }}/environments.yaml"
+  - src: files/galaxy/config/tpv/tools.yaml
+    dest: "{{ galaxy_tpv_config_dir }}/tools.yaml"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:

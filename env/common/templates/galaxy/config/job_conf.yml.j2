@@ -206,11 +206,154 @@ execution:
     job_router:
       runner: dynamic
       function: job_router
-{% for rule in galaxy_job_conf_extra_dynamic_rules %}
+{% for rule in galaxy_job_conf_extra_dynamic_rules | default([]) %}
     {{ rule }}:
       runner: dynamic
       function: {{ rule }}
 {% endfor %}
+
+    #
+    # TPV
+    #
+    tpv_dispatcher:
+      runner: dynamic
+      type: python
+      function: map_tool_to_destination
+      rules_module: tpv.rules
+      tpv_config_files:
+        - "{{ galaxy_tpv_config_dir }}/environments.yaml"
+        - "{{ galaxy_tpv_config_dir }}/tools.yaml"
+
+    roundup:
+      runner: slurm
+      native_specification: --partition=normal --nodes=1 --ntasks=1 --mem=3072 --time=06:00:00
+      tmp_dir: true
+      outputs_to_working_directory: true
+      #metadata_strategy: extended
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+      env:
+        - execute: ulimit -c 0
+        #- name: TEMP
+        #  #raw: true
+        #  value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
+        #- name: TMPDIR
+        #  value: $TEMP
+        # TODO: ensure TPV $_JAVA_OPTIONS is set before this
+        - name: _JAVA_OPTIONS
+          value: -Djava.io.tmpdir=$TEMP
+        - name: XDG_DATA_HOME
+          value: /cvmfs/test.galaxyproject.org/xdg/data
+        - name: TERM
+          value: vt100
+        - name: LC_ALL
+          value: C
+
+        - name: SINGULARITYENV_XDG_DATA_HOME
+          value: $XDG_DATA_HOME
+        - name: SINGULARITYENV_TERM
+          value: $TERM
+        - name: SINGULARITYENV__JAVA_OPTIONS
+          value: $_JAVA_OPTIONS
+        - name: SINGULARITYENV_LC_ALL
+          value: $LC_ALL
+        #  TODO: ensure these happen after the automatic tmp_dir
+        - name: SINGULARITYENV_TEMP
+          value: $TEMP
+        - name: SINGULARITYENV_TMPDIR
+          value: $TEMP
+
+    jetstream2:
+      runner: jetstream2
+      submit_native_specification: --partition=tpv --nodes=1 --ntasks=1 --mem=3072 --time=06:00:00
+      tmp_dir: true
+      outputs_to_working_directory: false
+      #metadata_strategy: extended
+      #remote_metadata: true
+      remote_metadata: false
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: local
+      rewrite_parameters: true
+      jobs_directory: /jetstream2/scratch/test/jobs
+      #remote_property_galaxy_home: /cvmfs/test.galaxyproject.org/galaxy
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.jetstream | join(',') }}"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+      env:
+        - execute: ulimit -c 0
+        # TODO: ensure TPV $_JAVA_OPTIONS is set before this
+        - name: _JAVA_OPTIONS
+          value: -Djava.io.tmpdir=$TEMP
+        - name: XDG_DATA_HOME
+          value: /cvmfs/test.galaxyproject.org/xdg/data
+        - name: TERM
+          value: vt100
+        - name: LC_ALL
+          value: C
+
+        - name: SINGULARITYENV_XDG_DATA_HOME
+          value: $XDG_DATA_HOME
+        - name: SINGULARITYENV_TERM
+          value: $TERM
+        - name: SINGULARITYENV__JAVA_OPTIONS
+          value: $_JAVA_OPTIONS
+        - name: SINGULARITYENV_LC_ALL
+          value: $LC_ALL
+        #  TODO: ensure these happen after the automatic tmp_dir
+        - name: SINGULARITYENV_TEMP
+          value: $TEMP
+        - name: SINGULARITYENV_TMPDIR
+          value: $TEMP
+
+    frontera:
+      runner: frontera
+      submit_native_specification: --partition=small --nodes=1 --ntasks=56 --time=06:00:00
+      outputs_to_working_directory: false
+      #metadata_strategy: extended
+      #remote_metadata: true
+      remote_metadata: false
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: true
+      jobs_directory: /scratch1/03166/xcgalaxy/test/staging/
+      singularity_enabled: true
+      # the tacc-singularity module automatically sets up mounts
+      singularity_volumes: null
+      container_resolvers:
+        - type: explicit_singularity
+        - type: mulled_singularity
+      require_container: true
+      env:
+        - file: /etc/profile.d/z01_lmod.sh
+        - execute: module unload xalt
+        - execute: module load tacc-singularity
+        - name: GALAXY_SLOTS
+          value: "$SLURM_NTASKS"
+        - name: GALAXY_MEMORY_MB
+          value: "194560"
+        - execute: ulimit -c 0
+        # TODO: ensure TPV $_JAVA_OPTIONS is set before this
+        - name: _JAVA_OPTIONS
+          value: -Djava.io.tmpdir=$TEMP
+        - name: TERM
+          value: vt100
+        - name: LC_ALL
+          value: C
+
+        - name: SINGULARITYENV_TERM
+          value: $TERM
+        - name: SINGULARITYENV__JAVA_OPTIONS
+          value: $_JAVA_OPTIONS
+        - name: SINGULARITYENV_LC_ALL
+          value: $LC_ALL
+        #  TODO: ensure these happen after the automatic tmp_dir
+        - name: SINGULARITYENV_TEMP
+          value: $TEMP
+        - name: SINGULARITYENV_TMPDIR
+          value: $TEMP
 
     #
     # roundup and TACC-discretionary Jetstream environments
@@ -520,7 +663,7 @@ execution:
 #
 resources:
   groups:
-{% for group, elements in galaxy_job_conf_resource_groups.items() %}
+{% for group, elements in (galaxy_job_conf_resource_groups | default({}) ).items() %}
     {{ group }}:
 {% for element in elements %}
       - {{ element }}
@@ -537,12 +680,12 @@ tools:
   #   3. you don't want a tool to use the router
 
   # Explicit mappings
-{% for tool in galaxy_job_conf_tools %}
+{% for tool in galaxy_job_conf_tools | default([]) %}
   - {{ tool | to_yaml | trim }}
 {% endfor %}
 
   # Bridges tools
-{% for id in galaxy_large_memory_tools %}
+{% for id in galaxy_large_memory_tools | default([]) %}
   - id: {{ id }}
 {% if galaxy_job_conf_multi_handler_tag is defined %}
     handler: {{ galaxy_job_conf_multi_handler_tag }}
@@ -550,7 +693,7 @@ tools:
     resources: stampede
 {% endfor %}
 
-{% for id in galaxy_conditional_large_memory_tools %}
+{% for id in galaxy_conditional_large_memory_tools | default([]) %}
   - id: {{ id }}
 {% if galaxy_job_conf_multi_handler_tag is defined %}
     handler: {{ galaxy_job_conf_multi_handler_tag }}
@@ -559,7 +702,7 @@ tools:
 {% endfor %}
 
   # Stampede tools
-{% for id in galaxy_low_priority_tools %}
+{% for id in galaxy_low_priority_tools | default([]) %}
   - id: {{ id }}
 {% if galaxy_job_conf_multi_handler_tag is defined %}
     handler: {{ galaxy_job_conf_multi_handler_tag }}
@@ -568,7 +711,7 @@ tools:
 {% endfor %}
 
   # Frontera tools
-{% for id in galaxy_frontera_tools %}
+{% for id in galaxy_frontera_tools | default([]) %}
   - id: {{ id }}
 {% if galaxy_job_conf_multi_handler_tag is defined %}
     handler: {{ galaxy_job_conf_multi_handler_tag }}
@@ -600,7 +743,7 @@ tools:
 {% endif %}
 
   # Standard multicore tools
-{% for id in galaxy_multicore_tools %}
+{% for id in galaxy_multicore_tools | default([]) %}
   - id: {{ id }}
 {% if galaxy_job_conf_multi_handler_tag is defined %}
     handler: {{ galaxy_job_conf_multi_handler_tag }}
@@ -612,6 +755,6 @@ tools:
 # Job limits configuration
 #
 limits:
-{% for limit in galaxy_job_conf_limits %}
+{% for limit in galaxy_job_conf_limits | default([]) %}
   - {{ limit | to_yaml | trim }}
 {% endfor %}

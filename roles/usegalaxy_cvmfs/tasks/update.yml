@@ -1,9 +1,9 @@
 ---
 
-- name: Create temporary Galaxy config
+- name: Create temporary Galaxy config dir
   tempfile:
-    prefix: usegalaxy_cvmfs_galaxy_config_
-    suffix: ".{{ 'ini' if galaxy_config_style == 'ini-paste' else galaxy_config_style }}"
+    prefix: ansible_usegalaxy_cvmfs_galaxy_config_dir_
+    state: directory
   register: __usegalaxy_cvmfs_galaxy_config_result
 
 - name: Begin CVMFS transaction
@@ -16,9 +16,21 @@
       import_role:
         name: galaxyproject.galaxy
       vars:
-        galaxy_config_dir: null
+        # minimal vars and configs for conditional dependency installs (drmaa, tpv, python-irodsclient)
+        galaxy_config_dir: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}"
         galaxy_shed_tools_dir: null
-        galaxy_config_file: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}"
+        galaxy_config_file: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/galaxy.yml"
+        galaxy_icat_irods_password: null
+        galaxy_job_conf_amqp_url: null
+        galaxy_job_conf_pulsar_galaxy_url: null
+        galaxy_job_conf_singularity_volumes: {local: [], jetstream: []}
+        galaxy_job_conf_default_container_id: null
+        galaxy_tpv_config_dir: null
+        galaxy_config_templates:
+          - src: templates/galaxy/config/job_conf.yml.j2
+            dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/job_conf.yml"
+          - src: templates/galaxy/config/object_store_conf.xml.j2
+            dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/object_store_conf.xml"
         galaxy_backup_configfiles: false
 
         galaxy_manage_clone: true
@@ -111,7 +123,7 @@
 
   always:
 
-    - name: Remove temporary Galaxy config
+    - name: Remove temporary Galaxy config dir
       file:
         path: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}"
         state: absent

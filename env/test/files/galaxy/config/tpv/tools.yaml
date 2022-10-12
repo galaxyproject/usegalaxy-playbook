@@ -1,0 +1,34 @@
+---
+
+global:
+  default_inherits: _default
+
+tools:
+  _default:
+    cores: 1
+    #mem: cores * 8
+    mem: cores * 2.89
+    env:
+      _JAVA_OPTIONS: $_JAVA_OPTIONS -Xmx{round(mem*0.9*1024)}m -Xms256m
+    context:
+      partition: normal
+    params:
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --partition={partition}"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --partition={partition}"
+      #docker_memory: '{mem}G'
+    scheduling:
+      reject:
+      - offline
+
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
+    cores: 2
+    scheduling:
+      accept:
+      - pulsar
+    rules:
+    - if: 0.25 <= input_size < 1
+      cores: 4
+      mem: cores * 3.6
+    - if: input_size >= 1
+      cores: 8
+      mem: cores * 3.6

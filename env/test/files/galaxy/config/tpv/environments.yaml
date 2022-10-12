@@ -1,0 +1,25 @@
+---
+
+destinations:
+  roundup:
+    cores: 6
+    mem: 64
+    scheduling:
+      accept:
+      - roundup
+  jetstream2:
+    cores: 32
+    mem: 125
+    scheduling:
+      accept:
+      - jetstream2
+      require:
+      - pulsar
+  frontera:
+    cores: 56
+    mem: 192
+    scheduling:
+      accept:
+      - frontera
+      require:
+      - pulsar
