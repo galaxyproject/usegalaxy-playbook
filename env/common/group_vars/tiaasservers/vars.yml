@@ -13,11 +13,10 @@ tiaas_dir: "/srv/tiaas/{{ galaxy_instance_codename }}"
 tiaas_user: tiaas
 tiaas_group: tiaas
 #tiaas_repo: https://github.com/natefoo/tiaas2.git
-tiaas_version: master
+tiaas_version: main
 #tiaas_version: minor-fixes
 tiaas_admin_user: admin
 tiaas_admin_pass: "{{ vault_tiaas_admin_pass }}"
-tiaas_listen_url: 127.0.0.1:8084
 
 tiaas_galaxy_db_name: "galaxy_{{ galaxy_instance_codename }}"
 
