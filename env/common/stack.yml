@@ -69,6 +69,14 @@
 - name: Install and manage nginx
   hosts: webservers
   remote_user: root
+  vars_files:
+    # for tiaas_nginx_routes used by templates
+    - "{{ playbook_dir }}/../../roles/galaxyproject.tiaas2/defaults/main.yml"
+  pre_tasks:
+    # because loading the defaults above clears the tiaas_* vars in group_vars. set as a fact because vars is lower
+    # precedence than vars_files
+    - set_fact:
+        tiaas_dir: "/srv/tiaas/{{ galaxy_instance_codename }}"
   roles:
     - paths   # for certbot_well_known_root + tacc_protected in test env
     - copy    # for tacc_protected in test env

@@ -4,7 +4,7 @@
 # left on in production.
 #tiaas_debug: 'True'
 
-tiaas_virtualenv_command: /opt/rh/rh-python36/root/usr/bin/python3 -m venv
+tiaas_virtualenv_command: /opt/rh/rh-python38/root/usr/bin/python3 -m venv
 tiaas_virtualenv_python: "{{ omit }}"  # defaults to 'python3' but can't be used with virtualenv_command
 
 tiaas_galaxy_idsecret: "{{ galaxy_config_id_secret }}"
@@ -13,7 +13,7 @@ tiaas_dir: "/srv/tiaas/{{ galaxy_instance_codename }}"
 tiaas_user: tiaas
 tiaas_group: tiaas
 #tiaas_repo: https://github.com/natefoo/tiaas2.git
-tiaas_version: main
+tiaas_version: main2
 #tiaas_version: minor-fixes
 tiaas_admin_user: admin
 tiaas_admin_pass: "{{ vault_tiaas_admin_pass }}"
