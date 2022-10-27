@@ -211,21 +211,7 @@ server {
     }
 
     # TIaaS
-    location /tiaas {
-        uwsgi_pass {{ tiaas_listen_url }};
-        uwsgi_param UWSGI_SCHEME $scheme;
-        include uwsgi_params;
-    }
-
-    location /tiaas/static {
-        alias {{ tiaas_dir }}/static;
-    }
-
-    location /join-training {
-        uwsgi_pass {{ tiaas_listen_url }};
-        uwsgi_param UWSGI_SCHEME $scheme;
-        include uwsgi_params;
-    }
+    {{ tiaas_nginx_routes }}
 
     # error docs
     error_page  502 503 504 /error/502/index.shtml;
