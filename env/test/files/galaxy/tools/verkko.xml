@@ -1,4 +1,4 @@
-<tool id="verkko" name="verkko" version="0.1.0+galaxy0" python_template_version="3.5" profile="21.05">
+<tool id="verkko" name="verkko" version="1.1+galaxy0" profile="21.05">
     <description>hybrid genome assembly pipeline</description>
     <requirements>
         <requirement type="package" version="1.1">verkko</requirement>
@@ -163,7 +163,7 @@
         <data name="homo_noseq" format="gfa1" label="Verkko on ${on_string}: Homopolymer noseq" from_work_dir="asm/assembly.homopolymer-compressed.noseq.gfa"/>
         <data name="ont_coverage" format="tabular" label="Verkko on ${on_string}: ONT coverage" from_work_dir="asm/assembly.ont-coverage.csv"/>
         <data name="hifi_corrected" format="fasta.gz" label="Verkko on ${on_string}: Hifi corrected reads" from_work_dir="asm/hifi-corrected.fasta.gz">
-            <filter>algorithm['no_correction'] == ""</filter>
+            <filter>algorithm['no_correction'] == False</filter>
         </data>
         <!-- HAPLOTYPES OUT -->
         <data name="unassigned" format="fasta" label="Verkko on ${on_string}: Unassigned sequences" from_work_dir="asm/assembly.unassigned.csv">
