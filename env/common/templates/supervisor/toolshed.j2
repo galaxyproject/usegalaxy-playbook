@@ -2,16 +2,16 @@
 ;; This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ;;
 
-[program:toolshed_{{ galaxy_toolshed_instance_codename }}_uwsgi]
-command         = /usr/bin/uwsgi --plugin python --virtualenv {{ galaxy_venv_dir }} --ini-paste {{ galaxy_toolshed_config_file }}
+[program:toolshed_{{ galaxy_toolshed_instance_codename }}_gunicorn]
+command         = {{ galaxy_venv_dir }}/bin/gunicorn 'tool_shed.webapp.fast_factory:factory()' --pythonpath lib -k uvicorn.workers.UvicornWorker --workers {{ galaxy_toolshed_gunicorn_workers }} --bind={{ galaxy_toolshed_gunicorn_bind }}
 directory       = {{ galaxy_toolshed_server_dir }}
 umask           = 022
 autostart       = true
 autorestart     = true
 startsecs       = 15
 user            = shed
-environment     = HOME="/home/shed",TMPDIR="{{ toolshed_tmpdir }}",PATH="{{ galaxy_venv_dir }}/bin:%(ENV_PATH)s",VIRTUAL_ENV="{{ galaxy_venv_dir }}"
+environment     = HOME="/home/shed",TMPDIR="{{ toolshed_tmpdir }}",PATH="{{ galaxy_venv_dir }}/bin:%(ENV_PATH)s",VIRTUAL_ENV="{{ galaxy_venv_dir }}",TOOL_SHED_CONFIG_FILE={{ galaxy_toolshed_config_file }}
 numprocs        = 1
 stopsignal      = INT
-stdout_logfile  = /var/log/supervisord/{{ galaxy_toolshed_instance_codename }}_uwsgi.stdout.log
-stderr_logfile  = /var/log/supervisord/{{ galaxy_toolshed_instance_codename }}_uwsgi.stderr.log
+stdout_logfile  = /var/log/supervisord/{{ galaxy_toolshed_instance_codename }}_gunicorn.stdout.log
+stderr_logfile  = /var/log/supervisord/{{ galaxy_toolshed_instance_codename }}_gunicorn.stderr.log
