@@ -54,6 +54,8 @@ server {
     access_log  /var/log/nginx/test.access.log;
     error_log   /var/log/nginx/test.error.log;
 
+    deny 185.191.171.0/24;
+
     # logflux logger
     error_log syslog:server=unix:/dev/log,facility=local6 error;
     access_log syslog:server=unix:/dev/log,facility=local6,severity=error status_req_only if=$log_404;

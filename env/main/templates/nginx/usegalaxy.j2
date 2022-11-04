@@ -33,6 +33,9 @@ server {
     listen       *:443 ssl default_server;
     server_name  usegalaxy.org galaxy-web-05.tacc.utexas.edu galaxy-web-05.galaxyproject.org galaxy-web-06.tacc.utexas.edu galaxy-web-06.galaxyproject.org;
 
+    # SEMrush crawler keeps submitting hundreds of jobs
+    deny 185.191.171.0/24;
+
     # Enable HSTS (age is 180 days)
     add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
 
