@@ -173,13 +173,13 @@
         </data>
         <!-- HAPLOTYPES OUT -->
         <data name="unassigned" format="fasta" label="Verkko on ${on_string}: Unassigned sequences" from_work_dir="asm/assembly.unassigned.csv">
-            <filter>algorithm['hap_kmer']['set_hap'] == "No"</filter>
+            <filter>algorithm['hap_kmer']['set_hap'] == "yes"</filter>
         </data>
         <data name="haplo_fasta_1" format="fasta" label="Verkko on ${on_string}: assembly haplotype fasta 1" from_work_dir="asm/assembly.haplotype1.fasta">
-            <filter>algorithm['hap_kmer']['set_hap'] == "No"</filter>
+            <filter>algorithm['hap_kmer']['set_hap'] == "yes"</filter>
         </data>
         <data name="haplo_fasta_2" format="fasta" label="Verkko on ${on_string}: assembly haplotype fasta 2" from_work_dir="asm/assembly.haplotype2.fasta">
-            <filter>algorithm['hap_kmer']['set_hap'] == "No"</filter>
+            <filter>algorithm['hap_kmer']['set_hap'] == "yes"</filter>
         </data>
     </outputs>
     <tests>
