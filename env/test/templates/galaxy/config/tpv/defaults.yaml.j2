@@ -13,9 +13,9 @@ tools:
     context:
       partition: normal
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --partition={partition}"
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition={partition}"
       #submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --partition={partition}"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --partition=tpv"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition=tpv"
       #docker_memory: '{mem}G'
     scheduling:
       require:
