@@ -28,11 +28,11 @@
                 #silent $nanofiles.append($filename)
             #end for
         #end if
-            #if $algorithm.hap_kmer.set_hap == "yes":
-                mkdir h1 &&
-                tar -xvf $algorithm.hap_kmer.h1 -C h1 --strip-components 1 &&
-                mkdir h2 &&
-                tar -xvf $algorithm.hap_kmer.h2 -C h2 --strip-components 1 &&
+        #if $algorithm.hap_kmer.set_hap == "yes":
+                mkdir h1.meryl &&
+                tar -xzf $algorithm.hap_kmer.h1 -C h1.meryl --strip-components 1 &&
+                mkdir h2.meryl &&
+                tar -xzf $algorithm.hap_kmer.h2 -C h2.meryl --strip-components 1 &&
         #end if
         verkko --hifi
         #for $k, $hifi_data in enumerate($hififiles):
@@ -48,7 +48,7 @@
         #end if
         $algorithm.no_correction
         #if $algorithm.hap_kmer.set_hap == "yes":
-            --hap-kmers h1 h2 $algorithm.hap_kmer.type
+            --hap-kmers h1.meryl h2.meryl $algorithm.hap_kmer.type
         #end if
         #if $algorithm.base_k:
             --base-k $algorithm.base_k
