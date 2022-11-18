@@ -30,9 +30,9 @@
         #end if
         #if $algorithm.hap_kmer.set_hap == "yes":
                 mkdir h1.meryl &&
-                tar -xzf $algorithm.hap_kmer.h1 -C h1.meryl --strip-components 1 &&
+                tar -xzmf $algorithm.hap_kmer.h1 -C h1.meryl --strip-components 1 &&
                 mkdir h2.meryl &&
-                tar -xzf $algorithm.hap_kmer.h2 -C h2.meryl --strip-components 1 &&
+                tar -xzmf $algorithm.hap_kmer.h2 -C h2.meryl --strip-components 1 &&
         #end if
         verkko --hifi
         #for $k, $hifi_data in enumerate($hififiles):
