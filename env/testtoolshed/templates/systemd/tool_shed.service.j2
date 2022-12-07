@@ -9,7 +9,7 @@ Type=simple
 User=shed
 Group=shed
 WorkingDirectory={{ galaxy_toolshed_server_dir }}
-ExecStart={{ galaxy_venv_dir }}/bin/gunicorn 'tool_shed.webapp.fast_factory:factory()' --pythonpath lib -k uvicorn.workers.UvicornWorker --workers {{ galaxy_toolshed_gunicorn_workers }} --bind={{ galaxy_toolshed_gunicorn_bind }} --timeout 900
+ExecStart={{ galaxy_venv_dir }}/bin/gunicorn 'tool_shed.webapp.fast_factory:factory()' --pythonpath lib -k uvicorn.workers.UvicornWorker --workers {{ galaxy_toolshed_gunicorn_workers }} --bind={{ galaxy_toolshed_gunicorn_bind }} --timeout 900 --max-requests {{ galaxy_toolshed_gunicorn_max_requests }} --max-requests-jitter {{ galaxy_toolshed_gunicorn_max_requests_jitter }}
 
 Environment=HOME=/home/shed
 Environment=VIRTUAL_ENV={{ galaxy_venv_dir }}

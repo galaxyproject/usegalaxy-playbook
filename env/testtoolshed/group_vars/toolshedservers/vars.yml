@@ -19,6 +19,8 @@ galaxy_toolshed_instance_codename: test
 galaxy_toolshed_instance_hostname: testtoolshed.g2.bx.psu.edu
 galaxy_toolshed_gunicorn_workers: 2
 galaxy_toolshed_gunicorn_bind: "127.0.0.1:9009"
+galaxy_toolshed_gunicorn_max_requests: 5000
+galaxy_toolshed_gunicorn_max_requests_jitter: 500
 
 ## used by: galaxyproject.galaxy
 galaxy_errordocs_server_name: "The Test Tool Shed"
