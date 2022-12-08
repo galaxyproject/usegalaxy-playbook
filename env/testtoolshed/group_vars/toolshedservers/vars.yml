@@ -26,6 +26,7 @@ galaxy_hgweb_gunicorn_workers: 4
 galaxy_hgweb_gunicorn_bind: "127.0.0.1:3003"
 galaxy_hgweb_max_requests: 500
 galaxy_hgweb_max_requests_jitter: 50
+galaxy_hgweb_config_dir: "{{ galaxy_toolshed_mutable_config_dir }}/hgweb_config_dir"
 
 ## used by: galaxyproject.galaxy
 galaxy_errordocs_server_name: "The Test Tool Shed"
