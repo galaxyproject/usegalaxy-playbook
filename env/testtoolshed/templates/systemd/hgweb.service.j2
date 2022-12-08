@@ -1,0 +1,25 @@
+[Unit]
+Description=hgweb
+After=network.target
+After=time-sync.target
+
+[Service]
+UMask=022
+Type=simple
+User=shed
+Group=shed
+WorkingDirectory={{ galaxy_hgweb_dir }}
+ExecStart={{ galaxy_venv_dir }}/bin/gunicorn hgweb:application --workers {{ galaxy_hgweb_gunicorn_workers }} --bind={{ galaxy_hgweb_gunicorn_bind }} --max-requests {{ galaxy_hgweb_max_requests }} --max-requests-jitter {{ galaxy_hgweb_max_requests_jitter }}
+
+Environment=HOME=/home/shed
+Environment=VIRTUAL_ENV={{ galaxy_venv_dir }}
+Environment=PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+MemoryLimit=2G
+Restart=always
+
+MemoryAccounting=yes
+CPUAccounting=yes
+BlockIOAccounting=yes
+
+[Install]
+WantedBy=multi-user.target

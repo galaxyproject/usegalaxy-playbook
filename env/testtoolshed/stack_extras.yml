@@ -1,12 +1,26 @@
 ---
 # FIXME: this is not ideal
-
 - name: Distribute tool shed systemd unit
   hosts: toolshedservers
   remote_user: root
   tasks:
-    - name: Distribute systemd unit
+    - name: Create hgweb dir
+      file:
+        path: "{{ galaxy_hgweb_dir }}"
+        state: directory
+        owner: shed
+
+    - name: Distribute systemd units
       template:
-        src: "templates/systemd/tool_shed.service.j2"
-        dest: "/etc/systemd/system/tool_shed.service"
+        src: "templates/systemd/{{ item }}.j2"
+        dest: "/etc/systemd/system/{{ item }}"
         mode: "0600"
+      with_items:
+        - tool_shed.service
+        - hgweb.service
+
+    - name: Distribute hgweb.py
+      template:
+        src: "templates/hgweb/hgweb.py.j2"
+        dest: "{{ galaxy_hgweb_dir }}/hgweb.py"
+        owner: shed

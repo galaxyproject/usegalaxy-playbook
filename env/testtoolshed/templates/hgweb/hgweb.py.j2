@@ -1,0 +1,14 @@
+# Path to repo or hgweb config to serve (see 'hg help hgweb')
+config = b"{{ galaxy_toolshed_config_file }}"
+
+# Uncomment and adjust if Mercurial is not installed system-wide
+# (consult "installed modules" path from 'hg debuginstall'):
+
+# Uncomment to send python tracebacks to the browser if an error occurs:
+#import cgitb; cgitb.enable()
+
+# enable demandloading to reduce startup time
+from mercurial import demandimport; demandimport.enable()
+
+from mercurial.hgweb import hgweb
+application = hgweb(config)
