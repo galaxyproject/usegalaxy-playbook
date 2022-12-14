@@ -108,7 +108,7 @@
             --incompatible-cutoff $algorithm.incompatible_cutoff
         #end if
         -d asm
-        --snakeopts "--cores ${GALAXY_SLOTS} --resources mem_mb=${GALAXY_MEMORY_MB}"
+        --snakeopts "--cores \${GALAXY_SLOTS:-1} --resources mem_mb=\${GALAXY_MEMORY_MB:-8192}"
     ]]></command>
     <inputs>
         <param name="hifi" type="data" format="fastq.gz" label="HiFi Reads Files" multiple="true"/>
