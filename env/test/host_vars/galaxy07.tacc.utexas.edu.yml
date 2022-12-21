@@ -2,9 +2,6 @@
 
 # Warning: vaulting this host would make the static.yml playbook require vault decryption
 
-host_supervisor_configs:
-  - galaxy_gxit_proxy
-
 host_crontabs:
   - name: "Clean {{ galaxy_instance_codename }} object store cache"
     id: "galaxy_{{ galaxy_instance_codename }}_clean_object_store_cache"
@@ -29,7 +26,7 @@ host_crontabs:
     user: "{{ galaxy_user }}"
     hour: "4"
     minute: "0"
-    job: "/usr/bin/tmpwatch -v --all --mtime --dirmtime 7d {{ galaxy_nginx_upload_dir }} | tee -a {{ galaxy_log_dir }}/cleanup_upload.log"
+    job: "/usr/bin/tmpwatch -v --all --mtime --dirmtime 7d {{ galaxy_tus_upload_store }} | tee -a {{ galaxy_log_dir }}/cleanup_upload.log"
   - name: "Clean {{ galaxy_instance_codename }} nginx job file uploads"
     id: "galaxy_{{ galaxy_instance_codename }}_clean_nginx_upload_job_files"
     user: "{{ galaxy_user }}"
