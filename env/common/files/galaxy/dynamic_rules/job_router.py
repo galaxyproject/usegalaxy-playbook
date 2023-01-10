@@ -530,7 +530,7 @@ def __get_best_destination(app, job, destination_configs):
 def __update_native_spec(destination_id, spec, native_spec):
     destination_config = __destination_config(destination_id)
     for param, value in spec.items():
-        if param not in destination_config.get('valid', []):
+        if not destination_config or param not in destination_config.get('valid', []):
             local.log.debug("Setting param '%s' on destination '%s' is not valid, so it will be ignored", param, destination_id)
         else:
             value = __convert_native_spec_param(param, value)
