@@ -265,7 +265,7 @@ galaxy_job_conf_limits:
 # used in gravity config and nginx template
 gxit_proxy_port: 8910
 
-# Run Galaxy with Gravity (systemd service unit is set up in the stack playbook)
+# Disable handlers in role, use playbook handlers
 galaxy_systemd_mode: null
 #galaxy_gravity_state_dir: "{{ (galaxy_mutable_data_dir, 'gravity') | path_join }}"
 galaxy_gravity_config_default:

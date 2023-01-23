@@ -4,10 +4,16 @@ galaxy_host_codename: main_w4
 galaxy_job_conf_handlers:
   - id: main_w4_handler0
     plugins: "{{ __handler_default_plugins }}"
+    environment:
+      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
   - id: main_w4_handler1
     plugins: "{{ __handler_default_plugins }}"
+    environment:
+      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
   - id: main_w4_handler2
     plugins: "{{ __handler_multi_plugins }}"
+    environment:
+      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
     tags:
       - multi
 
