@@ -35,6 +35,18 @@
       galaxy_manage_systemd: no
       galaxy_manage_gravity: no
       when: inventory_hostname in groups['galaxymasters']
+  handlers:
+    - name: galaxy gravity restart
+      remote_user: root
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
+      environment:
+        GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
+      listen: "restart galaxy"
+    - name: galaxyctl update
+      remote_user: root
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl update"
+      environment:
+        GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
 
 - name: Include static content plays
   import_playbook: _inc_static.yml

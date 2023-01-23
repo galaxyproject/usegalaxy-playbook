@@ -18,11 +18,23 @@
       galaxy_manage_errordocs: no
       galaxy_build_client: no
       galaxy_manage_systemd: no
-      galaxy_manage_gravity: yes
+      galaxy_manage_gravity: no
   post_tasks:
     # create impersonation config on Main
     - name: Include config post-tasks
       include_tasks: _inc_config_post_tasks.yml
+  handlers:
+    - name: galaxy gravity restart
+      remote_user: root
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
+      environment:
+        GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
+      listen: "restart galaxy"
+    - name: galaxyctl update
+      remote_user: root
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl update"
+      environment:
+        GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
   tags:
     - no-restart
 

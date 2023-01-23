@@ -266,9 +266,12 @@ galaxy_job_conf_limits:
 gxit_proxy_port: 8910
 
 # Run Galaxy with Gravity (systemd service unit is set up in the stack playbook)
-galaxy_systemd_mode: gravity
+galaxy_systemd_mode: null
 #galaxy_gravity_state_dir: "{{ (galaxy_mutable_data_dir, 'gravity') | path_join }}"
 galaxy_gravity_config_default:
+  process_manager: systemd
+  galaxy_user: "{{ galaxy_user }}"
+  galaxy_group: "{{ galaxy_group }}"
   galaxy_root: "{{ galaxy_server_dir }}"
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"

@@ -44,8 +44,8 @@ limit_req_zone $rate_limit_key zone=limit_test:10m rate=1r/s;
 log_format status_req_only '__logflux_access_log $status "$request"';
 
 upstream galaxy {
-    server http://127.0.0.1:8080;
-    server http://127.0.0.1:8081;
+    server 127.0.0.1:8080;
+    server 127.0.0.1:8081;
 }
 
 server {
