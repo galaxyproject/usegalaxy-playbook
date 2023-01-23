@@ -110,6 +110,14 @@ galaxy_job_conf_singularity_volumes:
     - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+  jetstream_wraptar:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+    - "/jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro"
 
 galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource, ntasks, time]
