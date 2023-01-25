@@ -12,9 +12,15 @@ galaxy_job_conf_pulsar_galaxy_url: https://galaxy-web-03.galaxyproject.org
 # gxit_proxy_port is hardcoded here and in the template since the nginx config is deployed from the test env
 
 galaxy_host_codename: main_k8s
-galaxy_systemd_mode: gravity
-galaxy_gravity_config_default:
+galaxy_systemd_mode: null
+galaxy_gravity_config_default: null
+gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
+gravity_config:
+  instance_name: "{{ galaxy_instance_codename }}"
+  galaxy_user: "{{ galaxy_user }}"
+  galaxy_group: "{{ galaxy_group }}"
   galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_config_file: "{{ galaxy_config_file }}"
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
