@@ -115,6 +115,32 @@ galaxy_job_conf_singularity_volumes:
     - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+  jetstream_wraptar:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+    - "/jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro"
+
+# TODO: this is the contents of wraptar, needs to be deployed somehow:
+#
+# #!/bin/bash
+#
+# wraptar_version='0.1.0'
+#
+# echo ''
+# echo "Running ceph wraptar $wraptar_version around tar to suppress changed file warning" >&2
+# echo ''
+#
+# if ! { stderr="$( { TAR_OPTIONS='--warning=no-file-changed' /usr/local/bin/tar "$@"; } 2>&1 1>&3 3>&- )"; } 3>&1; then
+#     rc=$?
+#     if [ -n "$stderr" ]; then
+#         echo "$stderr" >&2
+#         exit $rc
+#     fi
+# fi
 
 galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource]

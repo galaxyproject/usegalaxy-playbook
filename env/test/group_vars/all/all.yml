@@ -8,6 +8,7 @@ galaxy_commit_id: dev
 
 galaxy_force_checkout: true
 galaxy_user: g2test
+galaxy_group: G-803372
 galaxy_privileged_user: gxsrc
 galaxy_instance_hostname: test.galaxyproject.org
 galaxy_instance_codename: test
@@ -15,8 +16,6 @@ galaxy_cvmfs_repo: test.galaxyproject.org
 galaxy_version_file: "{{ inventory_dir }}/files/galaxy/galaxy_version.yml"
 galaxy_diff_mode_verbose: false
 galaxy_config_perms: 0644
-galaxy_additional_venv_packages:
-  - unicornherder
 
 # FIXME: don't want the backups of the TPV configs to be watched, maybe add a per-item backup option to
 # galaxy_config_{files,templates}, or maybe we really don't need backups

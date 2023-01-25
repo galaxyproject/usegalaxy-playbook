@@ -112,6 +112,14 @@ galaxy_job_conf_singularity_volumes:
     - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+  jetstream_wraptar:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+    - "/jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro"
 
 galaxy_job_conf_resource_groups:
   multi: [multi_compute_resource, ntasks, time]
@@ -259,26 +267,39 @@ galaxy_job_conf_limits:
 # used in gravity config and nginx template
 gxit_proxy_port: 8910
 
-# Run Galaxy with Gravity (systemd service unit is set up in the stack playbook)
-galaxy_systemd_mode: gravity
-#galaxy_gravity_state_dir: "{{ (galaxy_mutable_data_dir, 'gravity') | path_join }}"
-galaxy_gravity_config_default:
+# Disable handlers in role, use playbook handlers
+galaxy_systemd_mode: null
+# Disable gravity config in galaxy.yml, use standalone Gravity config
+galaxy_gravity_config_default: null
+gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
+
+gravity_config:
+  instance_name: "{{ galaxy_instance_codename }}"
+  process_manager: systemd
+  galaxy_user: "{{ galaxy_user }}"
+  galaxy_group: "{{ galaxy_group }}"
   galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_config_file: "{{ galaxy_config_file }}"
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"
-  app_server: unicornherder
   gunicorn:
-    bind: localhost:8080
-    workers: 2
-    timeout: 600
-    # https://github.com/encode/uvicorn/issues/610
-    #extra_args: --statsd-host=127.0.0.1:8125 --statsd-prefix=test.galaxy.gunicorn
-    # when preload is enabled, gunicorn still detaches shortly after spawn, but does not write the pidfile until after
-    # the application loads, so unicornherder fails after 5 tries (with a 1 second wait) to read the pidfile and then
-    # exits.
-    preload: false
-    environment:
-      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
+   - bind: localhost:8080
+     workers: 2
+     timeout: 600
+     # https://github.com/encode/uvicorn/issues/610
+     #extra_args: --statsd-host=127.0.0.1:8125 --statsd-prefix=test.galaxy.gunicorn
+     # when preload is enabled, gunicorn still detaches shortly after spawn, but does not write the pidfile until after
+     # the application loads, so unicornherder fails after 5 tries (with a 1 second wait) to read the pidfile and then
+     # exits
+     preload: true
+     environment:
+       PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
+   - bind: localhost:8081
+     workers: 2
+     timeout: 600
+     preload: true
+     environment:
+       PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd

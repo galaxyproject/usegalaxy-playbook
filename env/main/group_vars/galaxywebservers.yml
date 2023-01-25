@@ -43,23 +43,28 @@ certbot_domains:
   - "{{ inventory_hostname_short }}.galaxyproject.org"
   - www.usegalaxy.org
 
-# Run Galaxy with Gravity (systemd service unit is set up in the stack playbook)
-galaxy_systemd_mode: gravity
+# Disable handlers in role, use playbook handlers
+galaxy_systemd_mode: null
 galaxy_gravity_config_default:
+  process_manager: systemd
+  galaxy_user: "{{ galaxy_user }}"
+  galaxy_group: "{{ galaxy_group }}"
   galaxy_root: "{{ galaxy_server_dir }}"
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"
-  app_server: unicornherder
   gunicorn:
-    bind: localhost:8080
-    workers: 5
-    timeout: 600
-    # when preload is enabled, gunicorn still detaches shortly after spawn, but does not write the pidfile until after
-    # the application loads, so unicornherder fails after 5 tries (with a 1 second wait) to read the pidfile and then
-    # exits.
-    preload: false
-    environment:
-      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
+    - bind: localhost:8080
+      workers: 4
+      timeout: 600
+      preload: true
+      environment:
+        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
+    - bind: localhost:8081
+      workers: 4
+      timeout: 600
+      preload: true
+      environment:
+        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
   celery:
     enable: false
     enable_beat: false
