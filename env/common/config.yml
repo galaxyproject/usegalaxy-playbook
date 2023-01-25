@@ -28,13 +28,11 @@
       remote_user: root
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
       environment:
-        GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
+        GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
       listen: "restart galaxy"
     - name: galaxyctl update
       remote_user: root
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl update"
-      environment:
-        GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
   tags:
     - no-restart
 

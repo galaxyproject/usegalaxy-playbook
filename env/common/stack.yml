@@ -127,7 +127,7 @@
     - logflux
   tags: logflux
 
-- name: Manage galaxy root tasks
+- name: Manage Galaxy/Toolshed root tasks
   hosts: galaxyservers:toolshedservers
   remote_user: root
   roles:
@@ -135,6 +135,35 @@
     - usegalaxy_admin
     - cron
   tags: galaxy,admin
+
+- name: Manage Galaxy root tasks
+  hosts: galaxyservers
+  remote_user: root
+  tasks:
+    - name: Create Gravity config dir
+      file:
+        path: /etc/galaxy/gravity.d
+        state: directory
+        mode: "0755"
+      remote_user: root
+    - name: Install Gravity config
+      template:
+        src: "templates/galaxy/config/gravity.yml.j2"
+        dest: "{{ gravity_config_file }}"
+        mode: "0644"
+      notify:
+        - galaxyctl update
+        - restart galaxy
+  handlers:
+    - name: galaxy gravity restart
+      remote_user: root
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
+      environment:
+        GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
+      listen: "restart galaxy"
+    - name: galaxyctl update
+      remote_user: root
+      command: "{{ galaxy_venv_dir }}/bin/galaxyctl update"
 
 #- name: Manage supervisor and root tasks
 #  hosts: supervisorservers
