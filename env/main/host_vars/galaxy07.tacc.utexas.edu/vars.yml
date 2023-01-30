@@ -41,6 +41,8 @@ galaxy_job_conf_handlers:
   - id: main_k8s_handler0
     plugins:
       - tacc_k8s
+    environment:
+      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
     tags:
       - k8s
 
