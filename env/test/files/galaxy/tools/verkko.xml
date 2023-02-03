@@ -1,13 +1,17 @@
-<tool id="verkko" name="verkko" version="1.1+galaxy0" profile="21.05">
+<tool id="verkko" name="verkko" version="@TOOL_VERSION@+galaxy@VERSION_SUFFIX@" profile="21.05">
     <description>hybrid genome assembly pipeline</description>
+    <macros>
+        <token name="@TOOL_VERSION@">1.2</token>
+        <token name="@VERSION_SUFFIX@">1</token>
+    </macros>
     <requirements>
-        <requirement type="package" version="1.1">verkko</requirement>
+        <requirement type="package" version="@TOOL_VERSION@">verkko</requirement>
     </requirements>
     <command detect_errors="exit_code"><![CDATA[
         #set $hififiles = []
         #for $i, $datafile in enumerate($hifi):
             #set $filename = str($i) + "_hifi.fastq.gz"
-            #if $datafile.is_of_type("fastq") || $datafile.is_of_type("fastqsanger"):
+            #if $datafile.is_of_type("fastq") or $datafile.is_of_type("fastqsanger"):
                 gzip '$datafile' &&
                 ln -s '${datafile}.gz' '$filename' &&
             #else:
@@ -17,9 +21,9 @@
         #end for
         #if $nano:
             #set $nanofiles = []
-            #for $j, $ontfile in enumerate($set_nano.nano):
+            #for $j, $ontfile in enumerate($nano):
                 #set $filename = str($j) +  "_nano.fastq.gz"
-                #if $ontfile.is_of_type("fastq") || $ontfile.is_of_type("fastqsanger"):
+                #if $ontfile.is_of_type("fastq") or $ontfile.is_of_type("fastqsanger"):
                     gzip '$ontfile' &&
                     ln -s '${ontfile}.gz' '$filename' &&
                 #else:
@@ -113,7 +117,7 @@
     <inputs>
         <param name="hifi" type="data" format="fastq,fastq.gz,fastqsanger,fastqsanger.gz" label="HiFi Reads Files" multiple="true"/>
         <param name="nano" type="data" format="fastq,fastq.gz,fastqsanger,fastqsanger.gz" label="Oxford Nanopore Reads Files" multiple="true" optional="true"/>
-        <conditional name="set_nano">
+        <!-- <conditional name="set_nano">
             <param name="use_nano" type="select" label="Assemble using ONT data?">
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
@@ -122,7 +126,7 @@
                 <param name="nano" type="data" format="fastq.gz" label="Oxford Nanopore Reads Files" multiple="true"/>
             </when>
             <when value="no"/>
-        </conditional>
+        </conditional> -->
         <section name="algorithm" title="Algorithm parameters">
             <param name="no_correction" type="boolean" argument="--no-correction" label="Do not perform Canu correction on HiFi reads" truevalue="--no-correction" falsevalue=""/>
             <conditional name="hap_kmer">
