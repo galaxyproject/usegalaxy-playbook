@@ -1,3 +1,7 @@
 ---
 
 message_queue_url: {{ galaxy_job_conf_amqp_url }}
+managers:
+  tacc_k8s:
+    type: coexecution
+    monitor: background
