@@ -1,5 +1,8 @@
 ---
 
+# set -e restart=false to disable restart
+restart: true
+
 ## these vars are defined in vault.yml
 galaxy_database_password: "{{ vault_galaxy_database_password }}"
 tiaas_database_password: "{{ vault_tiaas_database_password }}"

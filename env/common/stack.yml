@@ -164,7 +164,9 @@
     - name: galaxyctl update
       remote_user: root
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl update"
-  tags: galaxy
+  tags:
+    - galaxy
+    - gravity
 
 #- name: Manage supervisor and root tasks
 #  hosts: supervisorservers

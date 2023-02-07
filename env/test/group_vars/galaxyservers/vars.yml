@@ -282,6 +282,7 @@ gravity_config:
    - bind: localhost:8080
      workers: 2
      timeout: 600
+     restart_timeout: 600
      # https://github.com/encode/uvicorn/issues/610
      #extra_args: --statsd-host=127.0.0.1:8125 --statsd-prefix=test.galaxy.gunicorn
      # when preload is enabled, gunicorn still detaches shortly after spawn, but does not write the pidfile until after
@@ -293,6 +294,7 @@ gravity_config:
    - bind: localhost:8081
      workers: 2
      timeout: 600
+     restart_timeout: 600
      preload: true
      environment:
        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
