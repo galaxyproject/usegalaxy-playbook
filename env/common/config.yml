@@ -34,17 +34,16 @@
     - name: Include config post-tasks
       include_tasks: _inc_config_post_tasks.yml
   handlers:
-    - name: galaxy gravity restart
+    - name: galaxy gravity graceful restart
       remote_user: root
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
       environment:
         GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
       listen: "restart galaxy"
+      when: restart is truthy(convert_bool=true)
     - name: galaxyctl update
       remote_user: root
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl update"
-  tags:
-    - no-restart
 
 - name: Galaxy mutable configs
   hosts: galaxyservers
@@ -56,16 +55,12 @@
     # var set in galaxyproject.galaxy)
     - role: usegalaxy
     - role: usegalaxy_backup
-  tags:
-    - no-restart
 
 - name: Galaxy privileged user tasks
   hosts: galaxyservers
   remote_user: "{{ galaxy_privileged_user }}"
   roles:
     - role: usegalaxy_privileged
-  tags:
-    - no-restart
 
 #- name: Include restart plays
 #  import_playbook: _inc_restart.yml

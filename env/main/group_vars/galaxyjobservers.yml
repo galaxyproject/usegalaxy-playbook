@@ -21,23 +21,31 @@ usegalaxy_dynamic_job_rules:
 
 # Disable handlers in role, use playbook handlers
 galaxy_systemd_mode: null
-galaxy_gravity_config_default:
+# Disable gravity config in galaxy.yml, use standalone Gravity config
+galaxy_gravity_config_default: null
+gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
+
+gravity_config:
+  instance_name: "{{ galaxy_instance_codename }}"
   process_manager: systemd
   galaxy_user: "{{ galaxy_user }}"
   galaxy_group: "{{ galaxy_group }}"
   galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_config_file: "{{ galaxy_config_file }}"
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
     - bind: localhost:8080
       workers: 2
       timeout: 600
+      restart_timeout: 600
       preload: true
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
     - bind: localhost:8081
       workers: 2
       timeout: 600
+      restart_timeout: 600
       preload: true
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"

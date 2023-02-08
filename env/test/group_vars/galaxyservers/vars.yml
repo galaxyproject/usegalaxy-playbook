@@ -66,8 +66,6 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 ## used by: job_conf.yml template
 galaxy_job_conf_pulsar_galaxy_url: "https://{{ galaxy_instance_hostname }}"
 
-pulsar_coexecution_container_image: quay.io/natefoo/pulsar-pod-staging:0.15.0.dev0
-
 __handler_plugins:
   - slurm
   - jetstream_iu
@@ -286,6 +284,7 @@ gravity_config:
    - bind: localhost:8080
      workers: 2
      timeout: 600
+     restart_timeout: 600
      # https://github.com/encode/uvicorn/issues/610
      #extra_args: --statsd-host=127.0.0.1:8125 --statsd-prefix=test.galaxy.gunicorn
      # when preload is enabled, gunicorn still detaches shortly after spawn, but does not write the pidfile until after
@@ -297,6 +296,7 @@ gravity_config:
    - bind: localhost:8081
      workers: 2
      timeout: 600
+     restart_timeout: 600
      preload: true
      environment:
        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"

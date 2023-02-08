@@ -6,8 +6,6 @@
   roles:
     - role: usegalaxy_cvmfs
       galaxy_cvmfs_update: yes
-  tags:
-    - no-restart
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
 
@@ -19,7 +17,6 @@
   remote_user: "{{ galaxy_user }}"
   tags:
     - no-cvmfs
-    - no-restart
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
   roles:
@@ -36,12 +33,13 @@
       galaxy_manage_gravity: no
       when: inventory_hostname in groups['galaxymasters']
   handlers:
-    - name: galaxy gravity restart
+    - name: galaxy gravity graceful restart
       remote_user: root
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
       environment:
         GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
       listen: "restart galaxy"
+      when: restart is truthy(convert_bool=true)
     - name: galaxyctl update
       remote_user: root
       command: "{{ galaxy_venv_dir }}/bin/galaxyctl update"
@@ -52,7 +50,6 @@
   import_playbook: _inc_static.yml
   tags:
     - no-cvmfs
-    - no-restart
 
 #- name: Include restart plays
 #  import_playbook: _inc_restart.yml
@@ -78,4 +75,3 @@
 #      galaxy_manage_systemd: no
 #  tags:
 #    - no-cvmfs
-#    - no-restart
