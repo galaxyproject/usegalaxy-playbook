@@ -5,7 +5,7 @@
             <auth username="g2test" password="{{ galaxy_icat_irods_password }}" />
             <resource name="testRootResc" />
             <zone name="galaxyZ" />
-            <connection host="galaxy-icat.tacc.utexas.edu" port="1247" timeout="3" refresh_time="300"/>
+            <connection host="galaxy-icat.tacc.utexas.edu" port="1247" timeout="3" refresh_time="300" connection_pool_monitor_interval="3600"/>
             <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
         </backend>
