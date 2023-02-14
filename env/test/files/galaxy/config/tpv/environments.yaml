@@ -1,27 +1,238 @@
 ---
 
 destinations:
+
+  # abstract envs for inheritance
+
+  _tacc_hpc:
+    abstract: true
+    params:
+      outputs_to_working_directory: false
+      #metadata_strategy: extended
+      remote_metadata: false
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: true
+      jobs_directory: /scratch1/03166/xcgalaxy/test/staging/
+      singularity_enabled: true
+      # the tacc-singularity module automatically sets up mounts
+      singularity_volumes: null
+      container_resolvers:
+      - type: explicit_singularity
+      - type: mulled_singularity
+      require_container: true
+    env:
+    - file: /etc/profile.d/z01_lmod.sh
+    - execute: module unload xalt
+    - execute: module load tacc-singularity
+    - name: GALAXY_SLOTS
+      value: "$SLURM_NTASKS"
+    - execute: ulimit -c 0
+    # TODO: ensure TPV $_JAVA_OPTIONS is set before this
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$TEMP
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+    #  TODO: ensure these happen after the automatic tmp_dir
+    - name: SINGULARITYENV_TEMP
+      value: $TEMP
+    - name: SINGULARITYENV_TMPDIR
+      value: $TEMP
+
+  # real envs
+
   roundup:
-    cores: 6
-    mem: 64
+    runner: slurm
+    max_accepted_cores: 6
+    max_accepted_mem: 64
+    context:
+      partition: normal
+    params:
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition={partition}"
+      tmp_dir: true
+      outputs_to_working_directory: true
+      singularity_enabled: true
+      #singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
+      singularity_volumes:
+      - "$galaxy_root:ro"
+      - "$tool_directory:ro"
+      - "$working_directory:rw"
+      - "$job_directory:rw"
+      - "{{ galaxy_object_store_cache_path }}:ro"
+      - "{{ galaxy_new_file_path }}:ro"
+      - "/corral4/{{ galaxy_instance_codename }}/files:ro"
+      - "/corral4/{{ galaxy_instance_codename }}/files-test:ro"
+      - "/cvmfs/data.galaxyproject.org:ro"
+      - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+    env:
+    - execute: ulimit -c 0
+    # TODO: ensure TPV $_JAVA_OPTIONS is set before this
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$TEMP
+    - name: XDG_DATA_HOME
+      value: /cvmfs/test.galaxyproject.org/xdg/data
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_XDG_DATA_HOME
+      value: $XDG_DATA_HOME
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+    #  TODO: ensure these happen after the automatic tmp_dir
+    - name: SINGULARITYENV_TEMP
+      value: $TEMP
+    - name: SINGULARITYENV_TMPDIR
+      value: $TEMP
     scheduling:
       accept:
       - roundup
       - general
+      reject:
+      - hpc
   jetstream2:
-    cores: 32
-    mem: 125
+    runner: jetstream2
+    max_accepted_cores: 32
+    max_accepted_mem: 125
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition=tpv"
+      tmp_dir: true
+      outputs_to_working_directory: false
+      singularity_enabled: true
+      #singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.jetstream | join(',') }}"
+      singularity_volumes:
+      - "$galaxy_root:ro"
+      - "$tool_directory:ro"
+      - "$working_directory:rw"
+      - "$job_directory:rw"
+      - "/cvmfs/data.galaxyproject.org:ro"
+      - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/python:3.8.3"
+      remote_metadata: false
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: local
+      rewrite_parameters: true
+      jobs_directory: /jetstream2/scratch/test/jobs
+    env:
+    - execute: ulimit -c 0
+    # TODO: ensure TPV $_JAVA_OPTIONS is set before this
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$TEMP
+    - name: XDG_DATA_HOME
+      value: /cvmfs/test.galaxyproject.org/xdg/data
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_XDG_DATA_HOME
+      value: $XDG_DATA_HOME
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+    #  TODO: ensure these happen after the automatic tmp_dir
+    - name: SINGULARITYENV_TEMP
+      value: $TEMP
+    - name: SINGULARITYENV_TMPDIR
+      value: $TEMP
     scheduling:
       accept:
       - jetstream2
       - general
       require:
       - pulsar
+      reject:
+      - hpc
   frontera:
-    cores: 56
-    mem: 192
+    inherits: _tacc_hpc
+    runner: frontera
+    max_accepted_cores: 56
+    max_accepted_mem: 190
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=small"
+      jobs_directory: /scratch1/03166/xcgalaxy/test/staging/
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "190000"
     scheduling:
       accept:
       - frontera
+      - hpc
+      prefer:
+      - frontera
+      require:
+      - pulsar
+  stampede2_knl:
+    inherits: _tacc_hpc
+    runner: stampede
+    max_accepted_cores: 272
+    max_accepted_mem: 94
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=normal"
+      jobs_directory: /scratch/03166/xcgalaxy/test/staging/
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "94000"
+    scheduling:
+      accept:
+      - stampede2
+      - hpc
+      prefer:
+      - stampede2-knl
+      require:
+      - pulsar
+  stampede2_skx:
+    inherits: _tacc_hpc
+    runner: stampede
+    max_accepted_cores: 96
+    max_accepted_mem: 190
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=skx-normal"
+      jobs_directory: /scratch/03166/xcgalaxy/test/staging/
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "190000"
+    scheduling:
+      accept:
+      - stampede2
+      - hpc
+      prefer:
+      - stampede2-skx
+      require:
+      - pulsar
+  stampede2_icx:
+    inherits: _tacc_hpc
+    runner: stampede
+    max_accepted_cores: 160
+    max_accepted_mem: 254
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=icx-normal"
+      jobs_directory: /scratch/03166/xcgalaxy/test/staging/
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "254000"
+    scheduling:
+      accept:
+      - stampede2
+      - hpc
+      prefer:
+      - stampede2-icx
       require:
       - pulsar

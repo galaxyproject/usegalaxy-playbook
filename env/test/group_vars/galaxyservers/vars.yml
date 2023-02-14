@@ -282,7 +282,7 @@ gravity_config:
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
    - bind: localhost:8080
-     workers: 2
+     workers: 1
      timeout: 600
      restart_timeout: 600
      # https://github.com/encode/uvicorn/issues/610
@@ -294,7 +294,7 @@ gravity_config:
      environment:
        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
    - bind: localhost:8081
-     workers: 2
+     workers: 1
      timeout: 600
      restart_timeout: 600
      preload: true
@@ -434,8 +434,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
   - src: files/galaxy/config/tpv/environments.yaml
     dest: "{{ galaxy_tpv_config_dir }}/environments.yaml"
-  - src: files/galaxy/config/tpv/tools.yaml
-    dest: "{{ galaxy_tpv_config_dir }}/tools.yaml"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
@@ -457,3 +455,5 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
   - src: templates/galaxy/config/tpv/defaults.yaml.j2
     dest: "{{ galaxy_tpv_config_dir }}/defaults.yaml"
+  - src: templates/galaxy/config/tpv/tools.yaml.j2
+    dest: "{{ galaxy_tpv_config_dir }}/tools.yaml"

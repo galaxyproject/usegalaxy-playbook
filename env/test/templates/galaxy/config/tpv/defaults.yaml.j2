@@ -5,21 +5,23 @@ global:
 
 tools:
   _default:
+    abstract: true
     cores: 1
     #mem: cores * 8
     mem: cores * 2.89
-    env:
-      _JAVA_OPTIONS: $_JAVA_OPTIONS -Xmx{round(mem*0.9*1024)}m -Xms256m
     context:
-      partition: normal
-    params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition={partition}"
-      #submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --partition={partition}"
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition=tpv"
-      #docker_memory: '{mem}G'
+      time: "12:00:00"
+    env:
+      - name: _JAVA_OPTIONS
+        value: $_JAVA_OPTIONS -Xmx{round(mem*0.9*1024)}m -Xms256m
+    #params:
+    #  native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition={partition}"
+    #  #submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --partition={partition}"
+    #  submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition=tpv"
+    #  #docker_memory: '{mem}G'
     scheduling:
-      require:
-      - general
+      #require:
+      #- general
       accept:
       - pulsar
       reject:

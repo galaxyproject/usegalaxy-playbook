@@ -17,6 +17,8 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: verkko
     environment: tpv_dispatcher
+  - id: hifiasm
+    environment: tpv_dispatcher
   # explicit GxIT dispatching
   - id: interactive_tool_jupyter_notebook
     environment: jetstream2_gxit
@@ -184,7 +186,7 @@ galaxy_low_priority_tools:
 galaxy_frontera_tools:
   - bionano_scaffold
   - busco
-  - hifiasm
+  #- hifiasm
   - meryl
 
 # some tools have explicit mappings (e.g. for Bridges)
