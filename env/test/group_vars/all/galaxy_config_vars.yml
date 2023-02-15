@@ -131,11 +131,13 @@ base_app_main: &BASE_APP_MAIN
   trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
   job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
   data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
+  enable_tool_source_display: true
   job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
   dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
   container_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.yml"
   themes_config_file: "{{ galaxy_server_dir }}/config/themes_conf.yml.sample"
 
+  themes_config_file: "/cvmfs/test.galaxyproject.org/galaxy/config/themes_conf.yml.sample"
   migrated_tools_config: "/cvmfs/test.galaxyproject.org/config/migrated_tools_conf.xml"
   shed_tool_data_table_config: "/cvmfs/test.galaxyproject.org/config/shed_tool_data_table_conf.xml"
   shed_data_manager_config_file: "/cvmfs/test.galaxyproject.org/config/shed_data_manager_conf.xml"
