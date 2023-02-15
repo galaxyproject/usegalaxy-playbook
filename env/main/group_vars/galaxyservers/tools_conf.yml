@@ -32,6 +32,8 @@ galaxy_job_conf_tools:
   #  handler: multi
   - id: random_lines1
     environment: tpv_dispatcher
+  - id: flye
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
@@ -295,7 +297,7 @@ __galaxy_multicore_tools:
   - fastqc
   - featurecounts
   - flash
-  - flye
+  #- flye
   - freebayes
   - gatk4_mutect2
   - gatk_count_covariates

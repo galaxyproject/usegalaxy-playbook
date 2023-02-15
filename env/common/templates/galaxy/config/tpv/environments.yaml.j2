@@ -6,6 +6,8 @@ destinations:
 
   _tacc_hpc:
     abstract: true
+    context:
+      time: 24:00:00
     params:
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -56,8 +58,9 @@ destinations:
     max_accepted_mem: 64
     context:
       partition: normal
+      time: 24:00:00
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition={partition}"
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
       tmp_dir: true
       outputs_to_working_directory: true
       singularity_enabled: true
@@ -97,8 +100,10 @@ destinations:
     runner: jetstream2
     max_accepted_cores: 32
     max_accepted_mem: 125
+    context:
+      time: 24:00:00
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=48:00:00 --partition=tpv"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=tpv"
       tmp_dir: true
       outputs_to_working_directory: false
       singularity_enabled: true
@@ -138,6 +143,8 @@ destinations:
       accept:
       - jetstream2
       - general
+      prefer:
+      - jetstream2
       require:
       - pulsar
       reject:

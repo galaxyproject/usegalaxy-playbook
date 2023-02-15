@@ -17,6 +17,35 @@ tools:
 
   # real tools
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
+    cores: 2
+    rules:
+    - if: 0.15 <= input_size < 0.5
+      cores: 8
+      scheduling:
+        accept:
+        - general
+        reject:
+        - hpc
+    - if: 0.5 <= input_size < 10
+      cores: 16
+      scheduling:
+        accept:
+        - hpc
+        reject:
+        - roundup
+    - if: input_size >= 10
+      # from AU
+      #cores: 120
+      #mem: 1922
+      cores: 56
+      mem: 94
+      scheduling:
+        accept:
+        - hpc
+        reject:
+        - general
+
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2
     scheduling:

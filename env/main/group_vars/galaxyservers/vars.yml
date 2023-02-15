@@ -54,11 +54,11 @@ galaxy_job_conf_pulsar_galaxy_url: "https://{{ inventory_hostname_short }}.galax
 __handler_default_plugins:
   - slurm
   - jetstream2
+  - stampede
+  - frontera
 
 __handler_multi_plugins:
   - slurm
-  - jetstream_iu
-  - jetstream_tacc
   - jetstream2
   - stampede
   - frontera
