@@ -94,8 +94,6 @@ destinations:
       accept:
       - roundup
       - general
-      reject:
-      - hpc
   jetstream2:
     runner: jetstream2
     max_accepted_cores: 32
@@ -147,8 +145,6 @@ destinations:
       - jetstream2
       require:
       - pulsar
-      reject:
-      - hpc
   frontera:
     inherits: _tacc_hpc
     runner: frontera
