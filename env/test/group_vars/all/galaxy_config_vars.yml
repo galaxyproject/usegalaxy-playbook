@@ -134,6 +134,7 @@ base_app_main: &BASE_APP_MAIN
   job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
   dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
   container_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.yml"
+  themes_config_file: "{{ galaxy_server_dir }}/config/themes_conf.yml.sample"
 
   migrated_tools_config: "/cvmfs/test.galaxyproject.org/config/migrated_tools_conf.xml"
   shed_tool_data_table_config: "/cvmfs/test.galaxyproject.org/config/shed_tool_data_table_conf.xml"
@@ -230,6 +231,7 @@ base_app_main: &BASE_APP_MAIN
   enable_celery_tasks: true
 
   expose_potentially_sensitive_job_metrics: true
+  enable_tool_source_display: true
 
   # dependency resolver config
   conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"

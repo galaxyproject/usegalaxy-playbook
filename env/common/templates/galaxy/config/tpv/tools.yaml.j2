@@ -29,12 +29,6 @@ tools:
     - if: input_size >= 1
       cores: 8
       mem: cores * 3.6
-  #toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
-  #  cores: 64
-  #  mem: 120
-  #  scheduling:
-  #    prefer:
-  #    - stampede2-skx
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     inherits: _hpc
     cores: 64

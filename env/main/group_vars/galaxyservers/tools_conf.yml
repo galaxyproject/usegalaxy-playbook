@@ -30,6 +30,8 @@ galaxy_job_conf_tools:
   #- id: unicycler
   #  environment: slurm_multi_memory_resubmit
   #  handler: multi
+  - id: random_lines1
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"

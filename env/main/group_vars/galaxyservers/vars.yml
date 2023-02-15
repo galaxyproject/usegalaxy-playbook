@@ -403,3 +403,9 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
   - src: templates/galaxy/config/file_sources_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
+  - src: templates/galaxy/config/tpv/defaults.yaml.j2
+    dest: "{{ galaxy_tpv_config_dir }}/defaults.yaml"
+  - src: templates/galaxy/config/tpv/environments.yaml.j2
+    dest: "{{ galaxy_tpv_config_dir }}/environments.yaml"
+  - src: templates/galaxy/config/tpv/tools.yaml.j2
+    dest: "{{ galaxy_tpv_config_dir }}/tools.yaml"
