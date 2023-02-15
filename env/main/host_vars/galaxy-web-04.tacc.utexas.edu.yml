@@ -23,3 +23,5 @@ galaxy_workflow_schedulers:
     processes: 1
     pools:
       - workflow-schedulers
+    environment:
+      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
