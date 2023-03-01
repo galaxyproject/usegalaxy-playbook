@@ -1,5 +1,18 @@
 ---
 
+miniconda_prefix: /cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda
+miniconda_channels:
+  - conda-forge
+  - defaults
+miniconda_version: 4.10.3
+miniconda_conda_environments:
+  _galaxy_:
+    packages:
+      - python=3.8.12
+  _galaxy_weasyprint_deps_:
+    packages:
+      - pango
+
 # also set in galaxyservers, but not set in all I think because it's invalid for pulsar contexts
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
 galaxy_config_dir: null
