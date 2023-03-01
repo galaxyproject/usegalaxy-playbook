@@ -12,6 +12,10 @@
 - name: CVMFS transaction context
   block:
 
+    - name: Update Conda
+      import_role:
+        name: galaxyproject.miniconda
+
     - name: Update Galaxy
       import_role:
         name: galaxyproject.galaxy
@@ -43,6 +47,7 @@
         galaxy_manage_errordocs: false
         galaxy_manage_gravity: false
         galaxy_manage_systemd: false
+        galaxy_systemd_mode: null
 
     - name: Abort if there were no changes
       assert:
