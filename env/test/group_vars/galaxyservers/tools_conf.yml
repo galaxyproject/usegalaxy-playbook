@@ -19,6 +19,8 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: hifiasm
     environment: tpv_dispatcher
+  - id: trinity
+    environment: tpv_dispatcher
   # explicit GxIT dispatching
   - id: interactive_tool_jupyter_notebook
     environment: jetstream2_gxit
@@ -160,7 +162,7 @@ galaxy_pulsar_incompatible_tools:
 galaxy_large_memory_tools:
   - abyss-pe
   #- spades
-  - trinity
+  #- trinity
   - trinity_psc
   #- unicycler
   #- star_fusion
@@ -308,7 +310,7 @@ __galaxy_multicore_tools:
   - tophat2
   - tophat_fusion_post
   - trimmomatic
-  - trinity
+  #- trinity
   - trinity_align_and_estimate_abundance
   - trinity_psc
   - unicycler

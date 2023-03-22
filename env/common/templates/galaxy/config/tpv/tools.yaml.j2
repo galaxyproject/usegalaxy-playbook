@@ -15,6 +15,42 @@ tools:
 
   # real tools
 
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
+    cores: 24
+    mem: 250
+    scheduling:
+      require:
+      - hpc
+      #prefer:
+      #- bridges2
+      reject:
+      - general
+    rules:
+      - if: input_size < 0.1
+        cores: 1
+        mem: 4
+        scheduling:
+          require:
+          - general
+          #- stampede2
+          #- dev
+          reject:
+          - hpc
+          #- general
+      - if: 0.1 <= input_size < 1
+        cores: 12
+        mem: 92
+      - if: 1 <= input_size < 4
+        cores: 16
+        mem: 128
+      - if: 4 <= input_size < 8
+        cores: 20
+        mem: 190
+      - if: input_size >= 80
+        fail:
+          Too much data, we cannot support such large Trinity assemblies with our
+          backend. Please use another server for your job.
+
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     cores: 2
     rules:

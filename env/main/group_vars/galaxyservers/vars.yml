@@ -56,6 +56,8 @@ __handler_default_plugins:
   - jetstream2
   - stampede
   - frontera
+  - bridges
+  - expanse
 
 __handler_multi_plugins:
   - slurm
@@ -123,6 +125,12 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
     - "/jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro"
+  bridges:
+    #- "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "/local:rw"
 
 # TODO: this is the contents of wraptar, needs to be deployed somehow:
 #

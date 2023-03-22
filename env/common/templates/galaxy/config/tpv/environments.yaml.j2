@@ -38,6 +38,8 @@ destinations:
       value: vt100
     - name: LC_ALL
       value: C
+    - name: TRINITY_SCRATCH_DIR
+      value: /tmp
     - name: SINGULARITYENV_TERM
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
@@ -49,6 +51,25 @@ destinations:
       value: $TEMP
     - name: SINGULARITYENV_TMPDIR
       value: $TEMP
+    - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
+      value: $TRINITY_SCRATCH_DIR
+
+  _stampede2:
+    inherits: _tacc_hpc
+    abstract: true
+    env:
+    {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
+    - name: SCRATCH
+      value: /scratch/03166/xcgalaxy
+    {# mount is in /work2 so the mountpoint (which will appear untouched/empty to tacc cleanup scripts) won't be removed, but also needs to be automatically mounted into singularity containers (which /run is not) -#}
+    - name: WORK2
+      value: /work2/03166/xcgalaxy/stampede2
+    - execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
+    {# FIXME: why is this not set by module load tacc-singularity? -#}
+    - name: SINGULARITY_CACHEDIR
+      value: /work2/03166/xcgalaxy/singularity_cache
+    - name: SINGULARITY_PYTHREADS
+      value: "9"
 
   # real envs
 
@@ -145,6 +166,79 @@ destinations:
       - jetstream2
       require:
       - pulsar
+
+  bridges2:
+    runner: bridges
+    max_accepted_cores: 128
+    max_accepted_mem: 256
+    context:
+      time: 24:00:00
+    params:
+      submit_native_specification: "--partition=RM --time={time} --nodes=1 --ntasks={cores}"
+      tmp_dir: true
+      outputs_to_working_directory: false
+      #metadata_strategy: extended
+      remote_metadata: false
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: true
+      jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
+      container_resolvers:
+      - type: explicit_singularity
+      - type: mulled_singularity
+      require_container: true
+    env:
+    - name: PATH
+      value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+    - name: GALAXY_SLOTS
+      value: "{cores}"
+      #value: "$SLURM_NTASKS"
+    - name: GALAXY_MEMORY_MB
+      value: "{mem*1024}"
+      #value: "250000"
+    - execute: ulimit -c 0
+    # TODO: ensure TPV $_JAVA_OPTIONS is set before this
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$TEMP
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: TRINITY_SCRATCH_DIR
+      value: $LOCAL
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+    #  TODO: ensure these happen after the automatic tmp_dir
+    - name: SINGULARITYENV_TEMP
+      value: $TEMP
+    - name: SINGULARITYENV_TMPDIR
+      value: $TEMP
+    - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
+      value: $TRINITY_SCRATCH_DIR
+    - name: SINGULARITY_CACHEDIR
+      value: /ocean/projects/mcb140028p/xcgalaxy/singularity_cache
+    - name: SINGULARITY_PYTHREADS
+      value: "9"
+    rules:
+    - if: mem <= 128
+      params:
+        submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks-per-node={int(mem/2)}"
+    scheduling:
+      accept:
+      - bridges2
+      - hpc
+      prefer:
+      - bridges2
+      require:
+      - pulsar
+
   frontera:
     inherits: _tacc_hpc
     runner: frontera
@@ -164,13 +258,18 @@ destinations:
       - frontera
       require:
       - pulsar
+      reject:
+      - offline
+
   stampede2_knl:
-    inherits: _tacc_hpc
+    inherits: _stampede2
     runner: stampede
     max_accepted_cores: 272
     max_accepted_mem: 94
+    context:
+      partition: normal
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=normal"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition={partition}"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_MEMORY_MB
@@ -183,8 +282,9 @@ destinations:
       - stampede2-knl
       require:
       - pulsar
+
   stampede2_skx:
-    inherits: _tacc_hpc
+    inherits: _stampede2
     runner: stampede
     max_accepted_cores: 96
     max_accepted_mem: 190
@@ -202,8 +302,9 @@ destinations:
       - stampede2-skx
       require:
       - pulsar
+
   stampede2_icx:
-    inherits: _tacc_hpc
+    inherits: _stampede2
     runner: stampede
     max_accepted_cores: 160
     max_accepted_mem: 254
@@ -220,4 +321,21 @@ destinations:
       prefer:
       - stampede2-icx
       require:
+      - pulsar
+
+  # dev
+
+  stampede2_knl_dev:
+    inherits: stampede2_knl
+    context:
+      partition: development
+      time: 01:00:00
+    scheduling:
+      accept:
+      - stampede2
+      - hpc
+      prefer:
+      - stampede2-knl
+      require:
+      - dev
       - pulsar

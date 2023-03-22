@@ -34,6 +34,8 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: flye
     environment: tpv_dispatcher
+  - id: trinity
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
@@ -161,7 +163,7 @@ galaxy_gpu_tools:
 galaxy_large_memory_tools:
   - abyss-pe
   #- spades
-  - trinity
+  #- trinity
   - trinity_psc
   #- unicycler
   #- star_fusion
@@ -453,7 +455,7 @@ __galaxy_multicore_tools:
   - transdecoder
   - trim_galore
   - trimmomatic
-  - trinity
+  #- trinity
   - trinity_align_and_estimate_abundance
   - trinity_psc
   - unicycler
