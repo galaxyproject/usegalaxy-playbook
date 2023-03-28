@@ -3,13 +3,6 @@
 ##
 
 server {
-    listen       *:80;
-    server_name nate01.galaxyproject.org;
-
-    return 301 https://nate01.galaxyproject.org$request_uri;
-}
-
-server {
     listen       *:443 ssl;
     server_name nate01.galaxyproject.org;
 

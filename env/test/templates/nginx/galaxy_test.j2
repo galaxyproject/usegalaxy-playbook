@@ -6,13 +6,6 @@ upstream test_installer {
     server galaxy04.tacc.utexas.edu:8888;
 }
 
-server {
-    listen          *:80;
-    server_name  test.galaxyproject.org;
-
-    return 307 https://test.galaxyproject.org$request_uri;
-}
-
 # To display the status page for all requests, use this
 #server {
 #    listen          *:443 ssl;
@@ -298,13 +291,6 @@ server {
         alias {{ galaxy_server_dir }}/static/scripts/packed;
         expires 24h;
     }
-}
-
-server {
-    listen          *:80;
-    server_name  test-datamanager.galaxyproject.org;
-
-    return 307 https://test-datamanager.galaxyproject.org$request_uri;
 }
 
 server {

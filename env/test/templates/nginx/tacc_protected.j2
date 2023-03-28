@@ -8,13 +8,6 @@ upstream impersonate_main {
 }
 
 server {
-    listen       *:80;
-    server_name tacc-protected.galaxyproject.org;
-
-    return 301 https://tacc-protected.galaxyproject.org$request_uri;
-}
-
-server {
     listen       *:443 ssl;
     server_name tacc-protected.galaxyproject.org;
 
