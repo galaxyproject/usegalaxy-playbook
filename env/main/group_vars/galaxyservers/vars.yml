@@ -182,7 +182,7 @@ galaxy_job_conf_limits:
     value: 2
   - type: environment_user_concurrent_jobs
     id: normal_limit
-    value: 6
+    value: 4
   - type: environment_user_concurrent_jobs
     id: multi_limit
     value: 4
@@ -208,10 +208,10 @@ galaxy_job_conf_limits:
   # granular limits for singularity envs
   - type: environment_user_concurrent_jobs
     id: slurm_normal
-    value: 6
+    value: 4
   - type: environment_user_concurrent_jobs
     id: normal
-    value: 6
+    value: 4
   - type: environment_user_concurrent_jobs
     id: slurm_normal_16gb
     value: 2
@@ -330,6 +330,20 @@ galaxy_job_conf_limits:
   - type: environment_total_concurrent_jobs
     id: expanse_development
     value: 4
+
+  # tpv per-environment total limits
+  - type: environment_total_concurrent_jobs
+    id: bridges2
+    value: 100
+  - type: environment_total_concurrent_jobs
+    id: stampede2_knl
+    value: 50
+  - type: environment_total_concurrent_jobs
+    id: stampede2_skx
+    value: 20
+  - type: environment_total_concurrent_jobs
+    id: stampede2_icx
+    value: 20
 
 
 ## used by: galaxyproject.galaxy
