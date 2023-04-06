@@ -55,17 +55,22 @@ tools:
     cores: 2
     rules:
     - if: 0.15 <= input_size < 0.5
-      cores: 8
+      cores: 4
+      mem: 12
       scheduling:
         accept:
         - general
         reject:
         - hpc
     - if: 0.5 <= input_size < 10
-      cores: 16
+      cores: 30
+      mem: 80
       scheduling:
         accept:
-        - hpc
+        - stampede2
+        - jetstream2
+        prefer:
+        - stampede2-knl
         reject:
         - roundup
     - if: input_size >= 10
@@ -79,6 +84,17 @@ tools:
         - hpc
         reject:
         - general
+
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
+    # busco crashes with the full thread count because it uses too much memory when forking (even 10-12 was too many)
+    cores: 8
+    mem: 120
+    scheduling:
+      accept:
+      - stampede2
+      - bridges2
+      reject:
+      - roundup
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2

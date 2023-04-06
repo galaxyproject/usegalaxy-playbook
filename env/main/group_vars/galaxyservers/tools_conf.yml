@@ -19,9 +19,9 @@ galaxy_job_conf_tools:
     environment: tacc_k8s
     handler: k8s
   # runs through the job router with special spec but this gets it the resource selector
-  - id: busco
-    handler: multi
-    resources: frontera
+  #- id: busco
+  #  handler: multi
+  #  resources: frontera
   # standard multi handlers and resources but excluded from templating into job_router_conf because it has a specific
   # mapping
   - id: maker
@@ -35,6 +35,8 @@ galaxy_job_conf_tools:
   - id: flye
     environment: tpv_dispatcher
   - id: trinity
+    environment: tpv_dispatcher
+  - id: busco
     environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
