@@ -58,6 +58,7 @@ gravity_config:
   galaxy_config_file: "{{ galaxy_config_file }}"
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"
+  memory_limit: 8
   gunicorn:
     - bind: localhost:8080
       workers: 3
@@ -83,6 +84,7 @@ gravity_config:
     enable: true
     tusd_path: /usr/local/sbin/tusd
     upload_dir: "{{ galaxy_tus_upload_store }}"
+    memory_limit: 2
 
 # used by nginx template
 galaxy_tusd_port: 1080
