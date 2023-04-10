@@ -32,13 +32,14 @@ galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_rules"
 base_app_main: &BASE_APP_MAIN
 
   # message box
-  #message_box_visible: "True"
+  message_box_visible: true
 
-  #message_box_class: info
+  message_box_class: info
   #message_box_class: warning
   #message_box_class: error
 
   # informational messages
+  message_box_content: The US Galaxy Team is exploring the possibility of hosting user-focused US-centric Galaxy meetings for the presentation of new research use Galaxy, building relationships, and facilitating communication between the user community and Galaxy developers. Please help us out by completing <a href="https://forms.gle/zgpwse47fGjWZuHi8" target="_blank">a very short survey</a> so that we can gauge interest.
   #message_box_content: Galaxy has recently been updated to a pre-release of the next Galaxy stable release (22.05), and you might encounter problems as we iron out the wrinkles. Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@galaxyproject.org">galaxy-bugs</a>.
   #message_box_content: Galaxy has recently been upgraded to a pre-release of the next Galaxy stable release (18.05). Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@galaxyproject.org">galaxy-bugs</a>.
   #message_box_content: Galaxy's <a href="https://galaxyproject.org/main/#user-data-and-job-quotas">job concurrency limits and maximum allowed run times</a> have been decreased in order to ensure enough resources are available to students participating in the <a href="https://gallantries.github.io/posts/2021/12/14/smorgasbord2-tapas/">GTN Smörgåsbord 2</a>.
@@ -47,6 +48,7 @@ base_app_main: &BASE_APP_MAIN
   #message_box_content: Interactive tools (Jupyter, RStudio) are currently not running due to a cluster outage. We are working on the issue.
   #message_box_content: All tools should be functioning normally with the exception of RNA STAR.
   #message_box_content: We are operating with temporarily reduced cluster capacity and jobs may take longer than usual to execute. We are working on increasing capacity as quickly as possible.
+  #message_box_content: We are operating with temporarily reduced capacity due to VM failures and apologize for any delays and errors you may encounter. We are working on restoring regular services as quickly as possible. Please see <a href="https://status.galaxyproject.org/" target="_blank">status.galaxyproject.org</a> for more information.
 
   # scheduled downtimes
   #message_box_content: Galaxy will be down for four hours beginning at <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20220613T090000&p1=24&ah=">2:00 PM UTC, Monday, June 13</a> for upgrades. For additional details see <a href="https://status.galaxyproject.org/">status.galaxyproject.org</a>.
@@ -110,6 +112,8 @@ base_app_main: &BASE_APP_MAIN
   user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences.yml"
   container_image_cache_path: "{{ galaxy_mutable_data_dir }}/container_images"
 
+  # disabled because potentially eating memory and didn't work for the message box anyway
+  #watch_config: true
   watch_job_rules: true
 
   #environment_setup_file: /galaxy/main/job_env.bash
@@ -153,7 +157,7 @@ base_app_main: &BASE_APP_MAIN
   nginx_x_accel_redirect_base: /_x_accel_redirect
   nginx_upload_path: /_upload
   nginx_upload_job_files_path: /_job_files
-  upstream_mod_zip: true
+  #upstream_mod_zip: true
   log_events: "False"
   log_actions: "False"
   debug: "False"
