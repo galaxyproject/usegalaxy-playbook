@@ -84,9 +84,6 @@ gravity_config:
     tusd_path: /usr/local/sbin/tusd
     upload_dir: "{{ galaxy_tus_upload_store }}"
 
-# tus is run from gravity
-tusd_systemd: false
-
 # used by nginx template
 galaxy_tusd_port: 1080
 

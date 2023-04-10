@@ -49,10 +49,10 @@ gravity_config:
       preload: true
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
-  #tusd:
-  #  enable: false
-  #  tusd_path: /usr/local/sbin/tusd
-  #  upload_dir: "{{ galaxy_tus_upload_store }}"
+  tusd:
+    enable: true
+    tusd_path: /usr/local/sbin/tusd
+    upload_dir: "{{ galaxy_tus_upload_store }}"
   handlers: "{{ galaxy_workflow_schedulers }}"
     # job handlers are configured in host_vars and pulled by gravity from the job conf
     # workflow schedulers are configured in host_vars

@@ -329,9 +329,6 @@ gravity_config:
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
 
-# tus is run from gravity
-tusd_systemd: false
-
 ## used by: supervisor
 #galaxy_handlers:
 #  - count: 2

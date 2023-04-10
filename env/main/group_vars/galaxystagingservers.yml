@@ -30,13 +30,19 @@ nginx_conf_client_max_body_size: 80g
 nginx_servers:
   - certbot_redirects
 
+# the usegalaxy config and certs are included for emergency web serving when the web VMs are down
+
 nginx_ssl_servers:
   - usegalaxy_staging
+  - usegalaxy
+
+nginx_extra_configs:
+  - usegalaxy_rewrites.conf
 
 certbot_domains:
   - "{{ inventory_hostname_short }}.galaxyproject.org"
-
-certbot_auth_method: --webroot
+  - usegalaxy.org
+  - www.usegalaxy.org
 
 
 ## used by the sysctl task in the galaxy_infrastructure playbook
@@ -45,5 +51,8 @@ sysctl_conf:
     value: 15990784
   - name: net.core.wmem_max
     value: 15990784
+
+# used by nginx template
+galaxy_tusd_port: 1080
 
 # Gravity config is in galaxyjobservers
