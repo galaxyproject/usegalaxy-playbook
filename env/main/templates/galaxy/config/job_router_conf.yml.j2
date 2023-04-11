@@ -136,7 +136,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/2.0.0: {destination: slurm_normal_16gb_direct}
   #Interval2Maf1: {destination: slurm_normal_32gb_direct}
   wig_to_bigWig: {destination: slurm_normal_64gb_direct}
+  CONVERTER_bed_gff_or_vcf_to_bigwig_0: {destination: slurm_normal_64gb_direct}
+  CONVERTER_bam_to_bigwig_0: {destination: slurm_normal_64gb_direct}
   CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb_direct}
+  CONVERTER_interval_to_bigwig_0: {destination: slurm_normal_64gb_direct}
+  CONVERTER_sam_to_bigwig_0: {destination: slurm_normal_64gb_direct}
+  CONVERTER_wig_to_bigwig: {destination: slurm_normal_64gb_direct}
 
   # TODO: removing outliers > 100GB that were probably due to runaway memory in a job where limits weren't working, many
   # tools in the following sections probably don't need this much memory
