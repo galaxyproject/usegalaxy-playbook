@@ -260,81 +260,6 @@ galaxy_job_conf_environments:
       java_mem: 28
       tags: [reserved]
 
-  # these envs have id 'jetstream_{{ id }}'
-  jetstream_environments:
-
-    # non-singularity environments
-    # TODO: these are for transition only and should not be used once all tools are transitioned to Singularity
-    - id: iu_multi_py2_direct
-      runner: jetstream_iu
-      native_specification: --partition=multi --nodes=1 --time=36:00:00
-      use_singularity: false
-      extra_params: {use_metadata_binary: true}
-      tags: [multi_limit]
-      append_envs:
-        - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
-        - name: GALAXY_VIRTUAL_ENV
-          value: None
-        - name: PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
-    - id: tacc_multi_py2_direct
-      runner: jetstream_tacc
-      native_specification: --partition=multi --nodes=1 --time=36:00:00
-      use_singularity: false
-      extra_params: {use_metadata_binary: true}
-      tags: [multi_limit]
-      append_envs:
-        - file: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin/activate
-        - name: GALAXY_VIRTUAL_ENV
-          value: None
-        - name: PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps/_py2/bin:$PATH
-    - id: iu_multi_direct
-      runner: jetstream_iu
-      native_specification: --partition=multi --nodes=1 --time=36:00:00
-      use_singularity: false
-      java_mem: 28
-      tags: [multi_limit]
-    - id: tacc_multi_direct
-      runner: jetstream_tacc
-      native_specification: --partition=multi --nodes=1 --time=36:00:00
-      use_singularity: false
-      java_mem: 28
-      tags: [multi_limit]
-    - id: tacc_xlarge_direct
-      runner: jetstream_tacc
-      native_specification: --partition=xlarge --nodes=1 --time=36:00:00
-      use_singularity: false
-      java_mem: 58
-      tags: [multi_largemem_limit]
-
-    # multicore environments
-    - id: iu_multi
-      runner: jetstream_iu
-      native_specification: --partition=multi --nodes=1 --time=36:00:00
-      java_mem: 28
-      tags: [multi_limit]
-    - id: tacc_multi
-      runner: jetstream_tacc
-      native_specification: --partition=multi --nodes=1 --time=36:00:00
-      java_mem: 28
-      tags: [multi_limit]
-    - id: iu_multi_long
-      runner: jetstream_iu
-      native_specification: --partition=multi --nodes=1 --time=60:00:00
-      java_mem: 28
-      tags: [multi_long_limit]
-    - id: tacc_multi_long
-      runner: jetstream_tacc
-      native_specification: --partition=multi --nodes=1 --time=60:00:00
-      java_mem: 28
-      tags: [multi_long_limit]
-    - id: tacc_xlarge
-      runner: jetstream_tacc
-      native_specification: --partition=xlarge --nodes=1 --time=36:00:00
-      java_mem: 58
-      tags: [multi_largemem_limit]
-
   jetstream2_environments:
 
     # non-singularity environments
@@ -472,13 +397,3 @@ galaxy_job_conf_environments:
       native_specification: --partition=EM --time=24:00:00 --nodes=1 --ntasks=24
     - id: development
       native_specification: --partition=RM-shared --time=00:30:00 --nodes=1 --ntasks=8
-
-  expanse_environments:
-    - id: normal
-      native_specification: --account=TG-MCB140147 --partition=compute --time=24:00:00 --nodes=1 --ntasks=64
-    - id: shared_128gb
-      native_specification: --account=TG-MCB140147 --partition=shared --time=24:00:00 --nodes=1 --ntasks=64 --mem=131072
-    - id: shared_64gb
-      native_specification: --account=TG-MCB140147 --partition=shared --time=24:00:00 --nodes=1 --ntasks=32 --mem=65536
-    - id: development
-      native_specification: --account=TG-MCB140147 --partition=debug --time=00:30:00 --nodes=1 --ntasks=4 --mem=8192

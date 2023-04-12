@@ -31,7 +31,6 @@ destinations:
     - name: GALAXY_SLOTS
       value: "$SLURM_NTASKS"
     - execute: ulimit -c 0
-    # TODO: ensure TPV $_JAVA_OPTIONS is set before this
     - name: _JAVA_OPTIONS
       value: -Djava.io.tmpdir=$TEMP
     - name: TERM
@@ -46,7 +45,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    #  TODO: ensure these happen after the automatic tmp_dir
     - name: SINGULARITYENV_TEMP
       value: $TEMP
     - name: SINGULARITYENV_TMPDIR
@@ -57,6 +55,8 @@ destinations:
   _stampede2:
     inherits: _tacc_hpc
     abstract: true
+    params:
+      file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
     env:
     {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
     - name: SCRATCH
@@ -64,6 +64,12 @@ destinations:
     {# mount is in /work2 so the mountpoint (which will appear untouched/empty to tacc cleanup scripts) won't be removed, but also needs to be automatically mounted into singularity containers (which /run is not) -#}
     - name: WORK2
       value: /work2/03166/xcgalaxy/stampede2
+    - name: CVMFS_MOUNT_ROOT
+      value: $WORK2/cvmfs
+    - name: CVMFS_ALIEN_CACHE
+      value: $SCRATCH/cvmfs
+    - name: CVMFS_BINARY
+      value: $HOME/cvmfs/bin/cvmfs2.wrap
     - execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
     {# FIXME: why is this not set by module load tacc-singularity? -#}
     - name: SINGULARITY_CACHEDIR
@@ -89,7 +95,6 @@ destinations:
       singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
     env:
     - execute: ulimit -c 0
-    # TODO: ensure TPV $_JAVA_OPTIONS is set before this
     - name: _JAVA_OPTIONS
       value: -Djava.io.tmpdir=$TEMP
     - name: XDG_DATA_HOME
@@ -106,7 +111,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    #  TODO: ensure these happen after the automatic tmp_dir
     - name: SINGULARITYENV_TEMP
       value: $TEMP
     - name: SINGULARITYENV_TMPDIR
@@ -115,6 +119,7 @@ destinations:
       accept:
       - roundup
       - general
+
   jetstream2:
     runner: jetstream2
     max_accepted_cores: 32
@@ -136,7 +141,6 @@ destinations:
       jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
     env:
     - execute: ulimit -c 0
-    # TODO: ensure TPV $_JAVA_OPTIONS is set before this
     - name: _JAVA_OPTIONS
       value: -Djava.io.tmpdir=$TEMP
     - name: XDG_DATA_HOME
@@ -153,7 +157,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    #  TODO: ensure these happen after the automatic tmp_dir
     - name: SINGULARITYENV_TEMP
       value: $TEMP
     - name: SINGULARITYENV_TMPDIR
@@ -200,7 +203,6 @@ destinations:
       value: "{mem*1024}"
       #value: "250000"
     - execute: ulimit -c 0
-    # TODO: ensure TPV $_JAVA_OPTIONS is set before this
     - name: _JAVA_OPTIONS
       value: -Djava.io.tmpdir=$TEMP
     - name: TERM
@@ -215,7 +217,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    #  TODO: ensure these happen after the automatic tmp_dir
     - name: SINGULARITYENV_TEMP
       value: $TEMP
     - name: SINGULARITYENV_TMPDIR
@@ -238,6 +239,158 @@ destinations:
       - bridges2
       require:
       - pulsar
+
+  expanse:
+    runner: expanse
+    max_accepted_cores: 128
+    max_accepted_mem: 256
+    context:
+      time: 24:00:00
+    params:
+      submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time} --nodes=1 --ntasks={cores} --mem={256*1024}"
+      file_action_config: {{ galaxy_config_dir }}/pulsar_expanse_actions.yml
+      tmp_dir: true
+      outputs_to_working_directory: false
+      #metadata_strategy: extended
+      remote_metadata: false
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: true
+      jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging/
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
+      container_resolvers:
+      - type: explicit_singularity
+      - type: mulled_singularity
+      require_container: true
+    env:
+    - name: PATH
+      value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+    - file: /etc/profile.d/00-sdsc-modules.sh
+    - execute: module load slurm
+    - execute: module load singularitypro
+    - name: GALAXY_SLOTS
+      value: "{cores}"
+      #value: "$SLURM_NTASKS"
+    - name: GALAXY_MEMORY_MB
+      value: "{mem*1024}"
+    - execute: ulimit -c 0
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$TEMP
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: TRINITY_SCRATCH_DIR
+      value: "/scratch/xgalaxy/job_$SLURM_JOB_ID"
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+    - name: SINGULARITYENV_TEMP
+      value: $TEMP
+    - name: SINGULARITYENV_TMPDIR
+      value: $TEMP
+    - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
+      value: $TRINITY_SCRATCH_DIR
+    - name: CVMFS_MOUNT_ROOT
+      value: /expanse/projects/qstore/pen160/xgalaxy/cvmfs
+    - name: CVMFS_ALIEN_CACHE
+      value: /expanse/lustre/scratch/xgalaxy/temp_project/cvmfs_cache
+    - execute: /bin/bash $HOME/bin/mount_cvmfs data.galaxyproject.org
+    - name: SINGULARITY_CACHEDIR
+      value: /expanse/lustre/scratch/xgalaxy/temp_project/singularity_cache
+    - name: SINGULARITY_PYTHREADS
+      value: "9"
+    rules:
+    - if: mem <= 128
+      params:
+        submit_native_specification: "--account=TG-MCB140147 --partition=shared --time={time} --nodes=1 --ntasks={int(mem/2)} --mem={mem*1024}"
+    scheduling:
+      accept:
+      - expanse
+      - hpc
+      prefer:
+      - expanse
+      require:
+      - pulsar
+
+  rockfish:
+    runner: rockfish
+    max_accepted_cores: 128
+    max_accepted_mem: 256
+    context:
+      time: 24:00:00
+    params:
+      submit_native_specification: "--account=TG-MCB140147 --partition=defq --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
+      file_action_config: {{ galaxy_config_dir }}/pulsar_rockfish_actions.yml
+      tmp_dir: true
+      outputs_to_working_directory: false
+      #metadata_strategy: extended
+      remote_metadata: false
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: remote
+      rewrite_parameters: true
+      jobs_directory: /scratch4/nekrut/galaxy/{{ galaxy_instance_codename }}/staging
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.rockfish | join(',') }}"
+      container_resolvers:
+      - type: explicit_singularity
+      - type: mulled_singularity
+      require_container: true
+    env:
+    - name: PATH
+      value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+    - name: GALAXY_SLOTS
+      value: "{cores}"
+    #- name: GALAXY_MEMORY_MB
+    #  value: "{mem*1024}"
+    - execute: ulimit -c 0
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$TEMP
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: TRINITY_SCRATCH_DIR
+      value: /tmp/galaxy_job_$SLURM_JOB_ID
+    - execute: mkdir $TRINITY_SCRATCH_DIR
+    - execute: trap "rm -rf $TRINITY_SCRATCH_DIR" EXIT
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+    - name: SINGULARITYENV_TEMP
+      value: $TEMP
+    - name: SINGULARITYENV_TMPDIR
+      value: $TEMP
+    - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
+      value: $TRINITY_SCRATCH_DIR
+    - name: CVMFS_MOUNT_ROOT
+      value: /data/nekrut/galaxy/cvmfs
+    - name: CVMFS_ALIEN_CACHE
+      value: /scratch4/nekrut/galaxy/cvmfs_cache
+    - execute: /bin/bash $HOME/bin/mount_cvmfs data.galaxyproject.org
+    - name: SINGULARITY_CACHEDIR
+      value: /scratch4/nekrut/galaxy/singularity_cache
+    - name: SINGULARITY_PYTHREADS
+      value: "9"
+    scheduling:
+      accept:
+      - rockfish
+      - hpc
+      prefer:
+      - rockfish
+      require:
+      - pulsar
+      reject:
+      - offline
 
   frontera:
     inherits: _tacc_hpc

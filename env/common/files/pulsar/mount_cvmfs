@@ -4,11 +4,15 @@
 ##
 set -euo pipefail
 
+# required vars:
+# $CVMFS_MOUNT_ROOT
+
 : ${UID:="$(id -u)"}
+: ${CVMFS_BINARY:="cvmfs2"}
 : ${CVMFS_LOCAL_ROOT:="/run/user/${UID}/cvmfs"}
-: ${CVMFS_MOUNT_ROOT:="${WORK2}/cvmfs"}
 : ${CVMFS_KEYS_DIR:="${HOME}/cvmfs/keys"}
 : ${CVMFS_LOG_FILE:="$(pwd)/cvmfs.log"}
+: ${CVMFS_ALIEN_CACHE:="$(pwd)/cvmfs_cache"}
 
 if [ -z "{$1:-}" ]; then
     echo "usage: $0 <repo> [repo...]"
@@ -23,7 +27,7 @@ CVMFS_CACHE_BASE="/run/user/${UID}/cvmfs/cache"
 CVMFS_RELOAD_SOCKETS="/run/user/${UID}/cvmfs/cache"
 CVMFS_QUOTA_LIMIT="-1"
 CVMFS_SHARED_CACHE="no"
-CVMFS_ALIEN_CACHE="${SCRATCH}/cvmfs"
+CVMFS_ALIEN_CACHE="${CVMFS_ALIEN_CACHE}"
 CVMFS_USYSLOG="${CVMFS_LOG_FILE}"
 CVMFS_CLAIM_OWNERSHIP="yes"
 CVMFS_SERVER_URL="http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
@@ -31,13 +35,11 @@ CVMFS_KEYS_DIR="${CVMFS_KEYS_DIR}"
 CVMFS_HTTP_PROXY="DIRECT"
 EOF
 
-cd "${HOME}/cvmfs/bin"
-
 for repo in "$@"; do
     mountpoint="${CVMFS_MOUNT_ROOT}/${repo}"
     # a job exiting without unmounting causes a broken mountpoint if you get that node again
     fusermount -u "$mountpoint" 2>/dev/null || true
     mkdir -p "$mountpoint"
-    ./cvmfs2 -o "config=${CVMFS_LOCAL_ROOT}/cvmfs.conf" "$repo" "$mountpoint"
+    ${CVMFS_BINARY} -o "config=${CVMFS_LOCAL_ROOT}/cvmfs.conf" "$repo" "$mountpoint"
     echo "mounted $repo on $mountpoint"
 done

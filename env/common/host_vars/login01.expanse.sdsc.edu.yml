@@ -18,13 +18,24 @@ host_directories:
     mode: "0755"
   - path: "{{ _expanse_home_root }}/etc"
     mode: "0750"
+  - path: "{{ _expanse_home_root }}/cvmfs/keys"
+    mode: "0755"
   - path: "{{ pulsar_root }}/log"
     mode: "0750"
 
 host_files:
-  - src: "files/pulsar/tmpwatch.el7"
+  - src: "files/pulsar/el7/tmpwatch"
     dest: "{{ _expanse_home_root }}/bin/tmpwatch"
     mode: "0755"
+  - src: "files/pulsar/mount_cvmfs"
+    dest: "{{ _expanse_home_root }}/bin"
+    mode: "0755"
+  - src: "files/pulsar/galaxyproject.org.pub"
+    dest: "{{ _expanse_home_root }}/cvmfs/keys"
+    mode: "0644"
+  - src: "files/pulsar/data.galaxyproject.org.pub"
+    dest: "{{ _expanse_home_root }}/cvmfs/keys"
+    mode: "0644"
 
 host_templates:
   - src: "templates/pulsar/expanse-supervisord-launch.sh.j2"
@@ -114,7 +125,7 @@ pulsar_yaml_config:
       - type: conda
         prefix: "{{ miniconda_prefix }}"
         auto_init: false
-        auto_install: true
+        auto_install: false
   managers:
     expanse:
       type: queued_drmaa
