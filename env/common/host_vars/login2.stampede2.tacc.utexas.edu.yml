@@ -30,7 +30,8 @@ host_files:
     mode: "0755"
   - content: |
       #!/bin/sh
-      LD_LIBRARY_PATH={{ _stampede_home_root }}/cvmfs/bin exec {{ _stampede_home_root }}/cvmfs/bin/cvmfs2 "$@"
+      cd {{ _stampede_home_root }}/cvmfs/bin
+      exec {{ _stampede_home_root }}/cvmfs/bin/cvmfs2 "$@"
     dest: "{{ _stampede_home_root }}/cvmfs/bin/cvmfs2.wrap"
     mode: "0755"
   - src: "files/pulsar/el7/cvmfs2"

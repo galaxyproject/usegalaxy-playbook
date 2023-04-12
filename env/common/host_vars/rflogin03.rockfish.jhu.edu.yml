@@ -6,6 +6,8 @@
 # FIXME:
 #   - slurm-drmaa installed by hand
 
+# No FUSE on Rockfish =(
+
 _rockfish_home_root: "/home/galaxy"
 _rockfish_nfs_root: "/data/nekrut/galaxy"
 _rockfish_scratch_root: "/scratch4/nekrut/galaxy"
@@ -16,8 +18,10 @@ host_directories:
     mode: "0755"
   - path: "{{ _rockfish_home_root }}/etc"
     mode: "0750"
-  - path: "{{ _rockfish_home_root }}/cvmfs/keys"
-    mode: "0755"
+  #- path: "{{ _rockfish_home_root }}/cvmfs/bin"
+  #  mode: "0755"
+  #- path: "{{ _rockfish_home_root }}/cvmfs/keys"
+  #  mode: "0755"
   - path: "{{ pulsar_root }}/log"
     mode: "0750"
 
@@ -25,24 +29,30 @@ host_files:
   - src: "files/pulsar/el8/tmpwatch"
     dest: "{{ _rockfish_home_root }}/bin/tmpwatch"
     mode: "0755"
-  - src: "files/pulsar/mount_cvmfs"
-    dest: "{{ _rockfish_home_root }}/bin"
-    mode: "0755"
-  - src: "files/pulsar/el8/cvmfs2"
-    dest: "{{ _rockfish_home_root }}/cvmfs/bin"
-    mode: "0755"
+  #- src: "files/pulsar/mount_cvmfs"
+  #  dest: "{{ _rockfish_home_root }}/bin"
+  #  mode: "0755"
+  #- content: |
+  #    #!/bin/sh
+  #    cd {{ _rockfish_home_root }}/cvmfs/bin
+  #    exec {{ _rockfish_home_root }}/cvmfs/bin/cvmfs2 "$@"
+  #  dest: "{{ _rockfish_home_root }}/cvmfs/bin/cvmfs2.wrap"
+  #  mode: "0755"
+  #- src: "files/pulsar/el8/cvmfs2"
+  #  dest: "{{ _rockfish_home_root }}/cvmfs/bin"
+  #  mode: "0755"
   #- src: "files/pulsar/el8/libcvmfs_fuse_stub.so.2.9.2"
   #  dest: "{{ _rockfish_home_root }}/cvmfs/bin/libcvmfs_fuse_stub.so"
   #  mode: "0755"
   #- src: "files/pulsar/el8/libcvmfs_fuse.so.2.9.2"
   #  dest: "{{ _rockfish_home_root }}/cvmfs/bin/libcvmfs_fuse.so"
   #  mode: "0755"
-  - src: "files/pulsar/galaxyproject.org.pub"
-    dest: "{{ _rockfish_home_root }}/cvmfs/keys"
-    mode: "0644"
-  - src: "files/pulsar/data.galaxyproject.org.pub"
-    dest: "{{ _rockfish_home_root }}/cvmfs/keys"
-    mode: "0644"
+  #- src: "files/pulsar/galaxyproject.org.pub"
+  #  dest: "{{ _rockfish_home_root }}/cvmfs/keys"
+  #  mode: "0644"
+  #- src: "files/pulsar/data.galaxyproject.org.pub"
+  #  dest: "{{ _rockfish_home_root }}/cvmfs/keys"
+  #  mode: "0644"
 
 host_templates:
   - src: "templates/pulsar/rockfish-supervisord-launch.sh.j2"
