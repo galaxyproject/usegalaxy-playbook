@@ -81,10 +81,11 @@ galaxy_job_conf_handlers:
     plugins: "{{ __handler_plugins }}"
     environment:
       PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
-  - id: test_handler1
-    plugins: "{{ __handler_plugins }}"
-    environment:
-      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
+  # memory is outta control
+  #- id: test_handler1
+  #  plugins: "{{ __handler_plugins }}"
+  #  environment:
+  #    PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
 
 galaxy_job_conf_extra_dynamic_rules:
   - dynamic_nvc_dynamic_memory
