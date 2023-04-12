@@ -30,6 +30,8 @@ galaxy_job_conf_tools:
   #- id: unicycler
   #  environment: slurm_multi_memory_resubmit
   #  handler: multi
+
+  # TPV
   - id: random_lines1
     environment: tpv_dispatcher
   - id: flye
@@ -37,6 +39,30 @@ galaxy_job_conf_tools:
   - id: trinity
     environment: tpv_dispatcher
   - id: busco
+    environment: tpv_dispatcher
+  - id: bionano_scaffold
+    environment: tpv_dispatcher
+  - id: kraken
+    environment: tpv_dispatcher
+  - id: kraken2
+    environment: tpv_dispatcher
+  - id: abyss-pe
+    environment: tpv_dispatcher
+  - id: spades
+    environment: tpv_dispatcher
+  - id: unicycler
+    environment: tpv_dispatcher
+  - id: ncbi_blastn_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_blastp_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_blastx_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_rpsblast_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_tblastn_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_tblastx_wrapper
     environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
@@ -53,11 +79,8 @@ galaxy_pulsar_incompatible_tools:
   - annotatemyids
   - bacteria_tradis
   - bandage_image
-  #- busco
-  #- cutadapt
   - egsea
   - iqtree
-  - kraken2
   - limma_voom
   - macs2_callpeak
   - mothur_biom_info
@@ -149,9 +172,7 @@ galaxy_pulsar_incompatible_tools:
   - mothur_unifrac_unweighted
   - mothur_unifrac_weighted
   - mothur_unique_seqs
-  #- nanoplot
   - pathview
-  #- porechop
   - qualimap_bamqc
   - scanpy_plot
   - snpfreqplot
@@ -163,36 +184,16 @@ galaxy_gpu_tools:
 
 # tools that should run on Bridges
 galaxy_large_memory_tools:
-  - abyss-pe
-  #- spades
-  #- trinity
   - trinity_psc
-  #- unicycler
-  #- star_fusion
 
 # tools that can run on both multi and Bridges
-galaxy_conditional_large_memory_tools:
-  - spades
-  - unicycler
+galaxy_conditional_large_memory_tools: []
 
 # tools that should run on Stampede
-galaxy_low_priority_tools:
-  - bwa_color_wrapper
-  - bowtie_color_wrapper
-  - megablast_wrapper
-  - ncbi_blastn_wrapper
-  - ncbi_blastp_wrapper
-  - ncbi_blastx_wrapper
-  - ncbi_rpsblast_wrapper
-  - ncbi_tblastn_wrapper
-  - ncbi_tblastx_wrapper
+galaxy_low_priority_tools: []
 
 # tools that should run on Frontera
-galaxy_frontera_tools:
-  - bionano_scaffold
-  #- busco
-  #- hifiasm
-  #- meryl
+galaxy_frontera_tools: []
 
 # some tools have explicit mappings (e.g. for Bridges)
 __galaxy_multicore_tools_exclude:
@@ -203,15 +204,9 @@ __galaxy_multicore_tools_exclude:
   - maker
   - rna_star
   - rna_starsolo
-  - spades
   #- star_fusion
-  - unicycler
-  # nobody should be running these, but if they do, just grant single core resources
-  - bowtie_color_wrapper
-  - bwa_color_wrapper
   # temp js2
   - meryl
-  - hifiasm
 
 # missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
@@ -236,12 +231,6 @@ __galaxy_multicore_tools_include:
   - mimodd_align
   - mimodd_varcall
   - model_prediction
-  - ncbi_blastn_wrapper
-  - ncbi_blastp_wrapper
-  - ncbi_blastx_wrapper
-  - ncbi_rpsblast_wrapper
-  - ncbi_tblastn_wrapper
-  - ncbi_tblastx_wrapper
   - sklearn_searchcv
   - stacking_ensemble_models
   - umi_tools_dedup
@@ -265,13 +254,10 @@ __galaxy_multicore_tools:
   - bg_diamond_view
   - bioext_bealign
   - bio_hansel
-  - bionano_scaffold
   - bowtie2
-  - bowtie_color_wrapper
   - bowtie_wrapper
   - busco
   - bwa
-  - bwa_color_wrapper
   - bwa_mem
   - bwa_mem2
   - bwameth
@@ -302,7 +288,6 @@ __galaxy_multicore_tools:
   - fastqc
   - featurecounts
   - flash
-  #- flye
   - freebayes
   - gatk4_mutect2
   - gatk_count_covariates
@@ -316,7 +301,6 @@ __galaxy_multicore_tools:
   - gubbins
   - heinz
   - hhsearch
-  - hifiasm
   - hifive
   - hisat2
   - hyphy_relax
@@ -328,8 +312,6 @@ __galaxy_multicore_tools:
   - kallisto_quant
   - kc-align
   - kobas_annotate
-  - kraken
-  - kraken2
   - lastz_wrapper_2
   - lofreq_call
   - lofreq_viterbi
@@ -442,7 +424,6 @@ __galaxy_multicore_tools:
   - sniffles
   - snippy
   - socru
-  - spades
   - spaln
   - staramr_search
   - star_fusion
@@ -458,10 +439,8 @@ __galaxy_multicore_tools:
   - transdecoder
   - trim_galore
   - trimmomatic
-  #- trinity
   - trinity_align_and_estimate_abundance
   - trinity_psc
-  - unicycler
   - valet
   - varscan_somatic
   - velveth

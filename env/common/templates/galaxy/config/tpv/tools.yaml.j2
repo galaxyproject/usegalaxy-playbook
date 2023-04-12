@@ -44,7 +44,7 @@ tools:
         cores: 20
         mem: 190
       - if: input_size >= 80
-        fail:
+        fail: |
           Too much data, we cannot support such large Trinity assemblies with our
           backend. Please use another server for your job.
 
@@ -92,6 +92,7 @@ tools:
       reject:
       - stampede2
 
+  # NOTE: Main does not map bwa to TPV yet, this is only used by Test for... testing
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2
     scheduling:
@@ -108,12 +109,130 @@ tools:
       mem: cores * 3.6
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
-    inherits: _hpc
     cores: 64
     mem: 120
     scheduling:
-      prefer:
-      - stampede2-skx
+      require:
+      - hpc
+      #prefer:
+      #- stampede2-skx
+
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
+    cores: 20
+    mem: 20
+    scheduling:
+      require:
+      - stampede2-knl
+
+  # TODO: rule to set mem based on database size, see job router
+  toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+    cores: 40
+    mem: 120
+    scheduling:
+      require:
+      - hpc
+      - cvmfs
+
+  toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
+    cores: 90
+    mem: 120
+    scheduling:
+      require:
+      - hpc
+    rules:
+    - id: abyss-pe_small_input_rule
+      if: input_size < 0.002
+      cores: 2
+      mem: 8
+      scheduling:
+        require:
+        - general
+    - id: abyss-pe_medium_input_rule
+      if: 0.002 <= input_size < 5
+      cores: 32
+      mem: 94
+      scheduling:
+        require:
+        - hpc
+        prefer:
+        - stampede2-knl
+    # TODO: reject over a certain input size, what is that input size?
+
+  toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
+    cores: 60
+    mem: 254
+    scheduling:
+      require:
+      - hpc
+    rules:
+    - id: spades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+      scheduling:
+        require:
+        - general
+    - id: spades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 28
+      scheduling:
+        require:
+        - jetstream2
+    - id: spades_fail_rule
+      if: input_size >= 20
+      fail: Too much data, please don't use SPAdes for this
+
+  toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
+    cores: 24
+    mem: 80
+    scheduling:
+      require:
+      - hpc
+    rules:
+    - id: unicycler_small_input_rule
+      if: input_size < 0.05
+      cores: 1
+      mem: 3.8
+      scheduling:
+        require:
+        - general
+    - id: unicycler_medium_input_rule
+      if: 0.05 <= input_size < 2
+      cores: 8
+      mem: 28
+      scheduling:
+        require:
+        - jetstream2
+
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
+    cores: 4
+    mem: 16
+    scheduling:
+      require:
+      - jetstream2
+    rules:
+    - if: |
+        helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+      cores: 24
+      mem: 80
+      scheduling:
+        require:
+        - hpc
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
+    cores: 24
+    mem: 80
+    scheduling:
+      require:
+      - hpc
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_rpsblast_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
 
   verkko:
     cores: 32

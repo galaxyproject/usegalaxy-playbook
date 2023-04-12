@@ -51,6 +51,24 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 ## used by: job_conf.yml template
 galaxy_job_conf_pulsar_galaxy_url: "https://{{ inventory_hostname_short }}.galaxyproject.org"
 
+__handler_default_plugins:
+  - slurm
+  - jetstream2
+  - stampede
+  - frontera
+  - bridges
+  - expanse
+  - rockfish
+
+__handler_multi_plugins:
+  - slurm
+  - jetstream2
+  - stampede
+  - frontera
+  - bridges
+  - expanse
+  - rockfish
+
 galaxy_systemd_memory_limit:
   # FIXME: this shouldn't be mule anymore. also "G" is hardcoded, but % would be nice.
   mule: 12
@@ -308,6 +326,14 @@ galaxy_job_conf_limits:
   - type: environment_total_concurrent_jobs
     id: bridges_development
     value: 4
+
+  # tpv per-environment user limits
+  - type: environment_user_concurrent_jobs
+    id: roundup
+    value: 2
+  - type: environment_user_concurrent_jobs
+    id: jetstream2
+    value: 2
 
   # tpv per-environment total limits
   - type: environment_total_concurrent_jobs
