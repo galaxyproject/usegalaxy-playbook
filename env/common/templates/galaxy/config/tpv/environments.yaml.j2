@@ -14,7 +14,7 @@ destinations:
       remote_metadata: false
       transport: curl
       default_file_action: remote_transfer
-      dependency_resolution: remote
+      dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
@@ -119,6 +119,7 @@ destinations:
       accept:
       - roundup
       - general
+      - cvmfs
 
   jetstream2:
     runner: jetstream2
@@ -165,6 +166,7 @@ destinations:
       accept:
       - jetstream2
       - general
+      - cvmfs
       prefer:
       - jetstream2
       require:
@@ -184,7 +186,7 @@ destinations:
       remote_metadata: false
       transport: curl
       default_file_action: remote_transfer
-      dependency_resolution: remote
+      dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
@@ -198,10 +200,8 @@ destinations:
       value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
     - name: GALAXY_SLOTS
       value: "{cores}"
-      #value: "$SLURM_NTASKS"
     - name: GALAXY_MEMORY_MB
-      value: "{mem*1024}"
-      #value: "250000"
+      value: "{int(mem*1024)}"
     - execute: ulimit -c 0
     - name: _JAVA_OPTIONS
       value: -Djava.io.tmpdir=$TEMP
@@ -255,7 +255,7 @@ destinations:
       remote_metadata: false
       transport: curl
       default_file_action: remote_transfer
-      dependency_resolution: remote
+      dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
@@ -313,6 +313,7 @@ destinations:
       accept:
       - expanse
       - hpc
+      - cvmfs
       prefer:
       - expanse
       require:
@@ -325,7 +326,7 @@ destinations:
     context:
       time: 24:00:00
     params:
-      submit_native_specification: "--account=TG-MCB140147 --partition=defq --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
+      submit_native_specification: "--partition=defq --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
       file_action_config: {{ galaxy_config_dir }}/pulsar_rockfish_actions.yml
       tmp_dir: true
       outputs_to_working_directory: false
@@ -333,7 +334,7 @@ destinations:
       remote_metadata: false
       transport: curl
       default_file_action: remote_transfer
-      dependency_resolution: remote
+      dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /scratch4/nekrut/galaxy/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
@@ -372,15 +373,11 @@ destinations:
       value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
-    - name: CVMFS_MOUNT_ROOT
-      value: /data/nekrut/galaxy/cvmfs
-    - name: CVMFS_ALIEN_CACHE
-      value: /scratch4/nekrut/galaxy/cvmfs_cache
-    - execute: /bin/bash $HOME/bin/mount_cvmfs data.galaxyproject.org
-    - name: SINGULARITY_CACHEDIR
-      value: /scratch4/nekrut/galaxy/singularity_cache
-    - name: SINGULARITY_PYTHREADS
-      value: "9"
+    # FATAL:   singularity image is not in an allowed configured path
+    #- name: SINGULARITY_CACHEDIR
+    #  value: /scratch4/nekrut/galaxy/singularity_cache
+    #- name: SINGULARITY_PYTHREADS
+    #  value: "9"
     scheduling:
       accept:
       - rockfish
@@ -390,6 +387,7 @@ destinations:
       require:
       - pulsar
       reject:
+      - cvmfs
       - offline
 
   frontera:
@@ -407,6 +405,7 @@ destinations:
       accept:
       - frontera
       - hpc
+      - cvmfs
       prefer:
       - frontera
       require:
@@ -431,6 +430,7 @@ destinations:
       accept:
       - stampede2
       - hpc
+      - cvmfs
       prefer:
       - stampede2-knl
       require:
@@ -451,6 +451,7 @@ destinations:
       accept:
       - stampede2
       - hpc
+      - cvmfs
       prefer:
       - stampede2-skx
       require:
@@ -471,6 +472,7 @@ destinations:
       accept:
       - stampede2
       - hpc
+      - cvmfs
       prefer:
       - stampede2-icx
       require:
@@ -487,6 +489,7 @@ destinations:
       accept:
       - stampede2
       - hpc
+      - cvmfs
       prefer:
       - stampede2-knl
       require:

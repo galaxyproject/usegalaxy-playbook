@@ -64,7 +64,7 @@ tools:
       mem: 80
       scheduling:
         accept:
-        - stampede2
+        - hpc
         - jetstream2
         prefer:
         - stampede2-knl
@@ -83,21 +83,22 @@ tools:
         - general
 
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
-    # busco crashes with the full thread count because it uses too much memory when forking (even 10-12 was too many)
-    cores: 8
-    mem: 120
+    # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
+    cores: 20
+    mem: 60
     scheduling:
-      accept:
+      require:
       - hpc
       reject:
-      - roundup
-      - jetstream2
+      - stampede2
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2
     scheduling:
       accept:
       - pulsar
+      require:
+      - cvmfs
     rules:
     - if: 0.25 <= input_size < 1
       cores: 4
@@ -105,6 +106,7 @@ tools:
     - if: input_size >= 1
       cores: 8
       mem: cores * 3.6
+
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     inherits: _hpc
     cores: 64
@@ -112,6 +114,7 @@ tools:
     scheduling:
       prefer:
       - stampede2-skx
+
   verkko:
     cores: 32
     mem: 120
