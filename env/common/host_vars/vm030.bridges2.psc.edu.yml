@@ -115,7 +115,7 @@ pulsar_yaml_config:
       - type: conda
         prefix: "{{ miniconda_prefix }}"
         auto_init: false
-        auto_install: true
+        auto_install: false
   managers:
     bridges:
       type: queued_drmaa
