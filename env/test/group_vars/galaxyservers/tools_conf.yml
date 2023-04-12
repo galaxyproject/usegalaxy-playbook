@@ -23,6 +23,30 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: busco
     environment: tpv_dispatcher
+  - id: bionano_scaffold
+    environment: tpv_dispatcher
+  - id: kraken
+    environment: tpv_dispatcher
+  - id: kraken2
+    environment: tpv_dispatcher
+  - id: abyss-pe
+    environment: tpv_dispatcher
+  - id: spades
+    environment: tpv_dispatcher
+  - id: unicycler
+    environment: tpv_dispatcher
+  - id: ncbi_blastn_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_blastp_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_blastx_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_rpsblast_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_tblastn_wrapper
+    environment: tpv_dispatcher
+  - id: ncbi_tblastx_wrapper
+    environment: tpv_dispatcher
   # explicit GxIT dispatching
   - id: interactive_tool_jupyter_notebook
     environment: jetstream2_gxit
@@ -60,7 +84,6 @@ galaxy_pulsar_incompatible_tools:
   #- cutadapt
   - egsea
   - iqtree
-  - kraken2
   - limma_voom
   - macs2_callpeak
   - mothur_biom_info
@@ -162,35 +185,16 @@ galaxy_pulsar_incompatible_tools:
 
 # tools that should run on Bridges
 galaxy_large_memory_tools:
-  - abyss-pe
-  #- spades
-  #- trinity
   - trinity_psc
-  #- unicycler
-  #- star_fusion
 
 # tools that can run on both multi and Bridges
-galaxy_conditional_large_memory_tools:
-  - spades
-  - unicycler
+galaxy_conditional_large_memory_tools: []
 
 # tools that should run on Stampede
-galaxy_low_priority_tools:
-  - bwa_color_wrapper
-  - bowtie_color_wrapper
-  - megablast_wrapper
-  - ncbi_blastn_wrapper
-  - ncbi_blastp_wrapper
-  - ncbi_blastx_wrapper
-  - ncbi_rpsblast_wrapper
-  - ncbi_tblastn_wrapper
-  - ncbi_tblastx_wrapper
+galaxy_low_priority_tools: []
 
 # tools that should run on Frontera
 galaxy_frontera_tools:
-  - bionano_scaffold
-  #- busco
-  #- hifiasm
   - meryl
 
 # some tools have explicit mappings (e.g. for Bridges)
@@ -199,9 +203,7 @@ __galaxy_multicore_tools_exclude:
   #- fasterq_dump
   - rna_star
   - rna_starsolo
-  - spades
   - star_fusion
-  - unicycler
 
 # tools missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
@@ -276,7 +278,6 @@ __galaxy_multicore_tools:
   - hisat2_index_builder_data_manager
   - kallisto_quant
   - kc-align
-  - kraken
   - kraken2_build_database
   - lofreq_call
   - lofreq_viterbi
@@ -304,7 +305,6 @@ __galaxy_multicore_tools:
   - sklearn_model_validation
   - sklearn_numeric_clustering
   - snippy
-  - spades
   - star_fusion
   - stringtie
   - td
@@ -312,10 +312,8 @@ __galaxy_multicore_tools:
   - tophat2
   - tophat_fusion_post
   - trimmomatic
-  #- trinity
   - trinity_align_and_estimate_abundance
   - trinity_psc
-  - unicycler
 
 # legacy tools that expect `python` to be Python 2
 #
