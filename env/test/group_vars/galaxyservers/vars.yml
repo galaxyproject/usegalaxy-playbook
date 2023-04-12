@@ -274,9 +274,32 @@ galaxy_job_conf_limits:
   - type: environment_total_concurrent_jobs
     id: bridges_development
     value: 4
+
+  # tpv per-environment total limits
   - type: environment_total_concurrent_jobs
-    id: expanse_development
+    id: bridges2
     value: 4
+  - type: environment_total_concurrent_jobs
+    id: expanse
+    value: 4
+  - type: environment_total_concurrent_jobs
+    id: rockfish
+    value: 4
+  - type: environment_total_concurrent_jobs
+    id: frontera
+    value: 4
+  - type: environment_total_concurrent_jobs
+    id: stampede2_knl
+    value: 4
+  - type: environment_total_concurrent_jobs
+    id: stampede2_skx
+    value: 4
+  - type: environment_total_concurrent_jobs
+    id: stampede2_icx
+    value: 4
+
+
+
 
 # used in gravity config and nginx template
 gxit_proxy_port: 8910
