@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# Rockfish uses "configless" Slurm config: https://slurm.schedmd.com/configless_slurm.html
+#
+# `scontrol write config $PATH` will write the config to $PATH.<date>, the date append cannot be suppressed. Thus to
+# ensure the config exists before Pulsar starts up, we write it before starting supervisord
+#
+# We only need a few of the config vars and not all of them are compatible with slurm-drmaa:
+#
+# python3: error: _parse_next_key: Parsing error at unrecognized key: JobDefaults
+# python3: error: Parse error in file /home/galaxy/etc/slurm.conf line 164: "JobDefaults=DefCpuPerGPU=1,DefMemPerGPU=32000"
+#
+# and if there are multiple SlurmctldHost entries:
+#
+# python3: error: Unable to establish controller machine
+#
+set -euo pipefail
+
+USER_SLURM_CONF="${HOME}/etc/slurm.conf"
+
+# fetch updated slurm.conf
+conf_path=$(scontrol write config "${USER_SLURM_CONF}" | awk '{print $NF}')
+if [ -f "$conf_path" ]; then
+    echo "slurm.conf fetched to ${conf_path}"
+    for opt in ClusterName SlurmctldHost SlurmctldPort; do
+        grep "^${opt}=" "$conf_path" | head -1 >> "${USER_SLURM_CONF}.new"
+    done
+    if [ -f "$USER_SLURM_CONF" ] && diff -q "$USER_SLURM_CONF" "${USER_SLURM_CONF}.new"; then
+        echo "No changes to slurm.conf since previous version, removing ${conf_path}"
+        rm -f "$conf_path" "${USER_SLURM_CONF}.new"
+    else
+        mv "${USER_SLURM_CONF}.new" "$USER_SLURM_CONF"
+    fi
+else
+    echo "Conf fetched to ${conf_path} but does not exist!"
+    exit 1
+fi
+
+'{{ supervisord_prefix }}/bin/supervisord' -c '{{ supervisord_conf_path }}'
