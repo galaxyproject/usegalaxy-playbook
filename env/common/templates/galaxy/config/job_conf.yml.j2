@@ -411,6 +411,12 @@ execution:
         - execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
         - name: TRINITY_SCRATCH_DIR
           value: "/tmp"
+        - name: CVMFS_MOUNT_ROOT
+          value: $WORK2/cvmfs
+        - name: CVMFS_ALIEN_CACHE
+          value: $SCRATCH/cvmfs
+        - name: CVMFS_BINARY
+          value: $HOME/cvmfs/bin/cvmfs2.wrap
         {# FIXME: why is this not set by module load tacc-singularity? -#}
         - name: SINGULARITY_CACHEDIR
           value: /work2/03166/xcgalaxy/singularity_cache
