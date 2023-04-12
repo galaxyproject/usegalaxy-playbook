@@ -42,13 +42,12 @@ host_templates:
     dest: "{{ _expanse_home_root }}/bin/supervisord-launch.sh"
     mode: "0755"
 
-# FIXME: User crontabs disabled on Expanse
-#host_crontabs:
-#  - id: "pulsar-clean-{{ galaxy_instance_codename }}-scratch"
-#    use_cron_file: false
-#    minute: "0"
-#    hour: "*/6"
-#    job: "{{ _expanse_home_root }}/bin/tmpwatch -v --all --mtime --dirmtime 7d '{{ pulsar_staging_dir }}' >> '{{ pulsar_root }}/log/cleanup.log'"
+host_crontabs:
+  - id: "pulsar-clean-{{ galaxy_instance_codename }}-scratch"
+    use_cron_file: false
+    minute: "0"
+    hour: "*/6"
+    job: "{{ _expanse_home_root }}/bin/tmpwatch -v --all --mtime --dirmtime 7d '{{ pulsar_staging_dir }}' >> '{{ pulsar_root }}/log/cleanup.log'"
 
 miniconda_prefix: "{{ _expanse_nfs_root }}/conda"
 miniconda_channels:
@@ -72,10 +71,7 @@ supervisord_run_dir: "{{ supervisord_prefix }}/var/run"
 host_supervisor_configs:
   - "{{ galaxy_instance_codename }}_pulsar"
 
-# FIXME: User crontabs disabled on Expanse
-# User crontabs disabled on Expanse
-#supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || /bin/bash '{{ _expanse_home_root }}/bin/supervisord-launch.sh'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
-supervisord_unprivileged_command: null
+supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || /bin/bash '{{ _expanse_home_root }}/bin/supervisord-launch.sh'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
 
 pulsar_root: "{{ _expanse_instance_root }}/pulsar"
 pulsar_restart_handler_name: supervisor restart pulsar
