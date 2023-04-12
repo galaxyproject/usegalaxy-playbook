@@ -32,11 +32,8 @@ tools:
         scheduling:
           require:
           - general
-          #- stampede2
-          #- dev
           reject:
           - hpc
-          #- general
       - if: 0.1 <= input_size < 1
         cores: 12
         mem: 92
@@ -91,10 +88,10 @@ tools:
     mem: 120
     scheduling:
       accept:
-      - stampede2
-      - bridges2
+      - hpc
       reject:
       - roundup
+      - jetstream2
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2
