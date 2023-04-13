@@ -114,15 +114,14 @@ tools:
     scheduling:
       require:
       - hpc
-      #prefer:
-      #- stampede2-skx
 
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     cores: 20
     mem: 20
     scheduling:
       require:
-      - stampede2-knl
+      - hpc
+      - cvmfs
 
   # TODO: rule to set mem based on database size, see job router
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
@@ -138,7 +137,9 @@ tools:
     mem: 120
     scheduling:
       require:
-      - hpc
+      - stampede2-knl
+      reject:
+      - general
     rules:
     - id: abyss-pe_small_input_rule
       if: input_size < 0.002
@@ -147,15 +148,13 @@ tools:
       scheduling:
         require:
         - general
+        reject:
+        - stampede2-knl
     - id: abyss-pe_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 32
       mem: 94
-      scheduling:
-        require:
-        - hpc
-        prefer:
-        - stampede2-knl
+
     # TODO: reject over a certain input size, what is that input size?
 
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
@@ -164,6 +163,8 @@ tools:
     scheduling:
       require:
       - hpc
+      reject:
+      - general
     rules:
     - id: spades_small_input_rule
       if: input_size < 0.005
@@ -172,14 +173,17 @@ tools:
       scheduling:
         require:
         - general
+        reject:
+        - hpc
     - id: spades_medium_input_rule
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 28
-      # FIXME: doesn't work
-      #scheduling:
-      #  require:
-      #  - jetstream2
+      scheduling:
+        require:
+        - general
+        reject:
+        - hpc
     - id: spades_fail_rule
       if: input_size >= 20
       fail: Too much data, please don't use SPAdes for this
@@ -190,6 +194,8 @@ tools:
     scheduling:
       require:
       - hpc
+      reject:
+      - general
     rules:
     - id: unicycler_small_input_rule
       if: input_size < 0.05
@@ -204,34 +210,33 @@ tools:
       if: 0.05 <= input_size < 2
       cores: 8
       mem: 28
-      # FIXME: doesn't work
-      #scheduling:
-      #  require:
-      #  - jetstream2
+      scheduling:
+        require:
+        - general
+        reject:
+        - hpc
 
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
-    cores: 24
-    mem: 80
+    cores: 4
+    mem: 16
     scheduling:
       require:
-      - hpc
+      - jetstream2
       - cvmfs
-    # FIXME: cannot get tags to match with the below
-    #cores: 4
-    #mem: 16
-    #scheduling:
-    #  require:
-    #  - jetstream2
-    #rules:
-    #- id: ncbi_blastn_wrapper_db_rule
-    #  if: |
-    #    helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
-    #  cores: 24
-    #  mem: 80
-    #  scheduling:
-    #    require:
-    #    - hpc
-    #    - cvmfs
+      reject:
+      - hpc
+    rules:
+    - id: ncbi_blastn_wrapper_db_rule
+      if: |
+        helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+      cores: 24
+      mem: 80
+      scheduling:
+        require:
+        - hpc
+        - cvmfs
+        reject:
+        - jetstream2
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:

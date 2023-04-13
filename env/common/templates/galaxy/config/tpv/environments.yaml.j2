@@ -84,7 +84,7 @@ destinations:
     max_accepted_cores: 6
     max_accepted_mem: 64
     context:
-      partition: normal
+      partition: multi
       time: 24:00:00
     params:
       native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
@@ -429,7 +429,8 @@ destinations:
     scheduling:
       accept:
       - stampede2
-      - hpc
+      # removing from hpc for now to burn some SUs on other systems and avoid the limit hole
+      #- hpc
       - cvmfs
       prefer:
       - stampede2-knl
