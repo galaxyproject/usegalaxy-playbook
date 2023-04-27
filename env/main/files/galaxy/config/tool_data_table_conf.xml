@@ -3,162 +3,15 @@
     This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 -->
 <tables>
-    <!-- Locations of all fasta files under genome directory -->
-    <table name="all_fasta" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/all_fasta.loc" />
-    </table>
-    <!-- Locations of indexes in the BFAST mapper format -->
-    <table name="bfast_indexes" comment_char="#">
-        <columns>value, dbkey, formats, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bfast_indexes.loc" />
-    </table>
-    <!-- Locations of nucleotide (mega)blast databases -->
-    <table name="blastdb" comment_char="#">
-        <columns>value, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/blastdb.loc" />
-    </table>
-    <!-- Locations of protein (mega)blast databases -->
-    <table name="blastdb_p" comment_char="#">
-        <columns>value, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/blastdb_p.loc" />
-    </table>
-    <!-- Locations of indexes in the Bowtie2 mapper format -->
-    <table name="bowtie2_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bowtie2_indices.loc" />
-    </table>
-    <!-- Locations of indexes in the BWA 0.6+ mapper format -->
-    <table name="bwa_mem_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bwa_mem_index.loc" />
-    </table>
-    <!-- Locations of indexes in the BWA mapper format -->
-    <table name="bwa_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bwa_index.loc" />
-    </table>
-    <!-- Locations of indexes in the BWA color-space mapper format -->
-    <table name="bwa_indexes_color" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bwa_index_color.loc" />
-    </table>
-    <!-- Locations of MAF files that have been indexed with bx-python -->
-    <table name="indexed_maf_files">
-        <columns>name, value, dbkey, species</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/maf_index.loc" />
-    </table>
-    <!-- Locations of fasta files appropriate for NGS simulation -->
-    <table name="ngs_sim_fasta" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/ngs_sim_fasta.loc" />
-    </table>
-    <!-- Locations of PerM base index files -->
-    <table name="perm_base_indexes" comment_char="#">
-        <columns>value, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/perm_base_index.loc" />
-    </table>
-    <!-- Locations of PerM color-space index files -->
-    <table name="perm_color_indexes" comment_char="#">
-        <columns>value, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/perm_color_index.loc" />
-    </table>
-    <!-- Location of Picard dict file and other files -->
-    <table name="picard_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/picard_index.loc" />
-    </table>
-    <!-- Location of Picard dict files valid for GATK -->
-    <table name="gatk_picard_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/gatk_sorted_picard_index.loc" />
-    </table>
-    <!-- Available of GATK references -->
-    <table name="gatk_annotations" comment_char="#">
-        <columns>value, name, gatk_value, tools_valid_for</columns>
-        <file path="/corral4/data/location/gatk_annotations.txt" />
-    </table>
-    <!-- Location of SRMA dict file and other files -->
-    <table name="srma_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/picard_index.loc" />
-    </table>
-    <!-- Locations of indexes in the Bowtie mapper format for TopHat to use -->
-    <table name="tophat_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bowtie_indices.loc" />
-    </table>
-    <!-- Locations of indexes in the Bowtie color-space mapper format for TopHat to use -->
-    <table name="tophat_indexes_color" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bowtie_indices_color.loc" />
-    </table>
-    <!-- Locations of indexes in the Bowtie2 mapper format for TopHat2 to use -->
-    <table name="tophat2_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bowtie2_indices.loc" />
-    </table>
-    <!-- Locations of configurations in the CCAT peak/region caller format -->
-    <table name="ccat_configurations" comment_char="#">
-        <columns>value, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/ccat_configurations.loc" />
-    </table>
-    <!-- Location of Mosaik files -->
-    <table name="mosaik_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/mosaik_index.loc" />
-    </table>
-    <!-- Locations of indexes in the Bowtie mapper format -->
-    <table name="bowtie_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bowtie_indices.loc" />
-    </table>
-    <!-- Locations of indexes in the Bowtie color-space mapper format -->
-    <table name="bowtie_indexes_color" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/bowtie_indices_color.loc" />
-    </table>
-    <!-- Locations of 2bit sequence files for use in Lastz -->
-    <table name="lastz_seqs" comment_char="#">
-        <columns>value, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/lastz_seqs.loc" />
-    </table>
-    <!-- Location of SAMTools indexes and other files -->
-    <table name="sam_fa_indexes" comment_char="#">
-        <columns>line_type, value, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/sam_fa_indices.loc" />
-    </table>
     <!-- Location of ANNOVAR databases -->
     <table name="annovar_indexes" comment_char="#">
         <columns>value, dbkey, type, path</columns>
         <file path="/corral4/localdata/annovar/annovar_index.loc" />
     </table>
-    <!-- Location of Tophat-fusion BLAST databases + gene annotations. -->
-    <!-- 
-    <table name="tophat_fusion_blastdb_indexes" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/corral4/localdata/tophat/tophat_fusion_blastdb.loc" />
-    </table>
-    -->
-    <!-- Location of SAMTools generated FASTA indexes -->
-    <table comment_char="#" name="fasta_indexes">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/fasta_indexes.loc" />
-    </table>
     <!-- Available IGV builds, loaded from URL -->
     <table name="igv_broad_genomes" comment_char="#">
         <columns>name, url, value</columns>
         <file url="http://igv.broadinstitute.org/genomes/genomes.txt" />
-    </table>
-    <!-- Available liftOver chain file -->
-    <table name="liftOver" comment_char="#">
-        <columns>dbkey, name, value</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/liftOver.loc" />
-    </table>
-    <!-- 2bit files -->
-    <table name="twobit" comment_char="#">
-        <columns>value, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/twobit.loc" />
     </table>
     <!-- iobio bam servers -->
     <table name="bam_iobio" comment_char="#" allow_duplicate_entries="False">
@@ -174,11 +27,6 @@
     <table name="intermine_simple_display" comment_char="#" allow_duplicate_entries="False">
         <columns>value, name, url</columns>
         <file path="tool-data/intermine_simple_display.loc.sample" />
-    </table>
-    <!-- Locations of all customProDB annotations under genome directory -->
-    <table name="customProDB" comment_char="#">
-        <columns>value, dbkey, name, path</columns>
-        <file path="/cvmfs/data.galaxyproject.org/byhand/location/customProDB.loc" />
     </table>
     <!-- ffindex databases -->
     <table name="ffindex_indices" comment_char="#" allow_duplicate_entries="False">
