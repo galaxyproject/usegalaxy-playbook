@@ -18,8 +18,6 @@ host_directories:
     mode: "0755"
   - path: "{{ _expanse_home_root }}/etc"
     mode: "0750"
-  - path: "{{ _expanse_home_root }}/cvmfs/keys"
-    mode: "0755"
   - path: "{{ pulsar_root }}/log"
     mode: "0750"
 
@@ -27,15 +25,6 @@ host_files:
   - src: "files/pulsar/el7/tmpwatch"
     dest: "{{ _expanse_home_root }}/bin/tmpwatch"
     mode: "0755"
-  - src: "files/pulsar/mount_cvmfs"
-    dest: "{{ _expanse_home_root }}/bin"
-    mode: "0755"
-  - src: "files/pulsar/galaxyproject.org.pub"
-    dest: "{{ _expanse_home_root }}/cvmfs/keys"
-    mode: "0644"
-  - src: "files/pulsar/data.galaxyproject.org.pub"
-    dest: "{{ _expanse_home_root }}/cvmfs/keys"
-    mode: "0644"
 
 host_templates:
   - src: "templates/pulsar/expanse-supervisord-launch.sh.j2"
@@ -134,3 +123,29 @@ pulsar_yaml_config:
       postprocess_action_interval_step: 2
       postprocess_action_interval_max: 60
       min_polling_interval: 15
+
+singcvmfs_url: https://github.com/natefoo/cvmfsexec/archive/refs/heads/run-hack.tar.gz
+
+singcvmfs_files:
+  - src: files/pulsar/galaxyproject.org.pub
+    dest: /etc/cvmfs/keys/galaxyproject.org/galaxyproject.org.pub
+  - src: files/pulsar/data.galaxyproject.org.pub
+    dest: /etc/cvmfs/keys/galaxyproject.org/data.galaxyproject.org.pub
+
+singcvmfs_local_options:
+  - key: CVMFS_RELOAD_SOCKETS
+    value: /cvmfs-run
+  - key: CVMFS_QUOTA_LIMIT
+    value: "-1"
+  - key: CVMFS_SHARED_CACHE
+    value: "no"
+  - key: CVMFS_ALIEN_CACHE
+    value: "/cvmfs-cache"
+  - key: CVMFS_CLAIM_OWNERSHIP
+    value: "yes"
+  - key: CVMFS_SERVER_URL
+    value: "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
+  - key: CVMFS_KEYS_DIR
+    value: "/etc/cvmfs/keys/galaxyproject.org"
+  - key: CVMFS_HTTP_PROXY
+    value: "DIRECT"

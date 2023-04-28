@@ -248,7 +248,7 @@ destinations:
       time: 24:00:00
     params:
       submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time} --nodes=1 --ntasks={cores}"
-      file_action_config: {{ galaxy_config_dir }}/pulsar_expanse_actions.yml
+      #file_action_config: {{ galaxy_config_dir }}/pulsar_expanse_actions.yml
       tmp_dir: true
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -259,6 +259,7 @@ destinations:
       rewrite_parameters: true
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
+      singularity_cmd: /home/xgalaxy/bin/singcvmfs
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
       container_resolvers:
       - type: explicit_singularity
@@ -296,11 +297,8 @@ destinations:
       value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
-    - name: CVMFS_MOUNT_ROOT
-      value: /expanse/projects/qstore/pen160/xgalaxy/cvmfs
-    - name: CVMFS_ALIEN_CACHE
-      value: /expanse/lustre/scratch/xgalaxy/temp_project/cvmfs_cache
-    - execute: /bin/bash $HOME/bin/mount_cvmfs data.galaxyproject.org
+    - name: SINGCVMFS_REPOSITORIES
+      value: data.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /expanse/lustre/scratch/xgalaxy/temp_project/singularity_cache
     - name: SINGULARITY_PYTHREADS
