@@ -247,7 +247,7 @@ destinations:
     context:
       time: 24:00:00
     params:
-      submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time} --nodes=1 --ntasks={cores} --mem={256*1024}"
+      submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time} --nodes=1 --ntasks={cores}"
       file_action_config: {{ galaxy_config_dir }}/pulsar_expanse_actions.yml
       tmp_dir: true
       outputs_to_working_directory: false
@@ -257,7 +257,7 @@ destinations:
       default_file_action: remote_transfer
       dependency_resolution: local
       rewrite_parameters: true
-      jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging/
+      jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
       container_resolvers:
