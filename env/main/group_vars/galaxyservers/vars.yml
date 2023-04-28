@@ -136,6 +136,7 @@ galaxy_job_conf_singularity_volumes:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
+    - "/expanse/projects/qstore/pen160/xgalaxy/cvmfs:ro"
     - "/scratch:rw"
   rockfish:
     - "$tool_directory:ro"
