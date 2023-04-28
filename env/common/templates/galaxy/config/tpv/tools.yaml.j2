@@ -185,8 +185,8 @@ tools:
         reject:
         - hpc
     - id: spades_fail_rule
-      if: input_size >= 20
-      fail: Too much data, please don't use SPAdes for this
+      if: input_size >= 25
+      fail: Too much data for this public service, please input fewer reads. Example method: SeqTk subsample
 
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     cores: 24
