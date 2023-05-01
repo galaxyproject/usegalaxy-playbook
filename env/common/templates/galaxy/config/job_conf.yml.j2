@@ -384,7 +384,7 @@ execution:
       file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
       {{ env_tag_params(env.tags | default(none)) }}
       singularity_enabled: true
-      # the tacc-singularity module automatically sets up mounts
+      # the tacc-apptainer module automatically sets up mounts
       singularity_volumes: null
       container_resolvers:
         - type: explicit_singularity
@@ -395,7 +395,7 @@ execution:
         #- execute: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
         - file: /etc/profile.d/z01_lmod.sh
         - execute: module unload xalt
-        - execute: module load tacc-singularity
+        - execute: module load tacc-apptainer
         {# Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
         - name: GALAXY_SLOTS
           value: "$SLURM_NTASKS"
@@ -417,7 +417,7 @@ execution:
           value: $SCRATCH/cvmfs
         - name: CVMFS_BINARY
           value: $HOME/cvmfs/bin/cvmfs2.wrap
-        {# FIXME: why is this not set by module load tacc-singularity? -#}
+        {# FIXME: why is this not set by module load tacc-apptainer? -#}
         - name: SINGULARITY_CACHEDIR
           value: /work2/03166/xcgalaxy/singularity_cache
         - name: SINGULARITY_PYTHREADS
@@ -435,7 +435,7 @@ execution:
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       {{ env_tag_params(env.tags | default(none)) }}
       singularity_enabled: true
-      # the tacc-singularity module automatically sets up mounts
+      # the tacc-apptainer module automatically sets up mounts
       singularity_volumes: null
       container_resolvers:
         - type: explicit_singularity
@@ -445,7 +445,7 @@ execution:
         {{ env_pulsar_envs() }}
         - file: /etc/profile.d/z01_lmod.sh
         - execute: module unload xalt
-        - execute: module load tacc-singularity
+        - execute: module load tacc-apptainer
         {# Frontera assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
         - name: GALAXY_SLOTS
           value: "$SLURM_NTASKS"

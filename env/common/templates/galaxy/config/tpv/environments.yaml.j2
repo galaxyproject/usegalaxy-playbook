@@ -18,7 +18,7 @@ destinations:
       rewrite_parameters: true
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
-      # the tacc-singularity module automatically sets up mounts
+      # the tacc-apptainer module automatically sets up mounts
       singularity_volumes: null
       container_resolvers:
       - type: explicit_singularity
@@ -27,7 +27,7 @@ destinations:
     env:
     - file: /etc/profile.d/z01_lmod.sh
     - execute: module unload xalt
-    - execute: module load tacc-singularity
+    - execute: module load tacc-apptainer
     - name: GALAXY_SLOTS
       value: "$SLURM_NTASKS"
     - execute: ulimit -c 0
@@ -71,7 +71,7 @@ destinations:
     - name: CVMFS_BINARY
       value: $HOME/cvmfs/bin/cvmfs2.wrap
     - execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
-    {# FIXME: why is this not set by module load tacc-singularity? -#}
+    {# FIXME: why is this not set by module load tacc-apptainer? -#}
     - name: SINGULARITY_CACHEDIR
       value: /work2/03166/xcgalaxy/singularity_cache
     - name: SINGULARITY_PYTHREADS
