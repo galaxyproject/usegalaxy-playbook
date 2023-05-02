@@ -19,9 +19,12 @@ destinations:
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
       # the tacc-apptainer module automatically sets up mounts
-      singularity_volumes: null
+      singularity_volumes: /cvmfs/data.galaxyproject.org:ro
       container_resolvers:
       - type: explicit_singularity
+      - type: cached_mulled_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime
       - type: mulled_singularity
       require_container: true
     env:
@@ -56,7 +59,8 @@ destinations:
     inherits: _tacc_hpc
     abstract: true
     params:
-      file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
+      #file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:
     {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
     - name: SCRATCH
@@ -64,17 +68,20 @@ destinations:
     {# mount is in /work2 so the mountpoint (which will appear untouched/empty to tacc cleanup scripts) won't be removed, but also needs to be automatically mounted into singularity containers (which /run is not) -#}
     - name: WORK2
       value: /work2/03166/xcgalaxy/stampede2
-    - name: CVMFS_MOUNT_ROOT
-      value: $WORK2/cvmfs
-    - name: CVMFS_ALIEN_CACHE
-      value: $SCRATCH/cvmfs
-    - name: CVMFS_BINARY
-      value: $HOME/cvmfs/bin/cvmfs2.wrap
-    - execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
+    - name: CVMFSEXEC_PATH
+      value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+    #- name: CVMFS_MOUNT_ROOT
+    #  value: $WORK2/cvmfs
+    #- name: CVMFS_ALIEN_CACHE
+    #  value: $SCRATCH/cvmfs
+    #- name: CVMFS_BINARY
+    #  value: $HOME/cvmfs/bin/cvmfs2.wrap
+    #- execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
     {# FIXME: why is this not set by module load tacc-apptainer? -#}
-    - name: SINGULARITY_CACHEDIR
-      value: /work2/03166/xcgalaxy/singularity_cache
-    - name: SINGULARITY_PYTHREADS
+    - name: APPTAINER_CACHEDIR
+      value: /work2/03166/xcgalaxy/apptainer_cache
+    - name: APPTAINER_PYTHREADS
       value: "9"
 
   # real envs
@@ -455,9 +462,6 @@ destinations:
       - stampede2-skx
       require:
       - pulsar
-      # apptainer switch has broken containers
-      reject:
-      - offline
 
   stampede2_icx:
     inherits: _stampede2
@@ -479,9 +483,6 @@ destinations:
       - stampede2-icx
       require:
       - pulsar
-      # apptainer switch has broken containers
-      reject:
-      - offline
 
   # dev
 
