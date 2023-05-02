@@ -457,6 +457,9 @@ destinations:
       - stampede2-skx
       require:
       - pulsar
+      # apptainer switch has broken containers
+      reject:
+      - offline
 
   stampede2_icx:
     inherits: _stampede2
@@ -478,6 +481,9 @@ destinations:
       - stampede2-icx
       require:
       - pulsar
+      # apptainer switch has broken containers
+      reject:
+      - offline
 
   # dev
 
