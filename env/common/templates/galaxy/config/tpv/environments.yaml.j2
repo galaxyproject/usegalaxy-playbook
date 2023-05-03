@@ -332,7 +332,7 @@ destinations:
       time: 24:00:00
     params:
       submit_native_specification: "--partition=defq --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
-      file_action_config: {{ galaxy_config_dir }}/pulsar_rockfish_actions.yml
+      #file_action_config: {{ galaxy_config_dir }}/pulsar_rockfish_actions.yml
       tmp_dir: true
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -344,8 +344,12 @@ destinations:
       jobs_directory: /scratch4/nekrut/galaxy/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.rockfish | join(',') }}"
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- singularity
       container_resolvers:
       - type: explicit_singularity
+      - type: cached_mulled_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime
       - type: mulled_singularity
       require_container: true
     env:
@@ -378,22 +382,24 @@ destinations:
       value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
-    # FATAL:   singularity image is not in an allowed configured path
+    - execute: module load singularity/3.8.7
+    - name: CVMFSEXEC_PATH
+      value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+    # set in module
     #- name: SINGULARITY_CACHEDIR
     #  value: /scratch4/nekrut/galaxy/singularity_cache
-    #- name: SINGULARITY_PYTHREADS
-    #  value: "9"
+    - name: SINGULARITY_PYTHREADS
+      value: "9"
     scheduling:
       accept:
       - rockfish
       - hpc
+      - cvmfs
       prefer:
       - rockfish
       require:
       - pulsar
-      reject:
-      - cvmfs
-      - offline
 
   frontera:
     inherits: _tacc_hpc

@@ -134,6 +134,7 @@ galaxy_job_conf_singularity_volumes:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
     - "/tmp:rw"
 
 galaxy_job_conf_resource_groups:
