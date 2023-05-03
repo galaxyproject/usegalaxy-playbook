@@ -21,7 +21,11 @@
     - role: galaxyproject.cvmfsexec
       tags: cvmfsexec
     - role: paths
+      tags: post
     - role: copy
+      tags: post
     - role: supervisor
       when: not pulsar_systemd
+      tags: post
     - role: cron
+      tags: post
