@@ -14,10 +14,6 @@ _stampede_instance_root: "{{ _stampede_work_root }}/{{ galaxy_instance_codename 
 host_directories:
   - path: "{{ _stampede_home_root }}/bin"
     mode: "0755"
-  - path: "{{ _stampede_home_root }}/cvmfs/bin"
-    mode: "0755"
-  - path: "{{ _stampede_home_root }}/cvmfs/keys"
-    mode: "0755"
   - path: "{{ pulsar_root }}/log"
     mode: "0750"
 
@@ -25,30 +21,6 @@ host_files:
   - src: "files/pulsar/el7/tmpwatch"
     dest: "{{ _stampede_home_root }}/bin"
     mode: "0755"
-  - src: "files/pulsar/mount_cvmfs"
-    dest: "{{ _stampede_home_root }}/bin"
-    mode: "0755"
-  - content: |
-      #!/bin/sh
-      cd {{ _stampede_home_root }}/cvmfs/bin
-      exec {{ _stampede_home_root }}/cvmfs/bin/cvmfs2 "$@"
-    dest: "{{ _stampede_home_root }}/cvmfs/bin/cvmfs2.wrap"
-    mode: "0755"
-  - src: "files/pulsar/el7/cvmfs2"
-    dest: "{{ _stampede_home_root }}/cvmfs/bin"
-    mode: "0755"
-  - src: "files/pulsar/el7/libcvmfs_fuse_stub.so.2.9.2"
-    dest: "{{ _stampede_home_root }}/cvmfs/bin/libcvmfs_fuse_stub.so"
-    mode: "0755"
-  - src: "files/pulsar/el7/libcvmfs_fuse.so.2.9.2"
-    dest: "{{ _stampede_home_root }}/cvmfs/bin/libcvmfs_fuse.so"
-    mode: "0755"
-  - src: "files/pulsar/galaxyproject.org.pub"
-    dest: "{{ _stampede_home_root }}/cvmfs/keys"
-    mode: "0644"
-  - src: "files/pulsar/data.galaxyproject.org.pub"
-    dest: "{{ _stampede_home_root }}/cvmfs/keys"
-    mode: "0644"
 
 host_crontabs:
   - id: "pulsar-clean-{{ galaxy_instance_codename }}-scratch"
