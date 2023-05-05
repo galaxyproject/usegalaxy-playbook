@@ -193,13 +193,18 @@ destinations:
       remote_metadata: false
       transport: curl
       default_file_action: remote_transfer
+      file_action_config: {{ galaxy_config_dir }}/pulsar_bridges2_actions.yml
       dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
+      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- singularity
       container_resolvers:
       - type: explicit_singularity
+      - type: cached_mulled_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime
       - type: mulled_singularity
       require_container: true
     env:
@@ -230,6 +235,14 @@ destinations:
       value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
+    - name: CVMFSEXEC_DIR
+      value: $(dirname $_GALAXY_JOB_DIR)
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_DIR/cvmfsexec"
+    # run once to extract
+    - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
+    - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /ocean/projects/mcb140028p/xcgalaxy/singularity_cache
     - name: SINGULARITY_PYTHREADS
@@ -242,6 +255,7 @@ destinations:
       accept:
       - bridges2
       - hpc
+      - cvmfs
       prefer:
       - bridges2
       require:
@@ -266,10 +280,13 @@ destinations:
       rewrite_parameters: true
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
-      singularity_cmd: /home/xgalaxy/bin/singcvmfs
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
       container_resolvers:
       - type: explicit_singularity
+      - type: cached_mulled_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime
       - type: mulled_singularity
       require_container: true
     env:
@@ -304,8 +321,9 @@ destinations:
       value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
-    - name: SINGCVMFS_REPOSITORIES
-      value: data.galaxyproject.org
+    - name: CVMFSEXEC_PATH
+      value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
     - name: SINGULARITY_CACHEDIR
       value: /expanse/lustre/scratch/xgalaxy/temp_project/singularity_cache
     - name: SINGULARITY_PYTHREADS

@@ -18,6 +18,7 @@
     - role: galaxyproject.miniconda
       when: miniconda_prefix is defined
     - role: galaxyproject.pulsar
+      tags: pulsar
     - role: galaxyproject.cvmfsexec
       tags: cvmfsexec
     - role: paths

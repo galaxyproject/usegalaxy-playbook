@@ -16,8 +16,6 @@ host_directories:
     mode: "0755"
   - path: "{{ _bridges_home_root }}/etc"
     mode: "0750"
-  - path: "{{ _bridges_home_root }}/cvmfs/keys"
-    mode: "0755"
   - path: "{{ pulsar_root }}/log"
     mode: "0750"
   #- path: "{{ supervisord_log_dir }}"
@@ -29,15 +27,6 @@ host_files:
   - src: "files/pulsar/el7/tmpwatch"
     dest: "{{ _bridges_home_root }}/bin"
     mode: "0755"
-  - src: "files/pulsar/mount_cvmfs"
-    dest: "{{ _bridges_home_root }}/bin"
-    mode: "0755"
-  - src: "files/pulsar/galaxyproject.org.pub"
-    dest: "{{ _bridges_home_root }}/cvmfs/keys"
-    mode: "0644"
-  - src: "files/pulsar/data.galaxyproject.org.pub"
-    dest: "{{ _bridges_home_root }}/cvmfs/keys"
-    mode: "0644"
 
 host_templates:
   - src: "templates/pulsar/bridges-supervisord-launch.sh.j2"
@@ -76,6 +65,8 @@ host_supervisor_configs:
 # the config before starting up supervisor. More details in the wrapper.
 supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || /bin/bash '{{ _bridges_home_root }}/bin/supervisord-launch.sh'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
 
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@cvmfsexec-singularity#egg=pulsar-app"
+pulsar_package_version: "{{ omit }}"
 pulsar_root: "{{ _bridges_instance_root }}/pulsar"
 pulsar_restart_handler_name: supervisor restart pulsar
 pulsar_persistence_dir: "{{ _bridges_scratch_root }}/pulsar/var"
@@ -139,3 +130,30 @@ pulsar_yaml_config:
       postprocess_action_interval_step: 2
       postprocess_action_interval_max: 60
       min_polling_interval: 15
+
+cvmfsexec_source: none
+cvmfsexec_url: https://github.com/cvmfs/cvmfsexec/archive/refs/tags/v4.31.tar.gz
+
+cvmfsexec_files:
+  - src: files/pulsar/galaxyproject.org.pub
+    dest: /etc/cvmfs/keys/galaxyproject.org/galaxyproject.org.pub
+  - src: files/pulsar/data.galaxyproject.org.pub
+    dest: /etc/cvmfs/keys/galaxyproject.org/data.galaxyproject.org.pub
+  #- content: ""
+  #  dest: /etc/cvmfs/default.d/50-cern.conf
+  - content: |
+      CVMFS_SERVER_URL='http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@'
+      CVMFS_KEYS_DIR=/etc/cvmfs/keys/galaxyproject.org
+    dest: /etc/cvmfs/domain.d/galaxyproject.org.conf
+
+cvmfsexec_local_options:
+  - key: CVMFS_ALIEN_CACHE
+    value: "{{ _bridges_scratch_root }}/cvmfs_cache"
+  - key: CVMFS_QUOTA_LIMIT
+    value: "-1"
+  - key: CVMFS_SHARED_CACHE
+    value: "no"
+  - key: CVMFS_CLAIM_OWNERSHIP
+    value: "yes"
+  - key: CVMFS_HTTP_PROXY
+    value: "DIRECT"

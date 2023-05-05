@@ -124,28 +124,30 @@ pulsar_yaml_config:
       postprocess_action_interval_max: 60
       min_polling_interval: 15
 
-singcvmfs_url: https://github.com/natefoo/cvmfsexec/archive/refs/heads/run-hack.tar.gz
+# setuid SingularityPro doesn't work in cvmfsexec, so we use Apptainer installed in OSG CVMFS
+#cvmfsexec_source: none
+cvmfsexec_url: https://github.com/natefoo/cvmfsexec/archive/refs/heads/no-config-repo.tar.gz
 
-singcvmfs_files:
+cvmfsexec_files:
   - src: files/pulsar/galaxyproject.org.pub
     dest: /etc/cvmfs/keys/galaxyproject.org/galaxyproject.org.pub
   - src: files/pulsar/data.galaxyproject.org.pub
     dest: /etc/cvmfs/keys/galaxyproject.org/data.galaxyproject.org.pub
+  - content: ""
+    dest: /etc/cvmfs/default.d/50-cern.conf
+  - content: |
+      CVMFS_SERVER_URL='http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@'
+      CVMFS_KEYS_DIR=/etc/cvmfs/keys/galaxyproject.org
+    dest: /etc/cvmfs/domain.d/galaxyproject.org.conf
 
-singcvmfs_local_options:
-  - key: CVMFS_RELOAD_SOCKETS
-    value: /cvmfs-run
+cvmfsexec_local_options:
+  - key: CVMFS_ALIEN_CACHE
+    value: "{{ _expanse_scratch_root }}/cvmfs_cache"
   - key: CVMFS_QUOTA_LIMIT
     value: "-1"
   - key: CVMFS_SHARED_CACHE
     value: "no"
-  - key: CVMFS_ALIEN_CACHE
-    value: "/cvmfs-cache"
   - key: CVMFS_CLAIM_OWNERSHIP
     value: "yes"
-  - key: CVMFS_SERVER_URL
-    value: "http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@"
-  - key: CVMFS_KEYS_DIR
-    value: "/etc/cvmfs/keys/galaxyproject.org"
   - key: CVMFS_HTTP_PROXY
     value: "DIRECT"
