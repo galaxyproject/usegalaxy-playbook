@@ -59,7 +59,6 @@ destinations:
     inherits: _tacc_hpc
     abstract: true
     params:
-      #file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:
     {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
@@ -193,7 +192,6 @@ destinations:
       remote_metadata: false
       transport: curl
       default_file_action: remote_transfer
-      file_action_config: {{ galaxy_config_dir }}/pulsar_bridges2_actions.yml
       dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
@@ -269,7 +267,6 @@ destinations:
       time: 24:00:00
     params:
       submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time} --nodes=1 --ntasks={cores}"
-      #file_action_config: {{ galaxy_config_dir }}/pulsar_expanse_actions.yml
       tmp_dir: true
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -341,6 +338,9 @@ destinations:
       - expanse
       require:
       - pulsar
+      # maintenance 2023-05-08
+      reject:
+      - offline
 
   rockfish:
     runner: rockfish
@@ -350,7 +350,6 @@ destinations:
       time: 24:00:00
     params:
       submit_native_specification: "--partition=defq --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
-      #file_action_config: {{ galaxy_config_dir }}/pulsar_rockfish_actions.yml
       tmp_dir: true
       outputs_to_working_directory: false
       #metadata_strategy: extended
