@@ -123,15 +123,14 @@ pulsar_yaml_config:
       postprocess_action_interval_max: 60
       min_polling_interval: 15
 
-cvmfsexec_url: https://github.com/natefoo/cvmfsexec/archive/refs/heads/no-config-repo.tar.gz
+cvmfsexec_source: none
+cvmfsexec_url: https://github.com/cvmfs/cvmfsexec/archive/refs/tags/v4.31.tar.gz
 
 cvmfsexec_files:
   - src: files/pulsar/galaxyproject.org.pub
     dest: /etc/cvmfs/keys/galaxyproject.org/galaxyproject.org.pub
   - src: files/pulsar/data.galaxyproject.org.pub
     dest: /etc/cvmfs/keys/galaxyproject.org/data.galaxyproject.org.pub
-  - content: ""
-    dest: /etc/cvmfs/default.d/50-cern.conf
   - content: |
       CVMFS_SERVER_URL='http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@'
       CVMFS_KEYS_DIR=/etc/cvmfs/keys/galaxyproject.org
