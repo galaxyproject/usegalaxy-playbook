@@ -47,6 +47,14 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: ncbi_tblastx_wrapper
     environment: tpv_dispatcher
+  - id: toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6
+    environment: tpv_dispatcher
+  - id: toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6
+    environment: tpv_dispatcher
+  - id: toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6
+    environment: tpv_dispatcher
+  - id: trimmomatic
+    environment: tpv_dispatcher
   # explicit GxIT dispatching
   - id: interactive_tool_jupyter_notebook
     environment: jetstream2_gxit

@@ -464,6 +464,8 @@ destinations:
       - stampede2-knl
       require:
       - pulsar
+      reject:
+      - general
 
   stampede2_skx:
     inherits: _stampede2

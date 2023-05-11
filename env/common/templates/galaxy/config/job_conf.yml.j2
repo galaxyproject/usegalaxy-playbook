@@ -492,6 +492,11 @@ resources:
 # Job mapping configuration
 #
 tools:
+  - class: local
+    environment: slurm_normal_direct
+  #- class: requires_galaxy
+  #  environment: slurm_normal  # could also include JS2 
+
   # Because job_router is the default environment, you should not need to define explicit mappings here unless:
   #   1. you want them to have a job resource param selector (but there are lists for that in tools_conf.yml
   #   2. you want them to have explicit handlers
