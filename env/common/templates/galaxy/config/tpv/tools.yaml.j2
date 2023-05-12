@@ -15,14 +15,12 @@ tools:
 
   _conda_in_singularity:
     abstract: true
-    params:
+    params: &_conda_in_singularity_container_override
       container_override:
         - type: singularity
           shell: /bin/sh
           resolve_dependencies: true
-          # TODO: commit to CVMFS
-          # image is https://github.com/natefoo/usegalaxy.org-legacy-environment
-          identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0
+          identifier: /cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0
 
   #
   # Regular tools
@@ -441,11 +439,11 @@ tools:
   # In this case, the conda dep is actually broken since grep is compiled without PCRE support, so just use the container grep
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0:
     params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0"}]
   # Can't find strict.pm?
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0:
     params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0"}]
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/1.0.0: {inherits: _conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0: {inherits: _conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0: {inherits: _conda_in_singularity}
@@ -527,7 +525,7 @@ tools:
   # also this tool uses bash syntax so we have to override /bin/sh
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/2.27.0.3:
     params:
-      container_override: [{type: singularity, shell: '/bin/bash', resolve_dependencies: true, identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
+      container_override: [{type: singularity, shell: '/bin/bash', resolve_dependencies: true, identifier: "/cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0"}]
 
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/bcftools_stats/1.9+galaxy1: {inherits: _conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/vcf2tsv/vcf2tsv/0.0.3: {inherits: _conda_in_singularity}
@@ -601,7 +599,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/principal_component_analysis/pca1/1.0.2: {inherits: _conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/linear_regression/LinearRegression1/1.0.1: {inherits: _conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/partialr_square/partialRsq/1.0.0: {inherits: _conda_in_singularity}
-  toolshed.g2.bx.psu.edu/repos/devteam/principal_component_analysis/pca1/1.0.2: {inherits: _conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2: {inherits: _conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/find_diag_hits/find_diag_hits/1.0.0: {inherits: _conda_in_singularity}
   "toolshed.g2.bx.psu.edu/repos/devteam/gi2taxonomy/Fetch Taxonomic Ranks/1.1.0": {inherits: _conda_in_singularity}
@@ -693,8 +690,7 @@ tools:
   _trimmomatic_conda_in_singularity:
     abstract: true
     inherits: toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/.*
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0\.32\..*: {inherits: _trimmomatic_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0\.36\.[012345]: {inherits: _trimmomatic_conda_in_singularity}
 
@@ -702,36 +698,31 @@ tools:
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/1\.1[123]\..*:
     abstract: true
     inherits: toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
 
   # bowtie2 < 2.3
   _bowtie2_conda_in_singularity:
     abstract: true
-    inherits: toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*
+    params: *_conda_in_singularity_container_override
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0\..*: {inherits: _bowtie2_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2\.[012]\..*: {inherits: _bowtie2_conda_in_singularity}
 
   # quast < 5.0
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/4\..*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/.*
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
 
   # stringtie < 1.2
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/[01]\.[01]\..*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/.*
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
 
   # deeptools < 3.1
   _deeptools_conda_in_singularity:
     abstract: true
     inherits: _deeptools_multicore
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/2\..*: {inherits: _deeptools_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/3\.0\.*: {inherits: _deeptools_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/2\..*: {inherits: _deeptools_conda_in_singularity}
@@ -760,24 +751,21 @@ tools:
   # just one version of sailfish
   toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/0.7.6.0:
     inherits: toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
 
   # bwa(-mem) < 0.7.13
   _bwa_conda_in_singularity:
     abstract: true
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.[123456]\..*: {inherits: _bwa_conda_in_singularity}
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.7\.12\..**: {inherits: _bwa_conda_in_singularity}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.7\.12\..*: {inherits: _bwa_conda_in_singularity}
 
   # cuff* < 2.2.1.5
   _cuffdiff_conda_in_singularity:
     abstract: true
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/.*
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
   toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/0\..*: {inherits: _cuffdiff_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2\.[01]\..*: {inherits: _cuffdiff_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/cuffdiff/cuffdiff/2\.2\.[01]\.[01234]: {inherits: _cuffdiff_conda_in_singularity}
@@ -791,14 +779,12 @@ tools:
   # cuffmerge < 2
   toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/0\..*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/cuffmerge/cuffmerge/.*
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
 
   # freebayes < 1.1
   _freebayes_conda_in_singularity:
     abstract: true
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/.*
-    params:
-      container_override: [{type: singularity, shell: /bin/sh, resolve_dependencies: true, identifier: /corral4/main/singularity/usegalaxy.org-legacy-environment--0}]
+    params: *_conda_in_singularity_container_override
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0\..*: {inherits: _freebayes_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/1\.0.*: {inherits: _freebayes_conda_in_singularity}
