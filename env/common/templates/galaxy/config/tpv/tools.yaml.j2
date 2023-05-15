@@ -185,6 +185,31 @@ tools:
       - hpc
       reject:
       - stampede2
+    rules:
+    - id: busco_conda_in_singularity_rule
+      if: |
+        import packaging.version
+        minimum_singularity_version = '5.0.0+galaxy1'
+        packaging.version.parse(tool.version) < packaging.version.parse(minimum_singularity_version)
+      params: *_conda_in_singularity_container_override
+    - id: busco_small_input_rule
+      if: input_size < 0.05
+      cores: 2
+      mem: 7.6
+      scheduling:
+        require:
+        - general
+        reject:
+        - hpc
+    - id: busco_medium_input_rule
+      if: 0.05 <= input_size < 0.3
+      cores: 8
+      mem: 30.7
+      scheduling:
+        require:
+        - general
+        reject:
+        - hpc
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2
@@ -772,7 +797,7 @@ tools:
   _cufflinks_conda_in_singularity:
     abstract: true
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/.*
-    params:
+    params: *_conda_in_singularity_container_override
   toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/0\..*: {inherits: _cufflinks_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/2\.[01]\..*: {inherits: _cufflinks_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/2\.2\.[01]\.[01234]: {inherits: _cufflinks_conda_in_singularity}
@@ -788,3 +813,22 @@ tools:
     params: *_conda_in_singularity_container_override
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/0\..*: {inherits: _freebayes_conda_in_singularity}
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/1\.0.*: {inherits: _freebayes_conda_in_singularity}
+
+  # legacy bowtie/bwa/tophat
+  _legacy_mappers_conda_in_singularity:
+    abstract: true
+    inherits: _conda_in_singularity
+    cores: 3
+    mem: 12
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie_color_wrappers/bowtie_color_wrapper/.*: {inherits: _legacy_mappers_conda_in_singularity}
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie_wrappers/bowtie_wrapper/.*: {inherits: _legacy_mappers_conda_in_singularity}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/bwa_color_wrapper/.*: {inherits: _legacy_mappers_conda_in_singularity}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa_wrappers/bwa_wrapper/.*: {inherits: _legacy_mappers_conda_in_singularity}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat/tophat/.*: {inherits: _legacy_mappers_conda_in_singularity}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat2/tophat2/.*: {inherits: _legacy_mappers_conda_in_singularity}
+  toolshed.g2.bx.psu.edu/repos/devteam/tophat_fusion_post/tophat_fusion_post/.*: {inherits: _legacy_mappers_conda_in_singularity}
+
+  # busco < 5.0.0+galaxy1
+  #toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/([34]\..*|5\.0\.0\+galaxy0):
+  #  inherits: toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*
+  #  params: *_conda_in_singularity_container_override

@@ -70,13 +70,6 @@ destinations:
     - name: CVMFSEXEC_PATH
       value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
     - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
-    #- name: CVMFS_MOUNT_ROOT
-    #  value: $WORK2/cvmfs
-    #- name: CVMFS_ALIEN_CACHE
-    #  value: $SCRATCH/cvmfs
-    #- name: CVMFS_BINARY
-    #  value: $HOME/cvmfs/bin/cvmfs2.wrap
-    #- execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
     {# FIXME: why is this not set by module load tacc-apptainer? -#}
     - name: APPTAINER_CACHEDIR
       value: /work2/03166/xcgalaxy/apptainer_cache
