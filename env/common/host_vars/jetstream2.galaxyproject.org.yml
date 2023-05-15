@@ -22,7 +22,7 @@ pulsar_separate_privileges: true
 #galaxy_user: properly set in all.yml
 pulsar_user: "{{ galaxy_user }}"
 pulsar_privsep_user: root
-pulsar_virtualenv_command: python3 -m venv
+pulsar_virtualenv_command: python3.9 -m venv
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: openssl
