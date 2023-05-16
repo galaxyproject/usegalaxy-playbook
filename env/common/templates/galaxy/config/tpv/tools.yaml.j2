@@ -22,6 +22,21 @@ tools:
           resolve_dependencies: true
           identifier: /cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0
 
+  _gpu:
+    abstract: true
+    # cpus and mem are currently irrelevant since they get the entire node
+    gpus: 1
+    scheduling:
+      require:
+      - gpu
+
+  #
+  # GPU tools
+  #
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/keras_train_and_eval/keras_train_and_eval/.*: {inherits: _gpu}
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*: {inherits: _gpu}
+
   #
   # Regular tools
   #
@@ -210,6 +225,38 @@ tools:
         - general
         reject:
         - hpc
+
+  # TODO: we need accurate values for the HYPHY tools once they are running on things with accurate stats (e.g. not Stampede2). Until then we'll use values from AU
+  toolshed.g2.bx.psu.edu/repos/iuc/hyphy_absrel/hyphy_absrel/.*:
+    cores: 16
+    mem: 61
+  toolshed.g2.bx.psu.edu/repos/iuc/hyphy_fel/hyphy_fel/.*:
+    cores: 4
+    mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/hyphy_gard/hyphy_gard/.*:
+    cores: 96
+    mem: 188
+    scheduling:
+      require:
+      - hpc
+      reject:
+      - general
+    rules:
+    - id: hyphy_gard_small_input_rule
+      if: input_size < 0.000005
+      cores: 2
+      mem: 7.6
+      scheduling:
+        require:
+        - general
+        reject:
+        - hpc
+  toolshed.g2.bx.psu.edu/repos/iuc/hyphy_meme/hyphy_meme/.*:
+    cores: 4
+    mem: 7.6
+  toolshed.g2.bx.psu.edu/repos/iuc/hyphy_relax/hyphy_relax/.*:
+    cores: 4
+    mem: 7.6
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2

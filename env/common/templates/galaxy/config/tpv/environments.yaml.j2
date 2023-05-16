@@ -125,9 +125,10 @@ destinations:
     max_accepted_cores: 32
     max_accepted_mem: 125
     context:
+      partition: tpv
       time: 24:00:00
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=tpv"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
       tmp_dir: true
       outputs_to_working_directory: false
       singularity_enabled: true
@@ -157,10 +158,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    - name: SINGULARITYENV_TEMP
-      value: $TEMP
-    - name: SINGULARITYENV_TMPDIR
-      value: $TEMP
     scheduling:
       accept:
       - jetstream2
@@ -170,6 +167,51 @@ destinations:
       - jetstream2
       require:
       - pulsar
+
+  jetstream2_gpu:
+    runner: jetstream2
+    max_accepted_cores: 4
+    max_accepted_mem: 14
+    max_acepted_gpus: 1
+    context:
+      partition: gpu-small
+      time: 24:00:00
+    params:
+      submit_native_specification: "--nodes=1 --ntasks=4 --mem=13000 --time={time} --partition=gpu-small"
+      tmp_dir: true
+      outputs_to_working_directory: false
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.jetstream | join(',') }}"
+      singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
+      singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
+      remote_metadata: false
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: local
+      rewrite_parameters: true
+      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
+    env:
+    - execute: ulimit -c 0
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$TEMP
+    - name: XDG_DATA_HOME
+      value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_XDG_DATA_HOME
+      value: $XDG_DATA_HOME
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+    scheduling:
+      require:
+      - pulsar
+      - gpu
 
   bridges2:
     runner: bridges
