@@ -287,7 +287,9 @@ __galaxy_multicore_tools:
   - fargene
   - fasterq_dump
   - fastp
-  - fastqc
+  # not sure how much this actually improves runtime but considering it doesn't use memory and it runs in the order of a
+  # couple minutes, this is a huge waste
+  #- fastqc
   - featurecounts
   - flash
   - freebayes
