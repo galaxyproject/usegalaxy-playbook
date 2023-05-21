@@ -347,6 +347,14 @@ galaxy_job_conf_environments:
       native_specification: --partition=tpv --nodes=1 --ntasks=4 --mem=15360 --time=02:00:00
       java_mem: 14
       tags: [training_limit]
+    - id: training_large
+      native_specification: --partition=tpv --nodes=1 --ntasks=1 --mem=15360 --time=00:40:00
+      java_mem: 14
+      tags: [training_limit]
+    - id: training_large_long
+      native_specification: --partition=tpv --nodes=1 --ntasks=1 --mem=15360 --time=02:00:00
+      java_mem: 14
+      tags: [training_limit]
 
     # wrap tar to work around ceph issue causing "tar: foo: file changed as we read it"
     - id: xl_wraptar
