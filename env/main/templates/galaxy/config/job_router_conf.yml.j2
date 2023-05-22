@@ -889,6 +889,15 @@ tools:
     destination: slurm_normal
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/mulled-v2-a72811cdca09b8ce95c935a9e282fe346504b219:129950808bd92175be181add32a96712d3af19db-0"}]
 
+  # https://github.com/bioconda/bioconda-recipes/pull/41091
+  #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09+galaxy4:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/bandage_ng:2022.09--0"}]
+    env:
+      - name: SINGULARITYENV_QT_QPA_PLATFORM
+        value: offscreen
+
   # Valiant efforts but no luck
   # No fontconfig=2.11.1,rpy=1.0.3,R=2.11.0 container
   #toolshed.g2.bx.psu.edu/repos/devteam/short_reads_figure_score/quality_score_distribution/1.0.2:
@@ -1536,6 +1545,7 @@ training_tools:
     - mdanalysis_rdf
     - fastqc
     - trimmomatic
+    - bandage_image
   mapping:
     _default_: slurm_training
     _galaxy_lib_: slurm_training_direct
