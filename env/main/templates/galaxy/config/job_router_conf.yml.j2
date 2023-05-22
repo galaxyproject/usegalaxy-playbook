@@ -910,6 +910,10 @@ tools:
 
   # Multicore tools that are not Pulsar/Jetstream friendly
 
+  # Databases on Corral
+  gemini_load:
+    destination: slurm_multi
+
   # https://github.com/galaxyproject/tools-iuc/pull/3420
   # add version comparison to job_router and you can undo this for newer versions
   #deseq2: {destination: slurm_multi_direct, login_required: true}
@@ -1568,6 +1572,7 @@ training_tools:
     genrich: slurm_training_large
     wig_to_bigWig: slurm_training_xlarge
     snippy: slurm_training_multi_large
+    gemini_load: slurm_training_multi_large
     get_pdb: slurm_training_resolv_fix
     tbvcfreport: slurm_training_resolv_fix
     msstats: slurm_training_log
