@@ -18,6 +18,12 @@ galaxy_job_conf_tools:
   - id: interactive_tool_panoply
     environment: tacc_k8s
     handler: k8s
+  - id: interactive_tool_phinch
+    environment: tacc_k8s
+    handler: k8s
+  - id: interactive_tool_pavian
+    environment: tacc_k8s
+    handler: k8s
   # runs through the job router with special spec but this gets it the resource selector
   #- id: busco
   #  handler: multi
