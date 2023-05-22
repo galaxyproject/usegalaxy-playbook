@@ -1528,11 +1528,14 @@ training_tools:
     - rna_star
     - minimap2
     - ncbi_blastp_wrapper
+    - bowtie_wrapper
     # this is for container overrides
     - mdanalysis_cosine_analysis
     - mdanalysis_distance
     - mdanalysis_dihedral
     - mdanalysis_rdf
+    - fastqc
+    - trimmomatic
   mapping:
     _default_: slurm_training
     _galaxy_lib_: slurm_training_direct
@@ -1548,9 +1551,12 @@ training_tools:
     repeatmasker_wrapper: jetstream2_training_multi_large
     datamash_transpose: jetstream2_training_large_long
     srs_preprocess_s2: jetstream2_training_large
+    srs_global_indices: slurm_training_large
+    srs_spectral_indices: slurm_training_large
     rseqc_geneBody_coverage: slurm_training_long
     genrich: slurm_training_large
     wig_to_bigWig: slurm_training_xlarge
     snippy: slurm_training_multi_large
     get_pdb: slurm_training_resolv_fix
     tbvcfreport: slurm_training_resolv_fix
+    msstats: slurm_training_log
