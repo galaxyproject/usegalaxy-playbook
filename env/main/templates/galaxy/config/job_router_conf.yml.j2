@@ -279,6 +279,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/2.11.0+galaxy0: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/2.9.1.4: {destination: slurm_normal_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/iuc/tbvcfreport/tbvcfreport/0.1.7+galaxy0: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/bgruening/get_pdb/get_pdb/0.1.0: {destination: slurm_normal_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/tbvcfreport/tbvcfreport/0.1.10+galaxy0: {destination: slurm_normal_resolv_fix}
 
   # Singularity normal + conda/TS/Galaxy deps; we should try to fix or remove these over time
   # No datamash=1.0.6 container
@@ -862,6 +864,30 @@ tools:
   # SQLite database locking problems inside Singularity on NFS, but not on Ceph
   toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/0.8.4: {destination: jetstream2_normal}
 
+  # HAND BUILT
+  #
+  # these are named properly for the requirements so once you update the resolver config to include the local hand-built
+  # directory they don't need explicit overrides
+
+  # requirements: mdanalysis=0.19.2
+  #   mulled-build --singularity --test 'python3 -c "import MDAnalysis"' --name-override 'mdanalysis:0.19.2--0' build-and-test mdanalysis=0.19.2,biopython=1.77
+  toolshed.g2.bx.psu.edu/repos/chemteam/mdanalysis_cosine_analysis/mdanalysis_cosine_analysis/0.19:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/mdanalysis:0.19.2--0"}]
+  toolshed.g2.bx.psu.edu/repos/chemteam/mdanalysis_distance/mdanalysis_distance/0.19:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/mdanalysis:0.19.2--0"}]
+  toolshed.g2.bx.psu.edu/repos/chemteam/mdanalysis_dihedral/mdanalysis_dihedral/0.19:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/mdanalysis:0.19.2--0"}]
+  toolshed.g2.bx.psu.edu/repos/chemteam/mdanalysis_rdf/mdanalysis_rdf/0.19:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/mdanalysis:0.19.2--0"}]
+  # requirements: mdanalysis=0.19.2 scipy=1.2.1 seaborn=0.9.0 nbdime=1.0.5
+  #   mulled-build --singularity --test 'python3 -c "import MDAnalysis"' --repository-name 'mulled-v2-a72811cdca09b8ce95c935a9e282fe346504b219:129950808bd92175be181add32a96712d3af19db' build-and-test mdanalysis=0.19.2,scipy=1.2.1,seaborn=0.9.0,nbdime=1.0.5,biopython=1.77
+  toolshed.g2.bx.psu.edu/repos/chemteam/mdanalysis_ramachandran_plot/mdanalysis_ramachandran_plot/0.1.3:
+    destination: slurm_normal
+    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/mulled-v2-a72811cdca09b8ce95c935a9e282fe346504b219:129950808bd92175be181add32a96712d3af19db-0"}]
 
   # Valiant efforts but no luck
   # No fontconfig=2.11.1,rpy=1.0.3,R=2.11.0 container
@@ -1502,6 +1528,11 @@ training_tools:
     - rna_star
     - minimap2
     - ncbi_blastp_wrapper
+    # this is for container overrides
+    - mdanalysis_cosine_analysis
+    - mdanalysis_distance
+    - mdanalysis_dihedral
+    - mdanalysis_rdf
   mapping:
     _default_: slurm_training
     _galaxy_lib_: slurm_training_direct
@@ -1516,7 +1547,10 @@ training_tools:
     anndata_inspect: jetstream2_training_multi_large
     repeatmasker_wrapper: jetstream2_training_multi_large
     datamash_transpose: jetstream2_training_large_long
+    srs_preprocess_s2: jetstream2_training_large
     rseqc_geneBody_coverage: slurm_training_long
     genrich: slurm_training_large
     wig_to_bigWig: slurm_training_xlarge
     snippy: slurm_training_multi_large
+    get_pdb: slurm_training_resolv_fix
+    tbvcfreport: slurm_training_resolv_fix
