@@ -110,6 +110,7 @@ galaxy_job_conf_singularity_volumes:
     - "/corral4/{{ galaxy_instance_codename }}/objects:ro"
     - "/corral4/{{ galaxy_instance_codename }}/files:ro"
     - "/corral4/{{ galaxy_instance_codename }}/psufiles:ro"
+    - "/corral4/data:ro"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
   jetstream:
