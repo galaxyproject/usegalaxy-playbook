@@ -42,6 +42,8 @@ server {
     deny 185.191.171.0/24;
     # temp block for stability issue
     deny 210.117.137.154/32;
+    deny 117.40.0.0/16;
+    deny 176.234.0.0/16;
 
     # Enable HSTS (age is 180 days)
     add_header Strict-Transport-Security "max-age=15552000; includeSubdomains";
