@@ -230,6 +230,7 @@ execution:
     slurm_{{ env.id }}:
       runner: slurm
       native_specification: {{ env.native_specification }}
+      metadata_strategy: extended
       {{ env_tag_params(env.tags | default(none)) }}
 {% if use_singularity %}
       outputs_to_working_directory: true
