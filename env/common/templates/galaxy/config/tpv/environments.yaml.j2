@@ -20,6 +20,7 @@ destinations:
       singularity_enabled: true
       # the tacc-apptainer module automatically sets up mounts
       singularity_volumes: /cvmfs/data.galaxyproject.org:ro
+      singularity_no_mount: null
       container_resolvers:
       - type: explicit_singularity
       - type: cached_mulled_singularity
@@ -98,6 +99,7 @@ destinations:
       outputs_to_working_directory: true
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
+      singularity_no_mount: null
       singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
     env:
     - execute: ulimit -c 0
@@ -198,6 +200,7 @@ destinations:
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
+      singularity_no_mount: null
       #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- singularity
       container_resolvers:
       - type: explicit_singularity
@@ -280,6 +283,7 @@ destinations:
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
+      singularity_no_mount: null
       container_resolvers:
       - type: explicit_singularity
       - type: cached_mulled_singularity
@@ -363,6 +367,7 @@ destinations:
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.rockfish | join(',') }}"
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- singularity
+      singularity_no_mount: null
       container_resolvers:
       - type: explicit_singularity
       - type: cached_mulled_singularity
