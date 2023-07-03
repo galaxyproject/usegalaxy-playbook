@@ -140,6 +140,7 @@ destinations:
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.jetstream | join(',') }}"
       singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
+      singularity_no_mount: null
       remote_metadata: false
       transport: curl
       default_file_action: remote_transfer
