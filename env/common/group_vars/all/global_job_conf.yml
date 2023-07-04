@@ -88,26 +88,32 @@ galaxy_job_conf_environments:
     - id: training
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
+      extra_params: {singularity_no_mount: null}
       tags: [training_limit]
     - id: training_long
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=02:00:00 --mem=3840
       java_mem: 3
+      extra_params: {singularity_no_mount: null}
       tags: [training_limit]
     - id: training_large
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=00:30:00 --mem=15360
       java_mem: 15
+      extra_params: {singularity_no_mount: null}
       tags: [training_limit]
     - id: training_xlarge
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=00:20:00 --mem=23040
       java_mem: 22
+      extra_params: {singularity_no_mount: null}
       tags: [training_limit]
     - id: training_multi
       native_specification: --partition=reserved --nodes=1 --ntasks=2 --time=01:20:00 --mem=7680
       java_mem: 7
+      extra_params: {singularity_no_mount: null}
       tags: [training_limit]
     - id: training_multi_large
       native_specification: --partition=reserved --nodes=1 --ntasks=4 --time=01:20:00 --mem=15360
       java_mem: 15
+      extra_params: {singularity_no_mount: null}
       tags: [training_limit]
     - id: training_resolv_fix
       runner: slurm
@@ -160,6 +166,7 @@ galaxy_job_conf_environments:
     - id: normal_galaxy_env
       native_specification: --partition=normal --nodes=1 --ntasks=1 --time=36:00:00
       tags: [normal_limit]
+      extra_params: {singularity_no_mount: null}
       append_envs:
         # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
         - name: SINGULARITYENV_PREPEND_PATH
@@ -168,6 +175,7 @@ galaxy_job_conf_environments:
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
       tags: [test_limit]
+      extra_params: {singularity_no_mount: null}
       append_envs:
         # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
         - name: SINGULARITYENV_PREPEND_PATH
@@ -176,16 +184,16 @@ galaxy_job_conf_environments:
       runner: slurm
       native_specification: --partition=normal --nodes=1 --ntasks=1 --time=36:00:00
       tags: [normal_limit]
+      extra_params: {singularity_no_mount: null}
       # https://github.com/bioconda/bioconda-recipes/issues/11583
-      extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
       volumes: "{{ galaxy_job_conf_singularity_volumes.local + ['/etc/pki:ro', '/etc/ssl:ro'] }}"
     - id: test_normal_resolv_fix
       runner: slurm
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
       tags: [test_limit]
+      extra_params: {singularity_no_mount: null}
       # https://github.com/bioconda/bioconda-recipes/issues/11583
-      extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
       volumes: "{{ galaxy_job_conf_singularity_volumes.local + ['/etc/pki:ro', '/etc/ssl:ro'] }}"
 
     # upload should not need a ton of resources but also needs RW access to the FTP dir
@@ -202,28 +210,34 @@ galaxy_job_conf_environments:
       native_specification: --partition=normal --nodes=1 --ntasks=1 --time=36:00:00
       java_mem: 7
       tags: [normal_limit]
+      extra_params: {singularity_no_mount: null}
     - id: test_normal
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=00:50:00 --mem=3840
       java_mem: 3
       tags: [test_limit]
+      extra_params: {singularity_no_mount: null}
     - id: normal_16gb
       native_specification: --partition=normal --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360
       java_mem: 15
       tags: [normal_limit]
+      extra_params: {singularity_no_mount: null}
     - id: normal_32gb
       native_specification: --partition=normal --nodes=1 --ntasks=1 --time=24:00:00 --mem=30720
       java_mem: 30
       tags: [normal_limit]
+      extra_params: {singularity_no_mount: null}
     - id: normal_64gb
       native_specification: --partition=normal --nodes=1 --ntasks=1 --time=4:00:00 --mem=61440
       java_mem: 60
       tags: [normal_limit]
+      extra_params: {singularity_no_mount: null}
 
     # multicore environments
     - id: multi
       native_specification: --partition=multi --nodes=1 --ntasks=6 --time=36:00:00
       java_mem: 28
       tags: [multi, multi_limit]
+      extra_params: {singularity_no_mount: null}
     - id: multi_development
       native_specification: --partition=normal --nodes=1 --ntasks=2 --time=00:30:00
       java_mem: 15
@@ -231,12 +245,13 @@ galaxy_job_conf_environments:
       native_specification: --partition=multi --nodes=1 --ntasks=6 --time=72:00:00
       java_mem: 28
       tags: [multi_long, multi_long_limit]
+      extra_params: {singularity_no_mount: null}
     - id: multi_resolv_fix
       runner: slurm
       native_specification: --partition=multi --nodes=1 --ntasks=6 --time=36:00:00
       tags: [multi_limit]
+      extra_params: {singularity_no_mount: null}
       # https://github.com/bioconda/bioconda-recipes/issues/11583
-      extra_params: {singularity_run_extra_arguments: --no-mount=tmp}
       volumes: "{{ galaxy_job_conf_singularity_volumes.local + ['/etc/pki:ro', '/etc/ssl:ro'] }}"
 
     # priority (reserved) environments
@@ -244,27 +259,33 @@ galaxy_job_conf_environments:
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=36:00:00
       java_mem: 7
       tags: [reserved]
+      extra_params: {singularity_no_mount: null}
     - id: reserved_normal_direct
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=36:00:00
       use_singularity: false
       java_mem: 7
       tags: [reserved]
+      extra_params: {singularity_no_mount: null}
     - id: reserved_normal_16gb
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=36:00:00 --mem=15360
       java_mem: 15
       tags: [reserved]
+      extra_params: {singularity_no_mount: null}
     - id: reserved_normal_32gb
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=24:00:00 --mem=30720
       java_mem: 30
       tags: [reserved]
+      extra_params: {singularity_no_mount: null}
     - id: reserved_normal_64gb
       native_specification: --partition=reserved --nodes=1 --ntasks=1 --time=4:00:00 --mem=61440
       java_mem: 60
       tags: [reserved]
+      extra_params: {singularity_no_mount: null}
     - id: reserved_multi
       native_specification: --partition=reserved --nodes=1 --ntasks=6 --time=36:00:00 --mem=30720
       java_mem: 28
       tags: [reserved]
+      extra_params: {singularity_no_mount: null}
 
   jetstream2_environments:
 
@@ -274,16 +295,19 @@ galaxy_job_conf_environments:
       use_singularity: false
       java_mem: 5
       tags: [normal_limit]
+      extra_params: {singularity_no_mount: null}
     - id: multi_direct
       native_specification: --partition=multi --nodes=1 --time=36:00:00
       use_singularity: false
       java_mem: 28
       tags: [multi_direct, multi_limit]
+      extra_params: {singularity_no_mount: null}
     - id: large_direct
       native_specification: --partition=large --nodes=1 --time=36:00:00
       use_singularity: false
       java_mem: 58
       tags: [multi_largemem_direct, multi_largemem_limit]
+      extra_params: {singularity_no_mount: null}
 
     # test GxITs through Pulsar/Slurm
     #
@@ -333,38 +357,47 @@ galaxy_job_conf_environments:
       native_specification: --partition=normal --nodes=1 --time=36:00:00
       java_mem: 5
       tags: [normal_limit]
+      extra_params: {singularity_no_mount: null}
     - id: multi
       native_specification: --partition=multi --nodes=1 --time=36:00:00
       java_mem: 28
       tags: [multi, multi_limit]
+      extra_params: {singularity_no_mount: null}
     - id: large
       native_specification: --partition=large --nodes=1 --time=36:00:00
       java_mem: 58
       tags: [multi_largemem, multi_largemem_limit]
+      extra_params: {singularity_no_mount: null}
     - id: xl
       native_specification: --partition=xl --nodes=1 --time=36:00:00
       java_mem: 120
       tags: [multi_xlargemem, multi_xlargemem_limit]
+      extra_params: {singularity_no_mount: null}
     - id: gpu_small
       native_specification: --partition=gpu-small --nodes=1 --time=24:00:00
       java_mem: 13
       tags: [gpu, gpu_limit]
+      extra_params: {singularity_no_mount: null}
     - id: training_multi_large
       native_specification: --partition=tpv --nodes=1 --ntasks=4 --mem=15360 --time=02:00:00
       java_mem: 14
       tags: [training_limit]
+      extra_params: {singularity_no_mount: null}
     - id: training_multi_xlarge
       native_specification: --partition=tpv --nodes=1 --ntasks=8 --mem=30720 --time=02:00:00
       java_mem: 28
       tags: [training_limit]
+      extra_params: {singularity_no_mount: null}
     - id: training_large
       native_specification: --partition=tpv --nodes=1 --ntasks=1 --mem=15360 --time=00:40:00
       java_mem: 14
       tags: [training_limit]
+      extra_params: {singularity_no_mount: null}
     - id: training_large_long
       native_specification: --partition=tpv --nodes=1 --ntasks=1 --mem=15360 --time=02:00:00
       java_mem: 14
       tags: [training_limit]
+      extra_params: {singularity_no_mount: null}
 
     # wrap tar to work around ceph issue causing "tar: foo: file changed as we read it"
     - id: xl_wraptar
@@ -372,6 +405,7 @@ galaxy_job_conf_environments:
       java_mem: 120
       tags: [multi_xlargemem_limit]
       volumes: "{{ galaxy_job_conf_singularity_volumes.jetstream_wraptar }}"
+      extra_params: {singularity_no_mount: null}
 
   stampede_environments:
     - id: normal
