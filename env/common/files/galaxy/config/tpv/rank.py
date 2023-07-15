@@ -6,7 +6,6 @@ from tpv.core.entities import TagType
 # 0. history tags are checked and if any destinations' prefer tags match the history tags, that destination is chosen
 # 1. queued counts are considered before the tag score
 # 2. we make queued counts less precise to increase the importance of the prefer tags in the score
-# 3. prefer destinations with less memory and fewer cores when other factors are equal
 
 final_destinations = None
 
@@ -25,9 +24,9 @@ if final_destinations is None and len(candidate_destinations) > 1:
     ).group_by(app.model.Job.destination_id).all()
     queued_counts_by_destination = dict((d, c) for d, c in job_counts)
     log.debug(f"#### ({job.id=}) {queued_counts_by_destination=}")
-    candidate_destinations.sort(key=lambda d: (int(queued_counts_by_destination.get(d.id, 0) / 3), -1 * d.score(entity), d.max_accepted_mem, d.max_accepted_cores, random.randint(0,9)))
+    candidate_destinations.sort(key=lambda d: (int(queued_counts_by_destination.get(d.id, 0) / 3), -1 * d.score(entity), random.randint(0,9)))
     for d in candidate_destinations:
-        log.debug(f"#### ({job.id=}) {d.id}: ({int(queued_counts_by_destination.get(d.id, 0) / 3)}, {-1 * d.score(entity)}, {d.max_accepted_mem}, {d.max_accepted_cores})")
+        log.debug(f"#### ({job.id=}) {d.id}: ({int(queued_counts_by_destination.get(d.id, 0) / 3)}, {-1 * d.score(entity)})")
     final_destinations = candidate_destinations
 
 if final_destinations is None:
