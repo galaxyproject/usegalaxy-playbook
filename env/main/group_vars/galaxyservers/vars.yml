@@ -140,7 +140,7 @@ galaxy_job_conf_singularity_volumes:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
-    - "/cvmfs/data.galaxyproject.org:ro"
+    - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/data.galaxyproject.org:/cvmfs/data.galaxyproject.org:ro"
     - "/scratch:rw"
   rockfish:
     - "$tool_directory:ro"

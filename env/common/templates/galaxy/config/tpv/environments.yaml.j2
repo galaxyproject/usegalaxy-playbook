@@ -282,7 +282,7 @@ destinations:
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
+      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
       singularity_no_mount: null
       container_resolvers:
       - type: explicit_singularity
@@ -323,9 +323,18 @@ destinations:
       value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
-    - name: CVMFSEXEC_PATH
-      value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
-    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+    # Expanse disabled user namespaces at some point
+    #- name: CVMFSEXEC_PATH
+    #  value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
+    #- execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+    - name: CVMFSEXEC_DIR
+      value: "/scratch/xgalaxy/job_$SLURM_JOB_ID"
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_DIR/cvmfsexec"
+    # run once to extract
+    - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
+    - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /expanse/lustre/scratch/xgalaxy/temp_project/singularity_cache
     - name: SINGULARITY_PYTHREADS
