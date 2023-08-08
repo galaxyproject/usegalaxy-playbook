@@ -118,8 +118,6 @@ cvmfsexec_files:
     dest: /etc/cvmfs/keys/galaxyproject.org/galaxyproject.org.pub
   - src: files/pulsar/data.galaxyproject.org.pub
     dest: /etc/cvmfs/keys/galaxyproject.org/data.galaxyproject.org.pub
-  - content: ""
-    dest: /etc/cvmfs/default.d/50-cern.conf
   - content: |
       CVMFS_SERVER_URL='http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@'
       CVMFS_KEYS_DIR=/etc/cvmfs/keys/galaxyproject.org
