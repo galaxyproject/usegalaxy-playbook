@@ -8,6 +8,8 @@
       galaxy_cvmfs_update: yes
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
+  environment:
+    XDG_CACHE_HOME: "{{ xdg_cache_home | default(('/home', galaxy_user, '.cache') | path_join) }}"
 
 - name: Include snapshot plays
   import_playbook: _inc_snapshot.yml
