@@ -36,5 +36,9 @@
         rewrite ^/contamination?$ https://usegalaxy.org/u/aun1/p/controlling-for-contamination-in-resequencing;
         rewrite ^/duplex?$ https://training.galaxyproject.org/training-material/topics/variant-analysis/tutorials/dunovo/tutorial.html;
 
+        if ($request_uri = "/histories/list_published?f-username=alvin_chew") {
+            return 302 https://galaxyproject.org/projects/capquant/;
+        }
+
 #    }
 #
