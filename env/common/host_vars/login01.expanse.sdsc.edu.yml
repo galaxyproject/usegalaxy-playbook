@@ -46,7 +46,7 @@ host_crontabs:
     use_cron_file: false
     minute: "30"
     hour: "*/6"
-    job: "{{ _expanse_home_root }}/bin/tmpwatch 7d {{ _expanse_scratch_root }}/cvmfs_cache"
+    job: "{{ _expanse_home_root }}/bin/tmpwatch --nodirs 7d {{ _expanse_scratch_root }}/cvmfs_cache"
 
 miniconda_prefix: "{{ _expanse_nfs_root }}/conda"
 miniconda_channels:
