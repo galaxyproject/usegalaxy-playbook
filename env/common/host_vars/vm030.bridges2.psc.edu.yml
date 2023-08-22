@@ -8,7 +8,7 @@
 
 _bridges_home_root: "/jet/home/xcgalaxy"
 _bridges_project_root: "/ocean/projects/mcb140028p/xcgalaxy"
-_bridges_scratch_root: "{{ _bridges_project_root }}/{{ galaxy_instance_codename }}"
+_bridges_scratch_root: "{{ _bridges_project_root }}"
 _bridges_instance_root: "{{ _bridges_home_root }}/{{ galaxy_instance_codename }}"
 
 host_directories:
@@ -48,7 +48,7 @@ host_crontabs:
     use_cron_file: false
     minute: "30"
     hour: "*/6"
-    job: "{{ _bridges_home_root }}/bin/tmpwatch 7d {{ _bridges_scratch_root }}/cvmfs_cache"
+    job: "{{ _bridges_home_root }}/bin/tmpwatch --nodirs 7d {{ _bridges_scratch_root }}/cvmfs_cache"
 
 miniconda_prefix: "{{ _bridges_project_root }}/conda"
 miniconda_channels:
@@ -79,8 +79,8 @@ pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@cvmfsexec-singul
 pulsar_package_version: "{{ omit }}"
 pulsar_root: "{{ _bridges_instance_root }}/pulsar"
 pulsar_restart_handler_name: supervisor restart pulsar
-pulsar_persistence_dir: "{{ _bridges_scratch_root }}/pulsar/var"
-pulsar_staging_dir: "{{ _bridges_scratch_root }}/staging"
+pulsar_persistence_dir: "{{ _bridges_scratch_root }}/{{ galaxy_instance_codename }}/pulsar/var"
+pulsar_staging_dir: "{{ _bridges_scratch_root }}/{{ galaxy_instance_codename }}/staging"
 #galaxy_root: not required
 
 # default $PATH contains puppet bin/sbin, which contain a newer curl that isn't found at pycurl runtime
