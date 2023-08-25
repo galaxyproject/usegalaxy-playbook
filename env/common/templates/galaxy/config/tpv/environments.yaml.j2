@@ -429,6 +429,9 @@ destinations:
       - rockfish
       require:
       - pulsar
+      # FIXME 2023-08-25 segfaulting on drmaa submit
+      reject:
+      - offline
 
   frontera:
     inherits: _tacc_hpc
