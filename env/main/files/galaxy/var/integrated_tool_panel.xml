@@ -15,6 +15,40 @@
     -->
     <section id="get_data" name="Get Data" version="">
 
+        <tool id="upload1" />
+
+        <tool id="ucsc_table_direct1" />
+
+        <tool id="ucsc_table_direct_archaea1" />
+
+        <tool id="sra_source" />
+
+        <tool id="ebi_sra_main" />
+
+        <tool id="modENCODEfly" />
+
+        <tool id="intermine" />
+
+        <tool id="flymine" />
+
+        <tool id="modmine" />
+
+        <tool id="mousemine" />
+
+        <tool id="ratmine" />
+
+        <tool id="yeastmine" />
+
+        <tool id="modENCODEworm" />
+
+        <tool id="wormbase" />
+
+        <tool id="zebrafishmine" />
+
+        <tool id="eupathdb" />
+
+        <tool id="hbvar" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/0.2.7+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/2.11.0+galaxy0" />
@@ -63,6 +97,12 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/ega_download_client/pyega3/5.0.2+galaxy0" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/3.0.5+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/3.0.5+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/3.0.5+galaxy0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/unipept/unipept/2.0.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/2.10.4+galaxy2" />
@@ -76,8 +116,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/2.10.7+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/2.10.7+galaxy2" />
-
-        <tool id="eupathdb" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/2.10.7+galaxy2" />
 
@@ -120,38 +158,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sra_pileup/2.9.1.2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/2.9.1.4" />
-
-        <tool id="sra_source" />
-
-        <tool id="modENCODEfly" />
-
-        <tool id="intermine" />
-
-        <tool id="upload1" />
-
-        <tool id="ucsc_table_direct1" />
-
-        <tool id="mousemine" />
-
-        <tool id="ucsc_table_direct_archaea1" />
-
-        <tool id="yeastmine" />
-
-        <tool id="modENCODEworm" />
-
-        <tool id="wormbase" />
-
-        <tool id="ebi_sra_main" />
-
-        <tool id="flymine" />
-
-        <tool id="ratmine" />
-
-        <tool id="zebrafishmine" />
-
-        <tool id="hbvar" />
-
-        <tool id="modmine" />
 
     </section>
 
@@ -213,21 +219,53 @@
 
     <section id="expression_tools" name="Expression Tools" version="">
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/0.1.1" />
+        <tool id="param_value_from_file" />
 
         <tool id="pick_value" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/0.1.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.1.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.1.1" />
-
-        <tool id="param_value_from_file" />
 
     </section>
 
     <label id="general_text_label" text="General Text Tools" version="" />
 
     <section id="text_manipulation" name="Text Manipulation" version="">
+
+        <tool id="addValue" />
+
+        <tool id="cat1" />
+
+        <tool id="Condense characters1" />
+
+        <tool id="Convert characters1" />
+
+        <tool id="mergeCols1" />
+
+        <tool id="createInterval" />
+
+        <tool id="Cut1" />
+
+        <tool id="ChangeCase" />
+
+        <tool id="Paste1" />
+
+        <tool id="Remove beginning1" />
+
+        <tool id="random_lines1" />
+
+        <tool id="Show beginning1" />
+
+        <tool id="Show tail1" />
+
+        <tool id="trimmer" />
+
+        <tool id="wc_gnu" />
+
+        <tool id="secure_hash_message_digest" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/column_arrange_by_header/bg_column_arrange_by_header/0.2" />
 
@@ -443,39 +481,7 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0" />
 
-        <tool id="addValue" />
-
-        <tool id="Convert characters1" />
-
-        <tool id="cat1" />
-
-        <tool id="Paste1" />
-
-        <tool id="Remove beginning1" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_replace_in_column/1.1.1" />
-
-        <tool id="random_lines1" />
-
-        <tool id="Show beginning1" />
-
-        <tool id="Show tail1" />
-
-        <tool id="trimmer" />
-
-        <tool id="wc_gnu" />
-
-        <tool id="secure_hash_message_digest" />
-
-        <tool id="Condense characters1" />
-
-        <tool id="mergeCols1" />
-
-        <tool id="createInterval" />
-
-        <tool id="Cut1" />
-
-        <tool id="ChangeCase" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/regex_find_replace/regexColumn1/1.0.3" />
 
@@ -493,11 +499,11 @@
 
         <tool id="Grep1" />
 
-        <tool id="Extract_features1" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/peterjc/sample_seqs/sample_seqs/0.2.5" />
 
         <label id="gff" text="GFF" version="" />
+
+        <tool id="Extract_features1" />
 
         <tool id="gff_filter_by_attribute" />
 
@@ -598,6 +604,28 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/lparsons/cutadapt/cutadapt/3.5+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/filter_by_fasta_ids/filter_by_fasta_ids/2.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_trimmer/cshl_fastx_trimmer/1.0.2+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_reverse_complement/cshl_fastx_reverse_complement/1.0.2+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_clipper/cshl_fastx_clipper/1.0.3+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_filter/cshl_fastq_quality_filter/1.0.2+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_renamer/cshl_fastx_renamer/0.0.14+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_barcode_splitter/cshl_fastx_barcode_splitter/1.0.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_artifacts_filter/cshl_fastx_artifacts_filter/1.0.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_converter/cshl_fastq_quality_converter/1.0.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_collapser/cshl_fastx_collapser/1.0.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_nucleotide_changer/cshl_fasta_nucleotides_changer/1.0.2+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_formatter/cshl_fasta_formatter/1.0.1+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.1" />
 
@@ -834,6 +862,12 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.38.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.74+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_quality_statistics/cshl_fastx_quality_statistics/1.0.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastx_nucleotides_distribution/cshl_fastx_nucleotides_distribution/1.0.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_quality_boxplot/cshl_fastq_quality_boxplot/1.0.1+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/fastqe/fastqe/0.2.6+galaxy2" />
 
@@ -2399,6 +2433,22 @@
 
     <section id="convert_formats" name="Convert Formats" version="">
 
+        <tool id="bed2gff1" />
+
+        <tool id="gff2bed1" />
+
+        <tool id="MAF_To_BED1" />
+
+        <tool id="MAF_To_Interval1" />
+
+        <tool id="MAF_To_Fasta1" />
+
+        <tool id="Sff_extractor" />
+
+        <tool id="wig_to_bigWig" />
+
+        <tool id="bed_to_bigBed" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/0.11.6.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/gffread/gffread/2.2.1.0" />
@@ -2426,6 +2476,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/3.0.19052.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/msconvert/msconvert/3.0.20287.2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fastq_to_fasta/cshl_fastq_to_fasta/1.0.2+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/crossmap_gff/crossmap_gff/0.5.2+galaxy0" />
 
@@ -2513,22 +2565,6 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bam_to_scidx/bam_to_scidx/1.0.0" />
 
-        <tool id="bed2gff1" />
-
-        <tool id="gff2bed1" />
-
-        <tool id="MAF_To_BED1" />
-
-        <tool id="MAF_To_Interval1" />
-
-        <tool id="MAF_To_Fasta1" />
-
-        <tool id="Sff_extractor" />
-
-        <tool id="wig_to_bigWig" />
-
-        <tool id="bed_to_bigBed" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/fasta_to_tabular/fasta2tab/1.1.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.0" />
@@ -2567,6 +2603,12 @@
 
     <section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals" version="">
 
+        <tool id="wiggle2simple1" />
+
+        <tool id="aggregate_scores_in_intervals2" />
+
+        <tool id="gene2exon1" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/concat/gops_concat_1/1.0.1" />
@@ -2587,12 +2629,6 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/basecoverage/gops_basecoverage_1/1.0.0" />
 
-        <tool id="wiggle2simple1" />
-
-        <tool id="aggregate_scores_in_intervals2" />
-
-        <tool id="gene2exon1" />
-
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/annotation_profiler/Annotation_Profiler_0/1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/4.0.1" />
@@ -2602,10 +2638,6 @@
     </section>
 
     <section id="fetch_sequences_alignments" name="Fetch Sequences/Alignments" version="">
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/extract_genomic_dna/Extract genomic DNA 1/3.0.3+galaxy2" />
-
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/extract_genomic_dna/Extract genomic DNA 1/3.0.3" />
 
         <tool id="Interval2Maf_pairwise1" />
 
@@ -2628,6 +2660,10 @@
         <tool id="MAF_Reverse_Complement_1" />
 
         <tool id="MAF_filter" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/extract_genomic_dna/Extract genomic DNA 1/3.0.3+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/extract_genomic_dna/Extract genomic DNA 1/3.0.3" />
 
     </section>
 
@@ -2812,6 +2848,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/aegean_parseval/aegean_parseval/0.16.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/3+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/merqury/merqury/1.3+galaxy3" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/3.6.1+galaxy2" />
 
@@ -3040,6 +3078,12 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/freyja_demix/freyja_demix/1.4.4+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/freyja_aggregate_plot/freyja_aggregate_plot/1.4.4+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/tb_variant_filter/tb_variant_filter/0.4.0+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/cooc_mutbamscan/cooc_mutbamscan/0.9+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/cooc_tabmut/cooc_tabmut/0.9+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4.1.2-p1+galaxy0" />
 
@@ -3607,6 +3651,8 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_bdgcmp/2.2.7.1+galaxy0" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/rnateam/chipseeker/chipseeker/1.28.3+galaxy0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/genrich/genrich/0.5+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/repmatch_gff3/repmatch_gff3/1.0.3" />
@@ -3838,6 +3884,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/2.11.40.8+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/seurat/seurat/4.3.0.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/salmon/salmon/1.10.1+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/slamdunk/alleyoop/0.4.1+galaxy1" />
 
@@ -4181,6 +4229,10 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/Interval2Maf1/1.0.1+galaxy1" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft_add/7.508+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.508+galaxy0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sina/sina/1.7.2+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/4.0.0beta2+galaxy1" />
@@ -4277,17 +4329,17 @@
 
         <tool id="hgv_linkToGProfile" />
 
+        <tool id="hgv_david" />
+
+        <tool id="hgv_ldtools" />
+
         <tool id="hgv_pass" />
 
         <tool id="hgv_gpass" />
 
-        <tool id="hgv_ldtools" />
+        <tool id="hgv_beam" />
 
         <tool id="hgv_lps" />
-
-        <tool id="hgv_david" />
-
-        <tool id="hgv_beam" />
 
         <tool id="master2pgSnp" />
 
@@ -4593,7 +4645,73 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_rename_table/humann_rename_table/3.6.0+galaxy0" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotqualityprofile/dada2_plotQualityProfile/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotcomplexity/dada2_plotComplexity/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_removebimeradenovo/dada2_removeBimeraDenovo/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/dada2_filterAndTrim/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/dada2_learnErrors/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_makesequencetable/dada2_makeSequenceTable/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_mergepairs/dada2_mergePairs/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_seqcounts/dada2_seqCounts/1.20+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/krakentools_kreport2krona/krakentools_kreport2krona/1.2+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_regroup_table/humann_regroup_table/3.7+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_renorm_table/humann_renorm_table/3.7+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/metaphlan/metaphlan/4.0.6+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_unpack_pathways/humann_unpack_pathways/3.7+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_split_stratified_table/humann_split_stratified_table/3.7+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_rename_table/humann_rename_table/3.7+galaxy0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/bebatut/combine_metaphlan2_humann2/combine_metaphlan2_humann2/0.2.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotqualityprofile/dada2_plotQualityProfile/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_plotcomplexity/dada2_plotComplexity/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_removebimeradenovo/dada2_removeBimeraDenovo/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/dada2_filterAndTrim/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/dada2_learnErrors/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_makesequencetable/dada2_makeSequenceTable/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_mergepairs/dada2_mergePairs/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_seqcounts/dada2_seqCounts/1.28+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_regroup_table/humann_regroup_table/3.8+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann/humann/3.8+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_renorm_table/humann_renorm_table/3.8+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_unpack_pathways/humann_unpack_pathways/3.8+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_split_stratified_table/humann_split_stratified_table/3.8+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/humann_rename_table/humann_rename_table/3.8+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bio_hansel/bio_hansel/2.6.1+galaxy0" />
 
@@ -5982,6 +6100,40 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/3.5.1.0.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_profile/deeptools_plot_profile/2.5.1.1.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_profile/deeptools_plot_profile/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_pca/deeptools_plot_pca/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_heatmap/deeptools_plot_heatmap/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_fingerprint/deeptools_plot_fingerprint/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_enrichment/deeptools_plot_enrichment/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_coverage/deeptools_plot_coverage/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_plot_correlation/deeptools_plot_correlation/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_multi_bigwig_summary/deeptools_multi_bigwig_summary/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_multi_bam_summary/deeptools_multi_bam_summary/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_correct_gc_bias/deeptools_correct_gc_bias/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_gc_bias/deeptools_compute_gc_bias/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bigwig_compare/deeptools_bigwig_compare/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_pe_fragmentsize/deeptools_bam_pe_fragmentsize/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/3.5.2+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bigwig_average/deeptools_bigwig_average/3.5.2+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_compute_matrix/deeptools_compute_matrix/2.5.1.1.0" />
 
@@ -7621,11 +7773,17 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/gemini_query/gemini_query/0.20.1+galaxy1" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/gemini_query/gemini_query/0.20.1+galaxy2" />
+
     </section>
 
     <label id="statistics_and_visualization_label" text="Statistics and Visualization" version="" />
 
     <section id="statistics" name="Statistics" version="">
+
+        <tool id="Summary_Statistics1" />
+
+        <tool id="Count1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/pandas_rolling_window/pandas_rolling_window/0.1" />
 
@@ -7662,10 +7820,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/mine/maximal_information_based_nonparametric_exploration/0.0.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/best_regression_subsets/BestSubsetsRegression1/1.0.0" />
-
-        <tool id="Summary_Statistics1" />
-
-        <tool id="Count1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/lda_analysis/lda_analy1/1.0.1" />
 
@@ -7758,6 +7912,64 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/chopin2/chopin2/1.0.7+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/keras_train_and_eval/keras_train_and_eval/1.0.8.2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/model_prediction/model_prediction/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/keras_model_config/keras_model_config/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/keras_model_builder/keras_model_builder/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/keras_batch_models/keras_batch_models/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_train_test_eval/sklearn_train_test_eval/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_estimator_attributes/sklearn_estimator_attributes/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_model_validation/sklearn_model_validation/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_svm_classifier/sklearn_svm_classifier/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_sample_generator/sklearn_sample_generator/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_searchcv/sklearn_searchcv/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_build_pipeline/sklearn_build_pipeline/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_pairwise_metrics/sklearn_pairwise_metrics/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_nn_classifier/sklearn_nn_classifier/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_numeric_clustering/sklearn_numeric_clustering/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_ensemble/sklearn_ensemble/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_feature_selection/sklearn_feature_selection/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_data_preprocess/sklearn_data_preprocess/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_clf_metrics/sklearn_clf_metrics/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_regression_metrics/sklearn_regression_metrics/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_discriminant_classifier/sklearn_discriminant_classifier/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_generalized_linear/sklearn_generalized_linear/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_model_fit/sklearn_model_fit/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_train_test_split/sklearn_train_test_split/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_fitted_model_eval/sklearn_fitted_model_eval/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_to_categorical/sklearn_to_categorical/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_lightgbm/sklearn_lightgbm/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_pca/sklearn_pca/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/keras_train_and_eval/keras_train_and_eval/1.0.10.0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/scipy_sparse/scipy_sparse/1.0.10.0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/scipy_sparse/scipy_sparse/1.0.8.3" />
 
@@ -7961,9 +8173,13 @@
 
     <section id="graph_display_data" name="Graph/Display Data" version="">
 
-        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/0.7.0.3" />
+        <tool id="qual_stats_boxplot" />
 
         <tool id="barchart_gnuplot" />
+
+        <tool id="vcf_to_maf_customtrack1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/0.7.0.3" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse_to_standalone/0.7.0" />
 
@@ -8006,6 +8222,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/intervene/intervene_pairwise/0.6.5+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ucsc_custom_track/build_ucsc_custom_track_1/1.0.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/pygenometracks/pygenomeTracks/3.8+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/pathview/pathview/1.34.0+galaxy0" />
 
@@ -8306,10 +8524,6 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/circos/circgraph/0.9-RC2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/peterjc/venn_list/venn_list/0.0.9" />
-
-        <tool id="qual_stats_boxplot" />
-
-        <tool id="vcf_to_maf_customtrack1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ucsc_custom_track/build_ucsc_custom_track_1/1.0.0" />
 
@@ -8669,6 +8883,8 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sinto_fragments/sinto_fragments/0.9.0+galaxy1" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/alevin/alevin/1.10.1+galaxy0" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/gtf2gene_list/_ensembl_gtf2gene_list/1.42.1+galaxy6" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_integrate_harmony/scanpy_integrate_harmony/1.8.1+2+galaxy0" />
@@ -8916,6 +9132,10 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_quantify/encyclopedia_quantify/1.12.34+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/encyclopedia_searchtolib/encyclopedia_searchtolib/1.12.34+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant_mqpar/2.0.3.0+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/maxquant/maxquant/2.0.3.0+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/search_gui/4.0.12+galaxy0" />
 
@@ -9654,6 +9874,12 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/melpetera/idchoice/idchoice/19.12" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/melpetera/intensity_checks/intens_check/1.2.8" />
+
+    </section>
+
+    <section id="plots" name="Graph/Display Data" version="">
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/ml_visualization_ex/ml_visualization_ex/1.0.10.0" />
 
     </section>
 
