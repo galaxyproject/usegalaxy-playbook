@@ -333,6 +333,7 @@ gravity_config:
       # the application loads, so unicornherder fails after 5 tries (with a 1 second wait) to read the pidfile and then
       # exits
       preload: true
+      extra_args: --max-requests 5000
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
         LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
@@ -341,6 +342,7 @@ gravity_config:
       timeout: 600
       restart_timeout: 600
       preload: true
+      extra_args: --max-requests 5000
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
         LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
