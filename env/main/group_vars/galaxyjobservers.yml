@@ -41,7 +41,7 @@ gravity_config:
       timeout: 600
       restart_timeout: 600
       preload: true
-      extra_args: --max-requests 10000
+      extra_args: --max-requests 50000
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
     - bind: localhost:8081
@@ -49,7 +49,7 @@ gravity_config:
       timeout: 600
       restart_timeout: 600
       preload: true
-      extra_args: --max-requests 10000
+      extra_args: --max-requests 50000
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
   tusd:

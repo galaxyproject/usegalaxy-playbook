@@ -65,7 +65,7 @@ gravity_config:
       timeout: 600
       restart_timeout: 600
       preload: true
-      extra_args: --max-requests 10000
+      extra_args: --max-requests 50000
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
         # TODO: this can be removed once the base OS version of pango is >= 1.44.0
@@ -75,7 +75,7 @@ gravity_config:
       timeout: 600
       restart_timeout: 600
       preload: true
-      extra_args: --max-requests 10000
+      extra_args: --max-requests 50000
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
         LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
