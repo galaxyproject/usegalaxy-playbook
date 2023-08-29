@@ -257,6 +257,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 24
     mem: 250
+    scheduling:
+      require:
+      - hpc
 
   verkko:
     cores: 32
