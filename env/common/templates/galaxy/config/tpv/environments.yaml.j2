@@ -135,8 +135,9 @@ destinations:
     max_accepted_mem: 125
     context:
       time: 24:00:00
+      partition: tpv
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=tpv"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
       tmp_dir: true
       outputs_to_working_directory: false
       singularity_enabled: true
@@ -179,6 +180,24 @@ destinations:
       prefer:
       - jetstream2
       require:
+      - pulsar
+
+  jetstream2_gpu:
+    inherits: jetstream2
+    max_accepted_cores: 32
+    max_accepted_gpus: 1.0
+    max_accepted_mem: 125
+    context:
+      partition: gpu-small
+    params:
+      singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
+    env:
+    # gmx_sim uses this, maybe others?
+    - name: SINGULARITYENV_GPU_AVAILABLE
+      value: "1"
+    scheduling:
+      require:
+      - gpu
       - pulsar
 
   bridges2:

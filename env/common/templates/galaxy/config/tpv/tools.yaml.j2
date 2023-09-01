@@ -15,6 +15,32 @@ tools:
 
   # real tools
 
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
+    gpus: 0.2
+    cores: 4
+    mem: 14
+    env:
+    - name: SINGULARITYENV_ALPHAFOLD_AA_LENGTH_MIN
+      value: "16"
+    - name: SINGULARITYENV_ALPHAFOLD_AA_LENGTH_MAX
+      value: "3000"
+    - name: SINGULARITYENV_ALPHAFOLD_DB
+      value: /cvmfs/data.galaxyproject.org/byhand/alphafold
+    scheduling:
+      require:
+      - gpu
+      accept:
+      - pulsar
+
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
+    gpus: 0.2
+    cores: 4
+    mem: 14
+    scheduling:
+      require:
+      - gpu
+      - pulsar
+
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
     cores: 24
     mem: 250

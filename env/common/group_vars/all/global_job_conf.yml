@@ -373,11 +373,6 @@ galaxy_job_conf_environments:
       java_mem: 120
       tags: [multi_xlargemem, multi_xlargemem_limit]
       extra_params: {singularity_no_mount: null}
-    - id: gpu_small
-      native_specification: --partition=gpu-small --nodes=1 --time=24:00:00
-      java_mem: 13
-      tags: [gpu, gpu_limit]
-      extra_params: {singularity_no_mount: null}
     - id: training_multi_large
       native_specification: --partition=tpv --nodes=1 --ntasks=4 --mem=15360 --time=02:00:00
       java_mem: 14
