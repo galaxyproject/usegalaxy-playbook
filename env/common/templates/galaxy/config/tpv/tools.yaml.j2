@@ -134,6 +134,28 @@ tools:
       cores: 8
       mem: cores * 3.6
 
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
+    cores: 20
+    mem: 120
+    scheduling:
+      accept:
+      - pulsar
+      require:
+      - cvmfs
+    rules:
+    - id: bwa_mem2_small_input_rule
+      if: input_size < 0.25
+      cores: 2
+      mem: 7.6
+    - id: bwa_mem2_medium_input_rule
+      if: 0.25 <= input_size < 16
+      cores: 8
+      mem: 28
+    - id: bwa_mem2_large_input_rule
+      if: 16 <= input_size < 32
+      cores: 16
+      mem: 58
+
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 64
     mem: 120
