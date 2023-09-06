@@ -152,8 +152,15 @@ destinations:
       jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
     env:
     - execute: ulimit -c 0
+    # SINGULARITYENV_TMP=$TMP and SINGULARITYENV_TMPDIR=$TMPDIR are set on the singularity command line
+    - name: TMP
+      value: $_GALAXY_JOB_TMP_DIR
+    - name: TEMP
+      value: $_GALAXY_JOB_TMP_DIR
+    - name: TMPDIR
+      value: $_GALAXY_JOB_TMP_DIR
     - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$TEMP
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     - name: XDG_DATA_HOME
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
     - name: TERM
@@ -168,10 +175,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    - name: SINGULARITYENV_TEMP
-      value: $TEMP
-    - name: SINGULARITYENV_TMPDIR
-      value: $TEMP
     scheduling:
       accept:
       - jetstream2
