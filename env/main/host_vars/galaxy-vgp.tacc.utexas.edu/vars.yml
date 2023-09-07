@@ -1,0 +1,227 @@
+---
+
+galaxy_job_conf_pulsar_galaxy_url: https://galaxy-web-04.galaxyproject.org
+
+galaxy_host_codename: main_vgp
+galaxy_systemd_mode: null
+galaxy_gravity_config_default: null
+
+gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
+gravity_config:
+  instance_name: "{{ galaxy_instance_codename }}"
+  galaxy_user: "{{ galaxy_user }}"
+  galaxy_group: "{{ galaxy_group }}"
+  galaxy_root: "{{ galaxy_server_dir }}"
+  galaxy_config_file: "{{ galaxy_config_file }}"
+  log_dir: "{{ galaxy_log_dir }}"
+  virtualenv: "{{ galaxy_venv_dir }}"
+  gunicorn:
+    enable: true
+  celery:
+    enable: false
+    enable_beat: false
+  tusd:
+    enable: true
+    tusd_path: /usr/local/sbin/tusd
+    upload_dir: "{{ galaxy_tus_upload_store }}"
+    memory_limit: 2
+
+galaxy_job_conf_handlers:
+  - id: main_vgp_handler0
+    plugins:
+      - slurm
+      - jetstream2
+    environment:
+      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
+    tags:
+      - vgp
+
+galaxy_config_templates:
+  - src: templates/galaxy/config/job_conf_vgp.yml.j2
+    dest: "{{ galaxy_config_dir }}/job_conf.yml"
+  - src: templates/galaxy/config/build_sites.yml.j2
+    dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
+  - src: templates/galaxy/config/object_store_conf.xml.j2
+    dest: "{{ galaxy_config[galaxy_app_config_section]['object_store_config_file'] }}"
+  - src: templates/galaxy/config/job_router_conf.yml.j2
+    dest: "{{ galaxy_config_dir }}/job_router_conf.yml"
+  - src: templates/galaxy/config/tacc_k8s_pulsar_app_config.yml.j2
+    dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
+  - src: templates/galaxy/config/file_sources_conf.yml.j2
+    dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
+  - src: templates/galaxy/config/tpv/defaults_vgp.yaml.j2
+    dest: "{{ galaxy_tpv_config_dir }}/defaults.yaml"
+  - src: templates/galaxy/config/tpv/environments_vgp.yaml.j2
+    dest: "{{ galaxy_tpv_config_dir }}/environments.yaml"
+  - src: templates/galaxy/config/tpv/tools_vgp.yaml.j2
+    dest: "{{ galaxy_tpv_config_dir }}/tools.yaml"
+  - src: templates/galaxy/config/job_conf_vgp.yml.j2
+    dest: "{{ galaxy_config_dir }}/job_conf_vgp.yml"
+
+galaxy_config_hash:
+  galaxy:
+    database_connection: "{{ galaxy_config_database_connection }}"
+    install_database_connection: "sqlite:////cvmfs/main.galaxyproject.org/var/galaxy_main_install.sqlite?isolation_level=IMMEDIATE"
+    id_secret: "{{ galaxy_config_id_secret }}"
+    admin_users: "{{ galaxy_config_admin_users }}"
+    sentry_dsn: "{{ galaxy_config_sentry_dsn }}"
+    sentry_sloreq_threshold: 10.0
+    sentry_traces_sample_rate: 0.01
+    amqp_internal_connection: "{{ galaxy_config_amqp_internal_connection }}"
+
+    # paths
+
+    config_dir: "{{ galaxy_config_dir }}"
+    tool_config_file: "{{ galaxy_config_dir }}/tool_conf.xml,{{ galaxy_shed_tool_conf_file }}"
+    tool_dependency_dir: "{{ galaxy_tool_dependency_dir }}"
+    new_file_path: "{{ galaxy_new_file_path }}"
+    tool_data_path: /corral4/main/tool_data
+    tus_upload_store: "{{ galaxy_tus_upload_store }}"
+    galaxy_data_manager_data_path: /corral4/manageddata/data
+    tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
+    tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
+
+    tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
+    tool_data_table_config_path:
+      - "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+      - "/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml"
+      - "/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
+    build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
+    object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
+    job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
+    workflow_schedulers_config_file: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
+    trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+    job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
+    data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
+    job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
+    dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
+    themes_config_file: "{{ galaxy_server_dir }}/config/themes_conf.yml.sample"
+
+    migrated_tools_config: "/cvmfs/main.galaxyproject.org/config/migrated_tools_conf.xml"
+    shed_tool_data_table_config: "/cvmfs/main.galaxyproject.org/config/shed_tool_data_table_conf.xml"
+    shed_data_manager_config_file: "/cvmfs/main.galaxyproject.org/config/shed_data_manager_conf.xml"
+    integrated_tool_panel_config: "{{ galaxy_mutable_config_dir }}/integrated_tool_panel.xml"
+    sanitize_whitelist_file: /corral4/main/config/sanitize_whitelist.txt
+
+    user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences.yml"
+    container_image_cache_path: "{{ galaxy_mutable_data_dir }}/container_images"
+
+    # disabled because potentially eating memory and didn't work for the message box anyway
+    #watch_config: true
+    watch_job_rules: true
+
+    builds_file_path: "/cvmfs/data.galaxyproject.org/managed/location/builds.txt"
+    ucsc_build_sites: "/cvmfs/data.galaxyproject.org/managed/location/ucsc_build_sites.txt"
+
+    galaxy_infrastructure_url: https://vgp.usegalaxy.org
+
+    interactivetools_enable: false
+
+    # general stuff
+
+    load_tool_shed_datatypes: false
+    database_engine_option_pool_size: 10
+    database_engine_option_max_overflow: 20
+    database_engine_option_server_side_cursors: false
+    manage_dependency_relationships: false
+    len_file_path: /cvmfs/data.galaxyproject.org/managed/len/ucsc
+    collect_outputs_from: job_working_directory
+    smtp_server: localhost
+    error_email_to: galaxy-bugs@galaxyproject.org
+    mailing_join_addr: galaxy-announce-join@lists.galaxyproject.org
+    email_from: "UseGalaxy.org Support <galaxy-bugs@galaxyproject.org>"
+    instance_resource_url: "https://galaxyproject.org/support"
+    email_domain_blocklist_file: "{{ galaxy_config_dir }}/disposable_email_blacklist.conf"
+    registration_warning_message: "Please register only one account. The {{ galaxy_instance_hostname }} service is provided free of charge and has limited computational and data storage resources. <strong>Registration and usage of multiple accounts is tracked and such accounts are subject to termination and data deletion.</strong>"
+    user_activation_on: true
+    activation_grace_period: 6
+    inactivity_box_content: "Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address."
+    terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
+    #ga_code: "UA-45719423-10"
+    static_enabled: false
+    nginx_x_accel_redirect_base: /_x_accel_redirect
+    log_events: false
+    log_actions: false
+    debug: false
+    use_pbkdf2: true
+    allow_user_deletion: true
+    allow_user_dataset_purge: true
+    enable_quotas: true
+    retry_metadata_internally: false
+    retry_job_output_collection: 5
+    cleanup_job: onsuccess
+    monitor_thread_join_timeout: 60
+    cache_user_job_count: true
+    max_metadata_value_size: 1000000
+    allow_user_impersonation: true
+
+    # tool search index build params from usegalaxy.eu
+    tool_name_boost: 0.1
+    tool_section_boost: 1
+    tool_description_boost: 0.1
+    tool_label_boost: 1
+    tool_stub_boost: 1
+    tool_help_boost: 1
+    tool_search_limit: 160
+
+    conda_prefix: "/cvmfs/main.galaxyproject.org/deps/_conda"
+
+    mulled_resolution_cache_data_dir: "{{ galaxy_mutable_data_dir }}/mulled/data"
+    mulled_resolution_cache_lock_dir: "{{ galaxy_mutable_data_dir }}/mulled/lock"
+
+    container_resolvers:
+      - type: cached_mulled_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime
+      - type: cached_mulled_singularity
+        cache_directory: /corral4/singularity/precache
+        cache_directory_cacher_type: dir_mtime
+      - type: explicit_singularity
+
+    enable_celery_tasks: false
+    expose_potentially_sensitive_job_metrics: true
+    enable_tool_source_display: true
+
+# the developer inexplicably builds on ubuntu-latest
+tusd_version: v1.10.0
+
+# used by nginx template
+galaxy_tusd_port: 1080
+
+galaxy_job_conf_limits:
+  - type: registered_user_concurrent_jobs
+    value: 8
+  - type: anonymous_user_concurrent_jobs
+    value: 1
+
+nginx_flavor: epel
+
+nginx_conf_ssl_protocols:
+  - TLSv1.2
+  - TLSv1.3
+
+nginx_conf_ssl_ciphers:
+  - ECDHE-ECDSA-AES128-GCM-SHA256
+  - ECDHE-RSA-AES128-GCM-SHA256
+  - ECDHE-ECDSA-AES256-GCM-SHA384
+  - ECDHE-RSA-AES256-GCM-SHA384
+  - ECDHE-ECDSA-CHACHA20-POLY1305
+  - ECDHE-RSA-CHACHA20-POLY1305
+  - DHE-RSA-AES128-GCM-SHA256
+  - DHE-RSA-AES256-GCM-SHA384
+
+# this is just used in the webservers group vars
+nginx_conf_client_max_body_size: 20g
+nginx_servers:
+  - certbot_redirects
+
+nginx_ssl_servers:
+  - usegalaxy-vgp
+
+certbot_virtualenv_package_name: python39
+certbot_virtualenv_command: python3.9 -m venv
+
+certbot_auth_method: --webroot
+
+certbot_domains:
+  - vgp.usegalaxy.org

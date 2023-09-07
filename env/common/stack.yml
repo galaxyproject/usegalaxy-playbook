@@ -190,7 +190,7 @@
   tags: tiaas
 
 - name: install tusd
-  hosts: galaxywebservers:galaxystagingservers
+  hosts: galaxywebservers:galaxystagingservers:galaxy-vgp.tacc.utexas.edu
   remote_user: root
   roles:
     - galaxyproject.tusd

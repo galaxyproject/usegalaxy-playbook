@@ -1,0 +1,27 @@
+---
+
+global:
+  default_inherits: _default
+
+tools:
+  _default:
+    abstract: true
+    cores: 1
+    mem: cores * 2.89
+    context:
+      time: "12:00:00"
+    env:
+      - name: _JAVA_OPTIONS
+        value: $_JAVA_OPTIONS -Xmx{round(mem*0.9*1024)}m -Xms256m
+    scheduling:
+      accept:
+      - pulsar
+      prefer:
+      - jetstream2
+      require:
+      - singularity
+      reject:
+      - conda
+      - offline
+    rank: |
+      {{ tpv_python_blobs['rank'] | indent(width=6) }}

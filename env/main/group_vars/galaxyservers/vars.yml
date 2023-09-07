@@ -439,6 +439,7 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
 
 # specifies config files to template from the playbook
+# NOTE: changes here may need to be reflected in galaxy-vgp host_vars
 galaxy_config_templates:
   - src: templates/galaxy/config/job_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/job_conf.yml"

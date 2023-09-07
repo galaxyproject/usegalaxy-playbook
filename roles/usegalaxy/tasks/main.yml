@@ -30,10 +30,3 @@
     mode: "0555"
   with_items:
     - galaxyctl
-    - supervisorctl
-
-- name: Distribute ~/etc/supervisord.conf
-  template:
-    src: supervisord.conf.j2
-    dest: ~/etc/supervisord.conf
-    mode: 0400

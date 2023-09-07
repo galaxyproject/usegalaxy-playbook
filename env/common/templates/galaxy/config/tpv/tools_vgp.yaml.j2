@@ -1,0 +1,313 @@
+---
+
+tools:
+
+  # non-pulsar tools
+
+  upload1: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
+  __.*__: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
+
+  # special
+
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
+    gpus: 0.2
+    cores: 4
+    mem: 14
+    env:
+    - name: SINGULARITYENV_ALPHAFOLD_AA_LENGTH_MIN
+      value: "16"
+    - name: SINGULARITYENV_ALPHAFOLD_AA_LENGTH_MAX
+      value: "3000"
+    - name: SINGULARITYENV_ALPHAFOLD_DB
+      value: /cvmfs/data.galaxyproject.org/byhand/alphafold
+    scheduling:
+      require:
+      - gpu
+      accept:
+      - pulsar
+
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
+    gpus: 0.2
+    cores: 4
+    mem: 14
+    scheduling:
+      require:
+      - gpu
+      - pulsar
+
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
+    cores: 24
+    mem: 250
+    scheduling:
+      require:
+      - hpc
+      prefer:
+      - bridges2
+      reject:
+      - general
+    rules:
+      - if: input_size < 0.1
+        cores: 1
+        mem: 4
+        scheduling:
+          require:
+          - general
+          reject:
+          - hpc
+      - if: 0.1 <= input_size < 1
+        cores: 12
+        mem: 92
+      - if: 1 <= input_size < 4
+        cores: 16
+        mem: 128
+      - if: 4 <= input_size < 8
+        cores: 20
+        mem: 190
+      - if: input_size >= 80
+        fail: |
+          Too much data, we cannot support such large Trinity assemblies with our
+          backend. Please use another server for your job.
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
+    cores: 2
+    rules:
+    - if: input_size < 0.5
+      cores: 4
+      mem: 12
+      scheduling:
+        accept:
+        - general
+        reject:
+        - hpc
+    - if: 0.5 <= input_size < 10
+      cores: 30
+      mem: 80
+      scheduling:
+        accept:
+        - hpc
+        - jetstream2
+        prefer:
+        - stampede2-knl
+        reject:
+        - roundup
+    - if: input_size >= 10
+      # from AU
+      #cores: 120
+      #mem: 1922
+      cores: 56
+      mem: 94
+      scheduling:
+        accept:
+        - hpc
+        reject:
+        - general
+
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
+    # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
+    cores: 20
+    mem: 60
+    scheduling:
+      require:
+      - hpc
+      reject:
+      - stampede2
+
+  # NOTE: Main does not map bwa to TPV yet, this is only used by Test for... testing
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
+    cores: 2
+    scheduling:
+      accept:
+      - pulsar
+      require:
+      - cvmfs
+    rules:
+    - if: 0.25 <= input_size < 1
+      cores: 4
+      mem: cores * 3.6
+    - if: input_size >= 1
+      cores: 8
+      mem: cores * 3.6
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
+    cores: 20
+    mem: 120
+    scheduling:
+      accept:
+      - pulsar
+      require:
+      - cvmfs
+    rules:
+    - id: bwa_mem2_small_input_rule
+      if: input_size < 0.25
+      cores: 2
+      mem: 7.6
+    - id: bwa_mem2_medium_input_rule
+      if: 0.25 <= input_size < 16
+      cores: 8
+      mem: 28
+    - id: bwa_mem2_large_input_rule
+      if: 16 <= input_size < 32
+      cores: 16
+      mem: 58
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
+    cores: 64
+    mem: 120
+    scheduling:
+      require:
+      - hpc
+
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
+    cores: 20
+    mem: 20
+    scheduling:
+      require:
+      - hpc
+      - cvmfs
+
+  # TODO: rule to set mem based on database size, see job router
+  toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+    cores: 40
+    mem: 120
+    scheduling:
+      require:
+      - hpc
+      - cvmfs
+
+  toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
+    cores: 90
+    mem: 120
+    scheduling:
+      require:
+      - stampede2-knl
+      reject:
+      - general
+    rules:
+    - id: abyss-pe_small_input_rule
+      if: input_size < 0.002
+      cores: 2
+      mem: 8
+      scheduling:
+        require:
+        - general
+        reject:
+        - stampede2-knl
+    - id: abyss-pe_medium_input_rule
+      if: 0.002 <= input_size < 5
+      cores: 32
+      mem: 94
+
+    # TODO: reject over a certain input size, what is that input size?
+
+  toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
+    cores: 60
+    mem: 254
+    scheduling:
+      require:
+      - hpc
+      reject:
+      - general
+    rules:
+    - id: spades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 7.6
+      scheduling:
+        require:
+        - general
+        reject:
+        - hpc
+    - id: spades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 28
+      scheduling:
+        require:
+        - general
+        reject:
+        - hpc
+    - id: spades_fail_rule
+      if: input_size >= 25
+      fail: "Too much data for this public service, please input fewer reads. Example method: SeqTk subsample"
+
+  toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
+    cores: 24
+    mem: 80
+    scheduling:
+      require:
+      - hpc
+      reject:
+      - general
+    rules:
+    - id: unicycler_small_input_rule
+      if: input_size < 0.05
+      cores: 1
+      mem: 3.8
+      scheduling:
+        require:
+        - general
+        reject:
+        - hpc
+    - id: unicycler_medium_input_rule
+      if: 0.05 <= input_size < 2
+      cores: 8
+      mem: 28
+      scheduling:
+        require:
+        - general
+        reject:
+        - hpc
+
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
+    cores: 4
+    mem: 16
+    scheduling:
+      require:
+      - jetstream2
+      - cvmfs
+      reject:
+      - hpc
+    rules:
+    - id: ncbi_blastn_wrapper_db_rule
+      if: |
+        helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+      cores: 24
+      mem: 80
+      scheduling:
+        require:
+        - hpc
+        - cvmfs
+        reject:
+        - jetstream2
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
+    cores: 24
+    mem: 80
+    scheduling:
+      require:
+      - hpc
+      # FIXME: only if selected
+      - cvmfs
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_rpsblast_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
+    cores: 24
+    mem: 250
+    scheduling:
+      require:
+      - hpc
+
+  verkko:
+    cores: 32
+    mem: 120
+    scheduling:
+      accept:
+      - pulsar
+      reject:
+      - hpc

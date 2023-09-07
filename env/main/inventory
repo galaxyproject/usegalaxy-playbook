@@ -1,10 +1,16 @@
 # generic stuff here
 
+# otherwise it uses 3.9, which doesn't have all the system modules installed, probably fixed in a newer ansible (I'm
+# using 2.11.11)
+galaxy-vgp.tacc.utexas.edu ansible_python_interpreter=/usr/libexec/platform-python3.6
+
 [sslservers]
 [sslservers:children]
 sslwebservers
 
 [webservers]
+galaxy-vgp.tacc.utexas.edu
+
 [webservers:children]
 sslwebservers
 galaxywebservers
@@ -15,6 +21,8 @@ galaxywebservers
 galaxystagingservers
 
 [certbotservers]
+galaxy-vgp.tacc.utexas.edu
+
 [certbotservers:children]
 certbotdnsservers
 
@@ -38,13 +46,13 @@ galaxydbservers
 
 [supervisorservers]
 [supervisorservers:children]
-galaxyservers
 
 # galaxy stuff here
 
 [galaxyservers]
 # runs the k8s handler and not included in galaxyjobservers because it's not a standard handler VM
 galaxy07.tacc.utexas.edu
+galaxy-vgp.tacc.utexas.edu
 
 [galaxyservers:children]
 galaxywebservers
