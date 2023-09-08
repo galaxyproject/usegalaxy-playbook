@@ -36,6 +36,42 @@ galaxy_job_conf_handlers:
     tags:
       - vgp
 
+galaxy_config_files:
+  - src: files/galaxy/config/tool_data_table_conf.xml
+    dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
+  - src: files/galaxy/config/tool_conf.xml
+    dest: "{{ galaxy_config_dir }}/tool_conf.xml"
+  - src: files/galaxy/config/data_manager_conf.xml
+    dest: "{{ galaxy_config[galaxy_app_config_section]['data_manager_config_file'] }}"
+  - src: files/galaxy/config/tool_sheds_conf.xml
+    dest: "{{ galaxy_config[galaxy_app_config_section]['tool_sheds_config_file'] }}"
+  - src: files/galaxy/config/job_metrics_conf.xml
+    dest: "{{ galaxy_config[galaxy_app_config_section]['job_metrics_config_file'] }}"
+  - src: files/galaxy/config/job_resource_params_conf.xml
+    dest: "{{ galaxy_config[galaxy_app_config_section]['job_resource_params_file'] }}"
+  - src: files/galaxy/config/dependency_resolvers_conf.xml
+    dest: "{{ galaxy_config[galaxy_app_config_section]['dependency_resolvers_config_file'] }}"
+  - src: files/galaxy/config/pulsar_stampede_actions.yml
+    dest: "{{ galaxy_config_dir }}/pulsar_stampede_actions.yml"
+  - src: files/galaxy/config/pulsar_jetstream.yml
+    dest: "{{ galaxy_config_dir }}/pulsar_jetstream.yml"
+  - src: files/galaxy/config/pulsar_jetstream_actions.yml
+    dest: "{{ galaxy_config_dir }}/pulsar_jetstream_actions.yml"
+  - src: files/galaxy/config/pulsar_expanse_actions.yml
+    dest: "{{ galaxy_config_dir }}/pulsar_expanse_actions.yml"
+  - src: files/galaxy/config/pulsar_rockfish_actions.yml
+    dest: "{{ galaxy_config_dir }}/pulsar_rockfish_actions.yml"
+  - src: files/galaxy/config/disposable_email_blacklist.conf
+    dest: "{{ galaxy_config[galaxy_app_config_section]['email_domain_blocklist_file'] }}"
+  - src: files/galaxy/config/workflow_schedulers_conf.xml
+    dest: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
+  - src: files/galaxy/config/user_preferences.yml
+    dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
+  - src: files/galaxy/config/trs_servers_conf.yml
+    dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: files/galaxy/config/panel_views/vgp.yml
+    dest: "{{ galaxy_config.galaxy.panel_views_dir }}/vgp.yml"
+
 galaxy_config_templates:
   - src: templates/galaxy/config/job_conf_vgp.yml.j2
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
@@ -96,6 +132,7 @@ galaxy_config_hash:
     job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
     dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
     themes_config_file: "{{ galaxy_server_dir }}/config/themes_conf.yml.sample"
+    panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
 
     migrated_tools_config: "/cvmfs/main.galaxyproject.org/config/migrated_tools_conf.xml"
     shed_tool_data_table_config: "/cvmfs/main.galaxyproject.org/config/shed_tool_data_table_conf.xml"
@@ -181,6 +218,12 @@ galaxy_config_hash:
     enable_celery_tasks: false
     expose_potentially_sensitive_job_metrics: true
     enable_tool_source_display: true
+
+    # branding
+
+    default_panel_view: vgp
+    # doesn't work for some reason...
+    logo_src: https://images.squarespace-cdn.com/content/v1/5963d1fa9de4bb12177a7f48/1526309972322-4IFPGMUU4CF8Y2LLQFM7/VGP_Tag_RGB_newLogo_72dpi_Dots_EDIT.png?format=200w
 
 # the developer inexplicably builds on ubuntu-latest
 tusd_version: v1.10.0

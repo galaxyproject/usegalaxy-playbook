@@ -7,11 +7,14 @@
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
   pre_tasks:
-    - name: Create TPV config dir
+    - name: Create config subdirs
       file:
-        path: "{{ galaxy_tpv_config_dir }}"
+        path: "{{ item }}"
         state: directory
         mode: "0755"
+      loop:
+        - "{{ galaxy_tpv_config_dir }}"
+        - "{{ galaxy_config.galaxy.panel_views_dir }}"
     - name: Locate TPV python blobs
       set_fact:
         tpv_python_blobs: "{{ (tpv_python_blobs | default({})) | combine({(item | basename | splitext | first): lookup('file', item)}) }}"
