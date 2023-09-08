@@ -38,22 +38,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
     cores: 24
     mem: 250
-    scheduling:
-      require:
-      - hpc
-      prefer:
-      - bridges2
-      reject:
-      - general
     rules:
       - if: input_size < 0.1
         cores: 1
         mem: 4
-        scheduling:
-          require:
-          - general
-          reject:
-          - hpc
       - if: 0.1 <= input_size < 1
         cores: 12
         mem: 92
@@ -74,52 +62,22 @@ tools:
     - if: input_size < 0.5
       cores: 4
       mem: 12
-      scheduling:
-        accept:
-        - general
-        reject:
-        - hpc
     - if: 0.5 <= input_size < 10
       cores: 30
       mem: 80
-      scheduling:
-        accept:
-        - hpc
-        - jetstream2
-        prefer:
-        - stampede2-knl
-        reject:
-        - roundup
     - if: input_size >= 10
       # from AU
       #cores: 120
       #mem: 1922
       cores: 56
       mem: 94
-      scheduling:
-        accept:
-        - hpc
-        reject:
-        - general
 
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
-    # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
     cores: 20
     mem: 60
-    scheduling:
-      require:
-      - hpc
-      reject:
-      - stampede2
 
-  # NOTE: Main does not map bwa to TPV yet, this is only used by Test for... testing
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2
-    scheduling:
-      accept:
-      - pulsar
-      require:
-      - cvmfs
     rules:
     - if: 0.25 <= input_size < 1
       cores: 4
@@ -131,11 +89,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     cores: 20
     mem: 120
-    scheduling:
-      accept:
-      - pulsar
-      require:
-      - cvmfs
     rules:
     - id: bwa_mem2_small_input_rule
       if: input_size < 0.25
@@ -153,45 +106,24 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 64
     mem: 120
-    scheduling:
-      require:
-      - hpc
 
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     cores: 20
     mem: 20
-    scheduling:
-      require:
-      - hpc
-      - cvmfs
 
   # TODO: rule to set mem based on database size, see job router
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     cores: 40
     mem: 120
-    scheduling:
-      require:
-      - hpc
-      - cvmfs
 
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 90
     mem: 120
-    scheduling:
-      require:
-      - stampede2-knl
-      reject:
-      - general
     rules:
     - id: abyss-pe_small_input_rule
       if: input_size < 0.002
       cores: 2
       mem: 8
-      scheduling:
-        require:
-        - general
-        reject:
-        - stampede2-knl
     - id: abyss-pe_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 32
@@ -202,30 +134,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     cores: 60
     mem: 254
-    scheduling:
-      require:
-      - hpc
-      reject:
-      - general
     rules:
     - id: spades_small_input_rule
       if: input_size < 0.005
       cores: 2
       mem: 7.6
-      scheduling:
-        require:
-        - general
-        reject:
-        - hpc
     - id: spades_medium_input_rule
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 28
-      scheduling:
-        require:
-        - general
-        reject:
-        - hpc
     - id: spades_fail_rule
       if: input_size >= 25
       fail: "Too much data for this public service, please input fewer reads. Example method: SeqTk subsample"

@@ -5,8 +5,8 @@ destinations:
   _roundup_common:
     abstract: true
     runner: slurm
-    max_accepted_cores: 6
-    max_accepted_mem: 64
+    max_accepted_cores: 2
+    max_accepted_mem: 8
     context:
       partition: normal
       time: 24:00:00
@@ -56,17 +56,7 @@ destinations:
 
   roundup:
     inherits: _roundup_common
-    runner: slurm
-    max_accepted_cores: 6
-    max_accepted_mem: 64
-    context:
-      partition: reserved
-      time: 24:00:00
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
-      tmp_dir: true
-      outputs_to_working_directory: true
-      metadata_strategy: extended
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
       singularity_no_mount: null
@@ -95,6 +85,8 @@ destinations:
     runner: jetstream2
     max_accepted_cores: 32
     max_accepted_mem: 125
+    max_cores: 32
+    max_mem: 125
     context:
       time: 24:00:00
       partition: tpv
@@ -147,3 +139,26 @@ destinations:
       require:
       - pulsar
       - singularity
+
+  jetstream2_gpu:
+    inherits: jetstream2
+    max_accepted_cores: 32
+    max_accepted_gpus: 1.0
+    max_accepted_mem: 125
+    max_cores: 32
+    max_gpus: 1.0
+    max_mem: 125
+    context:
+      partition: gpu-small
+    params:
+      singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
+    env:
+    # gmx_sim uses this, maybe others?
+    - name: SINGULARITYENV_GPU_AVAILABLE
+      value: "1"
+    scheduling:
+      require:
+      - gpu
+      - pulsar
+      - singularity
+
