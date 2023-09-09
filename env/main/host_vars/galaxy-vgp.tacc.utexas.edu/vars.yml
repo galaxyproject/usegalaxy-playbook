@@ -25,6 +25,12 @@ gravity_config:
     tusd_path: /usr/local/sbin/tusd
     upload_dir: "{{ galaxy_tus_upload_store }}"
     memory_limit: 2
+  handlers:
+    main_vgp_workflow_scheduler:
+      name_template: "{name}{process}"
+      processes: 1
+      pools:
+        - workflow-schedulers.vgp
 
 galaxy_job_conf_handlers:
   - id: main_vgp_handler0
@@ -63,7 +69,7 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/pulsar_rockfish_actions.yml"
   - src: files/galaxy/config/disposable_email_blacklist.conf
     dest: "{{ galaxy_config[galaxy_app_config_section]['email_domain_blocklist_file'] }}"
-  - src: files/galaxy/config/workflow_schedulers_conf.xml
+  - src: files/galaxy/config/workflow_schedulers_conf_vgp.xml
     dest: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
   - src: files/galaxy/config/user_preferences.yml
     dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
