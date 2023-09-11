@@ -21,7 +21,7 @@ tools:
       require:
       - singularity
       reject:
-      - conda
+      #- conda
       - offline
     rank: |
       {{ tpv_python_blobs['rank'] | indent(width=6) }}
