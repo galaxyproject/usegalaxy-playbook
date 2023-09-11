@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
     <workflow_schedulers default="core">
     <core id="core" />
+    <!-- TODO: job handler tags are added to workflow scheduler tags so using db-skip-locked will cause this scheduler to pick up non-VGP invocations
+         https://github.com/galaxyproject/galaxy/blob/3c6028352405545e484b7ab6467f3572deef1468/lib/galaxy/workflow/scheduling_manager.py#L286
     <handlers assign_with="db-skip-locked" default="vgp"/>
+    -->
+    <handlers assign_with="db-preassign" default="vgp">
+        <handler id="main_vgp_workflow_scheduler0" tags="vgp" />
+    </handlers>
 </workflow_schedulers>
