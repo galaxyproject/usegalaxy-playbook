@@ -403,16 +403,6 @@ galaxy_job_conf_environments:
       extra_params: {singularity_no_mount: null}
 
   stampede_environments:
-    - id: normal
-      memory_mb: 94208
-      java_mem: 88
-      native_specification: --partition=normal --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=36:00:00
-      tags: [stampede_limit]
-    - id: development
-      memory_mb: 94208
-      java_mem: 88
-      native_specification: --partition=development --nodes=1 --account=TG-MCB140147 --ntasks=68 --time=00:30:00
-      tags: [stampede_limit]
     - id: skx_normal
       memory_mb: 192512
       java_mem: 184

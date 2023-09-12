@@ -478,30 +478,6 @@ destinations:
       reject:
       - offline
 
-  stampede2_knl:
-    inherits: _stampede2
-    runner: stampede
-    max_accepted_cores: 272
-    max_accepted_mem: 94
-    context:
-      partition: normal
-    params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition={partition}"
-      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
-    env:
-    - name: GALAXY_MEMORY_MB
-      value: "94000"
-    scheduling:
-      accept:
-      - stampede2
-      # removing from hpc for now to burn some SUs on other systems and avoid the limit hole
-      #- hpc
-      - cvmfs
-      prefer:
-      - stampede2-knl
-      require:
-      - pulsar
-
   stampede2_skx:
     inherits: _stampede2
     runner: stampede
@@ -542,22 +518,4 @@ destinations:
       prefer:
       - stampede2-icx
       require:
-      - pulsar
-
-  # dev
-
-  stampede2_knl_dev:
-    inherits: stampede2_knl
-    context:
-      partition: development
-      time: 01:00:00
-    scheduling:
-      accept:
-      - stampede2
-      - hpc
-      - cvmfs
-      prefer:
-      - stampede2-knl
-      require:
-      - dev
       - pulsar

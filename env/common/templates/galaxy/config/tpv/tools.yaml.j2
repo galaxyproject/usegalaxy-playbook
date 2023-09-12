@@ -92,8 +92,6 @@ tools:
         accept:
         - hpc
         - jetstream2
-        prefer:
-        - stampede2-knl
         reject:
         - roundup
     - if: input_size >= 10
@@ -185,7 +183,7 @@ tools:
     mem: 120
     scheduling:
       require:
-      - stampede2-knl
+      - hpc
       reject:
       - general
     rules:
@@ -197,7 +195,7 @@ tools:
         require:
         - general
         reject:
-        - stampede2-knl
+        - hpc
     - id: abyss-pe_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 32
