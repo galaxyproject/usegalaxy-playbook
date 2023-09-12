@@ -130,10 +130,16 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
+    - name: SINGULARITY_CACHEDIR
+      value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_cache
+    - name: SINGULARITY_TMPDIR
+      value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_tmp
     scheduling:
       accept:
       - jetstream2
       - cvmfs
+      # for TPV shared DB
+      - docker
       prefer:
       - jetstream2
       require:
