@@ -382,7 +382,7 @@ destinations:
     context:
       time: 24:00:00
     params:
-      submit_native_specification: "--partition=defq --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
+      submit_native_specification: "--account=nekrut --partition=defq --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
       tmp_dir: true
       outputs_to_working_directory: false
       #metadata_strategy: extended
