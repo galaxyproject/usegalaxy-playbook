@@ -380,9 +380,11 @@ destinations:
     max_accepted_cores: 128
     max_accepted_mem: 256
     context:
+      account: nekrut
+      partition: defq
       time: 24:00:00
     params:
-      submit_native_specification: "--account=nekrut --partition=defq --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
+      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
       tmp_dir: true
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -451,6 +453,18 @@ destinations:
       - rockfish
       require:
       - pulsar
+
+  rockfish_gpu:
+    inherits: rockfish
+    context:
+      account: mschatz1_gpu
+      partition: a100
+      time: 24:00:00
+    params:
+      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem-per-cpu=4096 --gres=gpu:{gpus}"
+    scheduling:
+      require:
+      - rockfish-gpu
 
   frontera:
     inherits: _tacc_hpc

@@ -16,9 +16,16 @@ tools:
   # real tools
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
-    gpus: 0.2
-    cores: 4
-    mem: 14
+    gpus: 1
+    cores: 12
+    #mem: uses --mem-per-cpu=4G
+    params:
+      require_container: true
+      container:
+        - type: singularity
+          shell: /bin/bash
+          resolve_dependencies: false
+          identifier: /scratch4/mschatz1/ndc/alphafold_sandbox
     env:
     - name: SINGULARITYENV_ALPHAFOLD_AA_LENGTH_MIN
       value: "16"
@@ -26,11 +33,20 @@ tools:
       value: "3000"
     - name: SINGULARITYENV_ALPHAFOLD_DB
       value: /cvmfs/data.galaxyproject.org/byhand/alphafold
-    scheduling:
-      require:
-      - gpu
-      accept:
-      - pulsar
+    rules:
+    - if: |
+        user and 'AlphaFold' in [role.name for role in user.all_roles() if not role.deleted]
+      scheduling:
+        require:
+        - hpc
+        - rockfish-gpu
+    - if: |
+        not user or not any([
+          role for role in user.all_roles() if (
+            role.name in ['AlphaFold'] and not role.deleted
+        )])
+      fail: |
+        This tool is currently being beta-tested on GPUs and your account has not been given access.
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     gpus: 0.2
