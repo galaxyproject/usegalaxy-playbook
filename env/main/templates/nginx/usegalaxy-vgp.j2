@@ -97,16 +97,11 @@ server {
 
     # overridden static content
     location /static/terms.html {
-        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/terms.html;
+        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/terms.html;
     }
 
     location /static/welcome.html {
-        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome.html;
-    }
-
-    location /static/welcome_img {
-        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome_img;
-        expires 2h;
+        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/welcome.html;
     }
 
     # error docs

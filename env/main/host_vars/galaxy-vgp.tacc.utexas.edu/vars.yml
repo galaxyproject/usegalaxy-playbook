@@ -99,6 +99,8 @@ galaxy_config_templates:
     dest: "{{ galaxy_tpv_config_dir }}/tools.yaml"
   - src: templates/galaxy/config/job_conf_vgp.yml.j2
     dest: "{{ galaxy_config_dir }}/job_conf_vgp.yml"
+  - src: templates/galaxy/static/welcome_vgp.html.j2
+    dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/welcome.html"
 
 galaxy_config_hash:
   galaxy:
