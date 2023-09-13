@@ -10,6 +10,8 @@ tools:
   # special
 
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
+    # 130 in the shared DB, this prevents us from wasting most of an m3.2xl.
+    mem: 120
     env:
     # suppress 'tar: read-db.meryl: file changed as we read it' warning and non-zero exit code
     - name: SINGULARITY_BIND

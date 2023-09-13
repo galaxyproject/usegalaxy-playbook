@@ -97,6 +97,8 @@ galaxy_config_templates:
     dest: "{{ galaxy_tpv_config_dir }}/environments.yaml"
   - src: templates/galaxy/config/tpv/tools_vgp.yaml.j2
     dest: "{{ galaxy_tpv_config_dir }}/tools.yaml"
+  - src: templates/galaxy/config/tpv/roles_vgp.yaml.j2
+    dest: "{{ galaxy_tpv_config_dir }}/roles.yaml"
   - src: templates/galaxy/config/job_conf_vgp.yml.j2
     dest: "{{ galaxy_config_dir }}/job_conf_vgp.yml"
   - src: templates/galaxy/static/welcome_vgp.html.j2
