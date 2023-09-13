@@ -9,6 +9,15 @@ tools:
 
   # special
 
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
+    env:
+    # suppress 'tar: read-db.meryl: file changed as we read it' warning and non-zero exit code
+    - name: SINGULARITY_BIND
+      value: /jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro
+    scheduling:
+      require:
+      - jetstream2
+
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 0.2
     cores: 4
