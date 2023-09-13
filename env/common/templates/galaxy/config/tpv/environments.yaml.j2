@@ -461,7 +461,7 @@ destinations:
       partition: a100
       time: 24:00:00
     params:
-      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem-per-cpu=4096 --gres=gpu:{gpus}"
+      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem-per-cpu=4096 --gres=gres:gpu:{gpus}"
     scheduling:
       require:
       - rockfish-gpu

@@ -21,7 +21,7 @@ tools:
     #mem: uses --mem-per-cpu=4G
     params:
       require_container: true
-      container:
+      container_override:
         - type: singularity
           shell: /bin/bash
           resolve_dependencies: false
