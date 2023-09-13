@@ -18,10 +18,15 @@ tiaas_version: main
 tiaas_admin_user: admin
 tiaas_admin_pass: "{{ vault_tiaas_admin_pass }}"
 
+# moved from /static/style in 23.0
+tiaas_galaxy_stylesheet: "{{ galaxy_server_dir }}/static/dist/base.css"
+
 tiaas_galaxy_db_name: "galaxy_{{ galaxy_instance_codename }}"
 
 tiaas_tiaas_use_sqlite: false
 tiaas_tiaas_db_name: "tiaas_{{ galaxy_instance_codename }}"
+
+tiaas_send_email_from: "tiaas+noreply@galaxyproject.org"
 
 tiaas_info:
   owner: "{{ galaxy_instance_hostname }}"
