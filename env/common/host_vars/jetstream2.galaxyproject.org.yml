@@ -55,6 +55,7 @@ pulsar_yaml_config:
   tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
   #job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
+  sentry_dsn: "{{ pulsar_sentry_dsn }}"
   #ependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
   maximum_stream_size: 8388608  # 8 MB
   amqp_acknowledge: True

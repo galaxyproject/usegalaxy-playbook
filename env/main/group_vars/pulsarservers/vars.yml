@@ -4,6 +4,7 @@
 #
 # used by: galaxyproject.pulsar (templating server.ini)
 pulsar_message_queue_url: "{{ vault_pulsar_message_queue_url }}"
+pulsar_sentry_dsn: "{{ vault_pulsar_sentry_dsn }}"
 
 
 ## used by: other vars in this vars file
@@ -16,7 +17,7 @@ galaxy_instance_hostname: usegalaxy.org
 #pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@2bfc784301c12634b6026113473767f1e3f4d017"
 #pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@stampede-parrot"
 #pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@fix-lost-job-recovery-0.14.13#egg=pulsar-app"
-pulsar_package_version: "0.15.2"
+pulsar_package_version: "0.15.5"
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_config_dir: "{{ pulsar_root }}/config"
 pulsar_optional_dependencies:

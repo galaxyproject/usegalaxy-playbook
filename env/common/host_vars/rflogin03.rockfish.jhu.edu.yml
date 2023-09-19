@@ -106,6 +106,7 @@ pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
   message_queue_url: "{{ pulsar_message_queue_url }}"
+  sentry_dsn: "{{ pulsar_sentry_dsn }}"
   maximum_stream_size: 8388608  # 8 MB
   amqp_acknowledge: True
   amqp_ack_republish_time: 180

@@ -76,7 +76,7 @@ host_supervisor_configs:
 supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || /bin/bash '{{ _bridges_home_root }}/bin/supervisord-launch.sh'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
 
 # This is the rebased commit on top of the cvmfsexec-singularity branch
-pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@ca02d6841f32e51874ac78068109bf9a146c3bd4#egg=pulsar-app"
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@3e12f9f4145930f609dda74ef86aa4a0c7c90722#egg=pulsar-app"
 pulsar_package_version: "{{ omit }}"
 pulsar_root: "{{ _bridges_instance_root }}/pulsar"
 pulsar_restart_handler_name: supervisor restart pulsar
@@ -115,6 +115,7 @@ pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
   message_queue_url: "{{ pulsar_message_queue_url }}"
+  sentry_dsn: "{{ pulsar_sentry_dsn }}"
   maximum_stream_size: 8388608  # 8 MB
   amqp_acknowledge: True
   amqp_ack_republish_time: 180
