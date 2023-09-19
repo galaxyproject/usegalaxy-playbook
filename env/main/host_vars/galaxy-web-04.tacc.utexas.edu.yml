@@ -1,6 +1,8 @@
 ---
 
 galaxy_host_codename: main_w4
+galaxy_enable_celery_beat: false
+
 galaxy_job_conf_handlers:
   - id: main_w4_handler0
     plugins: "{{ __handler_default_plugins }}"

@@ -52,6 +52,9 @@ gravity_config:
       extra_args: --max-requests 50000 --max-requests-jitter 10000
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
+  celery:
+    enable: true
+    enable_beat: "{{ galaxy_enable_celery_beat }}"
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd
