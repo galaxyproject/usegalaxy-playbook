@@ -384,7 +384,9 @@ destinations:
       partition: defq
       time: 24:00:00
     params:
-      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
+      # https://github.com/natefoo/slurm-drmaa/issues/83
+      #submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem={mem*1024}"
+      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks={cores} --mem={mem*1024}"
       tmp_dir: true
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -461,7 +463,10 @@ destinations:
       partition: a100
       time: 24:00:00
     params:
-      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem-per-cpu=4096 --gres=gres:gpu:{gpus}"
+      # https://github.com/natefoo/slurm-drmaa/issues/83
+      #submit_native_specification: "--account={account} --partition={partition} --gres=gres:gpu:{gpus} --time={time} --nodes=1 --ntasks-per-node={cores} --mem-per-cpu=4096"
+      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks={cores} --gres=gres:gpu:{gpus}"
+      singularity_run_extra_arguments: --nv
     scheduling:
       require:
       - rockfish-gpu
