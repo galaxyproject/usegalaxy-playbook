@@ -13,6 +13,13 @@ tools:
       require:
       - hpc
 
+  # non-pulsar tools
+
+  upload1: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
+  __.*__: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
+  param_value_from_file: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
+  pick_value: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
+
   # as of 23.1, these have no requirement tags
 
   Paste1:
