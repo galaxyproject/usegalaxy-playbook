@@ -92,12 +92,6 @@ tools:
 {% endif %}
 {% endfor %}
 
-  # https://github.com/galaxyproject/tools-iuc/issues/4119
-  # These will probably never be able to run in Singularity until a deconstructed version exists (at which point the old
-  # versions should be removed)
-  medaka_variant_pipeline: {destination: slurm_normal_direct}
-  medaka_consensus_pipeline: {destination: slurm_normal_direct}
-
   # Old versions not yet tested in Singularity
   toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0: {destination: slurm_normal_16gb_direct}
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {destination: slurm_normal_16gb_direct}
