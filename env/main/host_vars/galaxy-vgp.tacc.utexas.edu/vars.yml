@@ -153,6 +153,10 @@ galaxy_config_hash:
     user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences.yml"
     container_image_cache_path: "{{ galaxy_mutable_data_dir }}/container_images"
 
+    # use upload module for pulsar stage out
+    nginx_upload_job_files_store: "{{ galaxy_nginx_upload_job_files_dir }}"
+    nginx_upload_job_files_path: /_job_files
+
     # disabled because potentially eating memory and didn't work for the message box anyway
     #watch_config: true
     watch_job_rules: true
