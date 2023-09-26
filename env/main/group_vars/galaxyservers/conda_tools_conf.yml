@@ -7,37 +7,10 @@
 galaxy_conda_tools: "{{ __galaxy_conda_tools | difference(galaxy_python2_legacy_tools) }}"
 
 __galaxy_conda_tools:
-  - CONVERTER_SMILES_to_MOL
-  - CONVERTER_bcf_uncompressed_to_bcf
-  - CONVERTER_bed_to_fli_0
-  - CONVERTER_bed_to_gff_0
-  - CONVERTER_biom
-  - CONVERTER_cml_to_smiles
-  - CONVERTER_fasta_to_2bit
-  - CONVERTER_fasta_to_bowtie_base_index
-  - CONVERTER_fasta_to_bowtie_color_index
-  - CONVERTER_fasta_to_fai
-  - CONVERTER_fasta_to_len
-  - CONVERTER_fasta_to_tabular
   - CONVERTER_gff_to_bed_0
   - CONVERTER_gff_to_fli_0
-  - CONVERTER_inchi_to_mol
-  - CONVERTER_interval_to_bed12_0
-  - CONVERTER_interval_to_bed6_0
-  - CONVERTER_interval_to_bed_0
-  - CONVERTER_interval_to_bedstrict_0
-  - CONVERTER_interval_to_bigwig_0
-  - CONVERTER_len_to_linecount
   - CONVERTER_maf_to_fasta_0
   - CONVERTER_maf_to_interval_0
-  - CONVERTER_mol2_to_mol
-  - CONVERTER_molecules
-  - CONVERTER_picard_interval_list_to_bed6
-  - CONVERTER_ref_to_seq_taxomony
-  - CONVERTER_sam_to_unsorted_bam
-  - CONVERTER_smiles_to_smiles
-  - CONVERTER_tar_to_directory
-  - CONVERTER_wiggle_to_interval_0
   - Count1
   #- GeneBed_Maf_Fasta2
   - Interval2Maf_pairwise1
