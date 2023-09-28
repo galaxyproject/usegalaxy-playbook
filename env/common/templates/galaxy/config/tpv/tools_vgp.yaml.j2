@@ -11,6 +11,13 @@ tools:
 
   # as of 23.1, these have no requirement tags
 
+  addValue:
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.26.2"}]
+  # there are both a framework and a TS version
+  toolshed.g2.bx.psu.edu/repos/devteam/add_value/addValue/.*:
+    inherits: addValue
+
   Paste1:
     params:
       # coreutils=8.25,perl=5.22.0.1
@@ -39,6 +46,15 @@ tools:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-879928bcdd8adc5b4660a3f6de3703d7c7861de4:6ce96688844d469d84f94fabb34055d8dfa283c7-0"}]
 
   # special
+
+  # https://github.com/bioconda/bioconda-recipes/pull/41091
+  #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/bandage_ng:2022.09--0"}]
+    env:
+    - name: SINGULARITYENV_QT_QPA_PLATFORM
+      value: offscreen
 
   toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
     # 130 in the shared DB, this prevents us from wasting most of an m3.2xl.
@@ -117,6 +133,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
     cores: 20
     mem: 60
+    env:
+    # prevent premature removal of untarred busco DBs
+    - name: SINGULARITYENV_TAR_OPTIONS
+      value: -m
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 2

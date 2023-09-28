@@ -22,6 +22,13 @@ tools:
 
   # as of 23.1, these have no requirement tags
 
+  addValue:
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.26.2"}]
+  # there are both a framework and a TS version
+  toolshed.g2.bx.psu.edu/repos/devteam/add_value/addValue/.*:
+    inherits: addValue
+
   Paste1:
     params:
       # coreutils=8.25,perl=5.22.0.1
@@ -83,6 +90,15 @@ tools:
         )])
       fail: |
         This tool is currently being beta-tested on GPUs and your account has not been given access.
+
+  # https://github.com/bioconda/bioconda-recipes/pull/41091
+  #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/bandage_ng:2022.09--0"}]
+    env:
+    - name: SINGULARITYENV_QT_QPA_PLATFORM
+      value: offscreen
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     gpus: 0.2
@@ -162,6 +178,10 @@ tools:
     # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
     cores: 20
     mem: 60
+    env:
+    # prevent premature removal of untarred busco DBs
+    - name: SINGULARITYENV_TAR_OPTIONS
+      value: -m
     scheduling:
       require:
       - hpc
