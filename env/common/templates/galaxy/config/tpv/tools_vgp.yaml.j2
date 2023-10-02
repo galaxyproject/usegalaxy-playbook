@@ -233,62 +233,30 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     cores: 24
     mem: 80
-    scheduling:
-      require:
-      - hpc
-      reject:
-      - general
     rules:
     - id: unicycler_small_input_rule
       if: input_size < 0.05
       cores: 1
       mem: 3.8
-      scheduling:
-        require:
-        - general
-        reject:
-        - hpc
     - id: unicycler_medium_input_rule
       if: 0.05 <= input_size < 2
       cores: 8
       mem: 28
-      scheduling:
-        require:
-        - general
-        reject:
-        - hpc
 
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
     cores: 4
     mem: 16
-    scheduling:
-      require:
-      - jetstream2
-      - cvmfs
-      reject:
-      - hpc
     rules:
     - id: ncbi_blastn_wrapper_db_rule
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 24
       mem: 80
-      scheduling:
-        require:
-        - hpc
-        - cvmfs
-        reject:
-        - jetstream2
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
     cores: 24
     mem: 80
-    scheduling:
-      require:
-      - hpc
-      # FIXME: only if selected
-      - cvmfs
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_rpsblast_wrapper/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
@@ -299,15 +267,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 24
     mem: 250
-    scheduling:
-      require:
-      - hpc
 
   verkko:
     cores: 32
     mem: 120
-    scheduling:
-      accept:
-      - pulsar
-      reject:
-      - hpc
