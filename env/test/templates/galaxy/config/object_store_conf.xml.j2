@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object_store type="distributed">
     <backends>
-        <backend type="irods" id="corral-irods-galaxy" weight="1" store_by="uuid">
+        <backend type="irods" id="corral-irods-galaxy" weight="0" store_by="uuid">
             <auth username="g2test" password="{{ galaxy_icat_irods_password }}" />
             <resource name="testRootResc" />
             <zone name="galaxyZ" />
@@ -9,8 +9,16 @@
             <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
         </backend>
-        <!-- briefly used to test Main Corral 4 transition -->
-        <backend type="disk" id="corral-test" weight="0" store_by="uuid">
+        <backend type="disk" id="corral-scratch" weight="1" store_by="uuid" allow_selection="true">
+            <files_dir path="/corral4/test/files-test"/>
+            <extra_dir type="job_work" path="/corral4/test/jobs"/>
+            <quota source="scratch"/>
+            <badges>
+                <less_stable />
+                <not_backed_up />
+            </badges>
+        </backend>
+        <backend type="disk" id="corral-test" weight="1" store_by="uuid" allow_selection="true">
             <files_dir path="/corral4/test/files-test"/>
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
         </backend>
