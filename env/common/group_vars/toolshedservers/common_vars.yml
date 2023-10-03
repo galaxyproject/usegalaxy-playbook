@@ -37,6 +37,11 @@ toolshedservers_group_crontabs:
     hour: "{{ toolshed_tmpwatch_hour }}"
     minute: 30
     job: "/usr/sbin/tmpreaper --mtime --mtime-dir 5d {{ toolshed_tmpdir | quote }}"
+  - id: "{{ galaxy_toolshed_instance_codename }}_shed_whoosh_index_rebuild"
+    name: "Rebuild {{ galaxy_toolshed_instance_codename | capitalize }} Tool Shed Whoosh Index"
+    user: "{{ toolshed_user }}"
+    minute: 0
+    job: "if mkdir $HOME/.build_ts_whoosh_index; then date; {{ galaxy_venv_dir }}/bin/python {{ galaxy_toolshed_server_dir }}/scripts/tool_shed/build_ts_whoosh_index.py -c {{ galaxy_toolshed_config_file }} --config-section tool_shed -d; rmdir $HOME/.build_ts_whoosh_index; fi >>{{ galaxy_toolshed_log_dir }}/build_ts_whoosh_index.log 2>&1"
 
 
 ## used by: other vars and various templates

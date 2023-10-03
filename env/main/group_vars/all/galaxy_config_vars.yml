@@ -221,7 +221,10 @@ base_app_main: &BASE_APP_MAIN
 
   legacy_eager_objectstore_initialization: "False"
 
-  enable_celery_tasks: false
+  enable_celery_tasks: true
+  celery_conf:
+    task_routes:
+      galaxy.fetch_data: disabled
 
   expose_potentially_sensitive_job_metrics: true
   enable_tool_source_display: true
