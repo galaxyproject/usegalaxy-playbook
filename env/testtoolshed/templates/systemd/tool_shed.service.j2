@@ -1,0 +1,26 @@
+[Unit]
+Description=Tool Shed
+After=network.target
+After=time-sync.target
+
+[Service]
+UMask=022
+Type=simple
+User=shed
+Group=shed
+WorkingDirectory={{ galaxy_toolshed_server_dir }}
+ExecStart={{ galaxy_venv_dir }}/bin/gunicorn 'tool_shed.webapp.fast_factory:factory()' --pythonpath lib -k uvicorn.workers.UvicornWorker --workers {{ galaxy_toolshed_gunicorn_workers }} --bind={{ galaxy_toolshed_gunicorn_bind }} --timeout 900 --max-requests {{ galaxy_toolshed_gunicorn_max_requests }} --max-requests-jitter {{ galaxy_toolshed_gunicorn_max_requests_jitter }}
+
+Environment=HOME=/home/shed
+Environment=VIRTUAL_ENV={{ galaxy_venv_dir }}
+Environment=PATH={{ galaxy_venv_dir }}/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
+Environment=TOOL_SHED_CONFIG_FILE={{ galaxy_toolshed_config_file }}
+MemoryLimit=6G
+Restart=always
+
+MemoryAccounting=yes
+CPUAccounting=yes
+BlockIOAccounting=yes
+
+[Install]
+WantedBy=multi-user.target
