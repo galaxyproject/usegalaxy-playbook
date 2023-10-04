@@ -91,10 +91,9 @@ destinations:
     max_accepted_cores: 6
     max_accepted_mem: 64
     context:
-      partition: multi
       time: 24:00:00
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=normal"
       tmp_dir: true
       outputs_to_working_directory: true
       singularity_enabled: true
@@ -123,6 +122,10 @@ destinations:
       value: $TEMP
     - name: SINGULARITYENV_TMPDIR
       value: $TEMP
+    rules:
+    - if: cores > 2 or mem > 16
+      params:
+        native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=multi"
     scheduling:
       accept:
       - roundup
