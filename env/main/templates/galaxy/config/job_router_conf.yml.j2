@@ -879,15 +879,6 @@ tools:
     destination: slurm_normal
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/mulled-v2-a72811cdca09b8ce95c935a9e282fe346504b219:129950808bd92175be181add32a96712d3af19db-0"}]
 
-  # https://github.com/bioconda/bioconda-recipes/pull/41091
-  #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
-  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09+galaxy4:
-    destination: slurm_normal
-    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/bandage_ng:2022.09--0"}]
-    env:
-      - name: SINGULARITYENV_QT_QPA_PLATFORM
-        value: offscreen
-
   # The biocontainer doesn't have the png driver and has broken libs (although the /usr/lib bind trick does work for the
   # libs, but not the png driver). The hand-built container still needs the lib bind for system libGL.
   #   mulled-build --singularity --name-override 'gnuplot-py:1.8--0' --test "true" --use-mamba build-and-test gnuplot-py=1.8

@@ -94,11 +94,15 @@ tools:
   # https://github.com/bioconda/bioconda-recipes/pull/41091
   #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
+    mem: 16
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/bandage_ng:2022.09--0"}]
     env:
     - name: SINGULARITYENV_QT_QPA_PLATFORM
       value: offscreen
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/2022.09.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     gpus: 0.2

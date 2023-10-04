@@ -76,6 +76,10 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: bwa_mem2
     environment: tpv_dispatcher
+  - id: bandage_image
+    environment: tpv_dispatcher
+  - id: bandage_info
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
