@@ -9,7 +9,7 @@
             <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
         </backend>
-        <backend type="disk" id="corral-scratch" weight="1" store_by="uuid" allow_selection="true">
+        <backend type="disk" id="corral-scratch" weight="1" store_by="uuid" allow_selection="true" name="Short Term Storage at TACC">
             <files_dir path="/corral4/test/files-test"/>
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
             <quota source="scratch"/>
@@ -18,7 +18,7 @@
                 <not_backed_up />
             </badges>
         </backend>
-        <backend type="disk" id="corral-test" weight="1" store_by="uuid" allow_selection="true">
+        <backend type="disk" id="corral-test" weight="1" store_by="uuid" allow_selection="true" name="Long Term Storage at TACC">
             <files_dir path="/corral4/test/files-test"/>
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
         </backend>
