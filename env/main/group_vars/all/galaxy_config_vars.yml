@@ -227,6 +227,7 @@ base_app_main: &BASE_APP_MAIN
     task_routes:
       galaxy.fetch_data: disabled
 
+  expose_dataset_path: true
   expose_potentially_sensitive_job_metrics: true
   enable_tool_source_display: true
 
