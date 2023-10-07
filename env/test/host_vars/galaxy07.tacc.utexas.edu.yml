@@ -39,3 +39,7 @@ host_crontabs:
     hour: "5"
     minute: "0"
     job: "{{ galaxy_root }}/bin/cleanup_datasets.sh 7"
+
+galaxy_config_files:
+  - src: files/galaxy/config/panel_views/
+    dest: "{{ galaxy_config.galaxy.panel_views_dir }}"
