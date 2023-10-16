@@ -23,6 +23,7 @@ tools:
       - singularity
       reject:
       #- conda
+      - hpc
       - offline
     rank: |
       {{ tpv_python_blobs['rank'] | indent(width=6) }}
