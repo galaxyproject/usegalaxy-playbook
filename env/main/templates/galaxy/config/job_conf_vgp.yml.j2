@@ -15,7 +15,7 @@ runners:
     internalexception_retries: 5
   jetstream2:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: jetstream2
+    manager: vgp_jetstream2
     amqp_url: {{ galaxy_job_conf_amqp_url }}
     galaxy_url: {{ galaxy_job_conf_pulsar_galaxy_url }}
     persistence_directory: /srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack
@@ -24,9 +24,9 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
-  bridges:
+  bridges2:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: bridges
+    manager: vgp_bridges2
     amqp_url: {{ galaxy_job_conf_amqp_url }}
     galaxy_url: {{ galaxy_job_conf_pulsar_galaxy_url }}
     persistence_directory: /srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack

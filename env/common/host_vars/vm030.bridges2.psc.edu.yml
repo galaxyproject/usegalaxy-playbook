@@ -142,6 +142,17 @@ pulsar_yaml_config:
       postprocess_action_interval_step: 2
       postprocess_action_interval_max: 60
       min_polling_interval: 15
+    vgp_bridges2:
+      type: queued_drmaa
+      preprocess_action_max_retries: 10
+      preprocess_action_interval_start: 2
+      preprocess_action_interval_step: 2
+      preprocess_action_interval_max: 60
+      postprocess_action_max_retries: 10
+      postprocess_action_interval_start: 2
+      postprocess_action_interval_step: 2
+      postprocess_action_interval_max: 60
+      min_polling_interval: 15
 
 cvmfsexec_source: none
 cvmfsexec_url: https://github.com/natefoo/cvmfsexec/archive/refs/heads/untar-no-preserve-times.tar.gz
