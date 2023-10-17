@@ -2,12 +2,49 @@
 
 tools:
 
-  # non-pulsar tools
+  # abstract tools
 
-  upload1: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
-  __.*__: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
-  param_value_from_file: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
-  pick_value: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
+  _conda_local:
+    abstract: true
+    scheduling:
+      require:
+      - conda
+      reject:
+      - singularity
+      - hpc
+      - pulsar
+      - offline
+
+  _galaxy_lib_local:
+    abstract: true
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/sh
+        identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
+    env:
+      - name: SINGULARITYENV_PREPEND_PATH
+        value: $GALAXY_VIRTUAL_ENV/bin
+      - name: SINGULARITYENV_PYTHONPATH
+        value: $GALAXY_LIB
+    scheduling:
+      require:
+      - singularity
+      reject:
+      - hpc
+      - pulsar
+      - offline
+
+  # non-pulsar non-singularity tools
+
+  upload1: {inherits: _conda_local}
+  __.*__: {inherits: _conda_local}
+  param_value_from_file: {inherits: _conda_local}
+  pick_value: {inherits: _conda_local}
+
+  # galaxy lib tools in singularity
+
+  toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/.*: {inherits: _galaxy_lib_local}
 
   # as of 23.1, these have no requirement tags
 
