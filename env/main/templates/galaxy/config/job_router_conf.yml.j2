@@ -851,9 +851,6 @@ tools:
     destination: slurm_normal_conda
     container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/stringtie:1.2.3--0"}]
 
-  # SQLite database locking problems inside Singularity on NFS, but not on Ceph
-  toolshed.g2.bx.psu.edu/repos/iuc/jcvi_gff_stats/jcvi_gff_stats/0.8.4: {destination: jetstream2_multi}
-
   # HAND BUILT
   #
   # these are named properly for the requirements so once you update the resolver config to include the local hand-built
