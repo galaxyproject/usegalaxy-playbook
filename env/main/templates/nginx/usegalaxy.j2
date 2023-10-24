@@ -29,6 +29,7 @@ server {
 #}
 
 upstream galaxy {
+    least_conn;
     server 127.0.0.1:8080;
     server 127.0.0.1:8081;
 }
