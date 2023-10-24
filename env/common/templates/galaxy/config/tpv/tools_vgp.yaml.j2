@@ -190,8 +190,8 @@ tools:
       mem: cores * 3.6
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
-    cores: 20
-    mem: 120
+    cores: 32
+    mem: 244
     rules:
     - id: bwa_mem2_small_input_rule
       if: input_size < 0.25
@@ -205,6 +205,10 @@ tools:
       if: 16 <= input_size < 32
       cores: 16
       mem: 58
+    - id: bwa_mem2_xlarge_input_rule
+      if: 32 <= input_size < 64
+      cores: 24
+      mem: 120
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 64
