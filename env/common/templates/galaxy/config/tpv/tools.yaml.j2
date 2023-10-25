@@ -108,6 +108,20 @@ tools:
 
   # real tools
 
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
+    cores: 8
+    # use default mem multiplier of 2.89
+    rules:
+    - id: fastqc_tiny_input_rule
+      if: input_size < 0.001
+      cores: 1
+    - id: fastqc_small_input_rule
+      if: 0.001 <= input_size < 0.1
+      cores: 2
+    - id: fastqc_medium_input_rule
+      if: 1 <= input_size < 2
+      cores: 4
+
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
     cores: 12

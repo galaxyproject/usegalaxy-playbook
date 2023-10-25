@@ -125,25 +125,6 @@ destinations:
       require:
       - conda
 
-  #roundup_conda_singularity:
-  #  inherits: _roundup_common
-  #  params:
-  #    singularity_enabled: true
-  #    singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
-  #    singularity_no_mount: null
-  #    require_container: true
-  #    container:
-  #      - type: singularity
-  #        shell: "/bin/bash"
-  #        resolve_dependencies: true
-  #        identifier: "/cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0"
-  #    accept:
-  #    - roundup
-  #    - cvmfs
-  #    require:
-  #    - conda
-  #    - singularity
-
   roundup:
     inherits: _roundup_common
     params:
