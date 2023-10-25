@@ -9,6 +9,8 @@ galaxy_job_conf_tools:
   # FIXME: these conda-in-singularity tools should have their own list below and run through the router
   #- id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_train_test_split/sklearn_train_test_split/1.0.8.1
   #  environment: slurm_normal_singularity_deps
+  - id: echo
+    environment: tpv_dispatcher
   - id: random_lines1
     environment: tpv_dispatcher
   - id: cat1

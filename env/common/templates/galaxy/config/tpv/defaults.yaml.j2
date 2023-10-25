@@ -27,5 +27,9 @@ tools:
       reject:
       - offline
       - hpc
+    resubmit:
+      drm_failure:
+        condition: unknown_error and attempt <= 5
+        destination: tpv_dispatcher
     rank: |
       {{ tpv_python_blobs['rank'] | indent(width=6) }}

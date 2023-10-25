@@ -13,6 +13,10 @@ tools:
       require:
       - hpc
 
+  # test tools
+
+  #echo: {scheduling: {require: [jetstream2]}}
+
   # non-pulsar tools
 
   upload1: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
