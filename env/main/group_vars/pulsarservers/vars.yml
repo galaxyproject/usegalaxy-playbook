@@ -21,6 +21,7 @@ pulsar_package_version: "0.15.5"
 pulsar_venv_dir: "{{ pulsar_root }}/venv"
 pulsar_config_dir: "{{ pulsar_root }}/config"
 pulsar_optional_dependencies:
+  - sentry-sdk
   # git+pip pulsar install uses 'state: forcereinstall' which can upgrade galaxy-lib to a version not compatible with
   # the specified pulsar version, this downgrades it if necessary.
   #- galaxy-lib==18.5.13
