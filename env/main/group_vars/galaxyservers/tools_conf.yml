@@ -40,6 +40,8 @@ galaxy_job_conf_tools:
   # TPV
   - id: random_lines1
     environment: tpv_dispatcher
+  - id: fastqc
+    environment: tpv_dispatcher
   - id: flye
     environment: tpv_dispatcher
   - id: trinity
@@ -79,6 +81,10 @@ galaxy_job_conf_tools:
   - id: bandage_image
     environment: tpv_dispatcher
   - id: bandage_info
+    environment: tpv_dispatcher
+  - id: meryl
+    environment: tpv_dispatcher
+  - id: hifiasm
     environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS

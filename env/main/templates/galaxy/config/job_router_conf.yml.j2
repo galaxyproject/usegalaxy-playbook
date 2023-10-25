@@ -989,10 +989,6 @@ tools:
     # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
     #- destination: slurm_normal
 
-  # 64 < mem < 128
-  meryl: {destination: jetstream2_xl_wraptar, login_required}
-  hifiasm: {destination: multi_xlargemem, login_required: true}
-
   # Kraken goes to Stampede 2 SKX if the bacteria database is selected, otherwise it goes to standard multi
   kraken:
     # can be a list if you want to do different things with different params (or one thing with no checked params)

@@ -103,6 +103,7 @@ galaxy_job_conf_singularity_volumes:
     - "/corral4/{{ galaxy_instance_codename }}/files:ro"
     - "/corral4/{{ galaxy_instance_codename }}/files-test:ro"
     - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/main.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
   jetstream:
     - "$galaxy_root:ro"
@@ -110,15 +111,8 @@ galaxy_job_conf_singularity_volumes:
     - "$working_directory:rw"
     - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/main.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
-  jetstream_wraptar:
-    - "$galaxy_root:ro"
-    - "$tool_directory:ro"
-    - "$working_directory:rw"
-    - "$job_directory:rw"
-    - "/cvmfs/data.galaxyproject.org:ro"
-    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
-    - "/jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro"
   bridges:
     - "$tool_directory:ro"
     - "$working_directory:rw"
@@ -129,7 +123,7 @@ galaxy_job_conf_singularity_volumes:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
-    - "/cvmfs/data.galaxyproject.org:ro"
+    - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/data.galaxyproject.org:/cvmfs/data.galaxyproject.org:ro"
     - "/scratch:rw"
   rockfish:
     - "$tool_directory:ro"
@@ -323,7 +317,7 @@ gravity_config:
     - bind: localhost:8080
       workers: 1
       timeout: 600
-      restart_timeout: 600
+      restart_timeout: 900
       # https://github.com/encode/uvicorn/issues/610
       #extra_args: --statsd-host=127.0.0.1:8125 --statsd-prefix=test.galaxy.gunicorn
       # when preload is enabled, gunicorn still detaches shortly after spawn, but does not write the pidfile until after
@@ -337,7 +331,7 @@ gravity_config:
     - bind: localhost:8081
       workers: 1
       timeout: 600
-      restart_timeout: 600
+      restart_timeout: 900
       preload: true
       extra_args: --max-requests 50000 --max-requests-jitter 10000
       environment:

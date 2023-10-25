@@ -4,6 +4,36 @@ destinations:
 
   # abstract envs for inheritance
 
+  _roundup_common:
+    abstract: true
+    runner: slurm
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    max_accepted_cores: 4
+    max_accepted_mem: 32
+    context:
+      partition: normal
+      time: 24:00:00
+    params:
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
+      tmp_dir: true
+      outputs_to_working_directory: true
+      metadata_strategy: extended
+    env:
+    - execute: ulimit -c 0
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$TEMP
+    - name: XDG_DATA_HOME
+      value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    rules:
+    - if: cores > 2 or mem > 16
+      params:
+        native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=multi"
+
   _tacc_hpc:
     abstract: true
     context:
@@ -86,30 +116,42 @@ destinations:
 
   # real envs
 
+  roundup_conda_direct:
+    inherits: _roundup_common
+    scheduling:
+      accept:
+      - roundup
+      - cvmfs
+      require:
+      - conda
+
+  #roundup_conda_singularity:
+  #  inherits: _roundup_common
+  #  params:
+  #    singularity_enabled: true
+  #    singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
+  #    singularity_no_mount: null
+  #    require_container: true
+  #    container:
+  #      - type: singularity
+  #        shell: "/bin/bash"
+  #        resolve_dependencies: true
+  #        identifier: "/cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0"
+  #    accept:
+  #    - roundup
+  #    - cvmfs
+  #    require:
+  #    - conda
+  #    - singularity
+
   roundup:
-    runner: slurm
-    max_accepted_cores: 6
-    max_accepted_mem: 64
-    context:
-      time: 24:00:00
+    inherits: _roundup_common
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=normal"
-      tmp_dir: true
-      outputs_to_working_directory: true
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
       singularity_no_mount: null
       singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
     env:
-    - execute: ulimit -c 0
-    - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$TEMP
-    - name: XDG_DATA_HOME
-      value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
-    - name: TERM
-      value: vt100
-    - name: LC_ALL
-      value: C
     - name: SINGULARITYENV_XDG_DATA_HOME
       value: $XDG_DATA_HOME
     - name: SINGULARITYENV_TERM
@@ -122,10 +164,6 @@ destinations:
       value: $TEMP
     - name: SINGULARITYENV_TMPDIR
       value: $TEMP
-    rules:
-    - if: cores > 2 or mem > 16
-      params:
-        native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=multi"
     scheduling:
       accept:
       - roundup
@@ -134,8 +172,10 @@ destinations:
 
   jetstream2:
     runner: jetstream2
+    min_accepted_cores: 1
+    min_accepted_mem: 0
     max_accepted_cores: 32
-    max_accepted_mem: 125
+    max_accepted_mem: 120
     context:
       time: 24:00:00
       partition: tpv
@@ -183,6 +223,7 @@ destinations:
       - jetstream2
       - general
       - cvmfs
+      - singularity
       prefer:
       - jetstream2
       require:
@@ -208,8 +249,12 @@ destinations:
 
   bridges2:
     runner: bridges
-    max_accepted_cores: 128
-    max_accepted_mem: 256
+    min_accepted_cores: 16
+    min_accepted_mem: 64
+    max_accepted_cores: 256
+    max_accepted_mem: 4096
+    max_cores: 128
+    max_mem: 250
     context:
       time: 24:00:00
     params:
@@ -283,6 +328,7 @@ destinations:
       - bridges2
       - hpc
       - cvmfs
+      - singularity
       prefer:
       - bridges2
       require:
@@ -290,8 +336,12 @@ destinations:
 
   expanse:
     runner: expanse
-    max_accepted_cores: 128
-    max_accepted_mem: 256
+    min_accepted_cores: 16
+    min_accepted_mem: 64
+    max_accepted_cores: 256
+    max_accepted_mem: 4096
+    max_cores: 128
+    max_mem: 250
     context:
       time: 24:00:00
     params:
@@ -373,6 +423,7 @@ destinations:
       - expanse
       - hpc
       - cvmfs
+      - singularity
       prefer:
       - expanse
       require:
@@ -380,8 +431,12 @@ destinations:
 
   rockfish:
     runner: rockfish
-    max_accepted_cores: 128
-    max_accepted_mem: 256
+    min_accepted_cores: 16
+    min_accepteD_mem: 64
+    max_accepted_cores: 256
+    max_accepted_mem: 4096
+    max_cores: 128
+    max_mem: 250
     context:
       account: nekrut
       partition: defq
@@ -477,6 +532,8 @@ destinations:
   frontera:
     inherits: _tacc_hpc
     runner: frontera
+    min_accepted_cores: 16
+    min_accepted_mem: 96
     max_accepted_cores: 56
     max_accepted_mem: 190
     params:
@@ -490,6 +547,7 @@ destinations:
       - frontera
       - hpc
       - cvmfs
+      - singularity
       prefer:
       - frontera
       require:
@@ -500,6 +558,8 @@ destinations:
   stampede2_skx:
     inherits: _stampede2
     runner: stampede
+    min_accepted_cores: 16
+    min_accepted_mem: 96
     max_accepted_cores: 96
     max_accepted_mem: 190
     params:
@@ -513,6 +573,7 @@ destinations:
       - stampede2
       - hpc
       - cvmfs
+      - singularity
       prefer:
       - stampede2-skx
       require:
@@ -521,8 +582,12 @@ destinations:
   stampede2_icx:
     inherits: _stampede2
     runner: stampede
-    max_accepted_cores: 160
-    max_accepted_mem: 254
+    min_accepted_cores: 32
+    min_accepted_mem: 128
+    max_accepted_cores: 256
+    max_accepted_mem: 4096
+    max_cores: 160
+    max_mem: 250
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=icx-normal"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
@@ -534,6 +599,7 @@ destinations:
       - stampede2
       - hpc
       - cvmfs
+      - singularity
       prefer:
       - stampede2-icx
       require:

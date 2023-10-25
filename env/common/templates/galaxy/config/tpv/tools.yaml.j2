@@ -4,6 +4,52 @@ tools:
 
   # abstract tools for inheritance
 
+  _conda_local:
+    abstract: true
+    scheduling:
+      require:
+      - conda
+      reject:
+      - singularity
+      - hpc
+      - pulsar
+      - offline
+
+  _galaxy_lib_local:
+    abstract: true
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/sh
+        identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
+    env:
+      - name: SINGULARITYENV_PREPEND_PATH
+        value: $GALAXY_VIRTUAL_ENV/bin
+      - name: SINGULARITYENV_PYTHONPATH
+        value: $GALAXY_LIB
+    scheduling:
+      require:
+      - singularity
+      reject:
+      - hpc
+      - pulsar
+      - offline
+
+  _legacy:
+    abstract: true
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        resolve_dependencies: true
+        identifier: /cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0
+    scheduling:
+      require:
+      - singularity
+      reject:
+      - hpc
+      - offline
+
   _hpc:
     abstract: true
     #inherits: _default
@@ -108,6 +154,27 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/2022.09.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*
 
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
+    # 24 cores in the shared db
+    # 130 in the shared DB, this prevents us from wasting most of an m3.2xl.
+    mem: 120
+    env:
+    # suppress 'tar: read-db.meryl: file changed as we read it' warning and non-zero exit code
+    - name: SINGULARITY_BIND
+      value: /jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro
+    rules:
+    - id: meryl_small_input_rule
+      if: input_size < 0.001
+      cores: 2
+      mem: 7.6
+    - id: meryl_medium_input_rule
+      if: 0.001 <= input_size < 5
+      cores: 16
+      mem: 60
+    scheduling:
+      require:
+      - jetstream2
+
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     gpus: 0.2
     cores: 4
@@ -119,33 +186,30 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
     cores: 24
-    mem: 250
+    # TODO: shared db uses 512, AU uses 961 but caps inputs at 30
+    mem: 244
     scheduling:
-      require:
-      - hpc
       prefer:
       - expanse
-      reject:
-      - general
     rules:
-      - if: input_size < 0.1
+      - id: trinity_tiny_input_rule
+        if: input_size < 0.1
         cores: 1
-        mem: 4
-        scheduling:
-          require:
-          - general
-          reject:
-          - hpc
-      - if: 0.1 <= input_size < 1
-        cores: 12
-        mem: 92
-      - if: 1 <= input_size < 4
+        mem: 3.8
+      - id: trinity_small_input_rule
+        if: 0.1 <= input_size < 1
+        cores: 8
+        mem: 62
+      - id: trinity_medium_input_rule
+        if: 1 <= input_size < 4
         cores: 16
-        mem: 128
-      - if: 4 <= input_size < 8
+        mem: 124
+      - id: trinity_large_input_rule
+        if: 4 <= input_size < 8
         cores: 20
-        mem: 190
-      - if: input_size >= 80
+        mem: 186
+      - id: trinity_fail_rule
+        if: input_size >= 80
         fail: |
           Too much data, we cannot support such large Trinity assemblies with our
           backend. Please use another server for your job.
@@ -236,10 +300,31 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 64
-    mem: 120
-    scheduling:
-      require:
-      - hpc
+    mem: 496
+    context:
+      time: 48:00:00
+    rules:
+    - id: hifiasm_small_input_rule
+      if: input_size < 1
+      cores: 2
+      mem: 7.6
+    - id: hifiasm_medium_input_rule
+      if: 1 <= input_size < 16
+      cores: 8
+      mem: 28
+    - id: hifiasm_large_input_rule
+      if: 16 <= input_size < 32
+      cores: 16
+      mem: 60
+    - id: hifiasm_xlarge_input_rule
+      if: 32 <= input_size < 64
+      cores: 32
+      mem: 120
+    - id: hifiasm_xxlarge_input_rule
+      if: 64 <= input_size < 128
+      cores: 64
+      mem: 244
+
 
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     cores: 20
@@ -399,3 +484,8 @@ tools:
       - pulsar
       reject:
       - hpc
+
+  # legacy conda-in-singularity tools
+
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.[56].*: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {inherits: _legacy}
