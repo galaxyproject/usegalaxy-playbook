@@ -25,7 +25,7 @@ nginx_conf_ssl_ciphers:
   - DHE-RSA-AES256-GCM-SHA384
 
 # this is just used in the webservers group vars
-nginx_conf_client_max_body_size: 80g
+nginx_conf_client_max_body_size: 500g
 
 nginx_servers:
   - certbot_redirects
