@@ -503,3 +503,23 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.[56].*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {inherits: _legacy}
+
+  # legacy container override tools
+
+  _galaxy_sequence_utils_1_0_0:
+    abstract: true
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/sh
+        identifier: /cvmfs/singularity.galaxyproject.org/all/galaxy_sequence_utils:1.0.0--py27_0
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer/fastq_trimmer/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_trimmer_by_quality/fastq_quality_trimmer/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_combiner/fastq_combiner/1.0.1: {inherits: _galaxy_sequence_utils_1_0_0}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_filter/fastq_filter/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_groomer/fastq_groomer/1.0.4: {inherits: _galaxy_sequence_utils_1_0_0}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_manipulation/fastq_manipulation/1.0.1: {inherits: _galaxy_sequence_utils_1_0_0}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_masker_by_quality/fastq_masker_by_quality/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
