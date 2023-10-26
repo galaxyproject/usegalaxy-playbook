@@ -108,9 +108,20 @@ tools:
 
   # real tools
 
+  # NOTE: any tools that increase cores but do not set mem will use the default mem multiplier of cores * 2.89G
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
+    cores: 5
+    rules:
+    - id: trim_galore_small_input_rule
+      if: input_size < 0.02
+      cores: 1
+    - id: trim_galore_medium_input_rule
+      if: 0.02 <= input_size < 0.2
+      cores: 3
+
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     cores: 8
-    # use default mem multiplier of 2.89
     rules:
     - id: fastqc_tiny_input_rule
       if: input_size < 0.001
@@ -523,3 +534,69 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
+
+  _bedtools_2_24_0:
+    abstract: true
+    # TODO: libz and libstdc++ are missing from this container, see https://github.com/galaxyproject/usegalaxy-playbook/pull/375
+    inherits: _legacy
+    #params:
+    #  container_override:
+    #  - type: singularity
+    #    shell: /bin/bash
+    #    identifier: /cvmfs/singularity.galaxyproject.org/all/bedtools:2.24.0
+  # the requirement tag on these tools is for '2.24'
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_makewindowsbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_maskfastabed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_overlapbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_genomecoveragebed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_flankbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_expandbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_randombed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_slopbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bedtobam/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bedpetobam/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_nucbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_multicovtbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_fisher/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_tagbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_map/2.24.1: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bed12tobed6/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_clusterbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_multiintersectbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_reldistbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_windowbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_links/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_mergebed/2.24.1: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_intersectbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_complementbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_shufflebed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_getfastabed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bamtobed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_jaccard/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_groupbybed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_closestbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_spacingbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_subtractbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_sortbed/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/2.24.1: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_annotatebed/2.24.1: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_unionbedgraph/2.24.0: {inherits: _bedtools_2_24_0}
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_bamtofastq/2.24.0: {inherits: _bedtools_2_24_0}
+
+  # cutadapt=1.8,perl
+  _mulled_a1b1d4eb09345e8d7e95b30a377ef8c09bbdb4c6_ae68c25c9c45d8f92cef8ae9564f56b2db413fa8:
+    abstract: true
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/sh
+        identifier: /cvmfs/singularity.galaxyproject.org/all/mulled-v2-a1b1d4eb09345e8d7e95b30a377ef8c09bbdb4c6:ae68c25c9c45d8f92cef8ae9564f56b2db413fa8-0
+  # missing dep on perl
+  # the two oldest versions are pulsar incompatible (attempting to fetch tool files fails for reasons I have not explored)
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.0:
+    inherits: _mulled_a1b1d4eb09345e8d7e95b30a377ef8c09bbdb4c6_ae68c25c9c45d8f92cef8ae9564f56b2db413fa8
+    scheduling: {reject: [pulsar]}
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.1:
+    inherits: _mulled_a1b1d4eb09345e8d7e95b30a377ef8c09bbdb4c6_ae68c25c9c45d8f92cef8ae9564f56b2db413fa8
+    scheduling: {reject: [pulsar]}
+  toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/0.4.2: {inherits: _mulled_a1b1d4eb09345e8d7e95b30a377ef8c09bbdb4c6_ae68c25c9c45d8f92cef8ae9564f56b2db413fa8}

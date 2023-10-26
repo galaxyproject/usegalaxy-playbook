@@ -40,6 +40,92 @@ galaxy_job_conf_tools:
   # TPV
   - id: random_lines1
     environment: tpv_dispatcher
+  - id: bedtools_annotatebed
+    environment: tpv_dispatcher
+  - id: bedtools_bamtobed
+    environment: tpv_dispatcher
+  - id: bedtools_bamtofastq
+    environment: tpv_dispatcher
+  - id: bedtools_bed12tobed6
+    environment: tpv_dispatcher
+  - id: bedtools_bedpetobam
+    environment: tpv_dispatcher
+  - id: bedtools_bedtobam
+    environment: tpv_dispatcher
+  - id: bedtools_bedtoigv
+    environment: tpv_dispatcher
+  - id: bedtools_closestbed
+    environment: tpv_dispatcher
+  - id: bedtools_clusterbed
+    environment: tpv_dispatcher
+  - id: bedtools_complementbed
+    environment: tpv_dispatcher
+  - id: bedtools_coveragebed
+    environment: tpv_dispatcher
+  - id: bedtools_coveragebed_counts
+    environment: tpv_dispatcher
+  - id: bedtools_expandbed
+    environment: tpv_dispatcher
+  - id: bedtools_fisher
+    environment: tpv_dispatcher
+  - id: bedtools_flankbed
+    environment: tpv_dispatcher
+  - id: bedtools_genomecoveragebed
+    environment: tpv_dispatcher
+  - id: bedtools_genomecoveragebed_bedgraph
+    environment: tpv_dispatcher
+  - id: bedtools_genomecoveragebed_histogram
+    environment: tpv_dispatcher
+  - id: bedtools_getfastabed
+    environment: tpv_dispatcher
+  - id: bedtools_groupbybed
+    environment: tpv_dispatcher
+  - id: bedtools_intersectbed
+    environment: tpv_dispatcher
+  - id: bedtools_intersectbed_bam
+    environment: tpv_dispatcher
+  - id: bedtools_jaccard
+    environment: tpv_dispatcher
+  - id: bedtools_links
+    environment: tpv_dispatcher
+  - id: bedtools_makewindowsbed
+    environment: tpv_dispatcher
+  - id: bedtools_map
+    environment: tpv_dispatcher
+  - id: bedtools_maskfastabed
+    environment: tpv_dispatcher
+  - id: bedtools_mergebed
+    environment: tpv_dispatcher
+  - id: bedtools_mergebedgraph
+    environment: tpv_dispatcher
+  - id: bedtools_multicovtbed
+    environment: tpv_dispatcher
+  - id: bedtools_multiintersectbed
+    environment: tpv_dispatcher
+  - id: bedtools_nucbed
+    environment: tpv_dispatcher
+  - id: bedtools_overlapbed
+    environment: tpv_dispatcher
+  - id: bedtools_randombed
+    environment: tpv_dispatcher
+  - id: bedtools_reldistbed
+    environment: tpv_dispatcher
+  - id: bedtools_shufflebed
+    environment: tpv_dispatcher
+  - id: bedtools_slopbed
+    environment: tpv_dispatcher
+  - id: bedtools_sortbed
+    environment: tpv_dispatcher
+  - id: bedtools_spacingbed
+    environment: tpv_dispatcher
+  - id: bedtools_subtractbed
+    environment: tpv_dispatcher
+  - id: bedtools_tagbed
+    environment: tpv_dispatcher
+  - id: bedtools_unionbedgraph
+    environment: tpv_dispatcher
+  - id: bedtools_windowbed
+    environment: tpv_dispatcher
   - id: fastqc
     environment: tpv_dispatcher
   - id: fastq_trimmer
@@ -63,6 +149,8 @@ galaxy_job_conf_tools:
   - id: fastq_stats
     environment: tpv_dispatcher
   - id: flye
+    environment: tpv_dispatcher
+  - id: trim_galore
     environment: tpv_dispatcher
   - id: trinity
     environment: tpv_dispatcher
@@ -288,7 +376,7 @@ __galaxy_multicore_tools:
   - align_families
   - alleyoop
   - antismash
-  - bedtools_bamtobed
+  #- bedtools_bamtobed
   - bellerophon
   - bg_diamond
   - bg_diamond_makedb
@@ -480,7 +568,7 @@ __galaxy_multicore_tools:
   - tophat2
   - tophat_fusion_post
   - transdecoder
-  - trim_galore
+  #- trim_galore
   - trimmomatic
   - trinity_align_and_estimate_abundance
   - trinity_psc
