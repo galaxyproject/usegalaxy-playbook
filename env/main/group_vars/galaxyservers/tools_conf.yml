@@ -24,10 +24,6 @@ galaxy_job_conf_tools:
   - id: interactive_tool_pavian
     environment: tacc_k8s
     handler: k8s
-  # runs through the job router with special spec but this gets it the resource selector
-  #- id: busco
-  #  handler: multi
-  #  resources: frontera
   # standard multi handlers and resources but excluded from templating into job_router_conf because it has a specific
   # mapping
   - id: maker
@@ -184,7 +180,15 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: alphafold
     environment: tpv_dispatcher
+  - id: bowtie2
+    environment: tpv_dispatcher
+  - id: bwa
+    environment: tpv_dispatcher
+  - id: bwa_mem
+    environment: tpv_dispatcher
   - id: bwa_mem2
+    environment: tpv_dispatcher
+  - id: hisat2
     environment: tpv_dispatcher
   - id: bandage_image
     environment: tpv_dispatcher
@@ -210,10 +214,74 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: vsearch_sorting
     environment: tpv_dispatcher
+  - id: gops_join_1
+    environment: tpv_dispatcher
+  - id: varscan
+    environment: tpv_dispatcher
+  - id: scatterplot_rpy
+    environment: tpv_dispatcher
+  - id: htseq_count
+    environment: tpv_dispatcher
+  - id: flanking_features
+    environment: tpv_dispatcher
+  - id: collection_column_join
+    environment: tpv_dispatcher
+  - id: rseqc_FPKM_count
+    environment: tpv_dispatcher
+  - id: rseqc_RNA_fragment_size
+    environment: tpv_dispatcher
+  - id: rseqc_bam_stat
+    environment: tpv_dispatcher
+  - id: rseqc_clipping_profile
+    environment: tpv_dispatcher
+  - id: rseqc_deletion_profile
+    environment: tpv_dispatcher
+  - id: rseqc_geneBody_coverage
+    environment: tpv_dispatcher
+  - id: rseqc_geneBody_coverage2
+    environment: tpv_dispatcher
+  - id: rseqc_infer_experiment
+    environment: tpv_dispatcher
+  - id: rseqc_inner_distance
+    environment: tpv_dispatcher
+  - id: rseqc_insertion_profile
+    environment: tpv_dispatcher
+  - id: rseqc_junction_annotation
+    environment: tpv_dispatcher
+  - id: rseqc_junction_saturation
+    environment: tpv_dispatcher
+  - id: rseqc_mismatch_profile
+    environment: tpv_dispatcher
+  - id: rseqc_read_GC
+    environment: tpv_dispatcher
+  - id: rseqc_read_NVC
+    environment: tpv_dispatcher
+  - id: rseqc_read_distribution
+    environment: tpv_dispatcher
+  - id: rseqc_read_hexamer
+    environment: tpv_dispatcher
+  - id: kc-align
+    environment: tpv_dispatcher
+  - id: ggplot2_heatmap2
+    environment: tpv_dispatcher
+  - id: read2mut
+    environment: tpv_dispatcher
+  - id: vegan_diversity
+    environment: tpv_dispatcher
+  - id: vegan_fisher_alpha
+    environment: tpv_dispatcher
+  - id: vegan_rarefaction
+    environment: tpv_dispatcher
+  - id: volcanoplot
+    environment: tpv_dispatcher
+  - id: abims_anova
+    environment: tpv_dispatcher
+  - id: maxbin2
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
-galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) | difference(galaxy_large_memory_tools) | difference(galaxy_low_priority_tools) | difference(galaxy_frontera_tools) }}"
+galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) | difference(galaxy_large_memory_tools) | difference(galaxy_low_priority_tools) }}"
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -335,9 +403,6 @@ galaxy_conditional_large_memory_tools: []
 # tools that should run on Stampede
 galaxy_low_priority_tools: []
 
-# tools that should run on Frontera
-galaxy_frontera_tools: []
-
 # some tools have explicit mappings (e.g. for Bridges)
 __galaxy_multicore_tools_exclude:
   - align_families
@@ -399,12 +464,12 @@ __galaxy_multicore_tools:
   - bg_diamond_view
   - bioext_bealign
   - bio_hansel
-  - bowtie2
+  #- bowtie2
   - bowtie_wrapper
   - busco
-  - bwa
-  - bwa_mem
-  - bwa_mem2
+  #- bwa
+  #- bwa_mem
+  #- bwa_mem2
   - bwameth
   - bwa_wrapper
   - correct_barcodes
@@ -449,7 +514,7 @@ __galaxy_multicore_tools:
   - heinz
   - hhsearch
   - hifive
-  - hisat2
+  #- hisat2
   - hyphy_relax
   - iqtree
   - iuc_pear
@@ -457,7 +522,7 @@ __galaxy_multicore_tools:
   - jasminesv
   - kallisto_pseudo
   - kallisto_quant
-  - kc-align
+  #- kc-align
   - kobas_annotate
   - lastz_wrapper_2
   - lofreq_call
@@ -616,7 +681,6 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_fisher_alpha/vegan_fisher_alpha/0.0.3"
   - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_rarefaction/vegan_rarefaction/0.0.2"
   - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_rarefaction/vegan_rarefaction/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy1"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.2.0"

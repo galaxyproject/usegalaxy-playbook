@@ -133,11 +133,33 @@ tools:
       if: 1 <= input_size < 2
       cores: 4
 
+  toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
+    # was 16 in the job router but let's try this
+    mem: 8
+
+  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/.*:
+    # was 16 in the job router but let's try this
+    mem: 8
+
+  toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
+    # was 16 in the job router but let's try this
+    mem: 8
+
+  toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
+    # shared DB uses 24, AU uses 7.6, we had configured 16, stick with 16
+    mem: 16
+
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/.*:
+    # was 16 in the job router but let's try this
+    mem: 8
+
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/2\..*:
     # uses cpu instructions not present on roundup
     scheduling:
       reject:
       - roundup
+
+  # TODO: sort stuff below here
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
@@ -289,30 +311,52 @@ tools:
       reject:
       - stampede2
 
-  # NOTE: Main does not map bwa to TPV yet, this is only used by Test for... testing
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
-    cores: 2
-    scheduling:
-      accept:
-      - pulsar
-      require:
-      - cvmfs
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
+    cores: 8
+    mem: 28
     rules:
-    - if: 0.25 <= input_size < 1
+    - id: bowtie2_small_input_rule
+      if: input_size < 0.1
+      cores: 2
+      mem: 7.6
+    - id: bowtie2_medium_input_rule
+      if: 0.1 <= input_size < 2
       cores: 4
-      mem: cores * 3.6
-    - if: input_size >= 1
+      mem: 16
+
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
+    cores: 8
+    mem: 28
+    rules:
+    - id: bwa_small_input_rule
+      if: input_size < 0.25
+      cores: 2
+      mem: 7.6
+    - id: bwa_medium_input_rule
+      if: 0.25 <= input_size < 1
+      cores: 4
+      mem: 16
+
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
+    cores: 32
+    mem: 120
+    rules:
+    - id: bwa_mem_small_input_rule
+      if: input_size < 0.25
+      cores: 2
+      mem: 7.6
+    - id: bwa_mem_medium_input_rule
+      if: 0.25 <= input_size < 1
+      cores: 4
+      mem: 15.3
+    - id: bwa_mem_medium2_input_rule
+      if: 1 <= input_size < 20
       cores: 8
-      mem: cores * 3.6
+      mem: 30.7
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
-    cores: 20
+    cores: 32
     mem: 120
-    scheduling:
-      accept:
-      - pulsar
-      require:
-      - cvmfs
     rules:
     - id: bwa_mem2_small_input_rule
       if: input_size < 0.25
@@ -324,6 +368,23 @@ tools:
       mem: 28
     - id: bwa_mem2_large_input_rule
       if: 16 <= input_size < 32
+      cores: 16
+      mem: 58
+
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
+    cores: 32
+    mem: 120
+    rules:
+    - id: hisat2_small_input_rule
+      if: input_size < 0.5
+      cores: 2
+      mem: 7.6
+    - id: hisat2_medium_input_rule
+      if: 0.5 <= input_size < 15
+      cores: 8
+      mem: 30
+    - id: hisat2_large_input_rule
+      if: 15 <= input_size < 30
       cores: 16
       mem: 58
 
@@ -448,15 +509,36 @@ tools:
     cores: 4
     mem: 16
 
+  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
+    rules:
+    - id: htseq_count_small_input_rule
+      if: input_size < 0.2
+      mem: 3.8
+    - id: htseq_count_medium_input_rule
+      if: 0.2 <= input_size < 10
+      mem: 20
+
   verkko:
     cores: 32
     mem: 120
 
   # legacy conda-in-singularity tools
 
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0\.[234]: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2\.2\.6.*: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.1: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.4\.2: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.7\.12\.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.[56].*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.1: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1\..*: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/2.0.3: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1\..*: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vegan_[^/]*/vegan_[^/]*/0\.0\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/1\..*: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/lecorguille/anova/abims_anova/1.2.1: {inherits: _legacy}
 
   # legacy container override tools
 

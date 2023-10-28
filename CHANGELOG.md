@@ -3,6 +3,16 @@
 This is a log of any changes that were made manually that could not easily be codified in to Ansible. Changes made
 prior to the first entry have not been logged.
 
+
+### Fri Oct 27 20:30:38 CDT 2023
+
+Uninstalled:
+
+- `toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy1`: Broken, `0.6.1galaxy3` is installed and
+  partially works, newer versins installed that fully work.
+- `toolshed.g2.bx.psu.edu/repos/mbernt/maxbin2/maxbin2/2.2.7+galaxy2`: Mostly broken and `2.2.7+galaxy3` is installed
+  and not broken.
+
 ### Mon May  9 14:07:45 CDT 2022
 
 Uninstalled:

@@ -93,36 +93,6 @@ tools:
 {% endfor %}
 
   # Old versions not yet tested in Singularity
-  toolshed.g2.bx.psu.edu/repos/devteam/join/gops_join_1/1.0.0: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/2.4.2: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/devteam/scatterplot/scatterplot_rpy/1.0.3: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy1: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy3: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.9.1: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/4.0.1: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.1: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.3: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_duplication/2.6.4: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/2.6.4: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_RPKM_saturation/2.6.4.1: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_bam2wig/2.6.4: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/2.2.1+galaxy0: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/2.2.1+galaxy1: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/3.0.1: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.0: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.2: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.3: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.4: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.5: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.6: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.1.7: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/0.2: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/1.0: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/kc_align/kc-align/1.0.2: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.0: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1.0.1: {destination: slurm_normal_16gb_direct}
-  toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/2.0.0: {destination: slurm_normal_16gb_direct}
   #Interval2Maf1: {destination: slurm_normal_32gb_direct}
   wig_to_bigWig: {destination: slurm_normal_64gb_direct}
   CONVERTER_bed_gff_or_vcf_to_bigwig_0: {destination: slurm_normal_64gb_direct}
@@ -138,28 +108,14 @@ tools:
   # 1 core, 16 GB of memory, and a 36 hour walltime
   # tool uses < 6.5 GB 89.2% of the time
   join1: {destination: slurm_normal_16gb}
-  gops_join_1: {destination: slurm_normal_16gb}
-  varscan: {destination: slurm_normal_16gb}
   fastq_paired_end_joiner: {destination: slurm_normal_16gb}
-  scatterplot_rpy: {destination: slurm_normal_16gb}
-  htseq_count: {destination: slurm_normal_16gb}
-  flanking_features_1: {destination: slurm_normal_16gb}
   cummeRbund: {destination: slurm_normal_16gb}
-  collection_column_join: {destination: slurm_normal_16gb}
-  rseqc_read_duplication: {destination: slurm_normal_16gb}
-  rseqc_RPKM_saturation: {destination: slurm_normal_16gb}
-  rseqc_bam2wig: {destination: slurm_normal_16gb}
   seqtk_sample: {destination: slurm_normal_16gb}
-  ggplot2_heatmap2: {destination: slurm_normal_16gb}
-  kc-align: {destination: slurm_normal_16gb}
   porechop: {destination: slurm_normal_16gb}
-  read2mut: {destination: slurm_normal_16gb}
   # tool uses < 6.5 GB 90.8% of the time and is a good candidate for running w/ 8 GB and resubmitting on failure.
   annotatemyids: {destination: slurm_normal_16gb}
   # TODO: this can be a function of base pairs in the reference
   genrich: {destination: slurm_normal_16gb}
-  cummeRbund: {destination: slurm_normal_16gb}
-  gfastats: {destination: slurm_normal_16gb}
 
   # 1 core, 32 GB of memory, and a 36 hour walltime
   #Interval2Maf1: {destination: slurm_normal_32gb}
@@ -362,11 +318,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.5: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/1.12.0: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/1.13: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.2: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.3: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0.4: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.2.6.2: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/4.6.3: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/1.1.0: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_compare/deeptools_bam_compare/2.3.5.0: {destination: slurm_multi_conda}
@@ -411,12 +362,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/crs4/taxonomy_krona_chart/taxonomy_krona_chart/2.6.1.1: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.1: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.4.2: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/0.7.12.1: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.1: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.4.2: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.7.12.1: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/0.0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/cluster/gops_cluster_1/1.0.0: {destination: slurm_normal_conda}
@@ -548,7 +493,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/ucsc_custom_track/build_ucsc_custom_track_1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/vcf2pgsnp/vcf2pgSnp/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/weblogo3/rgweblogo3/0.4: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/xy_plot/XY_Plot_1/1.0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/ethevenot/biosigner/biosigner/2.2.7: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/ethevenot/multivariate/Multivariate/2.3.10: {destination: slurm_normal_conda}
@@ -595,9 +539,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.0.6: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/1.6.2: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/genetrack/genetrack/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1.0.0: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1.0.1: {destination: slurm_multi_conda}
-  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/2.0.3: {destination: slurm_multi_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/1.16.1+galaxy0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse_to_standalone/1.16.1+galaxy0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/iuc/meme_fimo/meme_fimo/4.11.0.0: {destination: slurm_normal_conda}
@@ -879,39 +820,39 @@ tools:
     #- destination: slurm_normal
 
   # Kraken goes to Stampede 2 SKX if the bacteria database is selected, otherwise it goes to standard multi
-  kraken:
-    # can be a list if you want to do different things with different params (or one thing with no checked params)
-    - params:
-        - name: kraken_database
-          value: bacteria
-      # can be a real id or key in 'destinations' dict below
-      destination: stampede_skx_normal
-      login_required: true
-    - destination: multi
-      login_required: true
+  #kraken:
+  #  # can be a list if you want to do different things with different params (or one thing with no checked params)
+  #  - params:
+  #      - name: kraken_database
+  #        value: bacteria
+  #    # can be a real id or key in 'destinations' dict below
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #  - destination: multi
+  #    login_required: true
 
-  kraken2:
-    - params:
-      - name: kraken2_database
-        type: data_table_lookup
-        table_name: kraken2_databases
-        value_template: '{value}/hash.k2d'
-        op: '>'
-        value: 52G
-      destination: stampede_skx_normal
-      login_required: true
-    - params:
-      - name: kraken2_database
-        type: data_table_lookup
-        table_name: kraken2_databases
-        value_template: '{value}/hash.k2d'
-        op: '>'
-        value: 24G
-      destination: jetstream2_large
-      #destination: stampede_normal
-      login_required: true
-    - destination: multi
-      login_required: true
+  #kraken2:
+  #  - params:
+  #    - name: kraken2_database
+  #      type: data_table_lookup
+  #      table_name: kraken2_databases
+  #      value_template: '{value}/hash.k2d'
+  #      op: '>'
+  #      value: 52G
+  #    destination: stampede_skx_normal
+  #    login_required: true
+  #  - params:
+  #    - name: kraken2_database
+  #      type: data_table_lookup
+  #      table_name: kraken2_databases
+  #      value_template: '{value}/hash.k2d'
+  #      op: '>'
+  #      value: 24G
+  #    destination: jetstream2_large
+  #    #destination: stampede_normal
+  #    login_required: true
+  #  - destination: multi
+  #    login_required: true
 
   # align_families gets 192 hours of walltime
   align_families:
@@ -929,63 +870,53 @@ tools:
   #
 
   # SPAdes (and thus Unicycler) uses at most 250GB
-  spades:
-    - params:
-        - {name: libraries.files.file_type.type, value: separate}
-        - {name: libraries.files.file_type.fwd_reads, op: '<', value: 100M}
-      destination: multi_direct
-      login_required: true
-    - params:
-        - {name: libraries.files.file_type.type, value: interleaved}
-        - {name: libraries.files.file_type.interleaved_reads, op: '<', value: 200M}
-      destination: multi_direct
-      login_required: true
-    - params:
-        - {name: libraries.files.file_type.type, value: merged}
-        - {name: libraries.files.file_type.merged_reads, op: '<', value: 100M}
-      destination: multi
-      login_required: true
-    - params:
-        - {name: libraries.files.file_type.type, value: unpaired}
-        - {name: libraries.files.file_type.unpaired_reads, op: '<', value: 100M}
-      destination: multi_direct
-      login_required: true
-    - params:
-        - {name: libraries.files.file_type.type, value: paired-collection}
-        - {name: libraries.files.file_type.fastq_collection, op: '<', value: 100M}
-      destination: multi_direct
-      login_required: true
-    - destination: stampede_normal
-      login_required: true
-      env:
-        # SPAdes uses 2GB+ per thread regardless of what you set the memory limit to, so we have to decrease the threads
-        # to avoid using too much memory
-        - name: GALAXY_SLOTS
-          value: "24"
-    #destination: bridges_normal
-    #login_required: true
-    #spec:
-    #  mem: 288G
-    #env:
-    #  #- name: GALAXY_MEMORY_MB
-    #  #  value: "245760"
-    #  - name: GALAXY_SLOTS
-    #    value: "64"
-    #  # TODO: appropriate value for Bridges-2?
-    #  - execute: ulimit -s 24576
+  #spades:
+  #  - params:
+  #      - {name: libraries.files.file_type.type, value: separate}
+  #      - {name: libraries.files.file_type.fwd_reads, op: '<', value: 100M}
+  #    destination: multi_direct
+  #    login_required: true
+  #  - params:
+  #      - {name: libraries.files.file_type.type, value: interleaved}
+  #      - {name: libraries.files.file_type.interleaved_reads, op: '<', value: 200M}
+  #    destination: multi_direct
+  #    login_required: true
+  #  - params:
+  #      - {name: libraries.files.file_type.type, value: merged}
+  #      - {name: libraries.files.file_type.merged_reads, op: '<', value: 100M}
+  #    destination: multi
+  #    login_required: true
+  #  - params:
+  #      - {name: libraries.files.file_type.type, value: unpaired}
+  #      - {name: libraries.files.file_type.unpaired_reads, op: '<', value: 100M}
+  #    destination: multi_direct
+  #    login_required: true
+  #  - params:
+  #      - {name: libraries.files.file_type.type, value: paired-collection}
+  #      - {name: libraries.files.file_type.fastq_collection, op: '<', value: 100M}
+  #    destination: multi_direct
+  #    login_required: true
+  #  - destination: stampede_normal
+  #    login_required: true
+  #    env:
+  #      # SPAdes uses 2GB+ per thread regardless of what you set the memory limit to, so we have to decrease the threads
+  #      # to avoid using too much memory
+  #      - name: GALAXY_SLOTS
+  #        value: "24"
 
-  unicycler:
-    - params:
-        #- {name: paired_unpaired.fastq_input_selector, value: [paired, paired_collection, single]}
-        - {name: paired_unpaired.fastq_input1, op: '>', value: 800M}
-      destination: stampede_normal
-      login_required: true
-      env:
-        - name: GALAXY_SLOTS
-          value: "24"
-    # Use multi for all (but Bridges can be selected from the resource selector)
-    - destination: multi
-      login_required: true
+  #unicycler:
+  #  - params:
+  #      #- {name: paired_unpaired.fastq_input_selector, value: [paired, paired_collection, single]}
+  #      - {name: paired_unpaired.fastq_input1, op: '>', value: 800M}
+  #    destination: stampede_normal
+  #    login_required: true
+  #    env:
+  #      - name: GALAXY_SLOTS
+  #        value: "24"
+  #  # Use multi for all (but Bridges can be selected from the resource selector)
+  #  - destination: multi
+  #    login_required: true
+
   #  # Use multi for very small (e.g. training) datasets
   #  - params:
   #      - {name: paired_unpaired.fastq_input1, op: '<', value: 100M}
@@ -1008,16 +939,6 @@ tools:
   bwa_color_wrapper: {destination: stampede_normal, login_required: true}
   bowtie_color_wrapper: {destination: stampede_normal, login_required: true}
   megablast_wrapper: {destination: stampede_normal, login_required: true}
-
-  #
-  # Frontera tools
-  #
-{% for tool_id in galaxy_frontera_tools %}
-{#
-  {{ tool_id }}: {destination: frontera_small, login_required: true}
-#}
-  {{ tool_id }}: {destination: stampede_skx_normal, login_required: true}
-{% endfor %}
 
 # count of queued jobs in these destinations count against the other destinations (i.e. they're probably just slightly
 # different params on the same queue)
@@ -1175,47 +1096,6 @@ destinations:
   stampede_long:
     max:
       time: 120
-  frontera_small:
-    valid:
-      - ntasks
-      - time
-    max:
-      ntasks: 56
-      time: 48
-  frontera_development:
-    valid:
-      - ntasks
-      - time
-    max:
-      ntasks: 56
-    override:
-      time: 2
-  bridges_normal:
-    valid:
-      #- mem
-      - ntasks
-      - time
-    max:
-      ntasks: 128
-      time: 36
-    override:
-      time: 48
-      #mem: 720G
-    #normalize:
-    #  mem: 48G
-  bridges_development:
-    valid:
-      #- mem
-      - ntasks
-      - time
-    max:
-      ntasks: 128
-    override:
-      time: 2
-    #override:
-    #  mem: 720G
-    #normalize:
-    #  mem: 48G
 
 groups:
   Job Priority Users:
@@ -1246,16 +1126,8 @@ groups:
       slurm_normal_resolv_fix: slurm_test_normal_resolv_fix
       slurm_multi_conda: slurm_test_normal_conda
       slurm_multi_resolv_fix: slurm_test_normal_resolv_fix
-      frontera_small: frontera_development
       stampede_normal: stampede_development
       stampede_skx_normal: stampede_skx_development
-      bridges_normal: bridges_development
-      bridges_shared_128gb: bridges_development
-      bridges_shared_64gb: bridges_development
-      bridges_extreme_1tb: bridges_development
-      expanse_normal: expanse_development
-      expanse_shared_128gb: expanse_development
-      expanse_shared_64gb: expanse_development
       slurm_normal_direct: slurm_test_normal_direct
       slurm_normal_16gb_direct: slurm_test_normal_direct
       slurm_normal_32gb_direct: slurm_test_normal_direct
