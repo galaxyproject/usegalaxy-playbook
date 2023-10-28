@@ -133,6 +133,12 @@ tools:
       if: 1 <= input_size < 2
       cores: 4
 
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/2\..*:
+    # uses cpu instructions not present on roundup
+    scheduling:
+      reject:
+      - roundup
+
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
     cores: 12
@@ -450,6 +456,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.[56].*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/1\..*: {inherits: _legacy}
 
   # legacy container override tools
 

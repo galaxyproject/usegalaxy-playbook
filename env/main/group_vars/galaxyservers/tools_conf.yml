@@ -194,6 +194,22 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: hifiasm
     environment: tpv_dispatcher
+  - id: vsearch_alignment
+    environment: tpv_dispatcher
+  - id: vsearch_chimera_detection
+    environment: tpv_dispatcher
+  - id: vsearch_clustering
+    environment: tpv_dispatcher
+  - id: vsearch_dereplication
+    environment: tpv_dispatcher
+  - id: vsearch_masking
+    environment: tpv_dispatcher
+  - id: vsearch_search
+    environment: tpv_dispatcher
+  - id: vsearch_shuffling
+    environment: tpv_dispatcher
+  - id: vsearch_sorting
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
@@ -600,22 +616,6 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_fisher_alpha/vegan_fisher_alpha/0.0.3"
   - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_rarefaction/vegan_rarefaction/0.0.2"
   - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_rarefaction/vegan_rarefaction/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_alignment/1.1.3.1"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_alignment/1.9.7.0"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/1.1.3.1"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_chimera_detection/1.9.7.0"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/1.1.3.2"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_clustering/1.9.7.0"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_dereplication/1.1.3.2"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_dereplication/1.9.7.0"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_masking/1.1.3.1"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_masking/1.9.7.0"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/1.1.3.1"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_search/1.9.7.0"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_shuffling/1.1.3.1"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_shuffling/1.9.7.0"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_sorting/1.1.3.2"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_sorting/1.9.7.0"
   - "toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/0.6.1galaxy1"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0"
