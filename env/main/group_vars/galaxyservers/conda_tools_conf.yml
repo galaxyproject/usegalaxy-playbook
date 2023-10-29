@@ -7,52 +7,9 @@
 galaxy_conda_tools: "{{ __galaxy_conda_tools | difference(galaxy_python2_legacy_tools) }}"
 
 __galaxy_conda_tools:
-  - aggregate_scores_in_intervals2
-  - bed2gff1
-  - bed_to_bigBed
-  - csv_to_tabular
-  - ebi_sra_main
-  - eupathdb
-  - export_remote
-  - flymine
-  - gene2exon1
-  - gff2bed1
-  - hbvar
-  - hgv_add_scores
-  - hgv_beam
-  - hgv_codingSnps
-  - hgv_david
-  - hgv_gpass
-  - hgv_ldtools
-  - hgv_linkToGProfile
-  - hgv_lps
-  - hgv_pass
-  - hgv_sift
-  - intermine
-  - liftOver1
-  - lped2fpedconvert
-  - lped2pbedconvert
-  - maf_by_block_number1
-  - maf_limit_size1
-  - maf_stats1
-  - master2pgSnp
-  - modENCODEfly
-  - modENCODEworm
-  - modmine
-  - mousemine
-  - param_value_from_file
-  - pbed2ldindepconvert
-  - pbed2lpedconvert
-  - ratmine
-  - send_to_cloud
-  - sra_source
-  - tabular_to_csv
-  - tabular_to_dbnsfp
   # need to build a custom image or something maybe idk
   - toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1
   - toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1
-  - toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0
-  - toolshed.g2.bx.psu.edu/repos/devteam/microsats_mutability/microsats_mutability1/1.1.0
   # this is just a huge mess
   #- toolshed.g2.bx.psu.edu/repos/climate/ctsm_fates/ctsm_fates/2.0.1
   # tests won't run due to param errors so no idea if these worked before or after
@@ -60,9 +17,6 @@ __galaxy_conda_tools:
   #- toolshed.g2.bx.psu.edu/repos/devteam/hgv_hilbertvis/hgv_hilbertvis/1.0.0
   # /corral4/main/tool_data/taxonomy not mounted into container
   #- toolshed.g2.bx.psu.edu/repos/devteam/gi2taxonomy/Fetch Taxonomic Ranks/1.1.0
-  # py2, eggs, bx, and galaxy imports, what have you been doing with these?
-  - toolshed.g2.bx.psu.edu/repos/devteam/substitution_rates/subRate1/1.0.0
-  - toolshed.g2.bx.psu.edu/repos/devteam/substitutions/substitutions1/1.0.0
   # none of these actually run tests for some reason
   #- toolshed.g2.bx.psu.edu/repos/devteam/kraken_filter/kraken-filter/1.1.0
   #- toolshed.g2.bx.psu.edu/repos/devteam/kraken_filter/kraken-filter/1.2.1
@@ -162,55 +116,6 @@ __galaxy_conda_tools:
   - toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify/1.1.0
   - toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_specify_restriction_enzymes/1.0.0
   - toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.1.0
-  - toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.1
-  - toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.2
-  - toolshed.g2.bx.psu.edu/repos/nick/allele_counts/allele_counts_1/1.3.2
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/0.7
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/0.7.6
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/0.8.1
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/2.0.12
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/2.0.6
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/2.0.8
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/2.0.9
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/2.14
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/2.15
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/0.7
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/0.7.6
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/0.8.1
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.0.12
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.0.6
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.0.6.1
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.0.8
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.0.9
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.14
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/correct_barcodes/2.15
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/0.7
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/0.7.6
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/0.8.1
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/2.0.12
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/2.0.6
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/2.0.8
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/2.0.9
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/2.14
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/dunovo/2.15
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/0.7
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/0.7.6
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/0.8.1
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/2.0.12
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/2.0.6
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/2.0.8
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/2.0.9
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/2.14
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/make_families/2.15
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/precheck/2.14
-  - toolshed.g2.bx.psu.edu/repos/nick/dunovo/precheck/2.15
-  - toolshed.g2.bx.psu.edu/repos/nick/sequence_content_trimmer/sequence_content_trimmer/0.1
-  - toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/4.0
-  - toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/4.1
-  - toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/4.2
-  - toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5.1.0
-  - toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/3.9.0
-  - toolshed.g2.bx.psu.edu/repos/nml/staramr/staramr_search/0.5.1
   - toolshed.g2.bx.psu.edu/repos/peterjc/mummer/mummerplot_wrapper/0.0.7
   - toolshed.g2.bx.psu.edu/repos/peterjc/seq_composition/seq_composition/0.0.5
   - toolshed.g2.bx.psu.edu/repos/peterjc/seq_filter_by_id/seq_filter_by_id/0.2.7
@@ -230,6 +135,3 @@ __galaxy_conda_tools:
   - ucsc_table_direct_archaea1
   - vcf_to_maf_customtrack1
   - wiggle2simple1
-  - wormbase
-  - yeastmine
-  - zebrafishmine

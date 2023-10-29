@@ -414,6 +414,94 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: __ZIP_COLLECTION__
     environment: tpv_dispatcher
+  - id: aggregate_scores_in_intervals2
+    environment: tpv_dispatcher
+  - id: bed2gff1
+    environment: tpv_dispatcher
+  - id: bed_to_bigBed
+    environment: tpv_dispatcher
+  - id: csv_to_tabular
+    environment: tpv_dispatcher
+  - id: ebi_sra_main
+    environment: tpv_dispatcher
+  - id: eupathdb
+    environment: tpv_dispatcher
+  - id: export_remote
+    environment: tpv_dispatcher
+  - id: gene2exon1
+    environment: tpv_dispatcher
+  - id: gff2bed1
+    environment: tpv_dispatcher
+  - id: hbvar
+    environment: tpv_dispatcher
+  - id: hgv_add_scores
+    environment: tpv_dispatcher
+  - id: hgv_beam
+    environment: tpv_dispatcher
+  - id: hgv_codingSnps
+    environment: tpv_dispatcher
+  - id: hgv_david
+    environment: tpv_dispatcher
+  - id: hgv_gpass
+    environment: tpv_dispatcher
+  - id: hgv_ldtools
+    environment: tpv_dispatcher
+  - id: hgv_linkToGProfile
+    environment: tpv_dispatcher
+  - id: hgv_lps
+    environment: tpv_dispatcher
+  - id: hgv_pass
+    environment: tpv_dispatcher
+  - id: hgv_sift
+    environment: tpv_dispatcher
+  - id: intermine
+    environment: tpv_dispatcher
+  - id: liftOver1
+    environment: tpv_dispatcher
+  - id: lped2fpedconvert
+    environment: tpv_dispatcher
+  - id: lped2pbedconvert
+    environment: tpv_dispatcher
+  - id: maf_by_block_number1
+    environment: tpv_dispatcher
+  - id: maf_limit_size1
+    environment: tpv_dispatcher
+  - id: maf_stats1
+    environment: tpv_dispatcher
+  - id: master2pgSnp
+    environment: tpv_dispatcher
+  - id: modENCODEfly
+    environment: tpv_dispatcher
+  - id: modENCODEworm
+    environment: tpv_dispatcher
+  - id: param_value_from_file
+    environment: tpv_dispatcher
+  - id: pbed2ldindepconvert
+    environment: tpv_dispatcher
+  - id: pbed2lpedconvert
+    environment: tpv_dispatcher
+  - id: send_to_cloud
+    environment: tpv_dispatcher
+  - id: sra_source
+    environment: tpv_dispatcher
+  - id: tabular_to_csv
+    environment: tpv_dispatcher
+  - id: tabular_to_dbnsfp
+    environment: tpv_dispatcher
+  - id: microsats_align1
+    environment: tpv_dispatcher
+  - id: microsats_mutability1
+    environment: tpv_dispatcher
+  - id: subRate1
+    environment: tpv_dispatcher
+  - id: substitutions1
+    environment: tpv_dispatcher
+  - id: collapse_dataset
+    environment: tpv_dispatcher
+  - id: metaspades
+    environment: tpv_dispatcher
+  - id: staramr_search
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
@@ -600,12 +688,8 @@ __galaxy_multicore_tools:
   - bg_diamond_view
   - bioext_bealign
   - bio_hansel
-  #- bowtie2
   - bowtie_wrapper
   - busco
-  #- bwa
-  #- bwa_mem
-  #- bwa_mem2
   - bwameth
   - bwa_wrapper
   - correct_barcodes
@@ -625,15 +709,10 @@ __galaxy_multicore_tools:
   - dexseq
   - disco
   - docking
-  - dunovo
   - egsea
   - exonerate
   - fargene
-  #- fasterq_dump
   - fastp
-  # not sure how much this actually improves runtime but considering it doesn't use memory and it runs in the order of a
-  # couple minutes, this is a huge waste
-  #- fastqc
   - featurecounts
   - flash
   - freebayes
@@ -650,7 +729,6 @@ __galaxy_multicore_tools:
   - heinz
   - hhsearch
   - hifive
-  #- hisat2
   - hyphy_relax
   - iqtree
   - iuc_pear
@@ -658,7 +736,6 @@ __galaxy_multicore_tools:
   - jasminesv
   - kallisto_pseudo
   - kallisto_quant
-  #- kc-align
   - kobas_annotate
   - lastz_wrapper_2
   - lofreq_call
@@ -809,14 +886,6 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/devteam/quality_filter/qualityFilter/1.0.1"
   # FIXME ABOVE
-  #- "toolshed.g2.bx.psu.edu/repos/iuc/ngsutils_bam_filter/ngsutils_bam_filter/0.5.7.1"
-  #- "toolshed.g2.bx.psu.edu/repos/iuc/repmatch_gff3/repmatch_gff3/1.0.0"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_diversity/vegan_diversity/0.0.2"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_diversity/vegan_diversity/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_fisher_alpha/vegan_fisher_alpha/0.0.2"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_fisher_alpha/vegan_fisher_alpha/0.0.3"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_rarefaction/vegan_rarefaction/0.0.2"
-  - "toolshed.g2.bx.psu.edu/repos/iuc/vegan_rarefaction/vegan_rarefaction/0.0.3"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_add_fst_column/1.2.0"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_average_fst/1.3.0"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_calc_freq/1.2.0"
@@ -839,12 +908,6 @@ galaxy_python2_legacy_tools:
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_rank_terms/1.1.0"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_raxml/1.0.0"
   - "toolshed.g2.bx.psu.edu/repos/miller-lab/genome_diversity/gd_sum_gd_snp/1.1.0"
-  - "toolshed.g2.bx.psu.edu/repos/nick/duplex/align_families/0.3"
-  - "toolshed.g2.bx.psu.edu/repos/nick/duplex/align_families/0.5"
-  - "toolshed.g2.bx.psu.edu/repos/nick/duplex/duplex/0.3"
-  - "toolshed.g2.bx.psu.edu/repos/nick/duplex/duplex/0.5"
-  - "toolshed.g2.bx.psu.edu/repos/nick/duplex/make_families/0.3"
-  - "toolshed.g2.bx.psu.edu/repos/nick/duplex/make_families/0.5"
   - "toolshed.g2.bx.psu.edu/repos/peterjc/venn_list/venn_list/0.0.9"
   - "toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.1"
   - "toolshed.g2.bx.psu.edu/repos/rnateam/mafft/rbc_mafft/7.221.3"

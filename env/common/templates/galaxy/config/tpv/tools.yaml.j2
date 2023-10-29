@@ -95,6 +95,12 @@ tools:
   MAF_To_Fasta1: {inherits: _galaxy_lib}
   MAF_To_Interval1: {inherits: _galaxy_lib}
   MAF_filter: {inherits: _galaxy_lib}
+  gff2bed1: {inherits: _galaxy_lib}
+  maf_by_block_number1: {inherits: _galaxy_lib}
+  maf_limit_size1: {inherits: _galaxy_lib}
+
+  # galaxy lib tools in singularity, non-pulsar
+
   toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/.*: {inherits: _galaxy_lib_local}
 
   # as of 23.1, these have no requirement tags
@@ -110,21 +116,19 @@ tools:
     params:
       # coreutils=8.25,perl=5.22.0.1
       container_override: [{type: singularity, shell: '/bin/bash', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-c5660771860859a51697ce13d5d74251dc4c8eb6:254c9751502b0d56aa64890243ee9ebd88e94048-0"}]
-  Remove beginning1:
+
+  _perl_5_26_2:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.26.2"}]
-  Condense characters1:
-    params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.26.2"}]
-  createInterval:
-    params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.26.2"}]
-  Cut1:
-    params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.26.2"}]
-  ChangeCase:
-    params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.26.2"}]
+  Remove beginning1: {inherits: _perl_5_26_2}
+  Condense characters1: {inherits: _perl_5_26_2}
+  createInterval: {inherits: _perl_5_26_2}
+  Cut1: {inherits: _perl_5_26_2}
+  ChangeCase: {inherits: _perl_5_26_2}
+  hgv_david: {inherits: _perl_5_26_2}
+  hgv_linkToGProfile: {inherits: _perl_5_26_2}
+  master2pgSnp: {inherits: _perl_5_26_2}
+
   Extract_features1:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bx-python:0.8.9--py38hb90e610_2"}]
@@ -136,6 +140,12 @@ tools:
   # real tools
 
   # NOTE: any tools that increase cores but do not set mem will use the default mem multiplier of cores * 2.89G
+
+  hgv_ldtools:
+    # copies ldtools_wrapper.sh without +x so can't be executed
+    scheduling:
+      reject:
+      - pulsar
 
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     cores: 5
@@ -199,6 +209,23 @@ tools:
     scheduling:
       reject:
       - roundup
+
+  toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
+    # shared DB has 10 cores and 250 GB(!)
+    cores: 16
+    mem: 60
+    rules:
+    - id: metaspades_small_input_rule
+      if: input_size < 0.05
+      cores: 2
+      mem: 7.6
+    - id: metaspades_medium_input_rule
+      if: 0.05 <= input_size < 1
+      cores: 8
+      mem: 28
+    - id: metaspades_fail_rule
+      if: input_size >= 60
+      fail: Too much data, please don't use Spades for this
 
   # TODO: sort stuff below here
 
@@ -582,6 +609,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.7\.12\.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.[56].*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/galaxyp/bed_to_protein_map/bed_to_protein_map/0.1.0: {inherits: _legacy}
@@ -593,6 +621,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/vegan_[^/]*/vegan_[^/]*/0\.0\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/1\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/lecorguille/anova/abims_anova/1.2.1: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/nick/duplex/.*/0.[35]: {inherits: _legacy}
 
   # legacy singularity resolv.conf fix tools
 
