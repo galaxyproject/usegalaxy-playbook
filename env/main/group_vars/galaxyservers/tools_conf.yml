@@ -278,6 +278,142 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: maxbin2
     environment: tpv_dispatcher
+  - id: trim_reads
+    environment: tpv_dispatcher
+  - id: gffcompare_to_bed
+    environment: tpv_dispatcher
+  - id: bed_to_protein_map
+    environment: tpv_dispatcher
+  - id: GenotypeSTR
+    environment: tpv_dispatcher
+  - id: PEsortedSAM2readprofile
+    environment: tpv_dispatcher
+  - id: PEsortedSAM2readprofile
+    environment: tpv_dispatcher
+  - id: Profilegenerator
+    environment: tpv_dispatcher
+  - id: combineproballelecom
+    environment: tpv_dispatcher
+  - id: fetchflank
+    environment: tpv_dispatcher
+  - id: heteroprob
+    environment: tpv_dispatcher
+  - id: microsatcompat
+    environment: tpv_dispatcher
+  - id: microsatellite
+    environment: tpv_dispatcher
+  - id: microsatpurity
+    environment: tpv_dispatcher
+  - id: readdepth2seqdepth
+    environment: tpv_dispatcher
+  - id: space2underscore_readname
+    environment: tpv_dispatcher
+  - id: uniprot
+    environment: tpv_dispatcher
+  - id: trinotate
+    environment: tpv_dispatcher
+  - id: get_pdb
+    environment: tpv_dispatcher
+  - id: retrieve_scxa
+    environment: tpv_dispatcher
+  - id: translate_bed
+    environment: tpv_dispatcher
+  - id: ebi_metagenomics_run_downloader
+    environment: tpv_dispatcher
+  - id: ebi_search_rest_results
+    environment: tpv_dispatcher
+  - id: gprofiler_convert
+    environment: tpv_dispatcher
+  - id: gprofiler_gost
+    environment: tpv_dispatcher
+  - id: gprofiler_orth
+    environment: tpv_dispatcher
+  - id: gprofiler_random
+    environment: tpv_dispatcher
+  - id: gprofiler_snpense
+    environment: tpv_dispatcher
+  - id: medaka_consensus
+    environment: tpv_dispatcher
+  - id: ncbi_acc_download
+    environment: tpv_dispatcher
+  - id: snpEff_get_chr_names
+    environment: tpv_dispatcher
+  - id: fasterq_dump
+    environment: tpv_dispatcher
+  - id: fastq_dump
+    environment: tpv_dispatcher
+  - id: sam_dump
+    environment: tpv_dispatcher
+  - id: tbvcfreport
+    environment: tpv_dispatcher
+  - id: unipept
+    environment: tpv_dispatcher
+  - id: CONVERTER_gff_to_bed_0
+    environment: tpv_dispatcher
+  - id: CONVERTER_gff_to_fli_0
+    environment: tpv_dispatcher
+  - id: CONVERTER_maf_to_fasta_0
+    environment: tpv_dispatcher
+  - id: CONVERTER_maf_to_interval_0
+    environment: tpv_dispatcher
+  - id: Count1
+    environment: tpv_dispatcher
+  - id: Interval2Maf_pairwise1
+    environment: tpv_dispatcher
+  - id: Interval_Maf_Merged_Fasta2
+    environment: tpv_dispatcher
+  - id: MAF_Limit_To_Species1
+    environment: tpv_dispatcher
+  - id: MAF_Reverse_Complement_1
+    environment: tpv_dispatcher
+  - id: MAF_Thread_For_Species1
+    environment: tpv_dispatcher
+  - id: MAF_To_BED1
+    environment: tpv_dispatcher
+  - id: MAF_To_Fasta1
+    environment: tpv_dispatcher
+  - id: MAF_To_Interval1
+    environment: tpv_dispatcher
+  - id: MAF_filter
+    environment: tpv_dispatcher
+  - id: Sff_extractor
+    environment: tpv_dispatcher
+  - id: Summary_Statistics1
+    environment: tpv_dispatcher
+  - id: __APPLY_RULES__
+    environment: tpv_dispatcher
+  - id: __BUILD_LIST__
+    environment: tpv_dispatcher
+  - id: __EXPORT_HISTORY_TO_URI__
+    environment: tpv_dispatcher
+  - id: __EXPORT_HISTORY__
+    environment: tpv_dispatcher
+  - id: __EXTRACT_DATASET__
+    environment: tpv_dispatcher
+  - id: __FILTER_EMPTY_DATASETS__
+    environment: tpv_dispatcher
+  - id: __FILTER_FAILED_DATASETS__
+    environment: tpv_dispatcher
+  - id: __FILTER_FROM_FILE__
+    environment: tpv_dispatcher
+  - id: __FLATTEN__
+    environment: tpv_dispatcher
+  - id: __IMPORT_HISTORY__
+    environment: tpv_dispatcher
+  - id: __MERGE_COLLECTION__
+    environment: tpv_dispatcher
+  - id: __RELABEL_FROM_FILE__
+    environment: tpv_dispatcher
+  - id: __SET_METADATA__
+    environment: tpv_dispatcher
+  - id: __SORTLIST__
+    environment: tpv_dispatcher
+  - id: __TAG_FROM_FILE__
+    environment: tpv_dispatcher
+  - id: __UNZIP_COLLECTION__
+    environment: tpv_dispatcher
+  - id: __ZIP_COLLECTION__
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
@@ -493,7 +629,7 @@ __galaxy_multicore_tools:
   - egsea
   - exonerate
   - fargene
-  - fasterq_dump
+  #- fasterq_dump
   - fastp
   # not sure how much this actually improves runtime but considering it doesn't use memory and it runs in the order of a
   # couple minutes, this is a huge waste

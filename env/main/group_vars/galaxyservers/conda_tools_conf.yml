@@ -7,40 +7,6 @@
 galaxy_conda_tools: "{{ __galaxy_conda_tools | difference(galaxy_python2_legacy_tools) }}"
 
 __galaxy_conda_tools:
-  - CONVERTER_gff_to_bed_0
-  - CONVERTER_gff_to_fli_0
-  - CONVERTER_maf_to_fasta_0
-  - CONVERTER_maf_to_interval_0
-  - Count1
-  #- GeneBed_Maf_Fasta2
-  - Interval2Maf_pairwise1
-  - Interval_Maf_Merged_Fasta2
-  - MAF_Limit_To_Species1
-  - MAF_Reverse_Complement_1
-  - MAF_Thread_For_Species1
-  - MAF_To_BED1
-  - MAF_To_Fasta1
-  - MAF_To_Interval1
-  - MAF_filter
-  - Sff_extractor
-  - Summary_Statistics1
-  - __APPLY_RULES__
-  - __BUILD_LIST__
-  - __EXPORT_HISTORY_TO_URI__
-  - __EXPORT_HISTORY__
-  - __EXTRACT_DATASET__
-  - __FILTER_EMPTY_DATASETS__
-  - __FILTER_FAILED_DATASETS__
-  - __FILTER_FROM_FILE__
-  - __FLATTEN__
-  - __IMPORT_HISTORY__
-  - __MERGE_COLLECTION__
-  - __RELABEL_FROM_FILE__
-  - __SET_METADATA__
-  - __SORTLIST__
-  - __TAG_FROM_FILE__
-  - __UNZIP_COLLECTION__
-  - __ZIP_COLLECTION__
   - aggregate_scores_in_intervals2
   - bed2gff1
   - bed_to_bigBed
@@ -62,9 +28,6 @@ __galaxy_conda_tools:
   - hgv_lps
   - hgv_pass
   - hgv_sift
-  - interactive_tool_jupyter_notebook
-  - interactive_tool_panoply
-  - interactive_tool_rstudio
   - intermine
   - liftOver1
   - lped2fpedconvert
@@ -90,7 +53,6 @@ __galaxy_conda_tools:
   - toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1
   - toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0
   - toolshed.g2.bx.psu.edu/repos/devteam/microsats_mutability/microsats_mutability1/1.1.0
-  #- toolshed.g2.bx.psu.edu/repos/devteam/rcve/rcve1/1.0.0
   # this is just a huge mess
   #- toolshed.g2.bx.psu.edu/repos/climate/ctsm_fates/ctsm_fates/2.0.1
   # tests won't run due to param errors so no idea if these worked before or after

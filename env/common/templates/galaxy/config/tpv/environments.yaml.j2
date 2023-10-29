@@ -22,7 +22,7 @@ destinations:
     env:
     - execute: ulimit -c 0
     - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$TEMP
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     - name: XDG_DATA_HOME
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
     - name: TERM
@@ -66,7 +66,7 @@ destinations:
       value: "$SLURM_NTASKS"
     - execute: ulimit -c 0
     - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$TEMP
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     - name: TERM
       value: vt100
     - name: LC_ALL
@@ -79,10 +79,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    - name: SINGULARITYENV_TEMP
-      value: $TEMP
-    - name: SINGULARITYENV_TMPDIR
-      value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
 
@@ -141,10 +137,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    - name: SINGULARITYENV_TEMP
-      value: $TEMP
-    - name: SINGULARITYENV_TMPDIR
-      value: $TEMP
     scheduling:
       accept:
       - roundup
@@ -274,7 +266,7 @@ destinations:
       value: "{int(mem*1024)}"
     - execute: ulimit -c 0
     - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$TEMP
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     - name: TERM
       value: vt100
     - name: LC_ALL
@@ -287,10 +279,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    - name: SINGULARITYENV_TEMP
-      value: $TEMP
-    - name: SINGULARITYENV_TMPDIR
-      value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
     - name: CVMFSEXEC_DIR
@@ -367,7 +355,7 @@ destinations:
       value: "{mem*1024}"
     - execute: ulimit -c 0
     - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$TEMP
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     - name: TERM
       value: vt100
     - name: LC_ALL
@@ -380,10 +368,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    - name: SINGULARITYENV_TEMP
-      value: $TEMP
-    - name: SINGULARITYENV_TMPDIR
-      value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
     # Expanse disabled user namespaces at some point
@@ -464,7 +448,7 @@ destinations:
     #  value: "{mem*1024}"
     - execute: ulimit -c 0
     - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$TEMP
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     - name: TERM
       value: vt100
     - name: LC_ALL
@@ -479,10 +463,6 @@ destinations:
       value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
-    - name: SINGULARITYENV_TEMP
-      value: $TEMP
-    - name: SINGULARITYENV_TMPDIR
-      value: $TEMP
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
     - execute: module load singularity/3.8.7

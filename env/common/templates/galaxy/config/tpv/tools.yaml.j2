@@ -15,7 +15,7 @@ tools:
       - pulsar
       - offline
 
-  _galaxy_lib_local:
+  _galaxy_lib:
     abstract: true
     params:
       container_override:
@@ -23,17 +23,21 @@ tools:
         shell: /bin/sh
         identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
     env:
-      - name: SINGULARITYENV_PREPEND_PATH
-        value: $GALAXY_VIRTUAL_ENV/bin
-      - name: SINGULARITYENV_PYTHONPATH
-        value: $GALAXY_LIB
+    - name: SINGULARITYENV_PREPEND_PATH
+      value: $GALAXY_VIRTUAL_ENV/bin
+    - name: SINGULARITYENV_PYTHONPATH
+      value: $GALAXY_LIB
     scheduling:
       require:
       - singularity
       reject:
       - hpc
+
+  _galaxy_lib_local:
+    inherits: _galaxy_lib
+    scheduling:
+      reject:
       - pulsar
-      - offline
 
   _legacy:
     abstract: true
@@ -50,6 +54,16 @@ tools:
       - hpc
       - offline
 
+  _singularity_resolv_fix:
+    abstract: true
+    params:
+      # this doesn't override dest params
+      #singularity_no_mount: tmp
+      singularity_run_extra_arguments: --no-mount=tmp
+    env:
+    - name: SINGULARITY_BIND
+      value: /etc/pki:/etc/pki:ro,/etc/ssl:/etc/ssl::ro
+
   _hpc:
     abstract: true
     #inherits: _default
@@ -65,10 +79,23 @@ tools:
 
   # non-pulsar tools
 
-  upload1: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
-  __.*__: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
-  param_value_from_file: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
-  pick_value: {scheduling: {require: [conda], reject: [offline, pulsar, singularity]}}
+  upload1: {inherits: _conda_local}
+  __.*__: {inherits: _conda_local}
+  param_value_from_file: {inherits: _conda_local}
+  pick_value: {inherits: _conda_local}
+
+  # galaxy lib tools in singularity
+
+  CONVERTER_.*: {inherits: _galaxy_lib}
+  Interval_Maf_Merged_Fasta2: {inherits: _galaxy_lib}
+  MAF_Limit_To_Species1: {inherits: _galaxy_lib}
+  MAF_Reverse_Complement_1: {inherits: _galaxy_lib}
+  MAF_Thread_For_Species1: {inherits: _galaxy_lib}
+  MAF_To_BED1: {inherits: _galaxy_lib}
+  MAF_To_Fasta1: {inherits: _galaxy_lib}
+  MAF_To_Interval1: {inherits: _galaxy_lib}
+  MAF_filter: {inherits: _galaxy_lib}
+  toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/.*: {inherits: _galaxy_lib_local}
 
   # as of 23.1, these have no requirement tags
 
@@ -120,6 +147,13 @@ tools:
       if: 0.02 <= input_size < 0.2
       cores: 3
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.[234]:
+    inherits: _singularity_resolv_fix
+    # copies uniprot.py without +x so can't be executed
+    scheduling:
+      reject:
+      - pulsar
+
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     cores: 8
     rules:
@@ -144,6 +178,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     # was 16 in the job router but let's try this
     mem: 8
+
+  toolshed.g2.bx.psu.edu/repos/iuc/ebi_metagenomics_run_downloader/ebi_metagenomics_run_downloader/0.1.0:
+    inherits: _singularity_resolv_fix
+    # copies download_ebi_metagenomics_run_data without +x so can't be executed
+    scheduling:
+      reject:
+      - pulsar
 
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
     # shared DB uses 24, AU uses 7.6, we had configured 16, stick with 16
@@ -524,6 +565,16 @@ tools:
 
   # legacy conda-in-singularity tools
 
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/GenotypeSTR/2.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/Profilegenerator/2.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/combineproballelecom/2.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/fetchflank/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/heteroprob/2.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/microsatcompat/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/microsatellite/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/microsatpurity/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/readdepth2seqdepth/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/space2underscore_readname/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0\.[234]: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2\.2\.6.*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.1: {inherits: _legacy}
@@ -531,7 +582,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.7\.12\.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.[56].*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/galaxyp/bed_to_protein_map/bed_to_protein_map/0.1.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/galaxyp/gffcompare_to_bed/gffcompare_to_bed/0.1.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/2.0.3: {inherits: _legacy}
@@ -539,6 +593,24 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/vegan_[^/]*/vegan_[^/]*/0\.0\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/1\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/lecorguille/anova/abims_anova/1.2.1: {inherits: _legacy}
+
+  # legacy singularity resolv.conf fix tools
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/get_online_data/get_pdb/0.1.0: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/bgruening/get_pdb/get_pdb/0.1.0: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/ebi-gxa/retrieve_scxa/retrieve_scxa/v0.0.2\+galaxy2: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/ebi_search_rest_results/ebi_search_rest_results/0.1.1: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_[^/]*/gprofiler_[^/]*/0.1.7\+galaxy11: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/1.0.3\+galaxy2: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_acc_download/ncbi_acc_download/0.2.[57]: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_get_chr_names/4.3\+T.galaxy2: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/[^/]*_dump/2\.9\..*: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/[^/]*_dump/2\.10\..*: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/[^/]*_dump/2\.11\.0\+galaxy0: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/tbvcfreport/tbvcfreport/0\.1\..*: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/iuc/trinotate/trinotate/3\.[12]\.1: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/galaxyp/unipept/unipept/4.3.0: {inherits: _singularity_resolv_fix}
 
   # legacy container override tools
 
@@ -559,6 +631,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_splitter/fastq_paired_end_splitter/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_joiner/fastq_paired_end_joiner/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_stats/fastq_stats/1.0.0: {inherits: _galaxy_sequence_utils_1_0_0}
+
+  _bx_python_0_7_4_py27:
+    abstract: true
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /cvmfs/singularity.galaxyproject.org/all/bx-python:0.7.4--np112py27_0
+  toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/PEsortedSAM2readprofile/1\..*: {inherits: _bx_python_0_7_4_py27}
 
   _bedtools_2_24_0:
     abstract: true
