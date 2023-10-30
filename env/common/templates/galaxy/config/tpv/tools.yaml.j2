@@ -80,6 +80,13 @@ tools:
       - hpc
       - offline
 
+  _legacy_local:
+    abstract: true
+    inherits: _legacy
+    scheduling:
+      reject:
+      - pulsar
+
   _singularity_resolv_fix:
     abstract: true
     params:
@@ -609,6 +616,10 @@ tools:
     cores: 32
     mem: 120
 
+  # legacy conda-in-singularity non-pulsar tools
+
+  toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1: {inherits: _legacy_local}
+
   # legacy conda-in-singularity tools
 
   toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/GenotypeSTR/2.0.0: {inherits: _legacy}
@@ -621,6 +632,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/microsatpurity/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/readdepth2seqdepth/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/arkarachai-fungtammasan/str_fm/space2underscore_readname/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cut_tool/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/0\.[234]: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2\.2\.6.*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa(_mem)?/0\.1: {inherits: _legacy}
@@ -629,17 +644,21 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.[56].*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.71: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/microsats_alignment_level/microsats_align1/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/devteam/microsats_mutability/microsats_mutability1/1.1.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/short_reads_trim_seq/trim_reads/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/0.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/galaxyp/bed_to_protein_map/bed_to_protein_map/0.1.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/galaxyp/gffcompare_to_bed/gffcompare_to_bed/0.1.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.1: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/iuc/datamash_[^/]*/datamash_[^/]*/1\.0\.6: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/1\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/2.0.3: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/1\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/vegan_[^/]*/vegan_[^/]*/0\.0\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/1\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/lecorguille/anova/abims_anova/1.2.1: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/fastq_join/1.1.2-806.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/nick/duplex/.*/0.[35]: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/peterjc/mummer/mummerplot_wrapper/0.0.7: {inherits: _legacy}
 

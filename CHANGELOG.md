@@ -4,6 +4,21 @@ This is a log of any changes that were made manually that could not easily be co
 prior to the first entry have not been logged.
 
 
+### Mon Oct 30 14:09:13 CDT 2023
+
+Uninstalled:
+
+- `toolshed.g2.bx.psu.edu/repos/devteam/logistic_regression_vif/LogisticRegression/1.0.1` - Has only been run 151 times
+  (mostly by Marten's testbot) since the beginning of Main, and it errored all but 5 of those times. Depends on an R
+  package (car) that is not installed.
+
+Applied manual fixes:
+
+- `toolshed.g2.bx.psu.edu/repos/boris/phylorelatives/phylorelatives/0.0.1` - set `$LD_LIBRARY_PATH` in
+  `/cvmfs/main.galaxyproject.org/deps/R/2.15.0/boris/phylorelatives/06d6e56e8c2b/env.sh`
+- `toolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0` - replaced `\$R_SCRIPT_PATH` in wrapper with
+  `$__tool_directory__`
+
 ### Sat Oct 28 23:04:16 CDT 2023
 
 Uninstalled:

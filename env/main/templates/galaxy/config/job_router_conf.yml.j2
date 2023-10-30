@@ -159,16 +159,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/2.10.1+galaxy0: {destination: slurm_normal_galaxy_env}
 
   # Singularity normal + conda/TS/Galaxy deps; we should try to fix or remove these over time
-  # No datamash=1.0.6 container
-  toolshed.g2.bx.psu.edu/repos/iuc/datamash_reverse/datamash_reverse/1.0.6: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.0.6: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/1.0.6: {destination: slurm_normal_conda}
-  # No ea-utils=1.1.2-806 container
-  toolshed.g2.bx.psu.edu/repos/lparsons/fastq_join/fastq_join/1.1.2-806.1: {destination: slurm_normal_conda}
-  # No gnu_coreutils container, but most of these could probably run in the legacy container without traditional deps
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cut_tool/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/1.0.0: {destination: slurm_normal_conda}
   # In this case, the conda dep is actually broken since grep is compiled without PCRE support, so just use the
   # container grep
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0:
@@ -328,10 +318,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/kernel_principal_component_analysis/kpca1/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/principal_component_analysis/pca1/1.0.2: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/linear_regression/LinearRegression1/1.0.1: {destination: slurm_normal_conda}
-  #toolshed.g2.bx.psu.edu/repos/devteam/logistic_regression_vif/LogisticRegression/1.0.1: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/partialr_square/partialRsq/1.0.0: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/principal_component_analysis/pca1/1.0.2: {destination: slurm_normal_conda}
-  #toolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0: {destination: slurm_normal_conda}
 
   toolshed.g2.bx.psu.edu/repos/devteam/bamleftalign/bamleftalign/0.0.2: {destination: slurm_normal_conda}
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie_color_wrappers/bowtie_color_wrapper/1.1.2: {destination: slurm_multi_conda}
