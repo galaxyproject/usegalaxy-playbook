@@ -1,5 +1,22 @@
 ---
 
+# NOTE: Where it makes sense, try to use memory values that are just under JS2 instance sizes:
+# - m3.tiny: 1c, 2.7G (2840M = 2.77G)
+# - m3.small: 2c, 5.6G (5900M = 5.76G)
+# - m3.quad: 4c, 14.0G (14800M = 14.45G)
+# - m3.medium: 8c, 28.0G (29900M = 29.20G)
+# - m3.large: 16c, 58.0G (60100M = 58.69G)
+# - m3.xl: 32c, 120G (125000M = 122.07G)
+
+# Anything larger will go to HPC:
+# - bridges2 (shared): 16c-64c, 64G-128G, actual cores allocated = {int(mem/2)}, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
+# - expanse (shared): 16c-64c, 64G-128G, actual cores allocated = {int(mem/2)}, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
+# - bridges2 (exclusive): 64c-128c, 128G-250G, actual cores allocated = 128, actual mem allocated = 250G, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
+# - expanse (exclusive): 64c-128c, 128G-250G, actual cores allocated = 128, actual mem allocated = 250G, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
+# - rockfish (shared): 16c-128c, 64G-250G, actual cores allocated = {cores}, actual mem allocated = {int(mem)}, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
+# - stampede2-skx (exclusive): 16c-96c, 96G-190G, actual cores allocated = 96, actual mem allocated = 190G, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to 190000, no clamping
+# - stampede2-icx (exclusive): 32-160c, 128G-250G, actual cores allocated = 160, actual mem allocated = 250G, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to 254000
+
 tools:
 
   # abstract tools for inheritance
@@ -211,7 +228,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
     # shared DB uses 24, AU uses 7.6, we had configured 16, stick with 16
-    mem: 16
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/.*:
     # was 16 in the job router but let's try this
@@ -226,12 +243,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
     # shared DB has 10 cores and 250 GB(!)
     cores: 16
-    mem: 60
+    mem: 58
     rules:
     - id: metaspades_small_input_rule
       if: input_size < 0.05
       cores: 2
-      mem: 7.6
+      mem: 5.6
     - id: metaspades_medium_input_rule
       if: 0.05 <= input_size < 1
       cores: 8
@@ -278,7 +295,7 @@ tools:
   # https://github.com/bioconda/bioconda-recipes/pull/41091
   #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
-    mem: 16
+    mem: 14
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/bandage_ng:2022.09--0"}]
     env:
@@ -300,11 +317,11 @@ tools:
     - id: meryl_small_input_rule
       if: input_size < 0.001
       cores: 2
-      mem: 7.6
+      mem: 5.6
     - id: meryl_medium_input_rule
       if: 0.001 <= input_size < 5
       cores: 16
-      mem: 60
+      mem: 58
     scheduling:
       require:
       - jetstream2
@@ -329,15 +346,15 @@ tools:
       - id: trinity_tiny_input_rule
         if: input_size < 0.1
         cores: 1
-        mem: 3.8
+        mem: 2.7
       - id: trinity_small_input_rule
         if: 0.1 <= input_size < 1
         cores: 8
-        mem: 62
+        mem: 58
       - id: trinity_medium_input_rule
         if: 1 <= input_size < 4
         cores: 16
-        mem: 124
+        mem: 120
       - id: trinity_large_input_rule
         if: 4 <= input_size < 8
         cores: 20
@@ -362,28 +379,17 @@ tools:
     - if: 0.5 <= input_size < 10
       cores: 30
       mem: 80
-      scheduling:
-        accept:
-        - hpc
-        - jetstream2
-        reject:
-        - roundup
     - if: input_size >= 10
       # from AU
       #cores: 120
       #mem: 1922
       cores: 56
       mem: 94
-      scheduling:
-        accept:
-        - hpc
-        reject:
-        - general
 
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
     # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
     cores: 20
-    mem: 60
+    mem: 58
     env:
     # prevent premature removal of untarred busco DBs
     - name: SINGULARITYENV_TAR_OPTIONS
@@ -399,11 +405,11 @@ tools:
     - id: bowtie2_small_input_rule
       if: input_size < 0.1
       cores: 2
-      mem: 7.6
+      mem: 5.6
     - id: bowtie2_medium_input_rule
       if: 0.1 <= input_size < 2
       cores: 4
-      mem: 16
+      mem: 14
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
     cores: 8
@@ -412,11 +418,11 @@ tools:
     - id: bwa_small_input_rule
       if: input_size < 0.25
       cores: 2
-      mem: 7.6
+      mem: 5.6
     - id: bwa_medium_input_rule
       if: 0.25 <= input_size < 1
       cores: 4
-      mem: 16
+      mem: 14
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 32
@@ -425,15 +431,15 @@ tools:
     - id: bwa_mem_small_input_rule
       if: input_size < 0.25
       cores: 2
-      mem: 7.6
+      mem: 5.6
     - id: bwa_mem_medium_input_rule
       if: 0.25 <= input_size < 1
       cores: 4
-      mem: 15.3
+      mem: 14
     - id: bwa_mem_medium2_input_rule
       if: 1 <= input_size < 20
       cores: 8
-      mem: 30.7
+      mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     cores: 32
@@ -442,7 +448,7 @@ tools:
     - id: bwa_mem2_small_input_rule
       if: input_size < 0.25
       cores: 2
-      mem: 7.6
+      mem: 5.6
     - id: bwa_mem2_medium_input_rule
       if: 0.25 <= input_size < 16
       cores: 8
@@ -459,11 +465,11 @@ tools:
     - id: hisat2_small_input_rule
       if: input_size < 0.5
       cores: 2
-      mem: 7.6
+      mem: 5.6
     - id: hisat2_medium_input_rule
       if: 0.5 <= input_size < 15
       cores: 8
-      mem: 30
+      mem: 28
     - id: hisat2_large_input_rule
       if: 15 <= input_size < 30
       cores: 16
@@ -478,7 +484,7 @@ tools:
     - id: hifiasm_small_input_rule
       if: input_size < 1
       cores: 2
-      mem: 7.6
+      mem: 5.6
     - id: hifiasm_medium_input_rule
       if: 1 <= input_size < 16
       cores: 8
@@ -486,7 +492,7 @@ tools:
     - id: hifiasm_large_input_rule
       if: 16 <= input_size < 32
       cores: 16
-      mem: 60
+      mem: 58
     - id: hifiasm_xlarge_input_rule
       if: 32 <= input_size < 64
       cores: 32
@@ -520,7 +526,7 @@ tools:
     - id: abyss-pe_small_input_rule
       if: input_size < 0.002
       cores: 2
-      mem: 8
+      mem: 5.6
     - id: abyss-pe_medium_input_rule
       if: 0.002 <= input_size < 5
       cores: 32
@@ -530,12 +536,12 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     cores: 60
-    mem: 254
+    mem: 244
     rules:
     - id: spades_small_input_rule
       if: input_size < 0.005
       cores: 2
-      mem: 7.6
+      mem: 5.6
     - id: spades_medium_input_rule
       if: 0.005 <= input_size < 2
       cores: 8
@@ -551,7 +557,7 @@ tools:
     - id: unicycler_small_input_rule
       if: input_size < 0.05
       cores: 1
-      mem: 3.8
+      mem: 2.7
     - id: unicycler_medium_input_rule
       if: 0.05 <= input_size < 2
       cores: 8
@@ -559,7 +565,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
     cores: 4
-    mem: 16
+    mem: 14
     rules:
     - id: ncbi_blastn_wrapper_db_rule
       if: |
@@ -588,13 +594,13 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
-    mem: 16
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     rules:
     - id: htseq_count_small_input_rule
       if: input_size < 0.2
-      mem: 3.8
+      mem: 2.7
     - id: htseq_count_medium_input_rule
       if: 0.2 <= input_size < 10
       mem: 20
