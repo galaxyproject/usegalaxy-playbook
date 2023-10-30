@@ -12,6 +12,8 @@ Uninstalled:
   lib, galaxy.eggs, so it would require a custom image and has likely been broken for a long time
 - `toolshed.g2.bx.psu.edu/repos/devteam/substitutions/substitutions1/1.0.0` - Same as above, but this at least has a
   functional version 1.0.1.
+- `toolshed.g2.bx.psu.edu/repos/peterjc/venn_list/venn_list/0.0.9` - Deps are not installed mulled properly and a newer
+  working version is installed.
 
 ### Fri Oct 27 20:30:38 CDT 2023
 

@@ -15,6 +15,15 @@ tools:
       - pulsar
       - offline
 
+  _conda_in_singularity:
+    abstract: true
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/sh
+        resolve_dependencies: true
+        identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
+
   _galaxy_lib:
     abstract: true
     params:
@@ -79,8 +88,12 @@ tools:
 
   # non-pulsar tools
 
+  # TODO: can all _conda_local tools become either _conda_in_singularity(_local) or _galaxy_lib(_local)?
+
   upload1: {inherits: _conda_local}
   __.*__: {inherits: _conda_local}
+  ucsc_table_direct1: {inherits: _galaxy_lib_local}
+  ucsc_table_direct_archaea1: {inherits: _galaxy_lib_local}
   param_value_from_file: {inherits: _conda_local}
   pick_value: {inherits: _conda_local}
 
@@ -622,6 +635,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/1\..*: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/lecorguille/anova/abims_anova/1.2.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/nick/duplex/.*/0.[35]: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/peterjc/mummer/mummerplot_wrapper/0.0.7: {inherits: _legacy}
 
   # legacy singularity resolv.conf fix tools
 
