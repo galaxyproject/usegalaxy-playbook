@@ -3,10 +3,7 @@
 # THIS IS TEMPORARY for the move to Singularity. Eventually this should contain no entries and be removed.
 #
 
-# exclude anything in legacy tools
-galaxy_conda_tools: "{{ __galaxy_conda_tools | difference(galaxy_python2_legacy_tools) }}"
-
-__galaxy_conda_tools:
+#galaxy_conda_tools:
   # this is just a huge mess
   #- toolshed.g2.bx.psu.edu/repos/climate/ctsm_fates/ctsm_fates/2.0.1
   # tests won't run due to param errors so no idea if these worked before or after
@@ -33,33 +30,14 @@ __galaxy_conda_tools:
   #- toolshed.g2.bx.psu.edu/repos/devteam/kraken_translate/kraken-translate/1.2.1
   #- toolshed.g2.bx.psu.edu/repos/devteam/kraken_translate/kraken-translate/1.2.3
   #- toolshed.g2.bx.psu.edu/repos/devteam/kraken_translate/kraken-translate/1.3.1
-  # Conda dependency seemingly installed but failed to build job environment.
-  - toolshed.g2.bx.psu.edu/repos/devteam/quality_filter/qualityFilter/1.0.1
   # failed before, failed after: bx 0.7.1 conda deps overrides TS dep and causes creation of per-job conda env, which fails
   #- toolshed.g2.bx.psu.edu/repos/devteam/kernel_canonical_correlation_analysis/kcca1/1.0.0
   #- toolshed.g2.bx.psu.edu/repos/devteam/kernel_principal_component_analysis/kpca1/1.0.0
-  # https://github.com/galaxyproject/tools-iuc/issues/4536
-  - toolshed.g2.bx.psu.edu/repos/iuc/anndata_export/anndata_export/0.6.22.post1+galaxy3
-  - toolshed.g2.bx.psu.edu/repos/iuc/anndata_export/anndata_export/0.6.22.post1+galaxy4
-  - toolshed.g2.bx.psu.edu/repos/iuc/anndata_export/anndata_export/0.7.4+galaxy1
-  - toolshed.g2.bx.psu.edu/repos/iuc/anndata_export/anndata_export/0.7.5+galaxy0
-  # ModuleNotFoundError: No module named 'packaging' when run with full singularity
-  # from_expression = f"$({from_expression})" when run with conda-in-singularity
-  - toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/0.1.1
-  - toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.1.0
-  - toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.1.1
-  - pick_value
-  # lots of open()/eexist errors
-  - toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/1.2.1+2
-  - toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/1.2.1+galaxy6
   # urllib2.HTTPError: HTTP Error 400: in both singularity and without
   #- toolshed.g2.bx.psu.edu/repos/iuc/ebi_metagenomics_run_downloader/ebi_metagenomics_run_downloader/0.1.0
   #- toolshed.g2.bx.psu.edu/repos/iuc/ebi_search_rest_results/ebi_search_rest_results/0.1.1
   # tests require test db
   #- toolshed.g2.bx.psu.edu/repos/iuc/kraken_taxonomy_report/kraken_taxonomy_report/0.0.2
-  # all tests skipped
-  - toolshed.g2.bx.psu.edu/repos/iuc/maf_stats/maf_stats1/1.0.1
-  - toolshed.g2.bx.psu.edu/repos/iuc/maf_stats/maf_stats1/1.0.1+galaxy0
   # tests didn't run because https://sentry.galaxyproject.org/organizations/galaxy/issues/80940/events/05b97cc7f67e4a69aa10a31cd65de795/?project=3
   #- toolshed.g2.bx.psu.edu/repos/iuc/merqury/merqury/1.3
   # https://github.com/cov-lineages/pangolin/issues/427 happens with singularity, conda-in-singularity, and just conda.

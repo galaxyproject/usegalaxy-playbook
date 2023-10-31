@@ -11,6 +11,8 @@ Uninstalled:
 - `toolshed.g2.bx.psu.edu/repos/devteam/logistic_regression_vif/LogisticRegression/1.0.1` - Has only been run 151 times
   (mostly by Marten's testbot) since the beginning of Main, and it errored all but 5 of those times. Depends on an R
   package (car) that is not installed.
+- `toolshed.g2.bx.psu.edu/repos/devteam/quality_filter/qualityFilter/1.0.1` - Depends on very old Galaxy internals and
+  has not worked for a long time.
 
 Applied manual fixes:
 
@@ -18,6 +20,8 @@ Applied manual fixes:
   `/cvmfs/main.galaxyproject.org/deps/R/2.15.0/boris/phylorelatives/06d6e56e8c2b/env.sh`
 - `toolshed.g2.bx.psu.edu/repos/guru-ananda/heatmap/heatmap_1/1.0.0` - replaced `\$R_SCRIPT_PATH` in wrapper with
   `$__tool_directory__`
+- `toolshed.g2.bx.psu.edu/repos/iuc/anndata_export/anndata_export` versions
+  `0.6.22.post1+galaxy3` through `0.7.5+galaxy0` - backported https://github.com/galaxyproject/tools-iuc/pull/4602
 
 ### Sat Oct 28 23:04:16 CDT 2023
 

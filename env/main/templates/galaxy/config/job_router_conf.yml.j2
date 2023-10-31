@@ -58,30 +58,6 @@ tools:
   upload1: {destination: slurm_normal_direct}
   __DATA_FETCH__: {destination: slurm_normal_direct}
 
-  # python 2 legacy tools
-{% for tool_id in galaxy_python2_legacy_tools %}
-{% set short_tool_id = tool_id.split('/')[-2] %}
-  {{ tool_id }}: {destination: slurm_{{ (short_tool_id in galaxy_multicore_tools) | ternary('multi', 'normal') }}_py2_direct}
-{% endfor %}
-
-  # tools not yet tested in Singularity - normal w/ default memory and multicore
-{% for tool_id in galaxy_conda_tools %}
-{% if '/' in tool_id %}
-{% set short_tool_id = tool_id.split('/')[-2] %}
-{% else %}
-{% set short_tool_id = tool_id %}
-{% endif %}
-{% if short_tool_id in galaxy_multicore_tools %}
-{% if short_tool_id in galaxy_pulsar_incompatible_tools %}
-  {{ tool_id }}: {destination: slurm_multi_direct, login_required: true}
-{% else %}
-  {{ tool_id }}: {destination: multi_direct, login_required: true}
-{% endif %}
-{% else %}
-  {{ tool_id }}: {destination: slurm_normal_direct}
-{% endif %}
-{% endfor %}
-
   # 6 cores (roundup) or 10 cores (jetstream), 30 GB of memory, and a 36 hour walltime
 {# this is a large automatically generated list maintained in env/<env>/group_vars/galaxyservers/tools_conf.yml #}
 {% for tool_id in galaxy_multicore_tools %}

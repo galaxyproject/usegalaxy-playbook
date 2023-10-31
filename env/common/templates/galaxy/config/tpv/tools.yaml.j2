@@ -116,10 +116,6 @@ tools:
 
   upload1: {inherits: _conda_local}
   __.*__: {inherits: _conda_local}
-  ucsc_table_direct1: {inherits: _galaxy_lib_local}
-  ucsc_table_direct_archaea1: {inherits: _galaxy_lib_local}
-  param_value_from_file: {inherits: _conda_local}
-  pick_value: {inherits: _conda_local}
 
   # galaxy lib tools in singularity
 
@@ -135,10 +131,16 @@ tools:
   gff2bed1: {inherits: _galaxy_lib}
   maf_by_block_number1: {inherits: _galaxy_lib}
   maf_limit_size1: {inherits: _galaxy_lib}
+  .*/maf_stats1/.*: {inherits: _galaxy_lib}
 
   # galaxy lib tools in singularity, non-pulsar
 
+  ucsc_table_direct1: {inherits: _galaxy_lib_local}
+  ucsc_table_direct_archaea1: {inherits: _galaxy_lib_local}
+  param_value_from_file: {inherits: _galaxy_lib_local}
+  pick_value: {inherits: _galaxy_lib_local}
   toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/.*: {inherits: _galaxy_lib_local}
+  toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value.*: {inherits: _galaxy_lib_local}
 
   # as of 23.1, these have no requirement tags
 
@@ -619,6 +621,8 @@ tools:
   # legacy conda-in-singularity non-pulsar tools
 
   toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1: {inherits: _legacy_local}
+  toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/1\.2\.1.*: {inherits: _legacy_local}
+  toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/1\.10\.0.*: {inherits: _legacy_local}
 
   # legacy conda-in-singularity tools
 

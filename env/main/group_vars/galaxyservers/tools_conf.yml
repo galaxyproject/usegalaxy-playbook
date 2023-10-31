@@ -542,6 +542,18 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: heatmap_1
     environment: tpv_dispatcher
+  - id: anndata_export
+    environment: tpv_dispatcher
+  - id: compose_text_param
+    environment: tpv_dispatcher
+  - id: param_value_from_file
+    environment: tpv_dispatcher
+  - id: pick_value
+    environment: tpv_dispatcher
+  - id: dropletutils
+    environment: tpv_dispatcher
+  - id: maf_stats1
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
@@ -910,11 +922,3 @@ __galaxy_multicore_tools:
   - varscan_somatic
   - velveth
   - velvetoptimiser
-
-# legacy tools that expect `python` to be Python 2
-#
-# generated with https://gist.github.com/mvdbeek/590213f65520c498321e1850ed8d44e6
-
-galaxy_python2_legacy_tools:
-  - "toolshed.g2.bx.psu.edu/repos/devteam/quality_filter/qualityFilter/1.0.1"
-  # FIXME ABOVE
