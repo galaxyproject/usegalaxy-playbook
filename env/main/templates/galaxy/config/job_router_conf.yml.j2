@@ -116,6 +116,9 @@ tools:
     env:
       - name: SINGULARITYENV_PREPEND_PATH
         value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
+  # 1.0.1+galaxy1 and later define requirements and do not need galaxy-lib, older versions and the framework version do
+  toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/Interval2Maf1/1.0.1+galaxy1:
+    destination: slurm_normal_32gb
 
   # TODO: maybe just send these to stampede?
   # 1 core, 64 GB of memory, and a 36 hour walltime
