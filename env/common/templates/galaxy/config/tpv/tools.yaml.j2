@@ -672,7 +672,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/get_online_data/get_pdb/0.1.0: {inherits: _singularity_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/bgruening/get_pdb/get_pdb/0.1.0: {inherits: _singularity_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/retrieve_scxa/retrieve_scxa/v0.0.2\+galaxy2: {inherits: _singularity_resolv_fix}
-  toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0: {inherits: _singularity_resolv_fix}
+  #toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0: {inherits: _singularity_resolv_fix}
+  # TODO: add bedutil.py to IMPLICITLY_REQUIRED_TOOL_FILES
+  toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0:
+    inherits: _singularity_resolv_fix
+    scheduling:
+      reject:
+      - pulsar
   toolshed.g2.bx.psu.edu/repos/iuc/ebi_search_rest_results/ebi_search_rest_results/0.1.1: {inherits: _singularity_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/iuc/gprofiler_[^/]*/gprofiler_[^/]*/0.1.7\+galaxy11: {inherits: _singularity_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus/medaka_consensus/1.0.3\+galaxy2: {inherits: _singularity_resolv_fix}
