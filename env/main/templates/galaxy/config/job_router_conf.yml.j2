@@ -657,61 +657,61 @@ tools:
   #  login_required: true
 
   # STARSolo uses the same params and has the same requirements as STAR
-  rna_starsolo: rna_star
+  #rna_starsolo: rna_star
 
   # STAR goes to either standard multi partitions (roundup/jetstream) or a special Jetstream m1.xlarge partition
-  rna_star:
-    # small input test
-    #   nope - STAR memory requirements are based on the size of the reference
-    #- params:
-    #  - name: sc.input_types.input1
-    #    op: '<'
-    #    value: 100M
-    #  destination: multi
-    # for built-in refs we need (refsize * 1.5) + 2GB
-    - params:
-      - name: refGenomeSource.geneSource
-        value: indexed
-      - name: refGenomeSource.GTFconditional.genomeDir
-        type: data_table_lookup
-        table_name: rnastar_index2x_versioned
-        value_template: '{value}/SA'
-        op: '<'
-        value: 18G
-      destination: multi
-      login_required: true
-    # same as above but for older versions of the tool
-    - params:
-      - name: refGenomeSource.geneSource
-        value: indexed
-      - name: refGenomeSource.GTFconditional.genomeDir
-        type: data_table_lookup
-        table_name: rnastar_index2
-        value_template: '{value}/SA'
-        op: '<'
-        value: 18G
-      destination: multi
-      login_required: true
-    - params:
-      - name: refGenomeSource.geneSource
-        value: indexed
-      destination: multi_largemem
-      login_required: true
+  #rna_star:
+  #  # small input test
+  #  #   nope - STAR memory requirements are based on the size of the reference
+  #  #- params:
+  #  #  - name: sc.input_types.input1
+  #  #    op: '<'
+  #  #    value: 100M
+  #  #  destination: multi
+  #  # for built-in refs we need (refsize * 1.5) + 2GB
+  #  - params:
+  #    - name: refGenomeSource.geneSource
+  #      value: indexed
+  #    - name: refGenomeSource.GTFconditional.genomeDir
+  #      type: data_table_lookup
+  #      table_name: rnastar_index2x_versioned
+  #      value_template: '{value}/SA'
+  #      op: '<'
+  #      value: 18G
+  #    destination: multi
+  #    login_required: true
+  #  # same as above but for older versions of the tool
+  #  - params:
+  #    - name: refGenomeSource.geneSource
+  #      value: indexed
+  #    - name: refGenomeSource.GTFconditional.genomeDir
+  #      type: data_table_lookup
+  #      table_name: rnastar_index2
+  #      value_template: '{value}/SA'
+  #      op: '<'
+  #      value: 18G
+  #    destination: multi
+  #    login_required: true
+  #  - params:
+  #    - name: refGenomeSource.geneSource
+  #      value: indexed
+  #    destination: multi_largemem
+  #    login_required: true
 
-    # for history refs we need (refsize * 11.0) + 2GB
-    - params:
-      - name: refGenomeSource.geneSource
-        value: history
-      - name: refGenomeSource.genomeFastaFiles
-        op: '<'
-        value: 2.5G
-      destination: multi
-      login_required: true
-    - params:
-      - name: refGenomeSource.geneSource
-        value: history
-      destination: multi_largemem
-      login_required: true
+  #  # for history refs we need (refsize * 11.0) + 2GB
+  #  - params:
+  #    - name: refGenomeSource.geneSource
+  #      value: history
+  #    - name: refGenomeSource.genomeFastaFiles
+  #      op: '<'
+  #      value: 2.5G
+  #    destination: multi
+  #    login_required: true
+  #  - params:
+  #    - name: refGenomeSource.geneSource
+  #      value: history
+  #    destination: multi_largemem
+  #    login_required: true
 
     # this should cover all cases, otherwise go to normal where it will probably fail and we can investigate
     #- destination: slurm_normal
