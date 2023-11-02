@@ -560,15 +560,19 @@ tools:
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 24
       mem: 80
+    # 2023-11-02 getting this on Expanse, even after clearing Singualrity and CVMFS caches:
+    # /usr/local/bin/blastn: error while loading shared libraries: /usr/local/bin/../lib/ncbi-blast+/libblastinput.so: cannot read file data: Input/output error
+    scheduling:
+      reject:
+      - expanse
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
     cores: 24
     mem: 80
-    #scheduling:
-    #  require:
-    #  # FIXME: only if selected
-    #  - cvmfs
+    scheduling:
+      reject:
+      - expanse
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_rpsblast_wrapper/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
