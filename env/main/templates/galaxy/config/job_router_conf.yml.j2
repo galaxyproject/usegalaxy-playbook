@@ -93,38 +93,6 @@ tools:
   # TODO: this can be a function of base pairs in the reference
   genrich: {destination: slurm_normal_16gb}
 
-  # 1 core, 32 GB of memory, and a 36 hour walltime
-  #Interval2Maf1: {destination: slurm_normal_32gb}
-  # not sure why but the container does not resolve at runtime
-  #toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/Interval2Maf1/1.0.1:
-  #  destination: slurm_normal_32gb
-  #  container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bx-python:0.8.9--py38hb90e610_2"}]
-  #toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/Interval2Maf1/1.0.1+galaxy0:
-  #  destination: slurm_normal_32gb
-  #  container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bx-python:0.8.9--py38hb90e610_2"}]
-  # NOPE:
-  # File "/cvmfs/main.galaxyproject.org/shed_tools/toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/b79f6002b176/interval2maf/interval2maf.py", line 34, in <module>
-  #   from galaxy.tools.util import maf_utilities
-  # File "/cvmfs/main.galaxyproject.org/galaxy/lib/galaxy/tools/__init__.py", line 29, in <module>
-  #   import packaging.version
-  # ModuleNotFoundError: No module named 'packaging'
-  # Has a dep on bx-python 0.8.9 but the container doesn't resolve, but even if forced, it still fails because it has an
-  # undeclared dep on galaxy.tools
-  Interval2Maf1:
-    destination: slurm_normal_32gb
-    # this is what slurm_normal_galaxy_env does
-    env:
-      - name: SINGULARITYENV_PREPEND_PATH
-        value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
-  # 1.0.1+galaxy1 and later define requirements and do not need galaxy-lib, older versions and the framework version do
-  toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/Interval2Maf1/1.0.1+galaxy1:
-    destination: slurm_normal_32gb
-
-  # TODO: maybe just send these to stampede?
-  # 1 core, 64 GB of memory, and a 36 hour walltime
-  #wig_to_bigWig: {destination: slurm_normal_64gb}
-  #CONVERTER_bedgraph_to_bigwig: {destination: slurm_normal_64gb}
-
   #
   # Tools with special mappings
   #
@@ -138,27 +106,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/2.10.1+galaxy0: {destination: slurm_normal_galaxy_env}
 
   # Singularity normal + conda/TS/Galaxy deps; we should try to fix or remove these over time
-  # In this case, the conda dep is actually broken since grep is compiled without PCRE support, so just use the
-  # container grep
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0:
-    destination: slurm_normal_conda
-    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/1.0.0: {destination: slurm_normal_conda}
-  # Can't find strict.pm?
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0:
-    destination: slurm_normal_conda
-    container_override: [{type: singularity, shell: '/bin/sh', identifier: "/corral4/main/singularity/usegalaxy.org-legacy-environment--0"}]
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tac/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_tail_tool/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_text_file_with_recurring_lines/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_unfold_column_tool/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_uniq_tool/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.0.0: {destination: slurm_normal_conda}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_rows/1.1.0: {destination: slurm_normal_conda}
-  #
   toolshed.g2.bx.psu.edu/repos/devteam/tabular_to_fasta/tab2fasta/1.1.0: {destination: slurm_normal_conda}
   # samtools:0.1.16 image is broken and needs rebuild: /usr/local/bin/samtools: error while loading shared libraries: libncurses.so.5: cannot open shared object file: No such file or directory
   toolshed.g2.bx.psu.edu/repos/devteam/sam_pileup/sam_pileup/1.1.3: {destination: slurm_normal_conda}
