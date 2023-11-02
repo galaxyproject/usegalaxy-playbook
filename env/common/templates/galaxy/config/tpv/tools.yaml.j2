@@ -32,16 +32,8 @@ tools:
       - pulsar
       - offline
 
-  _conda_in_singularity:
-    abstract: true
-    params:
-      container_override:
-      - type: singularity
-        shell: /bin/sh
-        resolve_dependencies: true
-        identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
-
   _galaxy_lib:
+    # NOTE: changes here need to be reflected in the rules on the default tool
     abstract: true
     params:
       container_override:
@@ -110,40 +102,26 @@ tools:
 
   #echo: {scheduling: {require: [jetstream2]}}
 
-  # non-pulsar tools
+  # non-singularity non-pulsar tools
 
-  # TODO: can all _conda_local tools become either _conda_in_singularity(_local) or _galaxy_lib(_local)?
-
-  upload1: {inherits: _conda_local}
-  __.*__: {inherits: _conda_local}
+  upload1: {inherits: _conda_local, rules: [id: tool_requires_local_galaxy, id: tool_requires_galaxy]}
+  #__.*__: {inherits: _conda_local, rules: [id: tool_requires_local_galaxy, id: tool_requires_galaxy]}
 
   # galaxy lib tools in singularity
 
-  CONVERTER_.*: {inherits: _galaxy_lib}
-  Interval_Maf_Merged_Fasta2: {inherits: _galaxy_lib}
-  MAF_Limit_To_Species1: {inherits: _galaxy_lib}
-  MAF_Reverse_Complement_1: {inherits: _galaxy_lib}
+  # TODO: PR to GALAXY_LIB_TOOLS*
   MAF_Thread_For_Species1: {inherits: _galaxy_lib}
   MAF_To_BED1: {inherits: _galaxy_lib}
-  MAF_To_Fasta1: {inherits: _galaxy_lib}
-  MAF_To_Interval1: {inherits: _galaxy_lib}
-  MAF_filter: {inherits: _galaxy_lib}
-  gff2bed1: {inherits: _galaxy_lib}
-  maf_by_block_number1: {inherits: _galaxy_lib}
   maf_limit_size1: {inherits: _galaxy_lib}
-  .*/maf_stats1/.*: {inherits: _galaxy_lib}
+  # this is in GALAXY_LIB_TOOLS_VERSIONED but it was not actually fixed until +galaxy1
+  toolshed.g2.bx.psu.edu/repos/iuc/interval2maf/Interval2Maf1/1.0.1+galaxy0: {inherits: _galaxy_lib}
 
   # galaxy lib tools in singularity, non-pulsar
 
-  ucsc_table_direct1: {inherits: _galaxy_lib_local}
-  ucsc_table_direct_archaea1: {inherits: _galaxy_lib_local}
-  param_value_from_file: {inherits: _galaxy_lib_local}
-  pick_value: {inherits: _galaxy_lib_local}
-  sra_source: {inherits: _galaxy_lib_local}
-  toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/.*: {inherits: _galaxy_lib_local}
-  toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value.*: {inherits: _galaxy_lib_local}
+  # this is in GALAXY_LIB_TOOLS so the rule will already have applied _galaxy_lib
+  MAF_To_Interval1: {scheduling: {reject: [pulsar]}}
 
-  # as of 23.1, these have no requirement tags
+  # framework tools without requirement tags (as of 23.1)
 
   addValue:
     params:
@@ -672,7 +650,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/get_online_data/get_pdb/0.1.0: {inherits: _singularity_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/bgruening/get_pdb/get_pdb/0.1.0: {inherits: _singularity_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/retrieve_scxa/retrieve_scxa/v0.0.2\+galaxy2: {inherits: _singularity_resolv_fix}
-  #toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0: {inherits: _singularity_resolv_fix}
   # TODO: add bedutil.py to IMPLICITLY_REQUIRED_TOOL_FILES
   toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0:
     inherits: _singularity_resolv_fix

@@ -7,13 +7,12 @@ tools:
   _default:
     abstract: true
     cores: 1
-    #mem: cores * 8
     mem: cores * 2.7
     context:
       time: "12:00:00"
     env:
-      - name: _JAVA_OPTIONS
-        value: $_JAVA_OPTIONS -Xmx{round(mem*0.9*1024)}m -Xms256m
+    - name: _JAVA_OPTIONS
+      value: $_JAVA_OPTIONS -Xmx{round(mem*0.9*1024)}m -Xms256m
     scheduling:
       accept:
       - pulsar
@@ -25,5 +24,40 @@ tools:
       drm_failure:
         condition: unknown_error and attempt <= 5
         destination: tpv_dispatcher
+    rules:
+    # NOTE: changes here need to be reflected in both rules and the _galaxy_lib abstract tool
+    - id: tool_requires_local_galaxy
+      if: tool.tool_type in ("data_source", "expression")
+      # I swear this worked once in testing, but it seems not to now
+      #inherits: _galaxy_lib_local
+      params:
+        container_override:
+        - type: singularity
+          shell: /bin/sh
+          identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
+      env:
+      - name: SINGULARITYENV_PREPEND_PATH
+        value: $GALAXY_VIRTUAL_ENV/bin
+      - name: SINGULARITYENV_PYTHONPATH
+        value: $GALAXY_LIB
+      scheduling:
+        reject:
+        - pulsar
+    - id: tool_requires_galaxy
+      if: tool.tool_type not in ("data_source", "expression") and tool.requires_galaxy_python_environment
+      #inherits: _galaxy_lib
+      params:
+        container_override:
+        - type: singularity
+          shell: /bin/sh
+          identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
+      env:
+      - name: SINGULARITYENV_PREPEND_PATH
+        value: $GALAXY_VIRTUAL_ENV/bin
+      - name: SINGULARITYENV_PYTHONPATH
+        value: $GALAXY_LIB
+    - id: log
+      if: true
+      execute: log.debug(f"#### {tool.id=}, {tool.tool_type=}, {tool.requires_galaxy_python_environment=}")
     rank: |
       {{ tpv_python_blobs['rank'] | indent(width=6) }}
