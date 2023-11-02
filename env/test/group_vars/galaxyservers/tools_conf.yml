@@ -6,51 +6,6 @@
 
 # this is used in the "tools" section of the job_conf - make sure any you define here don't appear in lists below
 galaxy_job_conf_tools:
-  # FIXME: these conda-in-singularity tools should have their own list below and run through the router
-  #- id: toolshed.g2.bx.psu.edu/repos/bgruening/sklearn_train_test_split/sklearn_train_test_split/1.0.8.1
-  #  environment: slurm_normal_singularity_deps
-  - id: echo
-    environment: tpv_dispatcher
-  - id: random_lines1
-    environment: tpv_dispatcher
-  - id: cat1
-    environment: tpv_dispatcher
-  - id: bwa
-    environment: tpv_dispatcher
-  - id: verkko
-    environment: tpv_dispatcher
-  - id: hifiasm
-    environment: tpv_dispatcher
-  - id: trinity
-    environment: tpv_dispatcher
-  - id: busco
-    environment: tpv_dispatcher
-  - id: bionano_scaffold
-    environment: tpv_dispatcher
-  - id: kraken
-    environment: tpv_dispatcher
-  - id: kraken2
-    environment: tpv_dispatcher
-  - id: abyss-pe
-    environment: tpv_dispatcher
-  - id: spades
-    environment: tpv_dispatcher
-  - id: unicycler
-    environment: tpv_dispatcher
-  - id: ncbi_blastn_wrapper
-    environment: tpv_dispatcher
-  - id: ncbi_blastp_wrapper
-    environment: tpv_dispatcher
-  - id: ncbi_blastx_wrapper
-    environment: tpv_dispatcher
-  - id: ncbi_rpsblast_wrapper
-    environment: tpv_dispatcher
-  - id: ncbi_tblastn_wrapper
-    environment: tpv_dispatcher
-  - id: ncbi_tblastx_wrapper
-    environment: tpv_dispatcher
-  - id: fastqc
-    environment: tpv_dispatcher
   # explicit GxIT dispatching
   - id: interactive_tool_jupyter_notebook
     environment: jetstream2_gxit
@@ -61,9 +16,6 @@ galaxy_job_conf_tools:
   - id: interactive_tool_panoply
     environment: tacc_k8s
     #handler: multi
-  #- id: unicycler
-  #  environment: slurm_multi_memory_resubmit
-  #  handler: multi
 
 # tools that use $GALAXY_SLOTS
 #galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
