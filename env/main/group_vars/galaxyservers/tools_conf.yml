@@ -600,6 +600,14 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: tp_replace_in_column
     environment: tpv_dispatcher
+  - id: gff_filter_by_attribute
+    environment: tpv_dispatcher
+  - id: gff_filter_by_feature_count
+    environment: tpv_dispatcher
+  - id: ncbi_makeblastdb
+    environment: tpv_dispatcher
+  - id: bcftools_plugin_counts
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) }}"
