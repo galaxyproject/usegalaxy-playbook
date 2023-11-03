@@ -75,9 +75,6 @@ galaxy_systemd_memory_limit:
   # FIXME: this shouldn't be mule anymore. also "G" is hardcoded, but % would be nice.
   mule: 12
 
-# FIXME: remove this and its handling in the job conf template if you do end up making all handlers load all plugins
-galaxy_job_conf_multi_handler_tag: multi
-
 # galaxy_job_conf_handlers is in host_vars
 
 # NOTE: do not include job_router, it is included by default

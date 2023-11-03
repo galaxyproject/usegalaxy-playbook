@@ -602,8 +602,7 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
-#galaxy_multicore_tools: "{{ __galaxy_multicore_tools + __galaxy_multicore_tools_include }}"
-galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) | difference(galaxy_large_memory_tools) | difference(galaxy_low_priority_tools) }}"
+galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) }}"
 
 # tools that e.g. use globs and should be excluded from running via pulsar until that is addressed
 # generated with:
@@ -715,23 +714,12 @@ galaxy_pulsar_incompatible_tools:
   - tradis_gene_insert_sites
   - velvetoptimiser
 
-# tools that should run on Bridges
-galaxy_large_memory_tools:
-  - trinity_psc
-
-# tools that can run on both multi and Bridges
-galaxy_conditional_large_memory_tools: []
-
-# tools that should run on Stampede
-galaxy_low_priority_tools: []
-
 # some tools have explicit mappings (e.g. for Bridges)
 __galaxy_multicore_tools_exclude:
+  # what to do, what to do
+  - trinity_psc
   - align_families
-  #- fasterq_dump
   - maker
-  #- star_fusion
-  # temp js2
 
 # missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
