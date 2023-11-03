@@ -142,7 +142,15 @@ galaxy_job_conf_resource_groups:
   frontera: [frontera_compute_resource, ntasks, time]
   bridges: [bridges_compute_resource, ntasks, time]
 
-# tool mappings are in tools_conf.yml
+# explicit mappings in the "tools" section of the job_conf
+galaxy_job_conf_tools:
+  # explicit GxIT dispatching
+  - id: interactive_tool_jupyter_notebook
+    environment: jetstream2_gxit
+  - id: interactive_tool_rstudio
+    environment: tacc_k8s
+  - id: interactive_tool_panoply
+    environment: tacc_k8s
 
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
@@ -157,122 +165,16 @@ galaxy_job_conf_limits:
   - type: output_size
     value: 50G
 
-  # TODO: transitionary temp remove
-  - type: environment_user_concurrent_jobs
-    id: multi_limit
-    value: 2
-
   # per-environments per-user limits
   - type: environment_user_concurrent_jobs
-    id: test
-    value: 8
-  - type: environment_user_concurrent_jobs
-    id: training
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: normal
+    id: roundup
     value: 4
   - type: environment_user_concurrent_jobs
-    id: slurm_normal_16gb
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: gxit_limit
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: slurm_normal_32gb
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: slurm_normal_64gb
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: slurm_multi_development
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: multi
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: multi_long
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: stampede_normal
+    id: jetstream2
     value: 4
-  - type: environment_user_concurrent_jobs
-    id: stampede_skx_normal
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: stampede_development
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: stampede_skx_development
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: frontera_small
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: frontera_development
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: bridges_normal
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: bridges_shared_128gb
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: bridges_shared_64gb
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: bridges_extreme_1tb
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: bridges_development
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: expanse_normal
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: expanse_shared_128gb
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: expanse_shared_64gb
-    value: 8
-  - type: environment_user_concurrent_jobs
-    id: expanse_development
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: jetstream_tacc_xlarge
-    value: 1
   - type: environment_user_concurrent_jobs
     id: tacc_k8s
     value: 1
-
-  # per-environments total limits
-  - type: environment_total_concurrent_jobs
-    id: stampede_normal
-    value: 50
-  - type: environment_total_concurrent_jobs
-    id: stampede_skx_normal
-    value: 50
-  - type: environment_total_concurrent_jobs
-    id: stampede_long
-    value: 1
-  - type: environment_total_concurrent_jobs
-    id: stampede_development
-    value: 1
-  - type: environment_total_concurrent_jobs
-    id: stampede_skx_development
-    value: 1
-  - type: environment_total_concurrent_jobs
-    id: frontera_small
-    value: 15
-  - type: environment_total_concurrent_jobs
-    id: frontera_development
-    value: 1
-  #- type: environment_total_concurrent_jobs
-  #  id: bridges_normal
-  #  value: 10
-  - type: environment_total_concurrent_jobs
-    id: bridges_development
-    value: 4
 
   # tpv per-environment total limits
   - type: environment_total_concurrent_jobs
@@ -293,9 +195,6 @@ galaxy_job_conf_limits:
   - type: environment_total_concurrent_jobs
     id: stampede2_icx
     value: 4
-
-
-
 
 # used in gravity config and nginx template
 gxit_proxy_port: 8910
@@ -395,14 +294,7 @@ galaxy_datamanager_venv_dir: "{{ galaxy_venv_dir }}"
 
 ## used by usegalaxy_privileged
 galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
-usegalaxy_dynamic_job_rules:
-  - job_router.py
-  #- reserved.py
-  #- multi_dynamic_walltime.py
-  #- bridges_select.py
-  #- stampede_select.py
-  - nvc_dynamic_memory.py
-  #- mpi.py
+#usegalaxy_dynamic_job_rules:
 
 galaxy_pgcleanup_actions:
   - delete_userless_histories
@@ -479,8 +371,6 @@ galaxy_config_templates:
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_config_file'] }}"
   - src: templates/galaxy/config/oidc_backends_config.xml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_backends_config_file'] }}"
-  - src: templates/galaxy/config/job_router_conf.yml.j2
-    dest: "{{ galaxy_config_dir }}/job_router_conf.yml"
   - src: templates/galaxy/config/tacc_k8s_pulsar_app_config.yml.j2
     dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
   - src: templates/galaxy/config/file_sources_conf.yml.j2
