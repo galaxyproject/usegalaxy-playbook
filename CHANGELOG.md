@@ -4,6 +4,12 @@ This is a log of any changes that were made manually that could not easily be co
 prior to the first entry have not been logged.
 
 
+### Thu Nov  2 21:05:55 CDT 2023
+
+Manually fixed the (legacy) TS dep
+`/cvmfs/main.galaxyproject.org/deps/perl/5.18.1/iuc/package_perl_5_18/114b6af405fa/env.sh` for
+`toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0`
+
 ### Mon Oct 30 14:09:13 CDT 2023
 
 Uninstalled:

@@ -728,15 +728,10 @@ galaxy_low_priority_tools: []
 # some tools have explicit mappings (e.g. for Bridges)
 __galaxy_multicore_tools_exclude:
   - align_families
-  - busco
   #- fasterq_dump
-  - gmx_sim
   - maker
-  - rna_star
-  - rna_starsolo
   #- star_fusion
   # temp js2
-  - meryl
 
 # missed by the method below because $GALAXY_SLOTS is in a macro file
 __galaxy_multicore_tools_include:
@@ -787,7 +782,6 @@ __galaxy_multicore_tools:
   - bioext_bealign
   - bio_hansel
   - bowtie_wrapper
-  - busco
   - bwameth
   - bwa_wrapper
   - correct_barcodes
@@ -822,7 +816,6 @@ __galaxy_multicore_tools:
   - gatk_variant_recalibrator
   - gatk_variant_select
   - gmx_em
-  - gmx_sim
   - gubbins
   - heinz
   - hhsearch
@@ -922,8 +915,6 @@ __galaxy_multicore_tools:
   - rbc_mafft
   - repeatmasker_wrapper
   - rnaspades
-  - rna_star
-  - rna_starsolo
   - roary
   - sailfish
   - salmon
@@ -960,7 +951,6 @@ __galaxy_multicore_tools:
   - tophat2
   - tophat_fusion_post
   - transdecoder
-  #- trim_galore
   - trimmomatic
   - trinity_align_and_estimate_abundance
   - trinity_psc

@@ -603,7 +603,11 @@ tools:
 
   # legacy conda-in-singularity non-pulsar tools
 
+  # TODO: some due to https://github.com/galaxyproject/pulsar/issues/341, retest after fix
+
   toolshed.g2.bx.psu.edu/repos/boris/getalleleseq/getalleleseq/0.0.1: {inherits: _legacy_local}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.0: {inherits: _legacy_local}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1: {inherits: _legacy_local}
   toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/1\.2\.1.*: {inherits: _legacy_local}
   toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/1\.10\.0.*: {inherits: _legacy_local}
 
@@ -622,9 +626,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cat/0.1.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_cut_tool/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/1.0.0: {inherits: _legacy}
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_easyjoin_tool/1.1.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_find_and_replace/1.1.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_head_tool/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.0.0: {inherits: _legacy}
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_multijoin_tool/1.1.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/1.0.0: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sorted_uniq/1.0.0: {inherits: _legacy}
@@ -686,6 +692,18 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/unipept/unipept/4.3.0: {inherits: _singularity_resolv_fix}
 
   # legacy container override tools
+
+  # in this case, the conda dep is actually broken since grep is compiled without PCRE support, so just use the
+  # container grep
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.0.0:
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0
+    scheduling:
+      reject:
+      - pulsar
 
   _galaxy_sequence_utils_1_0_0:
     abstract: true
