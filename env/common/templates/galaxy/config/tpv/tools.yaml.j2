@@ -445,6 +445,11 @@ tools:
       if: 16 <= input_size < 32
       cores: 16
       mem: 58
+    - id: bwa_mem2_history_reference_rule
+      if: |
+        helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}})
+      # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
+      mem: input_size * 20
 
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     cores: 32
