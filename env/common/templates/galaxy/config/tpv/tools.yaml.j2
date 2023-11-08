@@ -207,6 +207,12 @@ tools:
     # was 16 in the job router but let's try this
     mem: 8
 
+  toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.8\+galaxy0:
+    # https://github.com/galaxyproject/tools-iuc/issues/5621
+    scheduling:
+      reject:
+      - pulsar
+
   toolshed.g2.bx.psu.edu/repos/iuc/ebi_metagenomics_run_downloader/ebi_metagenomics_run_downloader/0.1.0:
     inherits: _singularity_resolv_fix
     # copies download_ebi_metagenomics_run_data without +x so can't be executed

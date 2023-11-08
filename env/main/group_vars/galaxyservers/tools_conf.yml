@@ -608,6 +608,14 @@ galaxy_job_conf_tools:
     environment: tpv_dispatcher
   - id: bcftools_plugin_counts
     environment: tpv_dispatcher
+  - id: datamash_reverse
+    environment: tpv_dispatcher
+  - id: datamash_transpose
+    environment: tpv_dispatcher
+  - id: datamash_ops
+    environment: tpv_dispatcher
+  - id: fastq_join
+    environment: tpv_dispatcher
 
 # tools that use $GALAXY_SLOTS
 galaxy_multicore_tools: "{{ (__galaxy_multicore_tools + __galaxy_multicore_tools_include) | difference(__galaxy_multicore_tools_exclude) }}"
