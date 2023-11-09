@@ -41,6 +41,8 @@ main-update: main
 main-update-no-restart: PLAYBOOK = update
 main-update-no-restart: RESTART_ARG = "-e restart=false"
 main-update-no-restart: main
+main-tpv: PLAYBOOK = tpv
+main-tpv: main
 main-tusd: PLAYBOOK = tusd
 main-tusd: main
 test-backup: PLAYBOOK = backup
@@ -62,6 +64,8 @@ test-stack: PLAYBOOK = stack
 test-stack: test
 test-static: PLAYBOOK = static
 test-static: test
+test-tpv: PLAYBOOK = tpv
+test-tpv: test
 testtoolshed-stack_extras: PLAYBOOK = stack_extras
 testtoolshed-stack_extras: testtoolshed
 testtoolshed-stack: PLAYBOOK = stack

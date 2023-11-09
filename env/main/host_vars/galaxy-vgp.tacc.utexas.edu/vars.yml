@@ -42,6 +42,16 @@ galaxy_job_conf_handlers:
     tags:
       - vgp
 
+tpv_mutable_dir: "{{ galaxy_root }}/tpv_staging"
+tpv_config_dir_name: "tpv"
+# the role defauls set this, but we need it before the role is imported
+tpv_config_dir: "{{ galaxy_config_dir }}/{{ tpv_config_dir_name }}"
+tpv_configs:
+  - templates/galaxy/config/tpv/defaults_vgp.yaml.j2
+  - templates/galaxy/config/tpv/environments_vgp.yaml.j2
+  - templates/galaxy/config/tpv/tools_vgp.yaml.j2
+  - templates/galaxy/config/tpv/roles_vgp.yaml.j2
+
 galaxy_config_files:
   - src: files/galaxy/config/tool_data_table_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
@@ -91,14 +101,6 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
   - src: templates/galaxy/config/file_sources_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
-  - src: templates/galaxy/config/tpv/defaults_vgp.yaml.j2
-    dest: "{{ galaxy_tpv_config_dir }}/defaults.yaml"
-  - src: templates/galaxy/config/tpv/environments_vgp.yaml.j2
-    dest: "{{ galaxy_tpv_config_dir }}/environments.yaml"
-  - src: templates/galaxy/config/tpv/tools_vgp.yaml.j2
-    dest: "{{ galaxy_tpv_config_dir }}/tools.yaml"
-  - src: templates/galaxy/config/tpv/roles_vgp.yaml.j2
-    dest: "{{ galaxy_tpv_config_dir }}/roles.yaml"
   - src: templates/galaxy/config/job_conf_vgp.yml.j2
     dest: "{{ galaxy_config_dir }}/job_conf_vgp.yml"
   - src: templates/galaxy/static/welcome_vgp.html.j2

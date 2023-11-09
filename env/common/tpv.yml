@@ -1,0 +1,14 @@
+---
+
+- name: Galaxy TPV configs
+  hosts: galaxyservers
+  remote_user: "{{ galaxy_privileged_user }}"
+  vars:
+    galaxy_config: "{{ galaxy_config_hash }}"
+  pre_tasks:
+    - name: Locate TPV python blobs
+      set_fact:
+        tpv_python_blobs: "{{ (tpv_python_blobs | default({})) | combine({(item | basename | splitext | first): lookup('file', item)}) }}"
+      with_fileglob: "{{ inventory_dir }}/files/galaxy/config/tpv/*.py"
+  roles:
+    - role: usegalaxy_eu.tpv_auto_lint

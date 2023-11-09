@@ -31,7 +31,6 @@
         galaxy_job_conf_pulsar_galaxy_url: null
         galaxy_job_conf_singularity_volumes: {local: [], jetstream: []}
         galaxy_job_conf_default_container_id: null
-        galaxy_tpv_config_dir: null
         galaxy_config_templates:
           - src: templates/galaxy/config/job_conf.yml.j2
             dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/job_conf.yml"
@@ -50,6 +49,7 @@
         galaxy_manage_gravity: false
         galaxy_manage_systemd: false
         galaxy_systemd_mode: null
+        tpv_config_dir: null
 
     - name: Abort if there were no changes
       assert:
