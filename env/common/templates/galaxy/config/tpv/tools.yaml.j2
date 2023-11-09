@@ -104,6 +104,7 @@ tools:
 
   # non-singularity non-pulsar tools
 
+  # FIXME: rules on the default tool prevent this from working
   upload1: {inherits: _conda_local, rules: [id: tool_requires_local_galaxy, id: tool_requires_galaxy]}
   #__.*__: {inherits: _conda_local, rules: [id: tool_requires_local_galaxy, id: tool_requires_galaxy]}
 

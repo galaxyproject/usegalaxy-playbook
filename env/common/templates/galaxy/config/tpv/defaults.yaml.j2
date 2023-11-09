@@ -26,8 +26,16 @@ tools:
         destination: tpv_dispatcher
     rules:
     # NOTE: changes here need to be reflected in both rules and the _galaxy_lib abstract tool
+    - id: tool_requires_local_conda
+      if: tool.id == "__DATA_FETCH__" or tool.tool_type == "data_source"
+      scheduling:
+        require:
+        - conda
+        reject:
+        - pulsar
+        - singularity
     - id: tool_requires_local_galaxy
-      if: tool.tool_type in ("data_source", "expression")
+      if: tool.tool_type == "expression"
       # I swear this worked once in testing, but it seems not to now
       #inherits: _galaxy_lib_local
       params:
@@ -44,7 +52,7 @@ tools:
         reject:
         - pulsar
     - id: tool_requires_galaxy
-      if: tool.tool_type not in ("data_source", "expression") and tool.requires_galaxy_python_environment
+      if: tool.tool_type not in ("data_source", "expression") and not tool.id == "__DATA_FETCH__" and tool.requires_galaxy_python_environment
       #inherits: _galaxy_lib
       params:
         container_override:
