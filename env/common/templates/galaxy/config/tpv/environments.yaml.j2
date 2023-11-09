@@ -9,7 +9,7 @@ destinations:
     runner: slurm
     min_accepted_cores: 1
     min_accepted_mem: 0
-    max_accepted_cores: 4
+    max_accepted_cores: 8
     max_accepted_mem: 32
     context:
       partition: normal
@@ -206,6 +206,8 @@ destinations:
       - jetstream2
       require:
       - pulsar
+      reject:
+      - offline
 
   jetstream2_gpu:
     inherits: jetstream2
@@ -309,6 +311,8 @@ destinations:
       - bridges2
       require:
       - pulsar
+      reject:
+      - offline
 
   expanse:
     runner: expanse
@@ -405,8 +409,8 @@ destinations:
 
   rockfish:
     runner: rockfish
-    min_accepted_cores: 16
-    min_accepteD_mem: 64
+    min_accepted_cores: 8
+    min_accepted_mem: 32
     max_accepted_cores: 256
     max_accepted_mem: 4096
     max_cores: 128

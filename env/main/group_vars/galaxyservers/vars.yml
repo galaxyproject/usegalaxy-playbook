@@ -167,7 +167,7 @@ galaxy_job_conf_resource_groups:
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 16
+    value: 2
   - type: anonymous_user_concurrent_jobs
     value: 1
 
@@ -208,72 +208,7 @@ galaxy_job_conf_limits:
     id: gxit_limit
     value: 1
 
-  # granular limits for singularity envs
-  - type: environment_user_concurrent_jobs
-    id: slurm_normal
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: normal
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: slurm_normal_16gb
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: slurm_normal_32gb
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: slurm_normal_64gb
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: slurm_multi_development
-    value: 1
-
   # pulsar envs
-  - type: environment_user_concurrent_jobs
-    id: stampede_normal
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: stampede_skx_normal
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: stampede_development
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: stampede_skx_development
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: frontera_small
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: frontera_development
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: bridges_normal
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: bridges_shared_128gb
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: bridges_shared_64gb
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: bridges_extreme_1tb
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: bridges_development
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: expanse_normal
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: expanse_shared_128gb
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: expanse_shared_64gb
-    value: 8
-  - type: environment_user_concurrent_jobs
-    id: expanse_development
-    value: 2
   - type: environment_user_concurrent_jobs
     id: tacc_k8s
     value: 1
@@ -322,7 +257,7 @@ galaxy_job_conf_limits:
   # tpv per-environment user limits
   - type: environment_user_concurrent_jobs
     id: roundup
-    value: 4
+    value: 2
   - type: environment_user_concurrent_jobs
     id: jetstream2
     value: 8
