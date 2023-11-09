@@ -76,8 +76,8 @@ galaxy_systemd_memory_limit:
 # galaxy_job_conf_handlers is in host_vars
 
 # NOTE: do not include job_router, it is included by default
-galaxy_job_conf_extra_dynamic_rules:
-  - dynamic_nvc_dynamic_memory
+galaxy_job_conf_extra_dynamic_rules: []
+  #- dynamic_nvc_dynamic_memory
   # TODO: remove all below once everything runs through the job router
   #- dynamic_normal_reserved
   #- dynamic_normal_16gb_reserved
@@ -91,7 +91,7 @@ galaxy_job_conf_extra_dynamic_rules:
   #- dynamic_bridges_select
   #- dynamic_rnastar
 
-galaxy_job_conf_default_environment: job_router
+galaxy_job_conf_default_environment: tpv_dispatcher
 
 galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:3.8.3
 
