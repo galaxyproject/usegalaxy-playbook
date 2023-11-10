@@ -221,9 +221,6 @@ tools:
     mem: 496
     context:
       time: 48:00:00
-    scheduling:
-      require:
-      - hpc
     rules:
     - id: hifiasm_small_input_rule
       if: input_size < 1
