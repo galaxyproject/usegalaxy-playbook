@@ -167,7 +167,7 @@ galaxy_job_conf_resource_groups:
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 2
+    value: 8
   - type: anonymous_user_concurrent_jobs
     value: 1
 
@@ -177,87 +177,15 @@ galaxy_job_conf_limits:
   - type: output_size
     value: 200G
 
-  # per-environments per-user limits
-
-  # env tags (groups) for limits
-  - type: environment_user_concurrent_jobs
-    id: training_limit
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: normal_limit
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: multi_limit
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: multi_long_limit
-    value: 1
-  - type: environment_user_concurrent_jobs
-    id: test_limit
-    value: 4
-  - type: environment_user_concurrent_jobs
-    id: multi_largemem_limit
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: multi_xlargemem_limit
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: gpu_limit
-    value: 2
-  - type: environment_user_concurrent_jobs
-    id: gxit_limit
-    value: 1
-
   # pulsar envs
   - type: environment_user_concurrent_jobs
     id: tacc_k8s
     value: 1
 
-  # per-environments total limits
-  - type: environment_total_concurrent_jobs
-    id: stampede_limit
-    value: 48
-  - type: environment_total_concurrent_jobs
-    id: stampede_normal
-    value: 40
-  - type: environment_total_concurrent_jobs
-    id: stampede_skx_normal
-    value: 40
-  - type: environment_total_concurrent_jobs
-    id: stampede_long
-    value: 1
-  - type: environment_total_concurrent_jobs
-    id: stampede_development
-    value: 1
-  - type: environment_total_concurrent_jobs
-    id: stampede_skx_development
-    value: 1
-  - type: environment_total_concurrent_jobs
-    id: frontera_small
-    value: 18
-  - type: environment_total_concurrent_jobs
-    id: frontera_development
-    value: 1
-  - type: environment_total_concurrent_jobs
-    id: bridges_normal
-    value: 100
-  - type: environment_total_concurrent_jobs
-    id: bridges_shared_64gb
-    value: 50
-  - type: environment_total_concurrent_jobs
-    id: bridges_shared_128gb
-    value: 50
-  - type: environment_total_concurrent_jobs
-    id: bridges_extreme_1tb
-    value: 20
-  - type: environment_total_concurrent_jobs
-    id: bridges_development
-    value: 4
-
   # tpv per-environment user limits
   - type: environment_user_concurrent_jobs
     id: roundup
-    value: 2
+    value: 4
   - type: environment_user_concurrent_jobs
     id: jetstream2
     value: 8
