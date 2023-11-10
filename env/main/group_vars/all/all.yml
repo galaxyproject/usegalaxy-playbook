@@ -7,7 +7,10 @@ restart: true
 galaxy_database_password: "{{ vault_galaxy_database_password }}"
 tiaas_database_password: "{{ vault_tiaas_database_password }}"
 
-galaxy_commit_id: release_23.1
+galaxy_repo: https://github.com/{{ galaxy_repo_owner }}/galaxy.git
+galaxy_repo_owner: natefoo
+galaxy_commit_id: job-limit-trace
+
 galaxy_force_checkout: true
 galaxy_user: g2main
 galaxy_group: G-803372
