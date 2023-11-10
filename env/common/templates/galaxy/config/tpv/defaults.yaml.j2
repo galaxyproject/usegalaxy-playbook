@@ -20,10 +20,10 @@ tools:
       - singularity
       reject:
       - offline
-    resubmit:
-      drm_failure:
-        condition: unknown_error and attempt <= 5
-        destination: tpv_dispatcher
+    #resubmit:
+    #  drm_failure:
+    #    condition: unknown_error and attempt <= 5
+    #    destination: tpv_dispatcher
     rules:
     # NOTE: changes here need to be reflected in both rules and the _galaxy_lib abstract tool
     - id: tool_requires_local_conda
