@@ -166,6 +166,16 @@ tools:
       reject:
       - pulsar
 
+  wig_to_bigWig:
+    # supposedly 1.5x for  wig, 1.25x for bedgraph: https://genome.ucsc.edu/goldenPath/help/bigWig.html
+    # but that doesn't explain <1GB inputs taking >20GB of mem. ultimately, the 99th percentile runtime of this tool is
+    # 8 minutes, so it's not going to hurt that much to overallocate
+    context:
+      # TODO: make this work
+      time: 00:02:00
+    mem: min(max(input_size * 20, 28), 58)
+  CONVERTER_wig_to_bigwig: {inherits: wig_to_bigWig}
+
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     cores: 5
     rules:
