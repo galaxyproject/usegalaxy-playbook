@@ -15,7 +15,10 @@ GX_NUM_CORES=\${GALAXY_SLOTS:-2}
     #set manifest_pathname = os.path.join($mode.database.fields.local_cache_dir, manifest_filename)
     #set tool_database_dir = os.path.join($mode.database.fields.tool_cache_dir, $mode.database.fields.value)
     mkdir -p '$tool_database_dir' &&
+    echo "sync start: \$(date +%s.%N)" 1>&2 &&
     sync_files.py get --mft '$manifest_pathname' --dir '$tool_database_dir' > /dev/null 2>&1 &&
+    echo "sync end: \$(date +%s.%N)" 1>&2 &&
+    echo "gx start: \$(date +%s.%N)" 1>&2 &&
     ## run gx
     run_gx.py
         --fasta '$mode.fasta'
@@ -32,7 +35,8 @@ GX_NUM_CORES=\${GALAXY_SLOTS:-2}
         --gx-db '$tool_database_dir'
         --out-basename output
         --action-report true
-        --generate-logfile false
+        --generate-logfile false &&
+    echo "gx end: \$(date +%s.%N)" 1>&2
 #elif $mode.mode_selector == "clean"
     ## run gx
     gx clean-genome
@@ -117,16 +121,16 @@ GX_NUM_CORES=\${GALAXY_SLOTS:-2}
         </data>
     </outputs>
     <tests>
-        <!-- These settings require a db which doesn't exist in the test environment -->
+        <!-- These settings require a db which doesn't exist in the test environment
         <test expect_failure="true">
+        -->
+        <test expect_num_outputs="2">
             <param name="mode_selector" value="screen"/>
             <param name="id_selector" value="ncbi_tax"/>
             <param name="fasta" value="fcsgx_test.fa.gz" ftype="fasta"/>
             <param name="tax_id" value="6973"/>
-            <!--
             <output name="taxonomy_report" file="output.taxonomy.rpt" compare="diff" lines_diff="2" />
             <output name="action_report" file="output.fcs_gx_report.txt" compare="diff" lines_diff="2" />
-            -->
         </test>
     </tests>
     <help><![CDATA[
