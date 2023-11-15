@@ -29,6 +29,8 @@ pulsar_pycurl_ssl_library: openssl
 pulsar_systemd: true
 pulsar_systemd_runner: webless
 pulsar_systemd_service_name: "pulsar-{{ galaxy_instance_codename }}"
+pulsar_systemd_service_options:
+  LimitNOFILE: "4096:524288"
 # TODO: why don't the conditionalized restart handlers in the role work?
 pulsar_restart_handler_name: systemd restart pulsar
 
