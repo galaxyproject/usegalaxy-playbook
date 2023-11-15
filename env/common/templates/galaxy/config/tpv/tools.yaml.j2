@@ -233,6 +233,9 @@ tools:
       reject:
       - pulsar
 
+  toolshed.g2.bx.psu.edu/repos/iuc/genrich/genrich/.*:
+    mem: min(max(input_size * 10, mem_factor), 14)
+
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
     # shared DB uses 24, AU uses 7.6, we had configured 16, stick with 16
     mem: 14
