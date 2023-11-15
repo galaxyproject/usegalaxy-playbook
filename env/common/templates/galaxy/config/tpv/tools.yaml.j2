@@ -639,6 +639,15 @@ tools:
       if: 0.2 <= input_size < 10
       mem: 20
 
+  # local test tools
+
+  ncbi_fcs_gx:
+    scheduling:
+      require:
+      - resize-shm
+      - jetstream2
+      - pulsar
+
   verkko:
     cores: 32
     mem: 120
