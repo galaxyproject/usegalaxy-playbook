@@ -229,6 +229,18 @@ tools:
     # was 16 in the job router but let's try this
     mem: 8
 
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
+    cores: 4
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_dada/dada2_dada/.*:
+    cores: 4
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/dada2_filterAndTrim/.*:
+    cores: 4
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.8\+galaxy0:
     # https://github.com/galaxyproject/tools-iuc/issues/5621
     scheduling:
@@ -236,9 +248,8 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/iuc/deepvariant/deepvariant/.*:
-    cores: 8
-    # this is in the shared DB
-    mem: 10
+    cores: int(min(max(input_size * 15, 14), 96) / 4)
+    mem: int(min(max(input_size * 15, 14), 96))
 
   toolshed.g2.bx.psu.edu/repos/iuc/ebi_metagenomics_run_downloader/ebi_metagenomics_run_downloader/0.1.0:
     inherits: _singularity_resolv_fix
@@ -273,6 +284,12 @@ tools:
     env:
       - name: TEMP
         value: /tmp
+
+  toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_build_gb/.*:
+    # https://github.com/galaxyproject/pulsar/issues/343
+    scheduling:
+      require:
+      - roundup-mem
 
   toolshed.g2.bx.psu.edu/repos/iuc/tximport/tximport/.*:
     mem: 8

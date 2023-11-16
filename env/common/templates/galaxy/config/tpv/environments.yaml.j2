@@ -142,6 +142,17 @@ destinations:
       # for TPV shared DB
       - docker
 
+  roundup_mem:
+    inherits: roundup
+    # this is only for pulsar-incompatible jobs, so requires an explicit tag
+    min_accepted_cores: 4
+    min_accepted_mem: 32
+    max_accepted_cores: 8
+    max_accepted_mem: 64
+    scheduling:
+      require:
+      - roundup-mem
+
   jetstream2:
     runner: jetstream2
     min_accepted_cores: 1
