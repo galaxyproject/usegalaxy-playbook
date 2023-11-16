@@ -183,6 +183,9 @@ tools:
       reject:
       - pulsar
 
+  toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/[^/]*/5\..*:
+    mem: 5.7
+
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     cores: 8
     rules:
@@ -229,6 +232,9 @@ tools:
     scheduling:
       reject:
       - pulsar
+
+  toolshed.g2.bx.psu.edu/repos/iuc/genrich/genrich/.*:
+    mem: min(max(input_size * 10, mem_factor), 14)
 
   toolshed.g2.bx.psu.edu/repos/iuc/ggplot2_heatmap2/ggplot2_heatmap2/.*:
     # shared DB uses 24, AU uses 7.6, we had configured 16, stick with 16
@@ -486,7 +492,7 @@ tools:
       mem: |
         options = job.get_param_values(app)
         size = options["reference_source"]["ref_file"].get_size()
-        max(size/1024**3 * 28, 7.6)
+        min(max(size/1024**3 * 28, (input_size - float(size/1024**3)) * 2, 7.6), 120)
 
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     cores: 32
@@ -638,6 +644,15 @@ tools:
     - id: htseq_count_medium_input_rule
       if: 0.2 <= input_size < 10
       mem: 20
+
+  # local test tools
+
+  ncbi_fcs_gx:
+    scheduling:
+      require:
+      - resize-shm
+      - jetstream2
+      - pulsar
 
   verkko:
     cores: 32

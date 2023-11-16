@@ -9,10 +9,11 @@ tools:
     cores: 1
     mem: cores * 2.7
     context:
+      mem_factor: 2.7
       time: "12:00:00"
     env:
     - name: _JAVA_OPTIONS
-      value: $_JAVA_OPTIONS -Xmx{round(mem*0.9*1024)}m -Xms256m
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m
     scheduling:
       accept:
       - pulsar
