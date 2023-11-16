@@ -333,7 +333,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
     cores: 12
-    #mem: uses --mem-per-cpu=4G
+    # mem uses --mem-per-cpu=4G so this isn't actually used, we just set it for min_accepted_mem
+    mem: 48
     params:
       require_container: true
       container_override:
@@ -349,13 +350,14 @@ tools:
     - name: SINGULARITYENV_ALPHAFOLD_DB
       value: /cvmfs/data.galaxyproject.org/byhand/alphafold
     rules:
-    - if: |
+    - id: alphafold_allow_rule
+      if: |
         user and 'AlphaFold' in [role.name for role in user.all_roles() if not role.deleted]
       scheduling:
         require:
-        - hpc
         - rockfish-gpu
-    - if: |
+    - id: alphafold_deny_rule
+      if: |
         not user or not any([
           role for role in user.all_roles() if (
             role.name in ['AlphaFold'] and not role.deleted
