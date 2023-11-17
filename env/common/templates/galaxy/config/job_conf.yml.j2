@@ -16,7 +16,7 @@
 {%- macro runner_pulsar_params() -%}
     amqp_url: {{ galaxy_job_conf_amqp_url }}
     galaxy_url: {{ galaxy_job_conf_pulsar_galaxy_url }}
-    persistence_directory: /srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack
+    persistence_directory: {{ galaxy_job_conf_persistence_directory }}
     amqp_acknowledge: true
     amqp_ack_republish_time: 1200
     amqp_consumer_timeout: 2.0

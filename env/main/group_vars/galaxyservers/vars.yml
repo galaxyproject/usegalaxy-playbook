@@ -50,6 +50,7 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 
 ## used by: job_conf.yml template
 galaxy_job_conf_pulsar_galaxy_url: "https://{{ inventory_hostname_short }}.galaxyproject.org"
+galaxy_job_conf_persistence_directory: "/corral4/{{ galaxy_instance_codename }}/pulsar_amqp_ack"
 
 __handler_default_plugins:
   - slurm

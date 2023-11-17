@@ -39,6 +39,12 @@ host_crontabs:
     hour: "5"
     minute: "30"
     job: "/usr/bin/tmpwatch -v --all --mtime --dirmtime 7d {{ galaxy_tus_upload_store }} | tee -a {{ galaxy_log_dir }}/cleanup_tus_upload_store.log"
+  - name: "Clean {{ galaxy_instance_codename }} AMQP ack consume dir"
+    id: "galaxy_{{ galaxy_instance_codename }}_clean_amqp_ack_consume"
+    user: "{{ galaxy_user }}"
+    hour: "6"
+    minute: "0"
+    job: "/usr/bin/tmpwatch --mtime 14d {{ galaxy_job_conf_persistence_directory }}/*/consume"
 
 # in here so it only runs on one host
 tiaas_disassociate_training_roles:
