@@ -88,7 +88,7 @@ destinations:
     max_cores: 128 if js2_partition == 'vgp' else 32
     max_mem: 980 if js2_partition == 'vgp' else 120
     context:
-      time: 24:00:00
+      time: 48:00:00
       # js2_partition is set on role and (default) tool entitites
       #partition: tpv
     params:
