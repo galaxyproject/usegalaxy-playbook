@@ -97,6 +97,12 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/3.0.8+galaxy0" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fasterq_dump/3.0.8+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/3.0.8+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/sam_dump/3.0.8+galaxy1" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/ncbi_datasets/datasets_download_genome/13.24.1+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/ncbi_datasets/datasets_download_genome/13.35.0+galaxy0" />
@@ -516,6 +522,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/query_tabular/query_tabular/3.3.1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/add_value/addValue/1.0.1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/artbio/concatenate_multiple_datasets/cat_multi_datasets/1.4.2" />
 
     </section>
 
@@ -1068,6 +1076,42 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bamtools_split_ref/bamtools_split_ref/2.5.2+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bamtools_split_tag/bamtools_split_tag/2.5.2+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_sort/samtools_sort/2.0.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_mpileup/samtools_mpileup/2.1.7" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_flagstat/samtools_flagstat/2.0.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/bam_to_sam/bam_to_sam/2.0.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/2.0.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_calmd/samtools_calmd/2.0.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_bedcov/samtools_bedcov/2.0.4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_split/samtools_split/1.15.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_stats/samtools_stats/2.0.5" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_slice_bam/samtools_slice_bam/2.0.3" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/samtools_reheader/samtools_reheader/2.0.3" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/samtools_depth/samtools_depth/1.15.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/samtools_fastx/samtools_fastx/1.15.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/1.15.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/samtools_markdup/samtools_markdup/1.15.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/samtools_merge/samtools_merge/1.15.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/samtools_view/samtools_view/1.15.1+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/samtools_ampliconclip/samtools_ampliconclip/1.15.1+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bamutil_clip_overlap/bamutil_clip_overlap/1.0.15+galaxy1" />
 
@@ -2619,16 +2663,6 @@
 
     <section id="interactivetools" name="Interactive tools" version="">
 
-        <tool id="interactive_tool_jupyter_notebook" />
-
-        <tool id="interactive_tool_rstudio" />
-
-        <tool id="interactive_tool_panoply" />
-
-        <tool id="interactive_tool_phinch" />
-
-        <tool id="interactive_tool_pavian" />
-
     </section>
 
     <section id="operate_on_genomic_intervals" name="Operate on Genomic Intervals" version="">
@@ -2885,6 +2919,10 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/bellerophon/bellerophon/1.0+galaxy1" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/3.15.4+galaxy2" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nml/spades/spades/3.15.4+galaxy1" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/3.6.1+galaxy2" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/genomescope/genomescope/2.0" />
@@ -3134,6 +3172,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/funannotate_predict/funannotate_predict/1.8.15+galaxy3" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.5.0+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/2.0.5+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4.1.2-p1+galaxy0" />
 
@@ -4838,6 +4878,8 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/biom_convert/biom_convert/2.1.15+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/mbernt/maxbin2/maxbin2/2.2.7+galaxy4" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/nml/staramr/staramr_search/0.10.0+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/dada2_learnerrors/dada2_learnErrors/1.18+galaxy0" />
 
@@ -6922,6 +6964,38 @@
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/2.14.1+galaxy0" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/blastxml_to_tabular/2.14.1+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_segmasker_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_convert2blastmask_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_rpsblast_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_dustmasker_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeblastdb/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_rpstblastn_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/get_species_taxids/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastdbcmd_info/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastdbcmd_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_makeprofiledb/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/2.14.1+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/blastxml_to_tabular/2.14.1+galaxy1" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/2.10.1+galaxy0" />
 
@@ -9137,6 +9211,18 @@
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/modify_loom/modify_loom/0.10.3+galaxy1" />
 
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_plot/scanpy_plot/1.9.6+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_inspect/scanpy_inspect/1.9.6+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_filter/scanpy_filter/1.9.6+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_normalize/scanpy_normalize/1.9.6+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_cluster_reduce_dimension/scanpy_cluster_reduce_dimension/1.9.6+galaxy1" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/scanpy_remove_confounders/scanpy_remove_confounders/1.9.6+galaxy1" />
+
         <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/gtf2gene_list/_ensembl_gtf2gene_list/1.42.1+galaxy6" />
 
         <tool id="toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_integrate_harmony/scanpy_integrate_harmony/1.8.1+2+galaxy0" />
@@ -9868,6 +9954,8 @@
     <section id="genome_diversity" name="Genome Diversity" version="">
 
         <tool id="toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/8.2.12+galaxy0" />
+
+        <tool id="toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/8.2.12+galaxy1" />
 
     </section>
 
