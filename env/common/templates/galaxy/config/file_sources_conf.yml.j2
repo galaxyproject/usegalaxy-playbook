@@ -67,15 +67,15 @@
   bucket: genomeark
   anon: true
 
-#- type: s3fs
-#  label: Genome Ark Test Instance
-#  id: genomeark_galaxy
-#  doc: Access to Genome Ark open data on AWS.
-#  bucket_name: genomeark
-#  requires_groups: VGP Project
-#  writable: true
-#  aws_secret_access_key: "{{ genomeark_galaxy_aws_secret_access_key }}"
-#  aws_access_key_id: "{{ genomeark_galaxy_aws_access_key_id }}"
+- type: s3fs
+  label: Genome Ark EXPORT HERE
+  requires_groups: GenomeArkExport
+  id: genomeark_galaxy
+  doc: Access to Genome Ark open data on AWS.
+  bucket: genomeark
+  writable: true
+  secret: "{{ genomeark_galaxy_aws_secret_access_key }}"
+  key: "{{ genomeark_galaxy_aws_access_key_id }}"
 
 - type: s3fs
   label: 1000 Genomes
