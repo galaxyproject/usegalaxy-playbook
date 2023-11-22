@@ -181,6 +181,9 @@ tools:
     mem: min(max(input_size * 20, 28), 58)
   CONVERTER_wig_to_bigwig: {inherits: wig_to_bigWig}
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     cores: 5
     rules:
