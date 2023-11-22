@@ -1,0 +1,9 @@
+---
+
+# Most tools belong in tools.yaml.j2. This is useful if you need to make generic definitions that would override more
+# specific shared DB definitions, since this is loaded before the shared DB.
+
+tools:
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/.*:
+    mem: 5.6

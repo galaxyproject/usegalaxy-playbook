@@ -257,6 +257,7 @@ tpv_config_dir: "{{ galaxy_config_dir }}/{{ tpv_config_dir_name }}"
 tpv_configs:
   - templates/galaxy/config/tpv/defaults.yaml.j2
   - templates/galaxy/config/tpv/environments.yaml.j2
+  - templates/galaxy/config/tpv/tools_pre_shared.yaml.j2
   - templates/galaxy/config/tpv/tools.yaml.j2
 
 # specifies config files to copy from the playbook
