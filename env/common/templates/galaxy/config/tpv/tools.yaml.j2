@@ -936,6 +936,16 @@ tools:
     inherits: _mothur
     cores: 2
     mem: 90
+    rules:
+    - id: rule_pulsar_incompatible_large_mem
+      if: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 1
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
+    scheduling:
+      require:
+      - roundup-mem
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_amova/mothur_amova/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_anosim/mothur_anosim/.*:
