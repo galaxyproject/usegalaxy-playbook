@@ -520,11 +520,11 @@ tools:
     mem: 120
     rules:
     - id: bwa_mem_small_input_rule
-      if: input_size < 0.25
+      if: input_size < 0.1
       cores: 2
       mem: 5.6
     - id: bwa_mem_medium_input_rule
-      if: 0.25 <= input_size < 1
+      if: 0.1 <= input_size < 1
       cores: 4
       mem: 14
     - id: bwa_mem_medium2_input_rule
@@ -537,11 +537,11 @@ tools:
     mem: 120
     rules:
     - id: bwa_mem2_small_input_rule
-      if: input_size < 0.25
+      if: input_size < 0.1
       cores: 2
       mem: 5.6
     - id: bwa_mem2_medium_input_rule
-      if: 0.25 <= input_size < 16
+      if: 0.1 <= input_size < 16
       cores: 8
       mem: 28
     - id: bwa_mem2_large_input_rule
