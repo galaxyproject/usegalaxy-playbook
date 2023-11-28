@@ -524,6 +524,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 32
     mem: 120
+    scheduling:
+      require:
+      - jetstream2
     rules:
     - id: bwa_mem_small_input_rule
       if: input_size < 0.1
@@ -541,6 +544,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     cores: 32
     mem: 120
+    scheduling:
+      require:
+      - jetstream2
     rules:
     - id: bwa_mem2_small_input_rule
       if: input_size < 0.1
