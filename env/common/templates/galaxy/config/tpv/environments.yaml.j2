@@ -146,9 +146,11 @@ destinations:
     inherits: roundup
     # this is only for pulsar-incompatible jobs, so requires an explicit tag
     min_accepted_cores: 1
-    min_accepted_mem: 32
-    max_accepted_cores: 8
-    max_accepted_mem: 64
+    min_accepted_mem: 1
+    max_accepted_cores: 32
+    max_accepted_mem: 256
+    max_cores: 8
+    max_mem: 96
     scheduling:
       require:
       - roundup-mem

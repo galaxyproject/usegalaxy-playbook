@@ -920,6 +920,27 @@ tools:
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.32.3: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/pjbriggs/trimmomatic/trimmomatic/0.36.[235]: {inherits: _legacy}
 
+  # bulk pulsar-incompatible tools
+
+  _pulsar_incompatible_large_mem:
+    abstract: true
+    rules:
+    # FIXME: what you actually want is concurrent_job_count_for_this_set_of_tools() (or dest, but dest isn't set here)
+    - id: rule_pulsar_incompatible_large_mem
+      if: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 1
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
+    scheduling:
+      require:
+      - roundup-mem
+  # these tool use `from_work_dir` but move their work_dir outputs to the output path anyway
+  # https://github.com/galaxyproject/pulsar/issues/239#issuecomment-877202415
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_deunique_seqs/mothur_deunique_seqs/.*: {inherits: _pulsar_incompatible_large_mem}
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_fastq_info/mothur_fastq_info/.*: {inherits: _pulsar_incompatible_large_mem}
+  toolshed.g2.bx.psu.edu/repos/iuc/mothur_maked_shared/mothur_maked_shared/.*: {inherits: _pulsar_incompatible_large_mem}
+
   # legacy singularity resolv.conf fix tools
 
   toolshed.g2.bx.psu.edu/repos/bgruening/get_online_data/get_pdb/0.1.0: {inherits: _singularity_resolv_fix}
