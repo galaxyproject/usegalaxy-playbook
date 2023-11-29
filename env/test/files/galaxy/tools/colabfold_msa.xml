@@ -30,7 +30,7 @@
     #if $custom_template:
         mkdir template_dir &&
         #for $file in $custom_template:
-            ln -s $file template_dir/${file.element_identifier}.pdb
+            ln -s $file template_dir/${file.element_identifier}.pdb &&
         #end for
     #end if   
 
@@ -52,9 +52,7 @@
     #if $custom_template:
         --custom-template-path template_dir
     #end if
-    ##FOR TESTING, REMOVE
     --zip 
-    ##
     #if $query_type.select_query_type == "fasta":
         $input_file
     #else:
@@ -95,9 +93,8 @@
         <param name="custom_template" label="List of pdb files to provide the prediciton as custom templates" type="data" format="pdb" multiple="true" optional="true"/>
     </inputs>
     <outputs>
-        <!-- TEST OUTPUT -->
         <data name="output" format="zip" label="${tool.name} on ${on_string}: zip file">
-            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.zip" directory="output" visible="true" />
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.result.zip" directory="output" visible="true" />
         </data>
         <!-- <data name="alignment_file" format="a3m" label="${tool.name} on ${on_string}: Alignment file">
             <discover_datasets pattern="(?P&lt;designation&gt;.+)\.a3m" directory="output" visible="true" />
