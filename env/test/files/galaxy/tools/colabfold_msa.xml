@@ -97,16 +97,16 @@
     <outputs>
         <!-- TEST OUTPUT -->
         <data name="output" format="zip" label="${tool.name} on ${on_string}: zip file">
-            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.zip" directory="output" visible="true" />
         </data>
         <!-- <data name="alignment_file" format="a3m" label="${tool.name} on ${on_string}: Alignment file">
-            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.a3m" directory="output" visible="true" />
         </data>
         <data name="pickle_file" format="pickle" label="${tool.name} on ${on_string}: Pickle file">
-            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.pickle" directory="output" visible="true" />
         </data>
         <data name="coverage_file" format="png" label="${tool.name} on ${on_string}: Coverage file">
-            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
+            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.png" directory="output" visible="true" />
         </data> -->
     </outputs>
     <tests>
