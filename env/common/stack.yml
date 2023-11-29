@@ -41,18 +41,6 @@
     - natefoo.postgresql_objects
   tags: postgres
 
-- name: Set sysctl values for uWSGI
-  hosts: galaxywebservers:galaxystagingservers # doesn't work in lx :toolshedwebservers
-  remote_user: root
-  tasks:
-    - name: Set sysctl values
-      sysctl:
-        name: "{{ item.name }}"
-        value: "{{ item.value }}"
-        reload: no
-        sysctl_set: yes
-      with_items: "{{ sysctl_conf }}"
-
 # Done before nginx is installed because it will fail to start in the next play if the module doesn't exist
 - name: Install nginx mod_zip
   hosts: galaxywebservers
@@ -83,6 +71,13 @@
     - copy    # for tacc_protected in test env
     - galaxyproject.nginx
   tags: nginx
+
+- name: Install and manage redis
+  hosts: redisservers
+  remote_user: root
+  roles:
+    - geerlingguy.redis
+  tags: redis
 
 #- name: Tasks for SELinux and UNIX socket proxies
 #  # FIXME:

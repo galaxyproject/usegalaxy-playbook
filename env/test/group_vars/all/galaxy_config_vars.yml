@@ -8,6 +8,7 @@ galaxy_config_admin_users: "{{ vault_galaxy_config_admin_users }}"
 galaxy_config_id_secret: "{{ vault_galaxy_config_id_secret }}"
 galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
 galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_connection }}"
+redis_requirepass: "{{ vault_redis_requirepass }}"
 
 
 galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
@@ -234,6 +235,8 @@ base_app_main: &BASE_APP_MAIN
 
   enable_notification_system: true
   enable_celery_tasks: true
+  celery_conf:
+    result_backend: 'redis://:{{ redis_requirepass }}@127.0.0.1/0'
 
   expose_potentially_sensitive_job_metrics: true
   enable_tool_source_display: true
