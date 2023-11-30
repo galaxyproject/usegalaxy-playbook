@@ -9,6 +9,7 @@ galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
 galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_connection }}"
 
 galaxy_config_database_connection: "postgresql://g2main:{{ galaxy_database_password }}@{{ groups.galaxydbservers[0] }}/galaxy_main"
+redis_requirepass: "{{ vault_redis_requirepass }}"
 
 galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
 galaxy_new_file_path: "/corral4/{{ galaxy_instance_codename }}/scratch3"
@@ -230,6 +231,7 @@ base_app_main: &BASE_APP_MAIN
   enable_notification_system: true
   enable_celery_tasks: true
   celery_conf:
+    result_backend: 'redis://:{{ redis_requirepass }}@galaxy-db-02.tacc.utexas.edu/0'
     task_routes:
       galaxy.fetch_data: disabled
 
