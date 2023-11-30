@@ -13,13 +13,14 @@ GX_NUM_CORES=\${GALAXY_SLOTS:-2}
     #import os
     #set manifest_pathname = $mode.config_tag.fields.manifest
     #set tool_database_dir = os.path.join($mode.config_tag.fields.path, $mode.config_tag.fields.value)
+    #set tool_database_dir = os.path.join(os.path.dirname($mode.config_tag.fields.manifest), $mode.config_tag.fields.value)
     #if $in_test_mode == "yes"
         #set manifest_pathname = $mode.screen_adv.database_path.fields.manifest
         #set tool_database_dir = os.path.join($mode.screen_adv.database_path.fields.name, $mode.screen_adv.database_path.fields.value)
     #end if
     mkdir -p '$tool_database_dir' &amp;&amp;
     echo "sync_beg: \$(date +%s)" &amp;&amp;
-    sync_files.py get --mft '$manifest_pathname' --dir '$tool_database_dir' &gt; /dev/null 2&gt;&amp;1 &amp;&amp;
+    ## sync_files.py get --mft '$manifest_pathname' --dir '$tool_database_dir' &gt; /dev/null 2&gt;&amp;1 &amp;&amp;
     echo "sync_end: \$(date +%s)" &amp;&amp;
     echo "gx_beg: \$(date +%s)" &amp;&amp;
     ## run gx
