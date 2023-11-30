@@ -6,6 +6,9 @@
 _jetstream_scratch_root: "/jetstream2/scratch/{{ galaxy_instance_codename }}"
 _jetstream_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
 
+# TEMP until release of >0.15.5
+pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@103e5d49635f665e68668af6867a4b170645b31d#egg=pulsar-app"
+pulsar_package_version: "{{ omit }}"
 pulsar_root: "/srv/pulsar/{{ galaxy_instance_codename }}"
 #galaxy_root: not required
 
