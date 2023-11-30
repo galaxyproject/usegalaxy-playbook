@@ -13,7 +13,7 @@ GX_NUM_CORES=\${GALAXY_SLOTS:-2}
     #import os
     #set manifest_pathname = $mode.config_tag.fields.manifest
     #set tool_database_dir = os.path.join($mode.config_tag.fields.path, $mode.config_tag.fields.value)
-    #set tool_database_dir = os.path.join(os.path.dirname($mode.config_tag.fields.manifest), $mode.config_tag.fields.value)
+    #set tool_database_dir = os.path.dirname($mode.config_tag.fields.manifest)
     #if $in_test_mode == "yes"
         #set manifest_pathname = $mode.screen_adv.database_path.fields.manifest
         #set tool_database_dir = os.path.join($mode.screen_adv.database_path.fields.name, $mode.screen_adv.database_path.fields.value)

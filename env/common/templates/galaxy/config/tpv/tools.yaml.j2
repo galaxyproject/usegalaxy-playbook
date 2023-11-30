@@ -305,6 +305,9 @@ tools:
     - name: TEMP
       value: /tmp
 
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
+    mem: 7.8
+
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_build_gb/4.3\+T.galaxy[1-5]:
     # https://github.com/galaxyproject/tools-iuc/issues/5647, fixed in .galaxy6
     cores: 1
@@ -570,7 +573,7 @@ tools:
       mem: |
         options = job.get_param_values(app)
         size = options["reference_source"]["ref_file"].get_size()
-        min(max(size/1024**3 * 28, (input_size - float(size/1024**3)) * 2, 7.6), 120)
+        min(max(float(size/1024**3) * 28, (input_size - float(size/1024**3)) * 2, 7.6), 120)
 
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     cores: 32
