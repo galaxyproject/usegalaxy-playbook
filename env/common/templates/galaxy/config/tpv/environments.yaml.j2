@@ -7,14 +7,8 @@ destinations:
   _roundup_common:
     abstract: true
     runner: slurm
-    min_accepted_cores: 1
-    min_accepted_mem: 0
-    #max_accepted_cores: 4
-    #max_accepted_mem: 32
-    max_accepted_cores: 8
-    max_accepted_mem: 64
     context:
-      partition: normal
+      partition: multi
       time: 24:00:00
     params:
       native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
@@ -29,10 +23,6 @@ destinations:
       value: vt100
     - name: LC_ALL
       value: C
-    rules:
-    - if: cores > 2 or mem > 16
-      params:
-        native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=multi"
 
   _tacc_hpc:
     abstract: true
@@ -112,6 +102,12 @@ destinations:
 
   roundup_conda_direct:
     inherits: _roundup_common
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    max_accepted_cores: 4
+    max_accepted_mem: 32
+    context:
+      partition: normal
     scheduling:
       accept:
       - roundup
@@ -121,6 +117,10 @@ destinations:
 
   roundup:
     inherits: _roundup_common
+    min_accepted_cores: 3
+    min_accepted_mem: 16
+    max_accepted_cores: 4
+    max_accepted_mem: 32
     params:
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
@@ -143,6 +143,15 @@ destinations:
       - singularity
       # for TPV shared DB
       - docker
+
+  roundup_small:
+    inherits: roundup
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    max_accepted_cores: 2
+    max_accepted_mem: 16
+    context:
+      partition: normal
 
   roundup_mem:
     inherits: roundup
