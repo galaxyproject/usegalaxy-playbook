@@ -48,7 +48,7 @@
     <inputs>
         <param name="input" type="data" format="zip" label="zip file output from colabfold msa tool" multiple="true"/>
         <conditional name="num_recycles">
-            <param name="set_num_recycles" label="Set number of recycles" type="select" help="If auto selected, will set to 20, assuming seleected model type is alphafold2_multimer_v3. If not will set to 3.">
+            <param name="set_num_recycles" label="Set number of recycles" type="select" help="If auto selected, will set to 20, assuming selected model type is alphafold2_multimer_v3. If not will set to 3.">
                 <option value="auto">Set automatically</option>
                 <option value="manual">Set manually</option>
             </param>
@@ -98,7 +98,7 @@
         </conditional>
         <!-- Add for second version of tool for batch jobs -->
         <!-- <param name="stop_at" label="Stop score" type="float" min="0.0" optional="true" help="Compute models until pLDDT (single chain) or pTM-score (multimer) > threshold is reached. This speeds up prediction by running less models for easier queries."/> -->
-        <section name="output_optoins" title="Output Options">
+        <section name="output_options" title="Output Options">
             <param argument="--save-all" type="boolean" label="Save raw outputs from model to a pickle file" truevalue="--save-all" falsevalue=""/>
             <param argument="--save-recycles" type="boolean" label="Save all intermediate predictions at each recycle iteration" truevalue="--save-recycles" falsevalue=""/>
             <param argument="--save-single-representations" type="boolean" label="Save the single representation embeddings of all models." truevalue="--save-single-representations" falsevalue=""/>
