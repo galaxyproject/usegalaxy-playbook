@@ -9,7 +9,8 @@
         <container type="docker"> ghcr.io/sokrypton/colabfold:@VERSION@-cuda@CUDA_VERSION@</container>
     </requirements>
     <command detect_errors="exit_code"><![CDATA[ 
-    gunzip -c '$input' input_data &&
+    ln -s $input input.zip &&
+    gunzip -c input.zip input_data &&
     mkdir output &&
     collabfold_batch
     #if $num_recycles.set_num_recycles == "manual"
@@ -46,7 +47,7 @@
     output
     ]]></command>
     <inputs>
-        <param name="input" type="data" format="zip" label="zip file output from colabfold msa tool" multiple="true"/>
+        <param name="input" type="data" format="zip" label="zip file output from colabfold msa tool"/>
         <conditional name="num_recycles">
             <param name="set_num_recycles" label="Set number of recycles" type="select" help="If auto selected, will set to 20, assuming selected model type is alphafold2_multimer_v3. If not will set to 3.">
                 <option value="auto">Set automatically</option>
