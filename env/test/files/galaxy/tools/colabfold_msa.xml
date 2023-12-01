@@ -1,4 +1,4 @@
-<tool id="colabfold_msa" name="colabfold_msa" version="@VERSION@+galaxy@VERSION_SUFFIX@" python_template_version="3.5" profile="21.05">
+<tool id="colabfold_msa" name="colabfold_msa" version="@VERSION@+galaxy@VERSION_SUFFIX@" profile="21.05">
     <description>This tool runs the alphafold step of the collabfold tool in Galaxy</description>
     <macros>
         <token name="@VERSION@">1.5.3</token>
@@ -93,21 +93,10 @@
         <param name="custom_template" label="List of pdb files to provide the prediciton as custom templates" type="data" format="pdb" multiple="true" optional="true"/>
     </inputs>
     <outputs>
-        <data name="output" format="zip" label="${tool.name} on ${on_string}: zip file">
-            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.result.zip" directory="output" visible="true" />
-        </data>
-        <!-- <data name="alignment_file" format="a3m" label="${tool.name} on ${on_string}: Alignment file">
-            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.a3m" directory="output" visible="true" />
-        </data>
-        <data name="pickle_file" format="pickle" label="${tool.name} on ${on_string}: Pickle file">
-            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.pickle" directory="output" visible="true" />
-        </data>
-        <data name="coverage_file" format="png" label="${tool.name} on ${on_string}: Coverage file">
-            <discover_datasets pattern="(?P&lt;designation&gt;.+)\.png" directory="output" visible="true" />
-        </data> -->
+        <data name="output" format="zip" label="${tool.name} on ${on_string}: zip file"/>
     </outputs>
     <tests>
-        <test expect_num_outputs="3">
+        <test expect_num_outputs="1">
             <param name="input" value="input.fasta"/>
         </test>
     </tests>
