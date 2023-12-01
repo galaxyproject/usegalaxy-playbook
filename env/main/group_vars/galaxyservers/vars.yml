@@ -168,7 +168,7 @@ galaxy_job_conf_resource_groups:
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 8
+    value: 6
   - type: anonymous_user_concurrent_jobs
     value: 1
 
@@ -185,7 +185,13 @@ galaxy_job_conf_limits:
 
   # tpv per-environment user limits
   - type: environment_user_concurrent_jobs
+    id: roundup_small
+    value: 4
+  - type: environment_user_concurrent_jobs
     id: roundup
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: roundup_mem
     value: 4
   - type: environment_user_concurrent_jobs
     id: jetstream2
@@ -243,6 +249,7 @@ galaxy_pgcleanup_actions:
   - purge_hdas_of_purged_histories
   - delete_datasets
   - purge_datasets
+galaxy_pgcleanup_days: 30
 
 ## used by: usegalaxy_admin
 galaxy_log_archive_dir: /corral4/{{ galaxy_instance_codename }}/backup/log
