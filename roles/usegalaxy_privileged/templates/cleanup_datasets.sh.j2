@@ -7,9 +7,12 @@ set -e
 cd {{ galaxy_server_dir }}
 
 if [ -z "$1" ]; then
-    days=30
+    days={{ galaxy_pgcleanup_days }}
 else
     days=$1
 fi
 
 {{ galaxy_venv_dir }}/bin/python ./scripts/cleanup_datasets/pgcleanup.py -c {{ galaxy_config_file }} -o $days -l {{ galaxy_log_dir }} -w 128MB {{ galaxy_pgcleanup_actions | join(' ') }} 2>&1 | tee -a {{ galaxy_log_dir }}/cleanup_datasets.log
+{% for item in galaxy_pgcleanup_old_hdas | default([]) %}
+{{ galaxy_venv_dir }}/bin/python ./scripts/cleanup_datasets/pgcleanup.py -c {{ galaxy_config_file }} -o {{ item.days }} -l {{ galaxy_log_dir }} -w 128MB --object-store-id {{ item.object_store_id }} purge_old_hdas 2>&1 | tee -a {{ galaxy_log_dir }}/cleanup_datasets.log
+{% endfor %}

@@ -9,18 +9,23 @@
             <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
         </backend>
-        <backend type="disk" id="corral-scratch" weight="1" store_by="uuid" allow_selection="true" name="Short Term Storage at TACC">
+        <backend type="disk" id="corral-scratch" weight="1" store_by="uuid" allow_selection="true" name="Short Term Storage at TACC" private="true">
+            <description>Data in Short Term Storage is regularly removed, but is afforded a much larger quota than Long Term Storage.</description>
             <files_dir path="/corral4/test/files-test"/>
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
             <quota source="scratch"/>
             <badges>
-                <less_stable />
                 <not_backed_up />
+                <short_term>Data stored here is removed after 30 days of inactivity</short_term>
             </badges>
         </backend>
         <backend type="disk" id="corral-test" weight="1" store_by="uuid" allow_selection="true" name="Long Term Storage at TACC">
+            <description>Data in Long Term Storage is not removed automatically, although it may be archived after a period of inactivity.</description>
             <files_dir path="/corral4/test/files-test"/>
             <extra_dir type="job_work" path="/corral4/test/jobs"/>
+            <badges>
+                <not_backed_up />
+            </badges>
         </backend>
         <backend type="disk" id="corral" weight="0" store_by="id">
             <files_dir path="/corral4/test/files"/>
