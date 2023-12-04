@@ -8,6 +8,9 @@
 # - m3.large: 16c, 58.0G (60100M = 58.69G)
 # - m3.xl: 32c, 120G (125000M = 122.07G)
 
+# 7.0G is also ok - can't fit nicely on the two smallest JS2 instances, but takes up 2 "slots" on everything else, and 1
+# on roundup.
+
 # Anything larger will go to HPC:
 # - bridges2 (shared): 16c-64c, 64G-128G, actual cores allocated = {int(mem/2)}, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
 # - expanse (shared): 16c-64c, 64G-128G, actual cores allocated = {int(mem/2)}, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
@@ -187,6 +190,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 14
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/fastq_info/fastq_info/.*:
+    mem: 7
+
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     cores: 5
     rules:
@@ -225,14 +231,14 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
     # was 16 in the job router but let's try this
-    mem: 8
+    mem: 7
 
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/get_species_taxids/2.10.1.*:
     inherits: _singularity_resolv_fix
 
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/.*:
     # was 16 in the job router but let's try this
-    mem: 8
+    mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/annotatemyids/annotatemyids/.*:
     mem: 5.6
@@ -244,7 +250,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     # was 16 in the job router but let's try this
-    mem: 8
+    mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
     cores: 4
@@ -317,11 +323,11 @@ tools:
       - roundup-mem
 
   toolshed.g2.bx.psu.edu/repos/iuc/tximport/tximport/.*:
-    mem: 8
+    mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/.*:
     # was 16 in the job router but let's try this
-    mem: 8
+    mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/2\..*:
     # uses cpu instructions not present on roundup
