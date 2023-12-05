@@ -117,10 +117,10 @@ destinations:
 
   roundup:
     inherits: _roundup_common
-    min_accepted_cores: 3
+    min_accepted_cores: 2
     min_accepted_mem: 16
-    max_accepted_cores: 4
-    max_accepted_mem: 32
+    max_accepted_cores: 8
+    max_accepted_mem: 64
     params:
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"

@@ -311,6 +311,9 @@ tools:
     - name: _GALAXY_JOB_TMP_DIR
       value: /tmp
 
+  toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
+    mem: 5.6
+
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     mem: 7.8
 
@@ -1030,7 +1033,7 @@ tools:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_split/mothur_cluster_split/.*:
     inherits: _mothur
-    cores: 1
+    cores: 16
     mem: 90
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_collect_shared/mothur_collect_shared/.*:
     inherits: _mothur
