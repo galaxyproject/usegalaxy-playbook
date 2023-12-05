@@ -10,9 +10,10 @@
     </requirements>
     <command detect_errors="exit_code"><![CDATA[ 
     ln -s $input input.zip &&
-    gunzip -c input.zip input_data &&
+    mkdir input_data &&
+    unzip input.zip -d input_data &&
     mkdir output &&
-    collabfold_batch
+    colabfold_batch
     #if $num_recycles.set_num_recycles == "manual"
         --num-recycle $num_recycles.num_recycles
     #end if
