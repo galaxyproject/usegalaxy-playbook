@@ -52,13 +52,13 @@
     #if $custom_template:
         --custom-template-path template_dir
     #end if
-    --zip 
     #if $query_type.select_query_type == "fasta":
         $input_file
     #else:
         $query_type.input
     #end if
-    output
+    output &&
+    tar -cf output.tar output
     ]]></command>
     <inputs>
         <conditional name="query_type">
@@ -93,7 +93,7 @@
         <param name="custom_template" label="List of pdb files to provide the prediciton as custom templates" type="data" format="pdb" multiple="true" optional="true"/>
     </inputs>
     <outputs>
-        <data name="output" format="zip" label="${tool.name} on ${on_string}: zip file"/>
+        <data name="output" format="tar" from_work_dir="output.tar" label="${tool.name} on ${on_string}: tar file"/>
     </outputs>
     <tests>
         <test expect_num_outputs="1">

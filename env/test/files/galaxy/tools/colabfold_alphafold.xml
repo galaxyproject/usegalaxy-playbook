@@ -9,9 +9,9 @@
         <container type="docker"> ghcr.io/sokrypton/colabfold:@VERSION@-cuda@CUDA_VERSION@</container>
     </requirements>
     <command detect_errors="exit_code"><![CDATA[ 
-    ln -s $input input.zip &&
+    ln -s $input input.tar &&
     mkdir input_data &&
-    unzip input.zip -d input_data &&
+    tar -xmf input.tar --strip-components 1 -C input_data &&
     mkdir output &&
     colabfold_batch
     #if $num_recycles.set_num_recycles == "manual"
@@ -34,21 +34,22 @@
     #end if
     $use_dropout
     #if $max_msa:
-        --max_msa $max_msa
+        --max-msa $max_msa
     #end if
     #if $amber.use_amber == "yes":
         --amber
-        --num_relaxed $amber.num_relaxed
+        --num-relax $amber.num_relaxed
     #end if
     $output_options.save_all
     $output_options.save_recycles
     $output_options.save_single_representations
     $output_options.save_pair_representations
+    ## --data \${ALPHAFOLD_DB}
     input_data
     output
     ]]></command>
     <inputs>
-        <param name="input" type="data" format="zip" label="zip file output from colabfold msa tool"/>
+        <param name="input" type="data" format="tar" label="zip file output from colabfold msa tool"/>
         <conditional name="num_recycles">
             <param name="set_num_recycles" label="Set number of recycles" type="select" help="If auto selected, will set to 20, assuming selected model type is alphafold2_multimer_v3. If not will set to 3.">
                 <option value="auto">Set automatically</option>
@@ -80,7 +81,7 @@
             <option value="5">5</option>
         </param>
         <param name="max_msa" label="Max msa" type="select" help="Enable dropouts and increase number of seeds to sample predictions from uncertainty of the model. Decrease to increase uncertainity">
-            <option value="auto">auto</option>
+            <!-- <option value="auto">auto</option> -->
             <option value="512:1024">512:1024</option>
             <option value="256:512">256:512</option>
             <option value="64:128">64:128</option>
@@ -109,13 +110,13 @@
     </inputs>
     <outputs>
         <collection name="png_files" type="list" format="png" label="${tool.name} on ${on_string}: Figures">
-            <discover_datasets pattern="__designation_and_ext__" directory="output_dir" visible="true" />
+            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
         </collection>
         <collection name="json_files" type="list" format="json" label="${tool.name} on ${on_string}: JSON predictions">
-            <discover_datasets pattern="__designation_and_ext__" directory="output_dir" visible="true" />
+            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
         </collection>
         <collection name="pdb" type="list" format="pdb" label="${tool.name} on ${on_string}: PDB predictions">
-            <discover_datasets pattern="__designation_and_ext__" directory="output_dir" visible="true" />
+            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
         </collection>
     </outputs>
     <tests>
