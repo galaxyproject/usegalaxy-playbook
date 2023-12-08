@@ -9,7 +9,7 @@ destinations:
     runner: slurm
     context:
       partition: multi
-      time: 24:00:00
+      time: 36:00:00
     params:
       native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
       tmp_dir: true
@@ -27,7 +27,7 @@ destinations:
   _tacc_hpc:
     abstract: true
     context:
-      time: 24:00:00
+      time: 36:00:00
     params:
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -173,7 +173,7 @@ destinations:
     max_accepted_cores: 32
     max_accepted_mem: 120
     context:
-      time: 24:00:00
+      time: 36:00:00
       partition: tpv
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
@@ -263,7 +263,7 @@ destinations:
     max_cores: 128
     max_mem: 250
     context:
-      time: 24:00:00
+      time: 36:00:00
     params:
       submit_native_specification: "--partition=RM --time={time} --nodes=1 --ntasks={cores}"
       tmp_dir: true
@@ -347,7 +347,7 @@ destinations:
     max_cores: 128
     max_mem: 250
     context:
-      time: 24:00:00
+      time: 36:00:00
     params:
       submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time} --nodes=1 --ntasks={cores}"
       tmp_dir: true
@@ -441,7 +441,7 @@ destinations:
     context:
       account: nekrut
       partition: defq
-      time: 24:00:00
+      time: 36:00:00
     params:
       # https://github.com/natefoo/slurm-drmaa/issues/83
       #submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem={int(mem*1024)}"
