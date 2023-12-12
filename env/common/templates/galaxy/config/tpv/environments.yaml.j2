@@ -336,6 +336,9 @@ destinations:
       - bridges2
       require:
       - pulsar
+      reject:
+      # scheduled downtime 2023-12-12 to 13
+      - offline
 
   expanse:
     runner: expanse
