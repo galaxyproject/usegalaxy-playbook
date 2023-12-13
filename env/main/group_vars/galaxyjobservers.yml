@@ -40,16 +40,14 @@ gravity_config:
       workers: 1
       timeout: 600
       restart_timeout: 600
-      preload: true
-      extra_args: --max-requests 50000 --max-requests-jitter 10000
+      preload: false
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
     - bind: localhost:8081
       workers: 1
       timeout: 600
       restart_timeout: 600
-      preload: true
-      extra_args: --max-requests 50000 --max-requests-jitter 10000
+      preload: false
       environment:
         PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
   celery:
