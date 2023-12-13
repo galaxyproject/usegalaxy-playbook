@@ -15,6 +15,11 @@ destinations:
       tmp_dir: true
       outputs_to_working_directory: true
       metadata_strategy: extended
+      # Main-safe since this option is new and ignored until Main runs https://github.com/galaxyproject/galaxy/pull/17164
+      metadata_config:
+        containerize: true
+        engine: singularity
+        image: /corral4/test/singularity/galaxy-job-execution.sandbox
     env:
     - execute: ulimit -c 0
     - name: XDG_DATA_HOME
