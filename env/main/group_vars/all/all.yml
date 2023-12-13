@@ -7,6 +7,7 @@ restart: true
 galaxy_database_password: "{{ vault_galaxy_database_password }}"
 tiaas_database_password: "{{ vault_tiaas_database_password }}"
 
+galaxy_virtualenv_command: "/cvmfs/main.galaxyproject.org/deps/_conda/envs/__python@3.11/bin/python3 -m venv"
 galaxy_repo: https://github.com/{{ galaxy_repo_owner }}/galaxy.git
 galaxy_repo_owner: galaxyproject
 galaxy_commit_id: release_23.2

@@ -10,11 +10,14 @@ miniconda_prefix: /cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda
 miniconda_channels:
   - conda-forge
   - defaults
-miniconda_version: 4.10.3
+miniconda_version: "23.7.4"
+miniconda_base_env_packages:
+  - conda-libmamba-solver=23.7.0
+  - pyopenssl>=22.1.0
 miniconda_conda_environments:
-  _galaxy_:
+  __python@3.11:
     packages:
-      - python=3.8.12
+      - python=3.11.6
   _galaxy_weasyprint_deps_:
     packages:
       - pango
