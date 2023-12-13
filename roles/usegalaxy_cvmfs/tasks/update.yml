@@ -19,6 +19,7 @@
     - name: Update Galaxy
       import_role:
         name: galaxyproject.galaxy
+      diff: false
       vars:
         # minimal vars and configs for conditional dependency installs (drmaa, tpv, python-irodsclient)
         galaxy_config_dir: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}"
