@@ -8,6 +8,7 @@
   roles:
     - role: usegalaxy_cvmfs
       galaxy_cvmfs_client: "{{ galaxy_cvmfs_client_on_update }}"
+      galaxy_client_force_build: true
 
 - name: Include snapshot plays
   import_playbook: _inc_snapshot.yml
