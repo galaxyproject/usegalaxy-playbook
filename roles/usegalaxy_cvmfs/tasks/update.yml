@@ -57,7 +57,7 @@
     - name: Abort if there were no changes
       assert:
         that:
-          - __galaxy_git_update_result is changed
+          - cvmfs_force_publish or __galaxy_git_update_result is changed
         success_msg: "Changes were made, transaction will be published"
         fail_msg: "No changes were made, transaction will be aborted"
 
@@ -120,7 +120,7 @@
         dest: "{{ galaxy_version_file }}"
 
     - name: Publish CVMFS transaction
-      command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7, True, '') }}" -m "Update Galaxy to version {{ galaxy_version }} commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
+      command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7, True, '') }}{{ cvmfs_tag_random }}" -m "Update Galaxy to version {{ galaxy_version }} commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
 
   rescue:
 

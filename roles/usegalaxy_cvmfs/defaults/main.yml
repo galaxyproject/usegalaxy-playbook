@@ -1,3 +1,5 @@
 ---
 
 galaxy_repo_owner: galaxyproject
+cvmfs_force_publish: false
+cvmfs_tag_random: "{{ cvmfs_force_publish | ternary('_' ~ (32768 | random | md5 | truncate(8, True, '')), '') }}"
