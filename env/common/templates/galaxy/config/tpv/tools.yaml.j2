@@ -22,6 +22,15 @@
 
 tools:
 
+  # TEST TEST TEST remove me
+  secure_hash_message_digest:
+    params:
+      # Main-safe since this option is new and ignored until Main runs https://github.com/galaxyproject/galaxy/pull/17164
+      metadata_config:
+        containerize: true
+        engine: singularity
+        image: /corral4/test/singularity/galaxy-job-execution.sandbox
+
   # abstract tools for inheritance
 
   _conda_local:
