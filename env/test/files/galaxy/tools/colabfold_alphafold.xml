@@ -4,11 +4,16 @@
         <token name="@VERSION@">1.5.3</token>
         <token name="@CUDA_VERSION@">12.2.2</token>
         <token name="@VERSION_SUFFIX@">1</token>
+        <token name="@RENAME_FILES@">
+
+
+        </token>
     </macros>
     <requirements>
         <container type="docker"> ghcr.io/sokrypton/colabfold:@VERSION@-cuda@CUDA_VERSION@</container>
     </requirements>
     <command detect_errors="exit_code"><![CDATA[ 
+    #import os
     ln -s $input input.tar &&
     mkdir input_data &&
     tar -xmf input.tar --strip-components 1 -C input_data &&
@@ -44,9 +49,16 @@
     $output_options.save_recycles
     $output_options.save_single_representations
     $output_options.save_pair_representations
-    ## --data \${ALPHAFOLD_DB}
     input_data
-    output
+    output 
+    && cd output
+    && mkdir png_out
+    && mkdir json_out
+    && mkdir pdb_out
+    && mv ./*.png png_out
+    && mv ./*.json json_out
+    && mv ./*.pdb pdb_out
+
     ]]></command>
     <inputs>
         <param name="input" type="data" format="tar" label="zip file output from colabfold msa tool"/>
@@ -110,13 +122,13 @@
     </inputs>
     <outputs>
         <collection name="png_files" type="list" format="png" label="${tool.name} on ${on_string}: Figures">
-            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
+            <discover_datasets format="png" directory="output/png_out" visible="true" />
         </collection>
         <collection name="json_files" type="list" format="json" label="${tool.name} on ${on_string}: JSON predictions">
-            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
+            <discover_datasets format="json" directory="output/json_out" visible="true" />
         </collection>
         <collection name="pdb" type="list" format="pdb" label="${tool.name} on ${on_string}: PDB predictions">
-            <discover_datasets pattern="__designation_and_ext__" directory="output" visible="true" />
+            <discover_datasets format="pdb" directory="output/pdb_out" visible="true" />
         </collection>
     </outputs>
     <tests>

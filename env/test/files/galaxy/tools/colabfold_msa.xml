@@ -41,7 +41,7 @@
 
     mkdir output &&
     colabfold_batch --msa-only
-    #if $query_type.select_query_type == "fasta" or $query_type.select_query_type == "paste":
+    #if $query_type.select_query_type == "fasta":
         #if $query_type.select_db.use_db == "yes":
             --msa-mode $query_type.select_db.msa_mode
         #end if
@@ -64,15 +64,10 @@
         <conditional name="query_type">
             <param name="select_query_type" label="Data input method" type="select">
                 <option value="fasta">FASTA file</option>
-                <option value="paste">Paste sequence into textbox</option>
                 <option value="a3m">a3m file</option>
             </param>
             <when value="fasta">
                 <param name="input" type="data" format="fasta" label="Query sequence fasta"/>
-                <expand macro="db_selector"/>
-            </when>
-            <when value="paste">
-                <param name="input" type="text" label="Query sequence"/>
                 <expand macro="db_selector"/>
             </when>
             <when value="a3m">
