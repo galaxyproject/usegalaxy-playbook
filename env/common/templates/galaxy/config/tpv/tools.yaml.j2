@@ -617,11 +617,11 @@ tools:
       time: 48:00:00
     rules:
     - id: hifiasm_small_input_rule
-      if: input_size < 1
+      if: input_size < 0.5
       cores: 4
       mem: 14
     - id: hifiasm_medium_input_rule
-      if: 1 <= input_size < 16
+      if: 0.5 <= input_size < 16
       cores: 8
       mem: 28
     - id: hifiasm_large_input_rule
