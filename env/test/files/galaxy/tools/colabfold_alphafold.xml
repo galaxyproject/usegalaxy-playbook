@@ -4,10 +4,6 @@
         <token name="@VERSION@">1.5.3</token>
         <token name="@CUDA_VERSION@">12.2.2</token>
         <token name="@VERSION_SUFFIX@">1</token>
-        <token name="@RENAME_FILES@">
-
-
-        </token>
     </macros>
     <requirements>
         <container type="docker"> ghcr.io/sokrypton/colabfold:@VERSION@-cuda@CUDA_VERSION@</container>
@@ -55,9 +51,11 @@
     && mkdir png_out
     && mkdir json_out
     && mkdir pdb_out
+    && mkdir pickle_out
     && mv ./*.png png_out
     && mv ./*.json json_out
     && mv ./*.pdb pdb_out
+    && mv ./*.pickle pickle_out
 
     ]]></command>
     <inputs>
@@ -122,13 +120,16 @@
     </inputs>
     <outputs>
         <collection name="png_files" type="list" format="png" label="${tool.name} on ${on_string}: Figures">
-            <discover_datasets format="png" directory="output/png_out" visible="true" />
+            <discover_datasets format="png" pattern="__name_and_ext__" directory="output/png_out" visible="true" />
         </collection>
         <collection name="json_files" type="list" format="json" label="${tool.name} on ${on_string}: JSON predictions">
-            <discover_datasets format="json" directory="output/json_out" visible="true" />
+            <discover_datasets format="json" pattern="__name_and_ext__" directory="output/json_out" visible="true" />
         </collection>
         <collection name="pdb" type="list" format="pdb" label="${tool.name} on ${on_string}: PDB predictions">
-            <discover_datasets format="pdb" directory="output/pdb_out" visible="true" />
+            <discover_datasets format="pdb" pattern="__name_and_ext__" directory="output/pdb_out" visible="true" />
+        </collection>
+        <collection name="pickle" type="list" format="pickle" label="${tool.name} on ${on_string}: Pickle file outputs">
+            <discover_datasets format="pdb" pattern="__name_and_ext__" directory="output/pickle_out" visible="true" />
         </collection>
     </outputs>
     <tests>
