@@ -46,16 +46,23 @@
     $output_options.save_single_representations
     $output_options.save_pair_representations
     input_data
-    output 
+    output
     && cd output
     && mkdir png_out
     && mkdir json_out
     && mkdir pdb_out
-    && mkdir pickle_out
     && mv ./*.png png_out
     && mv ./*.json json_out
     && mv ./*.pdb pdb_out
-    && mv ./*.pickle pickle_out
+    && mv json_out/config.json .
+    #if  $output_options.save_all:
+        && mkdir pickle_out    
+        && mv ./*.pickle pickle_out
+    #end if
+    #if  $output_options.save_pair_representations or $output_options.save_single_representations:
+        && mkdir npy_out    
+        && mv ./*.npy npy_out
+    #end if
 
     ]]></command>
     <inputs>
@@ -120,17 +127,25 @@
     </inputs>
     <outputs>
         <collection name="png_files" type="list" format="png" label="${tool.name} on ${on_string}: Figures">
-            <discover_datasets format="png" pattern="__name_and_ext__" directory="output/png_out" visible="true" />
+            <discover_datasets format="png" pattern="__name_and_ext__" directory="output/png_out"/>
         </collection>
         <collection name="json_files" type="list" format="json" label="${tool.name} on ${on_string}: JSON predictions">
-            <discover_datasets format="json" pattern="__name_and_ext__" directory="output/json_out" visible="true" />
+            <discover_datasets format="json" pattern="__name_and_ext__" directory="output/json_out"/>
         </collection>
         <collection name="pdb" type="list" format="pdb" label="${tool.name} on ${on_string}: PDB predictions">
-            <discover_datasets format="pdb" pattern="__name_and_ext__" directory="output/pdb_out" visible="true" />
+            <discover_datasets format="pdb" pattern="__name_and_ext__" directory="output/pdb_out"/>
         </collection>
         <collection name="pickle" type="list" format="pickle" label="${tool.name} on ${on_string}: Pickle file outputs">
-            <discover_datasets format="pdb" pattern="__name_and_ext__" directory="output/pickle_out" visible="true" />
+            <discover_datasets format="pickle" pattern="__name_and_ext__" directory="output/pickle_out"/>
+            <filter>output_options['save_all'] == "--save-all"</filter>
         </collection>
+        <collection name="npy" type="list" format="npy" label="${tool.name} on ${on_string}: Numpy embeddings">
+            <discover_datasets format="npy" pattern="__name_and_ext__" directory="output/npy_out"/>
+            <filter>output_options['save_single_representations'] == "--save-single-representations" or output_options['save_pair_representations'] == "--save-pair-representations"</filter>
+        </collection>
+        <data name="a3m_out" format="a3m" label="${tool.name} on ${on_string}: a3m file">
+            <discover_datasets directory="output" pattern="__name_and_ext__"/>
+        </data>
     </outputs>
     <tests>
         <test expect_num_outputs="1">
