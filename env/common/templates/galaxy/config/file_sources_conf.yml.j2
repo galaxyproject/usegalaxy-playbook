@@ -125,3 +125,11 @@
   doc: The Global Biodiversity Information Facility is an international network and data infrastructure aimed at providing anyone, anywhere, open access to data about all types of life on Earth.
   bucket: gbif-open-data-eu-central-1
   anon: true
+
+- type: posix
+  id: gxy-archiver
+  label: GalaxyArchiver
+  doc: GalaxyArchiver Local Destination -- not for general use
+  root: "/corral4/test/archive/export/"
+  requires_roles: galaxy-archiver-role
+  writable: true
