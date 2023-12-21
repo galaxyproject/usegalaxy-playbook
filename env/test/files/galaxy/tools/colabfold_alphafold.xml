@@ -48,6 +48,7 @@
     input_data
     output
     && cd output
+    && mv *.a3m output.a3m
     && mkdir png_out
     && mkdir json_out
     && mkdir pdb_out
@@ -59,10 +60,10 @@
         && mkdir pickle_out    
         && mv ./*.pickle pickle_out
     #end if
-    #if  $output_options.save_pair_representations or $output_options.save_single_representations:
-        && mkdir npy_out    
-        && mv ./*.npy npy_out
-    #end if
+    ## #if  $output_options.save_pair_representations or $output_options.save_single_representations:
+    ##     && mkdir npy_out    
+    ##     && mv ./*.npy npy_out
+    ## #end if
 
     ]]></command>
     <inputs>
@@ -139,13 +140,11 @@
             <discover_datasets format="pickle" pattern="__name_and_ext__" directory="output/pickle_out"/>
             <filter>output_options['save_all'] == "--save-all"</filter>
         </collection>
-        <collection name="npy" type="list" format="npy" label="${tool.name} on ${on_string}: Numpy embeddings">
+        <!-- <collection name="npy" type="list" format="npy" label="${tool.name} on ${on_string}: Numpy embeddings">
             <discover_datasets format="npy" pattern="__name_and_ext__" directory="output/npy_out"/>
-            <filter>output_options['save_single_representations'] == "--save-single-representations" or output_options['save_pair_representations'] == "--save-pair-representations"</filter>
-        </collection>
-        <data name="a3m_out" format="a3m" label="${tool.name} on ${on_string}: a3m file">
-            <discover_datasets directory="output" pattern="__name_and_ext__"/>
-        </data>
+            <filter>output_options['save_single_representations'] == "save-single-representations" or output_options['save_pair_representations'] == "save-pair-representations"</filter>
+        </collection> -->
+        <data name="a3m_out" format="a3m" from_work_dir="output/output.a3m" label="${tool.name} on ${on_string}: a3m file"/>
     </outputs>
     <tests>
         <test expect_num_outputs="1">
