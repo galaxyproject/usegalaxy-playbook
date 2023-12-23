@@ -128,6 +128,14 @@ tools:
   __SET_METADATA__: {inherits: _conda_local}
   export_remote: {inherits: _conda_local}
 
+  __IMPORT_HISTORY__:
+    #env:
+    #- name: APPTAINER_BIND
+    #  value: /corral4/test/archive/export:/corral4/test/archive/export:ro,/corral4/test/scratch:/corral4/test/scratch:rw
+    scheduling:
+      require:
+      - roundup
+
   # galaxy lib tools in singularity
 
   # TODO: PR to GALAXY_LIB_TOOLS*
