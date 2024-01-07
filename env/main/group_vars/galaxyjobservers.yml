@@ -55,6 +55,8 @@ gravity_config:
   celery:
     enable: true
     enable_beat: "{{ galaxy_enable_celery_beat }}"
+    environment:
+      TMPDIR: /corral4/main/celery-scratch
   tusd:
     enable: true
     tusd_path: /usr/local/sbin/tusd
