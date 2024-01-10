@@ -55,6 +55,7 @@ gravity_config:
   celery:
     enable: true
     enable_beat: "{{ galaxy_enable_celery_beat }}"
+    concurrency: 8
     environment:
       TMPDIR: /corral4/main/celery-scratch
   tusd:
