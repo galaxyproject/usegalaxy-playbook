@@ -202,6 +202,9 @@ tools:
       # TODO: make this work
       time: 00:02:00
     mem: min(max(input_size * 20, 28), 58)
+    scheduling:
+      accept:
+      - training-exempt
   CONVERTER_wig_to_bigwig: {inherits: wig_to_bigWig}
 
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
@@ -331,6 +334,29 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
     mem: 5.6
 
+  toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
+    cores: 16
+    mem: 58
+    scheduling:
+      accept:
+      - training-large
+
+  toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/.*:
+    cores: 16
+    mem: 58
+    scheduling:
+      accept:
+      - training-large
+    rules:
+    - id: rnaspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 5.7
+    - id: rnaspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 28
+
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     mem: 7.8
 
@@ -366,6 +392,9 @@ tools:
     # shared DB has 10 cores and 250 GB(!)
     cores: 16
     mem: 58
+    scheduling:
+      accept:
+      - training-large
     rules:
     - id: metaspades_small_input_rule
       if: input_size < 0.05
@@ -437,6 +466,11 @@ tools:
     # suppress 'tar: read-db.meryl: file changed as we read it' warning and non-zero exit code
     - name: SINGULARITY_BIND
       value: /jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro
+    scheduling:
+      accept:
+      - training-large
+      require:
+      - jetstream2
     rules:
     - id: meryl_small_input_rule
       if: input_size < 0.001
@@ -446,9 +480,6 @@ tools:
       if: 0.001 <= input_size < 5
       cores: 16
       mem: 58
-    scheduling:
-      require:
-      - jetstream2
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     gpus: 0.2
@@ -463,6 +494,9 @@ tools:
     # TODO: shared db uses 10/250, but our min for HPC is 16
     cores: 16
     mem: 244
+    scheduling:
+      accept:
+      - training-large
 
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
     cores: 24
@@ -496,6 +530,9 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     cores: 2
+    scheduling:
+      accept:
+      - training-large
     rules:
     - if: input_size < 0.5
       cores: 4
@@ -623,6 +660,9 @@ tools:
     mem: 496
     context:
       time: 48:00:00
+    scheduling:
+      accept:
+      - training-large
     rules:
     - id: hifiasm_small_input_rule
       if: input_size < 0.5
@@ -680,6 +720,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
     cores: 60
     mem: 244
+    scheduling:
+      accept:
+      - training-large
     rules:
     - id: spades_small_input_rule
       if: input_size < 0.005
@@ -696,6 +739,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     cores: 24
     mem: 80
+    scheduling:
+      accept:
+      - training-large
     rules:
     - id: unicycler_small_input_rule
       if: input_size < 0.05
@@ -1092,6 +1138,9 @@ tools:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster/mothur_cluster/.*:
     inherits: _mothur
+    scheduling:
+      accept:
+      - training-large
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_classic/mothur_cluster_classic/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_fragments/mothur_cluster_fragments/.*:

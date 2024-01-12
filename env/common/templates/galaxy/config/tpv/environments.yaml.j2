@@ -7,11 +7,9 @@ destinations:
   _roundup_common:
     abstract: true
     runner: slurm
-    context:
-      partition: multi
-      time: 36:00:00
+    #context:
+    #  roundup_*_partition and time are set on role and (default) tool entitites
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
       tmp_dir: true
       outputs_to_working_directory: true
       metadata_strategy: extended
@@ -106,12 +104,13 @@ destinations:
     min_accepted_mem: 0
     max_accepted_cores: 4
     max_accepted_mem: 32
-    context:
-      partition: normal
+    params:
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_small_partition}"
     scheduling:
       accept:
       - roundup
       - cvmfs
+      - training
       require:
       - conda
 
@@ -122,6 +121,7 @@ destinations:
     max_accepted_cores: 8
     max_accepted_mem: 64
     params:
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_large_partition}"
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
       singularity_no_mount: null
@@ -150,8 +150,8 @@ destinations:
     min_accepted_mem: 0
     max_accepted_cores: 2
     max_accepted_mem: 16
-    context:
-      partition: normal
+    params:
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_small_partition}"
 
   roundup_mem:
     inherits: roundup
@@ -162,9 +162,24 @@ destinations:
     max_accepted_mem: 256
     max_cores: 8
     max_mem: 96
+    params:
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_large_partition}"
     scheduling:
       require:
       - roundup-mem
+
+  # *_training destinations are mainly for reporting, context is set in the role entity
+  roundup_training:
+    inherits: roundup
+    scheduling:
+      require:
+      - training
+
+  roundup_small_training:
+    inherits: roundup_small
+    scheduling:
+      require:
+      - training
 
   jetstream2:
     runner: jetstream2
@@ -174,9 +189,9 @@ destinations:
     max_accepted_mem: 120
     context:
       time: 36:00:00
-      partition: tpv
+      # js2_partition is set on role and (default) tool entitites
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={js2_partition}"
       tmp_dir: true
       outputs_to_working_directory: false
       singularity_enabled: true
@@ -231,9 +246,8 @@ destinations:
     max_accepted_cores: 32
     max_accepted_gpus: 1.0
     max_accepted_mem: 125
-    context:
-      partition: gpu-small
     params:
+      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=gpu-small"
       singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
     env:
     # gmx_sim uses this, maybe others?
@@ -253,6 +267,16 @@ destinations:
       - resize-shm
       - jetstream2
       - pulsar
+
+  jetstream2_training:
+    inherits: jetstream2
+    max_accepted_cores: 256
+    max_accepted_mem: 4096
+    max_cores: 64
+    max_mem: 250
+    scheduling:
+      require:
+      - training
 
   bridges2:
     runner: bridges

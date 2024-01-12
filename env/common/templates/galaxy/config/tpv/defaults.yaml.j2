@@ -9,8 +9,11 @@ tools:
     cores: 1
     mem: cores * 2.7
     context:
+      roundup_small_partition: normal
+      roundup_large_partition: multi
+      js2_partition: tpv
       mem_factor: 2.7
-      time: "12:00:00"
+      time: "36:00:00"
     env:
     - name: _JAVA_OPTIONS
       value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m
