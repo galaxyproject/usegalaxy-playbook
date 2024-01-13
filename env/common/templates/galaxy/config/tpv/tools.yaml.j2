@@ -827,12 +827,14 @@ tools:
 
   # local test tools
 
-  ncbi_fcs_gx:
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
     scheduling:
       require:
       - resize-shm
       - jetstream2
       - pulsar
+  ncbi_fcs_gx:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*
 
   verkko:
     cores: 32
