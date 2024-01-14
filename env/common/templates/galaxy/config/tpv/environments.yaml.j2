@@ -452,6 +452,9 @@ destinations:
       - expanse
       require:
       - pulsar
+      # TODO: why is it not really processing jobs?
+      reject:
+      - offline
 
   rockfish:
     runner: rockfish
