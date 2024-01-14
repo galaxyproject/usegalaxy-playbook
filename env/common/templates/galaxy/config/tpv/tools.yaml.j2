@@ -394,7 +394,9 @@ tools:
     mem: 58
     scheduling:
       accept:
-      - training-large
+      #- training-large
+      # For https://training.galaxyproject.org/training-material/topics/assembly/tutorials/metagenomics-assembly/tutorial.html
+      - training-exempt
     rules:
     - id: metaspades_small_input_rule
       if: input_size < 0.05
