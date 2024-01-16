@@ -234,6 +234,7 @@ base_app_main: &BASE_APP_MAIN
     result_backend: 'redis://:{{ redis_requirepass }}@galaxy-db-02.tacc.utexas.edu/0'
     task_routes:
       galaxy.fetch_data: disabled
+      galaxy.write_history_to: galaxy.archiver
 
   expose_dataset_path: true
   expose_potentially_sensitive_job_metrics: true
