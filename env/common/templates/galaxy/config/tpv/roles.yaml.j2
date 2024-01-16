@@ -1,0 +1,50 @@
+---
+
+roles:
+  "Job Priority Users":
+    context:
+      roundup_small_partition: priority
+      roundup_large_partition: priority
+      js2_partition: priority
+  training-.*:
+    context:
+      time: "04:00:00"
+      roundup_small_partition: priority
+      roundup_large_partition: priority
+      js2_partition: priority
+    rules:
+    - id: training_small_rule
+      if: |
+        include_tags = []
+        exclude_tags = ['training-exempt']
+        helpers.tag_values_match(entity, include_tags, exclude_tags)
+      max_cores: 2
+      max_mem: max_cores * 3.5
+      scheduling:
+        require:
+        - training
+        reject:
+        - hpc
+    - id: training_large_rule
+      if: |
+        include_tags = ['training-large']
+        exclude_tags = ['training-exempt']
+        helpers.tag_values_match(entity, include_tags, exclude_tags)
+      max_cores: 8
+      max_mem: max_cores * 3.5
+      scheduling:
+        require:
+        - training
+        reject:
+        - hpc
+    - id: training_unclamped_rule
+      if: |
+        include_tags = ['training-exempt']
+        exclude_tags = []
+        helpers.tag_values_match(entity, include_tags, exclude_tags)
+      max_cores: 16
+      scheduling:
+        require:
+        - training
+        reject:
+        - hpc
