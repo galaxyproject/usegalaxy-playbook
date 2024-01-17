@@ -142,11 +142,12 @@ galaxy_job_conf_resource_groups:
 galaxy_job_conf_tools:
   # explicit GxIT dispatching
   - id: interactive_tool_jupyter_notebook
-    environment: jetstream2_gxit
-  - id: interactive_tool_rstudio
-    environment: tacc_k8s
-  - id: interactive_tool_panoply
-    environment: tacc_k8s
+    environment: tpv_dispatcher
+    #environment: jetstream2_gxit
+  #- id: interactive_tool_rstudio
+  #  environment: tacc_k8s
+  #- id: interactive_tool_panoply
+  #  environment: tacc_k8s
 
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
