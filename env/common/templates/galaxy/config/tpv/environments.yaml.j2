@@ -467,12 +467,11 @@ destinations:
     max_mem: 184
     context:
       account: nekrut
-      partition: defq
       time: 36:00:00
     params:
       # https://github.com/natefoo/slurm-drmaa/issues/83
       #submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem={int(mem*1024)}"
-      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks={cores} --mem={int(mem*1024)}"
+      submit_native_specification: "--account={account} --partition=shared --time={time} --nodes=1 --ntasks={cores} --mem={int(mem*1024)}"
       tmp_dir: true
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -526,6 +525,10 @@ destinations:
     #  value: /scratch4/nekrut/galaxy/singularity_cache
     - name: SINGULARITY_PYTHREADS
       value: "9"
+    rules:
+    - if: cores > 32 or mem > 128
+      params:
+        submit_native_specification: "--account={account} --partition=parallel --time={time} --nodes=1 --ntasks={cores} --mem={int(mem*1024)}"
     scheduling:
       accept:
       - rockfish
