@@ -159,9 +159,9 @@ runners:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: rockfish
     {{ runner_pulsar_params() }}
-  tacc_k8s:
+  jetstream2_k8s:
     load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
-    manager: tacc_k8s
+    manager: jetstream2_k8s
     {{ runner_pulsar_params() }}
 
 #
@@ -297,40 +297,6 @@ execution:
       resubmit:
         condition: memory_limit_reached
         environment: multi_largemem
-
-    #
-    # Kubernetes environments
-    #
-    tacc_k8s:
-      runner: tacc_k8s
-      docker_enabled: true  # probably shouldn't be needed but is still
-      outputs_to_working_directory: false
-      container_resolvers:
-        - type: explicit
-        #- type: cached_mulled
-      #docker_default_container_id: 'quay.io/biocontainers/coreutils:8.31--h14c3975_0'
-      #docker_default_container_id: 'python:3.6-buster'
-      docker_default_container_id: 'quay.io/biocontainers/python:3.6.7'
-      #pulsar_container_image: '{{ pulsar_coexecution_container_image | default("galaxy/pulsar-pod-staging:0.15.0.1") }}'
-      #k8s_namespace: ndc
-      #k8s_walltime_limit: 86400  # 24 hours
-      k8s_walltime_limit: 43200  # 12 hours
-      pulsar_requests_cpu: 0.5
-      pulsar_requests_memory: 0.5Gi
-      pulsar_limits_cpu: 0.5
-      pulsar_limits_memory: 0.5Gi
-      tool_requests_cpu: 1.5
-      tool_requests_memory: 1.5Gi
-      tool_limits_cpu: 1.5
-      tool_limits_memory: 1.5Gi
-      #jobs_directory: /not/a/real/path
-      pulsar_app_config_path: {{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml
-      # Specify a non-default Pulsar staging container.
-      # Generate job names with a string unique to this Galaxy (see
-      # Kubernetes runner description).
-      #k8s_galaxy_instance_id: mycoolgalaxy
-      # Path to Kubernetes configuration fil (see Kubernetes runner description.)
-      k8s_config_path: /home/{{ __galaxy_user_name }}/.kube/config
 
     #
     # Jetstream2 environments

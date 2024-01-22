@@ -278,6 +278,44 @@ destinations:
       require:
       - training
 
+  jetstream2_k8s:
+    runner: jetstream2_k8s
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    max_accepted_cores: 32
+    max_accepted_mem: 120
+    params:
+      docker_enabled: true  # probably shouldn't be needed but is still
+      outputs_to_working_directory: false
+      container_resolvers:
+        - type: explicit
+      docker_default_container_id: 'quay.io/biocontainers/python:3.6.7'
+      #pulsar_container_image: '{{ pulsar_coexecution_container_image | default("galaxy/pulsar-pod-staging:0.15.0.1") }}'
+      #k8s_namespace: ndc
+      #k8s_walltime_limit: 86400  # 24 hours
+      k8s_walltime_limit: 43200  # 12 hours
+      pulsar_requests_cpu: 0.5
+      pulsar_requests_memory: 0.5Gi
+      pulsar_limits_cpu: 0.5
+      pulsar_limits_memory: 0.5Gi
+      tool_requests_cpu: 1.5
+      tool_requests_memory: 1.5Gi
+      tool_limits_cpu: 1.5
+      tool_limits_memory: 1.5Gi
+      #jobs_directory: /not/a/real/path
+      pulsar_app_config_path: {{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml
+      # Specify a non-default Pulsar staging container.
+      # Generate job names with a string unique to this Galaxy (see
+      # Kubernetes runner description).
+      #k8s_galaxy_instance_id: mycoolgalaxy
+      # Path to Kubernetes configuration fil (see Kubernetes runner description.)
+      k8s_config_path: /home/{{ galaxy_user }}/.kube/config
+    scheduling:
+      accept:
+      - pulsar
+      require:
+      - kubernetes
+
   bridges2:
     runner: bridges
     min_accepted_cores: 16

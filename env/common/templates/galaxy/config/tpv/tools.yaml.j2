@@ -23,11 +23,12 @@
 
 tools:
 
-  # TEMP fail all GxITs
   interactive_tool_.*:
-    rules:
-    - if: true
-      fail: This tool is currently disabled due to a system issue, please try again later.
+    scheduling:
+      require:
+      - kubernetes
+      reject:
+      - singularity
 
   # TEST TEST TEST remove me
   secure_hash_message_digest:
