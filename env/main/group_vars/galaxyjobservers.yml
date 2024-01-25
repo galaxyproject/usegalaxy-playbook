@@ -1,24 +1,5 @@
 ---
 
-## used by: supervisor
-galaxyjobservers_group_supervisor_configs: []
-
-galaxyjobservers_group_absent_supervisor_configs:
-  - galaxy_handler
-  - galaxy_dynamic_handler
-  - galaxy_workflow_scheduler
-  - galaxy_group
-
-## used by: usegalaxy_privileged
-usegalaxy_dynamic_job_rules:
-  - job_router.py
-  #- reserved.py
-  #- multi_dynamic_walltime.py
-  #- bridges_select.py
-  #- stampede_select.py
-  - nvc_dynamic_memory.py
-  #- mpi.py
-
 # Disable handlers in role, use playbook handlers
 galaxy_systemd_mode: null
 # Disable gravity config in galaxy.yml, use standalone Gravity config
@@ -42,16 +23,12 @@ gravity_config:
       restart_timeout: 600
       preload: true
       extra_args: --max-requests 50000 --max-requests-jitter 10000
-      environment:
-        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
     - bind: localhost:8081
       workers: 1
       timeout: 600
       restart_timeout: 600
       preload: true
       extra_args: --max-requests 50000 --max-requests-jitter 10000
-      environment:
-        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
   celery:
     enable: true
     enable_beat: "{{ galaxy_enable_celery_beat }}"
@@ -63,6 +40,5 @@ gravity_config:
     tusd_path: /usr/local/sbin/tusd
     upload_dir: "{{ galaxy_tus_upload_store }}"
     memory_limit: 2
-  handlers: "{{ galaxy_workflow_schedulers }}"
-    # job handlers are configured in host_vars and pulled by gravity from the job conf
-    # workflow schedulers are configured in host_vars
+  handlers: "{{ gravity_handlers }}"
+    # job handlers are and workflow schedulers configured in host_vars

@@ -65,31 +65,45 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 galaxy_job_conf_pulsar_galaxy_url: "https://{{ galaxy_instance_hostname }}"
 galaxy_job_conf_persistence_directory: "/srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack"
 
-__handler_plugins:
-  - slurm
-  - jetstream_iu
-  - jetstream_tacc
-  - jetstream2
-  - stampede
-  - frontera
-  - bridges
-  - tacc_k8s
+# These are automatically added to any runners that load galaxy.jobs.runners.pulsar:...
+galaxy_job_conf_pulsar_runner_params:
+  amqp_url: "{{ galaxy_job_conf_amqp_url }}"
+  galaxy_url: "{{ galaxy_job_conf_pulsar_galaxy_url }}"
+  persistence_directory: "{{ galaxy_job_conf_persistence_directory }}"
+  amqp_acknowledge: "true"
+  amqp_ack_republish_time: "1200"
+  amqp_consumer_timeout: "2.0"
+  amqp_publish_retry: "true"
+  amqp_publish_retry_max_retries: "60"
 
-galaxy_job_conf_handlers:
-  - id: test_handler0
-    plugins: "{{ __handler_plugins }}"
-    environment:
-      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
-  # memory is outta control
-  #- id: test_handler1
-  #  plugins: "{{ __handler_plugins }}"
-  #  environment:
-  #    PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
-
-galaxy_job_conf_extra_dynamic_rules:
-  - dynamic_nvc_dynamic_memory
-
-galaxy_job_conf_default_environment: tpv_dispatcher
+galaxy_job_conf_runners:
+  slurm:
+    load: galaxy.jobs.runners.slurm:SlurmJobRunner
+    workers: 4
+    drmaa_library_path: /usr/lib64/libdrmaa.so
+    invalidjobexception_retries: 5
+    internalexception_retries: 5
+  jetstream2:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: jetstream2
+  stampede:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: stampede
+  frontera:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: frontera
+  bridges:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: bridges
+  expanse:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: expanse
+  rockfish:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: rockfish
+  jetstream2_k8s:
+    load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
+    manager: jetstream2_k8s
 
 galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:3.8.3
 
@@ -129,14 +143,6 @@ galaxy_job_conf_singularity_volumes:
     - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/tmp:rw"
-
-galaxy_job_conf_resource_groups:
-  multi: [multi_compute_resource, ntasks, time]
-  multi_long: [multi_long_compute_resource, ntasks, time]
-  multi_bridges: [multi_bridges_compute_resource, ntasks, time]
-  stampede: [stampede_compute_resource, ntasks, time]
-  frontera: [frontera_compute_resource, ntasks, time]
-  bridges: [bridges_compute_resource, ntasks, time]
 
 # explicit mappings in the "tools" section of the job_conf
 galaxy_job_conf_tools:
@@ -224,7 +230,6 @@ gravity_config:
       preload: true
       extra_args: --max-requests 50000 --max-requests-jitter 10000
       environment:
-        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
         LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
     - bind: localhost:8081
       workers: 1
@@ -233,7 +238,6 @@ gravity_config:
       preload: true
       extra_args: --max-requests 50000 --max-requests-jitter 10000
       environment:
-        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
         LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
   celery:
     environment:
@@ -252,50 +256,19 @@ gravity_config:
       # proxy fails to start with essentially no output (just writes an empty newline to the log file).
       HOME: "/home/g2test"
   handlers:
-    # handlers are in the job conf
-    #test_handler:
-    #  processes: 2
-    #  pools:
-    #    - job-handlers
+    test_handler:
+      name_template: "{name}{process}"
+      processes: 1
+      pools:
+        - job-handlers
     test_workflow_scheduler:
       name_template: "{name}{process}"
       processes: 1
       pools:
         - workflow-schedulers
-      environment:
-        PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
-
-## used by: supervisor
-#galaxy_handlers:
-#  - count: 2
-
-#galaxy_workflow_scheduler_count: 1
-#galaxyservers_group_supervisor_configs:
-#  - galaxy
-#  - galaxy_gunicorn
-#  - galaxy_dynamic_handler
-#  - galaxy_workflow_scheduler
-#  - galaxy_datamanager
-#  - galaxy_group
-
-galaxyservers_group_absent_supervisor_configs:
-  - galaxy
-  - galaxy_gunicorn
-  - galaxy_handler
-  - galaxy_dynamic_handler
-  - galaxy_workflow_scheduler
-  - galaxy_datamanager
-  - galaxy_group
-
-# supervisor template
-galaxy_installer_venv_dir: "{{ galaxy_venv_dir }}"
-galaxy_datamanager_venv_dir: "{{ galaxy_venv_dir }}"
 
 
-## used by usegalaxy_privileged
-galaxy_dynamic_rule_dir: "{{ galaxy_root }}/dynamic_rules"
-#usegalaxy_dynamic_job_rules:
-
+## used by: usegalaxy_privileged
 galaxy_pgcleanup_actions:
   - delete_userless_histories
   - delete_exported_histories

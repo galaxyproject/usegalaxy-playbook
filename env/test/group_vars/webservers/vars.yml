@@ -24,9 +24,6 @@ nginx_conf_http:
   proxy_read_timeout: 600
   uwsgi_read_timeout: 300
 
-# used below and in the pam conf template
-nginx_users_allow_path: /etc/nginx/users.allow
-
 nginx_servers:
   - default
   - certbot_redirects
@@ -67,40 +64,6 @@ certbot_domains:
   - '*.interactivetoolentrypoint.interactivetool.nate01.galaxyproject.org'
 certbot_agree_tos: --agree-tos
 
-# might be better to make a usegalaxy_protected role?
 webservers_group_directories:
   - path: "{{ certbot_well_known_root }}"
     mode: "0755"
-  - path: /srv/nginx/tacc-protected.galaxyproject.org/root
-    mode: "0755"
-
-webservers_group_files:
-  - content: |
-      ##
-      ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
-      #$
-      {% for name in vault_tacc_protected_users %}
-      {{ name }}
-      {% endfor %}
-    dest: "{{ nginx_users_allow_path }}"
-    mode: "0444"
-    backup: yes
-  - src: files/nginx/tacc-protected/index.html
-    dest: "/srv/nginx/tacc-protected.galaxyproject.org/root/index.html"
-    mode: "0444"
-
-webservers_group_templates:
-  - src: templates/nginx/nginx_galaxy.pam.j2
-    dest: /etc/pam.d/nginx_galaxy
-    mode: "0444"
-
-## used by: the tacc_protected template
-supervisord_http_auth: "{{ vault_supervisord_http_auth }}"
-
-
-## used by the sysctl task in the galaxy_infrastructure playbook
-sysctl_conf:
-  - name: net.core.rmem_max
-    value: 15990784
-  - name: net.core.wmem_max
-    value: 15990784

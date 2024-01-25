@@ -1,26 +1,5 @@
 ---
 
-# set up dynamic rules
-- name: Create dynamic rule directories
-  file:
-    path: "{{ galaxy_dynamic_rule_dir }}/usegalaxy/jobs/rules"
-    state: directory
-
-- name: Create dynamic rule __init__.py files
-  copy:
-    content: ""
-    dest: "{{ galaxy_dynamic_rule_dir }}/{{ item }}/__init__.py"
-  with_items:
-    - usegalaxy
-    - usegalaxy/jobs
-    - usegalaxy/jobs/rules
-
-- name: Copy dynamic rules
-  copy:
-    src: "files/galaxy/dynamic_rules/{{ item }}"
-    dest: "{{ galaxy_dynamic_rule_dir }}/usegalaxy/jobs/rules/{{ item | basename }}"
-  with_items: "{{ usegalaxy_dynamic_job_rules }}"
-
 - name: Install admin scripts
   template:
     src: "{{ item }}.j2"

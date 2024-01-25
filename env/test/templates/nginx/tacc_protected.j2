@@ -2,11 +2,6 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
-upstream impersonate_main {
-    server galaxy-web-05.tacc.utexas.edu:9480;
-    server galaxy-web-06.tacc.utexas.edu:9480;
-}
-
 server {
     listen       *:443 ssl;
     server_name tacc-protected.galaxyproject.org;
@@ -14,44 +9,9 @@ server {
     access_log /var/log/nginx/protected.access.log;
     error_log /var/log/nginx/protected.error.log;
 
-    auth_pam              "Galaxy Protected";
-    auth_pam_service_name "nginx_galaxy";
-
-    root /srv/nginx/tacc-protected.galaxyproject.org/root;
-
-    location /main/impersonate {
-        proxy_pass         http://impersonate_main;
-        proxy_redirect     off;
-        proxy_set_header   Host              $host;
-        proxy_set_header   X-Real-IP         $remote_addr;
-        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
-        proxy_set_header   X-Forwarded-Proto $scheme;
+    location / {
+        return 302 https://usegalaxy.org;
     }
-
-    location /main/impersonate/static {
-        alias /cvmfs/main.galaxyproject.org/galaxy/static;
-        expires 24h;
-    }
-
-    location /main/impersonate/static/style {
-        alias /cvmfs/main.galaxyproject.org/galaxy/static/style/blue;
-        expires 24h;
-    }
-
-    location /main/impersonate/static/scripts {
-        alias /cvmfs/main.galaxyproject.org/galaxy/static/scripts;
-        expires 24h;
-    }
-
-    rewrite ^/main/impersonate$ /main/impersonate/ last;
-    {% for host, authkey in supervisord_http_auth.items() %}
-
-    location /{{ host }}/supervisor/ {
-        proxy_pass         http://{{ host }}.tacc.utexas.edu:9001/;
-        proxy_redirect     off;
-        proxy_set_header   Authorization "Basic {{ authkey }}";
-    }
-    {% endfor %}
 }
 
 # vim: set filetype=nginx

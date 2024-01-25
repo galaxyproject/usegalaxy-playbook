@@ -9,160 +9,24 @@
 ## NOTE: many template values can be found in env/<env>/group_vars/galaxyservers/tools_conf.yml
 -#}
 
-{#-
-## template macros
-#}
-
-{%- macro runner_pulsar_params() -%}
-    amqp_url: {{ galaxy_job_conf_amqp_url }}
-    galaxy_url: {{ galaxy_job_conf_pulsar_galaxy_url }}
-    persistence_directory: {{ galaxy_job_conf_persistence_directory }}
-    amqp_acknowledge: true
-    amqp_ack_republish_time: 1200
-    amqp_consumer_timeout: 2.0
-    amqp_publish_retry: true
-    amqp_publish_retry_max_retries: 60
-{%- endmacro %}
-
-{%- macro env_local_envs(java_mem=7, singularity=true) -%}
-{#-
-        # TODO: what uses this (DejaVu fonts)?
--#}
-        - name: XDG_DATA_HOME
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/xdg/data
-        {{ env_temp_envs(singularity=singularity) }}
-        - name: _JAVA_OPTIONS
-          value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
-        - name: TERM
-          value: vt100
-        - execute: ulimit -c 0
-        - name: LC_ALL
-          value: C
-{% if singularity %}
-        - name: SINGULARITYENV__JAVA_OPTIONS
-          value: $_JAVA_OPTIONS
-        - name: SINGULARITYENV_LC_ALL
-          value: $LC_ALL
-        - name: SINGULARITYENV_TERM
-          value: $TERM
-{% else %}
-        - name: PATH
-          value: /usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
-{% endif %}
-{%- endmacro %}
-
-{%- macro env_pulsar_envs(java_mem=7, singularity=true) -%}
-        - name: _JAVA_OPTIONS
-          value: $_JAVA_OPTIONS -Xmx{{ java_mem }}g -Xms256m
-        - name: LC_ALL
-          value: C
-        - name: TERM
-          value: vt100
-        - execute: ulimit -c 0
-{% if singularity %}
-        - name: SINGULARITYENV__JAVA_OPTIONS
-          value: $_JAVA_OPTIONS
-        - name: SINGULARITYENV_LC_ALL
-          value: $LC_ALL
-        - name: SINGULARITYENV_TERM
-          value: $TERM
-{% endif %}
-{%- endmacro %}
-
-{%- macro env_temp_envs(singularity=true) -%}
-        - name: TEMP
-          #raw: true
-          value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
-        - name: TMPDIR
-          value: $TEMP
-        - name: _JAVA_OPTIONS
-          value: -Djava.io.tmpdir=$TEMP
-        - execute: mkdir -p $TEMP
-{% if singularity %}
-        - name: SINGULARITYENV_TEMP
-          value: $TEMP
-        - name: SINGULARITYENV_TMPDIR
-          value: $TEMP
-        - name: SINGULARITYENV__JAVA_OPTIONS
-          value: $_JAVA_OPTIONS
-{% endif %}
-{%- endmacro %}
-
-{%- macro env_tag_params(tags) -%}
-{% if tags is not none -%}
-      tags: {{ tags }}
-{%- endif -%}
-{%- endmacro %}
-
-{%- macro env_pulsar_params(remote_metadata='true', dependency_resolution='remote') -%}
-      remote_metadata: {{ remote_metadata }}
-      transport: curl
-      default_file_action: remote_transfer
-      dependency_resolution: {{ dependency_resolution }}
-      rewrite_parameters: true
-      submit_user_email: $__user_email__
-      outputs_to_working_directory: false
-{%- endmacro %}
-
-{%- macro env_jetstream_params() -%}
-      jobs_directory: /jetstream/scratch0/{{ galaxy_instance_codename }}/jobs
-{#
-      # this doesn't work, set in supervisor environment instead
-      #remote_property_galaxy_virtual_env: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv
-#}
-      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
-      file_action_config: {{ galaxy_config_dir }}/pulsar_jetstream_actions.yml
-{%- endmacro %}
-
-{%- macro env_jetstream2_params() -%}
-      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
-      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
-{%- endmacro %}
-
 #
 # Job runner plugin configuration
 #
 runners:
-  dynamic:
-    # these live in the virtualenv
-    rules_module: usegalaxy.jobs.rules
   local:
     load: galaxy.jobs.runners.local:LocalJobRunner
     workers: 2
-  slurm:
-    load: galaxy.jobs.runners.slurm:SlurmJobRunner
-    workers: 4
-    drmaa_library_path: /usr/lib64/libdrmaa.so
-    invalidjobexception_retries: 5
-    internalexception_retries: 5
-  jetstream2:
-    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: jetstream2
-    {{ runner_pulsar_params() }}
-  stampede:
-    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: stampede
-    {{ runner_pulsar_params() }}
-  frontera:
-    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: frontera
-    {{ runner_pulsar_params() }}
-  bridges:
-    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: bridges
-    {{ runner_pulsar_params() }}
-  expanse:
-    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: expanse
-    {{ runner_pulsar_params() }}
-  rockfish:
-    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: rockfish
-    {{ runner_pulsar_params() }}
-  jetstream2_k8s:
-    load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
-    manager: jetstream2_k8s
-    {{ runner_pulsar_params() }}
+{% for runner_id, params in (galaxy_job_conf_runners | default({})).items() %}
+  {{ runner_id }}:
+{% for k, v in (params | default({})).items() %}
+    {{ k }}: {{ v }}
+{% endfor %}
+{% if params.load.startswith("galaxy.jobs.runners.pulsar:") %}
+{% for k, v in galaxy_job_conf_pulsar_runner_params.items() %}
+    {{ k }}: {{ v }}
+{% endfor %}
+{% endif %}
+{% endfor %}
 
 #
 # Job handler configuration
@@ -193,24 +57,8 @@ handling:
 # Job execution configuration
 #
 execution:
-  default: {{ galaxy_job_conf_default_environment | default('job_router') }}
+  default: {{ galaxy_job_conf_default_environment | default('tpv_dispatcher') }}
   environments:
-
-    #
-    # dynamic environments
-    #
-    job_router:
-      runner: dynamic
-      function: job_router
-{% for rule in galaxy_job_conf_extra_dynamic_rules | default([]) %}
-    {{ rule }}:
-      runner: dynamic
-      function: {{ rule }}
-{% endfor %}
-
-    #
-    # TPV
-    #
     tpv_dispatcher:
       runner: dynamic
       type: python
@@ -224,225 +72,7 @@ execution:
         - "{{ tpv_config_dir }}/tools.yaml"
         - "{{ tpv_config_dir }}/roles.yaml"
 
-    #
-    # roundup and TACC-discretionary Jetstream environments
-    #
-{% for env in galaxy_job_conf_environments.slurm_environments %}
-{% set use_singularity = env.use_singularity | default(true) %}
-{% set java_mem = env.java_mem | default(7) %}
-    slurm_{{ env.id }}:
-      runner: slurm
-      native_specification: {{ env.native_specification }}
-      metadata_strategy: extended
-      {{ env_tag_params(env.tags | default(none)) }}
-{% if use_singularity %}
-      outputs_to_working_directory: true
-      singularity_enabled: true
-      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.local)) | join(',') }}"
-{% if 'container_override' in env %}
-      container_override: {{ env.container_override | to_yaml(width=9999, default_flow_style=True) }}
-{% else %}
-      singularity_default_container_id: "{{ env.default_container_id | default(galaxy_job_conf_default_container_id) }}"
-{% endif %}
-{% endif %}
-{% for env_param_name, env_param_value in (env.extra_params | default({})).items() %}
-      {{ env_param_name }}: {{ env_param_value }}
-{% endfor %}
-      env:
-        {{ env_local_envs(java_mem=java_mem, singularity=use_singularity) }}
-{% for env_env in (env.append_envs | default([])) %}
-        - {{ env_env }}
-{% endfor %}
-{% endfor %}
-
-{#
-    # FIXME:
-    slurm_upload:
-      runner: slurm
-      native_specification: --partition=normal,jsnormal --nodes=1 --ntasks=1 --time=12:00:00 --mem=3840
-      singularity_enabled: true
-      singularity_volumes: "{{ (galaxy_job_conf_singularity_volumes.local + [galaxy_nginx_upload_dir ~ ':rw']) | join(',') }}"
-      # FIXME: why ubuntu?
-      #singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/ubuntu:20.04"
-      singularity_default_container_id: "/cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011"
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        - name: SINGULARITYENV_LC_ALL
-          value: C
-        # FIXME: GALAXY_VIRTUAL_ENV/VIRTUAL_ENV not needed?
-        - name: SINGULARITYENV_PREPEND_PATH
-          value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/venv/bin
-        {{ env_temp_envs() }}
-      env:
-        - name: TEMP
-          #raw: true
-          value: $(dirname ${BASH_SOURCE[0]})/_job_tmp
-        - name: TMPDIR
-          value: $TEMP
-        - name: _JAVA_OPTIONS
-          value: -Djava.io.tmpdir=$TEMP
-        - execute: mkdir -p $TEMP
-        - name: LC_ALL
-          value: C
-#}
-
-    # FIXME: roundup-only since I'm pretty certain memory_limit_reached doesn't work on Pulsar dests
-    # resubmit to multi_largemem on memory failure
-    slurm_multi_memory_resubmit:
-      runner: slurm
-      native_specification: --partition=multi,jsmulti --nodes=1 --ntasks=6 --time=36:00:00
-      {{ env_tag_params(['multi'] | default(none)) }}
-      env:
-        {{ env_local_envs(java_mem=28) }}
-      resubmit:
-        condition: memory_limit_reached
-        environment: multi_largemem
-
-    #
-    # Jetstream2 environments
-    #
-{% for env in galaxy_job_conf_environments.jetstream2_environments %}
-{% set use_singularity = env.use_singularity | default(true) %}
-{% set java_mem = env.java_mem | default(5) %}
-    jetstream2_{{ env.id }}:
-      runner: jetstream2
-      submit_native_specification: {{ env.native_specification }}
-      {{ env_tag_params(env.tags | default(none)) }}
-      {{ env_pulsar_params(remote_metadata=(env.remote_metadata | default(not use_singularity)), dependency_resolution=('local' if use_singularity else 'remote')) }}
-      {{ env_jetstream2_params() }}
-{% if use_singularity %}
-      singularity_enabled: true
-      singularity_volumes: "{{ (env.volumes | default(galaxy_job_conf_singularity_volumes.jetstream)) | join(',') }}"
-{% if 'container_override' in env %}
-      container_override: {{ env.container_override }}
-{% else %}
-      singularity_default_container_id: "{{ env.default_container_id | default(galaxy_job_conf_default_container_id) }}"
-{% endif %}
-{% endif %}
-{% for env_param_name, env_param_value in (env.extra_params | default({})).items() %}
-      {{ env_param_name }}: {{ env_param_value }}
-{% endfor %}
-      env:
-        {{ env_temp_envs(singularity=use_singularity) }}
-        {{ env_pulsar_envs(java_mem=java_mem, singularity=use_singularity) }}
-{% for env_env in (env.append_envs | default([])) %}
-        - {{ env_env }}
-{% endfor %}
-{% endfor %}
-
-    #
-    # Stampede environments
-    #
-{% for env in galaxy_job_conf_environments.stampede_environments %}
-{% set java_mem = env.java_mem | default(64) %}
-    stampede_{{ env.id }}:
-      runner: stampede
-      submit_native_specification: {{ env.native_specification }}
-      {{ env_pulsar_params(remote_metadata='false') }}
-      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
-      {# this doesn't work, set in supervisor environment instead
-       #remote_property_galaxy_virtual_env: /work/galaxy/{{ galaxy_instance_codename }}/galaxy/venv
-      -#}
-      {# this used to work but doesn't now either, set in supervisor environment instead, however, the Pulsar client
-       # still requires it to be set when remote_metadata is enabled -#}
-      {#
-      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
-      -#}
-      file_action_config: {{ galaxy_config_dir }}/pulsar_stampede_actions.yml
-      {{ env_tag_params(env.tags | default(none)) }}
-      singularity_enabled: true
-      # the tacc-apptainer module automatically sets up mounts
-      singularity_volumes: null
-      container_resolvers:
-        - type: explicit_singularity
-        - type: mulled_singularity
-      require_container: true
-      env:
-        {{ env_pulsar_envs(java_mem=java_mem) }}
-        #- execute: eval `/opt/apps/lmod/lmod/libexec/lmod bash purge`
-        - file: /etc/profile.d/z01_lmod.sh
-        - execute: module unload xalt
-        - execute: module load tacc-apptainer
-        {# Stampede assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
-        - name: GALAXY_SLOTS
-          value: "$SLURM_NTASKS"
-        {# Mem=0 if the Slurm -mem param is not used, which is not allowed on Stampede2 -#}
-        - name: GALAXY_MEMORY_MB
-          value: "{{ env.memory_mb }}"
-        {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
-        - name: SCRATCH
-          value: /scratch/03166/xcgalaxy
-        {# mount is in /work2 so the mountpoint (which will appear untouched/empty to tacc cleanup scripts) won't be removed, but also needs to be automatically mounted into singularity containers (which /run is not) -#}
-        - name: WORK2
-          value: /work2/03166/xcgalaxy/stampede2
-        - execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
-        - name: TRINITY_SCRATCH_DIR
-          value: "/tmp"
-        - name: CVMFS_MOUNT_ROOT
-          value: $WORK2/cvmfs
-        - name: CVMFS_ALIEN_CACHE
-          value: $SCRATCH/cvmfs
-        - name: CVMFS_BINARY
-          value: $HOME/cvmfs/bin/cvmfs2.wrap
-        {# FIXME: why is this not set by module load tacc-apptainer? -#}
-        - name: SINGULARITY_CACHEDIR
-          value: /work2/03166/xcgalaxy/singularity_cache
-        - name: SINGULARITY_PYTHREADS
-          value: "9"
-{% endfor %}
-
-    #
-    # Frontera environments
-    #
-{% for env in galaxy_job_conf_environments.frontera_environments %}
-    frontera_{{ env.id }}:
-      runner: frontera
-      submit_native_specification: {{ env.native_specification }}
-      {{ env_pulsar_params(remote_metadata='false') }}
-      jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
-      {{ env_tag_params(env.tags | default(none)) }}
-      singularity_enabled: true
-      # the tacc-apptainer module automatically sets up mounts
-      singularity_volumes: null
-      container_resolvers:
-        - type: explicit_singularity
-        - type: mulled_singularity
-      require_container: true
-      env:
-        {{ env_pulsar_envs() }}
-        - file: /etc/profile.d/z01_lmod.sh
-        - execute: module unload xalt
-        - execute: module load tacc-apptainer
-        {# Frontera assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
-        - name: GALAXY_SLOTS
-          value: "$SLURM_NTASKS"
-        {# Mem=0 if the Slurm -mem param is not used, which is not allowed on Frontera -#}
-        - name: GALAXY_MEMORY_MB
-          value: "{{ env.memory_mb }}"
-{% endfor %}
-
-    #
-    # Bridges environments
-    #
-{% for env in galaxy_job_conf_environments.bridges_environments %}
-    bridges_{{ env.id }}:
-      runner: bridges
-      submit_native_specification: {{ env.native_specification }}
-      {{ env_pulsar_params(remote_metadata='false') }}
-      jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
-      {# see stampede comments -#}
-      remote_property_galaxy_home: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/galaxy
-      {{ env_tag_params(env.tags | default(none)) }}
-      env:
-        {{ env_pulsar_envs() }}
-        #- execute: eval `modulecmd sh purge`
-        {# Bridges-2 assigns whole nodes, so $SLURM_CPUS_ON_NODE is not the same as the requested number of tasks -#}
-        - name: GALAXY_SLOTS
-          value: "$SLURM_NTASKS"
-        - name: TRINITY_SCRATCH_DIR
-          value: "$LOCAL"
-{% endfor %}
-
+{% if galaxy_job_conf_resource_groups is defined %}
 #
 # Job resource selector configuration
 #
@@ -454,17 +84,12 @@ resources:
       - {{ element }}
 {% endfor %}
 {% endfor %}
+{% endif %}
 
 #
 # Job mapping configuration
 #
 tools:
-  # Because job_router is the default environment, you should not need to define explicit mappings here unless:
-  #   1. you want them to have a job resource param selector (but there are lists for that in tools_conf.yml
-  #   2. you want them to have explicit handlers
-  #   3. you don't want a tool to use the router
-
-  # Explicit mappings
 {% for tool in galaxy_job_conf_tools | default([]) %}
   - {{ tool | to_yaml | trim }}
 {% endfor %}

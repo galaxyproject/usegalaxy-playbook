@@ -23,8 +23,6 @@ galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool
 galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
 galaxy_object_store_cache_path: "/corral4/{{ galaxy_instance_codename }}/object_store_cache"
 galaxy_interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite"
-# FIXME: use the role functionality to install these and drop galaxy_dynamic_rule_dir, this is the one used by the systemd template in the role
-galaxy_dynamic_job_rules_dir: "{{ galaxy_root }}/dynamic_rules"
 
 
 ## used by: galaxyproject.galaxy

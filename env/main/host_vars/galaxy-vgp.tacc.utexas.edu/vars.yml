@@ -26,21 +26,16 @@ gravity_config:
     upload_dir: "{{ galaxy_tus_upload_store }}"
     memory_limit: 2
   handlers:
+    main_vgp_handler:
+      name_template: "{name}{process}"
+      processes: 1
+      pools:
+        - job-handlers.vgp
     main_vgp_workflow_scheduler:
       name_template: "{name}{process}"
       processes: 1
       pools:
         - workflow-schedulers.vgp
-
-galaxy_job_conf_handlers:
-  - id: main_vgp_handler0
-    plugins:
-      - slurm
-      - jetstream2
-    environment:
-      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
-    tags:
-      - vgp
 
 tpv_mutable_dir: "{{ galaxy_root }}/tpv_staging"
 tpv_config_dir_name: "tpv"
@@ -95,8 +90,6 @@ galaxy_config_templates:
     dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
   - src: templates/galaxy/config/object_store_conf.xml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['object_store_config_file'] }}"
-  - src: templates/galaxy/config/job_router_conf.yml.j2
-    dest: "{{ galaxy_config_dir }}/job_router_conf.yml"
   - src: templates/galaxy/config/tacc_k8s_pulsar_app_config.yml.j2
     dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
   - src: templates/galaxy/config/file_sources_conf.yml.j2

@@ -1,12 +1,5 @@
 ---
 
-# FIXME: /etc/systemd/system/galaxy-main.service is manually deployed because you can't override the service name in
-# galaxyproject.org
-
-# NOTE: this is duplicated from group_vars/supervisorservers in the test env. This overrides the group var setting for
-# creating ~g2main/etc/supervisor.conf since Test and Main's supervisords use different passwords.
-supervisord_inet_pass: "{{ vault_supervisord_inet_pass }}"
-
 galaxy_job_conf_pulsar_galaxy_url: https://galaxy-web-03.galaxyproject.org
 
 # gxit_proxy_port is hardcoded here and in the template since the nginx config is deployed from the test env
@@ -37,14 +30,17 @@ gravity_config:
       # FIXME: the systemd service unit sets this as /srv/galaxay/main, which is not writable. When this is the case the
       # proxy fails to start with essentially no output (just writes an empty newline to the log file).
       HOME: "/home/g2main"
-galaxy_job_conf_handlers:
-  - id: main_k8s_handler0
-    plugins:
-      - tacc_k8s
-    environment:
-      PYTHONPATH: "lib:{{ galaxy_dynamic_job_rules_dir }}"
-    tags:
-      - k8s
+  handlers:
+    main_k8s_handler:
+      name_template: "{name}{process}"
+      processes: 1
+      pools:
+        - job-handlers.k8s
+
+galaxy_job_conf_runners:
+  jetstream2_k8s:
+    load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
+    manager: jetstream2_k8s
 
 ## used by: supervisor
 host_supervisor_configs: []
