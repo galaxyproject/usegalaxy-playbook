@@ -137,9 +137,9 @@ tools:
   export_remote: {inherits: _conda_local}
 
   __IMPORT_HISTORY__:
-    #env:
-    #- name: APPTAINER_BIND
-    #  value: /corral4/test/archive/export:/corral4/test/archive/export:ro,/corral4/test/scratch:/corral4/test/scratch:rw
+    env:
+    - name: APPTAINER_BIND
+      value: "{{ galaxy_new_file_path }}:{{ galaxy_new_file_path }}:rw"
     scheduling:
       require:
       - roundup
