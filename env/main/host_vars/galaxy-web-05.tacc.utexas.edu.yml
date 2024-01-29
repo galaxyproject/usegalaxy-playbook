@@ -32,7 +32,7 @@ host_crontabs:
     user: "{{ galaxy_user }}"
     hour: "5"
     minute: "0"
-    job: "{{ galaxy_root }}/bin/cleanup_datasets.sh 14"
+    job: "{{ galaxy_root }}/bin/cleanup_datasets.sh 7"
   - name: "Clean {{ galaxy_instance_codename }} tus upload store"
     id: "galaxy_{{ galaxy_instance_codename }}_clean_tus_upload_store"
     user: "{{ galaxy_user }}"
