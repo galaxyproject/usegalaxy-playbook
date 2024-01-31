@@ -1,14 +1,6 @@
 <?xml version="1.0"?>
 <object_store type="distributed">
     <backends search_for_missing="false">
-        <backend type="irods" id="corral-irods-galaxy" weight="0" store_by="uuid">
-            <auth username="g2main" password="{{ galaxy_icat_irods_password }}" />
-            <resource name="mainRootResc" />
-            <zone name="galaxyZ" />
-            <connection host="galaxy-icat.tacc.utexas.edu" port="1247" timeout="30" refresh_time="300" connection_pool_monitor_interval="300"/>
-            <cache path="{{ galaxy_object_store_cache_path }}" size="1000000" />
-            <extra_dir type="job_work" path="/corral4/main/jobs"/>
-        </backend>
         <backend type="disk" id="corral4" weight="1" store_by="uuid">
             <files_dir path="/corral4/main/objects"/>
             <extra_dir type="job_work" path="/corral4/main/jobs"/>
