@@ -35,8 +35,8 @@
     #end if   
 
     #if $query_type.select_query_type == "fasta":
-        #set input_file = re.sub('[^\s\w\-]', '_', str($query_type.input.element_identifier)) + '.fasta'
-        ln -s $query_type.input $input_file &&
+        #set input_file = re.sub('[^\w\-_\.]', '_', str($query_type.input.element_identifier)) + '.fasta'
+        ln -s $query_type.input "$input_file" &&
     #end if
 
     mkdir output &&
@@ -53,7 +53,7 @@
         --custom-template-path template_dir
     #end if
     #if $query_type.select_query_type == "fasta":
-        $input_file
+        "$input_file"
     #else:
         $query_type.input
     #end if
