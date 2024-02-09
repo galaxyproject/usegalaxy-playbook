@@ -1,0 +1,18 @@
+---
+
+users:
+  test-jetstream2@usegalaxy.org:
+    scheduling:
+      accept:
+      - pulsar
+      - offline # allow scheduling to a destination even when it is offline
+      require:
+      - jetstream2
+    #rules:
+    #  - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
+    #    scheduling:
+    #      accept:
+    #        - pulsar # pulsar must be in require/prefer/accept for a job to be scheduled to pulsar
+    #        - offline # allow scheduling to a destination even when it is offline
+    #      require:
+    #         - pulsar-mel2
