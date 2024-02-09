@@ -113,7 +113,12 @@ galaxy_job_conf_singularity_volumes:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
-    - "$storage"
+    # FIXME: this works with marius' containerized set-meta branch?
+    #- "$storage"
+    - "{{ galaxy_object_store_cache_path }}:ro"
+    - "{{ galaxy_new_file_path }}:ro"
+    - "/corral4/{{ galaxy_instance_codename }}/files:ro"
+    - "/corral4/{{ galaxy_instance_codename }}/files-test:ro"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/main.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
