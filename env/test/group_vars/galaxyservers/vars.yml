@@ -207,6 +207,10 @@ galaxy_systemd_mode: null
 # Disable gravity config in galaxy.yml, use standalone Gravity config
 galaxy_gravity_config_default: null
 gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
+gravity_virtualenv_command: /opt/rh/rh-python38/root/usr/bin/python3 -m venv
+gravity_venv_dir: "{{ galaxy_root }}/gravity"
+gravity_package: "gravity==1.0.6"
+galaxy_gravity_command: "{{ gravity_venv_dir }}/bin/galaxyctl"
 
 gravity_config:
   instance_name: "{{ galaxy_instance_codename }}"

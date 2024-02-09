@@ -5,6 +5,6 @@
   remote_user: root
   tasks:
     - name: Gracefully Restart Galaxy
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
+      command: "{{ galaxy_gravity_command }} graceful"
       environment:
         GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"

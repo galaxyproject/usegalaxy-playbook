@@ -150,13 +150,33 @@
       notify:
         - galaxyctl update
         - restart galaxy
+    - name: Install Gravity (external)
+      pip:
+        name:
+          - "{{ gravity_package | default('gravity') }}"
+          # FIXME: this is only necessary on EL < 8
+          - "urllib3<2"
+        virtualenv: "{{ gravity_venv_dir }}"
+        virtualenv_command: "{{ gravity_virtualenv_command | default(galaxy_virtualenv_command | default(pip_virtualenv_command | default(omit))) }}"
+      environment:
+        VIRTUAL_ENV: "{{ galaxy_venv_dir }}"
+      when: gravity_venv_dir is defined
+    - name: Deploy galaxyctl wrapper script
+      copy:
+        content: |
+          #!/usr/bin/env sh
+          export GRAVITY_CONFIG_FILE={{ gravity_config_file | quote }}
+          exec {{ galaxy_gravity_command | quote }} "$@"
+        dest: "/usr/local/bin/galaxyctl-{{ galaxy_instance_codename }}"
+        mode: "0755"
+      when: galaxy_gravity_wrapper_path is not none
   handlers:
     - name: galaxyctl update
       remote_user: root
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl update"
+      command: "{{ galaxy_gravity_command }} update"
     - name: galaxy gravity restart
       remote_user: root
-      command: "{{ galaxy_venv_dir }}/bin/galaxyctl graceful"
+      command: "{{ galaxy_gravity_command }} graceful"
       environment:
         GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
       listen: "restart galaxy"
