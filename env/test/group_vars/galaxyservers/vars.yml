@@ -204,6 +204,8 @@ galaxy_job_conf_limits:
     id: stampede2_icx
     value: 4
 
+pulsar_default_file_action: remote_transfer_tus
+
 # used in gravity config and nginx template
 gxit_proxy_port: 8910
 
@@ -252,9 +254,14 @@ gravity_config:
     environment:
       TMPDIR: /corral4/test/celery-scratch
   tusd:
-    enable: true
-    tusd_path: /usr/local/sbin/tusd
-    upload_dir: "{{ galaxy_tus_upload_store }}"
+    - enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ galaxy_tus_upload_store }}"
+    - enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ galaxy_tus_upload_store_job_files }}"
+      port: 1081
+      hooks_http: /api/job_files/tus_hooks
   gx_it_proxy:
     enable: true
     port: "{{ gxit_proxy_port }}"

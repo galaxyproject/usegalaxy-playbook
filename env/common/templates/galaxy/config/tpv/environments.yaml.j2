@@ -31,7 +31,7 @@ destinations:
       #metadata_strategy: extended
       remote_metadata: false
       transport: curl
-      default_file_action: remote_transfer
+      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
@@ -201,7 +201,7 @@ destinations:
       remote_metadata: true
       remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
       transport: curl
-      default_file_action: remote_transfer
+      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
@@ -334,7 +334,7 @@ destinations:
       #metadata_strategy: extended
       remote_metadata: false
       transport: curl
-      default_file_action: remote_transfer
+      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
@@ -418,7 +418,7 @@ destinations:
       #metadata_strategy: extended
       remote_metadata: false
       transport: curl
-      default_file_action: remote_transfer
+      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
@@ -492,8 +492,8 @@ destinations:
       require:
       - pulsar
       # TODO: why is it not really processing jobs?
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   rockfish:
     runner: rockfish
@@ -516,7 +516,7 @@ destinations:
       #metadata_strategy: extended
       remote_metadata: false
       transport: curl
-      default_file_action: remote_transfer
+      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /scratch4/nekrut/galaxy/{{ galaxy_instance_codename }}/staging

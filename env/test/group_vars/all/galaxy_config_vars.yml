@@ -15,7 +15,7 @@ galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
 galaxy_new_file_path: "/corral4/{{ galaxy_instance_codename }}/scratch"
 galaxy_job_working_directory: "/corral4/{{ galaxy_instance_codename }}/jobs"
 galaxy_tus_upload_store: "/corral4/{{ galaxy_instance_codename }}/upload"
-galaxy_nginx_upload_job_files_dir: "/corral4/{{ galaxy_instance_codename }}/upload_job_files"
+galaxy_tus_upload_store_job_files: "/corral4/{{ galaxy_instance_codename }}/upload_job_files"
 galaxy_tool_dependency_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps"
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
@@ -112,7 +112,7 @@ base_app_main: &BASE_APP_MAIN
   job_working_directory: "{{ galaxy_job_working_directory }}"
   tool_data_path: /corral4/test/tool_data
   tus_upload_store: "{{ galaxy_tus_upload_store }}"
-  nginx_upload_job_files_store: "{{ galaxy_nginx_upload_job_files_dir }}"
+  tus_upload_store_job_files: "{{ galaxy_tus_upload_store_job_files }}"
   galaxy_data_manager_data_path: /corral4/manageddata/data
   tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
   tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
@@ -193,7 +193,7 @@ base_app_main: &BASE_APP_MAIN
   enable_cloud_launch: "True"
   cloudlaunch_default_ami: ami-a7dbf6ce
   nginx_x_accel_redirect_base: /_x_accel_redirect
-  nginx_upload_job_files_path: /_job_files
+  #nginx_upload_job_files_path: /_job_files
   upstream_mod_zip: true
   log_events: "False"
   log_actions: "False"
@@ -265,69 +265,6 @@ base_app_main: &BASE_APP_MAIN
 
 # galaxy.ini contents
 galaxy_config_hash:
-  uwsgi:
-    # basic settings
-    - master: true
-    - processes: 8
-    - threads: 4
-
-    # uwsgi performance/robustness features
-    - single-interpreter: true
-    - thunder-lock: true
-    - harakiri: 600
-    - buffer-size: 16384
-
-    # logging
-    - log-maxsize: 134217728
-    - log-master-bufsize: 15865856
-
-    # application
-    - pythonpath: lib
-    - module: galaxy.webapps.galaxy.buildapp:uwsgi_app_factory()
-
-    # spinningfifo was added to uWSGI-core in 2.0.15
-    #- plugins-dir: "{{ galaxy_venv_dir }}/lib/uwsgi/plugins"
-    #- plugin: spinningfifo
-
-    # zerg mode
-    - master-fifo:
-      # fifo '0'
-      - "{{ galaxy_mutable_data_dir }}/zerg-new.fifo"
-      # fifo '1'
-      - "{{ galaxy_mutable_data_dir }}/zerg-run.fifo"
-      # fifo '2'
-      - "{{ galaxy_mutable_data_dir }}/zerg-old.fifo"
-
-    # attach to zerg
-    - zerg: "{{ galaxy_mutable_data_dir }}/zergpool.sock"
-
-    # signal the currently running instance to release the running fifo and terminate
-    - if-exists:
-      - "{{ galaxy_mutable_data_dir }}/zerg-run.fifo"
-      - hook-accepting1-once: writefifo:{{ galaxy_mutable_data_dir }}/zerg-run.fifo 2q
-    # force this instance to became the running one (slot 1)
-    - hook-accepting1-once: spinningfifo:{{ galaxy_mutable_data_dir }}/zerg-new.fifo 1
-
   galaxy:
     <<: *BASE_APP_MAIN
     new_file_path: "{{ galaxy_new_file_path }}"
-
-datamanager_config_hash:
-  uwsgi:
-    - socket: 127.0.0.1:9998
-    - master: true
-    - processes: 1
-    - threads: 4
-    - buffer-size: 16384
-    - pythonpath: lib
-    - module: galaxy.webapps.galaxy.buildapp:uwsgi_app_factory()
-
-  galaxy:
-    <<: *BASE_APP_MAIN
-    base_server_name: datamanager
-    new_file_path: /corral4/test/data-scratch
-
-# specifies config files to template from the playbook
-#galaxy_config_templates:
-#  - src: templates/galaxy/config/job_conf.xml.j2
-#    dest: "{{ galaxy_config_dir }}/job_conf.xml"

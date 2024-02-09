@@ -32,7 +32,7 @@ host_crontabs:
     user: "{{ galaxy_user }}"
     hour: "4"
     minute: "30"
-    job: "/usr/bin/tmpwatch -v --all --mtime --dirmtime 7d {{ galaxy_nginx_upload_job_files_dir }} | tee -a {{ galaxy_log_dir }}/cleanup_upload_job_files.log"
+    job: "/usr/bin/tmpwatch -v --all --mtime --dirmtime 7d {{ galaxy_tus_upload_store_job_files }} | tee -a {{ galaxy_log_dir }}/cleanup_upload_job_files.log"
   - name: "Clean {{ galaxy_instance_codename }} datasets"
     id: "galaxy_{{ galaxy_instance_codename }}_clean_datasets"
     user: "{{ galaxy_user }}"
