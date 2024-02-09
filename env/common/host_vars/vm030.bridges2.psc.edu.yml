@@ -76,7 +76,7 @@ host_supervisor_configs:
 supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || /bin/bash '{{ _bridges_home_root }}/bin/supervisord-launch.sh'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
 
 # This is the rebased commit on top of the cvmfsexec-singularity branch
-pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@3e12f9f4145930f609dda74ef86aa4a0c7c90722#egg=pulsar-app"
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@f13cdf0de588471fb8b0f5f50e22b6d612579e22#egg=pulsar-app"
 pulsar_package_version: "{{ omit }}"
 pulsar_root: "{{ _bridges_instance_root }}/pulsar"
 pulsar_restart_handler_name: supervisor restart pulsar
