@@ -335,9 +335,21 @@ tools:
     # operations that are not NFS-safe, but you have chosen
     # to ignore this error. If you experience seemly random
     # freezing and failures, the TMP directory is the cause.
+    #
+    # Despite moving $TMP to /tmp (and confirming that it does in fact create a tmpdir there, although it's
+    # empty(?!), Maker is killing Ceph hammering files like:
+    # .NFSLock..NFSLock.NODE_117227_length_730_cov_0%2E534456.gff.ann.NFSLock.tmp.6888.179661.6394.74739292915
+    #
+    # Can the "datastore" be moved to instance storage?
+    #
+    # decreased cores for roundup
+    cores: 4
     env:
     - name: _GALAXY_JOB_TMP_DIR
       value: /tmp
+    scheduling:
+      require:
+      - roundup-mem
 
   toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
     mem: 5.6
