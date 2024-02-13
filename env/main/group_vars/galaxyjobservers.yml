@@ -5,6 +5,10 @@ galaxy_systemd_mode: null
 # Disable gravity config in galaxy.yml, use standalone Gravity config
 galaxy_gravity_config_default: null
 gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
+gravity_virtualenv_command: /opt/rh/rh-python38/root/usr/bin/python3 -m venv
+gravity_venv_dir: "{{ galaxy_root }}/gravity"
+gravity_package: "gravity==1.0.6"
+galaxy_gravity_command: "{{ gravity_venv_dir }}/bin/galaxyctl"
 
 gravity_config:
   instance_name: "{{ galaxy_instance_codename }}"
@@ -36,9 +40,16 @@ gravity_config:
     environment:
       TMPDIR: /corral4/main/celery-scratch
   tusd:
-    enable: true
-    tusd_path: /usr/local/sbin/tusd
-    upload_dir: "{{ galaxy_tus_upload_store }}"
-    memory_limit: 2
+    # this is for if we need handlers to serve web during downtimes
+    - enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ galaxy_tus_upload_store }}"
+      memory_limit: 2
+    - enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ galaxy_tus_upload_store_job_files }}"
+      port: 1081
+      hooks_http: /api/job_files/tus_hooks
+      memory_limit: 2
   handlers: "{{ gravity_handlers }}"
     # job handlers are and workflow schedulers configured in host_vars

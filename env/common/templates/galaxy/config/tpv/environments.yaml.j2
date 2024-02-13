@@ -434,6 +434,8 @@ destinations:
       - type: mulled_singularity
       require_container: true
     env:
+    # Expanse has some aggressive scratch cleanup, txn especially gets quickly nuked
+    - execute: for d in $(seq 0 255 | while read n; do printf "%02x " "$n"; done) txn quarantaine; do mkdir -p /expanse/lustre/scratch/xgalaxy/temp_project/cvmfs_cache/$d; done
     - name: PATH
       value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
     - file: /etc/profile.d/00-sdsc-modules.sh

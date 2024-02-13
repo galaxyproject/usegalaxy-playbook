@@ -2,17 +2,48 @@
 
 users:
   test-jetstream2@usegalaxy.org:
-    scheduling:
-      accept:
-      - pulsar
-      - offline # allow scheduling to a destination even when it is offline
-      require:
-      - jetstream2
-    #rules:
-    #  - if: tool.id.startswith('toolshed') or tool.id.startswith('testtoolshed')
-    #    scheduling:
-    #      accept:
-    #        - pulsar # pulsar must be in require/prefer/accept for a job to be scheduled to pulsar
-    #        - offline # allow scheduling to a destination even when it is offline
-    #      require:
-    #         - pulsar-mel2
+    rules:
+      - id: test_user_non_local_tool
+        if: not tool.id.startswith("__") and tool.tool_type not in ("data_source", "expression") and not tool.requires_galaxy_python_environment
+        scheduling:
+          accept:
+          - pulsar
+          - offline # allow scheduling to a destination even when it is offline
+          require:
+          - jetstream2
+  test-bridges2@usegalaxy.org:
+    rules:
+      - id: test_user_non_local_tool
+        if: not tool.id.startswith("__") and tool.tool_type not in ("data_source", "expression") and not tool.requires_galaxy_python_environment
+        cores: 16
+        mem: 64
+        scheduling:
+          accept:
+          - pulsar
+          - offline # allow scheduling to a destination even when it is offline
+          require:
+          - bridges2
+  test-rockfish@usegalaxy.org:
+    rules:
+      - id: test_user_non_local_tool
+        if: not tool.id.startswith("__") and tool.tool_type not in ("data_source", "expression") and not tool.requires_galaxy_python_environment
+        cores: 8
+        mem: 64
+        scheduling:
+          accept:
+          - pulsar
+          - offline # allow scheduling to a destination even when it is offline
+          require:
+          - rockfish
+  test-expanse@usegalaxy.org:
+    rules:
+      - id: test_user_non_local_tool
+        if: not tool.id.startswith("__") and tool.tool_type not in ("data_source", "expression") and not tool.requires_galaxy_python_environment
+        cores: 8
+        mem: 64
+        scheduling:
+          accept:
+          - pulsar
+          - offline # allow scheduling to a destination even when it is offline
+          require:
+          - expanse
