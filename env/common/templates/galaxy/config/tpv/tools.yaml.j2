@@ -268,6 +268,9 @@ tools:
     # was 16 in the job router but let's try this
     mem: 7
 
+  toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_kaks_analysis/plant_tribes_kaks_analysis/.*:
+    mem: 5.6
+
   toolshed.g2.bx.psu.edu/repos/iuc/annotatemyids/annotatemyids/.*:
     mem: 5.6
 
@@ -379,6 +382,10 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     mem: 7.8
+
+  toolshed.g2.bx.psu.edu/repos/iuc/sniffles/sniffles/.*:
+    cores: 4
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_build_gb/4.3\+T.galaxy[1-5]:
     # https://github.com/galaxyproject/tools-iuc/issues/5647, fixed in .galaxy6
@@ -639,6 +646,8 @@ tools:
       require:
       - jetstream2
     rules:
+    # TODO: make input rules for cached reference compression-aware
+    # TODO: does paired use 2x single?
     - id: bwa_mem2_small_input_rule
       if: input_size < 0.1
       cores: 2
@@ -657,8 +666,12 @@ tools:
       # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
       mem: |
         options = job.get_param_values(app)
-        size = options["reference_source"]["ref_file"].get_size()
-        min(max(float(size/1024**3) * 28, (input_size - float(size/1024**3)) * 2, 7.6), 120)
+        ref_size = float(options["reference_source"]["ref_file"].get_size())/1024**3
+        input1 = options["fastq_input"]["fastq_input1"]
+        mult = 1.0
+        if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
+            mult = 3.3
+        min(max(ref_size * 28, (input_size - ref_size) * 2 * mult, 7.6), 120)
 
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
     cores: 32
@@ -797,7 +810,7 @@ tools:
       cores: 1
       mem: 2.7
     - id: unicycler_medium_input_rule
-      if: 0.05 <= input_size < 2
+      if: 0.05 <= input_size < 0.3
       cores: 8
       mem: 28
 
