@@ -668,6 +668,10 @@ tools:
         options = job.get_param_values(app)
         ref_size = float(options["reference_source"]["ref_file"].get_size())/1024**3
         input1 = options["fastq_input"]["fastq_input1"]
+        if hasattr(input1, "first_dataset_instance"):
+            input1 = input1.first_dataset_instance()
+        elif hasattr(input1, "dataset_instances"):
+            input1 = input1.dataset_instances[0]
         mult = 1.0
         if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
             mult = 3.3
