@@ -34,4 +34,28 @@ server {
 
 }
 
+# For path-based GxIT requests proxied from usegalaxy.org
+server {
+    listen      {{ lookup('dig', inventory_hostname) }}:8980;
+    server_name usegalaxy.org;
+
+    {# FIXME: if not cohosted with Test this could loop the galaxyservers group to get IPs -#}
+    allow 129.114.60.60/32;
+    allow 129.114.60.56/32;
+    deny all;
+
+    access_log  /var/log/nginx/main-gxit-path-proxy.access.log;
+    error_log   /var/log/nginx/main-gxit-path-proxy.error.log;
+
+    location / {
+        proxy_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_pass http://localhost:8980;
+    }
+}
+
 # vim: set filetype=nginx

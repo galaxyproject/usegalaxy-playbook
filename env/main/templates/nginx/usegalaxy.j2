@@ -110,17 +110,22 @@ server {
         expires 24h;
     }
 
-    # FIXME: this is a hack while working around bugs in 20.05, and should be removed
-    location /static/scripts/bundled {
-        alias {{ galaxy_server_dir }}/static/dist;
-        expires 24h;
-    }
-
-    # serve visualization and interactive environment plugin static content
+    # serve visualization plugin static content
     location ~ ^/plugins/(?<plug_type>[^/]+?)/((?<vis_d>[^/_]*)_?)?(?<vis_name>[^/]*?)/static/(?<static_file>.*?)$ {
         alias {{ galaxy_server_dir }}/config/plugins/$plug_type/;
         try_files $vis_d/${vis_d}_${vis_name}/static/$static_file
                   $vis_d/static/$static_file =404;
+    }
+
+    # Route all path-based interactive tool requests to the InteractiveTool proxy application
+    location ~* ^/(interactivetool/.+)$ {
+        proxy_redirect      off;
+        proxy_http_version  1.1;
+        proxy_set_header    Host        $host;
+        proxy_set_header    X-Real-IP   $remote_addr;
+        proxy_set_header    Upgrade     $http_upgrade;
+        proxy_set_header    Connection  "upgrade";
+        proxy_pass          http://{{ lookup('dig', 'foo.ep.interactivetool.usegalaxy.org') }}:8980;
     }
 
     location /robots.txt {
