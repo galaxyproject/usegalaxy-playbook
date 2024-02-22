@@ -257,6 +257,15 @@ galaxy_pgcleanup_days: 30
 ## used by: usegalaxy_admin
 galaxy_log_archive_dir: /corral4/{{ galaxy_instance_codename }}/backup/log
 
+# We don't use galaxy_local_tools because we want to set a section
+galaxy_local_tools_dir: "/corral4/gxsrc/{{ galaxy_instance_codename }}/local_tools"
+galaxy_local_tools:
+  # For reasons I wasn't able to get to the bottom of, when served from RStudio directly, the large static javascript
+  # files sent by rserver stop sending prematurely and never complete on the client side, only when sent over tailscale,
+  # but are fine when proxied with nginx.
+  - file: interactivetool_rstudio.xml
+    section_name: Interactive Tools
+
 
 # galaxy_config hash moved to group_vars/all/galaxy_config_vars.yml
 

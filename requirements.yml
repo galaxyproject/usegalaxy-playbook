@@ -3,7 +3,10 @@ roles:
   - name: galaxyproject.postgresql
     version: 1.1.0
   - name: galaxyproject.galaxy
-    version: 0.10.21
+    src: https://github.com/galaxyproject/ansible-galaxy
+    version: local-tools-sections
+    # update after merge of https://github.com/galaxyproject/ansible-galaxy/pull/206
+    #version: 0.10.21
   - name: galaxyproject.galaxy_toolshed
     version: 0.2.3
   - name: usegalaxy_eu.certbot
