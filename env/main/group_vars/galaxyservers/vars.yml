@@ -255,6 +255,9 @@ galaxy_pgcleanup_actions:
   - delete_datasets
   - purge_datasets
 galaxy_pgcleanup_days: 30
+galaxy_pgcleanup_old_hdas:
+  - object_store_id: corral4-scratch
+    days: 30
 
 ## used by: usegalaxy_admin
 galaxy_log_archive_dir: /corral4/{{ galaxy_instance_codename }}/backup/log
