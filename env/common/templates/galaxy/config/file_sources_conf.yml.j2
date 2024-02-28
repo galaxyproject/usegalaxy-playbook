@@ -68,6 +68,26 @@
   anon: true
 
 - type: s3fs
+  label: Paratus raw data
+  requires_groups: Paratus
+  id: paretus_raw
+  doc: Access to Paratus data on AWS.
+  bucket: paratus-collab/VGL/raw_data
+  writable: true
+  secret: "{{ paratus_aws_secret_access_key }}"
+  key: "{{ paratus_aws_access_key_id }}"
+
+- type: s3fs
+  label: Paratus draft assemblies
+  requires_groups: Paratus
+  id: paretus_draft
+  doc: Access to Paratus data on AWS.
+  bucket: paratus-collab/VGL/draft_assemblies
+  writable: true
+  secret: "{{ paratus_aws_secret_access_key }}"
+  key: "{{ paratus_aws_access_key_id }}"
+
+- type: s3fs
   label: Genome Ark EXPORT HERE
   requires_groups: GenomeArkExport
   id: genomeark_galaxy
