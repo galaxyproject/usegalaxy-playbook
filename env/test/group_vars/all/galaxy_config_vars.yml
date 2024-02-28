@@ -171,6 +171,8 @@ base_app_main: &BASE_APP_MAIN
         store_by: uuid
         allow_selection: true
         private: true
+        quota:
+          source: scratch
         name: "Short Term Storage at TACC"
         description: Data in Short Term Storage is regularly removed, but is afforded a much larger quota than Long Term Storage.
         files_dir: "/corral4/test/files-test"
