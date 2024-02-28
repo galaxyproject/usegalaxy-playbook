@@ -36,8 +36,6 @@
         galaxy_config_templates:
           - src: templates/galaxy/config/job_conf.yml.j2
             dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/job_conf.yml"
-          - src: templates/galaxy/config/object_store_conf.xml.j2
-            dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/object_store_conf.xml"
           - src: templates/galaxy/config/file_sources_conf.yml.j2
             dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/file_sources_conf.yml"
         galaxy_backup_configfiles: false
