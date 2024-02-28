@@ -98,7 +98,6 @@ base_app_main: &BASE_APP_MAIN
     - "/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml"
   build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
   #datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
-  object_store_config_file: "{{ galaxy_config_dir }}/object_store_conf.xml"
   job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
   workflow_schedulers_config_file: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
   trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
@@ -117,6 +116,74 @@ base_app_main: &BASE_APP_MAIN
 
   user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences.yml"
   container_image_cache_path: "{{ galaxy_mutable_data_dir }}/container_images"
+
+  object_store_config:
+    type: distributed
+    search_for_missing: false
+    backends:
+      - id: corral4
+        type: disk
+        weight: 1
+        store_by: uuid
+        allow_selection: true
+        private: false
+        name: "Long Term Storage at TACC"
+        description: Data in Long Term Storage is not removed automatically, although it may be archived after a period of inactivity.
+        files_dir: "/corral4/main/objects"
+        badges:
+          - type: not_backed_up
+        extra_dirs:
+          - type: job_work
+            path: /corral4/main/jobs
+      - id: corral4-scratch
+        type: disk
+        weight: 0
+        store_by: uuid
+        allow_selection: true
+        private: true
+        name: "Short Term Storage at TACC"
+        description: Data in Short Term Storage is regularly removed, but is afforded a much larger quota than Long Term Storage.
+        files_dir: /corral4/main/objects
+        badges:
+          - type: not_backed_up
+          - type: short_term
+            message: "Data stored here is removed after 30 days of inactivity"
+        extra_dirs:
+          - type: job_work
+            path: /corral4/main/jobs
+      - id: corral-repl
+        type: disk
+        weight: 0
+        store_by: id
+        files_dir: /corral4/main/files
+      - id: corral-repl-psu
+        type: disk
+        weight: 0
+        store_by: id
+        files_dir: /corral4/main/psufiles
+      - id: minio-idc
+        type: swift
+        weight: 0
+        store_by: uuid
+        auth:
+          access_key: "{{ galaxy_minio_idc_access_key }}"
+          secret_key: "{{ galaxy_minio_idc_secret_key }}"
+        bucket:
+          name: idc
+          use_reduced_redundancy: false
+          max_chunk_size: 250
+        connection:
+          host: "galaxy-db-02"
+          port: 9001
+          is_secure: false
+          conn_path: ""
+          multipart: true
+        cache:
+          path: "{{ galaxy_object_store_cache_path }}"
+          size: 1000000
+        extra_dirs:
+          - type: job_work
+            path: /corral4/main/jobs
 
   # disabled because potentially eating memory and didn't work for the message box anyway
   #watch_config: true
