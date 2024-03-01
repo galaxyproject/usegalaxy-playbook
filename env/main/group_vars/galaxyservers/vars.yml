@@ -168,6 +168,8 @@ galaxy_job_conf_tools:
     handler: k8s
   - id: interactive_tool_pavian
     handler: k8s
+  - id: interactive_tool_qiskit_jupyter_notebook
+    handler: k8s
 
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
@@ -269,6 +271,9 @@ galaxy_local_tools:
   # files sent by rserver stop sending prematurely and never complete on the client side, only when sent over tailscale,
   # but are fine when proxied with nginx.
   - file: interactivetool_rstudio.xml
+    section_name: Interactive Tools
+  # TODO: remove after 24.0 since it was merged
+  - file: interactivetool_qiskit_jupyter_notebook.xml
     section_name: Interactive Tools
 
 
