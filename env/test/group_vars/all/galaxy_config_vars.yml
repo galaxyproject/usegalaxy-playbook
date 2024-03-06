@@ -153,6 +153,7 @@ base_app_main: &BASE_APP_MAIN
     backends:
       - id: corral-test
         type: disk
+        device: corral4
         weight: 1
         store_by: uuid
         allow_selection: true
@@ -167,6 +168,7 @@ base_app_main: &BASE_APP_MAIN
             path: /corral4/test/jobs
       - id: corral-scratch
         type: disk
+        device: corral4
         weight: 0
         store_by: uuid
         allow_selection: true
