@@ -10,9 +10,7 @@ tiaas_database_password: "{{ vault_tiaas_database_password }}"
 galaxy_virtualenv_command: "/cvmfs/main.galaxyproject.org/deps/_conda/envs/__python@3.11/bin/python3 -m venv"
 galaxy_repo: https://github.com/{{ galaxy_repo_owner }}/galaxy.git
 galaxy_repo_owner: galaxyproject
-#galaxy_commit_id: release_23.2
-# drop for 24.0, this is to get tus job_files support
-galaxy_commit_id: usegalaxy
+galaxy_commit_id: release_24.0
 
 galaxy_force_checkout: true
 galaxy_user: g2main
