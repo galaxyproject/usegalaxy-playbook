@@ -1,10 +1,13 @@
 ---
 
-galaxy_job_conf_pulsar_galaxy_url: https://galaxy-web-04.galaxyproject.org
+galaxy_job_conf_pulsar_galaxy_url: https://vgp.usegalaxy.org
 
 galaxy_host_codename: main_vgp
 galaxy_systemd_mode: null
 galaxy_gravity_config_default: null
+
+galaxy_tus_upload_store: /corral4/main/_upload_vgp
+galaxy_tus_upload_store_job_files: /corral4/main/_upload_job_files_vgp
 
 gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
 gravity_virtualenv_command: /usr/bin/python3.9 -m venv
@@ -20,15 +23,30 @@ gravity_config:
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
-    enable: true
+    - bind: localhost:8080
+      workers: 1
+      timeout: 600
+      restart_timeout: 600
+      preload: true
+    - bind: localhost:8081
+      workers: 1
+      timeout: 600
+      restart_timeout: 600
+      preload: true
   celery:
     enable: false
     enable_beat: false
   tusd:
-    enable: true
-    tusd_path: /usr/local/sbin/tusd
-    upload_dir: "{{ galaxy_tus_upload_store }}"
-    memory_limit: 2
+    - enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ galaxy_tus_upload_store }}"
+      memory_limit: 2
+    - enable: true
+      tusd_path: /usr/local/sbin/tusd
+      upload_dir: "{{ galaxy_tus_upload_store_job_files }}"
+      port: 1081
+      hooks_http: /api/job_files/tus_hooks
+      memory_limit: 2
   handlers:
     main_vgp_handler:
       name_template: "{name}{process}"

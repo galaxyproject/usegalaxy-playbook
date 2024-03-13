@@ -102,10 +102,10 @@ destinations:
       singularity_no_mount: null
       remote_metadata: false
       transport: curl
-      default_file_action: remote_transfer
+      default_file_action: remote_transfer_tus
       dependency_resolution: local
       rewrite_parameters: true
-      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
+      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs-vgp
     env:
     - execute: ulimit -c 0
     # SINGULARITYENV_TMP=$TMP and SINGULARITYENV_TMPDIR=$TMPDIR are set on the singularity command line

@@ -1,14 +1,8 @@
 ---
-#
-# WARNING: this is shared by both Test and Main
-#
 
 _jetstream_scratch_root: "/jetstream2/scratch/{{ galaxy_instance_codename }}"
 _jetstream_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
 
-# TEMP until release of >0.15.5
-#pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@103e5d49635f665e68668af6867a4b170645b31d#egg=pulsar-app"
-#pulsar_package_version: "{{ omit }}"
 pulsar_package_version: "0.15.6"
 pulsar_root: "/srv/pulsar/{{ galaxy_instance_codename }}"
 #galaxy_root: not required
@@ -20,7 +14,7 @@ galaxy_server_dir: "{{ _jetstream_galaxy_root }}"
 #pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
 _pulsar_dependencies_dir: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps"
 pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
-pulsar_staging_dir: "{{ _jetstream_scratch_root }}/jobs"
+pulsar_staging_dir: "{{ _jetstream_scratch_root }}/jobs-vgp"
 
 pulsar_separate_privileges: true
 #galaxy_user: properly set in all.yml
@@ -52,10 +46,8 @@ pulsar_yaml_config:
   staging_directory: "{{ pulsar_staging_dir }}"
   persistence_directory: "{{ pulsar_persistence_dir }}"
   tool_dependency_dir: "{{ _pulsar_dependencies_dir }}"
-  #job_metrics_config_file: "{{ pulsar_config_dir }}/job_metrics_conf.xml"
   message_queue_url: "{{ pulsar_message_queue_url }}"
   sentry_dsn: "{{ pulsar_sentry_dsn }}"
-  #ependency_resolvers_config_file: "{{ pulsar_config_dir }}/dependency_resolvers_conf.xml"
   maximum_stream_size: 8388608  # 8 MB
   amqp_acknowledge: True
   amqp_ack_republish_time: 180
@@ -66,16 +58,9 @@ pulsar_yaml_config:
   amqp_publish_retry_interval_max: 60
   dependency_resolution:
     resolvers:
-      #- type: conda
-      #  prefix: "{{ _pulsar_dependencies_dir }}/_conda"
-      #- type: conda
-      #  prefix: "{{ _jetstream_scratch_root }}/conda"
-      #  auto_init: true
-      #  auto_install: true
-      #- type: tool_shed_packages
       - type: galaxy_packages
   managers:
-    jetstream2:
+    vgp_jetstream2:
       type: queued_drmaa
       preprocess_action_max_retries: 10
       preprocess_action_interval_start: 2
