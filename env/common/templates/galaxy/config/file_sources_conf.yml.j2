@@ -157,6 +157,17 @@
   anon: true
   listings_expiry_time: 60
 
+- type: s3fs
+  label: Element Biosciences
+  requires_groups: ElementBio
+  id: elembio-macro-galaxy
+  doc: Access to Element Biosciences data on AWS.
+  bucket: elembio-macro-galaxy
+  writable: false
+  secret: "{{ elementbio_aws_secret_access_key }}"
+  key: "{{ elementbio_aws_access_key_id }}"
+  listings_expiry_time: 60
+
 - type: posix
   id: gxy-archiver
   label: GalaxyArchiver
