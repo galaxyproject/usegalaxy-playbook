@@ -128,8 +128,8 @@ base_app_main: &BASE_APP_MAIN
         store_by: uuid
         allow_selection: true
         private: false
-        name: "Permanent Storage"
-        description: Data in Permanent Storage is not removed automatically, although it may be archived after a period of inactivity and unarchived later.
+        name: "Permanent Storage at TACC"
+        description: Data in Permanent Storage is not removed automatically, although it may be archived after a period of inactivity and unarchived later. Storage is provided by Texas Advanced Computing Center.
         files_dir: "/corral4/main/objects"
         badges:
           - type: not_backed_up
@@ -145,8 +145,8 @@ base_app_main: &BASE_APP_MAIN
         private: false
         quota:
           source: scratch
-        name: "30-day Storage"
-        description: Data in 30-day Storage is removed after 30 days, but is afforded a much larger quota than Permanent Storage.
+        name: "30-day Storage at TACC"
+        description: Data in 30-day Storage is removed after 30 days, but is afforded a much larger quota than Permanent Storage. Storage is provided by Texas Advanced Computing Center.
         files_dir: /corral4/main/objects
         badges:
           - type: not_backed_up
