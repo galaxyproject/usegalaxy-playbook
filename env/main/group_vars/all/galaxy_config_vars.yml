@@ -128,8 +128,8 @@ base_app_main: &BASE_APP_MAIN
         store_by: uuid
         allow_selection: true
         private: false
-        name: "Long Term Storage at TACC"
-        description: Data in Long Term Storage is not removed automatically, although it may be archived after a period of inactivity.
+        name: "Permanent Storage"
+        description: Data in Permanent Storage is not removed automatically, although it may be archived after a period of inactivity and unarchived later.
         files_dir: "/corral4/main/objects"
         badges:
           - type: not_backed_up
@@ -145,8 +145,8 @@ base_app_main: &BASE_APP_MAIN
         private: false
         quota:
           source: scratch
-        name: "Short Term Storage at TACC"
-        description: Data in Short Term Storage is regularly removed, but is afforded a much larger quota than Long Term Storage.
+        name: "30-day Storage"
+        description: Data in 30-day Storage is removed after 30 days, but is afforded a much larger quota than Permanent Storage.
         files_dir: /corral4/main/objects
         badges:
           - type: not_backed_up
