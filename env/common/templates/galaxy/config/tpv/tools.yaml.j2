@@ -211,7 +211,9 @@ tools:
       reject:
       - pulsar
 
-  wig_to_bigWig:
+
+  _wigtobigwig:
+    abstract: true
     # supposedly 1.5x for  wig, 1.25x for bedgraph: https://genome.ucsc.edu/goldenPath/help/bigWig.html
     # but that doesn't explain <1GB inputs taking >20GB of mem. ultimately, the 99th percentile runtime of this tool is
     # 8 minutes, so it's not going to hurt that much to overallocate
@@ -222,7 +224,9 @@ tools:
     scheduling:
       accept:
       - training-exempt
-  CONVERTER_wig_to_bigwig: {inherits: wig_to_bigWig}
+  .*to_bigwig.*: {inherits: _wigtobigwig}
+  wig_to_bigWig: {inherits: _wigtobigwig}
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_wigtobigwig/ucsc_wigtobigwig/.*: {inherits: _wigtobigwig}
 
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 14
