@@ -64,6 +64,10 @@ server {
         alias /;
         add_header X-Frame-Options SAMEORIGIN;
         add_header X-Content-Type-Options nosniff;
+
+        # Add upstream response headers that would otherwise be omitted
+        add_header Access-Control-Allow-Origin $upstream_http_access_control_allow_origin;
+        add_header Access-Control-Allow-Methods $upstream_http_access_control_allow_methods;
     }
 
     location /corral4/main/objects {
