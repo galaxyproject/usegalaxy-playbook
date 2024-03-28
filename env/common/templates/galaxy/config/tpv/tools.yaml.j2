@@ -7,6 +7,8 @@
 # - m3.medium: 8c, 28.0G (29900M = 29.20G)
 # - m3.large: 16c, 58.0G (60100M = 58.69G)
 # - m3.xl: 32c, 120G (125000M = 122.07G)
+# - r3.large: 64c, 500G (502000M = 490.23G)
+# - r3.xl: 128c, 1T (1004000M = 980.47G)
 
 # 7.0G is also ok - can't fit nicely on the two smallest JS2 instances, but takes up 2 "slots" on everything else, and 1
 # on roundup.
@@ -803,20 +805,32 @@ tools:
     # TODO: reject over a certain input size, what is that input size?
 
   toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
-    cores: 60
-    mem: 244
+    cores: 32
+    mem: 148
     scheduling:
       accept:
       - training-large
     rules:
-    - id: spades_small_input_rule
+    - id: spades_xsmall_input_rule
       if: input_size < 0.005
       cores: 2
       mem: 5.6
-    - id: spades_medium_input_rule
+    - id: spades_small_input_rule
       if: 0.005 <= input_size < 2
+      cores: 6
+      mem: 19
+    - id: spades_medium_input_rule
+      if: 2 <= input_size < 4
       cores: 8
       mem: 28
+    - id: spades_large_input_rule
+      if: 4 <= input_size < 8
+      cores: 16
+      mem: 86
+    - id: spades_xlarge_input_rule
+      if: 8 <= input_size < 12
+      cores: 24
+      mem: 116
     - id: spades_fail_rule
       if: input_size >= 25
       fail: "Too much data for this public service, please input fewer reads. Example method: SeqTk subsample"
