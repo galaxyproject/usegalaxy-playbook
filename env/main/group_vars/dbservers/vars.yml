@@ -1,57 +1,6 @@
 ---
 
-postgresql_version: 12
-postgresql_create_backup_dir: false
-postgresql_backup_dir: /corral4/backup/pgsql/{{ inventory_hostname }}
-
-postgresql_archive_wal_rsync_args: '--ignore-existing -pt --chown=postgres:G-803372 --info=skip1'
-postgresql_backup_rsync_backup_opts: '-rpt --chown=postgres:G-803372'
-postgresql_backup_hour: 7
-# sg is necessary because rsync copies with the default group and then performs a chown, which doesn't work for the way
-# quotas are calculated on Corral 4.
-postgresql_backup_command: >-
-  /usr/bin/sg G-803372 -c
-  "{{ postgresql_backup_local_dir | quote }}/bin/backup.py
-  {{ '--rsync-connect-opts ' ~ (postgresql_backup_rsync_connect_opts | quote) if postgresql_backup_rsync_connect_opts else '' }}
-  --rsync-backup-opts {{ postgresql_backup_rsync_backup_opts | quote }}
-  --keep {{ postgresql_backup_keep | quote }}
-  {{ '--pg-bin-dir ' ~ __postgresql_pgdg_bin_dir if ansible_os_family == 'RedHat' else '' }}
-  --backup --clean-archive {{ postgresql_backup_dir | quote }}"
-
-postgresql_conf:
-  listen_addresses: "'*'"
-  temp_buffers: 64MB
-  max_prepared_transactions: 100
-  log_checkpoints: "on"
-
-  # DB Version: 12
-  # # OS Type: linux
-  # # DB Type: mixed
-  # # Total Memory (RAM): 16 GB
-  # # CPUs num: 8
-  # # Connections num: 500
-  # # Data Storage: hdd
-  max_connections: 500
-  shared_buffers: 4GB
-  #shared_buffers: 8GB  # decreasing in hopes of preventing oom kills
-  effective_cache_size: 12GB
-  maintenance_work_mem: 1GB  # was: 64MB
-  checkpoint_completion_target: 0.9
-  wal_buffers: 16MB
-  default_statistics_target: 100
-  random_page_cost: 4
-  effective_io_concurrency: 2
-  #work_mem: 32MB  # was: 64MB, pgtune recommended 1048kB
-  work_mem: 64MB  # was: 64MB, pgtune recommended 1048kB
-  min_wal_size: 1GB
-  max_wal_size: 4GB
-  max_worker_processes: 8
-  max_parallel_workers_per_gather: 4
-  max_parallel_workers: 8
-  max_parallel_maintenance_workers: 4
-
 # variables in vault.yml
-postgresql_pg_hba_conf: "{{ vault_postgresql_pg_hba_conf }}"
 postgresql_objects_users: "{{ vault_postgresql_objects_users }}"
 postgresql_objects_groups: "{{ vault_postgresql_objects_groups }}"
 postgresql_objects_databases: "{{ vault_postgresql_objects_databases }}"
