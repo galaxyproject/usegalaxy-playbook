@@ -38,7 +38,7 @@
   become: yes
   become_user: postgres
   roles:
-    - natefoo.postgresql_objects
+    - galaxyproject.postgresql_objects
   tags: postgres
 
 # Done before nginx is installed because it will fail to start in the next play if the module doesn't exist
