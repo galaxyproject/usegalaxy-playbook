@@ -69,6 +69,13 @@ tools:
         value: $GALAXY_VIRTUAL_ENV/bin
       - name: SINGULARITYENV_PYTHONPATH
         value: $GALAXY_LIB
+    - id: training_tag
+      if: |
+        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags])
+      context:
+        roundup_small_partition: priority
+        roundup_large_partition: priority
+        js2_partition: priority
     - id: log
       if: true
       execute: log.debug(f"#### {tool.id=}, {tool.tool_type=}, {tool.requires_galaxy_python_environment=}")
