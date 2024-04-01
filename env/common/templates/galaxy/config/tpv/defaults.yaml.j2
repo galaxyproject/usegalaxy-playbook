@@ -69,13 +69,57 @@ tools:
         value: $GALAXY_VIRTUAL_ENV/bin
       - name: SINGULARITYENV_PYTHONPATH
         value: $GALAXY_LIB
-    - id: training_tag
+    # NOTE: changes to training rules need to be reflected in roles
+    - id: training_tag_small_rule
       if: |
-        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags])
+        include_tags = []
+        exclude_tags = ['training-exempt']
+        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
       context:
+        time: "04:00:00"
         roundup_small_partition: priority
         roundup_large_partition: priority
         js2_partition: priority
+      max_cores: 2
+      max_mem: max_cores * 3.5
+      scheduling:
+        require:
+        - training
+        reject:
+        - hpc
+    - id: training_tag_large_rule
+      if: |
+        include_tags = ['training-large']
+        exclude_tags = ['training-exempt']
+        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
+      context:
+        time: "04:00:00"
+        roundup_small_partition: priority
+        roundup_large_partition: priority
+        js2_partition: priority
+      max_cores: 8
+      max_mem: max_cores * 3.5
+      scheduling:
+        require:
+        - training
+        reject:
+        - hpc
+    - id: training_tag_unclamped_rule
+      if: |
+        include_tags = ['training-exempt']
+        exclude_tags = []
+        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
+      context:
+        time: "04:00:00"
+        roundup_small_partition: priority
+        roundup_large_partition: priority
+        js2_partition: priority
+      max_cores: 16
+      scheduling:
+        require:
+        - training
+        reject:
+        - hpc
     - id: log
       if: true
       execute: log.debug(f"#### {tool.id=}, {tool.tool_type=}, {tool.requires_galaxy_python_environment=}")
