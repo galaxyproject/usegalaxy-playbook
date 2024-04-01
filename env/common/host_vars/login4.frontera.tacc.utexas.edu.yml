@@ -44,9 +44,9 @@ miniconda_channels:
   - conda-forge
   - defaults
 miniconda_conda_environments:
-  __python@3.9:
+  __python@3.11:
     packages:
-      - python=3.9
+      - python=3.11
 
 supervisord_install: virtualenv-unprivileged
 supervisord_prefix: "{{ _frontera_work_root }}/supervisor"
@@ -65,7 +65,7 @@ pulsar_staging_dir: "{{ _frontera_scratch_root }}/{{ galaxy_instance_codename }}
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
-pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.9/bin/python3 -m venv"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.11/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: nss
