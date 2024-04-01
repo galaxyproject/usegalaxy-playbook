@@ -462,13 +462,24 @@ tools:
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
 
-  # TODO: sort stuff below here
+  # GPU tools
+
+  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
+    gpus: 0.2
+    cores: 4
+    mem: 14
+    scheduling:
+      require:
+      - gpu
+      - pulsar
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
     cores: 12
     # mem uses --mem-per-cpu=4G so this isn't actually used, we just set it for min_accepted_mem
     mem: 48
+    #cores: 16
+    #mem: 120
     params:
       require_container: true
       container_override:
@@ -476,6 +487,7 @@ tools:
           shell: /bin/bash
           resolve_dependencies: false
           identifier: /scratch4/mschatz1/ndc/alphafold_sandbox
+          #identifier: /scratch1/02232/ndc/singularity/alphafold-2.3.1
     env:
     - name: SINGULARITYENV_ALPHAFOLD_AA_LENGTH_MIN
       value: "16"
@@ -490,6 +502,7 @@ tools:
       scheduling:
         require:
         - rockfish-gpu
+        #- frontera-rtx
     - id: alphafold_deny_rule
       if: |
         not user or not any([
@@ -497,7 +510,70 @@ tools:
             role.name in ['AlphaFold'] and not role.deleted
         )])
       fail: |
-        This tool is currently being beta-tested on GPUs and your account has not been given access.
+        This tool is currently being beta-tested and your account has not been given access.
+
+  toolshed.g2.bx.psu.edu/repos/iuc/colabfold_msa/colabfold_msa/.*:
+    params:
+      require_container: true
+      container_override:
+        - type: singularity
+          shell: /bin/bash
+          resolve_dependencies: false
+          identifier: /corral4/ndc/singularity/colabfold-1.5.5-cuda12.2.2
+    scheduling:
+      require:
+      - roundup
+    rules:
+    - id: alphafold_deny_rule
+      if: |
+        not user or not any([
+          role for role in user.all_roles() if (
+            role.name in ['AlphaFold'] and not role.deleted
+        )])
+      fail: |
+        This tool is currently being beta-tested and your account has not been given access.
+
+  toolshed.g2.bx.psu.edu/repos/iuc/colabfold_alphafold/colabfold_alphafold/.*:
+    gpus: 1
+    #cores: 12
+    ## mem uses --mem-per-cpu=4G so this isn't actually used, we just set it for min_accepted_mem
+    #mem: 48
+    cores: 16
+    mem: 120
+    params:
+      require_container: true
+      container_override:
+        - type: singularity
+          shell: /bin/bash
+          resolve_dependencies: false
+          #identifier: /scratch4/nekrut/ndc/colabfold-1.5.5-cuda12.2.2
+          identifier: /scratch1/02232/ndc/singularity/colabfold-1.5.5-cuda12.2.2
+    env:
+    #- name: SINGULARITYENV_ALPHAFOLD_DB
+    #  value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3
+    #- name: APPTAINER_BINDPATH
+    #- name: APPTAINER_BINDPATH
+    - name: SINGULARITY_BINDPATH
+      value: $_GALAXY_JOB_TMP_DIR:/cache:rw
+      #value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3:/cache/colabfold:ro
+    rules:
+    - id: alphafold_allow_rule
+      if: |
+        user and 'AlphaFold' in [role.name for role in user.all_roles() if not role.deleted]
+      scheduling:
+        require:
+        #- rockfish-gpu
+        - frontera-rtx
+    - id: alphafold_deny_rule
+      if: |
+        not user or not any([
+          role for role in user.all_roles() if (
+            role.name in ['AlphaFold'] and not role.deleted
+        )])
+      fail: |
+        This tool is currently being beta-tested and your account has not been given access.
+
+  # TODO: sort stuff below here
 
   # https://github.com/bioconda/bioconda-recipes/pull/41091
   #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
@@ -534,15 +610,6 @@ tools:
       if: 0.001 <= input_size < 5
       cores: 16
       mem: 58
-
-  toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
-    gpus: 0.2
-    cores: 4
-    mem: 14
-    scheduling:
-      require:
-      - gpu
-      - pulsar
 
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
     # TODO: shared db uses 10/250, but our min for HPC is 16
@@ -915,54 +982,6 @@ tools:
   verkko:
     cores: 32
     mem: 120
-
-  colabfold_msa:
-    params:
-      require_container: true
-      container_override:
-        - type: singularity
-          shell: /bin/bash
-          resolve_dependencies: false
-          identifier: /corral4/ndc/singularity/colabfold-1.5.5-cuda12.2.2
-    scheduling:
-      require:
-      - roundup
-
-  colabfold_alphafold:
-    gpus: 1
-    cores: 12
-    # mem uses --mem-per-cpu=4G so this isn't actually used, we just set it for min_accepted_mem
-    mem: 48
-    params:
-      require_container: true
-      container_override:
-        - type: singularity
-          shell: /bin/bash
-          resolve_dependencies: false
-          identifier: /scratch4/nekrut/ndc/colabfold-1.5.5-cuda12.2.2
-    env:
-    #- name: SINGULARITYENV_ALPHAFOLD_DB
-    #  value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3
-    #- name: APPTAINER_BINDPATH
-    #- name: APPTAINER_BINDPATH
-    - name: SINGULARITY_BINDPATH
-      value: $_GALAXY_JOB_TMP_DIR:/cache:rw
-      #value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3:/cache/colabfold:ro
-    rules:
-    - id: alphafold_allow_rule
-      if: |
-        user and 'AlphaFold' in [role.name for role in user.all_roles() if not role.deleted]
-      scheduling:
-        require:
-        - rockfish-gpu
-    - id: alphafold_deny_rule
-      if: |
-        not user or not any([
-          role for role in user.all_roles() if (
-            role.name in ['AlphaFold'] and not role.deleted
-        )])
-      fail: |
-        This tool is currently being beta-tested on GPUs and your account has not been given access.
 
   # legacy conda-in-singularity non-pulsar tools
 

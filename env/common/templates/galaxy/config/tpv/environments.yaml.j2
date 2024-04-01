@@ -631,6 +631,59 @@ destinations:
       reject:
       - offline
 
+  frontera_rtx:
+    runner: frontera
+    min_accepted_cores: 1
+    min_accepted_mem: 2
+    max_accepted_cores: 16
+    max_accepted_mem: 120
+    context:
+      time: 24:00:00
+      account: BIR23002
+      partition: rtx
+    params:
+      submit_native_specification: "--account={account} --nodes=1 --ntasks={cores} --time={time} --partition={partition}"
+      singularity_run_extra_arguments: --nv
+      # _tacc_hpc params
+      outputs_to_working_directory: false
+      remote_metadata: false
+      transport: curl
+      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
+      dependency_resolution: local
+      rewrite_parameters: true
+      jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      singularity_enabled: true
+      # the tacc-apptainer module automatically sets up mounts
+      singularity_volumes: null
+      singularity_no_mount: null
+      container_resolvers:
+      - type: explicit_singularity
+      - type: mulled_singularity
+      require_container: true
+    scheduling:
+      accept:
+      - cvmfs
+      - singularity
+      require:
+      - frontera-rtx
+      - pulsar
+    env:
+    - file: /etc/profile.d/z01_lmod.sh
+    - execute: module load tacc-apptainer
+    - name: GALAXY_SLOTS
+      value: "$SLURM_NTASKS"
+    - execute: ulimit -c 0
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+
   stampede2_skx:
     inherits: _stampede2
     runner: stampede
