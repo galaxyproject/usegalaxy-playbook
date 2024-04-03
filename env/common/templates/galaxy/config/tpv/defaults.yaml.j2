@@ -120,8 +120,9 @@ tools:
         - training
         reject:
         - hpc
-    - id: log
-      if: true
-      execute: log.debug(f"#### {tool.id=}, {tool.tool_type=}, {tool.requires_galaxy_python_environment=}")
+    # logs for every loop iteration for every concurrency limited job
+    #- id: log
+    #  if: true
+    #  execute: log.debug(f"#### {tool.id=}, {tool.tool_type=}, {tool.requires_galaxy_python_environment=}")
     rank: |
       {{ tpv_python_blobs['rank'] | indent(width=6) }}
