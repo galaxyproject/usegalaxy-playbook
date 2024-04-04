@@ -256,8 +256,36 @@ tools:
 
   # TODO: rule to set mem based on database size, see job router
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
-    cores: 40
-    mem: 120
+    cores: 16
+    # TODO: make a helper
+    mem: |
+      import os
+      mem = 64
+      table_name = "kraken2_databases"
+      lookup_column = "value"
+      value_column = "path"
+      value_template = "{value}/hash.k2d"
+      options = job.get_param_values(app)
+      lookup_value = options["kraken2_database"]
+      table_value = app.tool_data_tables.get(table_name).get_entry(lookup_column, lookup_value, value_column)
+      if table_value is not None:
+          table_value = value_template.format(value=table_value)
+          try:
+              mem = os.path.getsize(table_value)/1024**3
+              log.debug("Data table '%s' lookup '%s=%s: %s=%s': %s GB",
+                        table_name, lookup_column, lookup_value, value_column, table_value, mem)
+          except OSError:
+              log.exception("Failed to get size of: %s", table_value)
+      else:
+          log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
+                      table_name, lookup_column, lookup_value, value_column, mem)
+      max(mem + 8, 14)
+    scheduling:
+      accept:
+      - training-exempt
+      require:
+      - cvmfs
+
 
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 90

@@ -827,10 +827,7 @@ tools:
       - cvmfs
 
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
-    #cores: 40
     cores: 16
-    #mem: 140
-    # TODO: make a helper
     mem: |
       import os
       mem = 64
@@ -852,7 +849,7 @@ tools:
       else:
           log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
                       table_name, lookup_column, lookup_value, value_column, mem)
-      max(mem + 2, 14)
+      max(mem + 8, 14)
     scheduling:
       accept:
       - training-exempt
