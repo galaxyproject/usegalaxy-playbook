@@ -488,9 +488,9 @@ destinations:
       - expanse
       require:
       - pulsar
-      # TODO: why is it not really processing jobs?
-      #reject:
-      #- offline
+      # mostly exhausted for 2023-2024, holding back a bit
+      reject:
+      - offline
 
   rockfish:
     runner: rockfish
