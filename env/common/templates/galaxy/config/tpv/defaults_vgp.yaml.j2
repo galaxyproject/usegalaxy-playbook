@@ -12,8 +12,8 @@ tools:
       js2_partition: tpv
       time: "12:00:00"
     env:
-      - name: _JAVA_OPTIONS
-        value: $_JAVA_OPTIONS -Xmx{round(mem*0.9*1024)}m -Xms256m
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m
     scheduling:
       accept:
       - pulsar

@@ -17,8 +17,6 @@ destinations:
       metadata_strategy: extended
     env:
     - execute: ulimit -c 0
-    - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$TEMP
     - name: XDG_DATA_HOME
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
     - name: TERM
@@ -115,8 +113,6 @@ destinations:
       value: $_GALAXY_JOB_TMP_DIR
     - name: TMPDIR
       value: $_GALAXY_JOB_TMP_DIR
-    - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR
     - name: XDG_DATA_HOME
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
     - name: TERM
@@ -206,8 +202,6 @@ destinations:
     - name: GALAXY_MEMORY_MB
       value: "{int(mem*1024)}"
     - execute: ulimit -c 0
-    - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$TEMP
     - name: TERM
       value: vt100
     - name: LC_ALL
