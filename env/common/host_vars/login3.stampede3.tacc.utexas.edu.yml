@@ -7,7 +7,7 @@
 #   - slurm-drmaa installed by hand
 
 _stampede_home_root: "/home1/03166/xcgalaxy"
-_stampede_work_root: "/work2/03166/xcgalaxy/stampede2"
+_stampede_work_root: "/work2/03166/xcgalaxy/stampede3"
 _stampede_scratch_root: "/scratch/03166/xcgalaxy"
 _stampede_instance_root: "{{ _stampede_work_root }}/{{ galaxy_instance_codename }}"
 
@@ -44,9 +44,9 @@ miniconda_channels:
   - conda-forge
   - defaults
 miniconda_conda_environments:
-  __python@3.9:
+  __python@3.11:
     packages:
-      - python=3.9
+      - python=3.11
 
 supervisord_install: virtualenv-unprivileged
 supervisord_prefix: "{{ _stampede_work_root }}/supervisor"
@@ -65,7 +65,7 @@ pulsar_staging_dir: "{{ _stampede_scratch_root }}/{{ galaxy_instance_codename }}
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
-pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.9/bin/python3 -m venv"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.11/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: nss
@@ -99,7 +99,7 @@ pulsar_yaml_config:
         auto_init: false
         auto_install: false
   managers:
-    stampede:
+    stampede3:
       type: queued_drmaa
       preprocess_action_max_retries: 10
       preprocess_action_interval_start: 2

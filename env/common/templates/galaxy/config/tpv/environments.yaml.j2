@@ -68,7 +68,7 @@ destinations:
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
 
-  _stampede2:
+  _stampede3:
     inherits: _tacc_hpc
     abstract: true
     params:
@@ -77,19 +77,11 @@ destinations:
     {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
     - name: SCRATCH
       value: /scratch/03166/xcgalaxy
-    {# mount is in /work2 so the mountpoint (which will appear untouched/empty to tacc cleanup scripts) won't be removed, but also needs to be automatically mounted into singularity containers (which /run is not) -#}
     - name: WORK2
-      value: /work2/03166/xcgalaxy/stampede2
+      value: /work2/03166/xcgalaxy/stampede3
     - name: CVMFSEXEC_PATH
       value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
     - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
-    #- name: CVMFS_MOUNT_ROOT
-    #  value: $WORK2/cvmfs
-    #- name: CVMFS_ALIEN_CACHE
-    #  value: $SCRATCH/cvmfs
-    #- name: CVMFS_BINARY
-    #  value: $HOME/cvmfs/bin/cvmfs2.wrap
-    #- execute: /bin/bash /home1/03166/xcgalaxy/bin/mount_cvmfs data.galaxyproject.org
     {# FIXME: why is this not set by module load tacc-apptainer? -#}
     - name: APPTAINER_CACHEDIR
       value: /work2/03166/xcgalaxy/apptainer_cache
@@ -684,59 +676,61 @@ destinations:
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
 
-  stampede2_skx:
-    inherits: _stampede2
-    runner: stampede
+  stampede3_skx:
+    inherits: _stampede3
+    runner: stampede3
     min_accepted_cores: 16
-    min_accepted_mem: 96
-    max_accepted_cores: 96
+    min_accepted_mem: 64
+    max_accepted_cores: 64
     max_accepted_mem: 190
+    max_cores: 48
+    max_mem: 184
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=skx-normal"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=skx"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_MEMORY_MB
-      value: "190000"
+      value: "188000"
     scheduling:
       accept:
-      - stampede2
+      - stampede3
       - hpc
       - cvmfs
       - singularity
       # for TPV shared DB
       - docker
       prefer:
-      - stampede2-skx
+      - stampede3-skx
       require:
       - pulsar
-      reject:
-      - offline
+      #reject:
+      #- offline
 
-  stampede2_icx:
-    inherits: _stampede2
-    runner: stampede
+  stampede3_icx:
+    inherits: _stampede3
+    runner: stampede3
     min_accepted_cores: 32
     min_accepted_mem: 128
     max_accepted_cores: 256
     max_accepted_mem: 4096
-    max_cores: 160
-    max_mem: 250
+    max_cores: 80
+    max_mem: 248
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=icx-normal"
+      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=icx"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_MEMORY_MB
-      value: "254000"
+      value: "248000"
     scheduling:
       accept:
-      - stampede2
+      - stampede3
       - hpc
       - cvmfs
       - singularity
       # for TPV shared DB
       - docker
       prefer:
-      - stampede2-icx
+      - stampede3-icx
       require:
       - pulsar
       reject:
