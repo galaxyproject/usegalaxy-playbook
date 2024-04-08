@@ -246,3 +246,82 @@ destinations:
       - bridges2
       require:
       - pulsar
+      reject:
+      - offline
+
+  bridges2_em:
+    runner: bridges2
+    min_accepted_cores: 24
+    min_accepted_mem: 1024
+    max_accepted_cores: 96
+    max_accepted_mem: 4096
+    context:
+      time: 47:00:00
+    params:
+      submit_native_specification: "--partition=EM --time={time} --nodes=1 --ntasks-per-node={int(cores - (cores % 24))}"
+      tmp_dir: true
+      outputs_to_working_directory: false
+      metadata_strategy: extended
+      remote_metadata: false
+      transport: curl
+      default_file_action: remote_transfer
+      dependency_resolution: local
+      rewrite_parameters: true
+      jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
+      singularity_no_mount: null
+      container_resolvers:
+      - type: explicit_singularity
+      - type: cached_mulled_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime
+      - type: mulled_singularity
+      require_container: true
+    env:
+    - name: PATH
+      value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+    - name: GALAXY_SLOTS
+      value: "{int(cores - (cores % 24))}"
+    - name: GALAXY_MEMORY_MB
+      value: "{int(mem*1024)}"
+    - execute: ulimit -c 0
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: TRINITY_SCRATCH_DIR
+      value: $LOCAL
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+    - name: SINGULARITYENV_TEMP
+      value: $TEMP
+    - name: SINGULARITYENV_TMPDIR
+      value: $TEMP
+    - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
+      value: $TRINITY_SCRATCH_DIR
+    - name: CVMFSEXEC_DIR
+      value: $(dirname $_GALAXY_JOB_DIR)
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_DIR/cvmfsexec"
+    # run once to extract
+    - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
+    - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
+    - name: SINGULARITY_CACHEDIR
+      value: /ocean/projects/mcb140028p/xcgalaxy/singularity_cache
+    - name: SINGULARITY_PYTHREADS
+      value: "9"
+    scheduling:
+      accept:
+      - hpc
+      - cvmfs
+      - singularity
+      require:
+      - bridges2-em
+      - vgp
+      - pulsar

@@ -224,31 +224,38 @@ tools:
         min(max(float(size/1024**3) * 28, (input_size - float(size/1024**3)) * 2, 7.6), 120)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
-    cores: 64
-    mem: 496
+    cores: 4
+    mem: 14
     context:
       time: 48:00:00
     rules:
-    - id: hifiasm_small_input_rule
-      if: input_size < 0.5
-      cores: 4
-      mem: 14
     - id: hifiasm_medium_input_rule
-      if: 0.5 <= input_size < 16
+      if: 0.5 <= input_size < 12
       cores: 8
       mem: 28
     - id: hifiasm_large_input_rule
-      if: 16 <= input_size < 32
+      if: 12 <= input_size < 20
       cores: 16
       mem: 60
     - id: hifiasm_xlarge_input_rule
-      if: 32 <= input_size < 64
+      if: 20 <= input_size < 32
       cores: 32
       mem: 120
     - id: hifiasm_xxlarge_input_rule
-      if: 64 <= input_size < 128
+      if: 32 <= input_size < 96
       cores: 64
       mem: 244
+    - id: hifiasm_xxlarge_input_rule
+      if: 96 <= input_size < 256
+      cores: 64
+      mem: 496
+    - id: hifiasm_xxxlarge_input_rule
+      if: input_size > 256
+      cores: 24
+      mem: 1024
+      scheduling:
+        require:
+        - bridges2-em
 
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     cores: 20
