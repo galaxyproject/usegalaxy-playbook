@@ -629,13 +629,19 @@ tools:
       mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
-    cores: 24
+    cores: 64
     # TODO: shared db uses 512, AU uses 961 but caps inputs at 30
     mem: 244
     scheduling:
-      prefer:
-      - expanse
+      reject:
+      - jetstream2
     rules:
+      - id: rule_trinity_concurrency
+        if: |
+          helpers.concurrent_job_count_for_tool(app, tool, user) >= 1
+        execute: |
+          from galaxy.jobs.mapper import JobNotReadyException
+          raise JobNotReadyException()
       - id: trinity_tiny_input_rule
         if: input_size < 0.1
         cores: 1
@@ -643,17 +649,17 @@ tools:
       - id: trinity_small_input_rule
         if: 0.1 <= input_size < 1
         cores: 8
-        mem: 58
+        mem: 64
       - id: trinity_medium_input_rule
         if: 1 <= input_size < 4
         cores: 16
         mem: 120
       - id: trinity_large_input_rule
         if: 4 <= input_size < 8
-        cores: 20
+        cores: 48
         mem: 186
       - id: trinity_fail_rule
-        if: input_size >= 80
+        if: input_size >= 40
         fail: |
           Too much data, we cannot support such large Trinity assemblies with our
           backend. Please use another server for your job.
