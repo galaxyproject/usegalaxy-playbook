@@ -176,7 +176,7 @@ galaxy_job_conf_tools:
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 4
+    value: 8
   - type: anonymous_user_concurrent_jobs
     value: 1
 
@@ -188,7 +188,7 @@ galaxy_job_conf_limits:
 
   # pulsar envs
   - type: environment_user_concurrent_jobs
-    id: tacc_k8s
+    id: jetstream2_k8s
     value: 1
 
   # tpv per-environment user limits
@@ -204,6 +204,21 @@ galaxy_job_conf_limits:
   - type: environment_user_concurrent_jobs
     id: jetstream2
     value: 2
+  - type: environment_user_concurrent_jobs
+    id: bridges2
+    value: 2
+  - type: environment_user_concurrent_jobs
+    id: expanse
+    value: 2
+  - type: environment_user_concurrent_jobs
+    id: rockfish
+    value: 2
+  - type: environment_user_concurrent_jobs
+    id: stampede3_skx
+    value: 1
+  - type: environment_user_concurrent_jobs
+    id: stampede3_icx
+    value: 1
 
   # tpv per-environment total limits
   - type: environment_total_concurrent_jobs

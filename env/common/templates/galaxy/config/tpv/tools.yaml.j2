@@ -614,10 +614,19 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
     # TODO: shared db uses 10/250, but our min for HPC is 16
     cores: 16
-    mem: 148
+    mem: 58
     scheduling:
       accept:
       - training-large
+    rules:
+    - id: plasmidspades_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 5.7
+    - id: plasmidspades_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
     cores: 24
@@ -681,9 +690,10 @@ tools:
     # prevent premature removal of untarred busco DBs
     - name: SINGULARITYENV_TAR_OPTIONS
       value: -m
-    scheduling:
-      reject:
-      - stampede2
+    # TODO: test on stampede3
+    #scheduling:
+    #  reject:
+    #  - stampede2
 
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
     cores: 8
@@ -828,6 +838,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     cores: 16
+    # TODO: make a helper
     mem: |
       import os
       mem = 64
@@ -849,7 +860,7 @@ tools:
       else:
           log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
                       table_name, lookup_column, lookup_value, value_column, mem)
-      max(mem + 8, 14)
+      max(mem + 16, 20)
     scheduling:
       accept:
       - training-exempt
