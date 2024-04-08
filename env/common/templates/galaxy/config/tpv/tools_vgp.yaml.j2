@@ -254,7 +254,6 @@ tools:
     cores: 20
     mem: 20
 
-  # TODO: rule to set mem based on database size, see job router
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     cores: 16
     # TODO: make a helper
@@ -279,7 +278,7 @@ tools:
       else:
           log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
                       table_name, lookup_column, lookup_value, value_column, mem)
-      max(mem + 8, 14)
+      max(mem + 16, 20)
     scheduling:
       accept:
       - training-exempt
