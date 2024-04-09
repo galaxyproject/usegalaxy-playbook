@@ -866,7 +866,7 @@ tools:
       else:
           log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
                       table_name, lookup_column, lookup_value, value_column, mem)
-      max(mem + 16, 20)
+      mem + 24
     scheduling:
       accept:
       - training-exempt
@@ -943,8 +943,8 @@ tools:
     - id: ncbi_blastn_wrapper_db_rule
       if: |
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
-      cores: 24
-      mem: 80
+      cores: 16
+      mem: 64
     # 2023-11-02 getting this on Expanse, even after clearing Singualrity and CVMFS caches:
     # /usr/local/bin/blastn: error while loading shared libraries: /usr/local/bin/../lib/ncbi-blast+/libblastinput.so: cannot read file data: Input/output error
     scheduling:
@@ -953,8 +953,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
-    cores: 24
-    mem: 80
+    cores: 16
+    mem: 64
     scheduling:
       reject:
       - expanse
@@ -967,7 +967,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 24
-    mem: 250
+    mem: 120
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
@@ -1205,7 +1205,7 @@ tools:
   _mothur:
     abstract: true
     cores: 1
-    mem: 20
+    mem: 4
     params:
     env:
       - execute: ulimit -f 209715200
@@ -1214,8 +1214,8 @@ tools:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_align_seqs/mothur_align_seqs/.*:
     inherits: _mothur
-    cores: 2
-    mem: 90
+    cores: 4
+    mem: 14
     rules:
     - id: rule_pulsar_incompatible_large_mem
       if: |
@@ -1223,6 +1223,14 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
+    - id: mothur_align_seqs_small_input_rule
+      if: 0.4 <= input_size < 1.0
+      cores: 8
+      mem: 28
+    - id: mothur_align_seqs_medium_input_rule
+      if: input_size >= 1.0
+      cores: 4
+      mem: 92
     scheduling:
       require:
       - roundup-mem
@@ -1235,38 +1243,39 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_bellerophon/mothur_chimera_bellerophon/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_ccode/mothur_chimera_ccode/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_check/mothur_chimera_check/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_perseus/mothur_chimera_perseus/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_pintail/mothur_chimera_pintail/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_slayer/mothur_chimera_slayer/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_uchime/mothur_chimera_uchime/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chimera_vsearch/mothur_chimera_vsearch/.*:
     inherits: _mothur
-    cores: 7
+    cores: 6
+    mem: min(max(int(input_size * 2), 4), 64)
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_chop_seqs/mothur_chop_seqs/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_otu/mothur_classify_otu/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_classify_rf/mothur_classify_rf/.*:
@@ -1291,7 +1300,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_cluster_split/mothur_cluster_split/.*:
     inherits: _mothur
     cores: 16
-    mem: 90
+    mem: 64
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_collect_shared/mothur_collect_shared/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_collect_single/mothur_collect_single/.*:
@@ -1330,7 +1339,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_dist_shared/mothur_dist_shared/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_fastq_info/mothur_fastq_info/.*:
     inherits: _mothur
     rules:
@@ -1346,13 +1355,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_filter_seqs/mothur_filter_seqs/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: min(int(input_size) + 8, 64)
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_filter_shared/mothur_filter_shared/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_get_communitytype/mothur_get_communitytype/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_get_coremicrobiome/mothur_get_coremicrobiome/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_get_dists/mothur_get_dists/.*:
@@ -1396,7 +1405,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_indicator/mothur_indicator/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_lefse/mothur_lefse/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_libshuff/mothur_libshuff/.*:
@@ -1408,7 +1417,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_biom/mothur_make_biom/.*:
     inherits: _mothur
     cores: 1
-    mem: 90
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_contigs/mothur_make_contigs/.*:
     inherits: _mothur
     cores: 2
@@ -1450,7 +1459,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_metastats/mothur_metastats/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_mimarks_attributes/mothur_mimarks_attributes/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_nmds/mothur_nmds/.*:
@@ -1464,13 +1473,13 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_pairwise_seqs/mothur_pairwise_seqs/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_parse_list/mothur_parse_list/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_parsimony/mothur_parsimony/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_pca/mothur_pca/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_pcoa/mothur_pcoa/.*:
@@ -1482,7 +1491,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_phylo_diversity/mothur_phylo_diversity/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_phylotype/mothur_phylotype/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_pre_cluster/mothur_pre_cluster/.*:
@@ -1496,7 +1505,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_rarefaction_single/mothur_rarefaction_single/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_remove_dists/mothur_remove_dists/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_remove_groups/mothur_remove_groups/.*:
@@ -1532,17 +1541,17 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_seq_error/mothur_seq_error/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_sffinfo/mothur_sffinfo/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_shhh_flows/mothur_shhh_flows/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_shhh_seqs/mothur_shhh_seqs/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_sort_seqs/mothur_sort_seqs/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_split_abund/mothur_split_abund/.*:
@@ -1560,33 +1569,32 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_summary_shared/mothur_summary_shared/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_summary_single/mothur_summary_single/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_summary_tax/mothur_summary_tax/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_taxonomy_to_krona/mothur_taxonomy_to_krona/.*:
     inherits: _mothur
-    mem: 26.6
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_tree_shared/mothur_tree_shared/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_trim_flows/mothur_trim_flows/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_trim_seqs/mothur_trim_seqs/.*:
     inherits: _mothur
     cores: 2
-    mem: 20
+    mem: 4
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_unifrac_unweighted/mothur_unifrac_unweighted/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_unifrac_weighted/mothur_unifrac_weighted/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_unique_seqs/mothur_unique_seqs/.*:
     inherits: _mothur
-    mem: 28
+    mem: max(min(int(input_size * 3), 28), 4)
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_venn/mothur_venn/.*:
     inherits: _mothur
 

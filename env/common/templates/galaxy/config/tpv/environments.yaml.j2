@@ -350,9 +350,9 @@ destinations:
     - name: PATH
       value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
     - name: GALAXY_SLOTS
-      value: "{cores}"
+      value: "{min(int(mem/2), 64)}"
     - name: GALAXY_MEMORY_MB
-      value: "{int(mem*1024)}"
+      value: "{int(mem/2)*2000}"
     - execute: ulimit -c 0
     - name: TERM
       value: vt100
@@ -383,7 +383,9 @@ destinations:
     rules:
     - if: mem <= 128
       params:
-        submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks-per-node={int(mem/2)}"
+        # https://github.com/natefoo/slurm-drmaa/issues/83
+        #submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks-per-node={int(mem/2)} --mem={int(mem/2)*2000}"
+        submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2000}"
     scheduling:
       accept:
       - bridges2
@@ -514,7 +516,7 @@ destinations:
       # https://github.com/natefoo/slurm-drmaa/issues/83
       #submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem={int(mem*1024)}"
       # max time on shared is 24
-      submit_native_specification: "--account={account} --partition=shared --time=24:00:00 --nodes=1 --ntasks={cores} --mem={int(mem*1024)}"
+      submit_native_specification: "--account={account} --partition=shared --time=24:00:00 --nodes=1 --ntasks={int(mem/4)} --mem={int(mem*1024)}"
       tmp_dir: true
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -539,7 +541,7 @@ destinations:
     - name: PATH
       value: /cm/shared/apps/slurm/current/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
     - name: GALAXY_SLOTS
-      value: "{cores}"
+      value: "{int(mem/4)}"
     #- name: GALAXY_MEMORY_MB
     #  value: "{mem*1024}"
     - execute: ulimit -c 0
@@ -693,9 +695,13 @@ destinations:
     max_cores: 48
     max_mem: 184
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=skx"
+      # $GALAXY_SLOTS is forced to 48 to avoid wastage
+      #submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=skx"
+      submit_native_specification: "--nodes=1 --time={time} --partition=skx"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
+    - name: GALAXY_SLOTS
+      value: 48
     - name: GALAXY_MEMORY_MB
       value: "188000"
     scheduling:
@@ -723,9 +729,13 @@ destinations:
     max_cores: 80
     max_mem: 248
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=icx"
+      # $GALAXY_SLOTS is forced to 64 to avoid wastage
+      #submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=icx"
+      submit_native_specification: "--nodes=1 --time={time} --partition=icx"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
+    - name: GALAXY_SLOTS
+      value: 64
     - name: GALAXY_MEMORY_MB
       value: "248000"
     scheduling:
