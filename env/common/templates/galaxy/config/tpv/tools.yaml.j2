@@ -333,6 +333,9 @@ tools:
       reject:
       - pulsar
 
+  toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/.*:
+    mem: 5.6
+
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     # TODO: this should be higher but then it would be excluded from roundup
     cores: 4
@@ -374,6 +377,14 @@ tools:
     scheduling:
       require:
       - roundup-mem
+
+  toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
+    cores: 8
+    mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
+    cores: 8
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
     mem: 5.6
