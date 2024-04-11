@@ -245,12 +245,12 @@ tools:
       if: 32 <= input_size < 96
       cores: 64
       mem: 244
-    - id: hifiasm_xxlarge_input_rule
+    - id: hifiasm_xxxlarge_input_rule
       if: 96 <= input_size < 256
       cores: 64
       mem: 496
-    - id: hifiasm_xxxlarge_input_rule
-      if: input_size > 256
+    - id: hifiasm_max_input_rule
+      if: input_size >= 256
       cores: 24
       mem: 1024
       scheduling:
