@@ -176,7 +176,7 @@ galaxy_job_conf_tools:
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 8
+    value: 4
   - type: anonymous_user_concurrent_jobs
     value: 1
 
@@ -197,22 +197,22 @@ galaxy_job_conf_limits:
     value: 4
   - type: environment_user_concurrent_jobs
     id: roundup
-    value: 4
+    value: 2
   - type: environment_user_concurrent_jobs
     id: roundup_mem
     value: 2
   - type: environment_user_concurrent_jobs
     id: jetstream2
-    value: 2
+    value: 1
   - type: environment_user_concurrent_jobs
     id: bridges2
-    value: 2
+    value: 1
   - type: environment_user_concurrent_jobs
     id: expanse
-    value: 2
+    value: 1
   - type: environment_user_concurrent_jobs
     id: rockfish
-    value: 2
+    value: 1
   - type: environment_user_concurrent_jobs
     id: stampede3_skx
     value: 1
