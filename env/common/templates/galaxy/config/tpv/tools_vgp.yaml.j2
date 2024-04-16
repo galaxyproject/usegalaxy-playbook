@@ -136,6 +136,11 @@ tools:
       - gpu
       - pulsar
 
+  # TEST we can be smarter see https://github.com/KamilSJaron/smudgeplot/wiki/smudgeplot-hetkmers#memory-requirements
+  toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/.*:
+    cores: 32
+    mem: 490
+
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     mem: 14
 
@@ -285,7 +290,7 @@ tools:
       else:
           log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
                       table_name, lookup_column, lookup_value, value_column, mem)
-      max(mem + 16, 20)
+      mem + 24
     scheduling:
       accept:
       - training-exempt
@@ -366,6 +371,17 @@ tools:
     cores: 4
     mem: 16
 
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bbtools_bbmerge/bbtools_bbmerge/.*:
+    mem: 480
+
   verkko:
     cores: 32
     mem: 120
+
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
+    cores: 8
+    mem: 28
+
