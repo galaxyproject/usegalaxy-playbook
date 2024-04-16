@@ -258,7 +258,8 @@ destinations:
     context:
       time: 72:00:00
     params:
-      submit_native_specification: "--partition=EM --time={time} --nodes=1 --ntasks-per-node={int(cores - (cores % 24))}"
+      #submit_native_specification: "--partition=EM --time={time} --nodes=1 --ntasks-per-node={int(cores - (cores % 24))}"
+      submit_native_specification: "--partition=EM --time={time} --nodes=1 --ntasks={int(cores - (cores % 24))}"
       tmp_dir: true
       outputs_to_working_directory: false
       metadata_strategy: extended
