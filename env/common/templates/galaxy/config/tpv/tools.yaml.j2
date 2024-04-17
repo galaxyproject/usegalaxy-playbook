@@ -484,6 +484,15 @@ tools:
       - gpu
       - pulsar
 
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/segalign/segalign/.*:
+    gpus: 0.2
+    cores: 4
+    mem: 14
+    scheduling:
+      require:
+      - gpu
+      - pulsar
+
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
     cores: 12
