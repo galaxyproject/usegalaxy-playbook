@@ -108,7 +108,7 @@ destinations:
 
   roundup:
     inherits: _roundup_common
-    min_accepted_cores: 1
+    min_accepted_cores: 2
     min_accepted_mem: 16
     max_accepted_cores: 8
     max_accepted_mem: 64
@@ -232,8 +232,8 @@ destinations:
       - jetstream2
       require:
       - pulsar
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_gpu:
     inherits: jetstream2
@@ -251,8 +251,8 @@ destinations:
       require:
       - gpu
       - pulsar
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_resize_shm:
     inherits: jetstream2
@@ -263,8 +263,8 @@ destinations:
       - resize-shm
       - jetstream2
       - pulsar
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_training:
     inherits: jetstream2
@@ -275,8 +275,8 @@ destinations:
     scheduling:
       require:
       - training
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_k8s:
     runner: jetstream2_k8s
@@ -316,8 +316,8 @@ destinations:
       - training
       require:
       - kubernetes
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   bridges2:
     runner: bridges
