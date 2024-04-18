@@ -157,6 +157,11 @@ tools:
 
   # galaxy lib tools in singularity
 
+  toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/.*: {inherits: _galaxy_lib_local}
+  toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value.*: {inherits: _galaxy_lib_local}
+  param_value_from_file: {inherits: _galaxy_lib_local}
+  pick_value: {inherits: _galaxy_lib_local}
+
   # TODO: PR to GALAXY_LIB_TOOLS*
   MAF_Thread_For_Species1: {inherits: _galaxy_lib}
   MAF_To_BED1: {inherits: _galaxy_lib}
