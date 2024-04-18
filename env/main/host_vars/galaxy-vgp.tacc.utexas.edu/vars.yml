@@ -23,16 +23,22 @@ gravity_config:
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"
   gunicorn:
-    - bind: localhost:8080
-      workers: 1
-      timeout: 600
-      restart_timeout: 600
-      preload: true
-    - bind: localhost:8081
-      workers: 1
-      timeout: 600
-      restart_timeout: 600
-      preload: true
+    bind: localhost:8080
+    workers: 1
+    timeout: 600
+    restart_timeout: 600
+    preload: true
+    # FIXME: running out of memory
+    #- bind: localhost:8080
+    #  workers: 1
+    #  timeout: 600
+    #  restart_timeout: 600
+    #  preload: true
+    #- bind: localhost:8081
+    #  workers: 1
+    #  timeout: 600
+    #  restart_timeout: 600
+    #  preload: true
   celery:
     enable: false
     enable_beat: false
