@@ -62,7 +62,7 @@ gravity_config:
   galaxy_config_file: "{{ galaxy_config_file }}"
   log_dir: "{{ galaxy_log_dir }}"
   virtualenv: "{{ galaxy_venv_dir }}"
-  memory_limit: 8
+  memory_limit: 5
   gunicorn:
     - bind: localhost:8080
       workers: 3
