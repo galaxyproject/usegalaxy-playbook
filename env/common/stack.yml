@@ -1,7 +1,7 @@
 ---
 
 #- name: Install and manage PostgreSQL
-#  hosts: dbservers
+#  hosts: galaxy07.tacc.utexas.edu
 #  remote_user: root
 #  pre_tasks:
 #    - name: Install psycopg2
@@ -39,6 +39,11 @@
   become_user: postgres
   roles:
     - galaxyproject.postgresql_objects
+  post_tasks:
+    - name: Install pgcrypto on Galaxy database
+      postgresql_ext:
+        name: pgcrypto
+        db: "{{ galaxy_database_name }}"
   tags: postgres
 
 # Done before nginx is installed because it will fail to start in the next play if the module doesn't exist
