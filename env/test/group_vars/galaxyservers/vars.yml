@@ -257,6 +257,8 @@ gravity_config:
   celery:
     environment:
       TMPDIR: /corral4/test/celery-scratch
+      environment:
+        LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
   tusd:
     - enable: true
       tusd_path: /usr/local/sbin/tusd
