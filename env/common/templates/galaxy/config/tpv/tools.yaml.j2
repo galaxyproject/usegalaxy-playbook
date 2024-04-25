@@ -406,21 +406,38 @@ tools:
     cores: 4
     mem: 14
 
-  toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/.*:
+  _spades_flavors:
+    abstract: true
+    # TODO: shared db mostly uses 10/250, but our min for HPC is 16
     cores: 16
     mem: 58
     scheduling:
       accept:
       - training-large
     rules:
-    - id: rnaspades_small_input_rule
+    - id: spades_flavor_small_input_rule
       if: input_size < 0.005
       cores: 2
       mem: 5.7
-    - id: rnaspades_medium_input_rule
+    - id: spades_flavor_medium_input_rule
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/.*:
+    inherits: _spades_flavors
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_metaplasmidspades/spades_metaplasmidspades/.*:
+    inherits: _spades_flavors
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_metaviralspades/spades_metaviralspades/.*:
+    inherits: _spades_flavors
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
+    inherits: _spades_flavors
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
+    inherits: _spades_flavors
+
+  toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
+    cores: 4
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     mem: 7.8
@@ -428,6 +445,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/sniffles/sniffles/.*:
     cores: 4
     mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
+    mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/snpeff/snpEff_build_gb/4.3\+T.galaxy[1-5]:
     # https://github.com/galaxyproject/tools-iuc/issues/5647, fixed in .galaxy6
@@ -478,6 +498,37 @@ tools:
     - id: metaspades_fail_rule
       if: input_size >= 60
       fail: Too much data, please don't use Spades for this
+
+  toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
+    cores: 32
+    mem: 148
+    scheduling:
+      accept:
+      - training-large
+    rules:
+    - id: spades_xsmall_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 5.6
+    - id: spades_small_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 6
+      mem: 19
+    - id: spades_medium_input_rule
+      if: 2 <= input_size < 4
+      cores: 8
+      mem: 28
+    - id: spades_large_input_rule
+      if: 4 <= input_size < 8
+      cores: 16
+      mem: 86
+    - id: spades_xlarge_input_rule
+      if: 8 <= input_size < 12
+      cores: 24
+      mem: 116
+    - id: spades_fail_rule
+      if: input_size >= 25
+      fail: "Too much data for this public service, please input fewer reads. Example method: SeqTk subsample"
 
   # GPU tools
 
@@ -636,23 +687,6 @@ tools:
       if: 0.001 <= input_size < 5
       cores: 16
       mem: 58
-
-  toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
-    # TODO: shared db uses 10/250, but our min for HPC is 16
-    cores: 16
-    mem: 58
-    scheduling:
-      accept:
-      - training-large
-    rules:
-    - id: plasmidspades_small_input_rule
-      if: input_size < 0.005
-      cores: 2
-      mem: 5.7
-    - id: plasmidspades_medium_input_rule
-      if: 0.005 <= input_size < 2
-      cores: 8
-      mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
     cores: 64
@@ -914,37 +948,6 @@ tools:
       mem: 94
 
     # TODO: reject over a certain input size, what is that input size?
-
-  toolshed.g2.bx.psu.edu/repos/nml/spades/spades/.*:
-    cores: 32
-    mem: 148
-    scheduling:
-      accept:
-      - training-large
-    rules:
-    - id: spades_xsmall_input_rule
-      if: input_size < 0.005
-      cores: 2
-      mem: 5.6
-    - id: spades_small_input_rule
-      if: 0.005 <= input_size < 2
-      cores: 6
-      mem: 19
-    - id: spades_medium_input_rule
-      if: 2 <= input_size < 4
-      cores: 8
-      mem: 28
-    - id: spades_large_input_rule
-      if: 4 <= input_size < 8
-      cores: 16
-      mem: 86
-    - id: spades_xlarge_input_rule
-      if: 8 <= input_size < 12
-      cores: 24
-      mem: 116
-    - id: spades_fail_rule
-      if: input_size >= 25
-      fail: "Too much data for this public service, please input fewer reads. Example method: SeqTk subsample"
 
   toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
     cores: 24
