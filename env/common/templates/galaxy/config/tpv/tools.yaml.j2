@@ -601,14 +601,20 @@ tools:
       require:
       - roundup
     rules:
-    - id: alphafold_deny_rule
+    - id: colabfold_deny_rule
       if: |
         not user or not any([
           role for role in user.all_roles() if (
-            role.name in ['AlphaFold'] and not role.deleted
+            role.name in ['ColabFold'] and not role.deleted
         )])
       fail: |
         This tool is currently being beta-tested and your account has not been given access.
+    - id: colabfold_concurrency_rule
+      if: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
 
   toolshed.g2.bx.psu.edu/repos/iuc/colabfold_alphafold/colabfold_alphafold/.*:
     gpus: 1
@@ -634,18 +640,18 @@ tools:
       value: $_GALAXY_JOB_TMP_DIR:/cache:rw
       #value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3:/cache/colabfold:ro
     rules:
-    - id: alphafold_allow_rule
+    - id: colabfold_allow_rule
       if: |
-        user and 'AlphaFold' in [role.name for role in user.all_roles() if not role.deleted]
+        user and 'ColabFold' in [role.name for role in user.all_roles() if not role.deleted]
       scheduling:
         require:
         #- rockfish-gpu
         - frontera-rtx
-    - id: alphafold_deny_rule
+    - id: colabfold_deny_rule
       if: |
         not user or not any([
           role for role in user.all_roles() if (
-            role.name in ['AlphaFold'] and not role.deleted
+            role.name in ['ColabFold'] and not role.deleted
         )])
       fail: |
         This tool is currently being beta-tested and your account has not been given access.
