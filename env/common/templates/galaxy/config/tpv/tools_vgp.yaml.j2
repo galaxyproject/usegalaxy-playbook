@@ -267,11 +267,15 @@ tools:
       mem: 496
     - id: hifiasm_max_input_rule
       if: input_size >= 256
-      cores: 24
-      mem: 1024
-      scheduling:
-        require:
-        - bridges2-em
+      cores: 128
+      mem: 980
+    #- id: hifiasm_max_input_rule
+    #  if: input_size >= 256
+    #  cores: 24
+    #  mem: 1024
+    #  scheduling:
+    #    require:
+    #    - bridges2-em
 
   toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
     cores: 20
