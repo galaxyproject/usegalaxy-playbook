@@ -237,7 +237,7 @@ tools:
       mem: |
         options = job.get_param_values(app)
         size = options["reference_source"]["ref_file"].get_size()
-        min(max(float(size/1024**3) * 28, (input_size - float(size/1024**3)) * 2, 7.6), 120)
+        min(max(float(size/1024**3) * 28, (input_size - float(size/1024**3)) * 2, 7.6), 244)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 4
