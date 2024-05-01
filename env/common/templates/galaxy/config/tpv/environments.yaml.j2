@@ -208,6 +208,8 @@ destinations:
       value: $_GALAXY_JOB_TMP_DIR
     - name: XDG_DATA_HOME
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
+    - name: XDG_CACHE_HOME
+      value: /tmp/{{ galaxy_user }}-cache
     - name: TERM
       value: vt100
     - name: LC_ALL
