@@ -614,7 +614,19 @@ tools:
         This tool is currently being beta-tested and your account has not been given access.
     - id: colabfold_concurrency_rule
       if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 2
+        not any([
+          role for role in user.all_roles() if (
+            role.name in ['ColabFoldExtraMSA'] and not role.deleted
+        )]) and helpers.concurrent_job_count_for_tool(app, tool, user) >= 2
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
+    - id: colabfold_extra_concurrency_rule
+      if: |
+        any([
+          role for role in user.all_roles() if (
+            role.name in ['ColabFoldExtraMSA'] and not role.deleted
+        )]) and helpers.concurrent_job_count_for_tool(app, tool, user) >= 5
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
