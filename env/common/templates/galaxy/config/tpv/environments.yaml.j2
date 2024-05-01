@@ -193,7 +193,8 @@ destinations:
       remote_metadata: true
       remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
       transport: curl
-      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
+      #default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
+      default_file_action: remote_transfer
       dependency_resolution: local
       rewrite_parameters: true
       jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
@@ -216,6 +217,8 @@ destinations:
       value: C
     - name: SINGULARITYENV_XDG_DATA_HOME
       value: $XDG_DATA_HOME
+    - name: SINGULARITYENV_XDG_CACHE_HOME
+      value: $XDG_CACHE_HOME
     - name: SINGULARITYENV_TERM
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
