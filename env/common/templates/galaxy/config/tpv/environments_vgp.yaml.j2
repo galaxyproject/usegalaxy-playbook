@@ -11,7 +11,7 @@ destinations:
       partition: normal
       time: 24:00:00
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={partition}"
+      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={partition}"
       tmp_dir: true
       outputs_to_working_directory: true
       metadata_strategy: extended
@@ -90,7 +90,7 @@ destinations:
       # js2_partition is set on role and (default) tool entitites
       #partition: tpv
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={js2_partition}"
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={js2_partition}"
       tmp_dir: true
       outputs_to_working_directory: false
       metadata_strategy: extended
@@ -152,7 +152,7 @@ destinations:
     max_gpus: 1.0
     max_mem: 125
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition=gpu-small"
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={js2_gpu_partition}"
       singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
     env:
     # gmx_sim uses this, maybe others?
@@ -173,7 +173,7 @@ destinations:
     context:
       time: 47:00:00
     params:
-      submit_native_specification: "--partition=RM --time={time} --nodes=1 --ntasks={cores}"
+      submit_native_specification: "--partition=RM --time={time} --nodes=1 --ntasks={int(cores)}"
       tmp_dir: true
       outputs_to_working_directory: false
       metadata_strategy: extended
@@ -197,7 +197,7 @@ destinations:
     - name: PATH
       value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
     - name: GALAXY_SLOTS
-      value: "{cores}"
+      value: "{int(cores)}"
     - name: GALAXY_MEMORY_MB
       value: "{int(mem*1024)}"
     - execute: ulimit -c 0

@@ -545,12 +545,14 @@ tools:
     gpus: 0.2
     cores: 4
     mem: 14
+    context:
+      js2_gpu_partition: gpu-medium
     scheduling:
       require:
       - gpu
       - pulsar
 
-  toolshed.g2.bx.psu.edu/repos/richard-burhans/segalign/batched_lastz/.*:
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
     cores: 16
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
