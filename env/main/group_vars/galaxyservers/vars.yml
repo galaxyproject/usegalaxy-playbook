@@ -139,6 +139,12 @@ galaxy_job_conf_singularity_volumes:
     - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/tmp:rw"
+  # the tacc-apptainer module mostly automatically sets up mounts, but we need to ensure that /tmp inside the container
+  # is always the host /tmp (e.g. in trinity containers it is /var/tmp)
+  tacc_hpc:
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/tmp:/tmp:rw"
+    - "/tmp:/var/tmp:rw"
 
 # TODO: this is the contents of wraptar, needs to be deployed somehow:
 #

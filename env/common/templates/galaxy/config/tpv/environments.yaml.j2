@@ -36,8 +36,7 @@ destinations:
       rewrite_parameters: true
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
-      # the tacc-apptainer module automatically sets up mounts
-      singularity_volumes: /cvmfs/data.galaxyproject.org:ro
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.tacc_hpc | join(',') }}"
       singularity_no_mount: null
       container_resolvers:
       - type: explicit_singularity
