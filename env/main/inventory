@@ -87,7 +87,7 @@ jetstream2.galaxyproject.org ansible_ssh_user=rocky
 jetstream2-vgp.galaxyproject.org ansible_ssh_user=rocky
 
 [cvmfsstratum0servers]
-cvmfs0-tacc0.galaxyproject.org
+cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu1.galaxyproject.org" ansible_host="localhost" ansible_port="2222"
 
 [cvmfsstratum1servers]
 # temporarily all repos on cvmfs1-tacc0 are owned by g2test
