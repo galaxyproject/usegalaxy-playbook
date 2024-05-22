@@ -411,8 +411,9 @@ destinations:
       - bridges2
       require:
       - pulsar
-      #reject:
-      #- offline
+      # downtime may 21-24
+      reject:
+      - offline
 
   expanse:
     runner: expanse
