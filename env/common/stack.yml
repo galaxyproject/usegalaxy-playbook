@@ -84,41 +84,6 @@
     - geerlingguy.redis
   tags: redis
 
-#- name: Tasks for SELinux and UNIX socket proxies
-#  # FIXME:
-#  #hosts: toolshedwebservers
-#  hosts: testtoolshed.galaxyproject.org
-#  remote_user: root
-#  tasks:
-#    - name: Add Tool Shed user to nginx group
-#      user:
-#        name: "{{ toolshed_user }}"
-#        groups: nginx
-#    # FIXME: AFAICT this should work but for some reason the writable socket doesn't and I don't have any more time to mess with it
-#    #- name: Allow nginx httpd_sys_content_t to access additional paths
-#    #  sefcontext:
-#    #    target: '{{ item.base }}{{ item.extra }}'
-#    #    setype: '{{ item.setype }}'
-#    #    state: present
-#    #  loop:
-#    #    - base: "{{ galaxy_errordocs_dest }}"
-#    #      extra: "(/.*)?"
-#    #      setype: httpd_sys_content_t
-#    #    - base: "{{ galaxy_toolshed_config.uwsgi.socket }}"
-#    #      extra: ""
-#    #      setype: httpd_sys_rw_content_t
-#    #  register: updated_fcontexts
-#    #- name: Apply new SELinux file context to system
-#    #  command: "restorecon -rv {{ item.item.base }}"
-#    #  loop: "{{ updated_fcontexts.results }}"
-#    #  when: item is changed
-#    # FIXME: using the insecure sledgehammer for now
-#    - name: Change httpd_t to permissive
-#      selinux_permissive:
-#        name: httpd_t
-#        permissive: true
-#  tags: nginx
-
 - name: Install logflux
   hosts: logfluxservers
   remote_user: root
@@ -128,8 +93,8 @@
     - logflux
   tags: logflux
 
-- name: Manage Galaxy/Toolshed root tasks
-  hosts: galaxyservers:toolshedservers
+- name: Manage Galaxy root tasks
+  hosts: galaxyservers
   remote_user: root
   roles:
     - paths   # creates toolshed_tmpdir
@@ -188,20 +153,6 @@
   tags:
     - galaxy
     - gravity
-
-#- name: Manage supervisor and root tasks
-#  hosts: supervisorservers
-#  remote_user: root
-#  roles:
-#    - supervisor
-#  tags: supervisor
-
-#- name: Configure zerg mode
-#  hosts: zergmodeservers
-#  remote_user: root
-#  roles:
-#    - zergmode
-#  tags: zergmode
 
 - name: Configure TIaaS
   hosts: tiaasservers
