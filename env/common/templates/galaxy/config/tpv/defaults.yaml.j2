@@ -73,9 +73,11 @@ tools:
     # NOTE: changes to training rules need to be reflected in roles
     - id: training_tag_small_rule
       if: |
+        history = job.history
+        tags = history and history.tags
         include_tags = []
         exclude_tags = ['training-exempt']
-        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
+        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
       context:
         time: "04:00:00"
         roundup_small_partition: priority
@@ -90,9 +92,11 @@ tools:
         - hpc
     - id: training_tag_large_rule
       if: |
+        history = job.history
+        tags = history and history.tags
         include_tags = ['training-large']
         exclude_tags = ['training-exempt']
-        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
+        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
       context:
         time: "04:00:00"
         roundup_small_partition: priority
@@ -107,9 +111,11 @@ tools:
         - hpc
     - id: training_tag_unclamped_rule
       if: |
+        history = job.history
+        tags = history and history.tags
         include_tags = ['training-exempt']
         exclude_tags = []
-        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
+        any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
       context:
         time: "04:00:00"
         roundup_small_partition: priority

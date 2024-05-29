@@ -586,8 +586,10 @@ def __training_tool_mapping(tool_id):
 
 
 def __is_training_history(job, tool_id):
+    history = job.history
+    tags = history and history.tags
     try:
-        return (any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in job.history.tags])
+        return (any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in tags])
                 and not tool_id.startswith('interactive_tool_'))
     except:
         local.log.warning("Failed to read tags")

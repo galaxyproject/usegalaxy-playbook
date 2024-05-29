@@ -9,8 +9,11 @@ from tpv.core.entities import TagType
 
 final_destinations = None
 
-if job.history.tags and not tool.id.startswith("interactive_tool_"):
-    for history_tag, dest in product([hta.user_tname for hta in job.history.tags], candidate_destinations):
+history = job.history
+tags = history and tags.history
+
+if tags and not tool.id.startswith("interactive_tool_"):
+    for history_tag, dest in product([hta.user_tname for hta in tags], candidate_destinations):
         matches = list(dest.tpv_dest_tags.filter(TagType.PREFER, "scheduling", history_tag))
         if matches:
             log.debug(f"#### ({job.id=}) overriding destination due to history tag {history_tag=} in prefer tags for dest: {dest=}")
