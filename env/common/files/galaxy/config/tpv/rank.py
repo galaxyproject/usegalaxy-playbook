@@ -10,7 +10,7 @@ from tpv.core.entities import TagType
 final_destinations = None
 
 history = job.history
-tags = history and tags.history
+tags = history and history.tags
 
 if tags and not tool.id.startswith("interactive_tool_"):
     for history_tag, dest in product([hta.user_tname for hta in tags], candidate_destinations):
