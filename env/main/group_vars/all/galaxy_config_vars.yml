@@ -305,7 +305,7 @@ base_app_main: &BASE_APP_MAIN
   enable_notification_system: true
   enable_celery_tasks: true
   celery_conf:
-    result_backend: 'redis://:{{ redis_requirepass }}@galaxy-db-02.tacc.utexas.edu/0'
+    result_backend: 'redis://:{{ redis_requirepass }}@galaxy-db.tacc.utexas.edu/0'
     task_routes:
       galaxy.fetch_data: disabled
       galaxy.write_history_to: galaxy.archiver

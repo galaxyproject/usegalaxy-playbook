@@ -77,13 +77,6 @@
     - galaxyproject.nginx
   tags: nginx
 
-- name: Install and manage redis
-  hosts: redisservers
-  remote_user: root
-  roles:
-    - geerlingguy.redis
-  tags: redis
-
 - name: Install logflux
   hosts: logfluxservers
   remote_user: root
