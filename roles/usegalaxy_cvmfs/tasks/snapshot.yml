@@ -9,3 +9,4 @@
   service:
     name: squid
     state: restarted
+  when: usegalaxy_cvmfs_restart_squid | default(true)
