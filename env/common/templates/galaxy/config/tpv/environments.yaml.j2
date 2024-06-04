@@ -109,8 +109,8 @@ destinations:
     inherits: _roundup_common
     min_accepted_cores: 2
     min_accepted_mem: 8
-    max_accepted_cores: 16
-    max_accepted_mem: 64
+    max_accepted_cores: 12
+    max_accepted_mem: 48
     params:
       native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_large_partition}"
       singularity_enabled: true
