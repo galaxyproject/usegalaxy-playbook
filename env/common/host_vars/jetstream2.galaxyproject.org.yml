@@ -6,10 +6,13 @@
 _jetstream_scratch_root: "/jetstream2/scratch/{{ galaxy_instance_codename }}"
 _jetstream_galaxy_root: "/cvmfs/{{ galaxy_cvmfs_repo }}/galaxy"
 
+host_packages:
+  - python3.11
+
 # TEMP until release of >0.15.5
-#pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@103e5d49635f665e68668af6867a4b170645b31d#egg=pulsar-app"
-#pulsar_package_version: "{{ omit }}"
-pulsar_package_version: "0.15.6"
+pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@973f7b309565d4d0152abd468c952e17376217d4#egg=pulsar-app"
+pulsar_package_version: "{{ omit }}"
+#pulsar_package_version: "0.15.6"
 pulsar_root: "/srv/pulsar/{{ galaxy_instance_codename }}"
 #galaxy_root: not required
 
@@ -26,7 +29,7 @@ pulsar_separate_privileges: true
 #galaxy_user: properly set in all.yml
 pulsar_user: "{{ galaxy_user }}"
 pulsar_privsep_user: root
-pulsar_virtualenv_command: python3.9 -m venv
+pulsar_virtualenv_command: python3.11 -m venv
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: openssl
