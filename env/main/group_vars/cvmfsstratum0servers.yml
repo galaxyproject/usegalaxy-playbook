@@ -26,6 +26,9 @@ miniconda_conda_environments:
     packages:
       - pango
 
+# Stratum 0 is EL9 but Galaxy servers are still EL7 for now, and venv node is used to run the gx-it-proxy
+galaxy_node_version_max: 16.19.1
+
 # also set in galaxyservers, but not set in all I think because it's invalid for pulsar contexts
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
 galaxy_config_dir: null
