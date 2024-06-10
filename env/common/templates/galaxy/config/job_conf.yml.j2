@@ -65,10 +65,10 @@ execution:
       function: map_tool_to_destination
       rules_module: tpv.rules
       tpv_config_files:
+        - "{{ tpv_config_dir }}/tools_pre_shared.yaml"
         - "https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/e2277c4e9aa8044342832f08d9fc06ebf7e8287c/tools.yml"
         - "{{ tpv_config_dir }}/defaults.yaml"
         - "{{ tpv_config_dir }}/environments.yaml"
-        - "{{ tpv_config_dir }}/tools_pre_shared.yaml"
         - "{{ tpv_config_dir }}/tools.yaml"
         - "{{ tpv_config_dir }}/users.yaml"
         - "{{ tpv_config_dir }}/roles.yaml"
