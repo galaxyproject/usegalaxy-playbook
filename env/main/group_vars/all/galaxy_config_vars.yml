@@ -119,7 +119,7 @@ base_app_main: &BASE_APP_MAIN
 
   user_preferences_extra_conf_path: "{{ galaxy_config_dir }}/user_preferences.yml"
   container_image_cache_path: "{{ galaxy_mutable_data_dir }}/container_images"
-
+  object_store_always_respect_user_selection: true
   object_store_config:
     type: distributed
     search_for_missing: false
