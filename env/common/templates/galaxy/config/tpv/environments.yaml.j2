@@ -512,27 +512,10 @@ destinations:
       reject:
       - offline
 
-  rockfish:
+  _rockfish:
+    abstract: true
     runner: rockfish
-    #min_accepted_cores: 16
-    min_accepted_cores: 8
-    min_accepted_mem: 64
-    #max_accepted_cores: 48
-    #max_accepted_mem: 192
-    # Force large jobs to Stampede3 to preserve credits on shared resources
-    max_accepted_cores: 32
-    max_accepted_mem: 128
-    max_cores: 48
-    max_mem: 184
-    context:
-      account: nekrut
     params:
-      # https://github.com/natefoo/slurm-drmaa/issues/83
-      #submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem={int(mem*1024)}"
-      # max time on shared is 24
-      submit_native_specification: "--account={account} --partition=shared --time=24:00:00 --nodes=1 --ntasks={int(mem/4)} --mem={int(mem*1024)}"
-      tmp_dir: true
-      outputs_to_working_directory: false
       #metadata_strategy: extended
       remote_metadata: false
       transport: curl
@@ -584,6 +567,28 @@ destinations:
     #  value: /scratch4/nekrut/galaxy/singularity_cache
     - name: SINGULARITY_PYTHREADS
       value: "9"
+
+  rockfish:
+    inherits: _rockfish
+    #min_accepted_cores: 16
+    min_accepted_cores: 8
+    min_accepted_mem: 64
+    #max_accepted_cores: 48
+    #max_accepted_mem: 192
+    # Force large jobs to Stampede3 to preserve credits on shared resources
+    max_accepted_cores: 32
+    max_accepted_mem: 128
+    max_cores: 48
+    max_mem: 184
+    context:
+      account: nekrut
+    params:
+      # https://github.com/natefoo/slurm-drmaa/issues/83
+      #submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem={int(mem*1024)}"
+      # max time on shared is 24
+      submit_native_specification: "--account={account} --partition=shared --time=24:00:00 --nodes=1 --ntasks={int(mem/4)} --mem={int(mem*1024)}"
+      tmp_dir: true
+      outputs_to_working_directory: false
     rules:
     - if: cores > 32 or mem > 128
       params:
@@ -600,9 +605,12 @@ destinations:
       - rockfish
       require:
       - pulsar
+      # expired? 2024-06-13
+      #reject:
+      #- offline
 
   rockfish_gpu:
-    inherits: rockfish
+    inherits: _rockfish
     min_accepted_cores: 12
     min_accepted_mem: 48
     context:
@@ -615,7 +623,15 @@ destinations:
       submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks={cores} --gres=gres:gpu:{gpus}"
       singularity_run_extra_arguments: --nv
     scheduling:
+      accept:
+      - rockfish
+      - hpc
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
       require:
+      - pulsar
       - rockfish-gpu
 
   frontera:
@@ -703,7 +719,9 @@ destinations:
     inherits: _stampede3
     runner: stampede3
     min_accepted_cores: 16
-    min_accepted_mem: 128
+    #min_accepted_mem: 128
+    # time to burn
+    min_accepted_mem: 96
     max_accepted_cores: 64
     max_accepted_mem: 190
     max_cores: 48
