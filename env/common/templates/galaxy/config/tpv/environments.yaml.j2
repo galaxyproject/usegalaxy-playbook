@@ -161,10 +161,16 @@ destinations:
 
   # *_training destinations are mainly for reporting, context is set in the role entity
   roundup_training:
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    max_accepted_cores: 32
+    max_accepted_mem: 64
     inherits: roundup
     scheduling:
       require:
       - training
+      accept:
+      - roundup-mem
 
   roundup_small_training:
     inherits: roundup_small
