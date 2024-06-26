@@ -612,8 +612,8 @@ destinations:
       require:
       - pulsar
       # expired? 2024-06-13
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   rockfish_gpu:
     inherits: _rockfish
