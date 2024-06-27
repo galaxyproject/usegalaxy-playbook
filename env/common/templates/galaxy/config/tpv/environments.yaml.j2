@@ -112,7 +112,7 @@ destinations:
     max_accepted_cores: 12
     max_accepted_mem: 48
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_large_partition}"
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_large_partition} {roundup_constraint}"
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
       singularity_no_mount: null
@@ -142,7 +142,7 @@ destinations:
     max_accepted_cores: 2
     max_accepted_mem: 16
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_small_partition}"
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_small_partition} {roundup_constraint}"
 
   roundup_mem:
     inherits: roundup
@@ -154,7 +154,7 @@ destinations:
     max_cores: 8
     max_mem: 96
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_large_partition}"
+      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_large_partition} {roundup_constraint}"
     scheduling:
       require:
       - roundup-mem
