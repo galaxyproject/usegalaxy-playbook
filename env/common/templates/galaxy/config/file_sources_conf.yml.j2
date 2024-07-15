@@ -108,8 +108,8 @@
   doc: Access to VGL Genome Ark data on AWS.
   bucket: genomeark-upload/linelletest
   writable: true
-  secret: "{{ genomeark_galaxy_vgl_secret_access_key }}"
-  key: "{{ genomeark_galaxy_vgl_access_key_id }}"
+  secret: "{{ genomeark_vgl_aws_secret_access_key }}"
+  key: "{{ genomeark__vgl_aws_access_key_id }}"
   listings_expiry_time: 60
 
 - type: s3fs
