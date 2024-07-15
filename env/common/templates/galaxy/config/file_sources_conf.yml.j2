@@ -102,6 +102,17 @@
   listings_expiry_time: 60
 
 - type: s3fs
+  label: VGL genomeark-upload
+  requires_groups: GenomeArkExport
+  id: vgl_genomeark_upload
+  doc: Access to VGL Genome Ark data on AWS.
+  bucket: genomeark-upload/linelletest
+  writable: true
+  secret: "{{ genomeark_galaxy_vgl_secret_access_key }}"
+  key: "{{ genomeark_galaxy_vgl_access_key_id }}"
+  listings_expiry_time: 60
+
+- type: s3fs
   label: 1000 Genomes
   id: 1000genomes
   doc: Access to the 1000 Genomes Project with human genetic variation, including SNPs, structural variants, and their haplotype context.
