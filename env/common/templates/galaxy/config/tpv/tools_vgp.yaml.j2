@@ -306,7 +306,7 @@ tools:
       if table_value is not None:
           table_value = value_template.format(value=table_value)
           try:
-              mem = os.path.getsize(table_value)/1024**3
+              mem = int(os.path.getsize(table_value)/1024**3 * 1.2)
               log.debug("Data table '%s' lookup '%s=%s: %s=%s': %s GB",
                         table_name, lookup_column, lookup_value, value_column, table_value, mem)
           except OSError:
