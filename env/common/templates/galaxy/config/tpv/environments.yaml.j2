@@ -640,6 +640,53 @@ destinations:
       - pulsar
       - rockfish-gpu
 
+  rockfish_devgalaxy:
+    runner: rockfish_devgalaxy
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    max_accepted_cores: 1
+    max_accepted_mem: 4
+    params:
+      submit_native_specification: "--account=mschatz1 --partition=shared --time=12:00:00 --nodes=1 --ntasks={int(mem/4)} --mem={int(mem*1024)}"
+      remote_metadata: false
+      transport: curl
+      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
+      dependency_resolution: local
+      rewrite_parameters: true
+      jobs_directory: /scratch4/mschatz1/galaxy/rockfish-devgalaxy/staging
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.rockfish_devgalaxy | join(',') }}"
+      singularity_no_mount: null
+      container_resolvers:
+      - type: explicit_singularity
+      require_container: true
+      tmp_dir: true
+      outputs_to_working_directory: false
+    env:
+    - name: PATH
+      value: /cm/shared/apps/slurm/current/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+    - name: GALAXY_SLOTS
+      value: "{int(mem/4)}"
+    - execute: ulimit -c 0
+    - name: TERM
+      value: vt100
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_TERM
+      value: $TERM
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+    - execute: module load singularity/3.8.7
+    - name: SINGULARITY_PYTHREADS
+      value: "9"
+    scheduling:
+      accept:
+      - singularity
+      require:
+      - rockfish-devgalaxy
+
   frontera:
     inherits: _tacc_hpc
     runner: frontera

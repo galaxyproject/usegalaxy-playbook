@@ -31,6 +31,11 @@ tools:
       - kubernetes
       reject:
       - singularity
+    rules:
+    # TODO: add to tpv.helpers
+    - id: require_login
+      if: user is None
+      fail: An account is required to run this tool. Please log in or create an account.
 
   #interactive_tool_rstudio:
   #  inherits: interactive_tool_.*
@@ -607,6 +612,19 @@ tools:
       fail: |
         This tool is currently being beta-tested and your account has not been given access.
 
+  colabfold_msa_test:
+    params:
+      require_container: true
+      container_override:
+        - type: singularity
+          shell: /bin/bash
+          resolve_dependencies: false
+          #identifier: /corral4/ndc/singularity/colabfold-1.5.5-cuda12.2.2
+          identifier: /scratch4/nekrut/ndc/colabfold-1.5.5-cuda12.2.2
+    scheduling:
+      require:
+      - rockfish-devgalaxy
+
   toolshed.g2.bx.psu.edu/repos/iuc/colabfold_msa/colabfold_msa/.*:
     params:
       require_container: true
@@ -645,6 +663,37 @@ tools:
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
+
+  colabfold_alphafold_test:
+    gpus: 1
+    cores: 16
+    mem: 120
+    params:
+      require_container: true
+    env:
+    - name: SINGULARITY_BINDPATH
+      value: $_GALAXY_JOB_TMP_DIR:/cache:rw
+    rules:
+    - id: colabfold_allow_rule
+      if: |
+        user and 'ColabFold' in [role.name for role in user.all_roles() if not role.deleted]
+      params:
+        container_override:
+          - type: singularity
+            shell: /bin/bash
+            resolve_dependencies: false
+            identifier: /work2/02232/ndc/frontera/singularity/colabfold-1.5.5-cuda12.2.2
+      scheduling:
+        require:
+        - frontera-rtx
+    - id: colabfold_deny_rule
+      if: |
+        not user or not any([
+          role for role in user.all_roles() if (
+            role.name in ['ColabFold'] and not role.deleted
+        )])
+      fail: |
+        This tool is currently being beta-tested and your account has not been given access.
 
   toolshed.g2.bx.psu.edu/repos/iuc/colabfold_alphafold/colabfold_alphafold/.*:
     gpus: 1
