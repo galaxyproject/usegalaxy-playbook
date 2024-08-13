@@ -1,0 +1,115 @@
+name: Tools
+type: generic
+# NOTE: if this is "default" then it becomes the default view and full view is not available??
+id: default_view
+items:
+- sections:
+  - get_data
+  - send_data
+  - collection_operations
+- id: general_text_tools_label
+  text: General Text Tools
+  type: label
+- sections:
+  - text_manipulation
+  - filter_and_sort
+  - join__subtract_and_group
+  - datamash
+- id: genomic_file_manipulation_label
+  text: Genomic File Manipulation
+  type: label
+- sections:
+  - fasta_fastq
+  - fastq_quality_control
+  - sam_bam
+  - bed
+  - vcf_bcf
+  - nanopore
+  - convert_formats
+  - lift_over
+- id: common_genomics_tools_label
+  text: Common Genomics Tools
+  type: label
+- sections:
+  - operate_on_genomic_intervals
+  - fetch_sequences_alignments
+- id: genomics_analysis_label
+  text: Genomics Analysis
+  type: label
+- sections:
+  - assembly
+  - annotation
+  - mapping
+  - variant_calling
+  - chip_seq
+  - rna_seq
+  - multiple_alignments
+  - phenotype_association
+  - evolution
+  - regional_variation
+  - chromosome_conformation
+  - transposon_insertion_sequencing
+  - protein_modeling
+  - genome_editing
+  - biodiversity_data_exploration
+  - sequence_contamination_filtering
+  - genome_diversity
+- id: statistics_and_visualization_label
+  text: Statistics and Visualization
+  type: label
+- sections:
+  - statistics
+  - machine_learning
+  - graph_display_data
+  - interactive_tools
+- id: genomics_toolkits_label
+  text: Genomics Toolkits
+  type: label
+- sections:
+  - str_fm__microsatellite_analysis
+  - mothur
+  - qiime2
+  - picard
+  - deeptools
+  - emboss
+  - ncbi_blast_
+  - hyphy
+  - rseqc
+  - mimodd
+  - hca-scanpy
+  - hicexplorer
+  - du_novo
+  - seqtk
+  - monocle3
+  - gemini
+  - bbtools
+  - iwtomics
+  - presto
+  - planttribes
+  - motif
+  - sccaf
+  - seurat
+- id: domain_tools_label
+  text: Domain Tools
+  type: label
+- sections:
+  - virology
+  - metagenomic_analysis
+  - single_cell
+  - import/manipulate_sc_data
+  - proteomics
+  - metabolomics
+  - chemicaltoolbox
+  - pharmacology
+  - multiomics
+  - climate_analysis
+  - gis_data_handling
+  - epigenetics
+  - spatial
+  - compute_indicators_for_satellite_remote_sensing
+- id: deprecated_tools_label
+  text: Deprecated Tools
+  type: label
+- sections:
+  - cloudmap__deprecated_
+  - rna_analysis__deprecated_
