@@ -19,6 +19,10 @@ tools:
     env:
     - name: _JAVA_OPTIONS
       value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m
+    - name: HDF5_USE_FILE_LOCKING
+      value: "FALSE"
+    - name: SINGULARITYENV_HDF5_USE_FILE_LOCKING
+      value: $HDF5_USE_FILE_LOCKING
     scheduling:
       accept:
       - pulsar
