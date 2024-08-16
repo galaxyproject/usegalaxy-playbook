@@ -98,6 +98,9 @@ galaxy_job_conf_runners:
   rockfish:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: rockfish
+  rockfish_devgalaxy:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: rockfish_devgalaxy
 
 galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:3.8.3
 
@@ -140,6 +143,11 @@ galaxy_job_conf_singularity_volumes:
     - "$working_directory:rw"
     - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
+    - "/tmp:rw"
+  rockfish_devgalaxy:
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
     - "/tmp:rw"
   # the tacc-apptainer module mostly automatically sets up mounts, but we need to ensure that /tmp inside the container
   # is always the host /tmp (e.g. in trinity containers it is /var/tmp)
