@@ -1,38 +1,41 @@
 ---
 
 - name: Create directories
-  file:
+  ansible.builtin.file:
     path: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/{{ item }}"
     mode: "0755"
     state: "directory"
-  with_items:
+  loop:
     - static
 
-- name: Synchronize directories
-  synchronize:
-    src: "files/galaxy/{{ item }}/"
-    dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/{{ item }}"
-    archive: no
-    delete: yes
-    links: yes
-    perms: yes
-    times: yes
-    recursive: yes
-  with_items:
-    - static/welcome_img
-
 - name: Copy files
-  copy:
+  ansible.builtin.copy:
     src: "files/galaxy/{{ item }}"
     dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/{{ item }}"
     mode: "0444"
-  with_items:
+  loop:
     - static/terms.html
 
-- name: Fill templates
-  template:
-    src: "templates/galaxy//{{ item }}.j2"
-    dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/{{ item }}"
-    mode: 0444
-  with_items:
-    - static/welcome.html
+- name: Fill base welcome template
+  ansible.builtin.template:
+    src: "templates/galaxy/static/welcome.html.j2"
+    dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome.html"
+    mode: "0644"
+
+- name: Symlink base templates
+  ansible.builtin.file:
+    src: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome.html"
+    dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome-{{ item }}.html"
+    state: "link"
+    force: true
+  loop: "{{ galaxy_base_welcome_names | default([]) }}"
+
+- name: Fill subdomain welcome templates
+  ansible.builtin.template:
+    src: "templates/galaxy/static/welcome.html.j2"
+    dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome-{{ item }}.{{ galaxy_instance_hostname }}.html"
+    mode: "0644"
+  vars:
+    galaxy_welcome_url: "{{ galaxy_themes_welcome_url_prefix }}{{ item }}"
+  loop: "{{ galaxy_themes_subdomains | map(attribute='name') }}"
+  when: galaxy_themes_subdomains | default(false)

@@ -42,6 +42,15 @@ certbot_domains:
   - usegalaxy.org
   - "{{ inventory_hostname_short }}.galaxyproject.org"
   - www.usegalaxy.org
+  - singlecell.usegalaxy.org
+
+galaxy_base_welcome_names:
+  - usegalaxy.org
+  - galaxy-web-05.galaxyproject.org
+  - galaxy-web-06.galaxyproject.org
+
+galaxy_themes_subdomains:
+  - name: singlecell
 
 # Disable handlers in role, use playbook handlers
 galaxy_systemd_mode: null

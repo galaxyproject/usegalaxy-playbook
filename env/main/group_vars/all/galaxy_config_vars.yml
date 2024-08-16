@@ -26,6 +26,12 @@ galaxy_object_store_cache_path: "/corral4/{{ galaxy_instance_codename }}/object_
 
 galaxy_interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite"
 
+galaxy_themes_instance_domain: usegalaxy.org
+# this is the place in the playbook theme files are copied from
+galaxy_themes_ansible_file_path: files/galaxy/subdomains
+galaxy_themes_default_welcome: https://galaxyproject.org/usegalaxy/welcome/
+galaxy_themes_welcome_url_prefix: https://gxy.io/usegalaxy-org-welcome-
+#galaxy_themes_subdomains: is in galaxywebservers group_vars
 
 ## used by: galaxyproject.galaxy
 base_app_main: &BASE_APP_MAIN
@@ -108,8 +114,10 @@ base_app_main: &BASE_APP_MAIN
   data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
   job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
   dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
-  themes_config_file: "{{ galaxy_server_dir }}/config/themes_conf.yml.sample"
+  themes_config_file: "{{ galaxy_config_dir }}/themes_conf.yml"
   panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
+  default_panel_view_by_host:
+    singlecell.usegalaxy.org: singlecell
 
   migrated_tools_config: "/cvmfs/main.galaxyproject.org/config/migrated_tools_conf.xml"
   shed_tool_data_table_config: "/cvmfs/main.galaxyproject.org/config/shed_tool_data_table_conf.xml"
@@ -212,6 +220,9 @@ base_app_main: &BASE_APP_MAIN
   interactivetools_prefix: interactivetool
 
   # general stuff
+
+  brand_by_host:
+    singlecell.usegalaxy.org: Single Cell Omics
 
   load_tool_shed_datatypes: false
   database_engine_option_pool_size: 10

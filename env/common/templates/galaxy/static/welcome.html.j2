@@ -24,7 +24,7 @@ iframe { width:100% ;
     </div>
 <script type="text/javascript">
 var pseudo_rand = parseInt(Date.now() / 1000 / 60 / 10);
-document.getElementById('center-iframe').src = 'https://galaxyproject.org/usegalaxy/welcome/?nonce=' + pseudo_rand + '#';
+document.getElementById('center-iframe').src = '{{ galaxy_welcome_url | default("https://galaxyproject.org/usegalaxy/welcome/") }}?nonce=' + pseudo_rand + '#';
 </script>
 </body>
 </html>

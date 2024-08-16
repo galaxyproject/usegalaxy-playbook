@@ -34,10 +34,10 @@ nginx_servers:
 
 nginx_ssl_servers:
   - usegalaxy_staging
-  - usegalaxy
+  #- usegalaxy
 
-nginx_extra_configs:
-  - usegalaxy_rewrites.conf
+#nginx_extra_configs:
+#  - usegalaxy_rewrites.conf
 
 certbot_domains:
   - "{{ inventory_hostname_short }}.galaxyproject.org"

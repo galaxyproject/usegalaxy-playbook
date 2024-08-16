@@ -37,7 +37,7 @@ upstream galaxy {
 server {
     #listen       *:443 ssl http2 default_server;
     listen       *:443 ssl default_server;
-    server_name  usegalaxy.org galaxy-web-05.galaxyproject.org galaxy-web-06.galaxyproject.org;
+    server_name  {{ certbot_domains | join(' ') }};
 
     # SEMrush crawler keeps submitting hundreds of jobs
     deny 185.191.171.0/24;
@@ -242,12 +242,8 @@ server {
     }
 
     location /static/welcome.html {
-        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome.html;
-    }
-
-    location /static/welcome_img {
-        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome_img;
-        expires 2h;
+        # a try_files config would be preferable here but i couldn't get one to work
+        alias {{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/static/welcome-$host.html;
     }
 
     # TIaaS
