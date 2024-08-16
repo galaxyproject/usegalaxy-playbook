@@ -250,6 +250,11 @@ tools:
   .*to_bigwig.*: {inherits: _wigtobigwig}
   wig_to_bigWig: {inherits: _wigtobigwig}
   toolshed.g2.bx.psu.edu/repos/iuc/ucsc_wigtobigwig/ucsc_wigtobigwig/.*: {inherits: _wigtobigwig}
+  # temporary container override because the 447--hd8417b0_2 image is arm64
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_wigtobigwig/ucsc_wigtobigwig/447\+*:
+    inherits: _wigtobigwig
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/ucsc-wigtobigwig:447--h2a80c09_2"}]
 
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 14
@@ -273,6 +278,11 @@ tools:
     scheduling:
       reject:
       - pulsar
+
+  toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
+    cores: 80
+    # does not need this much but this gets it above the min_accepted for stampede3-icx
+    mem: 250
 
   toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/.*:
     mem: 5.7
@@ -327,6 +337,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     # was 16 in the job router but let's try this
     mem: 7
+
+  # busco under the hood?
+  toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
     cores: 4
@@ -402,6 +416,10 @@ tools:
       require:
       - roundup-mem
 
+  toolshed.g2.bx.psu.edu/repos/iuc/mashmap/mashmap/.*:
+    cores: 8
+    mem: 28
+
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     cores: 8
     mem: 28
@@ -412,6 +430,10 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
     mem: 5.6
+
+  toolshed.g2.bx.psu.edu/repos/iuc/red/red/.*:
+    cores: 16
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/.*:
     cores: 16
@@ -626,6 +648,7 @@ tools:
       - rockfish-devgalaxy
 
   toolshed.g2.bx.psu.edu/repos/iuc/colabfold_msa/colabfold_msa/.*:
+    mem: 7
     params:
       require_container: true
       container_override:
