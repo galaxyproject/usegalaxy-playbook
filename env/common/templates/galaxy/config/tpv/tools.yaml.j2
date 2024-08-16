@@ -379,6 +379,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/.*:
     mem: 5.6
 
+  toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/3.1.1+galaxy0:
+    # Shared DB is 20 but it's single core, this allows it to run on roundup_small
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     # TODO: this should be higher but then it would be excluded from roundup
     cores: 4
