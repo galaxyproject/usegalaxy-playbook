@@ -25,7 +25,7 @@ destinations:
   _tacc_hpc:
     abstract: true
     context:
-      time: 36:00:00
+      time: 24:00:00
     params:
       outputs_to_working_directory: false
       #metadata_strategy: extended
@@ -818,7 +818,7 @@ destinations:
     runner: stampede3
     min_accepted_cores: 32
     min_accepted_mem: 190
-    max_accepted_cores: 256
+    max_accepted_cores: 80
     max_accepted_mem: 4096
     max_cores: 80
     max_mem: 248
@@ -829,7 +829,7 @@ destinations:
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_SLOTS
-      value: 64
+      value: 80
     - name: GALAXY_MEMORY_MB
       value: "248000"
     scheduling:
@@ -842,6 +842,40 @@ destinations:
       - docker
       prefer:
       - stampede3-icx
+      require:
+      - pulsar
+      #reject:
+      #- offline
+
+  stampede3_spr:
+    inherits: _stampede3
+    runner: stampede3
+    min_accepted_cores: 112
+    min_accepted_mem: 96
+    max_accepted_cores: 256
+    max_accepted_mem: 128
+    max_cores: 112
+    max_mem: 120
+    params:
+      # $GALAXY_SLOTS is forced to 112 to avoid wastage
+      #submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=icx"
+      submit_native_specification: "--nodes=1 --time={time} --partition=spr"
+      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+    env:
+    - name: GALAXY_SLOTS
+      value: 112
+    - name: GALAXY_MEMORY_MB
+      value: "122880"
+    scheduling:
+      accept:
+      - stampede3
+      - hpc
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
+      prefer:
+      - stampede3-spr
       require:
       - pulsar
       #reject:
