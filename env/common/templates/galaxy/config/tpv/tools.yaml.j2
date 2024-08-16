@@ -217,14 +217,14 @@ tools:
   # real tools
 
   # TEMP cyclone nfs locking problems
-  toolshed.g2.bx.psu.edu/repos/bgruening/keras_model_builder/keras_model_builder/.*:
-    context:
-      roundup_small_partition: priority
-      roundup_constraint: --constraint=roundup
-  toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
-    context:
-      roundup_small_partition: priority
-      roundup_constraint: --constraint=roundup
+  #toolshed.g2.bx.psu.edu/repos/bgruening/keras_model_builder/keras_model_builder/.*:
+  #  context:
+  #    roundup_small_partition: priority
+  #    roundup_constraint: --constraint=roundup
+  #toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
+  #  context:
+  #    roundup_small_partition: priority
+  #    roundup_constraint: --constraint=roundup
 
   # NOTE: any tools that increase cores but do not set mem will use the default mem multiplier of cores * 2.89G
 
