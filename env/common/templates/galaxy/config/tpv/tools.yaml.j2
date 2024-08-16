@@ -262,6 +262,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/fastq_info/fastq_info/.*:
     mem: 7
 
+  # only this container version contains the required databases, see https://github.com/bioconda/bioconda-recipes/issues/45328
+  toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/repeatmasker:4.1.5--pl5321hdfd78af_0"}]
+
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     cores: 5
     rules:
