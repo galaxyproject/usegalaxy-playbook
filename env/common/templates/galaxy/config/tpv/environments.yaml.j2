@@ -697,9 +697,18 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=small"
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:
     - name: GALAXY_MEMORY_MB
       value: "190000"
+    - name: CVMFSEXEC_PATH
+      value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+    {# FIXME: why is this not set by module load tacc-apptainer? -#}
+    - name: APPTAINER_CACHEDIR
+      value: /work2/03166/xcgalaxy/apptainer_cache
+    - name: APPTAINER_PYTHREADS
+      value: "9"
     scheduling:
       accept:
       - frontera

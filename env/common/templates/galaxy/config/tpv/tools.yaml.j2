@@ -582,15 +582,27 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/segalign/segalign/.*:
+    # gpu-small
     gpus: 0.2
-    cores: 4
+    ##cores: 4
+    ##mem: 14
+    # gpu-medium
+    ##gpus: 0.4
+    cores: 8
     mem: 28
+    # frontera
+    #gpus: 1
+    #cores: 16
+    #mem: 120
     context:
       js2_gpu_partition: gpu-medium
     scheduling:
       require:
+      # JS2
       - gpu
       - pulsar
+      # frontera
+      #- frontera-rtx
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
     cores: 16
