@@ -669,6 +669,9 @@ tools:
           resolve_dependencies: false
           #identifier: /corral4/ndc/singularity/colabfold-1.5.5-cuda12.2.2
           identifier: /scratch4/nekrut/ndc/colabfold-1.5.5-cuda12.2.2
+    env:
+      - name: SINGULARITYENV_COLABFOLD_EXTRA_OPTIONS
+        value: "--host-url http://localhost:8000"
     scheduling:
       require:
       - rockfish-devgalaxy

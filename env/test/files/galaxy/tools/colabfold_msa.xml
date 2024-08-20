@@ -20,7 +20,6 @@
 
     mkdir output &&
     colabfold_batch --msa-only
-    --host-url http://localhost:8000
     #if $query_type.select_query_type == "fasta":
         #if $query_type.select_db.use_db == "yes":
             --msa-mode $query_type.select_db.msa_mode
@@ -33,6 +32,7 @@
         --custom-template-path template_dir
     #end if
     --jobname-prefix 'galaxy'
+    \${COLABFOLD_EXTRA_OPTIONS:-}
     '$input_file'
     output.colab &&
     tar -cf output.colab.tar output.colab
