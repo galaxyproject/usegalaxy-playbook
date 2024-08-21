@@ -114,7 +114,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/segalign/segalign/.*:
     gpus: 0.2
-    cores: 4
+    cores: 8
     mem: 28
     context:
       js2_gpu_partition: gpu-medium
@@ -124,7 +124,13 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
-    cores: 16
+    cores: 80
+    mem: 240
+
+  # NCBI recommends AWS r6a.8xlarge: cores: 32, mem:256
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
+    cores: 32
+    mem: 240
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 0.2
