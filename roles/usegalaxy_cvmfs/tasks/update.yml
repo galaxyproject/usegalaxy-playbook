@@ -46,7 +46,9 @@
         galaxy_fetch_dependencies: true
         galaxy_manage_mutable_setup: false
         galaxy_manage_database: false
-        galaxy_build_client: true
+        # FIXME: temp until VMs are EL9
+        #galaxy_build_client: true
+        galaxy_build_client: false
         galaxy_manage_errordocs: false
         galaxy_manage_gravity: false
         galaxy_manage_systemd: false
@@ -60,11 +62,16 @@
         success_msg: "Changes were made, transaction will be published"
         fail_msg: "No changes were made, transaction will be aborted"
 
+    # FIXME: temp until VMs are EL9
+    - name: Include client build tasks
+      include_tasks: "client-override.yml"
+
     - name: Remove node_modules
       file:
         path: "{{ galaxy_server_dir }}/client/node_modules"
         state: absent
       diff: false
+      no_log: true
 
     - name: Find plugin node_modules
       find:

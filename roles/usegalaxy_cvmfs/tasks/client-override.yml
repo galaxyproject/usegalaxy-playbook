@@ -1,0 +1,149 @@
+---
+# temp until VMs are EL9
+# yoinked from the role to override 
+
+- name: Build Galaxy client
+  block:
+
+    - name: Get current client commit id
+      slurp:
+        src: "{{ galaxy_static_dir }}/client_build_hash.txt"
+      register: __galaxy_client_build_version_result
+
+    - name: Get current Galaxy commit id  # noqa git-latest
+      git:
+        dest: "{{ galaxy_server_dir }}"
+        repo: "{{ galaxy_repo }}"
+        update: no
+      register: __galaxy_git_stat_result
+
+    - name: Set client build version fact
+      set_fact:
+        __galaxy_client_build_version: "{{ galaxy_client_force_build | ternary('FORCE-BUILD', __galaxy_client_build_version_result.content | b64decode | trim) }}"
+
+    - name: Set galaxy commit ID fact
+      set_fact:
+        __galaxy_current_commit_id: "{{ __galaxy_git_stat_result.after }}"
+
+    - name: Build Galaxy client if needed
+      block:
+
+        - name: Report client version mismatch
+          debug:
+            msg: "Galaxy client is out of date: {{ __galaxy_client_build_version }} != {{ __galaxy_current_commit_id }}"
+          changed_when: true
+
+        - name: Collect Galaxy Node.js version file
+          slurp:
+            src: "{{ galaxy_server_dir }}/client/.node_version"
+          register: __galaxy_node_version_file
+
+        - name: Set Galaxy Node.js version fact
+          set_fact:
+            galaxy_node_version: "{{ __galaxy_node_version_file['content'] | b64decode | trim }}"
+
+        - name: Create Node virtualenv
+          pip:
+            name: pip
+            virtualenv: "{{ galaxy_node_venv_dir }}"
+            extra_args: "{{ pip_extra_args | default(omit) }}"
+            virtualenv_command: "{{ galaxy_virtualenv_command | default(pip_virtualenv_command | default(omit)) }}"
+            virtualenv_python: "{{ galaxy_virtualenv_python | default(omit) }}"
+          environment:
+            VIRTUAL_ENV: "{{ galaxy_node_venv_dir }}"
+
+        - name: Ensure pip is the desired release
+          pip:
+            name:
+              - pip
+            state: "{{ galaxy_pip_version | default('latest') }}"
+            extra_args: "{{ pip_extra_args | default('') }}"
+            virtualenv: "{{ galaxy_node_venv_dir }}"
+            virtualenv_command: "{{ galaxy_virtualenv_command | default(pip_virtualenv_command | default(omit)) }}"
+          environment:
+            PYTHONPATH: null
+            VIRTUAL_ENV: "{{ galaxy_node_venv_dir }}"
+
+        - name: Ensure nodeenv is installed
+          pip:
+            name:
+              - nodeenv
+            virtualenv: "{{ galaxy_node_venv_dir }}"
+          environment:
+            PYTHONPATH: null
+            VIRTUAL_ENV: "{{ galaxy_node_venv_dir }}"
+
+        - name: Check if node is installed
+          stat:
+            path: "{{ galaxy_node_venv_dir }}/bin/node"
+          register: __galaxy_node_is_installed
+
+        - name: Collect installed node version
+          command: "{{ galaxy_node_venv_dir }}/bin/node --version"
+          when: __galaxy_node_is_installed.stat.exists
+          changed_when: false
+          register: __galaxy_installed_node_version
+
+        - name: Remove node_modules directory when upgrading node
+          file:
+            path: "{{ galaxy_node_venv_dir }}/lib/node_modules"
+            state: absent
+          when: (not __galaxy_node_is_installed.stat.exists) or (('v' ~ galaxy_node_version) != __galaxy_installed_node_version.stdout)
+
+        - name: Install or upgrade node
+          command: "nodeenv -n {{ galaxy_node_version }} -p"
+          environment:
+            PATH: "{{ galaxy_node_venv_dir }}/bin:{{ ansible_env.PATH }}"
+            VIRTUAL_ENV: "{{ galaxy_node_venv_dir }}"
+          when: (not __galaxy_node_is_installed.stat.exists) or (('v' ~ galaxy_node_version) != __galaxy_installed_node_version.stdout)
+
+        - name: Install yarn
+          npm:
+            executable: "{{ galaxy_node_venv_dir }}/bin/npm"
+            name: yarn
+            global: yes
+          environment:
+            PATH: "{{ galaxy_node_venv_dir }}/bin:{{ ansible_env.PATH }}"
+            VIRTUAL_ENV: "{{ galaxy_node_venv_dir }}"
+
+        - name: Install packages with yarn
+          yarn:
+            executable: "yarn --network-timeout 300000 --check-files"
+            path: "{{ galaxy_server_dir }}/client"
+          environment:
+            PATH: "{{ galaxy_node_venv_dir }}/bin:{{ ansible_env.PATH }}"
+            VIRTUAL_ENV: "{{ galaxy_node_venv_dir }}"
+
+        - name: Run gulp  # noqa no-changed-when
+          command: yarn run gulp {{ item }}
+          args:
+            chdir: "{{ galaxy_server_dir }}/client"
+          with_items: "{{ galaxy_client_build_steps[__galaxy_major_version] | default(galaxy_client_build_steps.default) }}"
+          environment:
+            PATH: "{{ galaxy_server_dir }}/client/node_modules/.bin:{{ galaxy_node_venv_dir }}/bin:{{ ansible_env.PATH }}"
+            VIRTUAL_ENV: "{{ galaxy_node_venv_dir }}"
+            NODE_ENV: "{{ galaxy_client_node_env }}"
+
+        - name: Run webpack  # noqa no-changed-when
+          command: "yarn run webpack{{ (galaxy_client_node_env == 'production') | ternary('-production', '') }}"
+          args:
+            chdir: "{{ galaxy_server_dir }}/client"
+          environment:
+            PATH: "{{ galaxy_server_dir }}/client/node_modules/.bin:{{ galaxy_node_venv_dir }}/bin:{{ ansible_env.PATH }}"
+            VIRTUAL_ENV: "{{ galaxy_node_venv_dir }}"
+            GXY_BUILD_SOURCEMAPS: 1
+
+        - name: Stage built client
+          command: "yarn run stage-build"
+          args:
+            chdir: "{{ galaxy_server_dir }}/client"
+          environment:
+            PATH: "{{ galaxy_server_dir }}/client/node_modules/.bin:{{ galaxy_node_venv_dir }}/bin:{{ ansible_env.PATH }}"
+            VIRTUAL_ENV: "{{ galaxy_node_venv_dir }}"
+          when: "__galaxy_major_version is version('23.0', '>=')"
+
+      when: __galaxy_client_build_version != __galaxy_current_commit_id
+
+  remote_user: "{{ galaxy_remote_users.privsep | default(__galaxy_remote_user) }}"
+  become: "{{ true if galaxy_become_users.privsep is defined else __galaxy_become }}"
+  become_user: "{{ galaxy_become_users.privsep | default(__galaxy_become_user) }}"

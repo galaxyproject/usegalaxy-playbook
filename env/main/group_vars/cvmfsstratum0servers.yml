@@ -1,5 +1,8 @@
 ---
 
+# TEMP
+galaxy_node_venv_dir: /srv/galaxy-main-cache/node-venv
+
 # for templating configs for conditional deps
 covid_crg_ftp_staging_user: foo
 covid_crg_ftp_staging_passwd: foo
@@ -27,6 +30,9 @@ miniconda_conda_environments:
   _galaxy_weasyprint_deps_:
     packages:
       - pango
+
+# TODO: was this parent manually created?
+xdg_cache_home: /srv/galaxy-main-cache/cache
 
 # Stratum 0 is EL9 but Galaxy servers are still EL7 for now, and venv node is used to run the gx-it-proxy
 galaxy_node_version_max: 16.19.1
