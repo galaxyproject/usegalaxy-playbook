@@ -40,9 +40,8 @@ nginx_extra_configs:
 
 certbot_domains:
   - usegalaxy.org
+  - "*.usegalaxy.org"
   - "{{ inventory_hostname_short }}.galaxyproject.org"
-  - www.usegalaxy.org
-  - singlecell.usegalaxy.org
 
 galaxy_base_welcome_names:
   - usegalaxy.org
@@ -51,6 +50,18 @@ galaxy_base_welcome_names:
 
 galaxy_themes_subdomains:
   - name: singlecell
+    theme:
+      singlecell:
+        masthead:
+          color: "#530080"
+  - name: brc
+    theme:
+      brc:
+        masthead:
+          color: >
+            linear-gradient( 0deg,
+              rgba(34,193,195,1) 0%,
+              rgba(253,155,45,1) 100%)
 
 # Disable handlers in role, use playbook handlers
 galaxy_systemd_mode: null

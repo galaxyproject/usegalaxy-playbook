@@ -349,8 +349,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
   - src: files/galaxy/config/trs_servers_conf.yml
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
-  - src: files/galaxy/config/themes_conf.yml
-    dest: "{{ galaxy_config.galaxy.themes_config_file }}"
 
 # specifies config files to template from the playbook
 # NOTE: changes here may need to be reflected in galaxy-vgp host_vars
