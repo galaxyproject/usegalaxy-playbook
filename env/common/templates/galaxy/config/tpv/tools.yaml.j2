@@ -685,17 +685,19 @@ tools:
       - rockfish-devgalaxy
 
   toolshed.g2.bx.psu.edu/repos/iuc/colabfold_msa/colabfold_msa/.*:
-    mem: 7
     params:
       require_container: true
       container_override:
         - type: singularity
           shell: /bin/bash
           resolve_dependencies: false
-          identifier: /corral4/ndc/singularity/colabfold-1.5.5-cuda12.2.2
+          identifier: /scratch4/nekrut/ndc/colabfold-1.5.5-cuda12.2.2
+    env:
+      - name: SINGULARITYENV_COLABFOLD_EXTRA_OPTIONS
+        value: "--host-url http://localhost:8000"
     scheduling:
       require:
-      - roundup
+      - rockfish-devgalaxy
     rules:
     - id: colabfold_deny_rule
       if: |
