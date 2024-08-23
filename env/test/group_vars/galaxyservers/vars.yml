@@ -183,7 +183,7 @@ galaxy_job_conf_tools:
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 8
+    value: 12
   - type: anonymous_user_concurrent_jobs
     value: 1
 
@@ -196,10 +196,10 @@ galaxy_job_conf_limits:
   # per-environments per-user limits
   - type: environment_user_concurrent_jobs
     id: roundup
-    value: 4
+    value: 8
   - type: environment_user_concurrent_jobs
     id: jetstream2
-    value: 4
+    value: 6
   - type: environment_user_concurrent_jobs
     id: tacc_k8s
     value: 1
@@ -215,13 +215,23 @@ galaxy_job_conf_limits:
     id: rockfish
     value: 4
   - type: environment_total_concurrent_jobs
+    id: rockfish_devgalaxy
+    # actually controlled via TPV rules so this is more of a failsafe
+    value: 4
+  - type: environment_total_concurrent_jobs
     id: frontera
+    value: 4
+  - type: environment_total_concurrent_jobs
+    id: frontera_rtx
     value: 4
   - type: environment_total_concurrent_jobs
     id: stampede3_skx
     value: 4
   - type: environment_total_concurrent_jobs
     id: stampede3_icx
+    value: 4
+  - type: environment_total_concurrent_jobs
+    id: stampede3_spr
     value: 4
 
 pulsar_default_file_action: remote_transfer_tus
