@@ -8,5 +8,18 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/.*:
     mem: 5.6
 
-  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2_.*:
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2_.*/2023\.5.*:
     mem: 8.3
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/sh
+        identifier: /cvmfs/main.galaxyproject.org/singularity/qiime2-core:2023.5--0
+
+  toolshed.g2.bx.psu.edu/repos/q2d2/qiime2_.*/2024\.5.*:
+    mem: 8.3
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/sh
+        identifier: /cvmfs/main.galaxyproject.org/singularity/qiime2-amplicon:2024.5--0
