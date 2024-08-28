@@ -1065,6 +1065,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
     cores: 16
     # TODO: make a helper
+    # TODO: per delphine, at 24GB overhead it worked if the input fasta had 200 scaffolds but still OOMed with 1000
+    # scaffolds, so you could potentially scale the overhead by number of scaffolds
     mem: |
       import os
       mem = 64
@@ -1086,7 +1088,7 @@ tools:
       else:
           log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
                       table_name, lookup_column, lookup_value, value_column, mem)
-      mem + 24
+      mem + 32
     scheduling:
       accept:
       - training-exempt
