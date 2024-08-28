@@ -4,6 +4,8 @@
 #
 # used by: galaxyproject.galaxy (templating job_conf.yml)
 galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
+# For single-Pulsar dests like rockfish-devgalaxy
+galaxy_job_conf_main_amqp_url: "{{ vault_galaxy_job_conf_main_amqp_url }}"
 
 # used by: object store config template
 galaxy_gs0_irods_password: "{{ vault_galaxy_gs0_irods_password }}"
@@ -110,6 +112,7 @@ galaxy_job_conf_runners:
   rockfish_devgalaxy:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: rockfish_devgalaxy
+    amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
   jetstream2_k8s:
     load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
     manager: jetstream2_k8s

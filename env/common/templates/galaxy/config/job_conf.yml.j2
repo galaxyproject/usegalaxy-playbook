@@ -23,7 +23,9 @@ runners:
 {% endfor %}
 {% if params.load.startswith("galaxy.jobs.runners.pulsar:") %}
 {% for k, v in galaxy_job_conf_pulsar_runner_params.items() %}
+{% if k not in (params | default({})) %}
     {{ k }}: {{ v }}
+{% endif %}
 {% endfor %}
 {% endif %}
 {% endfor %}
