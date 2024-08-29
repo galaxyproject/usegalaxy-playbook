@@ -695,6 +695,13 @@ tools:
     env:
       - name: SINGULARITYENV_COLABFOLD_EXTRA_OPTIONS
         value: "--host-url http://localhost:8000"
+    rules:
+    - id: colabfold_msa_test_sequence_length_rule
+      if: |
+        options = job.get_param_values(app)
+        sequences = options["query_type"]["input"].metadata.get("sequences")
+        sequences > 10
+      fail: Limit 10 sequences per input, please decrease the number of sequences in your input by splitting into multiple files
     scheduling:
       require:
       - rockfish-devgalaxy
@@ -714,14 +721,20 @@ tools:
       require:
       - rockfish-devgalaxy
     rules:
-    - id: colabfold_deny_rule
+    #- id: colabfold_deny_rule
+    #  if: |
+    #    not user or not any([
+    #      role for role in user.all_roles() if (
+    #        role.name in ['ColabFold'] and not role.deleted
+    #    )])
+    #  fail: |
+    #    This tool is currently being beta-tested and your account has not been given access.
+    - id: colabfold_msa_sequence_length_rule
       if: |
-        not user or not any([
-          role for role in user.all_roles() if (
-            role.name in ['ColabFold'] and not role.deleted
-        )])
-      fail: |
-        This tool is currently being beta-tested and your account has not been given access.
+        options = job.get_param_values(app)
+        sequences = options["query_type"]["input"].metadata.get("sequences")
+        sequences > 60
+      fail: Limit 60 sequences per input, please decrease the number of sequences in your input by splitting into multiple files
     - id: colabfold_concurrency_rule
       if: |
         not any([
@@ -779,16 +792,10 @@ tools:
     #mem: 48
     cores: 16
     mem: 120
+    context:
+      time: "02:00:00"
     params:
       require_container: true
-    env:
-    #- name: SINGULARITYENV_ALPHAFOLD_DB
-    #  value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3
-    #- name: APPTAINER_BINDPATH
-    #- name: APPTAINER_BINDPATH
-    - name: SINGULARITY_BINDPATH
-      value: $_GALAXY_JOB_TMP_DIR:/cache:rw
-      #value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3:/cache/colabfold:ro
     rules:
     - id: colabfold_rockfish_rule
       if: |
@@ -805,25 +812,32 @@ tools:
         require:
         - rockfish-gpu
     - id: colabfold_allow_rule
+      #if: |
+      #  user and 'ColabFold' in [role.name for role in user.all_roles() if not role.deleted] and 'ColabFoldRockfish' not in [role.name for role in user.all_roles() if not role.deleted]
       if: |
-        user and 'ColabFold' in [role.name for role in user.all_roles() if not role.deleted] and 'ColabFoldRockfish' not in [role.name for role in user.all_roles() if not role.deleted]
+        user and 'ColabFoldRockfish' not in [role.name for role in user.all_roles() if not role.deleted]
       params:
         container_override:
           - type: singularity
             shell: /bin/bash
             resolve_dependencies: false
             identifier: /work2/02232/ndc/frontera/singularity/colabfold-1.5.5-cuda12.2.2
+      env:
+      - execute: mkdir -p /scratch1/03166/xcgalaxy/colabfold
+      - name: SINGULARITY_BINDPATH
+        value: $_GALAXY_JOB_TMP_DIR:/cache:rw,/scratch1/03166/xcgalaxy/colabfold:/cache/colabfold:rw
+        #value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3:/cache/colabfold:ro
       scheduling:
         require:
         - frontera-rtx
-    - id: colabfold_deny_rule
-      if: |
-        not user or not any([
-          role for role in user.all_roles() if (
-            role.name in ['ColabFold'] and not role.deleted
-        )])
-      fail: |
-        This tool is currently being beta-tested and your account has not been given access.
+    #- id: colabfold_deny_rule
+    #  if: |
+    #    not user or not any([
+    #      role for role in user.all_roles() if (
+    #        role.name in ['ColabFold'] and not role.deleted
+    #    )])
+    #  fail: |
+    #    This tool is currently being beta-tested and your account has not been given access.
 
   # TODO: sort stuff below here
 
