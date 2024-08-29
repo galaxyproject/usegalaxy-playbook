@@ -112,6 +112,17 @@ tools:
       require:
       - jetstream2
 
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/kegalign/kegalign/.*:
+    gpus: 0.2
+    cores: 8
+    mem: 28
+    context:
+      js2_gpu_partition: gpu-medium
+    scheduling:
+      require:
+      - gpu
+      - pulsar
+
   toolshed.g2.bx.psu.edu/repos/richard-burhans/segalign/segalign/.*:
     gpus: 0.2
     cores: 8
