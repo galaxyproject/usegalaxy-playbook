@@ -440,6 +440,10 @@ tools:
     cores: 8
     mem: 28
 
+  toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
+    cores: 8
+    mem: min(max(int(input_size * 8), 14), 84)
+
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 8
     mem: 28
@@ -532,6 +536,9 @@ tools:
     scheduling:
       reject:
       - roundup
+
+  toolshed.g2.bx.psu.edu/repos/iuc/windowmasker/windowmasker_mkcounts/.*:
+    mem: 7
 
   toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/.*:
     cores: 8
