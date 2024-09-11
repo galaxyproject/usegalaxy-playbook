@@ -418,7 +418,7 @@ tools:
     mem: 16
 
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
-    mem: min(max(int(input_size * 10), 14), 58)
+    mem: min(max(int(input_size * 200), 14), 58)
 
   toolshed.g2.bx.psu.edu/repos/iuc/bbtools_bbmerge/bbtools_bbmerge/.*:
     mem: 480
@@ -435,7 +435,7 @@ tools:
     mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/windowmasker/windowmasker_mkcounts/.*:
-    mem: 7
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
     cores: 8

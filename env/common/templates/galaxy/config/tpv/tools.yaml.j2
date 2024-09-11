@@ -268,6 +268,8 @@ tools:
 
   # only this container version contains the required databases, see https://github.com/bioconda/bioconda-recipes/issues/45328
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
+    cores: 16
+    mem: 58
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/repeatmasker:4.1.5--pl5321hdfd78af_0"}]
 
@@ -344,8 +346,7 @@ tools:
   # toolshed.g2.bx.psu.edu/repos/iuc/bedtools/.* in tools_pre_shared.yaml
 
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
-    mem: 14
-    mem: min(max(int(input_size * 10), 14), 58)
+    mem: min(max(int(input_size * 200), 14), 58)
 
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     # was 16 in the job router but let's try this
@@ -440,6 +441,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     cores: 8
     mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/iuc/microsatbed/microsatbed/.*:
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
     cores: 8
@@ -539,7 +543,7 @@ tools:
       - roundup
 
   toolshed.g2.bx.psu.edu/repos/iuc/windowmasker/windowmasker_mkcounts/.*:
-    mem: 7
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/.*:
     cores: 8
@@ -740,6 +744,9 @@ tools:
     #    )])
     #  fail: |
     #    This tool is currently being beta-tested and your account has not been given access.
+    - id: require_login
+      if: user is None
+      fail: An account is required to run this tool. Please log in or create an account.
     - id: colabfold_msa_sequence_length_rule
       if: |
         options = job.get_param_values(app)
@@ -808,6 +815,9 @@ tools:
     params:
       require_container: true
     rules:
+    - id: require_login
+      if: user is None
+      fail: An account is required to run this tool. Please log in or create an account.
     - id: colabfold_rockfish_rule
       if: |
         user and 'ColabFoldRockfish' in [role.name for role in user.all_roles() if not role.deleted]

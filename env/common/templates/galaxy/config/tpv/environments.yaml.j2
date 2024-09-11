@@ -417,9 +417,8 @@ destinations:
       - bridges2
       require:
       - pulsar
-      # downtime may 21-24
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   expanse:
     runner: expanse
@@ -514,9 +513,8 @@ destinations:
       - expanse
       require:
       - pulsar
-      # mostly exhausted for 2023-2024, holding back a bit
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   _rockfish:
     abstract: true
