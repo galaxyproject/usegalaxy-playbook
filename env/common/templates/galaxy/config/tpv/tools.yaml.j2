@@ -748,19 +748,19 @@ tools:
       fail: Limit 60 sequences per input, please decrease the number of sequences in your input by splitting into multiple files
     - id: colabfold_concurrency_rule
       if: |
-        not any([
+        not user or not any(
           role for role in user.all_roles() if (
-            role.name in ['ColabFoldExtraMSA'] and not role.deleted
-        )]) and helpers.concurrent_job_count_for_tool(app, tool, user) >= 2
+            role.name == 'ColabFoldExtraMSA' and not role.deleted
+        )) and helpers.concurrent_job_count_for_tool(app, tool, user) >= 2
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
     - id: colabfold_extra_concurrency_rule
       if: |
-        any([
+        not user or not any(
           role for role in user.all_roles() if (
-            role.name in ['ColabFoldExtraMSA'] and not role.deleted
-        )]) and helpers.concurrent_job_count_for_tool(app, tool, user) >= 5
+            role.name == 'ColabFoldExtraMSA' and not role.deleted
+        )) and helpers.concurrent_job_count_for_tool(app, tool, user) >= 5
       execute: |
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
