@@ -88,6 +88,27 @@ tools:
 
   # special
 
+  _wigtobigwig:
+    abstract: true
+    # supposedly 1.5x for  wig, 1.25x for bedgraph: https://genome.ucsc.edu/goldenPath/help/bigWig.html
+    # but that doesn't explain <1GB inputs taking >20GB of mem. ultimately, the 99th percentile runtime of this tool is
+    # 8 minutes, so it's not going to hurt that much to overallocate
+    context:
+      # TODO: make this work
+      time: 00:02:00
+    mem: min(max(input_size * 20, 28), 58)
+    scheduling:
+      accept:
+      - training-exempt
+  .*to_bigwig.*: {inherits: _wigtobigwig}
+  wig_to_bigWig: {inherits: _wigtobigwig}
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_wigtobigwig/ucsc_wigtobigwig/.*: {inherits: _wigtobigwig}
+  # temporary container override because the 447--hd8417b0_2 image is arm64
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_wigtobigwig/ucsc_wigtobigwig/447\+*:
+    inherits: _wigtobigwig
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/ucsc-wigtobigwig:447--h2a80c09_2"}]
+
   # https://github.com/bioconda/bioconda-recipes/pull/41091
   #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
