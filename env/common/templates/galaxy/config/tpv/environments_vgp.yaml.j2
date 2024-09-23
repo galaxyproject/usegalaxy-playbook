@@ -158,6 +158,7 @@ destinations:
     # gmx_sim uses this, maybe others?
     - name: SINGULARITYENV_GPU_AVAILABLE
       value: "1"
+    - execute: nvidia-modprobe -u -c=0
     scheduling:
       require:
       - gpu
