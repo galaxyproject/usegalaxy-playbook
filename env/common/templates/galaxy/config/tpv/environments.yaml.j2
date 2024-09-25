@@ -19,8 +19,6 @@ destinations:
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
     - name: TERM
       value: vt100
-    - name: LC_ALL
-      value: C
 
   _tacc_hpc:
     abstract: true
@@ -54,16 +52,12 @@ destinations:
     - execute: ulimit -c 0
     - name: TERM
       value: vt100
-    - name: LC_ALL
-      value: C
     - name: TRINITY_SCRATCH_DIR
       value: /tmp
     - name: SINGULARITYENV_TERM
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
-    - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
 
@@ -124,8 +118,6 @@ destinations:
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
-    - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
     scheduling:
       accept:
       - roundup
@@ -217,8 +209,6 @@ destinations:
       value: /tmp/{{ galaxy_user }}-cache
     - name: TERM
       value: vt100
-    - name: LC_ALL
-      value: C
     - name: SINGULARITYENV_XDG_DATA_HOME
       value: $XDG_DATA_HOME
     - name: SINGULARITYENV_XDG_CACHE_HOME
@@ -227,8 +217,6 @@ destinations:
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
-    - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
     scheduling:
       accept:
       - jetstream2
@@ -376,16 +364,12 @@ destinations:
     - execute: ulimit -c 0
     - name: TERM
       value: vt100
-    - name: LC_ALL
-      value: C
     - name: TRINITY_SCRATCH_DIR
       value: $LOCAL
     - name: SINGULARITYENV_TERM
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
-    - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
     - name: CVMFSEXEC_DIR
@@ -470,16 +454,12 @@ destinations:
     - execute: ulimit -c 0
     - name: TERM
       value: vt100
-    - name: LC_ALL
-      value: C
     - name: TRINITY_SCRATCH_DIR
       value: "/scratch/xgalaxy/job_$SLURM_JOB_ID"
     - name: SINGULARITYENV_TERM
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
-    - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
     # Expanse disabled user namespaces at some point
@@ -549,8 +529,6 @@ destinations:
     - execute: ulimit -c 0
     - name: TERM
       value: vt100
-    - name: LC_ALL
-      value: C
     - name: TRINITY_SCRATCH_DIR
       value: /tmp/galaxy_job_$SLURM_JOB_ID
     - execute: mkdir $TRINITY_SCRATCH_DIR
@@ -559,8 +537,6 @@ destinations:
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
-    - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
     - execute: module load singularity/3.8.7
@@ -669,14 +645,10 @@ destinations:
     - execute: ulimit -c 0
     - name: TERM
       value: vt100
-    - name: LC_ALL
-      value: C
     - name: SINGULARITYENV_TERM
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
-    - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
     - execute: module load singularity/3.8.7
     - name: SINGULARITY_PYTHREADS
       value: "9"
@@ -766,14 +738,10 @@ destinations:
     - execute: ulimit -c 0
     - name: TERM
       value: vt100
-    - name: LC_ALL
-      value: C
     - name: SINGULARITYENV_TERM
       value: $TERM
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
-    - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
 
   stampede3_skx:
     inherits: _stampede3

@@ -24,6 +24,10 @@ tools:
       value: "FALSE"
     - name: SINGULARITYENV_HDF5_USE_FILE_LOCKING
       value: $HDF5_USE_FILE_LOCKING
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
     scheduling:
       accept:
       - pulsar
