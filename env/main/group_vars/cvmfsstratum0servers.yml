@@ -3,6 +3,11 @@
 # TEMP
 galaxy_node_venv_dir: /srv/galaxy-main-cache/node-venv
 
+# within the transaction, prefixed with `{{ galaxy_server_dir }}/`
+galaxy_sample_copies:
+  - "tool-data/q2view_display.loc.sample"
+  - "tool-data/biom_simple_display.loc.sample"
+
 # for templating configs for conditional deps
 covid_crg_ftp_staging_user: foo
 covid_crg_ftp_staging_passwd: foo

@@ -62,6 +62,14 @@
         success_msg: "Changes were made, transaction will be published"
         fail_msg: "No changes were made, transaction will be aborted"
 
+    - name: Copy samples
+      copy:
+        src: "{{ (galaxy_server_dir, item) | path_join }}"
+        dest: "{{ (galaxy_server_dir, item | replace('.sample', '')) | path_join }}"
+        remote_src: true
+        mode: "0644"
+      loop: "{{ galaxy_sample_copies | default([]) }}"
+
     # FIXME: temp until VMs are EL9
     - name: Include client build tasks
       include_tasks: "client-override.yml"
