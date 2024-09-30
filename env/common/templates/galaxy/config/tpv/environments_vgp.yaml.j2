@@ -93,7 +93,7 @@ destinations:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={js2_partition}"
       tmp_dir: true
       outputs_to_working_directory: false
-      metadata_strategy: extended
+      #metadata_strategy: extended
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.jetstream | join(',') }}"
       singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
