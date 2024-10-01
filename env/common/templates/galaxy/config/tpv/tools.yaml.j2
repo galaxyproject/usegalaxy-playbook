@@ -938,6 +938,11 @@ tools:
           Too much data, we cannot support such large Trinity assemblies with our
           backend. Please use another server for your job.
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
+    # allegedly mem is block_size x 6, but in testing it was basically just ~190 GB + 1 GB per block_size
+    cores: 48
+    mem: 240
+
   toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
     cores: 2
     scheduling:
