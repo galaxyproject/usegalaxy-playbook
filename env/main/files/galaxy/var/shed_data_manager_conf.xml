@@ -624,4 +624,21 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager id="hisat_index_builder" version="0.0.1" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_hisat_index_builder/data_manager/hisat_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_hisat_index_builder/ba11fef120cd/data_manager_hisat_index_builder/data_manager/hisat_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_hisat_index_builder/hisat_index_builder_data_manager/1.0.0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_hisat_index_builder</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>ba11fef120cd</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_hisat_index_builder/hisat_index_builder_data_manager/1.0.0</id><version>1.0.0</version></tool><data_table name="hisat_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">${dbkey}/hisat_index/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/${dbkey}/hisat_index/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
