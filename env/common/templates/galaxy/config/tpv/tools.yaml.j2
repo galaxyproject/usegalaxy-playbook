@@ -26,9 +26,11 @@
 tools:
 
   interactive_tool_.*:
+    mem: 2.7
     scheduling:
       require:
-      - kubernetes
+      #- kubernetes
+      - gxit
       reject:
       - singularity
     rules:
@@ -45,6 +47,11 @@ tools:
   #      shell: /bin/bash
   #      identifier: natefoo/docker-rstudio-notebook:23.1.dev6
   #      #identifier: quay.io/galaxy/docker-rstudio-notebook:23.1
+
+  interactive_tool_jupyter_notebook:
+    inherits: interactive_tool_.*
+    params:
+      docker_run_extra_arguments: "-e NB_UID=$(id -u)"
 
   # TEST TEST TEST remove me
   secure_hash_message_digest:

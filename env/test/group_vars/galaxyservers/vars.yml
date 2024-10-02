@@ -356,6 +356,8 @@ galaxy_local_tools:
   - verkko.xml
   - section_name: Interactive Tools
     file: interactivetool_rstudio.xml
+  - section_name: Interactive Tools
+    file: interactivetool_jupyter_notebook_1.0.1.xml
   - section_name: Proteomics
     file: colabfold_msa.xml
   - section_name: Proteomics
@@ -404,6 +406,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
   - src: files/galaxy/config/trs_servers_conf.yml
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: files/galaxy/tools/default_notebook.ipynb
+    dest: "{{ galaxy_local_tools_dir }}/default_notebook.ipynb"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
