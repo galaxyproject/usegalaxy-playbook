@@ -3,8 +3,8 @@
 roles:
   "Job Priority Users":
     context:
-      roundup_small_partition: priority
-      roundup_large_partition: priority
+      cyclone_small_partition: priority
+      cyclone_large_partition: priority
       js2_partition: priority
   "JS2 Full GPU":
     context:
@@ -12,8 +12,8 @@ roles:
   training-.*:
     context:
       time: "04:00:00"
-      roundup_small_partition: priority
-      roundup_large_partition: priority
+      cyclone_small_partition: priority
+      cyclone_large_partition: priority
       js2_partition: priority
     rules:
     # NOTE: changes to training rules need to be reflected in the training tag rules on the default tool

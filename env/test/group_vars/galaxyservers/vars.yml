@@ -173,6 +173,15 @@ galaxy_job_conf_singularity_volumes:
     - "/tmp:/tmp:rw"
     - "/tmp:/var/tmp:rw"
 
+galaxy_job_conf_tpv_config_files:
+  - "tools_pre_shared.yaml"
+  - "https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/e2277c4e9aa8044342832f08d9fc06ebf7e8287c/tools.yml"
+  - "defaults.yaml"
+  - "environments.yaml"
+  - "tools.yaml"
+  - "users.yaml"
+  - "roles.yaml"
+
 # explicit mappings in the "tools" section of the job_conf
 galaxy_job_conf_tools:
   # explicit GxIT dispatching
@@ -368,13 +377,7 @@ tpv_mutable_dir: "{{ galaxy_root }}/tpv_staging"
 tpv_config_dir_name: "tpv"
 # the role defauls set this, but we need it before the role is imported
 tpv_config_dir: "{{ galaxy_config_dir }}/{{ tpv_config_dir_name }}"
-tpv_configs:
-  - templates/galaxy/config/tpv/defaults.yaml.j2
-  - templates/galaxy/config/tpv/environments.yaml.j2
-  - templates/galaxy/config/tpv/tools_pre_shared.yaml.j2
-  - templates/galaxy/config/tpv/tools.yaml.j2
-  - templates/galaxy/config/tpv/users.yaml.j2
-  - templates/galaxy/config/tpv/roles.yaml.j2
+tpv_configs: "{{ galaxy_job_conf_tpv_config_files | reject('match', '.*://.*') | map('regex_replace', '^', 'templates/galaxy/config/tpv/') | map('regex_replace', '$', '.j2') }}"
 
 # specifies config files to copy from the playbook
 galaxy_config_files:

@@ -10,8 +10,7 @@
 # - r3.large: 64c, 500G (502000M = 490.23G)
 # - r3.xl: 128c, 1T (1004000M = 980.47G)
 
-# 7.0G is also ok - can't fit nicely on the two smallest JS2 instances, but takes up 2 "slots" on everything else, and 1
-# on roundup.
+# 7.0G is also ok - can't fit nicely on the two smallest JS2 instances, but takes up 2 "slots" on everything else
 
 # Anything larger will go to HPC:
 # - bridges2 (shared): 16c-64c, 64G-128G, actual cores allocated = {int(mem/2)}, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
@@ -158,7 +157,7 @@ tools:
       value: "{{ galaxy_new_file_path }}:{{ galaxy_new_file_path }}:rw"
     scheduling:
       require:
-      - roundup
+      - cyclone
 
   # galaxy lib tools in singularity
 
@@ -215,16 +214,6 @@ tools:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-879928bcdd8adc5b4660a3f6de3703d7c7861de4:6ce96688844d469d84f94fabb34055d8dfa283c7-0"}]
 
   # real tools
-
-  # TEMP cyclone nfs locking problems
-  #toolshed.g2.bx.psu.edu/repos/bgruening/keras_model_builder/keras_model_builder/.*:
-  #  context:
-  #    roundup_small_partition: priority
-  #    roundup_constraint: --constraint=roundup
-  #toolshed.g2.bx.psu.edu/repos/iuc/jbrowse/jbrowse/.*:
-  #  context:
-  #    roundup_small_partition: priority
-  #    roundup_constraint: --constraint=roundup
 
   # NOTE: any tools that increase cores but do not set mem will use the default mem multiplier of cores * 2.89G
 
@@ -393,11 +382,11 @@ tools:
     mem: 5.6
 
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/3.1.1+galaxy0:
-    # Shared DB is 20 but it's single core, this allows it to run on roundup_small
+    # Shared DB is 20 but it's single core, this allows it to run on cyclone_small
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
-    # TODO: this should be higher but then it would be excluded from roundup
+    # TODO: this should be higher but then it would be excluded from cyclone
     cores: 4
     mem: 32
     # Databases on Corral
@@ -429,14 +418,14 @@ tools:
     #
     # Can the "datastore" be moved to instance storage?
     #
-    # decreased cores for roundup
+    # decreased cores for cyclone
     cores: 4
     env:
     - name: _GALAXY_JOB_TMP_DIR
       value: /tmp
     scheduling:
       require:
-      - roundup-mem
+      - cyclone-mem
 
   toolshed.g2.bx.psu.edu/repos/iuc/mashmap/mashmap/.*:
     cores: 8
@@ -535,7 +524,7 @@ tools:
     mem: 48
     scheduling:
       require:
-      - roundup-mem
+      - cyclone-mem
 
   toolshed.g2.bx.psu.edu/repos/iuc/tximport/tximport/.*:
     mem: 7
@@ -543,12 +532,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/.*:
     # was 16 in the job router but let's try this
     mem: 7
-
-  toolshed.g2.bx.psu.edu/repos/iuc/vsearch/vsearch_[^/]*/2\..*:
-    # uses cpu instructions not present on roundup
-    scheduling:
-      reject:
-      - roundup
 
   toolshed.g2.bx.psu.edu/repos/iuc/windowmasker/windowmasker_mkcounts/.*:
     mem: 28
@@ -1487,7 +1470,7 @@ tools:
       mem: 84
     scheduling:
       require:
-      - roundup-mem
+      - cyclone-mem
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_amova/mothur_amova/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_anosim/mothur_anosim/.*:
@@ -1587,7 +1570,7 @@ tools:
         raise JobNotReadyException()
     scheduling:
       require:
-      - roundup-mem
+      - cyclone-mem
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_deunique_tree/mothur_deunique_tree/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_dist_shared/mothur_dist_shared/.*:
@@ -1605,7 +1588,7 @@ tools:
         raise JobNotReadyException()
     scheduling:
       require:
-      - roundup-mem
+      - cyclone-mem
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_filter_seqs/mothur_filter_seqs/.*:
     inherits: _mothur
     cores: 2
@@ -1697,7 +1680,7 @@ tools:
         raise JobNotReadyException()
     scheduling:
       require:
-      - roundup-mem
+      - cyclone-mem
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_make_sra/mothur_make_sra/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_mantel/mothur_mantel/.*:
@@ -1783,7 +1766,7 @@ tools:
         raise JobNotReadyException()
     scheduling:
       require:
-      - roundup-mem
+      - cyclone-mem
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_reverse_seqs/mothur_reverse_seqs/.*:
     inherits: _mothur
   toolshed.g2.bx.psu.edu/repos/iuc/mothur_screen_seqs/mothur_screen_seqs/.*:

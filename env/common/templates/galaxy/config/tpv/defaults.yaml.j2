@@ -7,19 +7,21 @@ tools:
   _default:
     abstract: true
     cores: 1
-    #mem: cores * 2.7
     mem: cores * 3.7
     context:
-      roundup_small_partition: normal
-      roundup_large_partition: multi
-      roundup_constraint: ''
+      cyclone_small_partition: normal
+      cyclone_large_partition: multi
       js2_partition: tpv
       js2_gpu_partition: gpu-small
       mem_factor: 2.7
+      # TODO: verify that this is overridden by roles.yaml
       time: "36:00:00"
     env:
+    - execute: ulimit -c 0
     - name: _JAVA_OPTIONS
       value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
     - name: HDF5_USE_FILE_LOCKING
       value: "FALSE"
     - name: SINGULARITYENV_HDF5_USE_FILE_LOCKING
@@ -28,6 +30,10 @@ tools:
       value: C
     - name: SINGULARITYENV_LC_ALL
       value: $LC_ALL
+    - name: TERM
+      value: vt100
+    - name: SINGULARITYENV_TERM
+      value: $TERM
     scheduling:
       accept:
       - pulsar
@@ -90,8 +96,8 @@ tools:
         any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
       context:
         time: "04:00:00"
-        roundup_small_partition: priority
-        roundup_large_partition: priority
+        cyclone_small_partition: priority
+        cyclone_large_partition: priority
         js2_partition: priority
       max_cores: 2
       max_mem: max_cores * 3.5
@@ -109,8 +115,8 @@ tools:
         any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
       context:
         time: "04:00:00"
-        roundup_small_partition: priority
-        roundup_large_partition: priority
+        cyclone_small_partition: priority
+        cyclone_large_partition: priority
         js2_partition: priority
       max_cores: 8
       max_mem: max_cores * 3.5
@@ -128,8 +134,8 @@ tools:
         any([(hta.user_value == 'training' or hta.user_tname == 'training') for hta in tags]) and helpers.tag_values_match(entity, include_tags, exclude_tags)
       context:
         time: "04:00:00"
-        roundup_small_partition: priority
-        roundup_large_partition: priority
+        cyclone_small_partition: priority
+        cyclone_large_partition: priority
         js2_partition: priority
       max_cores: 16
       scheduling:
