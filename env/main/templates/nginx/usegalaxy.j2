@@ -158,18 +158,12 @@ server {
         add_header Access-Control-Allow-Methods $upstream_http_access_control_allow_methods;
 
         # CORS
-        #add_header Access-Control-Allow-Origin "http://registry.intermine.org";
         if ($http_origin ~ "^https?://(covid19\.galaxyproject\.org|registry\.intermine\.org)$") {
             add_header Access-Control-Allow-Origin $http_origin;
             add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
             add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
         }
-        if ($http_referer ~ "^https://observablehq\.com/(@spond|@davebx)/.*$") {
-            add_header Access-Control-Allow-Origin $http_origin;
-            add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
-            add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
-        }
-        if ($http_referer ~ "^https://(davebx|spond|dannon|stephenshank|hyphy_software)\.static\.observableusercontent\.com/.*$") {
+        if ($http_origin ~ "^https://(nekrut|spond|dannon|stephenshank|hyphy_software)\.static\.observableusercontent\.com$") {
             add_header Access-Control-Allow-Origin $http_origin;
             add_header Access-Control-Expose-Headers 'Content-Length,Content-Range';
             add_header Access-Control-Allow-Headers 'DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
