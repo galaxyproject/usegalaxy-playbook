@@ -464,7 +464,20 @@ tools:
 
   # only this container version contains the required databases, see https://github.com/bioconda/bioconda-recipes/issues/45328
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
-    cores: 16
-    mem: 58
+    cores: 20
+    mem: 76
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/repeatmasker:4.1.5--pl5321hdfd78af_0"}]
+
+  toolshed.g2.bx.psu.edu/repos/iuc/microsatbed/microsatbed/.*:
+    mem: 58
+
+  toolshed.g2.bx.psu.edu/repos/iuc/miniprot/miniprot/.*:
+    mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/iuc/mashmap/mashmap/.*:
+    cores: 16
+    mem: 64
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bigwig_outlier_bed/bigwig_outlier_bed/.*:
+    mem: 7

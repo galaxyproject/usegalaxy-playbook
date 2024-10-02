@@ -268,8 +268,8 @@ tools:
 
   # only this container version contains the required databases, see https://github.com/bioconda/bioconda-recipes/issues/45328
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
-    cores: 16
-    mem: 58
+    cores: 20
+    mem: 76
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/repeatmasker:4.1.5--pl5321hdfd78af_0"}]
 
@@ -351,6 +351,9 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
     mem: min(max(int(input_size * 200), 14), 58)
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bigwig_outlier_bed/bigwig_outlier_bed/.*:
+    mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     # was 16 in the job router but let's try this
@@ -456,6 +459,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/miniprot_index/miniprot_index/.*:
     # TODO: check on this after we've collected some real data, this was based of a 1.3 GB fasta.gz taking 34 GB
     mem: 58
+
+  toolshed.g2.bx.psu.edu/repos/iuc/miniprot/miniprot/.*:
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 8
