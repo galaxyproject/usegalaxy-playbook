@@ -190,6 +190,8 @@ galaxy_job_conf_tools:
     handler: k8s
   - id: interactive_tool_blobtoolkit
     handler: k8s
+  - id: interactive_tool_phyloseq
+    handler: k8s
 
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
@@ -317,6 +319,8 @@ galaxy_local_tools:
   # files sent by rserver stop sending prematurely and never complete on the client side, only when sent over tailscale,
   # but are fine when proxied with nginx.
   - file: interactivetool_rstudio.xml
+    section_name: Interactive Tools
+  - file: interactivetool_phyloseq.xml
     section_name: Interactive Tools
 
 # galaxy_config hash moved to group_vars/all/galaxy_config_vars.yml

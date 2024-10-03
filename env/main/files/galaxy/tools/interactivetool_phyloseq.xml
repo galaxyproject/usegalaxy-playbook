@@ -1,0 +1,70 @@
+<tool id="interactive_tool_phyloseq" tool_type="interactive" name="Phyloseq" version="1.0.0" profile="23.1">
+    <description>Explore microbiome profiles</description>
+    <requirements>
+        <container type="docker">quay.io/paulzierep/shinyphyloseq:0.1</container>
+    </requirements>
+    <entry_points>
+        <entry_point name="Phyloseq" requires_domain="True">
+            <!-- This port is exposed by the docker container -->
+            <port>3838</port>
+        </entry_point>
+    </entry_points>
+    <command><![CDATA[
+    mkdir -p ./shiny_input ./shiny_output &&
+
+    export SHINY_INPUT_DIR=\$PWD/shiny_input &&
+    export SHINY_OUTPUT_DIR=\$PWD/shiny_output &&
+
+    ln -sf '$input' \$SHINY_INPUT_DIR &&
+
+    Rscript /app_setup.R
+
+    ]]>
+    </command>
+    <inputs>
+        <param name="input" type="data" format="phyloseq" label="Phyloseq R object"
+            help="A phyloseq object stored as RDS file. If only a RData object is available the phyloseq object needs to be extracted first."/>
+    </inputs>
+    <outputs>
+        <collection name="output_collection" type="list" label="RData collection">
+            <discover_datasets pattern="__designation_and_ext__" directory="./shiny_output" visible="false"/>
+        </collection>
+    </outputs>
+    <tests>
+        <test expect_num_outputs="1"/>
+    </tests>
+    <help><![CDATA[
+
+**Overview**
+
+The analysis of microbial communities brings many challenges: the integration of many different types of data with methods from ecology, genetics, phylogenetics,
+network analysis, visualization and testing. The data itself may originate from widely different sources, such as the microbiomes of humans, soils, surface and ocean waters,
+wastewater treatment plants, industrial facilities, and so on; and as a result, these varied sample types may have very different forms and scales of related data that
+is extremely dependent upon the experiment and its question(s). The phyloseq package is a tool to import, store, analyze, and graphically display complex
+phylogenetic sequencing data that has already been clustered into Operational Taxonomic Units (OTUs), especially when there is associated sample data, phylogenetic
+tree, and/or taxonomic assignment of the OTUs.
+
+Full documentation: https://joey711.github.io/phyloseq/
+
+**Shiny App**       
+
+This IT uses https://github.com/joey711/shiny-phyloseq as the basis app but added some features that allow loading phyloseq objects dynamically from the Galaxy Input.
+The shiny app allows to interactively visualize and filer amplicon data:
+
+* Filter
+* Alpha Diversity
+* Network plots
+* d3Network plots
+* Ordination plots
+* Heatmaps
+* Tree plots
+* Scatter pots
+* Bar charts
+
+Unfortunately, the following features of the app are currently defunct: provenance. 
+        
+]]></help>
+    <citations>
+        <citation type="doi">10.1371/journal.pone.0061217</citation>
+    </citations>
+</tool>
