@@ -481,3 +481,9 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/bigwig_outlier_bed/bigwig_outlier_bed/.*:
     mem: 7
+
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/.*:
+    # python: can't open file '/jetstream2/scratch/main/jobs-vgp/61019498/tool_files/fasta_compute_length.py': [Errno 2] No such file or directory
+    scheduling:
+      reject:
+      - pulsar
