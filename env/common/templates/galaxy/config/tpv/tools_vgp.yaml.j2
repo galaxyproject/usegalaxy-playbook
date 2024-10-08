@@ -122,11 +122,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/2022.09.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*
 
-  toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
-    # 130 in the shared DB, this prevents us from wasting most of an m3.2xl.
+  _meryl:
+    abstract: true
     cores: 60
     mem: 120
-    env:
+    #env:
     # suppress 'tar: read-db.meryl: file changed as we read it' warning and non-zero exit code
     #- name: SINGULARITY_BIND
     #  value: /jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro
@@ -135,6 +135,32 @@ tools:
       #- jetstream2
       #- bridges2
       - expanse
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
+    # 130 in the shared DB, this prevents us from wasting most of an m3.2xl.
+    inherits: _meryl
+
+  # Just going with 60/120 for now and we can collect some stats on how much each actually use
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_arithmetic_kmers/meryl_arithmetic_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_count_kmers/meryl_count_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_filter_kmers/meryl_filter_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_groups_kmers/meryl_groups_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_histogram_kmers/meryl_histogram_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_print/meryl_print/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_trio_mode/meryl_trio_mode/.*:
+    inherits: _meryl
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/kegalign/kegalign/.*:
     gpus: 0.2
