@@ -84,6 +84,8 @@ tpv_configs:
   - templates/galaxy/config/tpv/roles_vgp.yaml.j2
 
 galaxy_config_files:
+  - src: files/galaxy/config/panel_views/
+    dest: "{{ galaxy_config.galaxy.panel_views_dir }}"
   - src: files/galaxy/config/tool_data_table_conf.xml
     dest: "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
   - src: files/galaxy/config/tool_conf.xml
@@ -106,8 +108,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
   - src: files/galaxy/config/trs_servers_conf.yml
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
-  - src: files/galaxy/config/panel_views/vgp.yml
-    dest: "{{ galaxy_config.galaxy.panel_views_dir }}/vgp.yml"
 
 galaxy_config_templates:
   - src: templates/galaxy/config/job_conf_vgp.yml.j2
@@ -329,7 +329,7 @@ galaxy_config_hash:
     # branding
 
     brand: VGP
-    default_panel_view: vgp
+    default_panel_view: all_tools
     # doesn't work for some reason...
     logo_src: https://images.squarespace-cdn.com/content/v1/5963d1fa9de4bb12177a7f48/1526309972322-4IFPGMUU4CF8Y2LLQFM7/VGP_Tag_RGB_newLogo_72dpi_Dots_EDIT.png?format=200w
 
