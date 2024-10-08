@@ -252,7 +252,7 @@ tools:
       - if: 4 <= input_size < 8
         cores: 20
         mem: 190
-      - if: input_size >= 80
+      - if: input_size >= 20
         fail: |
           Too much data, we cannot support such large Trinity assemblies with our
           backend. Please use another server for your job.
