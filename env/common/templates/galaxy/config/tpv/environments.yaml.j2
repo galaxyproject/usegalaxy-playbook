@@ -402,8 +402,9 @@ destinations:
       - bridges2
       require:
       - pulsar
-      #reject:
-      #- offline
+      # Maintenance October 8-10 2024
+      reject:
+      - offline
 
   expanse:
     runner: expanse

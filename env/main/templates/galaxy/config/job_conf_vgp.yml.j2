@@ -35,6 +35,17 @@ runners:
     amqp_consumer_timeout: 2.0
     amqp_publish_retry: true
     amqp_publish_retry_max_retries: 60
+  expanse:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: vgp_expanse
+    amqp_url: {{ galaxy_job_conf_amqp_url }}
+    galaxy_url: {{ galaxy_job_conf_pulsar_galaxy_url }}
+    persistence_directory: /srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack
+    amqp_acknowledge: true
+    amqp_ack_republish_time: 1200
+    amqp_consumer_timeout: 2.0
+    amqp_publish_retry: true
+    amqp_publish_retry_max_retries: 60
 
 #
 # Job handler configuration
