@@ -516,3 +516,10 @@ tools:
     scheduling:
       reject:
       - pulsar
+
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
+    scheduling:
+      require:
+      - resize-shm
+      - jetstream2
+      - pulsar

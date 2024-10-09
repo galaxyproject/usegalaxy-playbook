@@ -143,6 +143,18 @@ destinations:
       - pulsar
       - singularity
 
+  jetstream2_resize_shm:
+    inherits: jetstream2
+    params:
+      submit_native_specification: "--nodes=1 --time={time} --partition=resize-shm"
+    scheduling:
+      require:
+      - resize-shm
+      - jetstream2
+      - pulsar
+      #reject:
+      #- offline
+
   jetstream2_gpu:
     inherits: jetstream2
     max_accepted_cores: 32
