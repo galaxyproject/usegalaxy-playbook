@@ -276,6 +276,7 @@ gravity_config:
       extra_args: --max-requests 50000 --max-requests-jitter 10000
       environment:
         LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
+        HDF5_USE_FILE_LOCKING: "FALSE"
     - bind: localhost:8081
       workers: 1
       timeout: 600
@@ -284,10 +285,12 @@ gravity_config:
       extra_args: --max-requests 50000 --max-requests-jitter 10000
       environment:
         LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
+        HDF5_USE_FILE_LOCKING: "FALSE"
   celery:
     environment:
       TMPDIR: /corral4/test/celery-scratch
       LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
+      HDF5_USE_FILE_LOCKING: "FALSE"
   tusd:
     - enable: true
       tusd_path: /usr/local/sbin/tusd
@@ -312,11 +315,15 @@ gravity_config:
       processes: 1
       pools:
         - job-handlers
+      environment:
+        HDF5_USE_FILE_LOCKING: "FALSE"
     test_workflow_scheduler:
       name_template: "{name}{process}"
       processes: 1
       pools:
         - workflow-schedulers
+      environment:
+        HDF5_USE_FILE_LOCKING: "FALSE"
 
 
 ## used by: usegalaxy_privileged

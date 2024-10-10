@@ -40,6 +40,8 @@ gravity_config:
       processes: 1
       pools:
         - job-handlers.k8s
+      environment:
+        HDF5_USE_FILE_LOCKING: "FALSE"
 
 galaxy_job_conf_runners:
   jetstream2_k8s:

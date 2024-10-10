@@ -9,8 +9,12 @@ gravity_handlers:
     processes: 3
     pools:
       - job-handlers
+    environment:
+      HDF5_USE_FILE_LOCKING: "FALSE"
   main_w3_workflow_scheduler:
     name_template: "{name}{process}"
     processes: 1
     pools:
       - workflow-schedulers
+    environment:
+      HDF5_USE_FILE_LOCKING: "FALSE"

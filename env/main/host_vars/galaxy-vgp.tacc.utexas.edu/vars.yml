@@ -40,6 +40,7 @@ gravity_config:
       extra_args: --max-requests 50000 --max-requests-jitter 10000 --worker-tmp-dir /dev/shm
       environment:
         LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
+        HDF5_USE_FILE_LOCKING: "FALSE"
     - bind: localhost:8081
       workers: 1
       timeout: 600
@@ -48,6 +49,7 @@ gravity_config:
       extra_args: --max-requests 50000 --max-requests-jitter 10000 --worker-tmp-dir /dev/shm
       environment:
         LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
+        HDF5_USE_FILE_LOCKING: "FALSE"
   celery:
     enable: false
     enable_beat: false
@@ -55,6 +57,7 @@ gravity_config:
       # TODO: this can be removed once the base OS version of pango is >= 1.44.0
       # TODO: EL8 on galaxy-vgp is hopefully new enough
       LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
+      HDF5_USE_FILE_LOCKING: "FALSE"
   tusd:
     - enable: true
       tusd_path: /usr/local/sbin/tusd
@@ -72,11 +75,15 @@ gravity_config:
       processes: 1
       pools:
         - job-handlers.vgp
+      environment:
+        HDF5_USE_FILE_LOCKING: "FALSE"
     main_vgp_workflow_scheduler:
       name_template: "{name}{process}"
       processes: 1
       pools:
         - workflow-schedulers.vgp
+      environment:
+        HDF5_USE_FILE_LOCKING: "FALSE"
 
 tpv_mutable_dir: "{{ galaxy_root }}/tpv_staging"
 tpv_config_dir_name: "tpv"
