@@ -311,7 +311,7 @@ tools:
       if: 0.001 <= input_size < 0.1
       cores: 2
     - id: fastqc_medium_input_rule
-      if: 1 <= input_size < 2
+      if: 0.1 <= input_size < 2
       cores: 4
 
   toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
