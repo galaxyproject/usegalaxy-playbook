@@ -174,13 +174,13 @@ galaxy_job_conf_singularity_volumes:
     - "/tmp:/var/tmp:rw"
 
 galaxy_job_conf_tpv_config_files:
-  - "tools_pre_shared.yaml"
-  - "https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/e2277c4e9aa8044342832f08d9fc06ebf7e8287c/tools.yml"
-  - "defaults.yaml"
-  - "environments.yaml"
-  - "tools.yaml"
-  - "users.yaml"
-  - "roles.yaml"
+  - tools_pre_shared.yaml
+  - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/e2277c4e9aa8044342832f08d9fc06ebf7e8287c/tools.yml
+  - defaults.yaml
+  - environments.yaml
+  - tools.yaml
+  - users.yaml
+  - roles.yaml
 
 # explicit mappings in the "tools" section of the job_conf
 galaxy_job_conf_tools:

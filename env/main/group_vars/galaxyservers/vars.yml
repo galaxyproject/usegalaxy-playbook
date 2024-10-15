@@ -103,15 +103,13 @@ galaxy_job_conf_runners:
     manager: rockfish_devgalaxy
 
 galaxy_job_conf_tpv_config_files:
-  - tools_pre_shared.yamlx
+  - tools_pre_shared.yaml
   - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/e2277c4e9aa8044342832f08d9fc06ebf7e8287c/tools.yml
   - defaults.yaml
   - environments.yaml
-  - environments_vgp.yaml
   - tools.yaml
-  - tools_vgp.yaml
   - users.yaml
-  - roles_vgp.yaml
+  - roles.yaml
 
 galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:3.8.3
 

@@ -1,60 +1,35 @@
 ---
 
-# NOTE: Where it makes sense, try to use memory values that are just under JS2 instance sizes:
-# - m3.tiny: 1c, 2.7G (2840M = 2.77G)
-# - m3.small: 2c, 5.6G (5900M = 5.76G)
-# - m3.quad: 4c, 14.0G (14800M = 14.45G)
-# - m3.medium: 8c, 28.0G (29900M = 29.20G)
-# - m3.large: 16c, 58.0G (60100M = 58.69G)
-# - m3.xl: 32c, 120G (125000M = 122.07G)
-# - r3.large: 64c, 500G (502000M = 490.23G)
-# - r3.xl: 128c, 1T (1004000M = 980.47G)
-
-# 7.0G is also ok - can't fit nicely on the two smallest JS2 instances, but takes up 2 "slots" on everything else
-
-# Anything larger will go to HPC:
-# - bridges2 (shared): 16c-64c, 64G-128G, actual cores allocated = {int(mem/2)}, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
-# - expanse (shared): 16c-64c, 64G-128G, actual cores allocated = {int(mem/2)}, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
-# - bridges2 (exclusive): 64c-128c, 128G-250G, actual cores allocated = 128, actual mem allocated = 250G, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
-# - expanse (exclusive): 64c-128c, 128G-250G, actual cores allocated = 128, actual mem allocated = 250G, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
-# - rockfish (shared): 16c-32c, 64G-128G, actual cores allocated = {cores}, actual mem allocated = {int(mem)}, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
-# - rockfish (exclusive): 32c-48c, 128G-192G, actual cores allocated = 48, actual mem allocated = 192G, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to {int(mem*1024)}
-# - stampede3-skx (exclusive): 16c-96c, 96G-190G, actual cores allocated = 96, actual mem allocated = 190G, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to 190000, no clamping
-# - stampede3-icx (exclusive): 32-160c, 128G-250G, actual cores allocated = 160, actual mem allocated = 250G, $GALAXY_SLOTS set to {cores}, $GALAXY_MEMORY_MB set to 254000
+# HOW TO WRITE A TOOL ENTRY
+#
+# Beware: if cores > 1, then it might be a lie. Because we run on a variety of systems that allocate between 2GB/core
+# and 8GB/core, for multicore jobs, the value of cores is calculated dynamically based on the requested memory and
+# TPV-selected destination. This is done because generally the true constraint is memory - we want to use as many
+# cores as the underlying resource allocates for the amount of memory we're requesting, so using the hardcoded cores
+# value necessarily wastes either cores or memory.
+#
+# Thus, when writing tool entries:
+#
+# - If a tool is single core but needs more mem then set {cores: 1} and increase mem
+# - If a tool is multicore then set cores roughly = mem / 4. It will be overridden by the destination, but a value is
+#   necessary for matching valid destinations that will take multicore jobs
+# - If a tool is multicore and SHOULD NOT scale cores by memory and destination, set {context: {force_cores: true}}
+#
+# Where it makes sense, try to use these buckets which fit nicely for our Cyclone and Jetstream2 instances:
+#
+# - {cores: 2, mem: 7}
+# - {cores: 4, mem: 14}
+# - {cores: 8, mem: 28}
+# - {cores: 16, mem: 58}
+# - {cores: 32, mem: 120}
+#
+# Anything over 128 GB will go to whole Stampede3 nodes (except for VGP users)
 
 tools:
 
-  interactive_tool_.*:
-    scheduling:
-      require:
-      - kubernetes
-      reject:
-      - singularity
-    rules:
-    # TODO: add to tpv.helpers
-    - id: require_login
-      if: user is None
-      fail: An account is required to run this tool. Please log in or create an account.
-
-  #interactive_tool_rstudio:
-  #  inherits: interactive_tool_.*
-  #  params:
-  #    container_override:
-  #    - type: docker
-  #      shell: /bin/bash
-  #      identifier: natefoo/docker-rstudio-notebook:23.1.dev6
-  #      #identifier: quay.io/galaxy/docker-rstudio-notebook:23.1
-
-  # TEST TEST TEST remove me
-  secure_hash_message_digest:
-    params:
-      # Main-safe since this option is new and ignored until Main runs https://github.com/galaxyproject/galaxy/pull/17164
-      metadata_config:
-        containerize: true
-        engine: singularity
-        image: /corral4/test/singularity/galaxy-job-execution.sandbox
-
+  #
   # abstract tools for inheritance
+  #
 
   _conda_local:
     abstract: true
@@ -137,9 +112,25 @@ tools:
       require:
       - hpc
 
+  #
+  # real tools
+  #
+
   # test tools
 
   #echo: {scheduling: {require: [jetstream2]}}
+
+  #secure_hash_message_digest:
+  #  params:
+  #    # Main-safe since this option is new and ignored until Main runs https://github.com/galaxyproject/galaxy/pull/17164
+  #    metadata_config:
+  #      containerize: true
+  #      engine: singularity
+  #      image: /corral4/test/singularity/galaxy-job-execution.sandbox
+
+  verkko:
+    cores: 32
+    mem: 120
 
   # non-singularity non-pulsar tools
 
@@ -160,12 +151,6 @@ tools:
       - cyclone
 
   # galaxy lib tools in singularity
-
-  # these are covered by the default tool rules now
-  #toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/.*: {inherits: _galaxy_lib_local}
-  #toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value.*: {inherits: _galaxy_lib_local}
-  #param_value_from_file: {inherits: _galaxy_lib_local}
-  #pick_value: {inherits: _galaxy_lib_local}
 
   # TODO: PR to GALAXY_LIB_TOOLS*
   MAF_Thread_For_Species1: {inherits: _galaxy_lib}
@@ -213,9 +198,21 @@ tools:
       # python=3.7,coreutils=8.30
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-879928bcdd8adc5b4660a3f6de3703d7c7861de4:6ce96688844d469d84f94fabb34055d8dfa283c7-0"}]
 
-  # real tools
+  # interactive tools
 
-  # NOTE: any tools that increase cores but do not set mem will use the default mem multiplier of cores * 2.89G
+  interactive_tool_.*:
+    scheduling:
+      require:
+      - kubernetes
+      reject:
+      - singularity
+    rules:
+    # TODO: add to tpv.helpers
+    - id: require_login
+      if: user is None
+      fail: An account is required to run this tool. Please log in or create an account.
+
+  # pulsar incompatible
 
   hgv_ldtools:
     # copies ldtools_wrapper.sh without +x so can't be executed
@@ -223,6 +220,20 @@ tools:
       reject:
       - pulsar
 
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/1\.0\.[0123]:
+    # python: can't open file '/jetstream2/scratch/main/jobs-vgp/61019498/tool_files/fasta_compute_length.py': [Errno 2] No such file or directory, fixed in 1.0.4
+    scheduling:
+      reject:
+      - pulsar
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.[234]:
+    inherits: _singularity_resolv_fix
+    # copies uniprot.py without +x so can't be executed
+    scheduling:
+      reject:
+      - pulsar
+
+  # everything else
 
   _wigtobigwig:
     abstract: true
@@ -245,9 +256,18 @@ tools:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/ucsc-wigtobigwig:447--h2a80c09_2"}]
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
+    cores: 24
+    mem: 120
+
   toolshed.g2.bx.psu.edu/repos/bgruening/blobtoolkit/blobtoolkit/.*:
-    cores: 6
+    cores: 5
     mem: 20
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
+    # allegedly mem is block_size x 6, but in testing it was basically just ~190 GB + 1 GB per block_size
+    cores: 48
+    mem: 240
 
   toolshed.g2.bx.psu.edu/repos/bgruening/diffbind/diffbind/.*:
     mem: 14
@@ -255,34 +275,106 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/fastq_info/fastq_info/.*:
     mem: 7
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
+    cores: 4
+    mem: 14
+    scheduling:
+      accept:
+      - training-large
+    rules:
+    - id: flye_scalable_input_rule
+      if: input_size > 0.5
+      cores: 16
+      mem: min(max(int(input_size * 8), 28), 96)
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
+    cores: 4
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
+    cores: 4
+    mem: 14
+    context:
+      time: 48:00:00
+    scheduling:
+      accept:
+      - training-large
+    rules:
+    - id: hifiasm_small_input_rule
+      if: 0.5 <= input_size < 9.4
+      cores: 8
+      mem: 28
+    - id: hifiasm_scalable_input_rule
+      if: input_size >= 9.4
+      # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
+      cores: 16
+      mem: min(max(int(input_size * 3), 28), max_scaled_mem)
+
   # only this container version contains the required databases, see https://github.com/bioconda/bioconda-recipes/issues/45328
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
     cores: 20
-    mem: 76
+    mem: 80
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/repeatmasker:4.1.5--pl5321hdfd78af_0"}]
 
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
-    cores: 5
     rules:
-    - id: trim_galore_small_input_rule
-      if: input_size < 0.02
-      cores: 1
     - id: trim_galore_medium_input_rule
       if: 0.02 <= input_size < 0.2
       cores: 3
-
-  toolshed.g2.bx.psu.edu/repos/bgruening/uniprot_rest_interface/uniprot/0.[234]:
-    inherits: _singularity_resolv_fix
-    # copies uniprot.py without +x so can't be executed
-    scheduling:
-      reject:
-      - pulsar
+      mem: 12
+    - id: trim_galore_large_input_rule
+      if: input_size >= 0.2
+      cores: 5
+      mem: 20
 
   toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
-    cores: 80
-    # does not need this much but this gets it above the min_accepted for stampede3-icx
-    mem: 250
+    cores: 46
+    # TODO: how much does it actually need?
+    mem: 192
+
+  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
+    cores: 8
+    mem: 28
+    rules:
+    - id: bowtie2_small_input_rule
+      if: input_size < 0.1
+      cores: 2
+      mem: 5.6
+    - id: bowtie2_medium_input_rule
+      if: 0.1 <= input_size < 2
+      cores: 4
+      mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
+    cores: 8
+    mem: 28
+    rules:
+    - id: bwa_small_input_rule
+      if: input_size < 0.25
+      cores: 2
+      mem: 5.6
+    - id: bwa_medium_input_rule
+      if: 0.25 <= input_size < 1
+      cores: 4
+      mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
+    cores: 32
+    mem: 120
+    rules:
+    - id: bwa_mem_small_input_rule
+      if: input_size < 0.1
+      cores: 2
+      mem: 5.6
+    - id: bwa_mem_medium_input_rule
+      if: 0.1 <= input_size < 1
+      cores: 4
+      mem: 14
+    - id: bwa_mem_large_input_rule
+      if: 1 <= input_size < 20
+      cores: 8
+      mem: 28
 
   toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/.*:
     mem: 5.7
@@ -291,20 +383,23 @@ tools:
     mem: 5.7
 
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
-    cores: 8
+    context:
+      force_cores: true
     rules:
-    - id: fastqc_tiny_input_rule
-      if: input_size < 0.001
-      cores: 1
     - id: fastqc_small_input_rule
       if: 0.001 <= input_size < 0.1
       cores: 2
+      mem: 5.6
     - id: fastqc_medium_input_rule
-      if: 1 <= input_size < 2
+      if: 0.1 <= input_size < 2
       cores: 4
+      mem: 7
+    - id: fastqc_large_input_rule
+      if: input_size >= 2
+      cores: 8
+      mem: 14
 
   toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
-    # was 16 in the job router but let's try this
     mem: 7
 
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/.*:
@@ -313,8 +408,47 @@ tools:
       reject:
       - rockfish
 
-  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/get_species_taxids/2.10.1.*:
-    inherits: _singularity_resolv_fix
+  toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
+    cores: 20
+    mem: 20
+    scheduling:
+      accept:
+      - training-exempt
+      require:
+      - cvmfs
+
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
+    cores: 4
+    mem: 14
+    rules:
+    - id: ncbi_blastn_wrapper_db_rule
+      if: |
+        helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+      cores: 16
+      mem: 64
+    # 2023-11-02 getting this on Expanse, even after clearing Singualrity and CVMFS caches:
+    # /usr/local/bin/blastn: error while loading shared libraries: /usr/local/bin/../lib/ncbi-blast+/libblastinput.so: cannot read file data: Input/output error
+    scheduling:
+      reject:
+      - expanse
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
+    cores: 16
+    mem: 64
+    scheduling:
+      reject:
+      - expanse
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_rpsblast_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
+
+  # TODO: good candidate for memory resubmission
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/.*:
+    mem: 18
 
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/.*:
     # was 16 in the job router but let's try this
@@ -323,9 +457,26 @@ tools:
   toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_kaks_analysis/plant_tribes_kaks_analysis/.*:
     mem: 5.6
 
-  toolshed.g2.bx.psu.edu/repos/iuc/tasmanian_mismatch/tasmanian_mismatch/.*:
-    mem: 14
+  toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
+    cores: 90
+    mem: 120
+    scheduling:
+    rules:
+    - id: abyss-pe_small_input_rule
+      if: input_size < 0.002
+      cores: 2
+      mem: 5.6
+    - id: abyss-pe_medium_input_rule
+      if: 0.002 <= input_size < 5
+      cores: 32
+      mem: 94
+    - id: abyss-pe_fail_rule
+      if: input_size >= 20
+      fail: |
+        Too much data, we cannot support such large Abyss assemblies with our
+        backend. Please use another server for your job.
 
+  # TODO: this needs a cap
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/.*:
     mem: 2 + input_size * 10
 
@@ -339,6 +490,19 @@ tools:
     cores: 8
     mem: 28
 
+  # https://github.com/bioconda/bioconda-recipes/pull/41091
+  #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
+    mem: 14
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/bandage_ng:2022.09--0"}]
+    env:
+    - name: SINGULARITYENV_QT_QPA_PLATFORM
+      value: offscreen
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/2022.09.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*
+
   # toolshed.g2.bx.psu.edu/repos/iuc/bedtools/.* in tools_pre_shared.yaml
 
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
@@ -347,12 +511,61 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bigwig_outlier_bed/bigwig_outlier_bed/.*:
     mem: 7
 
+  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
+    # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
+    cores: 16
+    mem: 58
+    env:
+    # prevent premature removal of untarred busco DBs
+    - name: SINGULARITYENV_TAR_OPTIONS
+      value: -m
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
+    cores: 32
+    mem: 120
+    rules:
+    # TODO: make input rules for cached reference compression-aware
+    # TODO: does paired use 2x single?
+    - id: bwa_mem2_small_input_rule
+      if: input_size < 0.25
+      cores: 2
+      mem: 7.6
+    - id: bwa_mem2_medium_input_rule
+      if: 0.25 <= input_size < 16
+      cores: 8
+      mem: 28
+    - id: bwa_mem2_large_input_rule
+      if: 16 <= input_size < 32
+      cores: 16
+      mem: 58
+    - id: bwa_mem2_xlarge_input_rule
+      if: 32 <= input_size < 64
+      cores: 24
+      mem: 120
+    - id: bwa_mem2_history_reference_rule
+      if: |
+        helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}})
+      # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
+      mem: |
+        options = job.get_param_values(app)
+        ref_size = float(options["reference_source"]["ref_file"].get_size())/1024**3
+        input1 = options["fastq_input"]["fastq_input1"]
+        if hasattr(input1, "first_dataset_instance"):
+            input1 = input1.first_dataset_instance()
+        elif hasattr(input1, "dataset_instances"):
+            input1 = input1.dataset_instances[0]
+        mult = 1.0
+        if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
+            mult = 3.3
+        min(max(ref_size * 28, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem)
+
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     # was 16 in the job router but let's try this
     mem: 7
 
   # busco under the hood?
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
+    cores: 16
     mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
@@ -392,13 +605,12 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
-    # TODO: this should be higher but then it would be excluded from cyclone
-    cores: 4
+    cores: 8
     mem: 32
     # Databases on Corral
     scheduling:
-      reject:
-      - pulsar
+      require:
+      - cyclone
 
   toolshed.g2.bx.psu.edu/repos/iuc/genrich/genrich/.*:
     mem: min(max(input_size * 10, mem_factor), 14)
@@ -407,8 +619,58 @@ tools:
     # shared DB uses 24, AU uses 7.6, we had configured 16, stick with 16
     mem: 14
 
+  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
+    cores: 32
+    mem: 120
+    rules:
+    - id: hisat2_small_input_rule
+      if: input_size < 0.5
+      cores: 2
+      mem: 5.6
+    - id: hisat2_medium_input_rule
+      if: 0.5 <= input_size < 15
+      cores: 8
+      mem: 28
+    - id: hisat2_large_input_rule
+      if: 15 <= input_size < 30
+      cores: 16
+      mem: 58
+
   toolshed.g2.bx.psu.edu/repos/iuc/isoformswitchanalyzer/isoformswitchanalyzer/.*:
     mem: 5.7
+
+  toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+    cores: 16
+    # TODO: make a helper
+    # TODO: per delphine, at 24GB overhead it worked if the input fasta had 200 scaffolds but still OOMed with 1000
+    # scaffolds, so you could potentially scale the overhead by number of scaffolds
+    mem: |
+      import os
+      mem = 64
+      table_name = "kraken2_databases"
+      lookup_column = "value"
+      value_column = "path"
+      value_template = "{value}/hash.k2d"
+      options = job.get_param_values(app)
+      lookup_value = options["kraken2_database"]
+      table_value = app.tool_data_tables.get(table_name).get_entry(lookup_column, lookup_value, value_column)
+      if table_value is not None:
+          table_value = value_template.format(value=table_value)
+          try:
+              mem = int(os.path.getsize(table_value)/1024**3 * 1.2)
+              log.debug("Data table '%s' lookup '%s=%s: %s=%s': %s GB",
+                        table_name, lookup_column, lookup_value, value_column, table_value, mem)
+          except OSError:
+              log.exception("Failed to get size of: %s", table_value)
+      else:
+          log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
+                      table_name, lookup_column, lookup_value, value_column, mem)
+      mem + 32
+    scheduling:
+      accept:
+      - training-exempt
+      require:
+      - cvmfs
 
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
     # WARNING: Temporary directory set to an NFS location.
@@ -426,6 +688,7 @@ tools:
     #
     # decreased cores for cyclone
     cores: 4
+    mem: 14
     env:
     - name: _GALAXY_JOB_TMP_DIR
       value: /tmp
@@ -440,6 +703,56 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     cores: 8
     mem: 28
+
+  _meryl:
+    abstract: true
+    cores: 60
+    mem: 120
+    env:
+    # suppress 'tar: read-db.meryl: file changed as we read it' warning and non-zero exit code
+    - name: SINGULARITY_BIND
+      value: /jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro
+    scheduling:
+      accept:
+      - training-large
+      require:
+      - jetstream2
+    rules:
+    - id: meryl_small_input_rule
+      if: input_size < 0.001
+      cores: 2
+      mem: 5.6
+    - id: meryl_medium_input_rule
+      if: 0.001 <= input_size < 5
+      cores: 16
+      mem: 58
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
+    # 24 cores in the shared db
+    # 130 in the shared DB, this prevents us from wasting most of an m3.2xl.
+    inherits: _meryl
+
+  # Just going with 60/120 for now and we can collect some stats on how much each actually use
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_arithmetic_kmers/meryl_arithmetic_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_count_kmers/meryl_count_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_filter_kmers/meryl_filter_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_groups_kmers/meryl_groups_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_histogram_kmers/meryl_histogram_kmers/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_print/meryl_print/.*:
+    inherits: _meryl
+
+  toolshed.g2.bx.psu.edu/repos/iuc/meryl_trio_mode/meryl_trio_mode/.*:
+    inherits: _meryl
 
   toolshed.g2.bx.psu.edu/repos/iuc/microsatbed/microsatbed/.*:
     mem: 58
@@ -459,9 +772,14 @@ tools:
     cores: 8
     mem: 28
 
-  # TODO: good candidate for memory resubmission
-  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/.*:
-    mem: 18
+  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
+    scheduling:
+      require:
+      - resize-shm
+      - jetstream2
+      - pulsar
+  ncbi_fcs_gx:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*
 
   toolshed.g2.bx.psu.edu/repos/iuc/pretext_map/pretext_map/.*:
     mem: 7
@@ -470,6 +788,8 @@ tools:
     mem: 5.6
 
   toolshed.g2.bx.psu.edu/repos/iuc/red/red/.*:
+    context:
+      force_cores: true
     cores: 16
     mem: 28
 
@@ -535,15 +855,71 @@ tools:
       require:
       - cyclone-mem
 
+  toolshed.g2.bx.psu.edu/repos/iuc/tasmanian_mismatch/tasmanian_mismatch/.*:
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
+    cores: 1
+    mem: 4
+    scheduling:
+      reject:
+      - jetstream2
+    rules:
+    - id: require_login
+      if: user is None
+      fail: An account is required to run this tool. Please log in or create an account.
+    - id: rule_trinity_concurrency
+      if: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 1
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
+    - id: trinity_scalable_input_rule
+      if: input_size >= 0.1
+      # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
+      cores: 16
+      mem: min(max(int(input_size * 24), 58), max_scaled_mem)
+    - id: trinity_fail_rule
+      if: input_size >= 20
+      fail: |
+        Too much data, we cannot support such large Trinity assemblies with our
+        backend. Please use another server for your job.
+
   toolshed.g2.bx.psu.edu/repos/iuc/tximport/tximport/.*:
     mem: 7
 
+  toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
+    scheduling:
+      accept:
+      - training-large
+    rules:
+    - id: unicycler_small_input_rule
+      if: 0.05 <= input_size < 0.3
+      cores: 8
+      mem: 28
+    - id: unicycler_medium_input_rule
+      if: 0.3 <= input_size < 1
+      cores: 16
+      mem: 58
+    - id: unicycler_large_input_rule
+      if: input_size >= 1
+      cores: 20
+      mem: 80
+
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/.*:
-    # was 16 in the job router but let's try this
     mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/windowmasker/windowmasker_mkcounts/.*:
     mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
+    rules:
+    - id: htseq_count_small_input_rule
+      if: input_size < 0.2
+      mem: 2.7
+    - id: htseq_count_medium_input_rule
+      if: 0.2 <= input_size < 10
+      mem: 20
 
   toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/.*:
     cores: 8
@@ -605,6 +981,17 @@ tools:
       if: input_size >= 25
       fail: "Too much data for this public service, please input fewer reads. Example method: SeqTk subsample"
 
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
+    # stampede3-icx
+    cores: 80
+    mem: 240
+
+  # NCBI recommends AWS r6a.8xlarge: cores: 32, mem:256
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
+    # will be clamped to stampede3-icx except on vgp
+    cores: 64
+    mem: 480
+
   # GPU tools
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
@@ -617,31 +1004,22 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/kegalign/kegalign/.*:
-    gpus: 0.2
+    gpus: 0.25
     cores: 8
     mem: 28
-    context:
-      js2_gpu_partition: gpu-medium
     scheduling:
       require:
       - gpu
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/segalign/segalign/.*:
-    # gpu-small
-    gpus: 0.2
-    ##cores: 4
-    ##mem: 14
-    # gpu-medium
-    ##gpus: 0.4
+    gpus: 0.25
     cores: 8
     mem: 28
     # frontera
     #gpus: 1
     #cores: 16
     #mem: 120
-    context:
-      js2_gpu_partition: gpu-medium
     scheduling:
       require:
       # JS2
@@ -649,15 +1027,6 @@ tools:
       - pulsar
       # frontera
       #- frontera-rtx
-
-  toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
-    cores: 80
-    mem: 240
-
-  # NCBI recommends AWS r6a.8xlarge: cores: 32, mem:256
-  toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
-    cores: 64
-    mem: 480
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
@@ -859,415 +1228,6 @@ tools:
     #    )])
     #  fail: |
     #    This tool is currently being beta-tested and your account has not been given access.
-
-  # TODO: sort stuff below here
-
-  # https://github.com/bioconda/bioconda-recipes/pull/41091
-  #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
-  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
-    mem: 14
-    params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/bandage_ng:2022.09--0"}]
-    env:
-    - name: SINGULARITYENV_QT_QPA_PLATFORM
-      value: offscreen
-
-  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/2022.09.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*
-
-  _meryl:
-    abstract: true
-    mem: 120
-    env:
-    # suppress 'tar: read-db.meryl: file changed as we read it' warning and non-zero exit code
-    - name: SINGULARITY_BIND
-      value: /jetstream2/scratch/main/nate/wraptar:/usr/local/sbin/tar:ro
-    scheduling:
-      accept:
-      - training-large
-      require:
-      - jetstream2
-    rules:
-    - id: meryl_small_input_rule
-      if: input_size < 0.001
-      cores: 2
-      mem: 5.6
-    - id: meryl_medium_input_rule
-      if: 0.001 <= input_size < 5
-      cores: 16
-      mem: 58
-
-  toolshed.g2.bx.psu.edu/repos/iuc/meryl/meryl/.*:
-    # 24 cores in the shared db
-    # 130 in the shared DB, this prevents us from wasting most of an m3.2xl.
-    inherits: _meryl
-
-  # Just going with 60/120 for now and we can collect some stats on how much each actually use
-  toolshed.g2.bx.psu.edu/repos/iuc/meryl_arithmetic_kmers/meryl_arithmetic_kmers/.*:
-    inherits: _meryl
-
-  toolshed.g2.bx.psu.edu/repos/iuc/meryl_count_kmers/meryl_count_kmers/.*:
-    inherits: _meryl
-
-  toolshed.g2.bx.psu.edu/repos/iuc/meryl_filter_kmers/meryl_filter_kmers/.*:
-    inherits: _meryl
-
-  toolshed.g2.bx.psu.edu/repos/iuc/meryl_groups_kmers/meryl_groups_kmers/.*:
-    inherits: _meryl
-
-  toolshed.g2.bx.psu.edu/repos/iuc/meryl_histogram_kmers/meryl_histogram_kmers/.*:
-    inherits: _meryl
-
-  toolshed.g2.bx.psu.edu/repos/iuc/meryl_print/meryl_print/.*:
-    inherits: _meryl
-
-  toolshed.g2.bx.psu.edu/repos/iuc/meryl_trio_mode/meryl_trio_mode/.*:
-    inherits: _meryl
-
-  toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity/.*:
-    cores: 64
-    # TODO: shared db uses 512, AU uses 961 but caps inputs at 30
-    mem: 244
-    scheduling:
-      reject:
-      - jetstream2
-    rules:
-      - id: rule_trinity_concurrency
-        if: |
-          helpers.concurrent_job_count_for_tool(app, tool, user) >= 1
-        execute: |
-          from galaxy.jobs.mapper import JobNotReadyException
-          raise JobNotReadyException()
-      - id: trinity_tiny_input_rule
-        if: input_size < 0.1
-        cores: 1
-        mem: 2.7
-      - id: trinity_small_input_rule
-        if: 0.1 <= input_size < 1
-        cores: 8
-        mem: 64
-      - id: trinity_medium_input_rule
-        if: 1 <= input_size < 4
-        cores: 16
-        mem: 120
-      - id: trinity_large_input_rule
-        if: 4 <= input_size < 8
-        cores: 48
-        mem: 186
-      - id: trinity_fail_rule
-        if: input_size >= 20
-        fail: |
-          Too much data, we cannot support such large Trinity assemblies with our
-          backend. Please use another server for your job.
-
-  toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
-    # allegedly mem is block_size x 6, but in testing it was basically just ~190 GB + 1 GB per block_size
-    cores: 48
-    mem: 240
-
-  toolshed.g2.bx.psu.edu/repos/bgruening/flye/flye/.*:
-    cores: 2
-    scheduling:
-      accept:
-      - training-large
-    rules:
-    - if: input_size < 0.5
-      cores: 4
-      mem: 12
-      scheduling:
-        accept:
-        - general
-        reject:
-        - hpc
-    - if: 0.5 <= input_size < 10
-      cores: 30
-      mem: 80
-    - if: input_size >= 10
-      # from AU
-      #cores: 120
-      #mem: 1922
-      cores: 56
-      mem: 94
-
-  toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
-    # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
-    cores: 20
-    mem: 58
-    env:
-    # prevent premature removal of untarred busco DBs
-    - name: SINGULARITYENV_TAR_OPTIONS
-      value: -m
-    # TODO: test on stampede3
-    #scheduling:
-    #  reject:
-    #  - stampede2
-
-  toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
-    cores: 8
-    mem: 28
-    rules:
-    - id: bowtie2_small_input_rule
-      if: input_size < 0.1
-      cores: 2
-      mem: 5.6
-    - id: bowtie2_medium_input_rule
-      if: 0.1 <= input_size < 2
-      cores: 4
-      mem: 14
-
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
-    cores: 8
-    mem: 28
-    rules:
-    - id: bwa_small_input_rule
-      if: input_size < 0.25
-      cores: 2
-      mem: 5.6
-    - id: bwa_medium_input_rule
-      if: 0.25 <= input_size < 1
-      cores: 4
-      mem: 14
-
-  toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
-    cores: 32
-    mem: 120
-    scheduling:
-      require:
-      - jetstream2
-    rules:
-    - id: bwa_mem_small_input_rule
-      if: input_size < 0.1
-      cores: 2
-      mem: 5.6
-    - id: bwa_mem_medium_input_rule
-      if: 0.1 <= input_size < 1
-      cores: 4
-      mem: 14
-    - id: bwa_mem_medium2_input_rule
-      if: 1 <= input_size < 20
-      cores: 8
-      mem: 28
-
-  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
-    cores: 32
-    mem: 120
-    scheduling:
-      require:
-      - jetstream2
-    rules:
-    # TODO: make input rules for cached reference compression-aware
-    # TODO: does paired use 2x single?
-    - id: bwa_mem2_small_input_rule
-      if: input_size < 0.1
-      cores: 2
-      mem: 5.6
-    - id: bwa_mem2_medium_input_rule
-      if: 0.1 <= input_size < 16
-      cores: 8
-      mem: 28
-    - id: bwa_mem2_large_input_rule
-      if: 16 <= input_size < 32
-      cores: 16
-      mem: 58
-    - id: bwa_mem2_history_reference_rule
-      if: |
-        helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}})
-      # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
-      mem: |
-        options = job.get_param_values(app)
-        ref_size = float(options["reference_source"]["ref_file"].get_size())/1024**3
-        input1 = options["fastq_input"]["fastq_input1"]
-        if hasattr(input1, "first_dataset_instance"):
-            input1 = input1.first_dataset_instance()
-        elif hasattr(input1, "dataset_instances"):
-            input1 = input1.dataset_instances[0]
-        mult = 1.0
-        if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
-            mult = 3.3
-        min(max(ref_size * 28, (input_size - ref_size) * 2 * mult, 7.6), 120)
-
-  toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
-    cores: 32
-    mem: 120
-    rules:
-    - id: hisat2_small_input_rule
-      if: input_size < 0.5
-      cores: 2
-      mem: 5.6
-    - id: hisat2_medium_input_rule
-      if: 0.5 <= input_size < 15
-      cores: 8
-      mem: 28
-    - id: hisat2_large_input_rule
-      if: 15 <= input_size < 30
-      cores: 16
-      mem: 58
-
-  toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
-    cores: 64
-    mem: 496
-    context:
-      time: 48:00:00
-    scheduling:
-      accept:
-      - training-large
-    rules:
-    - id: hifiasm_small_input_rule
-      if: input_size < 0.5
-      cores: 4
-      mem: 14
-    - id: hifiasm_medium_input_rule
-      if: 0.5 <= input_size < 16
-      cores: 8
-      mem: 28
-    - id: hifiasm_large_input_rule
-      if: 16 <= input_size < 32
-      cores: 16
-      mem: 58
-    - id: hifiasm_xlarge_input_rule
-      if: 32 <= input_size < 64
-      cores: 32
-      mem: 120
-    - id: hifiasm_xxlarge_input_rule
-      if: 64 <= input_size < 128
-      cores: 64
-      mem: 244
-
-
-  toolshed.g2.bx.psu.edu/repos/devteam/kraken/kraken/.*:
-    cores: 20
-    mem: 20
-    scheduling:
-      accept:
-      - training-exempt
-      require:
-      - cvmfs
-
-  toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
-    cores: 16
-    # TODO: make a helper
-    # TODO: per delphine, at 24GB overhead it worked if the input fasta had 200 scaffolds but still OOMed with 1000
-    # scaffolds, so you could potentially scale the overhead by number of scaffolds
-    mem: |
-      import os
-      mem = 64
-      table_name = "kraken2_databases"
-      lookup_column = "value"
-      value_column = "path"
-      value_template = "{value}/hash.k2d"
-      options = job.get_param_values(app)
-      lookup_value = options["kraken2_database"]
-      table_value = app.tool_data_tables.get(table_name).get_entry(lookup_column, lookup_value, value_column)
-      if table_value is not None:
-          table_value = value_template.format(value=table_value)
-          try:
-              mem = os.path.getsize(table_value)/1024**3
-              log.debug("Data table '%s' lookup '%s=%s: %s=%s': %s GB",
-                        table_name, lookup_column, lookup_value, value_column, table_value, mem)
-          except OSError:
-              log.exception("Failed to get size of: %s", table_value)
-      else:
-          log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
-                      table_name, lookup_column, lookup_value, value_column, mem)
-      mem + 32
-    scheduling:
-      accept:
-      - training-exempt
-      require:
-      - cvmfs
-
-  toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
-    cores: 90
-    mem: 120
-    scheduling:
-    rules:
-    - id: abyss-pe_small_input_rule
-      if: input_size < 0.002
-      cores: 2
-      mem: 5.6
-    - id: abyss-pe_medium_input_rule
-      if: 0.002 <= input_size < 5
-      cores: 32
-      mem: 94
-
-    # TODO: reject over a certain input size, what is that input size?
-
-  toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/.*:
-    cores: 24
-    mem: 80
-    scheduling:
-      accept:
-      - training-large
-    rules:
-    - id: unicycler_small_input_rule
-      if: input_size < 0.05
-      cores: 1
-      mem: 2.7
-    - id: unicycler_medium_input_rule
-      if: 0.05 <= input_size < 0.3
-      cores: 8
-      mem: 28
-
-  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
-    cores: 4
-    mem: 14
-    rules:
-    - id: ncbi_blastn_wrapper_db_rule
-      if: |
-        helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
-      cores: 16
-      mem: 64
-    # 2023-11-02 getting this on Expanse, even after clearing Singualrity and CVMFS caches:
-    # /usr/local/bin/blastn: error while loading shared libraries: /usr/local/bin/../lib/ncbi-blast+/libblastinput.so: cannot read file data: Input/output error
-    scheduling:
-      reject:
-      - expanse
-  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
-  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*:
-    cores: 16
-    mem: 64
-    scheduling:
-      reject:
-      - expanse
-  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_rpsblast_wrapper/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
-  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastn_wrapper/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*
-  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_tblastx_wrapper/.*:
-    inherits: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastx_wrapper/.*
-
-  toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
-    cores: 24
-    mem: 120
-
-  toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
-    cores: 4
-    mem: 14
-
-  toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
-    rules:
-    - id: htseq_count_small_input_rule
-      if: input_size < 0.2
-      mem: 2.7
-    - id: htseq_count_medium_input_rule
-      if: 0.2 <= input_size < 10
-      mem: 20
-
-  # local test tools
-
-  toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
-    scheduling:
-      require:
-      - resize-shm
-      - jetstream2
-      - pulsar
-  ncbi_fcs_gx:
-    inherits: toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*
-
-  verkko:
-    cores: 32
-    mem: 120
 
   # legacy conda-in-singularity non-pulsar tools
 
@@ -1874,6 +1834,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/bgruening/get_online_data/get_pdb/0.1.0: {inherits: _singularity_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/bgruening/get_pdb/get_pdb/0.1.0: {inherits: _singularity_resolv_fix}
+  toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/get_species_taxids/2.10.1.*: {inherits: _singularity_resolv_fix}
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/retrieve_scxa/retrieve_scxa/v0.0.2\+galaxy2: {inherits: _singularity_resolv_fix}
   # TODO: add bedutil.py to IMPLICITLY_REQUIRED_TOOL_FILES
   toolshed.g2.bx.psu.edu/repos/galaxyp/translate_bed/translate_bed/0.1.0:
