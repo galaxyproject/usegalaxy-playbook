@@ -2,36 +2,113 @@
 
 destinations:
 
-  # abstract envs for inheritance
+  ###
+  ### abstract envs for inheritance
+  ###
 
-  _roundup_common:
+  _pulsar:
     abstract: true
-    runner: slurm
-    #context:
-    #  roundup_*_partition and time are set on role and (default) tool entitites
     params:
       tmp_dir: true
-      outputs_to_working_directory: true
-      metadata_strategy: extended
-    env:
-    - execute: ulimit -c 0
-    - name: XDG_DATA_HOME
-      value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
-    - name: TERM
-      value: vt100
-
-  _tacc_hpc:
-    abstract: true
-    context:
-      time: 24:00:00
-    params:
       outputs_to_working_directory: false
-      #metadata_strategy: extended
       remote_metadata: false
       transport: curl
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
       rewrite_parameters: true
+    scheduling:
+      require:
+      - pulsar
+
+  _cyclone:
+    abstract: true
+    runner: slurm
+    #context:
+    #  cyclone_*_partition and time are set on role and (default) tool entitites
+    params:
+      tmp_dir: true
+      outputs_to_working_directory: true
+      metadata_strategy: extended
+    env:
+    - name: XDG_DATA_HOME
+      value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
+    scheduling:
+      accept:
+      - cyclone
+      - general
+      - cvmfs
+      - vgp
+
+  _cyclone_singularity:
+    abstract: true
+    inherits: _cyclone
+    params:
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
+      singularity_no_mount: null
+      singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
+    env:
+    - name: SINGULARITYENV_XDG_DATA_HOME
+      value: $XDG_DATA_HOME
+    scheduling:
+      accept:
+      - singularity
+      # for TPV shared DB
+      - docker
+
+  _jetstream2:
+    inherits: _pulsar
+    runner: jetstream2
+    context:
+      time: 36:00:00
+      # js2_partition is set on role and (default) tool entitites
+    params:
+      remote_metadata: true
+      remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
+      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.jetstream | join(',') }}"
+      singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
+      singularity_no_mount: null
+    env:
+    # SINGULARITYENV_TMP=$TMP and SINGULARITYENV_TMPDIR=$TMPDIR are set on the singularity command line
+    - name: TMP
+      value: $_GALAXY_JOB_TMP_DIR
+    - name: TEMP
+      value: $_GALAXY_JOB_TMP_DIR
+    - name: TMPDIR
+      value: $_GALAXY_JOB_TMP_DIR
+    - name: XDG_DATA_HOME
+      value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
+    - name: XDG_CACHE_HOME
+      value: /tmp/{{ galaxy_user }}-cache
+    - name: SINGULARITYENV_XDG_DATA_HOME
+      value: $XDG_DATA_HOME
+    - name: SINGULARITYENV_XDG_CACHE_HOME
+      value: $XDG_CACHE_HOME
+    - name: SINGULARITY_CACHEDIR
+      value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_cache
+    - name: SINGULARITY_TMPDIR
+      value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_tmp
+    scheduling:
+      accept:
+      - jetstream2
+      - general
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
+      prefer:
+      - jetstream2
+      require:
+      - pulsar
+
+  _tacc_hpc:
+    inherits: _pulsar
+    abstract: true
+    context:
+      time: 24:00:00
+    params:
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.tacc_hpc | join(',') }}"
@@ -49,15 +126,8 @@ destinations:
     - execute: module load tacc-apptainer
     - name: GALAXY_SLOTS
       value: "$SLURM_NTASKS"
-    - execute: ulimit -c 0
-    - name: TERM
-      value: vt100
     - name: TRINITY_SCRATCH_DIR
       value: /tmp
-    - name: SINGULARITYENV_TERM
-      value: $TERM
-    - name: SINGULARITYENV__JAVA_OPTIONS
-      value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
 
@@ -81,64 +151,49 @@ destinations:
     - name: APPTAINER_PYTHREADS
       value: "9"
 
-  # real envs
+  ###
+  ### real envs
+  ###
 
-  roundup_conda_direct:
-    inherits: _roundup_common
+  #
+  # cyclone
+  #
+
+  cyclone_conda_direct:
+    inherits: _cyclone
     min_accepted_cores: 1
     min_accepted_mem: 0
     max_accepted_cores: 4
     max_accepted_mem: 32
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_small_partition}"
+      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={cyclone_small_partition}"
     scheduling:
       accept:
-      - roundup
-      - cvmfs
       - training
       require:
       - conda
 
-  roundup:
-    inherits: _roundup_common
+  cyclone:
+    inherits: _cyclone_singularity
     min_accepted_cores: 2
     min_accepted_mem: 8
     max_accepted_cores: 12
     max_accepted_mem: 48
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_large_partition} {roundup_constraint}"
-      singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
-      singularity_no_mount: null
-      singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
-    env:
-    - name: SINGULARITYENV_XDG_DATA_HOME
-      value: $XDG_DATA_HOME
-    - name: SINGULARITYENV_TERM
-      value: $TERM
-    - name: SINGULARITYENV__JAVA_OPTIONS
-      value: $_JAVA_OPTIONS
-    scheduling:
-      accept:
-      - roundup
-      - general
-      - cvmfs
-      - singularity
-      # for TPV shared DB
-      - docker
+      native_specification: "--nodes=1 --ntasks={max(int(cores), 2)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
 
-  roundup_small:
-    inherits: roundup
+  cyclone_small:
+    inherits: _cyclone_singularity
     min_accepted_cores: 1
     min_accepted_mem: 0
     max_accepted_cores: 2
     max_accepted_mem: 16
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_small_partition} {roundup_constraint}"
+      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={cyclone_small_partition}"
 
-  roundup_mem:
-    inherits: roundup
-    # this is only for pulsar-incompatible jobs, so requires an explicit tag
+  # this is only for pulsar-incompatible large jobs, so requires an explicit tag
+  cyclone_mem:
+    inherits: _cyclone_singularity
     min_accepted_cores: 1
     min_accepted_mem: 1
     max_accepted_cores: 32
@@ -146,121 +201,105 @@ destinations:
     max_cores: 8
     max_mem: 96
     params:
-      native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={roundup_large_partition} {roundup_constraint}"
+      native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 24), 1)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
     scheduling:
       require:
-      - roundup-mem
+      - cyclone-mem
 
   # *_training destinations are mainly for reporting, context is set in the role entity
-  roundup_training:
+  cyclone_training:
+    inherits: cyclone
     min_accepted_cores: 1
     min_accepted_mem: 0
     max_accepted_cores: 32
     max_accepted_mem: 64
-    inherits: roundup
     scheduling:
       require:
       - training
       accept:
-      - roundup-mem
+      - cyclone-mem
 
-  roundup_small_training:
-    inherits: roundup_small
+  cyclone_small_training:
+    inherits: cyclone_small
     scheduling:
       require:
       - training
 
+  #
+  # jetstream2
+  #
+
   jetstream2:
-    runner: jetstream2
+    inherits: _jetstream2
     min_accepted_cores: 1
     min_accepted_mem: 0
     max_accepted_cores: 32
     max_accepted_mem: 248
-    context:
-      time: 36:00:00
-      # js2_partition is set on role and (default) tool entitites
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={js2_partition}"
-      tmp_dir: true
-      outputs_to_working_directory: false
-      singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.jetstream | join(',') }}"
-      singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
-      singularity_no_mount: null
-      remote_metadata: true
-      remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
-      transport: curl
-      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
-      dependency_resolution: local
-      rewrite_parameters: true
-      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
-    env:
-    - execute: ulimit -c 0
-    # SINGULARITYENV_TMP=$TMP and SINGULARITYENV_TMPDIR=$TMPDIR are set on the singularity command line
-    - name: TMP
-      value: $_GALAXY_JOB_TMP_DIR
-    - name: TEMP
-      value: $_GALAXY_JOB_TMP_DIR
-    - name: TMPDIR
-      value: $_GALAXY_JOB_TMP_DIR
-    - name: XDG_DATA_HOME
-      value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
-    - name: XDG_CACHE_HOME
-      value: /tmp/{{ galaxy_user }}-cache
-    - name: TERM
-      value: vt100
-    - name: SINGULARITYENV_XDG_DATA_HOME
-      value: $XDG_DATA_HOME
-    - name: SINGULARITYENV_XDG_CACHE_HOME
-      value: $XDG_CACHE_HOME
-    - name: SINGULARITYENV_TERM
-      value: $TERM
-    - name: SINGULARITYENV__JAVA_OPTIONS
-      value: $_JAVA_OPTIONS
-    scheduling:
-      accept:
-      - jetstream2
-      - general
-      - cvmfs
-      - singularity
-      # for TPV shared DB
-      - docker
-      prefer:
-      - jetstream2
-      require:
-      - pulsar
-      #reject:
-      #- offline
+      submit_native_specification: "--nodes=1 --ntasks={max(int(mem/4), 1)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
+    rules:
+    - id: jetstream2_single_core_rule
+      if: cores == 1
+      params:
+        submit_native_specification: "--nodes=1 --ntasks=1 --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
+    - id: jetstream2_mem_rule
+      # TODO: should maybe be less to cram more on Large Memory instances?
+      if: not force_cores and cores > 1 and mem > 120
+      params:
+        submit_native_specification: "--nodes=1 --ntasks={int(mem/8)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
+    - id: jetstream2_force_cores_rule
+      if: force_cores and cores > 1
+      params:
+        submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
 
   jetstream2_gpu:
-    inherits: jetstream2
+    inherits: _jetstream2
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    min_accepted_gpus: 0.2
     max_accepted_cores: 32
-    max_accepted_gpus: 1.0
+    max_accepted_gpus: 1
     max_accepted_mem: 125
+    context:
+      js2_gpu_partition: gpu-small
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time} --partition={js2_gpu_partition}"
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={js2_gpu_partition}"
       singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
+    rules:
+    - id: jetstream2_gpu_medium_rule
+      if: 0.2 < gpus <= 0.25
+      context:
+        js2_gpu_partition: gpu-medium
+    - id: jetstream2_gpu_large_rule
+      if: 0.25 < gpus <= 0.5
+      context:
+        js2_gpu_partition: gpu-large
+    - id: jetstream2_gpu_large_rule
+      if: 0.5 < gpus
+      context:
+        js2_gpu_partition: gpu-large
     env:
     # gmx_sim uses this, maybe others?
     - name: SINGULARITYENV_GPU_AVAILABLE
       value: "1"
+    # ensures GPUs are visible inside container
     - execute: nvidia-modprobe -u -c=0
     scheduling:
+      accept:
+      - vgp
       require:
       - gpu
-      - pulsar
-      #reject:
-      #- offline
 
   jetstream2_resize_shm:
     inherits: jetstream2
     params:
       submit_native_specification: "--nodes=1 --time={time} --partition=resize-shm"
     scheduling:
+      accept:
+      - vgp
       require:
       - resize-shm
       - jetstream2
-      - pulsar
       #reject:
       #- offline
 
@@ -312,36 +351,29 @@ destinations:
       accept:
       - pulsar
       - training
+      - vgp
       require:
       - kubernetes
       #reject:
       #- offline
 
+  #
+  # hpc
+  #
+
   bridges2:
     runner: bridges
     min_accepted_cores: 16
     min_accepted_mem: 64
-    #max_accepted_cores: 256
-    #max_accepted_mem: 4096
-    #max_cores: 128
-    #max_mem: 250
     # Force large jobs to Stampede3 to preserve credits on shared resources
     max_accepted_cores: 64
     max_accepted_mem: 128
-    max_cores: 64
-    max_mem: 128
     context:
       time: 36:00:00
     params:
-      submit_native_specification: "--partition=RM --time={time} --nodes=1 --ntasks={cores}"
-      tmp_dir: true
-      outputs_to_working_directory: false
-      #metadata_strategy: extended
-      remote_metadata: false
-      transport: curl
-      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
-      dependency_resolution: local
-      rewrite_parameters: true
+      # https://github.com/natefoo/slurm-drmaa/issues/83
+      #submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks-per-node={int(mem/2)} --mem={int(mem/2)*2000}"
+      submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2000}"
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
@@ -354,22 +386,23 @@ destinations:
         cache_directory_cacher_type: dir_mtime
       - type: mulled_singularity
       require_container: true
+    rules:
+    - if: mem >= 128
+      params:
+        submit_native_specification: "--partition=RM --time={time} --nodes=1 --ntasks={int(mem/2)}"
     env:
     - name: PATH
       value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
-    - name: GALAXY_SLOTS
-      value: "{min(int(mem/2), 64)}"
+    # RM-shared sets $SLURM_CPUS_ON_NODE == $SLURM_NTASKS == --ntasks
+    # RM sets $SLURM_CPUS_ON_NODE to the full count (128) and $SLURM_NTASKS == --ntasks, if --ntasks is unset, $SLURM_NTASKS is unset
+    # Overriding $GALAXY_SLOTS is probably only necessary if we actually determine that 128 is too many
+    #- name: GALAXY_SLOTS
+    #  value: "{min(int(mem/2), 64)}"
     - name: GALAXY_MEMORY_MB
+      # TODO: use a scaling factor here?
       value: "{int(mem/2)*2000}"
-    - execute: ulimit -c 0
-    - name: TERM
-      value: vt100
     - name: TRINITY_SCRATCH_DIR
       value: $LOCAL
-    - name: SINGULARITYENV_TERM
-      value: $TERM
-    - name: SINGULARITYENV__JAVA_OPTIONS
-      value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
     - name: CVMFSEXEC_DIR
@@ -384,27 +417,19 @@ destinations:
       value: /ocean/projects/mcb140028p/xcgalaxy/singularity_cache
     - name: SINGULARITY_PYTHREADS
       value: "9"
-    rules:
-    - if: mem <= 128
-      params:
-        # https://github.com/natefoo/slurm-drmaa/issues/83
-        #submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks-per-node={int(mem/2)} --mem={int(mem/2)*2000}"
-        submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2000}"
     scheduling:
       accept:
       - bridges2
       - hpc
       - cvmfs
       - singularity
-      # for TPV shared DB
       - docker
       prefer:
       - bridges2
       require:
       - pulsar
-      # Maintenance October 8-10 2024
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   expanse:
     runner: expanse
@@ -412,20 +437,11 @@ destinations:
     min_accepted_mem: 64
     max_accepted_cores: 64
     max_accepted_mem: 128
-    #max_cores: 128
-    #max_mem: 250
     context:
       time: 36:00:00
     params:
-      submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time} --nodes=1 --ntasks={cores}"
-      tmp_dir: true
-      outputs_to_working_directory: false
-      #metadata_strategy: extended
-      remote_metadata: false
-      transport: curl
-      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
-      dependency_resolution: local
-      rewrite_parameters: true
+      # --mem={int(mem/2)*2048} ensures that mem is always exactly 2GB per core
+      submit_native_specification: "--account=TG-MCB140147 --partition=shared --time={time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048}"
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
@@ -438,6 +454,10 @@ destinations:
         cache_directory_cacher_type: dir_mtime
       - type: mulled_singularity
       require_container: true
+    rules:
+    - if: mem >= 128
+      params:
+        submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time} --nodes=1 --ntasks={int(mem/2)}"
     env:
     # Expanse has some aggressive scratch cleanup, txn especially gets quickly nuked
     - execute: for d in $(seq 0 255 | while read n; do printf "%02x " "$n"; done) txn quarantaine; do mkdir -p /expanse/lustre/scratch/xgalaxy/temp_project/cvmfs_cache/$d; done
@@ -446,20 +466,14 @@ destinations:
     - file: /etc/profile.d/00-sdsc-modules.sh
     - execute: module load slurm
     - execute: module load singularitypro
-    - name: GALAXY_SLOTS
-      value: "{cores}"
-      #value: "$SLURM_NTASKS"
+    # See comments on Bridges-2
+    #- name: GALAXY_SLOTS
+    #  value: "{int(cores)}"
+    #  #value: "$SLURM_NTASKS"
     - name: GALAXY_MEMORY_MB
       value: "{int(mem*1024)}"
-    - execute: ulimit -c 0
-    - name: TERM
-      value: vt100
     - name: TRINITY_SCRATCH_DIR
       value: "/scratch/xgalaxy/job_$SLURM_JOB_ID"
-    - name: SINGULARITYENV_TERM
-      value: $TERM
-    - name: SINGULARITYENV__JAVA_OPTIONS
-      value: $_JAVA_OPTIONS
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
       value: $TRINITY_SCRATCH_DIR
     # Expanse disabled user namespaces at some point
@@ -478,10 +492,6 @@ destinations:
       value: /expanse/lustre/scratch/xgalaxy/temp_project/singularity_cache
     - name: SINGULARITY_PYTHREADS
       value: "9"
-    rules:
-    - if: mem <= 128
-      params:
-        submit_native_specification: "--account=TG-MCB140147 --partition=shared --time={time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem*1024)}"
     scheduling:
       accept:
       - expanse
@@ -497,123 +507,64 @@ destinations:
       #reject:
       #- offline
 
-  _rockfish:
-    abstract: true
-    runner: rockfish
-    params:
-      #metadata_strategy: extended
-      remote_metadata: false
-      transport: curl
-      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
-      dependency_resolution: local
-      rewrite_parameters: true
-      jobs_directory: /scratch4/nekrut/galaxy/{{ galaxy_instance_codename }}/staging
-      singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.rockfish | join(',') }}"
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- singularity
-      singularity_no_mount: null
-      container_resolvers:
-      - type: explicit_singularity
-      - type: cached_mulled_singularity
-        cache_directory: /cvmfs/singularity.galaxyproject.org/all
-        cache_directory_cacher_type: dir_mtime
-      - type: mulled_singularity
-      require_container: true
-    env:
-    - name: PATH
-      value: /cm/shared/apps/slurm/current/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
-    - name: GALAXY_SLOTS
-      value: "{int(mem/4)}"
-    #- name: GALAXY_MEMORY_MB
-    #  value: "{mem*1024}"
-    - execute: ulimit -c 0
-    - name: TERM
-      value: vt100
-    - name: TRINITY_SCRATCH_DIR
-      value: /tmp/galaxy_job_$SLURM_JOB_ID
-    - execute: mkdir $TRINITY_SCRATCH_DIR
-    - execute: trap "rm -rf $TRINITY_SCRATCH_DIR" EXIT
-    - name: SINGULARITYENV_TERM
-      value: $TERM
-    - name: SINGULARITYENV__JAVA_OPTIONS
-      value: $_JAVA_OPTIONS
-    - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
-      value: $TRINITY_SCRATCH_DIR
-    - execute: module load singularity/3.8.7
-    - name: CVMFSEXEC_PATH
-      value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
-    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
-    # set in module
-    #- name: SINGULARITY_CACHEDIR
-    #  value: /scratch4/nekrut/galaxy/singularity_cache
-    - name: SINGULARITY_PYTHREADS
-      value: "9"
-
-  rockfish:
-    inherits: _rockfish
-    #min_accepted_cores: 16
-    min_accepted_cores: 8
-    min_accepted_mem: 64
-    #max_accepted_cores: 48
-    #max_accepted_mem: 192
-    # Force large jobs to Stampede3 to preserve credits on shared resources
-    max_accepted_cores: 32
-    max_accepted_mem: 128
-    max_cores: 48
-    max_mem: 184
-    context:
-      account: nekrut
-    params:
-      # https://github.com/natefoo/slurm-drmaa/issues/83
-      #submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks-per-node={cores} --mem={int(mem*1024)}"
-      # max time on shared is 24
-      submit_native_specification: "--account={account} --partition=shared --time=24:00:00 --nodes=1 --ntasks={int(mem/4)} --mem={int(mem*1024)}"
-      tmp_dir: true
-      outputs_to_working_directory: false
-    rules:
-    - if: cores > 32 or mem > 128
-      params:
-        submit_native_specification: "--account={account} --partition=parallel --time=36:00:00 --nodes=1 --ntasks={cores} --mem={int(mem*1024)}"
-    scheduling:
-      accept:
-      - rockfish
-      - hpc
-      - cvmfs
-      - singularity
-      # for TPV shared DB
-      - docker
-      prefer:
-      - rockfish
-      require:
-      - pulsar
-      # expired? 2024-06-13
-      reject:
-      - offline
-
-  rockfish_gpu:
-    inherits: _rockfish
-    min_accepted_cores: 12
-    min_accepted_mem: 48
-    context:
-      account: mschatz1_gpu
-      partition: a100
-      time: 24:00:00
-    params:
-      # https://github.com/natefoo/slurm-drmaa/issues/83
-      #submit_native_specification: "--account={account} --partition={partition} --gres=gres:gpu:{gpus} --time={time} --nodes=1 --ntasks-per-node={cores} --mem-per-cpu=4096"
-      submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks={cores} --gres=gres:gpu:{gpus}"
-      singularity_run_extra_arguments: --nv
-    scheduling:
-      accept:
-      - rockfish
-      - hpc
-      - cvmfs
-      - singularity
-      # for TPV shared DB
-      - docker
-      require:
-      - pulsar
-      - rockfish-gpu
+  # could just dual-purpose devgalaxy Pulsar for a100 access
+  #rockfish_gpu:
+  #  runner: rockfish
+  #  min_accepted_cores: 12
+  #  min_accepted_mem: 48
+  #  context:
+  #    account: mschatz1_gpu
+  #    partition: a100
+  #    time: 24:00:00
+  #  params:
+  #    # https://github.com/natefoo/slurm-drmaa/issues/83
+  #    #submit_native_specification: "--account={account} --partition={partition} --gres=gres:gpu:{gpus} --time={time} --nodes=1 --ntasks-per-node={int(cores)} --mem-per-cpu=4096"
+  #    submit_native_specification: "--account={account} --partition={partition} --time={time} --nodes=1 --ntasks={int(cores)} --gres=gres:gpu:{gpus}"
+  #    singularity_run_extra_arguments: --nv
+  #    remote_metadata: false
+  #    transport: curl
+  #    default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
+  #    dependency_resolution: local
+  #    rewrite_parameters: true
+  #    jobs_directory: /scratch4/nekrut/galaxy/{{ galaxy_instance_codename }}/staging
+  #    singularity_enabled: true
+  #    singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.rockfish | join(',') }}"
+  #    singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- singularity
+  #    singularity_no_mount: null
+  #    container_resolvers:
+  #    - type: explicit_singularity
+  #    - type: cached_mulled_singularity
+  #      cache_directory: /cvmfs/singularity.galaxyproject.org/all
+  #      cache_directory_cacher_type: dir_mtime
+  #    - type: mulled_singularity
+  #    require_container: true
+  #  env:
+  #  - name: PATH
+  #    value: /cm/shared/apps/slurm/current/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+  #  - name: GALAXY_SLOTS
+  #    value: "{int(mem/4)}"
+  #  #- name: GALAXY_MEMORY_MB
+  #  #  value: "{mem*1024}"
+  #  - execute: module load singularity/3.8.7
+  #  - name: CVMFSEXEC_PATH
+  #    value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
+  #  - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+  #  # set in module
+  #  #- name: SINGULARITY_CACHEDIR
+  #  #  value: /scratch4/nekrut/galaxy/singularity_cache
+  #  - name: SINGULARITY_PYTHREADS
+  #    value: "9"
+  #  scheduling:
+  #    accept:
+  #    - rockfish
+  #    - hpc
+  #    - cvmfs
+  #    - singularity
+  #    # for TPV shared DB
+  #    - docker
+  #    require:
+  #    - pulsar
+  #    - rockfish-gpu
 
   rockfish_devgalaxy:
     runner: rockfish_devgalaxy
@@ -642,13 +593,6 @@ destinations:
       value: /cm/shared/apps/slurm/current/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
     - name: GALAXY_SLOTS
       value: "{int(mem/4)}"
-    - execute: ulimit -c 0
-    - name: TERM
-      value: vt100
-    - name: SINGULARITYENV_TERM
-      value: $TERM
-    - name: SINGULARITYENV__JAVA_OPTIONS
-      value: $_JAVA_OPTIONS
     - execute: module load singularity/3.8.7
     - name: SINGULARITY_PYTHREADS
       value: "9"
@@ -666,7 +610,7 @@ destinations:
     max_accepted_cores: 56
     max_accepted_mem: 190
     params:
-      submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=small"
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=small"
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:
@@ -705,7 +649,7 @@ destinations:
       account: BIR23002
       partition: rtx
     params:
-      submit_native_specification: "--account={account} --nodes=1 --ntasks={cores} --time={time} --partition={partition}"
+      submit_native_specification: "--account={account} --nodes=1 --ntasks={int(cores)} --time={time} --partition={partition}"
       singularity_run_extra_arguments: --nv
       # _tacc_hpc params
       outputs_to_working_directory: false
@@ -735,13 +679,6 @@ destinations:
     - execute: module load tacc-apptainer
     - name: GALAXY_SLOTS
       value: "$SLURM_NTASKS"
-    - execute: ulimit -c 0
-    - name: TERM
-      value: vt100
-    - name: SINGULARITYENV_TERM
-      value: $TERM
-    - name: SINGULARITYENV__JAVA_OPTIONS
-      value: $_JAVA_OPTIONS
 
   stampede3_skx:
     inherits: _stampede3
@@ -754,7 +691,7 @@ destinations:
     max_mem: 184
     params:
       # $GALAXY_SLOTS is forced to 48 to avoid wastage
-      #submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=skx"
+      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=skx"
       submit_native_specification: "--nodes=1 --time={time} --partition=skx"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
@@ -788,7 +725,7 @@ destinations:
     max_mem: 248
     params:
       # $GALAXY_SLOTS is forced to 64 to avoid wastage
-      #submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=icx"
+      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=icx"
       submit_native_specification: "--nodes=1 --time={time} --partition=icx"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
@@ -822,7 +759,7 @@ destinations:
     max_mem: 120
     params:
       # $GALAXY_SLOTS is forced to 112 to avoid wastage
-      #submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=icx"
+      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=icx"
       submit_native_specification: "--nodes=1 --time={time} --partition=spr"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
