@@ -321,11 +321,10 @@ destinations:
     runner: bridges
     min_accepted_cores: 16
     min_accepted_mem: 64
-    # TODO: temp for stampede3 maint 2024/10/15
-    max_accepted_cores: 256
-    max_accepted_mem: 4096
-    max_cores: 128
-    max_mem: 250
+    #max_accepted_cores: 256
+    #max_accepted_mem: 4096
+    #max_cores: 128
+    #max_mem: 250
     # Force large jobs to Stampede3 to preserve credits on shared resources
     #max_accepted_cores: 64
     #max_accepted_mem: 128
@@ -774,8 +773,8 @@ destinations:
       - stampede3-skx
       require:
       - pulsar
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   stampede3_icx:
     inherits: _stampede3
@@ -808,8 +807,8 @@ destinations:
       - stampede3-icx
       require:
       - pulsar
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   stampede3_spr:
     inherits: _stampede3
@@ -842,5 +841,5 @@ destinations:
       - stampede3-spr
       require:
       - pulsar
-      reject:
-      - offline
+      #reject:
+      #- offline
