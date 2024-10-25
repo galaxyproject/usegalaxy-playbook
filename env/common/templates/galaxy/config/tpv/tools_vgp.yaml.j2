@@ -109,6 +109,11 @@ tools:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/ucsc-wigtobigwig:447--h2a80c09_2"}]
 
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/2\.1\.5.*:
+    # https://github.com/bioconda/bioconda-recipes/pull/51672
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/lofreq:2.1.5--py312he57d009_12"}]
+
   # https://github.com/bioconda/bioconda-recipes/pull/41091
   #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
