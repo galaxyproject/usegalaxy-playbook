@@ -1101,7 +1101,12 @@ tools:
       # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
       mem: |
         options = job.get_param_values(app)
-        ref_size = float(options["reference_source"]["ref_file"].get_size())/1024**3
+        ref_file = options["reference_source"]["ref_file"]
+        if hasattr(ref_file, "first_dataset_instance"):
+            ref_file = ref_file.first_dataset_instance()
+        elif hasattr(ref_file, "dataset_instances"):
+            ref_file = ref_file.dataset_instances[0]
+        ref_size = float(ref_file.get_size())/1024**3
         input1 = options["fastq_input"]["fastq_input1"]
         if hasattr(input1, "first_dataset_instance"):
             input1 = input1.first_dataset_instance()
