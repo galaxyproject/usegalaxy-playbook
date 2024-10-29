@@ -380,9 +380,6 @@ tools:
     mem: 5.7
 
   toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/.*:
-    # https://github.com/galaxyproject/tpv-shared-database/pull/72
-    cores: 1
-    mem: 3.7
     rules:
     - id: clustalw_fail_rule
       if: input_size >= 0.1
@@ -813,9 +810,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/.*:
     context:
       force_cores: true
-    # https://github.com/galaxyproject/tpv-shared-database/pull/72/
-    cores: 16
-    mem: 3.7
 
   toolshed.g2.bx.psu.edu/repos/iuc/red/red/.*:
     context:
