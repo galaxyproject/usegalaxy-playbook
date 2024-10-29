@@ -264,6 +264,10 @@ tools:
     cores: 5
     mem: 20
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/deeptools_bam_coverage/deeptools_bam_coverage/.*:
+    # decrease from shared DB
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/bgruening/diamond/bg_diamond/.*:
     # allegedly mem is block_size x 6, but in testing it was basically just ~190 GB + 1 GB per block_size
     cores: 48
@@ -329,9 +333,10 @@ tools:
       mem: 20
 
   toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
+    context:
+      force_cores: true
     cores: 46
-    # TODO: how much does it actually need?
-    mem: 192
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
     cores: 8
@@ -387,6 +392,10 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/[^/]*/5\..*:
     mem: 5.7
+
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/.*:
+    # decrease from shared DB
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
     context:
@@ -691,6 +700,10 @@ tools:
     # https://github.com/bioconda/bioconda-recipes/pull/51672
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/lofreq:2.1.5--py312he57d009_12"}]
+
+  toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
+    # decrease from shared DB
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
     # WARNING: Temporary directory set to an NFS location.

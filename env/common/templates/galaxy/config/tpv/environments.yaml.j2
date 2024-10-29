@@ -371,8 +371,8 @@ destinations:
     #max_cores: 128
     #max_mem: 250
     # Force large jobs to Stampede3 to preserve credits on shared resources
-    #max_accepted_cores: 64
-    #max_accepted_mem: 128
+    max_accepted_cores: 64
+    max_accepted_mem: 128
     context:
       time: 36:00:00
     params:
@@ -433,8 +433,9 @@ destinations:
       - bridges2
       require:
       - pulsar
-      #reject:
-      #- offline
+      # maintenance 10/30-11/1
+      reject:
+      - offline
 
   expanse:
     runner: expanse
