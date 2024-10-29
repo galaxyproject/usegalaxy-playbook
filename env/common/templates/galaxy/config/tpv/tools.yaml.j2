@@ -618,6 +618,10 @@ tools:
     # Shared DB is 20 but it's single core, this allows it to run on cyclone_small
     mem: 14
 
+  toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
+    cores: 12
+    mem: 92
+
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     cores: 8
     mem: 32
@@ -685,6 +689,11 @@ tools:
       - training-exempt
       require:
       - cvmfs
+
+  toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/2\.1\.5.*:
+    # https://github.com/bioconda/bioconda-recipes/pull/51672
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/lofreq:2.1.5--py312he57d009_12"}]
 
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
     # WARNING: Temporary directory set to an NFS location.
