@@ -6,10 +6,11 @@
         <client_secret>{{ galaxy_custos_client_secret }}</client_secret>
         <redirect_uri>https://test.galaxyproject.org/authnz/custos/callback</redirect_uri>
     </provider>
-    <provider name="Google">
+    <provider name="google">
         <client_id>{{ galaxy_google_client_id }}</client_id>
         <client_secret>{{ galaxy_google_client_secret }}</client_secret>
         <redirect_uri>https://test.galaxyproject.org/authnz/google/callback</redirect_uri>
         <icon>https://developers.google.com/identity/images/btn_google_signin_light_normal_web.png</icon>
+        <prompt>consent</prompt>
     </provider>
 </OIDC>
