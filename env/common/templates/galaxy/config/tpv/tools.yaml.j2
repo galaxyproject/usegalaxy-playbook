@@ -970,11 +970,11 @@ tools:
         mem: 2.7
       - id: trinity_small_input_rule
         if: 0.1 <= input_size < 1
-        cores: 8
+        cores: 16
         mem: 64
       - id: trinity_medium_input_rule
         if: 1 <= input_size < 4
-        cores: 16
+        cores: 32
         mem: 120
       - id: trinity_large_input_rule
         if: 4 <= input_size < 8
