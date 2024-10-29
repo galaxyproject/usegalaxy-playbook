@@ -57,6 +57,7 @@ destinations:
       - docker
 
   _jetstream2:
+    abstract: true
     inherits: _pulsar
     runner: jetstream2
     context:
@@ -104,8 +105,8 @@ destinations:
       - pulsar
 
   _tacc_hpc:
-    inherits: _pulsar
     abstract: true
+    inherits: _pulsar
     context:
       time: 24:00:00
     params:
@@ -132,8 +133,8 @@ destinations:
       value: $TRINITY_SCRATCH_DIR
 
   _stampede3:
-    inherits: _tacc_hpc
     abstract: true
+    inherits: _tacc_hpc
     params:
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:

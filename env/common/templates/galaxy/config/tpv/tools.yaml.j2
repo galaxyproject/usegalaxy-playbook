@@ -379,6 +379,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/.*:
     mem: 5.7
 
+  toolshed.g2.bx.psu.edu/repos/devteam/clustalw/clustalw/.*:
+    # https://github.com/galaxyproject/tpv-shared-database/pull/72
+    cores: 1
+    mem: 3.7
+    rules:
+    - id: clustalw_fail_rule
+      if: input_size >= 0.1
+      fail: Too much data, please don't use the clustalw for this.
+
   toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/[^/]*/5\..*:
     mem: 5.7
 
@@ -548,7 +557,12 @@ tools:
       # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
       mem: |
         options = job.get_param_values(app)
-        ref_size = float(options["reference_source"]["ref_file"].get_size())/1024**3
+        ref_file = options["reference_source"]["ref_file"]
+        if hasattr(ref_file, "first_dataset_instance"):
+            ref_file = ref_file.first_dataset_instance()
+        elif hasattr(ref_file, "dataset_instances"):
+            ref_file = ref_file.dataset_instances[0]
+        ref_size = float(ref_file.get_size())/1024**3
         input1 = options["fastq_input"]["fastq_input1"]
         if hasattr(input1, "first_dataset_instance"):
             input1 = input1.first_dataset_instance()
@@ -786,6 +800,13 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
     mem: 5.6
+
+  toolshed.g2.bx.psu.edu/repos/iuc/raxml/raxml/.*:
+    context:
+      force_cores: true
+    # https://github.com/galaxyproject/tpv-shared-database/pull/72/
+    cores: 16
+    mem: 3.7
 
   toolshed.g2.bx.psu.edu/repos/iuc/red/red/.*:
     context:
