@@ -307,6 +307,8 @@ base_app_main: &BASE_APP_MAIN
   enable_celery_tasks: true
   celery_conf:
     result_backend: 'redis://:{{ redis_requirepass }}@127.0.0.1/0'
+    task_routes:
+      galaxy.fetch_data: disabled
 
   expose_potentially_sensitive_job_metrics: true
   enable_tool_source_display: true
