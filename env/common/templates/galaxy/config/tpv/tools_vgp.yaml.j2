@@ -539,6 +539,9 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
+    env:
+      - name: TMPDIR
+        value: /dev/shm
     scheduling:
       require:
       - resize-shm
