@@ -118,6 +118,7 @@ galaxy_job_conf_singularity_volumes:
     - "/corral4/{{ galaxy_instance_codename }}/psufiles:ro"
     - "/corral4/data:ro"
     - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
   jetstream:
     - "$galaxy_root:ro"
@@ -125,24 +126,28 @@ galaxy_job_conf_singularity_volumes:
     - "$working_directory:rw"
     - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
   bridges:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
     - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/data.galaxyproject.org:/cvmfs/data.galaxyproject.org:ro"
+    - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/brc.galaxyproject.org:/cvmfs/brc.galaxyproject.org:ro"
     - "/local:rw"
   expanse:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
     - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/data.galaxyproject.org:/cvmfs/data.galaxyproject.org:ro"
+    - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/brc.galaxyproject.org:/cvmfs/brc.galaxyproject.org:ro"
     - "/scratch:rw"
   rockfish:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/brc.galaxyproject.org:ro"
     - "/tmp:rw"
   rockfish_devgalaxy:
     - "$tool_directory:ro"
@@ -153,6 +158,7 @@ galaxy_job_conf_singularity_volumes:
   # is always the host /tmp (e.g. in trinity containers it is /var/tmp)
   tacc_hpc:
     - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/brc.galaxyproject.org:ro"
     - "/tmp:/tmp:rw"
     - "/tmp:/var/tmp:rw"
 

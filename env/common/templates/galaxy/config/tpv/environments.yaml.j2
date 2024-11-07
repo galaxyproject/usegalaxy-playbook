@@ -65,7 +65,7 @@ destinations:
     inherits: _tacc_hpc
     abstract: true
     params:
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:
     {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
     - name: SCRATCH
@@ -346,7 +346,7 @@ destinations:
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
       singularity_no_mount: null
-      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- singularity
+      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- singularity
       container_resolvers:
       - type: explicit_singularity
       - type: cached_mulled_singularity
@@ -379,6 +379,7 @@ destinations:
     - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
     - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo brc.galaxyproject.org
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /ocean/projects/mcb140028p/xcgalaxy/singularity_cache
@@ -428,7 +429,7 @@ destinations:
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
-      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
+      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
       singularity_no_mount: null
       container_resolvers:
       - type: explicit_singularity
@@ -472,6 +473,7 @@ destinations:
     - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
     - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo brc.galaxyproject.org
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /expanse/lustre/scratch/xgalaxy/temp_project/singularity_cache
@@ -509,7 +511,7 @@ destinations:
       jobs_directory: /scratch4/nekrut/galaxy/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.rockfish | join(',') }}"
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- singularity
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- singularity
       singularity_no_mount: null
       container_resolvers:
       - type: explicit_singularity
@@ -667,7 +669,7 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={cores} --ntasks-per-node={cores} --time={time} --partition=small"
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:
     - name: GALAXY_MEMORY_MB
       value: "190000"
