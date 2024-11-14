@@ -37,3 +37,17 @@ preferences:
               type: text
               required: False
               value: https://auth.quantum-computing.ibm.com/api
+    chatgpt:
+        description: ChatGPT
+        inputs:
+            - name: api_key
+              label: OpenAI API Key
+              type: password
+              required: False
+    groq:
+        description: Groq
+        inputs:
+            - name: api_key
+              label: Groq API Key
+              type: password
+              required: False
