@@ -24,7 +24,7 @@ galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool
 galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
 galaxy_object_store_cache_path: "/corral4/{{ galaxy_instance_codename }}/object_store_cache"
 
-galaxy_interactivetools_map: "/srv/galaxy/{{ galaxy_instance_codename }}/var/interactivetools_map.sqlite"
+galaxy_interactivetoolsproxy_map: "postgresql://g2main:{{ galaxy_database_password }}@{{ groups.galaxydbservers[0] }}/gxitproxy_main"
 
 galaxy_themes_instance_domain: usegalaxy.org
 # this is the place in the playbook theme files are copied from
@@ -218,7 +218,7 @@ base_app_main: &BASE_APP_MAIN
   interactivetools_enable: true
   # TODO: required?
   interactivetools_proxy_host: usegalaxy.org
-  interactivetools_map: "{{ galaxy_interactivetools_map }}"
+  interactivetoolsproxy_map: "{{ galaxy_interactivetoolsproxy_map }}"
   interactivetools_prefix: interactivetool
 
   # general stuff

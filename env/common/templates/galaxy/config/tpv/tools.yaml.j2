@@ -26,9 +26,10 @@
 tools:
 
   .*interactive_tool_.*:
+    mem: 3.7
     scheduling:
       require:
-      - kubernetes
+      - gxit
       reject:
       - singularity
     rules:
@@ -36,6 +37,10 @@ tools:
     - id: require_login
       if: user is None
       fail: An account is required to run this tool. Please log in or create an account.
+
+  interactive_tool_jupyter_notebook:
+    params:
+      docker_run_extra_arguments: "-e NB_UID=$(id -u)"
 
   #interactive_tool_rstudio:
   #  inherits: interactive_tool_.*
