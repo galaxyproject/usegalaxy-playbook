@@ -32,7 +32,6 @@ nginx_ssl_servers:
   - galaxy_test
   - tacc_protected
   - nate01
-  - usegalaxy_gxit_proxy
 
 nginx_ssl_role: usegalaxy_eu.certbot
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
@@ -56,8 +55,6 @@ certbot_domains:
   - test.galaxyproject.org
   - '*.interactivetoolentrypoint.interactivetool.test.galaxyproject.org'
   - '*.ep.interactivetool.test.galaxyproject.org'
-  - '*.interactivetoolentrypoint.interactivetool.usegalaxy.org'
-  - '*.ep.interactivetool.usegalaxy.org'
   - test-datamanager.galaxyproject.org
   - tacc-protected.galaxyproject.org
   - nate01.galaxyproject.org

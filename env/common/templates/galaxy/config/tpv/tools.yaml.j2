@@ -27,6 +27,9 @@ tools:
 
   .*interactive_tool_.*:
     mem: 3.7
+    params:
+      # default is to run as the Galaxy user, individual ITs should override as needed
+      docker_run_extra_arguments: "--user $UID:$GID"
     scheduling:
       require:
       - gxit
