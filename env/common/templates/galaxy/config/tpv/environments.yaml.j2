@@ -297,6 +297,9 @@ destinations:
     inherits: jetstream2
     params:
       submit_native_specification: "--nodes=1 --time={time} --partition=resize-shm"
+    env:
+    - name: SINGULARITYENV_TMPDIR
+      value: /dev/shm
     scheduling:
       accept:
       - vgp
