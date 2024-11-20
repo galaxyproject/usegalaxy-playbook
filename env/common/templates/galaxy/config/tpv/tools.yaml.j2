@@ -256,6 +256,9 @@ tools:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/ucsc-wigtobigwig:447--h2a80c09_2"}]
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/augustus/augustus/.*:
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:
     cores: 24
     mem: 120
@@ -289,7 +292,7 @@ tools:
     - id: flye_scalable_input_rule
       if: input_size > 0.5
       cores: 16
-      mem: min(max(int(input_size * 8), 28), 96)
+      mem: min(max(int(input_size * 8), 28), 58)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
@@ -321,16 +324,18 @@ tools:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/repeatmasker:4.1.5--pl5321hdfd78af_0"}]
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/sailfish/sailfish/.*:
+    # decrease from shared DB
+    cores: 8
+    mem: 28
+
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
+    cores: 1
     rules:
-    - id: trim_galore_medium_input_rule
-      if: 0.02 <= input_size < 0.2
-      cores: 3
-      mem: 12
-    - id: trim_galore_large_input_rule
-      if: input_size >= 0.2
-      cores: 5
-      mem: 20
+    - id: trim_galore_scalable_input_rule
+      if: input_size >= 0.02
+      cores: 4
+      mem: min(max(int(input_size * 12), 8), 28)
 
   toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
     context:
@@ -393,31 +398,26 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/[^/]*/5\..*:
     mem: 5.7
 
+  toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer/.*:
+    # decrease from shared DB
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_interlacer/fastq_paired_end_interlacer/.*:
     # decrease from shared DB
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/.*:
-    context:
-      force_cores: true
-    rules:
-    - id: fastqc_small_input_rule
-      if: 0.001 <= input_size < 0.1
-      cores: 2
-      mem: 5.6
-    - id: fastqc_medium_input_rule
-      if: 0.1 <= input_size < 2
-      cores: 4
-      mem: 7
-    - id: fastqc_large_input_rule
-      if: input_size >= 2
-      cores: 8
-      mem: 14
+    cores: min(max(int(input_size * 4), 1), 16)
+    mem: min(max(int(input_size * 7), 5.6), 64)
 
   toolshed.g2.bx.psu.edu/repos/devteam/flanking_features/flanking_features_1/.*:
     mem: 7
 
   toolshed.g2.bx.psu.edu/repos/devteam/freebayes/freebayes/.*:
+    context:
+      force_cores: true
+    cores: 8
+    mem: 28
     # using 100ks to 1ms of inodes in single jobs
     scheduling:
       reject:
@@ -527,6 +527,7 @@ tools:
     mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
+    # TODO: seems to work ok at the memory limit? if the histogram is to be believed
     # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
     cores: 16
     mem: 58
@@ -736,6 +737,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     cores: 8
     mem: 28
+    rules:
+    - id: megahit_small_input_rule
+      if: input_size < 0.01
+      cores: 4
+      mem: 14
+    - id: megahit_scalable_input_rule
+      if: input_size >= 0.01
+      cores: 16
+      mem: min(max(int(input_size * 18), 28), 58)
 
   _meryl:
     abstract: true
@@ -934,14 +944,11 @@ tools:
       if: 0.05 <= input_size < 0.3
       cores: 8
       mem: 28
-    - id: unicycler_medium_input_rule
-      if: 0.3 <= input_size < 1
+    - id: unicycler_scalable_input_rule
+      if: input_size >= 0.3
+      # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
       cores: 16
-      mem: 58
-    - id: unicycler_large_input_rule
-      if: input_size >= 1
-      cores: 20
-      mem: 80
+      mem: min(max(int(input_size * 40), 28), 58)
 
   toolshed.g2.bx.psu.edu/repos/iuc/variant_analyzer/read2mut/.*:
     mem: 7
