@@ -5,6 +5,11 @@
 
 tools:
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/agat/agat/.*:
+    # TODO: set high until we collect some runtime data
+    cores: 1
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/.*:
     mem: 120
 
@@ -21,6 +26,9 @@ tools:
     mem: 60
 
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_view/samtools_view/.*:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/bgruening/bionano_scaffold/bionano_scaffold/.*:

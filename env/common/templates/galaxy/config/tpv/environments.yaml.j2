@@ -136,7 +136,7 @@ destinations:
     abstract: true
     inherits: _tacc_hpc
     params:
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:
     {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
     - name: SCRATCH
@@ -304,6 +304,44 @@ destinations:
       #reject:
       #- offline
 
+  jetstream2_gxit:
+    runner: jetstream2
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    max_accepted_cores: 8
+    max_accepted_mem: 32
+    params:
+      submit_native_specification: "--partition=gxit --nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=12:00:00"
+      tmp_dir: true
+      outputs_to_working_directory: false
+      singularity_enabled: false
+      docker_enabled: true
+      docker_set_user: null
+      docker_memory: "{mem}G"
+      container_resolvers:
+      - type: explicit
+      require_container: True
+      container_monitor_command: /opt/galaxy-job-execution/bin/galaxy-container-monitor
+      container_monitor_result: callback
+      container_monitor_get_ip_method: command:/usr/bin/tailscale ip -4
+      #remote_metadata: true
+      #remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
+      remote_metadata: false
+      transport: curl
+      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
+      #dependency_resolution: local
+      dependency_resolution: remote
+      rewrite_parameters: true
+      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
+    scheduling:
+      accept:
+      - pulsar
+      - training
+      require:
+      - gxit
+      #reject:
+      #- offline
+
   jetstream2_training:
     inherits: jetstream2
     max_accepted_cores: 256
@@ -383,7 +421,7 @@ destinations:
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
       singularity_no_mount: null
-      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- singularity
+      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- singularity
       container_resolvers:
       - type: explicit_singularity
       - type: cached_mulled_singularity
@@ -417,6 +455,7 @@ destinations:
     - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
     - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo brc.galaxyproject.org
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /ocean/projects/mcb140028p/xcgalaxy/singularity_cache
@@ -451,7 +490,7 @@ destinations:
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
-      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
+      #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
       singularity_no_mount: null
       container_resolvers:
       - type: explicit_singularity
@@ -493,6 +532,7 @@ destinations:
     - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
     - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo brc.galaxyproject.org
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /expanse/lustre/scratch/xgalaxy/temp_project/singularity_cache
@@ -618,7 +658,7 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=small"
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:
     - name: GALAXY_MEMORY_MB
       value: "190000"

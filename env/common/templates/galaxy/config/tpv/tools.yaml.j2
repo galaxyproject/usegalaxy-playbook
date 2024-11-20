@@ -200,10 +200,14 @@ tools:
 
   # interactive tools
 
-  interactive_tool_.*:
+  .*interactive_tool_.*:
+    mem: 3.7
+    params:
+      # default is to run as the Galaxy user, individual ITs should override as needed
+      docker_run_extra_arguments: "--user $UID:$GID"
     scheduling:
       require:
-      - kubernetes
+      - gxit
       reject:
       - singularity
     rules:
@@ -211,6 +215,19 @@ tools:
     - id: require_login
       if: user is None
       fail: An account is required to run this tool. Please log in or create an account.
+
+  interactive_tool_jupyter_notebook:
+    params:
+      docker_run_extra_arguments: "-e NB_UID=$(id -u)"
+
+  #interactive_tool_rstudio:
+  #  inherits: interactive_tool_.*
+  #  params:
+  #    container_override:
+  #    - type: docker
+  #      shell: /bin/bash
+  #      identifier: natefoo/docker-rstudio-notebook:23.1.dev6
+  #      #identifier: quay.io/galaxy/docker-rstudio-notebook:23.1
 
   # pulsar incompatible
 
@@ -522,6 +539,10 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
     mem: min(max(int(input_size * 200), 14), 58)
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bellerophon/bellerophon/.*:
+    cores: 8
+    mem: 12
 
   toolshed.g2.bx.psu.edu/repos/iuc/bigwig_outlier_bed/bigwig_outlier_bed/.*:
     mem: 7

@@ -54,6 +54,8 @@ nginx_extra_configs:
 certbot_domains:
   - usegalaxy.org
   - "*.usegalaxy.org"
+  - '*.interactivetoolentrypoint.interactivetool.usegalaxy.org'
+  - '*.ep.interactivetool.usegalaxy.org'
   - "{{ inventory_hostname_short }}.galaxyproject.org"
 
 galaxy_base_welcome_names:
@@ -127,6 +129,19 @@ gravity_config:
     tusd_path: /usr/local/sbin/tusd
     upload_dir: "{{ galaxy_tus_upload_store }}"
     memory_limit: 2
+  # TODO: right now, the GxIT proxy runs on galaxy-db, because gx-it-proxy libpq needs postgres libs and a modern g++.
+  #       when the frontend VM(s) run Rocky 9 you can switch this, and remove the gcc-c++ and postgresql16-devel
+  #       packages from galaxy-db.
+  #       also it is deployed by hand because gx-it-proxy is unreleased.
+  #gx_it_proxy:
+  #  enable: true
+  #  port: "{{ gxit_proxy_port }}"
+  #  sessions: "{{ galaxy_interactivetoolsproxy_map }}"
+  #  verbose: true
+  #  environment:
+  #    # FIXME: the systemd service unit sets this as /srv/galaxay/main, which is not writable. When this is the case the
+  #    # proxy fails to start with essentially no output (just writes an empty newline to the log file).
+  #    HOME: "/home/g2main"
 
 # used by nginx template
 galaxy_tusd_port: 1080

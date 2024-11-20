@@ -86,10 +86,12 @@ resources:
 #
 # Job mapping configuration
 #
+{% if galaxy_job_conf_tools is defined and galaxy_job_conf_tools %}
 tools:
 {% for tool in galaxy_job_conf_tools | default([]) %}
   - {{ tool | to_yaml | trim }}
 {% endfor %}
+{% endif %}
 
 #
 # Job limits configuration
