@@ -137,6 +137,7 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
+    - "/dev/shm:rw"
   bridges:
     - "$tool_directory:ro"
     - "$working_directory:rw"
