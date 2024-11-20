@@ -6,6 +6,7 @@ destinations:
   ### abstract envs for inheritance
   ###
 
+  # CHANGES HERE MUST BE REFLECTED IN environments_vgp.yaml.j2
   _pulsar:
     abstract: true
     params:
@@ -56,6 +57,7 @@ destinations:
       # for TPV shared DB
       - docker
 
+  # CHANGES HERE MUST BE REFLECTED IN environments_vgp.yaml.j2
   _jetstream2:
     abstract: true
     inherits: _pulsar
@@ -310,8 +312,10 @@ destinations:
     min_accepted_mem: 0
     max_accepted_cores: 8
     max_accepted_mem: 32
+    context:
+      time: "06:00:00"
     params:
-      submit_native_specification: "--partition=gxit --nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time=12:00:00"
+      submit_native_specification: "--partition=gxit --nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time}"
       tmp_dir: true
       outputs_to_working_directory: false
       singularity_enabled: false

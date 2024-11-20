@@ -84,6 +84,8 @@ gravity_config:
         HDF5_USE_FILE_LOCKING: "FALSE"
 
 galaxy_job_conf_pulsar_galaxy_url: https://vgp.usegalaxy.org
+galaxy_job_conf_persistence_directory: "/srv/galaxy/main/var/pulsar_amqp_ack"
+pulsar_default_file_action: remote_transfer_tus
 
 galaxy_job_conf_runners:
   slurm:
@@ -96,9 +98,11 @@ galaxy_job_conf_runners:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: vgp_jetstream2
 
+galaxy_job_conf_default_handler: vgp
+
 galaxy_job_conf_tpv_config_files:
   - tools_pre_shared.yaml
-  - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/e2277c4e9aa8044342832f08d9fc06ebf7e8287c/tools.yml
+  - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/refs/heads/mem-efficiency/tools.yml
   - defaults.yaml
   - environments.yaml
   - environments_vgp.yaml
@@ -135,7 +139,7 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
 
 galaxy_config_templates:
-  - src: templates/galaxy/config/job_conf_vgp.yml.j2
+  - src: templates/galaxy/config/job_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: templates/galaxy/config/build_sites.yml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
@@ -143,8 +147,6 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
   - src: templates/galaxy/config/file_sources_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
-  - src: templates/galaxy/config/job_conf_vgp.yml.j2
-    dest: "{{ galaxy_config_dir }}/job_conf_vgp.yml"
   - src: templates/galaxy/static/welcome_vgp.html.j2
     dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/welcome.html"
 

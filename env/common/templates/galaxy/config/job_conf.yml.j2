@@ -28,7 +28,9 @@ runners:
 # Job handler configuration
 #
 handling:
-  #default: handlers
+{% if galaxy_job_conf_default_handler is defined %}
+  default: {{ galaxy_job_conf_default_handler }}
+{% endif %}
   assign:
     - db-skip-locked
   max_grab: 16
