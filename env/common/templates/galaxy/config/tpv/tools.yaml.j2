@@ -220,6 +220,11 @@ tools:
     params:
       docker_run_extra_arguments: "-e NB_UID=$(id -u)"
 
+  interactive_tool_qiskit_jupyter_notebook:
+    # TODO: container doesn't honor $NB_UID
+    inherits: interactive_tool_jupyter_notebook
+    mem: 7
+
   interactive_tool_rstudio:
     params:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
