@@ -294,11 +294,12 @@ destinations:
       - gpu
 
   jetstream2_resize_shm:
-    inherits: jetstream2
+    inherits: _jetstream2
     params:
       submit_native_specification: "--nodes=1 --time={time} --partition=resize-shm"
+      tmo_dir: false
     env:
-    - name: SINGULARITYENV_TMPDIR
+    - name: TMPDIR
       value: /dev/shm
     scheduling:
       accept:

@@ -847,11 +847,15 @@ tools:
     mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
-    scheduling:
-      require:
-      - resize-shm
-      - jetstream2
-      - pulsar
+    rules:
+      - id: ncbi_fcs_gx_resize_shm_rule
+        if: |
+          helpers.job_args_match(job, app, {"mode": {"mode_selector": "screen"}})
+        scheduling:
+          require:
+          - resize-shm
+          - jetstream2
+          - pulsar
   ncbi_fcs_gx:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*
 
