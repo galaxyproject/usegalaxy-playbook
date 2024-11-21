@@ -57,6 +57,7 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 ## used by: job_conf.yml template
 galaxy_job_conf_pulsar_galaxy_url: "https://{{ inventory_hostname_short }}.galaxyproject.org"
 galaxy_job_conf_persistence_directory: "/corral4/{{ galaxy_instance_codename }}/pulsar_amqp_ack"
+galaxy_job_conf_jetstream2_jobs_directory: "/jetstream2/scratch/{{ galaxy_instance_codename }}/jobs"
 
 galaxy_systemd_memory_limit:
   # FIXME: this shouldn't be mule anymore. also "G" is hardcoded, but % would be nice.

@@ -74,6 +74,7 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 ## used by: job_conf.yml template
 galaxy_job_conf_pulsar_galaxy_url: "https://{{ galaxy_instance_hostname }}"
 galaxy_job_conf_persistence_directory: "/srv/galaxy/{{ galaxy_instance_codename }}/var/pulsar_amqp_ack"
+galaxy_job_conf_jetstream2_jobs_directory: "/jetstream2/scratch/{{ galaxy_instance_codename }}/jobs"
 
 # These are automatically added to any runners that load galaxy.jobs.runners.pulsar:...
 galaxy_job_conf_pulsar_runner_params:

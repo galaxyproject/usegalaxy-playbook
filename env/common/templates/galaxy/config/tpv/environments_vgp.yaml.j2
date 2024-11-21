@@ -18,7 +18,7 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={max(int(mem/4), 1)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
-      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs-vgp
+      jobs_directory: {{ galaxy_job_conf_jetstream2_jobs_directory }}
       remote_metadata: true
       remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
       singularity_enabled: true
@@ -64,6 +64,8 @@ destinations:
       params:
         submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
     scheduling:
+      accept:
+      - jetstream2
       prefer:
       - jetstream2
       require:

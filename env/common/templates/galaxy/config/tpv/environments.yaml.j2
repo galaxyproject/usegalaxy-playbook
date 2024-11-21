@@ -68,7 +68,7 @@ destinations:
     params:
       remote_metadata: true
       remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
-      jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
+      jobs_directory: {{ galaxy_job_conf_jetstream2_jobs_directory }}
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.jetstream | join(',') }}"
       singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
@@ -236,7 +236,7 @@ destinations:
     inherits: _jetstream2
     min_accepted_cores: 1
     min_accepted_mem: 0
-    max_accepted_cores: 32
+    max_accepted_cores: 64
     max_accepted_mem: 248
     params:
       submit_native_specification: "--nodes=1 --ntasks={max(int(mem/4), 1)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
