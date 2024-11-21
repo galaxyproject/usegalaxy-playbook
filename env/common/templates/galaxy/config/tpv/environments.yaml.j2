@@ -297,7 +297,7 @@ destinations:
     inherits: _jetstream2
     params:
       submit_native_specification: "--nodes=1 --time={time} --partition=resize-shm"
-      tmo_dir: false
+      tmp_dir: false
     env:
     - name: TMPDIR
       value: /dev/shm
