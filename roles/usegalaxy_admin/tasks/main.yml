@@ -23,7 +23,7 @@
   file:
     path: "{{ galaxy_errordocs_dest }}"
     state: directory
-    owner: "{{ galaxy_privileged_user }}"
-    group: "{{ galaxy_system_group }}"
+    owner: root
+    group: root
     mode: "0755"
   when: galaxy_errordocs_dest is defined

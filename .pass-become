@@ -1,0 +1,19 @@
+#!/bin/sh
+
+password_path="${BECOME_PASSWORD_PATH:=tacc/$USER}"
+if [ -n "${BECOME_PASSWORD_STORE_DIR:-}" ]; then
+    PASSWORD_STORE_DIR="$BECOME_PASSWORD_STORE_DIR"
+    export PASSWORD_STORE_DIR
+fi
+
+pass=$(pass "$password_path" | head -1)
+
+if [ $? -ne 0 ]; then
+    echo -n "BECOME Password: " >&2
+    stty -echo
+    read pass
+    stty echo
+    echo '' >&2
+fi
+
+echo "$pass"

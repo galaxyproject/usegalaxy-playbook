@@ -34,7 +34,6 @@
 
 - name: Manage PostgreSQL users, groups, databases, and permissions
   hosts: dbservers
-  remote_user: root
   become: yes
   become_user: postgres
   roles:
@@ -47,21 +46,20 @@
   tags: postgres
 
 # Done before nginx is installed because it will fail to start in the next play if the module doesn't exist
-- name: Install nginx mod_zip
+- name: Install nginx upload module
   hosts: galaxywebservers
-  remote_user: root
+  become: true
   tasks:
-    - name: Install ngx_http_zip_moodule.so
-      ansible.builtin.get_url:
-        url: "{{ nginx_mod_zip_url }}"
-        dest: /usr/lib64/nginx/modules/ngx_http_zip_module.so
-        mode: 0755
-      when: nginx_mod_zip_url is defined
+    - name: Install nginx-module-upload
+      ansible.builtin.dnf:
+        name: "{{ nginx_upload_module_url }}"
+        disable_gpg_check: true
+      when: nginx_upload_module_url is defined
   tags: nginx
 
 - name: Install and manage nginx
   hosts: webservers
-  remote_user: root
+  become: true
   vars_files:
     # for tiaas_nginx_routes used by templates
     - "{{ playbook_dir }}/../../roles/galaxyproject.tiaas2/defaults/main.yml"
@@ -71,40 +69,46 @@
     - set_fact:
         tiaas_dir: "/srv/tiaas/{{ galaxy_instance_codename }}"
       when: galaxy_instance_codename is defined
+    # This should not be necessary - it is /var/lib/nginx/tmp/proxy, and even setting proxy_temp_path doesn't fix it. I
+    # think this is harcoded in the upload module somewhere since it was built from pkg-oss?
+    - name: Create /var/cache/nginx/proxy_temp
+      file:
+        path: /var/cache/nginx/proxy_temp
+        owner: "{{ galaxy_user }}"
+        mode: "0755"
+        state: directory
   roles:
     - paths   # for certbot_well_known_root + tacc_protected in test env
     - copy    # for tacc_protected in test env
     - galaxyproject.nginx
   tags: nginx
 
-- name: Install logflux
-  hosts: logfluxservers
-  remote_user: root
-  roles:
-    - users
-    - paths
-    - logflux
-  tags: logflux
+#- name: Install logflux
+#  hosts: logfluxservers
+#  remote_user: root
+#  roles:
+#    - users
+#    - paths
+#    - logflux
+#  tags: logflux
 
 - name: Manage Galaxy root tasks
   hosts: galaxyservers
-  remote_user: root
+  become: true
   roles:
     - paths   # creates toolshed_tmpdir
     - usegalaxy_admin
     - cron
-  tags: galaxy,admin
 
-- name: Manage Galaxy root tasks
+- name: Manage Gravity tasks
   hosts: galaxyservers
-  remote_user: root
+  become: true
   tasks:
     - name: Create Gravity config dir
       file:
         path: /etc/galaxy/gravity.d
         state: directory
         mode: "0755"
-      remote_user: root
     - name: Install Gravity config
       template:
         src: "templates/galaxy/config/gravity.yml.j2"
@@ -149,36 +153,14 @@
 
 - name: Configure TIaaS
   hosts: tiaasservers
-  remote_user: root
+  become: true
   roles:
     - galaxyproject.tiaas2
   tags: tiaas
 
 - name: install tusd
   hosts: galaxywebservers:galaxystagingservers:galaxy-vgp.tacc.utexas.edu
-  remote_user: root
+  become: true
   roles:
     - galaxyproject.tusd
   tags: tusd
-
-- name: Manage supervisor and root tasks
-  hosts: supervisorservers
-  remote_user: root
-  roles:
-    - supervisor
-  tags: supervisor
-
-- name: Kubernetes deployment
-  hosts: kubedeployers
-  gather_facts: false
-  tasks:
-    - name: Deploy resources
-      kubernetes.core.k8s:
-        state: "{{ item.state | default('present') }}"
-        resource_definition: "{{ item.definition }}"
-        kubeconfig: "{{ kubedeployer_kubeconfig }}"
-      loop: "{{ kubernetes_deploy_resources | default([]) }}"
-      loop_control:
-        label: "{{ item.label | default(item.definition) }}"
-      delegate_to: localhost
-  tags: kubernetes,k8s

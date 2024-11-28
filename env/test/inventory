@@ -1,4 +1,6 @@
 # generic stuff here
+[all:vars]
+ansible_ssh_executable = ./.ssh-keyboard-interactive
 
 [sslservers]
 [sslservers:children]
@@ -43,25 +45,22 @@ galaxydbservers
 # galaxy stuff here
 
 [galaxyservers]
-galaxy07.tacc.utexas.edu
+galaxy-test.tacc.utexas.edu
 
 [galaxymasters]
-galaxy07.tacc.utexas.edu
+galaxy-test.tacc.utexas.edu
 
 [galaxywebservers]
-galaxy07.tacc.utexas.edu
+galaxy-test.tacc.utexas.edu
 
 [galaxyjobservers]
-galaxy07.tacc.utexas.edu
+galaxy-test.tacc.utexas.edu
 
 [galaxystagingservers]
-galaxy07.tacc.utexas.edu
-
-[galaxyswarmscaleservers]
-galaxy07.tacc.utexas.edu
+galaxy-test.tacc.utexas.edu
 
 [galaxydbservers]
-galaxy07.tacc.utexas.edu
+galaxy-test.tacc.utexas.edu
 
 [pulsarservers]
 login3.stampede3.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executable=./.ssh-keyboard-interactive
@@ -81,7 +80,4 @@ cvmfs1-iu0.galaxyproject.org
 cvmfs1-psu0.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs1-psu0.galaxyproject.org" ansible_host="localhost" ansible_port="2322"
 
 [tiaasservers]
-galaxy07.tacc.utexas.edu
-
-[kubedeployers]
-deployer ansible_connection=local
+galaxy-test.tacc.utexas.edu

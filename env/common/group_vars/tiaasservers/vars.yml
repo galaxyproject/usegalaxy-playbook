@@ -4,7 +4,7 @@
 # left on in production.
 #tiaas_debug: 'True'
 
-tiaas_virtualenv_command: /opt/rh/rh-python38/root/usr/bin/python3 -m venv
+tiaas_virtualenv_command: python3 -m venv
 tiaas_virtualenv_python: "{{ omit }}"  # defaults to 'python3' but can't be used with virtualenv_command
 
 tiaas_galaxy_idsecret: "{{ galaxy_config_id_secret }}"

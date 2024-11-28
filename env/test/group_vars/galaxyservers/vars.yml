@@ -46,14 +46,20 @@ galaxy_system_group: G-803372
 # to workaround but this needs to be fixed in galaxyproject.galaxy, nothing should be breaking when privsep mode is not
 # enabled in the role
 galaxy_remote_users:
+  # FIXME: obviously
+  privsep: ndc
+  errdocs: ndc
+  galaxy: ndc
+  root: ndc
+
+# FIXME: Same thing, the become log checks if galaxy_become_users.privsep is set and yet in the defaults we cause it to
+# be always set
+galaxy_become_users:
   privsep: "{{ galaxy_privileged_user }}"
   errdocs: "{{ galaxy_privileged_user }}"
   galaxy: "{{ galaxy_user }}"
   root: root
 
-# FIXME: Same thing, the become log checks if galaxy_become_users.privsep is set and yet in the defaults we cause it to
-# be always set
-galaxy_become_users: {}
 
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
 galaxy_shed_tools_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/shed_tools
@@ -263,7 +269,7 @@ galaxy_systemd_mode: null
 # Disable gravity config in galaxy.yml, use standalone Gravity config
 galaxy_gravity_config_default: null
 gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
-gravity_virtualenv_command: /opt/rh/rh-python38/root/usr/bin/python3 -m venv
+gravity_virtualenv_command: python3 -m venv
 gravity_venv_dir: "{{ galaxy_root }}/gravity"
 gravity_package: "gravity==1.0.6"
 galaxy_gravity_command: "{{ gravity_venv_dir }}/bin/galaxyctl"

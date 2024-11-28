@@ -2,10 +2,6 @@
 ## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
 ##
 
-upstream test_installer {
-    server galaxy04.tacc.utexas.edu:8888;
-}
-
 # To display the status page for all requests, use this
 #server {
 #    listen          *:443 ssl;
@@ -282,74 +278,6 @@ server {
         root /srv/nginx/galaxy;
     }
 
-}
-
-server {
-    listen          *:80;
-    server_name  test-installer.galaxyproject.org;
-
-    return 307 https://test-installer.galaxyproject.org$request_uri;
-}
-
-server {
-    listen       *:443 ssl;
-    server_name test-installer.galaxyproject.org;
-
-    access_log /var/log/nginx/test-installer.access.log;
-    error_log /var/log/nginx/test-installer.error.log;
-
-    location / {
-        proxy_pass         http://test_installer;
-        proxy_redirect     off;
-        proxy_set_header   Host              $host;
-        proxy_set_header   X-Real-IP         $remote_addr;
-        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
-        proxy_set_header   X-Forwarded-Proto $scheme;
-    }
-
-    location /static {
-        alias {{ galaxy_server_dir }}/static;
-        expires 24h;
-    }
-
-    location /static/style {
-        alias {{ galaxy_server_dir }}/static/style/blue;
-        expires 24h;
-    }
-
-    location /static/scripts {
-        alias {{ galaxy_server_dir }}/static/scripts/packed;
-        expires 24h;
-    }
-}
-
-server {
-    listen       *:443 ssl;
-    server_name test-datamanager.galaxyproject.org;
-
-    access_log /var/log/nginx/test-datamanager.access.log;
-    error_log /var/log/nginx/test-datamanager.error.log;
-
-    location / {
-        uwsgi_pass 127.0.0.1:9998;
-        uwsgi_param UWSGI_SCHEME $scheme;
-        include uwsgi_params;
-    }
-
-    location /static {
-        alias {{ galaxy_server_dir }}/static;
-        expires 24h;
-    }
-
-    location /static/style {
-        alias {{ galaxy_server_dir }}/static/style/blue;
-        expires 24h;
-    }
-
-    location /static/scripts {
-        alias {{ galaxy_server_dir }}/static/scripts;
-        expires 24h;
-    }
 }
 
 # vim: set filetype=nginx

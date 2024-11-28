@@ -3,17 +3,30 @@
 - name: Galaxy static configs
   hosts: galaxyservers
   # NOTE: we also use privsep mode in the role
-  remote_user: "{{ galaxy_privileged_user }}"
+  #remote_user: "{{ galaxy_privileged_user }}"
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
   pre_tasks:
-    - name: Create config subdirs
+    - name: Create privileged config subdirs
       file:
         path: "{{ item }}"
         state: directory
         mode: "0755"
       loop:
+        - "{{ galaxy_root }}/bin"
         - "{{ galaxy_config.galaxy.panel_views_dir }}"
+      become: true
+    - name: Create unprivileged config subdirs
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ galaxy_user }}"
+        group: "{{ galaxy_system_group }}"
+        mode: "0755"
+      loop:
+        - "{{ galaxy_mutable_data_dir }}"
+        - "{{ galaxy_log_dir }}"
+      become: true
     - name: Locate TPV python blobs
       set_fact:
         tpv_python_blobs: "{{ (tpv_python_blobs | default({})) | combine({(item | basename | splitext | first): lookup('file', item)}) }}"
@@ -34,20 +47,15 @@
       galaxy_manage_systemd: no
       galaxy_manage_gravity: no
     - role: usegalaxy_eu.tpv_auto_lint
-  post_tasks:
-    # create impersonation config on Main
-    - name: Include config post-tasks
-      include_tasks: _inc_config_post_tasks.yml
+      become: true
   handlers:
     - name: galaxy gravity graceful restart
-      remote_user: root
       command: "{{ galaxy_gravity_command }} graceful"
       environment:
         GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
       listen: "restart galaxy"
       when: restart is truthy(convert_bool=true)
     - name: galaxyctl update
-      remote_user: root
       command: "{{ galaxy_gravity_command }} update"
 
 - name: Galaxy mutable configs
@@ -63,7 +71,7 @@
 
 - name: Galaxy privileged user tasks
   hosts: galaxyservers
-  remote_user: "{{ galaxy_privileged_user }}"
+  become: true
   roles:
     - role: usegalaxy_privileged
 

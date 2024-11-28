@@ -15,18 +15,18 @@
   when: not tool_panel_stat_out.stat.exists
   run_once: true
 
-- name: Create ~/bin and ~/etc
-  file:
-    path: ~/{{ item }}
-    state: directory
-  with_items:
-    - bin
-    - etc
-
-- name: Distribute ~/bin files
-  template:
-    src: "{{ item }}.j2"
-    dest: ~/bin/{{ item }}
-    mode: "0555"
-  with_items:
-    - galaxyctl
+#- name: Create ~/bin and ~/etc
+#  file:
+#    path: ~/{{ item }}
+#    state: directory
+#  with_items:
+#    - bin
+#    - etc
+#
+#- name: Distribute ~/bin files
+#  template:
+#    src: "{{ item }}.j2"
+#    dest: ~/bin/{{ item }}
+#    mode: "0555"
+#  with_items:
+#    - galaxyctl
