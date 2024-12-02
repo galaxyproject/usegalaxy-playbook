@@ -9,7 +9,8 @@ galaxy_virtualenv_command: "/cvmfs/test.galaxyproject.org/deps/_conda/envs/__pyt
 #galaxy_repo: https://github.com/{{ galaxy_repo_owner }}/galaxy.git
 #galaxy_repo_owner: mvdbeek
 #galaxy_commit_id: containerized_set_metadata
-galaxy_commit_id: test.galaxyproject.org
+#galaxy_commit_id: test.galaxyproject.org
+galaxy_commit_id: release_24.2
 
 galaxy_force_checkout: true
 galaxy_user: g2test
@@ -22,6 +23,7 @@ galaxy_version_file: "{{ inventory_dir }}/files/galaxy/galaxy_version.yml"
 galaxy_diff_mode_verbose: false
 galaxy_config_perms: 0644
 galaxy_additional_venv_packages:
+  - drmaa
   - "redis>=4.5.2,<6.0.0,!=4.5.5"
   - weasyprint
   - python-irodsclient

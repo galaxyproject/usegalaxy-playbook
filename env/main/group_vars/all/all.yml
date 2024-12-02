@@ -26,6 +26,7 @@ galaxy_version_file: "{{ inventory_dir }}/files/galaxy/galaxy_version.yml"
 galaxy_diff_mode_verbose: false
 galaxy_config_perms: 0644
 galaxy_additional_venv_packages:
+  - drmaa
   - "redis>=4.5.2,<6.0.0,!=4.5.5"
   - weasyprint
   - python-irodsclient

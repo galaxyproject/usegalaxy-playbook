@@ -2,7 +2,7 @@
 
 - name: Restart Galaxy
   hosts: galaxyservers
-  remote_user: root
+  become: true
   tasks:
     - name: Gracefully Restart Galaxy
       command: "{{ galaxy_gravity_command }} graceful"

@@ -45,6 +45,9 @@
       listen: "restart galaxy"
       when: restart is truthy(convert_bool=true)
       become: true
+      # FIXME: gravity has no way to force root mode when not root
+      #become_user: "{{ galaxy_privileged_user }}"
+    # FIXME: this has to run as root, but in theory should only change when the Gravity config changes
     - name: galaxyctl update
       command: "{{ galaxy_gravity_command }} update"
       environment:
@@ -65,6 +68,7 @@
 - name: Galaxy privileged user tasks
   hosts: galaxyservers
   become: true
+  become_user: "{{ galaxy_privileged_user }}"
   roles:
     - role: usegalaxy_privileged
 

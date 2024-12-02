@@ -37,11 +37,14 @@
   handlers:
     - name: galaxy gravity graceful restart
       become: true
+      # FIXME: gravity has no way to force root mode when not root
+      #become_user: "{{ galaxy_privileged_user }}"
       command: "{{ galaxy_gravity_command }} graceful"
       environment:
         GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
       listen: "restart galaxy"
       when: restart is truthy(convert_bool=true)
+    # FIXME: this has to run as root, but in theory should only change when the Gravity config changes
     - name: galaxyctl update
       become: true
       command: "{{ galaxy_gravity_command }} update"
