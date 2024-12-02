@@ -46,9 +46,7 @@
         galaxy_fetch_dependencies: true
         galaxy_manage_mutable_setup: false
         galaxy_manage_database: false
-        # FIXME: temp until VMs are EL9
-        #galaxy_build_client: true
-        galaxy_build_client: false
+        galaxy_build_client: true
         galaxy_manage_errordocs: false
         galaxy_manage_gravity: false
         galaxy_manage_systemd: false
@@ -61,10 +59,6 @@
           - cvmfs_force_publish or __galaxy_git_update_result is changed
         success_msg: "Changes were made, transaction will be published"
         fail_msg: "No changes were made, transaction will be aborted"
-
-    # FIXME: temp until VMs are EL9
-    - name: Include client build tasks
-      include_tasks: "client-override.yml"
 
     - name: Remove node_modules
       file:

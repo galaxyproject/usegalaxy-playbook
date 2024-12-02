@@ -1,8 +1,5 @@
 ---
 
-# TEMP
-galaxy_node_venv_dir: /srv/galaxy-test-cache/node-venv
-
 # for templating configs for conditional deps
 covid_crg_ftp_staging_user: foo
 covid_crg_ftp_staging_passwd: foo
@@ -35,7 +32,7 @@ miniconda_conda_environments:
 xdg_cache_home: /srv/galaxy-test-cache/cache
 
 # Stratum 0 is EL9 but Galaxy servers are still EL7 for now, and venv node is used to run the gx-it-proxy
-galaxy_node_version_max: 16.19.1
+#galaxy_node_version_max: 16.19.1
 
 # also set in galaxyservers, but not set in all I think because it's invalid for pulsar contexts
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy

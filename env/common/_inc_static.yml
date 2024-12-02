@@ -3,6 +3,7 @@
 
 - hosts: galaxywebservers:galaxystagingservers
   become: true
+  become_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ galaxy_version_file }}"
   roles:

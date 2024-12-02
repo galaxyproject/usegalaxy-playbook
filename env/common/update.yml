@@ -36,14 +36,14 @@
       when: inventory_hostname in groups['galaxymasters']
   handlers:
     - name: galaxy gravity graceful restart
-      remote_user: root
+      become: true
       command: "{{ galaxy_gravity_command }} graceful"
       environment:
         GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
       listen: "restart galaxy"
       when: restart is truthy(convert_bool=true)
     - name: galaxyctl update
-      remote_user: root
+      become: true
       command: "{{ galaxy_gravity_command }} update"
       environment:
         GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"

@@ -7,25 +7,13 @@
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
   pre_tasks:
-    - name: Create privileged config subdirs
+    - name: Create config subdirs
       file:
         path: "{{ item }}"
         state: directory
         mode: "0755"
       loop:
-        - "{{ galaxy_root }}/bin"
         - "{{ galaxy_config.galaxy.panel_views_dir }}"
-      become: true
-    - name: Create unprivileged config subdirs
-      file:
-        path: "{{ item }}"
-        state: directory
-        owner: "{{ galaxy_user }}"
-        group: "{{ galaxy_system_group }}"
-        mode: "0755"
-      loop:
-        - "{{ galaxy_mutable_data_dir }}"
-        - "{{ galaxy_log_dir }}"
       become: true
     - name: Locate TPV python blobs
       set_fact:
@@ -48,6 +36,7 @@
       galaxy_manage_gravity: no
     - role: usegalaxy_eu.tpv_auto_lint
       become: true
+      become_user: "{{ galaxy_privileged_user }}"
   handlers:
     - name: galaxy gravity graceful restart
       command: "{{ galaxy_gravity_command }} graceful"
@@ -55,8 +44,12 @@
         GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
       listen: "restart galaxy"
       when: restart is truthy(convert_bool=true)
+      become: true
     - name: galaxyctl update
       command: "{{ galaxy_gravity_command }} update"
+      environment:
+        GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
+      become: true
 
 - name: Galaxy mutable configs
   hosts: galaxyservers
