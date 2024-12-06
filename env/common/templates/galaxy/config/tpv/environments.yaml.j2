@@ -204,7 +204,7 @@ destinations:
     max_cores: 8
     max_mem: 96
     params:
-      native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 24), 1)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
+      native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 20), 1)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
     scheduling:
       require:
       - cyclone-mem
