@@ -557,6 +557,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bellerophon/bellerophon/.*:
     cores: 8
     mem: 12
+    context:
+      time: "70:00:00"
 
   toolshed.g2.bx.psu.edu/repos/iuc/bigwig_outlier_bed/bigwig_outlier_bed/.*:
     mem: 7
@@ -1544,7 +1546,7 @@ tools:
       mem: 28
     - id: mothur_align_seqs_medium_input_rule
       if: input_size >= 1.0
-      cores: 4
+      cores: 16
       mem: 84
     scheduling:
       require:

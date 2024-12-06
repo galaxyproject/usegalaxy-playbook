@@ -62,9 +62,8 @@ destinations:
     abstract: true
     inherits: _pulsar
     runner: jetstream2
-    context:
-      time: 36:00:00
-      # js2_partition is set on role and (default) tool entitites
+    #context:
+    #  js2_partition and time are set on role and (default) tool entitites
     params:
       remote_metadata: true
       remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
@@ -110,6 +109,7 @@ destinations:
     abstract: true
     inherits: _pulsar
     context:
+      # override for max allowed time at TACC
       time: 24:00:00
     params:
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
@@ -204,7 +204,7 @@ destinations:
     max_cores: 8
     max_mem: 96
     params:
-      native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 24), 1)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
+      native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 20), 1)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
     scheduling:
       require:
       - cyclone-mem
