@@ -197,29 +197,6 @@ base_app_main: &BASE_APP_MAIN
         extra_dirs:
           - type: job_work
             path: /corral4/test/jobs
-      - id: corral-irods-galaxy
-        type: irods
-        weight: 0
-        store_by: uuid
-        auth:
-          username: g2test
-          password: "{{ galaxy_icat_irods_password }}"
-        resource:
-          name: testRootResc
-        zone:
-          name: galaxyZ
-        connection:
-          host: galaxy-icat.tacc.utexas.edu
-          port: 1247
-          timeout: 3
-          refresh_time: 300
-          connection_pool_monitor_interval: 300
-        cache:
-          path: "{{ galaxy_object_store_cache_path }}"
-          size: 1000000
-        extra_dirs:
-          - type: job_work
-            path: /corral4/test/jobs
 
   watch_job_rules: true
 

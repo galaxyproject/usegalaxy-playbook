@@ -7,10 +7,6 @@ galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
 # For single-Pulsar dests like rockfish-devgalaxy
 galaxy_job_conf_main_amqp_url: "{{ vault_galaxy_job_conf_main_amqp_url }}"
 
-# used by: object store config template
-galaxy_gs0_irods_password: "{{ vault_galaxy_gs0_irods_password }}"
-galaxy_icat_irods_password: "{{ vault_galaxy_icat_irods_password }}"
-
 # used by: oidc backends config template
 galaxy_custos_client_id: "{{ vault_galaxy_custos_client_id }}"
 galaxy_custos_client_secret: "{{ vault_galaxy_custos_client_secret }}"

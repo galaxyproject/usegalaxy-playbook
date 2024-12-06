@@ -21,11 +21,10 @@
         name: galaxyproject.galaxy
       diff: false
       vars:
-        # minimal vars and configs for conditional dependency installs (drmaa, tpv, python-irodsclient)
+        # minimal vars and configs for conditional dependency installs (drmaa, tpv)
         galaxy_config_dir: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}"
         galaxy_shed_tools_dir: null
         galaxy_config_file: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/galaxy.yml"
-        galaxy_icat_irods_password: null
         galaxy_minio_idc_access_key: null
         galaxy_minio_idc_secret_key: null
         galaxy_job_conf_amqp_url: null
