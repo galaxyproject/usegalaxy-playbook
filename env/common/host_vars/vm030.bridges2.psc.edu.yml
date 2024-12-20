@@ -55,9 +55,9 @@ miniconda_channels:
   - conda-forge
   - defaults
 miniconda_conda_environments:
-  __python@3.8:
+  __python@3.11:
     packages:
-      - python=3.8
+      - python=3.11
   __curl@7.71:
     packages:
       - curl=7.71
@@ -97,7 +97,7 @@ pulsar_supervisor_env:
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
-pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.8/bin/python3 -m venv"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.11/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: openssl

@@ -42,10 +42,14 @@ destinations:
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
     - name: XDG_CACHE_HOME
       value: /tmp/{{ galaxy_user }}-cache
+    - name: TRINITY_SCRATCH_DIR
+      value: /tmp/slurm_job_$SLURM_JOB_ID
     - name: SINGULARITYENV_XDG_DATA_HOME
       value: $XDG_DATA_HOME
     - name: SINGULARITYENV_XDG_CACHE_HOME
       value: $XDG_CACHE_HOME
+    - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
+      value: $TRINITY_SCRATCH_DIR
     - name: SINGULARITY_CACHEDIR
       value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_cache
     - name: SINGULARITY_TMPDIR
@@ -66,6 +70,9 @@ destinations:
     scheduling:
       accept:
       - jetstream2
+      - general
+      - cvmfs
+      - docker
       prefer:
       - jetstream2
       require:
