@@ -728,6 +728,13 @@ tools:
           log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
                       table_name, lookup_column, lookup_value, value_column, mem)
       mem + 32
+    rules:
+    - id: rule_kraken2_concurrency
+      if: |
+        helpers.concurrent_job_count_for_tool(app, tool, user) >= 1
+      execute: |
+        from galaxy.jobs.mapper import JobNotReadyException
+        raise JobNotReadyException()
     scheduling:
       accept:
       - training-exempt
@@ -1013,6 +1020,10 @@ tools:
     context:
       time: "192:00:00"
 
+  # this is just a bunch of serial `cat`s so shouldn't use memory; could be set_meta?
+  toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/.*:
+    mem: 7
+
   toolshed.g2.bx.psu.edu/repos/nml/metaspades/metaspades/.*:
     # shared DB has 10 cores and 250 GB(!)
     cores: 16
@@ -1073,9 +1084,10 @@ tools:
 
   # NCBI recommends AWS r6a.8xlarge: cores: 32, mem:256
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
-    # will be clamped to stampede3-icx except on vgp
-    cores: 64
-    mem: 480
+    context:
+      force_cores: true
+    cores: 32
+    mem: 248
 
   # GPU tools
 
