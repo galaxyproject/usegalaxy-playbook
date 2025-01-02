@@ -40,10 +40,6 @@ galaxyjobservers
 [certbottsigkeyservers:children]
 certbotdnsservers
 
-[dbservers]
-[dbservers:children]
-galaxydbservers
-
 # galaxy stuff here
 
 [galaxyservers]
@@ -68,9 +64,6 @@ galaxy-web-04.tacc.utexas.edu
 [galaxystagingservers]
 galaxy-web-03.tacc.utexas.edu
 galaxy-web-04.tacc.utexas.edu
-
-[galaxydbservers]
-galaxy-db.tacc.utexas.edu
 
 [pulsarservers]
 login3.stampede3.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executable=./.ssh-keyboard-interactive

@@ -8,7 +8,8 @@ galaxy_config_id_secret: "{{ vault_galaxy_config_id_secret }}"
 galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
 galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_connection }}"
 
-galaxy_config_database_connection: "postgresql://g2main:{{ galaxy_database_password }}@{{ groups.galaxydbservers[0] }}/galaxy_main"
+galaxy_db_server: galaxy-db.tacc.utexas.edu
+galaxy_config_database_connection: "postgresql://g2main:{{ galaxy_database_password }}@{{ galaxy_db_server }}/galaxy_main"
 redis_requirepass: "{{ vault_redis_requirepass }}"
 
 galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
@@ -24,7 +25,7 @@ galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool
 galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
 galaxy_object_store_cache_path: "/corral4/{{ galaxy_instance_codename }}/object_store_cache"
 
-galaxy_interactivetoolsproxy_map: "postgresql://g2main:{{ galaxy_database_password }}@{{ groups.galaxydbservers[0] }}/gxitproxy_main"
+galaxy_interactivetoolsproxy_map: "postgresql://g2main:{{ galaxy_database_password }}@{{ galaxy_db_server }}/gxitproxy_main"
 
 galaxy_themes_instance_domain: usegalaxy.org
 # this is the place in the playbook theme files are copied from
