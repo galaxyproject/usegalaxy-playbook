@@ -108,6 +108,9 @@ destinations:
       - jetstream2
       require:
       - pulsar
+      # Maintenance 2025-01-06 to 09
+      reject:
+      - offline
 
   _tacc_hpc:
     abstract: true
@@ -203,15 +206,19 @@ destinations:
     inherits: _cyclone_singularity
     min_accepted_cores: 1
     min_accepted_mem: 1
-    max_accepted_cores: 32
-    max_accepted_mem: 256
-    max_cores: 8
-    max_mem: 96
+    #max_accepted_cores: 32
+    #max_accepted_mem: 256
+    #max_cores: 8
+    #max_mem: 96
+    # For JS2 downtime
+    max_accepted_cores: 16
+    max_accepted_mem: 64
     params:
       native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 20), 1)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
-    scheduling:
-      require:
-      - cyclone-mem
+    # For JS2 downtime
+    #scheduling:
+    #  require:
+    #  - cyclone-mem
 
   # *_training destinations are mainly for reporting, context is set in the role entity
   cyclone_training:
@@ -740,12 +747,17 @@ destinations:
   stampede3_skx:
     inherits: _stampede3
     runner: stampede3
-    min_accepted_cores: 16
-    min_accepted_mem: 128
-    max_accepted_cores: 64
-    max_accepted_mem: 190
+    #min_accepted_cores: 16
+    #min_accepted_mem: 128
+    #max_accepted_cores: 64
+    #max_accepted_mem: 190
     max_cores: 48
     max_mem: 184
+    # For JS2 downtime
+    min_accepted_cores: 1
+    min_accepted_mem: 64
+    max_accepted_cores: 128
+    max_accepted_mem: 190
     params:
       # $GALAXY_SLOTS is forced to 48 to avoid wastage
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=skx"
