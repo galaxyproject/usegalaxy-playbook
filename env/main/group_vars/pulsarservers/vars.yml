@@ -2,8 +2,8 @@
 
 ## these vars are defined in vault.yml
 #
-# used by: galaxyproject.pulsar (templating server.ini)
-pulsar_message_queue_url: "{{ vault_pulsar_message_queue_url }}"
+# used by: galaxyproject.pulsar (templating app.yml)
+pulsar_message_queue_url: "amqp://{{ pulsar_amqp_credentials }}@{{ amqp_server }}:5671//main_pulsar?ssl=1"
 pulsar_sentry_dsn: "{{ vault_pulsar_sentry_dsn }}"
 
 
