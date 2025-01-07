@@ -358,8 +358,8 @@ destinations:
       - training
       require:
       - gxit
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   jetstream2_training:
     inherits: jetstream2

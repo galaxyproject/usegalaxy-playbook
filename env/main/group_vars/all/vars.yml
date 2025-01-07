@@ -1,5 +1,7 @@
 ---
 
+pulsar_amqp_credentials: "{{ vault_pulsar_amqp_credentials }}"
+
 # set -e restart=false to disable restart
 restart: true
 
@@ -29,6 +31,7 @@ galaxy_additional_venv_packages:
   - drmaa
   - "redis>=4.5.2,<6.0.0,!=4.5.5"
   - weasyprint
+amqp_server: mq.galaxyproject.org
 
 # FIXME: don't want the backups of the TPV configs to be watched, maybe add a per-item backup option to
 # galaxy_config_{files,templates}, or maybe we really don't need backups

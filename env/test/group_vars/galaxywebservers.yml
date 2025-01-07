@@ -1,23 +1,5 @@
 ---
 
-nginx_conf_ssl_protocols:
-  - TLSv1.3
-
-nginx_conf_ssl_ciphers:
-  - ECDHE-ECDSA-AES128-GCM-SHA256
-  - ECDHE-RSA-AES128-GCM-SHA256
-  - ECDHE-ECDSA-AES256-GCM-SHA384
-  - ECDHE-RSA-AES256-GCM-SHA384
-  - ECDHE-ECDSA-CHACHA20-POLY1305
-  - ECDHE-RSA-CHACHA20-POLY1305
-  - DHE-RSA-AES128-GCM-SHA256
-  - DHE-RSA-AES256-GCM-SHA384
-
-nginx_upload_module_url: https://github.com/natefoo/nginx-upload-module-build/raw/refs/heads/main/nginx_v1.20.1.el9/build-module-artifacts/nginx-module-upload-1.20.1+1.0-1.el9.ngx.x86_64.rpm
-nginx_load_modules:
-  - order: 50
-    path: ngx_http_upload_module.so
-
 #tusd_version: v1.10.0
 galaxy_tusd_port: 1080
 

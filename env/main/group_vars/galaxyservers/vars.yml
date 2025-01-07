@@ -3,7 +3,7 @@
 ## these vars are defined in vault.yml
 #
 # used by: galaxyproject.galaxy (templating job_conf.yml)
-galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
+galaxy_job_conf_amqp_url: "amqp://{{ pulsar_amqp_credentials }}@{{ amqp_server }}:5671//main_pulsar?ssl=1"
 
 # used by: object store config template
 galaxy_minio_idc_access_key: "idc"
@@ -217,7 +217,7 @@ galaxy_job_conf_tools: []
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 4
+    value: 2
   - type: anonymous_user_concurrent_jobs
     value: 1
 

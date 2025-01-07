@@ -2,44 +2,6 @@
 [all:vars]
 ansible_ssh_executable = ./.ssh-keyboard-interactive
 
-[sslservers]
-[sslservers:children]
-sslwebservers
-
-[webservers]
-[webservers:children]
-sslwebservers
-galaxywebservers
-
-[sslwebservers]
-[sslwebservers:children]
-galaxywebservers
-galaxystagingservers
-
-[logfluxservers]
-#[logfluxservers:children]
-#galaxywebservers
-#galaxystagingservers
-
-[certbotservers]
-[certbotservers:children]
-certbotdnsservers
-
-# provides:
-#   - certbot DNS-01 rfc2136 provider config
-# overrides WEB-01 (webroot) mode
-[certbotdnsservers]
-[certbotdnsservers:children]
-galaxywebservers
-
-# provides:
-#   - certbot TSIG key to certbot webservers
-[certbottsigkeyservers]
-[certbottsigkeyservers:children]
-certbotdnsservers
-
-# galaxy stuff here
-
 [galaxyservers]
 galaxy-test.tacc.utexas.edu
 
@@ -60,7 +22,6 @@ login3.stampede3.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executabl
 login4.frontera.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executable=./.ssh-keyboard-interactive
 vm030.bridges2.psc.edu ansible_ssh_user=xcgalaxy ansible_python_interpreter=/usr/bin/python3
 login01.expanse.sdsc.edu ansible_ssh_user=xgalaxy ansible_python_interpreter=/usr/bin/python3
-rflogin03.rockfish.jhu.edu ansible_ssh_user=galaxy ansible_python_interpreter=/usr/bin/python3
 jetstream2.galaxyproject.org ansible_ssh_user=rocky
 
 [cvmfsstratum0servers]
@@ -71,6 +32,3 @@ cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu
 cvmfs1-tacc0.galaxyproject.org ansible_user="g2test"
 cvmfs1-iu0.galaxyproject.org
 cvmfs1-psu0.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs1-psu0.galaxyproject.org" ansible_host="localhost" ansible_port="2322"
-
-[tiaasservers]
-galaxy-test.tacc.utexas.edu
