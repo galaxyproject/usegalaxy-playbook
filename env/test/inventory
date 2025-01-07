@@ -1,43 +1,5 @@
 # generic stuff here
 
-[sslservers]
-[sslservers:children]
-sslwebservers
-
-[webservers]
-[webservers:children]
-sslwebservers
-galaxywebservers
-
-[sslwebservers]
-[sslwebservers:children]
-galaxywebservers
-galaxystagingservers
-
-[logfluxservers]
-#[logfluxservers:children]
-#galaxywebservers
-#galaxystagingservers
-
-[certbotservers]
-[certbotservers:children]
-certbotdnsservers
-
-# provides:
-#   - certbot DNS-01 rfc2136 provider config
-# overrides WEB-01 (webroot) mode
-[certbotdnsservers]
-[certbotdnsservers:children]
-galaxywebservers
-
-# provides:
-#   - certbot TSIG key to certbot webservers
-[certbottsigkeyservers]
-[certbottsigkeyservers:children]
-certbotdnsservers
-
-# galaxy stuff here
-
 [galaxyservers]
 galaxy07.tacc.utexas.edu
 
@@ -51,9 +13,6 @@ galaxy07.tacc.utexas.edu
 galaxy07.tacc.utexas.edu
 
 [galaxystagingservers]
-galaxy07.tacc.utexas.edu
-
-[galaxyswarmscaleservers]
 galaxy07.tacc.utexas.edu
 
 [pulsarservers]
@@ -72,9 +31,3 @@ cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu
 cvmfs1-tacc0.galaxyproject.org ansible_user="g2test"
 cvmfs1-iu0.galaxyproject.org
 cvmfs1-psu0.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs1-psu0.galaxyproject.org" ansible_host="localhost" ansible_port="2322"
-
-[tiaasservers]
-galaxy07.tacc.utexas.edu
-
-[kubedeployers]
-deployer ansible_connection=local
