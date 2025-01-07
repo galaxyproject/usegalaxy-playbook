@@ -41,18 +41,17 @@ galaxy_system_group: G-803372
 # FIXME: "{{ galaxy_remote_users.privsep | default(omit) }}" is blanking remote_user on the play. I set the below option
 # to workaround but this needs to be fixed in galaxyproject.galaxy, nothing should be breaking when privsep mode is not
 # enabled in the role
-#galaxy_remote_users:
-#  # FIXME: obviously
-#  privsep: ndc
-#  errdocs: ndc
-#  galaxy: ndc
-#  root: ndc
-
-galaxy_become_users:
+galaxy_remote_users:
   privsep: "{{ galaxy_privileged_user }}"
   errdocs: "{{ galaxy_privileged_user }}"
   galaxy: "{{ galaxy_user }}"
-  root: root
+  #root: gxadm
+
+galaxy_become_users: {}
+  #privsep: "{{ galaxy_privileged_user }}"
+  #errdocs: "{{ galaxy_privileged_user }}"
+  #galaxy: "{{ galaxy_user }}"
+  #root: root
 
 
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
@@ -265,7 +264,7 @@ galaxy_gravity_config_default: null
 gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
 gravity_virtualenv_command: python3 -m venv
 gravity_venv_dir: "{{ galaxy_root }}/gravity"
-gravity_package: "gravity==1.0.6"
+gravity_package: "gravity==1.0.7"
 galaxy_gravity_command: "{{ gravity_venv_dir }}/bin/galaxyctl"
 
 gravity_config:

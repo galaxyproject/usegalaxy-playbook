@@ -12,4 +12,4 @@
 #
 # Related: https://github.com/ansible/ansible/issues/16259
 
-exec ssh -o PreferredAuthentications=publickey,keyboard-interactive "$@"
+exec ssh -o PreferredAuthentications=publickey,keyboard-interactive -o KbdInteractiveAuthentication=yes "$@"

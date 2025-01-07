@@ -2,9 +2,9 @@
 
 - name: Restart Galaxy
   hosts: galaxyservers
-  become: true
+  remote_user: "{{ galaxy_privileged_user }}"
   tasks:
     - name: Gracefully Restart Galaxy
-      command: "{{ galaxy_gravity_command }} graceful"
+      command: "{{ galaxy_gravity_command }} --no-user graceful"
       environment:
         GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"

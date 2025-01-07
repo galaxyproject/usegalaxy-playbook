@@ -3,7 +3,7 @@
 - name: Galaxy static configs
   hosts: galaxyservers
   # NOTE: we also use privsep mode in the role
-  #remote_user: "{{ galaxy_privileged_user }}"
+  remote_user: "{{ galaxy_privileged_user }}"
   vars:
     galaxy_config: "{{ galaxy_config_hash }}"
   pre_tasks:
@@ -14,7 +14,6 @@
         mode: "0755"
       loop:
         - "{{ galaxy_config.galaxy.panel_views_dir }}"
-      become: true
     - name: Locate TPV python blobs
       set_fact:
         tpv_python_blobs: "{{ (tpv_python_blobs | default({})) | combine({(item | basename | splitext | first): lookup('file', item)}) }}"
@@ -35,24 +34,23 @@
       galaxy_manage_systemd: no
       galaxy_manage_gravity: no
     - role: usegalaxy_eu.tpv_auto_lint
-      become: true
-      become_user: "{{ galaxy_privileged_user }}"
   handlers:
     - name: galaxy gravity graceful restart
-      command: "{{ galaxy_gravity_command }} graceful"
+      command: "{{ galaxy_gravity_command }} --no-user graceful"
       environment:
         GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
       listen: "restart galaxy"
       when: restart is truthy(convert_bool=true)
-      become: true
       # FIXME: gravity has no way to force root mode when not root
       #become_user: "{{ galaxy_privileged_user }}"
     # FIXME: this has to run as root, but in theory should only change when the Gravity config changes
     - name: galaxyctl update
-      command: "{{ galaxy_gravity_command }} update"
-      environment:
-        GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
-      become: true
+      debug:
+        msg: "FIXME: galaxyctl update not implemented in this playbook"
+      #command: "{{ galaxy_gravity_command }} --no-user update"
+      #environment:
+      #  GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
+      ##become: true
 
 - name: Galaxy mutable configs
   hosts: galaxyservers
@@ -67,8 +65,7 @@
 
 - name: Galaxy privileged user tasks
   hosts: galaxyservers
-  become: true
-  become_user: "{{ galaxy_privileged_user }}"
+  remote_user: "{{ galaxy_privileged_user }}"
   roles:
     - role: usegalaxy_privileged
 
