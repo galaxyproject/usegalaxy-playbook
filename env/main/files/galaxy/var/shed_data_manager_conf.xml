@@ -657,4 +657,171 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager id="kraken2_build_database" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/data_manager/kraken2_build_database/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/e9ee4d074d5d/data_manager_build_kraken2_database/data_manager/kraken2_build_database.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/kraken2_build_database/2.1.3+galaxy4"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_build_kraken2_database</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>e9ee4d074d5d</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/kraken2_build_database/2.1.3+galaxy4</id><version>2.1.3+galaxy4</version></tool><data_table name="kraken2_databases">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">kraken2_databases/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/kraken2_databases/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="fetch_genome_all_fasta_dbkeys" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_dbkeys_all_fasta/data_manager/fetch_genome_all_fasta_dbkeys/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_dbkeys_all_fasta/4a82d1157b14/data_manager_fetch_genome_dbkeys_all_fasta/data_manager/data_manager_fetch_genome_all_fasta_dbkeys.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_dbkeys_all_fasta/data_manager_fetch_genome_all_fasta_dbkey/0.0.5"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_fetch_genome_dbkeys_all_fasta</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>4a82d1157b14</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_dbkeys_all_fasta/data_manager_fetch_genome_all_fasta_dbkey/0.0.5</id><version>0.0.5</version></tool><data_table name="all_fasta">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="file">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/seq/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/seq/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+        <data_table name="__dbkeys__">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="len_path" output_ref="out_file">
+                    <move type="file">
+                        <source>${len_path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/len/${len_path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/len/${len_path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+    
+<data_manager id="bowtie2_index_builder" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bowtie2_index_builder/data_manager/bowtie2_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bowtie2_index_builder/39865c64a4e1/data_manager_bowtie2_index_builder/data_manager/bowtie2_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bowtie2_index_builder/bowtie2_index_builder_data_manager/2.5.4+galaxy0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_bowtie2_index_builder</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>39865c64a4e1</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bowtie2_index_builder/bowtie2_index_builder_data_manager/2.5.4+galaxy0</id><version>2.5.4+galaxy0</version></tool><data_table name="bowtie2_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/bowtie_index/v2/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/bowtie_index/v2/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+
+        <data_table name="tophat2_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <!-- no move, always happens as part of bowtie2 and uses that path -->
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/bowtie_index/v2/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="bwa_mem_index_builder" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bwa_mem_index_builder/data_manager/bwa_mem_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bwa_mem_index_builder/0a87b85d9911/data_manager_bwa_mem_index_builder/data_manager/bwa_mem_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bwa_mem_index_builder/bwa_mem_index_builder_data_manager/0.7.18+galaxy0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_bwa_mem_index_builder</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>0a87b85d9911</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bwa_mem_index_builder/bwa_mem_index_builder_data_manager/0.7.18+galaxy0</id><version>0.7.18+galaxy0</version></tool><data_table name="bwa_mem_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/bwa_mem_index/v1/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/bwa_mem_index/v1/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="sam_fasta_index_builder" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_sam_fasta_index_builder/data_manager/sam_fasta_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_sam_fasta_index_builder/defd3e9ddd2d/data_manager_sam_fasta_index_builder/data_manager/data_manager_sam_fasta_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_sam_fasta_index_builder/sam_fasta_index_builder/1.21+galaxy0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_sam_fasta_index_builder</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>defd3e9ddd2d</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_sam_fasta_index_builder/sam_fasta_index_builder/1.21+galaxy0</id><version>1.21+galaxy0</version></tool><data_table name="fasta_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/sam_fasta_index/v1/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/sam_fasta_index/v1/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="rna_star_index_builder" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_star_index_builder/data_manager/rna_star_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_star_index_builder/71c994a11f71/data_manager_star_index_builder/data_manager/rna_star_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_star_index_builder/rna_star_index_builder_data_manager/2.7.4a+galaxy3"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_star_index_builder</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>71c994a11f71</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_star_index_builder/rna_star_index_builder_data_manager/2.7.4a+galaxy3</id><version>2.7.4a+galaxy3</version></tool><data_table name="rnastar_index2x_versioned">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>
+                            out_file.extra_files_path is used as base by default
+                            if no source, eg for type=directory, then refers to base 
+                        -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/rnastar_index/v${version}/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/rnastar_index/v${version}/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+                <column name="with_gene_model"/>
+                <column name="version"/>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="bowtie_index_builder" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_bowtie_index_builder/data_manager/bowtie_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_bowtie_index_builder/9c91b5015dd3/data_manager_bowtie_index_builder/data_manager/bowtie_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_bowtie_index_builder/bowtie_index_builder_data_manager/1.3.1+galaxy0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_bowtie_index_builder</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>9c91b5015dd3</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_bowtie_index_builder/bowtie_index_builder_data_manager/1.3.1+galaxy0</id><version>1.3.1+galaxy0</version></tool><data_table name="bowtie_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/bowtie_index/v1/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/bowtie_index/v1/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="kraken2_build_database" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/data_manager/kraken2_build_database/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/8c533e19b697/data_manager_build_kraken2_database/data_manager/kraken2_build_database.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/kraken2_build_database/2.1.3+galaxy5"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_build_kraken2_database</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>8c533e19b697</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/kraken2_build_database/2.1.3+galaxy5</id><version>2.1.3+galaxy5</version></tool><data_table name="kraken2_databases">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">kraken2_databases/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/kraken2_databases/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
