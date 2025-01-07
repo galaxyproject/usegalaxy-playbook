@@ -3,7 +3,7 @@
 ## these vars are defined in vault.yml
 #
 # used by: galaxyproject.galaxy (templating job_conf.yml)
-galaxy_job_conf_amqp_url: "{{ vault_galaxy_job_conf_amqp_url }}"
+galaxy_job_conf_amqp_url: "amqp://{{ pulsar_amqp_credentials }}@{{ amqp_server }}:5671//test_pulsar?ssl=1"
 # For single-Pulsar dests like rockfish-devgalaxy
 galaxy_job_conf_main_amqp_url: "{{ vault_galaxy_job_conf_main_amqp_url }}"
 

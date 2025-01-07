@@ -7,9 +7,10 @@ galaxy_config_database_connection: "{{ vault_galaxy_config_database_connection }
 galaxy_config_admin_users: "{{ vault_galaxy_config_admin_users }}"
 galaxy_config_id_secret: "{{ vault_galaxy_config_id_secret }}"
 galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
-galaxy_config_amqp_internal_connection: "{{ vault_galaxy_config_amqp_internal_connection }}"
+galaxy_internal_amqp_credentials: "{{ vault_galaxy_internal_amqp_credentials }}"
 redis_requirepass: "{{ vault_redis_requirepass }}"
 
+galaxy_config_amqp_internal_connection: "amqp://{{ galaxy_internal_amqp_credentials }}@{{ amqp_server }}:5671//test_internal?ssl=1"
 
 galaxy_root: "/srv/galaxy/{{ galaxy_instance_codename }}"
 galaxy_new_file_path: "/corral4/{{ galaxy_instance_codename }}/scratch"
