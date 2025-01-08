@@ -36,12 +36,6 @@ groq_api_key: "{{ vault_groq_api_key }}"
 ## used by: galaxy supervisor templates
 galaxy_host_codename: test
 
-## used by: galaxyproject.galaxy and the play itself
-# As of Ansible 2.0, a variable name matching a word used in a with_items loop
-# (as in supervisord_group_configs) will be expanded, despite the fact that
-# bare word expansion is deprecated. D=
-galaxy_system_group: G-803372
-
 # FIXME: "{{ galaxy_remote_users.privsep | default(omit) }}" is blanking remote_user on the play. I set the below option
 # to workaround but this needs to be fixed in galaxyproject.galaxy, nothing should be breaking when privsep mode is not
 # enabled in the role
