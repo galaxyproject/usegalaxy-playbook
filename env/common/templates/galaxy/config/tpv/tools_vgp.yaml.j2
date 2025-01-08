@@ -11,7 +11,8 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/.*:
-    mem: 120
+    #mem: 120
+    mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/ucsc_axtchain/ucsc_axtchain/.*:
     mem: 120
@@ -21,9 +22,9 @@ tools:
     cores: 128
     mem: 980
 
-  # might be a one-off failure
+  # seems to use exactly the amount allocated semi-regularly without crashing
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sort_header_tool/.*:
-    mem: 60
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     mem: 14
