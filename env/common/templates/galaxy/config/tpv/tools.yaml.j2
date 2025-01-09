@@ -348,6 +348,11 @@ tools:
       cores: 16
       mem: min(max(int(input_size * 3), 28), max_scaled_mem)
 
+  # the image exists, it just takes a long time to convert
+  toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/3\+galaxy0:
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/mitohifi:3_galaxy0--0"}]
+
   # only this container version contains the required databases, see https://github.com/bioconda/bioconda-recipes/issues/45328
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
     cores: 20
@@ -369,6 +374,7 @@ tools:
       mem: min(max(int(input_size * 12), 8), 28)
 
   toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
+    # FIXME: this is wasting huge amounts of r3.xl memory. used to use stampede3-icx, why did that change?
     context:
       force_cores: true
     cores: 46
@@ -536,15 +542,21 @@ tools:
     cores: 8
     mem: 28
 
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/.*:
+    mem: 28
+
   # https://github.com/bioconda/bioconda-recipes/pull/41091
   #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
-    mem: 14
+    mem: 28
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/bandage_ng:2022.09--0"}]
     env:
     - name: SINGULARITYENV_QT_QPA_PLATFORM
       value: offscreen
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/.*:
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_info/2022.09.*:
     inherits: toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*
