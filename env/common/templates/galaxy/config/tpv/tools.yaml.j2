@@ -238,6 +238,10 @@ tools:
     params:
       docker_run_extra_arguments: "-e GROQ_API_KEY_u={{ groq_api_key }}"
 
+  toolshed.g2.bx.psu.edu/repos/goeckslab/pycaret_[^/]*/pycaret_[^/]*/3.3.2.*:
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-pycaret:3.3.2--0"}]
+
   # pulsar incompatible
 
   hgv_ldtools:
