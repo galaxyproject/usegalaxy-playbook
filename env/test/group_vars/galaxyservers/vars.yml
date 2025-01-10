@@ -252,7 +252,8 @@ galaxy_job_conf_limits:
     id: stampede3_spr
     value: 4
 
-pulsar_default_file_action: remote_transfer_tus
+#pulsar_default_file_action: remote_transfer_tus
+pulsar_default_file_action: remote_transfer
 
 # used in gravity config and nginx template
 gxit_proxy_port: 8910
@@ -306,14 +307,17 @@ gravity_config:
       LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
       HDF5_USE_FILE_LOCKING: "FALSE"
   tusd:
-    - enable: true
-      tusd_path: /usr/local/sbin/tusd
-      upload_dir: "{{ galaxy_tus_upload_store }}"
-    - enable: true
-      tusd_path: /usr/local/sbin/tusd
-      upload_dir: "{{ galaxy_tus_upload_store_job_files }}"
-      port: 1081
-      hooks_http: /api/job_files/tus_hooks
+    enable: true
+    tusd_path: /usr/local/sbin/tusd
+    upload_dir: "{{ galaxy_tus_upload_store }}"
+    #- enable: true
+    #  tusd_path: /usr/local/sbin/tusd
+    #  upload_dir: "{{ galaxy_tus_upload_store }}"
+    #- enable: true
+    #  tusd_path: /usr/local/sbin/tusd
+    #  upload_dir: "{{ galaxy_tus_upload_store_job_files }}"
+    #  port: 1081
+    #  hooks_http: /api/job_files/tus_hooks
   gx_it_proxy:
     enable: true
     port: "{{ gxit_proxy_port }}"

@@ -17,6 +17,7 @@ galaxy_new_file_path: "/corral4/{{ galaxy_instance_codename }}/scratch"
 galaxy_job_working_directory: "/corral4/{{ galaxy_instance_codename }}/jobs"
 galaxy_tus_upload_store: "/corral4/{{ galaxy_instance_codename }}/upload"
 galaxy_tus_upload_store_job_files: "/corral4/{{ galaxy_instance_codename }}/upload_job_files"
+galaxy_nginx_upload_job_files_dir: "/corral4/{{ galaxy_instance_codename }}/upload_job_files"
 galaxy_tool_dependency_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/deps"
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
@@ -117,6 +118,8 @@ base_app_main: &BASE_APP_MAIN
   tool_data_path: /corral4/test/tool_data
   tus_upload_store: "{{ galaxy_tus_upload_store }}"
   tus_upload_store_job_files: "{{ galaxy_tus_upload_store_job_files }}"
+  nginx_upload_job_files_store: "{{ galaxy_nginx_upload_job_files_dir }}"
+  nginx_upload_job_files_path: /_job_files
   galaxy_data_manager_data_path: /corral4/manageddata/data
   tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
   tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
@@ -244,7 +247,6 @@ base_app_main: &BASE_APP_MAIN
   enable_cloud_launch: "True"
   cloudlaunch_default_ami: ami-a7dbf6ce
   nginx_x_accel_redirect_base: /_x_accel_redirect
-  #nginx_upload_job_files_path: /_job_files
   upstream_mod_zip: true
   log_events: "False"
   log_actions: "False"
