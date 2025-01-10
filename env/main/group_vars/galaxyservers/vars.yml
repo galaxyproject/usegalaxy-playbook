@@ -24,9 +24,6 @@ elementbio_aws_access_key_id: "{{ vault_elementbio_aws_access_key_id }}"
 # used by interactive_tool_chat_analysis
 groq_api_key: "{{ vault_groq_api_key }}"
 
-## used by: galaxyproject.galaxy and the play itself
-galaxy_system_group: G-803372
-
 # FIXME: "{{ galaxy_remote_users.privsep | default(omit) }}" is blanking remote_user on the play. I set the below option
 # to workaround but this needs to be fixed in galaxyproject.galaxy, nothing should be breaking when privsep mode is not
 # enabled in the role
@@ -217,7 +214,7 @@ galaxy_job_conf_tools: []
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 2
+    value: 6
   - type: anonymous_user_concurrent_jobs
     value: 1
 
