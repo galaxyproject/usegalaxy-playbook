@@ -1102,8 +1102,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
     context:
       force_cores: true
+      time: "72:00:00"
     cores: 32
     mem: 248
+    scheduling:
+      require:
+      - jetstream2
 
   # GPU tools
 
