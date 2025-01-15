@@ -1145,6 +1145,12 @@ tools:
       # frontera
       #- frontera-rtx
 
+  toolshed.g2.bx.psu.edu/repos/rnateam/splitfasta/rbc_splitfasta/.*:
+    # this is only implemented in 0.6.0+, consider uninstalling old versions
+    env:
+      - name: SINGULARITYENV_GALAXY_FILE_LIMIT
+        value: 250
+
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
     cores: 12
