@@ -32,8 +32,6 @@ main-restart: PLAYBOOK = restart
 main-restart: main
 main-snapshot: PLAYBOOK = snapshot
 main-snapshot: main
-main-stack: PLAYBOOK = stack
-main-stack: main
 main-static: PLAYBOOK = static
 main-static: main
 main-update: PLAYBOOK = update
@@ -43,8 +41,6 @@ main-update-no-restart: RESTART_ARG = "-e restart=false"
 main-update-no-restart: main
 main-tpv: PLAYBOOK = tpv
 main-tpv: main
-main-tusd: PLAYBOOK = tusd
-main-tusd: main
 test-backup: PLAYBOOK = backup
 test-backup: test
 test-client: PLAYBOOK = client
@@ -60,30 +56,18 @@ test-restart: PLAYBOOK = restart
 test-restart: test
 test-snapshot: PLAYBOOK = snapshot
 test-snapshot: test
-test-stack: PLAYBOOK = stack
-test-stack: test
 test-static: PLAYBOOK = static
 test-static: test
 test-tpv: PLAYBOOK = tpv
 test-tpv: test
-testtoolshed-stack_extras: PLAYBOOK = stack_extras
-testtoolshed-stack_extras: testtoolshed
-testtoolshed-stack: PLAYBOOK = stack
-testtoolshed-stack: testtoolshed
-testtoolshed-update: PLAYBOOK = update
-testtoolshed-update: testtoolshed
 test-update: PLAYBOOK = update
 test-update: test
 test-update-no-restart: PLAYBOOK = update
 test-update-no-restart: RESTART_ARG = "-e restart=false"
 test-update-no-restart: test
-toolshed-stack: PLAYBOOK = stack
-toolshed-stack: toolshed
-toolshed-update: PLAYBOOK = update
-toolshed-update: toolshed
 
 
-test main testtoolshed toolshed:
+test main:
 	ansible-playbook -i env/$@/inventory env/$@/$(PLAYBOOK).yml --diff $(TAGS_ARG) $(LIMIT_ARG) $(RESTART_ARG)
 
 Makefile: Makefile.in

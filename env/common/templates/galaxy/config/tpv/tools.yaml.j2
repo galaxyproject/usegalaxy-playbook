@@ -1102,8 +1102,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
     context:
       force_cores: true
+      time: "72:00:00"
     cores: 32
     mem: 248
+    scheduling:
+      require:
+      - jetstream2
 
   # GPU tools
 
@@ -1140,6 +1144,12 @@ tools:
       - pulsar
       # frontera
       #- frontera-rtx
+
+  toolshed.g2.bx.psu.edu/repos/rnateam/splitfasta/rbc_splitfasta/.*:
+    # this is only implemented in 0.6.0+, consider uninstalling old versions
+    env:
+      - name: SINGULARITYENV_GALAXY_FILE_LIMIT
+        value: 250
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
