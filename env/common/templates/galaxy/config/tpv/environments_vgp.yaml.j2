@@ -13,7 +13,7 @@ destinations:
     max_cores: 128
     max_mem: 980
     context:
-      time: 36:00:00
+      #time: 36:00:00
       # js2_partition is set on role and (default) tool entitites
     params:
       submit_native_specification: "--nodes=1 --ntasks={max(int(mem/4), 1)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
