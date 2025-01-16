@@ -1,9 +1,8 @@
 ---
 # Deploy static content (this does not require any vaulted secrets)
 
-- hosts: galaxywebservers:galaxystagingservers
-  become: true
-  become_user: "{{ galaxy_privileged_user }}"
+- hosts: galaxyservers
+  remote_user: "{{ galaxy_privileged_user }}"
   vars_files:
     - "{{ galaxy_version_file }}"
   roles:

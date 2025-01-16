@@ -4,8 +4,8 @@
   import_playbook: _inc_static.yml
 
 - name: Galaxy error documents
-  hosts: galaxywebservers:galaxy-vgp.tacc.utexas.edu
-  become: true
+  hosts: galaxyservers
+  remote_user: "{{ galaxy_privileged_user }}"
   roles:
     # set up local galaxy clone and local config
     - role: galaxyproject.galaxy
