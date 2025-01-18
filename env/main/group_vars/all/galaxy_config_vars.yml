@@ -39,30 +39,6 @@ galaxy_themes_welcome_url_prefix: https://gxy.io/usegalaxy-org-welcome-
 ## used by: galaxyproject.galaxy
 base_app_main: &BASE_APP_MAIN
 
-  # message box
-  #message_box_visible: true
-
-  #message_box_class: info
-  #message_box_class: warning
-  #message_box_class: error
-
-  # informational messages
-  #message_box_content: The US Galaxy Team is exploring the possibility of hosting user-focused US-centric Galaxy meetings for the presentation of new research use Galaxy, building relationships, and facilitating communication between the user community and Galaxy developers. Please help us out by completing <a href="https://forms.gle/zgpwse47fGjWZuHi8" target="_blank">a very short survey</a> so that we can gauge interest.
-  #message_box_content: Galaxy has recently been updated to a pre-release of the next Galaxy stable release (22.05), and you might encounter problems as we iron out the wrinkles. Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@galaxyproject.org">galaxy-bugs</a>.
-  #message_box_content: Galaxy has recently been upgraded to a pre-release of the next Galaxy stable release (18.05). Please report any issues you encounter using the bug icon on error (red) datasets, or email <a href="mailto:galaxy-bugs@galaxyproject.org">galaxy-bugs</a>.
-  #message_box_content: Galaxy's <a href="https://galaxyproject.org/main/#user-data-and-job-quotas">job concurrency limits and maximum allowed run times</a> have been decreased in order to ensure enough resources are available to students participating in the <a href="https://gxy.io/smorgasbord3/">GTN Smörgåsbord 3</a>.
-
-  # emergency downtimes
-  #message_box_content: Interactive tools (Jupyter, RStudio) are currently not running due to a cluster outage. We are working on the issue.
-  #message_box_content: All tools should be functioning normally with the exception of RNA STAR.
-  #message_box_content: We are operating with temporarily reduced cluster capacity and jobs may take longer than usual to execute. We are working on increasing capacity as quickly as possible.
-  #message_box_content: We are operating with temporarily reduced capacity due to VM failures and apologize for any delays and errors you may encounter. We are working on restoring regular services as quickly as possible. Please see <a href="https://status.galaxyproject.org/" target="_blank">status.galaxyproject.org</a> for more information.
-
-  # scheduled downtimes
-  #message_box_content: Galaxy will be down for four hours beginning at <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20220613T090000&p1=24&ah=">2:00 PM UTC, Monday, June 13</a> for upgrades. For additional details see <a href="https://status.galaxyproject.org/">status.galaxyproject.org</a>.
-  #message_box_content: Cluster upgrades are in progress, jobs will not run until upgrades are complete (by <a target="_blank" href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20180417T160000&p1=24&ah=">9:00 PM UTC, Tuesday, April 17</a>).
-  #message_box_content: Tools that run on <a target="_blank" href="https://www.psc.edu/resources/bridges/">PSC Bridges</a> (Unicycler, SPAdes, Trinity) are experiencing delays due to heavy utilization on that system. Please leave your jobs queued, they will run when resources are available.
-
   # this can be removed after 9/22 and the datatypes_conf.xml update
   gbrowse_display_sites: wormbase,tair,modencode_worm,modencode_fly
   ucsc_display_sites: main,archaea,ucla
@@ -116,8 +92,6 @@ base_app_main: &BASE_APP_MAIN
   trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
   job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
   data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
-  job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
-  dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
   themes_config_file: "{{ galaxy_config_dir }}/themes_conf.yml"
   panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
   default_panel_view_by_host:
@@ -244,12 +218,12 @@ base_app_main: &BASE_APP_MAIN
   instance_resource_url: "https://galaxyproject.org/support"
   email_domain_blocklist_file: "{{ galaxy_config_dir }}/disposable_email_blacklist.conf"
   registration_warning_message: "Please register only one account. The {{ galaxy_instance_hostname }} service is provided free of charge and has limited computational and data storage resources. <strong>Registration and usage of multiple accounts is tracked and such accounts are subject to termination and data deletion.</strong>"
-  user_activation_on: "True"
+  user_activation_on: true
   activation_grace_period: 6
   inactivity_box_content: "Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address."
   terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
   #ga_code: "UA-45719423-10"
-  static_enabled: "True"
+  static_enabled: false
   nginx_x_accel_redirect_base: /_x_accel_redirect
   #upstream_mod_zip: true
   upstream_gzip: true
@@ -257,19 +231,18 @@ base_app_main: &BASE_APP_MAIN
   log_actions: "False"
   debug: "False"
   use_interactive: "False"
-  use_pbkdf2: "True"
-  allow_user_deletion: "True"
-  allow_user_dataset_purge: "True"
-  enable_openid: "True"
-  enable_quotas: "True"
-  track_jobs_in_database: "True"
-  retry_metadata_internally: "False"
+  use_pbkdf2: true
+  allow_user_deletion: true
+  allow_user_dataset_purge: true
+  enable_quotas: true
+  track_jobs_in_database: true
+  retry_metadata_internally: false
   retry_job_output_collection: 5
   cleanup_job: onsuccess
   monitor_thread_join_timeout: 60
-  cache_user_job_count: "True"
+  cache_user_job_count: true
   max_metadata_value_size: 1000000
-  allow_user_impersonation: "True"
+  allow_user_impersonation: true
   enable_beta_markdown_export: true
   use_access_logging_middleware: true
 
@@ -291,6 +264,15 @@ base_app_main: &BASE_APP_MAIN
   mulled_resolution_cache_data_dir: "{{ galaxy_mutable_data_dir }}/mulled/data"
   mulled_resolution_cache_lock_dir: "{{ galaxy_mutable_data_dir }}/mulled/lock"
 
+  dependency_resolvers:
+    - type: conda
+    - type: tool_shed_packages
+    - type: galaxy_packages
+    - type: galaxy_packages
+      versionless: true
+    - type: conda
+      versionless: true
+
   container_resolvers:
     - type: cached_mulled_singularity
       cache_directory: /cvmfs/singularity.galaxyproject.org/all
@@ -303,6 +285,14 @@ base_app_main: &BASE_APP_MAIN
       cache_directory: /corral4/singularity/precache
       cache_directory_cacher_type: dir_mtime
     - type: explicit_singularity
+
+  job_metrics:
+    - type: core
+    - type: cpuinfo
+      verbose: true
+    - type: meminfo
+    - type: uname
+    - type: cgroup
 
   # For handler heartbeats
   #use_heartbeat: "True"

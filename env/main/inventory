@@ -1,67 +1,29 @@
-# generic stuff here
-
 # otherwise it uses 3.9, which doesn't have all the system modules installed, probably fixed in a newer ansible (I'm
 # using 2.11.11)
 galaxy-vgp.tacc.utexas.edu ansible_python_interpreter=/usr/libexec/platform-python3.6
 
-[sslservers]
-[sslservers:children]
-sslwebservers
-
-[webservers]
-galaxy-vgp.tacc.utexas.edu
-
-[webservers:children]
-sslwebservers
-galaxywebservers
-
-[sslwebservers]
-[sslwebservers:children]
-galaxywebservers
-galaxystagingservers
-
-[certbotservers]
-galaxy-vgp.tacc.utexas.edu
-
-[certbotservers:children]
-certbotdnsservers
-
-# provides:
-#   - certbot DNS-01 rfc2136 provider config
-# overrides WEB-01 (webroot) mode
-[certbotdnsservers]
-[certbotdnsservers:children]
-galaxywebservers
-galaxyjobservers
-
-# provides:
-#   - certbot TSIG key to certbot webservers
-[certbottsigkeyservers]
-[certbottsigkeyservers:children]
-certbotdnsservers
-
-# galaxy stuff here
+[all:vars]
+ansible_ssh_executable = ./.ssh-keyboard-interactive
 
 [galaxyservers]
+galaxy-main1.tacc.utexas.edu
+galaxy-main2.tacc.utexas.edu
+galaxy-main3.tacc.utexas.edu
+galaxy-main4.tacc.utexas.edu
 galaxy-vgp.tacc.utexas.edu
 
-[galaxyservers:children]
-galaxywebservers
-galaxyjobservers
-galaxystagingservers
+[galaxystaticservers]
+galaxy-main.tacc.utexas.edu
 
-[galaxymasters]
-galaxy-web-05.tacc.utexas.edu
+[galaxystaticservers:children]
+galaxyservers
 
-[galaxywebservers]
-galaxy-web-05.tacc.utexas.edu
-galaxy-web-06.tacc.utexas.edu
+# FIXME: this just defines who does the db update in the update playbook, you could just use the first host in one of
+# the other groups
+#[galaxymasters]
+#galaxy-web-05.tacc.utexas.edu
 
 [galaxyjobservers]
-galaxy-web-03.tacc.utexas.edu
-galaxy-web-04.tacc.utexas.edu
-
-[galaxystagingservers]
 galaxy-web-03.tacc.utexas.edu
 galaxy-web-04.tacc.utexas.edu
 
@@ -81,7 +43,3 @@ cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu
 cvmfs1-tacc0.galaxyproject.org ansible_user="g2test"
 cvmfs1-iu0.galaxyproject.org
 cvmfs1-psu0.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs1-psu0.galaxyproject.org" ansible_host="localhost" ansible_port="2322"
-
-[tiaasservers]
-[tiaasservers:children]
-galaxywebservers

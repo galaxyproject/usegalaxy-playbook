@@ -21,6 +21,31 @@ paratus_aws_access_key_id: "{{ vault_paratus_aws_access_key_id }}"
 elementbio_aws_secret_access_key: "{{ vault_elementbio_aws_secret_access_key }}"
 elementbio_aws_access_key_id: "{{ vault_elementbio_aws_access_key_id }}"
 
+# what hostnames to serve the default welcome.html for
+galaxy_base_welcome_names:
+  - usegalaxy.org
+  - galaxy-main.usegalaxy.org
+  - galaxy-main1.usegalaxy.org
+  - galaxy-main2.usegalaxy.org
+  - galaxy-main3.usegalaxy.org
+  - galaxy-main4.usegalaxy.org
+
+# subdomain themes
+galaxy_themes_subdomains:
+  - name: singlecell
+    theme:
+      singlecell:
+        masthead:
+          color: "#530080"
+  - name: brc
+    theme:
+      brc:
+        masthead:
+          color: >
+            linear-gradient( 0deg,
+              rgba(34,193,195,1) 0%,
+              rgba(253,155,45,1) 100%)
+
 # used by interactive_tool_chat_analysis
 groq_api_key: "{{ vault_groq_api_key }}"
 
@@ -367,12 +392,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['data_manager_config_file'] }}"
   - src: files/galaxy/config/tool_sheds_conf.xml
     dest: "{{ galaxy_config[galaxy_app_config_section]['tool_sheds_config_file'] }}"
-  - src: files/galaxy/config/job_metrics_conf.xml
-    dest: "{{ galaxy_config[galaxy_app_config_section]['job_metrics_config_file'] }}"
-  - src: files/galaxy/config/job_resource_params_conf.xml
-    dest: "{{ galaxy_config[galaxy_app_config_section]['job_resource_params_file'] }}"
-  - src: files/galaxy/config/dependency_resolvers_conf.xml
-    dest: "{{ galaxy_config[galaxy_app_config_section]['dependency_resolvers_config_file'] }}"
   - src: files/galaxy/config/disposable_email_blacklist.conf
     dest: "{{ galaxy_config[galaxy_app_config_section]['email_domain_blocklist_file'] }}"
   - src: files/galaxy/config/workflow_schedulers_conf.xml
@@ -389,7 +408,5 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: templates/galaxy/config/build_sites.yml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
-  - src: templates/galaxy/config/tacc_k8s_pulsar_app_config.yml.j2
-    dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
   - src: templates/galaxy/config/file_sources_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
