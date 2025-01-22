@@ -15,7 +15,7 @@
   import_playbook: _inc_snapshot.yml
 
 - name: Galaxy database
-  hosts: galaxywebservers
+  hosts: galaxyservers
   remote_user: "{{ galaxy_user }}"
   tags:
     - no-cvmfs
@@ -33,23 +33,21 @@
       galaxy_build_client: no
       galaxy_manage_systemd: no
       galaxy_manage_gravity: no
-      when: inventory_hostname in groups['galaxymasters']
+      when: inventory_hostname == groups.galaxyservers[0]
   handlers:
     - name: galaxy gravity graceful restart
-      become: true
-      # FIXME: gravity has no way to force root mode when not root
-      #become_user: "{{ galaxy_privileged_user }}"
-      command: "{{ galaxy_gravity_command }} graceful"
+      remote_user: "{{ galaxy_privileged_user }}"
+      command: "{{ galaxy_gravity_command }} --no-user graceful"
       environment:
-        GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
+        GRAVITY_CONFIG_FILE: "{{ gravity_config_file }}"
       listen: "restart galaxy"
       when: restart is truthy(convert_bool=true)
     # FIXME: this has to run as root, but in theory should only change when the Gravity config changes
-    - name: galaxyctl update
-      become: true
-      command: "{{ galaxy_gravity_command }} update"
-      environment:
-        GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
+    #- name: galaxyctl update
+    #  become: true
+    #  command: "{{ galaxy_gravity_command }} update"
+    #  environment:
+    #    GRAVITY_CONFIG_FILE: "{{ galaxy_config_file }}"
 
 - name: Include static content plays
   import_playbook: _inc_static.yml

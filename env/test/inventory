@@ -4,16 +4,7 @@ ansible_ssh_executable = ./.ssh-keyboard-interactive
 [galaxyservers]
 galaxy-test.tacc.utexas.edu
 
-[galaxymasters]
-galaxy-test.tacc.utexas.edu
-
 [galaxystaticservers]
-galaxy-test.tacc.utexas.edu
-
-[galaxyjobservers]
-galaxy-test.tacc.utexas.edu
-
-[galaxystagingservers]
 galaxy-test.tacc.utexas.edu
 
 [pulsarservers]
@@ -24,10 +15,11 @@ login01.expanse.sdsc.edu ansible_ssh_user=xgalaxy ansible_python_interpreter=/us
 jetstream2.galaxyproject.org ansible_ssh_user=rocky
 
 [cvmfsstratum0servers]
-cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu1.galaxyproject.org" ansible_host="localhost" ansible_port="2222"
+cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu1.galaxyproject.org" ansible_host="cvmfs0-psu1.tail7d262.ts.net"
 
 [cvmfsstratum1servers]
-# temporarily all repos on cvmfs1-tacc0 are owned by g2test
+# all repos on cvmfs1-tacc0 are owned by g2test
 cvmfs1-tacc0.galaxyproject.org ansible_user="g2test"
 cvmfs1-iu0.galaxyproject.org
-cvmfs1-psu0.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs1-psu0.galaxyproject.org" ansible_host="localhost" ansible_port="2322"
+# cvmfs1-psu0 is an LX-Brand zone and can't run WireGuard
+cvmfs1-psu0.galaxyproject.org ansible_ssh_common_args="-oProxyCommand='ssh -W %h:%p -q g2test@cvmfs0-psu1.tail7d262.ts.net' -oHostKeyAlias=cvmfs1-psu0.galaxyproject.org"

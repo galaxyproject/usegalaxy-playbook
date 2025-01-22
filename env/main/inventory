@@ -6,6 +6,7 @@ galaxy-vgp.tacc.utexas.edu ansible_python_interpreter=/usr/libexec/platform-pyth
 ansible_ssh_executable = ./.ssh-keyboard-interactive
 
 [galaxyservers]
+# db migration will run on the first host in this group
 galaxy-main1.tacc.utexas.edu
 galaxy-main2.tacc.utexas.edu
 galaxy-main3.tacc.utexas.edu
@@ -18,15 +19,6 @@ galaxy-main.tacc.utexas.edu
 [galaxystaticservers:children]
 galaxyservers
 
-# FIXME: this just defines who does the db update in the update playbook, you could just use the first host in one of
-# the other groups
-#[galaxymasters]
-#galaxy-web-05.tacc.utexas.edu
-
-[galaxyjobservers]
-galaxy-web-03.tacc.utexas.edu
-galaxy-web-04.tacc.utexas.edu
-
 [pulsarservers]
 login3.stampede3.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executable=./.ssh-keyboard-interactive
 login4.frontera.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executable=./.ssh-keyboard-interactive
@@ -36,10 +28,11 @@ jetstream2.galaxyproject.org ansible_ssh_user=rocky
 jetstream2-vgp.galaxyproject.org ansible_ssh_user=rocky
 
 [cvmfsstratum0servers]
-cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu1.galaxyproject.org" ansible_host="localhost" ansible_port="2222"
+cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu1.galaxyproject.org" ansible_host="cvmfs0-psu1.tail7d262.ts.net"
 
 [cvmfsstratum1servers]
-# temporarily all repos on cvmfs1-tacc0 are owned by g2test
+# all repos on cvmfs1-tacc0 are owned by g2test
 cvmfs1-tacc0.galaxyproject.org ansible_user="g2test"
 cvmfs1-iu0.galaxyproject.org
-cvmfs1-psu0.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs1-psu0.galaxyproject.org" ansible_host="localhost" ansible_port="2322"
+# cvmfs1-psu0 is an LX-Brand zone and can't run WireGuard
+cvmfs1-psu0.galaxyproject.org ansible_ssh_common_args="-oProxyCommand='ssh -W %h:%p -q g2main@cvmfs0-psu1.tail7d262.ts.net' -oHostKeyAlias=cvmfs1-psu0.galaxyproject.org"
