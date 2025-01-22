@@ -2,86 +2,9 @@
 
 galaxy_host_codename: main_vgp
 galaxy_systemd_mode: null
-galaxy_gravity_config_default: null
 
 galaxy_tus_upload_store: /corral4/main/_upload_vgp
 galaxy_tus_upload_store_job_files: /corral4/main/_upload_job_files_vgp
-
-gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
-gravity_virtualenv_command: /usr/bin/python3.9 -m venv
-gravity_venv_dir: "{{ galaxy_root }}/gravity"
-gravity_package: "gravity==1.0.6"
-galaxy_gravity_command: "{{ gravity_venv_dir }}/bin/galaxyctl"
-gravity_config:
-  instance_name: "{{ galaxy_instance_codename }}"
-  galaxy_user: "{{ galaxy_user }}"
-  galaxy_group: "{{ galaxy_group }}"
-  galaxy_root: "{{ galaxy_server_dir }}"
-  galaxy_config_file: "{{ galaxy_config_file }}"
-  log_dir: "{{ galaxy_log_dir }}"
-  virtualenv: "{{ galaxy_venv_dir }}"
-  gunicorn:
-    #bind: localhost:8080
-    #workers: 1
-    #timeout: 600
-    #restart_timeout: 600
-    #preload: true
-    #environment:
-    #  # TODO: this can be removed once the base OS version of pango is >= 1.44.0
-    #  # TODO: EL8 on galaxy-vgp is hopefully new enough
-    #  LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
-    - bind: localhost:8080
-      workers: 1
-      timeout: 600
-      restart_timeout: 600
-      preload: true
-      extra_args: --max-requests 50000 --max-requests-jitter 10000 --worker-tmp-dir /dev/shm
-      environment:
-        LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
-        HDF5_USE_FILE_LOCKING: "FALSE"
-    - bind: localhost:8081
-      workers: 1
-      timeout: 600
-      restart_timeout: 600
-      preload: true
-      extra_args: --max-requests 50000 --max-requests-jitter 10000 --worker-tmp-dir /dev/shm
-      environment:
-        LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
-        HDF5_USE_FILE_LOCKING: "FALSE"
-  celery:
-    enable: false
-    enable_beat: false
-    environment:
-      # TODO: this can be removed once the base OS version of pango is >= 1.44.0
-      # TODO: EL8 on galaxy-vgp is hopefully new enough
-      LD_LIBRARY_PATH: "/cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda/envs/_galaxy_weasyprint_deps_/lib"
-      HDF5_USE_FILE_LOCKING: "FALSE"
-  tusd:
-    - enable: true
-      tusd_path: /usr/local/sbin/tusd
-      upload_dir: "{{ galaxy_tus_upload_store }}"
-      memory_limit: 2
-    - enable: true
-      tusd_path: /usr/local/sbin/tusd
-      upload_dir: "{{ galaxy_tus_upload_store_job_files }}"
-      port: 1081
-      hooks_http: /api/job_files/tus_hooks
-      memory_limit: 2
-  handlers:
-    main_vgp_handler:
-      name_template: "{name}{process}"
-      processes: 1
-      pools:
-        - job-handlers.vgp
-      environment:
-        HDF5_USE_FILE_LOCKING: "FALSE"
-    main_vgp_workflow_scheduler:
-      name_template: "{name}{process}"
-      processes: 1
-      pools:
-        - workflow-schedulers.vgp
-      environment:
-        HDF5_USE_FILE_LOCKING: "FALSE"
 
 galaxy_job_conf_pulsar_galaxy_url: https://vgp.usegalaxy.org
 galaxy_job_conf_persistence_directory: "/srv/galaxy/main/var/pulsar_amqp_ack"
@@ -124,12 +47,6 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['data_manager_config_file'] }}"
   - src: files/galaxy/config/tool_sheds_conf.xml
     dest: "{{ galaxy_config[galaxy_app_config_section]['tool_sheds_config_file'] }}"
-  - src: files/galaxy/config/job_metrics_conf.xml
-    dest: "{{ galaxy_config[galaxy_app_config_section]['job_metrics_config_file'] }}"
-  - src: files/galaxy/config/job_resource_params_conf.xml
-    dest: "{{ galaxy_config[galaxy_app_config_section]['job_resource_params_file'] }}"
-  - src: files/galaxy/config/dependency_resolvers_conf.xml
-    dest: "{{ galaxy_config[galaxy_app_config_section]['dependency_resolvers_config_file'] }}"
   - src: files/galaxy/config/disposable_email_blacklist.conf
     dest: "{{ galaxy_config[galaxy_app_config_section]['email_domain_blocklist_file'] }}"
   - src: files/galaxy/config/workflow_schedulers_conf_vgp.xml
@@ -138,18 +55,21 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
   - src: files/galaxy/config/trs_servers_conf.yml
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
+  - src: files/galaxy/config/themes_conf_vgp.yml
+    dest: "{{ galaxy_config_dir }}/themes_conf.yml"
 
 galaxy_config_templates:
   - src: templates/galaxy/config/job_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/job_conf.yml"
   - src: templates/galaxy/config/build_sites.yml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['build_sites_config_file'] }}"
-  - src: templates/galaxy/config/tacc_k8s_pulsar_app_config.yml.j2
-    dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
   - src: templates/galaxy/config/file_sources_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
   - src: templates/galaxy/static/welcome_vgp.html.j2
     dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/welcome.html"
+
+# themes are deployed manually for VGP
+__galaxy_manage_themes: false
 
 galaxy_config_hash:
   galaxy:
@@ -187,9 +107,7 @@ galaxy_config_hash:
     trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
     job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
     data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
-    job_metrics_config_file: "{{ galaxy_config_dir }}/job_metrics_conf.xml"
-    dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
-    themes_config_file: "{{ galaxy_server_dir }}/config/themes_conf.yml.sample"
+    themes_config_file: "{{ galaxy_config_dir }}/themes_conf.yml"
     panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
 
     migrated_tools_config: "/cvmfs/main.galaxyproject.org/config/migrated_tools_conf.xml"
@@ -336,6 +254,15 @@ galaxy_config_hash:
     mulled_resolution_cache_data_dir: "{{ galaxy_mutable_data_dir }}/mulled/data"
     mulled_resolution_cache_lock_dir: "{{ galaxy_mutable_data_dir }}/mulled/lock"
 
+    dependency_resolvers:
+      - type: conda
+      - type: tool_shed_packages
+      - type: galaxy_packages
+      - type: galaxy_packages
+        versionless: true
+      - type: conda
+        versionless: true
+
     container_resolvers:
       - type: cached_mulled_singularity
         cache_directory: /cvmfs/singularity.galaxyproject.org/all
@@ -344,6 +271,14 @@ galaxy_config_hash:
         cache_directory: /corral4/singularity/precache
         cache_directory_cacher_type: dir_mtime
       - type: explicit_singularity
+
+    job_metrics:
+      - type: core
+      - type: cpuinfo
+        verbose: true
+      - type: meminfo
+      - type: uname
+      - type: cgroup
 
     enable_celery_tasks: true
     celery_conf:
@@ -361,46 +296,8 @@ galaxy_config_hash:
     # doesn't work for some reason...
     logo_src: https://images.squarespace-cdn.com/content/v1/5963d1fa9de4bb12177a7f48/1526309972322-4IFPGMUU4CF8Y2LLQFM7/VGP_Tag_RGB_newLogo_72dpi_Dots_EDIT.png?format=200w
 
-# the developer inexplicably builds on ubuntu-latest
-tusd_version: v1.10.0
-
-# used by nginx template
-galaxy_tusd_port: 1080
-
 galaxy_job_conf_limits:
   - type: registered_user_concurrent_jobs
     value: 16
   - type: anonymous_user_concurrent_jobs
     value: 1
-
-nginx_flavor: epel
-
-nginx_conf_ssl_protocols:
-  - TLSv1.2
-  - TLSv1.3
-
-nginx_conf_ssl_ciphers:
-  - ECDHE-ECDSA-AES128-GCM-SHA256
-  - ECDHE-RSA-AES128-GCM-SHA256
-  - ECDHE-ECDSA-AES256-GCM-SHA384
-  - ECDHE-RSA-AES256-GCM-SHA384
-  - ECDHE-ECDSA-CHACHA20-POLY1305
-  - ECDHE-RSA-CHACHA20-POLY1305
-  - DHE-RSA-AES128-GCM-SHA256
-  - DHE-RSA-AES256-GCM-SHA384
-
-# this is just used in the webservers group vars
-nginx_conf_client_max_body_size: 500g
-nginx_servers:
-  - certbot_redirects
-
-nginx_ssl_servers:
-  - usegalaxy-vgp
-
-certbot_virtualenv_package_name: python39
-certbot_virtualenv_command: python3.9 -m venv
-
-certbot_auth_method: --webroot
-
-certbot_domains:
-  - vgp.usegalaxy.org
