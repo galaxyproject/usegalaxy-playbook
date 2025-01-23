@@ -1,8 +1,5 @@
 ---
 
-# TEMP
-galaxy_node_venv_dir: /srv/galaxy-main-cache/node-venv
-
 # for templating configs for conditional deps
 covid_crg_ftp_staging_user: foo
 covid_crg_ftp_staging_passwd: foo
@@ -14,6 +11,7 @@ paratus_aws_secret_access_key: foo
 paratus_aws_access_key_id: foo
 elementbio_aws_secret_access_key: foo
 elementbio_aws_access_key_id: foo
+galaxy_job_conf_tpv_config_files: [tpv.yaml]
 
 miniconda_prefix: /cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda
 miniconda_channels:
@@ -33,9 +31,6 @@ miniconda_conda_environments:
 
 # TODO: was this parent manually created?
 xdg_cache_home: /srv/galaxy-main-cache/cache
-
-# Stratum 0 is EL9 but Galaxy servers are still EL7 for now, and venv node is used to run the gx-it-proxy
-galaxy_node_version_max: 16.19.1
 
 # also set in galaxyservers, but not set in all I think because it's invalid for pulsar contexts
 galaxy_server_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy

@@ -56,7 +56,7 @@ galaxy_remote_users:
   privsep: "{{ galaxy_privileged_user }}"
   errdocs: "{{ galaxy_privileged_user }}"
   galaxy: "{{ galaxy_user }}"
-  root: root
+  #root: gxadm
 
 # FIXME: Same thing, the become log checks if galaxy_become_users.privsep is set and yet in the defaults we cause it to
 # be always set
