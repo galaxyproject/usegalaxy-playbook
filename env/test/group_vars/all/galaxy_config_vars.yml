@@ -8,6 +8,7 @@ galaxy_config_admin_users: "{{ vault_galaxy_config_admin_users }}"
 galaxy_config_id_secret: "{{ vault_galaxy_config_id_secret }}"
 galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
 galaxy_internal_amqp_credentials: "{{ vault_galaxy_internal_amqp_credentials }}"
+galaxy_openai_api_key: "{{ vault_galaxy_openai_api_key }}"
 redis_requirepass: "{{ vault_redis_requirepass }}"
 
 galaxy_config_amqp_internal_connection: "amqp://{{ galaxy_internal_amqp_credentials }}@{{ amqp_server }}:5671//test_internal?ssl=1"
@@ -294,6 +295,9 @@ base_app_main: &BASE_APP_MAIN
   enable_tool_source_display: true
   geographical_server_location_code: "US"
   enable_help_forum_tool_panel_integration: true
+
+  openai_api_key: "{{ galaxy_openai_api_key }}"
+  openai_model: "gpt-4o"
 
   # dependency resolver config
   conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"
