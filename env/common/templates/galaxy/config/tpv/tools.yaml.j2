@@ -632,6 +632,12 @@ tools:
             mult = 3.3
         min(max(ref_size * 28, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem)
 
+  toolshed.g2.bx.psu.edu/repos/iuc/checkm2/checkm2/.*:
+    cores: 8
+    mem: 7
+    context:
+      force_cores: true
+
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     # was 16 in the job router but let's try this
     mem: 7
