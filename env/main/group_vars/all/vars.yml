@@ -46,3 +46,30 @@ galaxy_layout: custom
 galaxy_config_style: yaml
 
 galaxy_venv_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/venv
+
+# these are in all so the subdomain welcomes get deployed to the load balancer
+
+# what hostnames to serve the default welcome.html for
+galaxy_base_welcome_names:
+  - usegalaxy.org
+  - galaxy-main.usegalaxy.org
+  - galaxy-main1.usegalaxy.org
+  - galaxy-main2.usegalaxy.org
+  - galaxy-main3.usegalaxy.org
+  - galaxy-main4.usegalaxy.org
+
+# subdomain themes
+galaxy_themes_subdomains:
+  - name: singlecell
+    theme:
+      singlecell:
+        masthead:
+          color: "#530080"
+  - name: brc
+    theme:
+      brc:
+        masthead:
+          color: >-
+            linear-gradient( 0deg,
+              rgba(34,193,195,1) 0%,
+              rgba(253,155,45,1) 100%)

@@ -21,31 +21,6 @@ paratus_aws_access_key_id: "{{ vault_paratus_aws_access_key_id }}"
 elementbio_aws_secret_access_key: "{{ vault_elementbio_aws_secret_access_key }}"
 elementbio_aws_access_key_id: "{{ vault_elementbio_aws_access_key_id }}"
 
-# what hostnames to serve the default welcome.html for
-galaxy_base_welcome_names:
-  - usegalaxy.org
-  - galaxy-main.usegalaxy.org
-  - galaxy-main1.usegalaxy.org
-  - galaxy-main2.usegalaxy.org
-  - galaxy-main3.usegalaxy.org
-  - galaxy-main4.usegalaxy.org
-
-# subdomain themes
-galaxy_themes_subdomains:
-  - name: singlecell
-    theme:
-      singlecell:
-        masthead:
-          color: "#530080"
-  - name: brc
-    theme:
-      brc:
-        masthead:
-          color: >-
-            linear-gradient( 0deg,
-              rgba(34,193,195,1) 0%,
-              rgba(253,155,45,1) 100%)
-
 # used by interactive_tool_chat_analysis
 groq_api_key: "{{ vault_groq_api_key }}"
 
