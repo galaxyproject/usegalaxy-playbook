@@ -263,6 +263,18 @@ destinations:
       params:
         submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
 
+  jetstream2_lm:
+    inherits: _jetstream2
+    min_accepted_cores: 16
+    min_accepted_mem: 248
+    max_accepted_cores: 128
+    max_accepted_mem: 980
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={int(mem/8)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
+    scheduling:
+      require:
+      - large-mem
+
   jetstream2_gpu:
     inherits: _jetstream2
     min_accepted_cores: 1

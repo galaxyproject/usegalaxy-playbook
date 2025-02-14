@@ -326,7 +326,20 @@ tools:
     - id: flye_scalable_input_rule
       if: input_size > 0.5
       cores: 16
-      mem: min(max(int(input_size * 8), 28), 58)
+      mem: |
+        options = job.get_param_values(app)
+        inputs = options["inputs"]
+        total_size = 0
+        for input in inputs:
+            if hasattr(input, "first_dataset_instance"):
+                input = input.first_dataset_instance()
+            elif hasattr(input, "dataset_instances"):
+                input = input.dataset_instances[0]
+            mult = 1.0
+            if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
+                mult = 3.3
+            total_size += helpers.get_dataset_size(input.dataset) * mult
+        min(max(int(total_size * 8), 28), 58)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
@@ -349,10 +362,12 @@ tools:
       if: input_size >= 9.4
       # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
       cores: 16
-      mem: min(max(int(input_size * 3), 28), max_scaled_mem)
+      mem: min(max(int(input_size * 9), 28), max_scaled_mem)
 
   # the image exists, it just takes a long time to convert
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/3\+galaxy0:
+    cores: 8
+    mem: 28
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/mitohifi:3_galaxy0--0"}]
 
@@ -748,7 +763,7 @@ tools:
       else:
           log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
                       table_name, lookup_column, lookup_value, value_column, mem)
-      mem + 32
+      min(mem + 32, 980)
     rules:
     - id: rule_kraken2_concurrency
       if: |
@@ -759,6 +774,7 @@ tools:
     scheduling:
       accept:
       - training-exempt
+      - large-mem
       require:
       - cvmfs
 
@@ -769,7 +785,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     # decrease from shared DB
-    mem: 14
+    mem: min(max(int(input_size * 15), 14), 58)
 
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
     # WARNING: Temporary directory set to an NFS location.
