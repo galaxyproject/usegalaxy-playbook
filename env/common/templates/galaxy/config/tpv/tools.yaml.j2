@@ -267,6 +267,12 @@ tools:
       reject:
       - pulsar
 
+  toolshed.g2.bx.psu.edu/repos/iuc/metabat2/metabat2/.*:
+    # until pulsar supports <discover_datasets directory="..."/>
+    scheduling:
+      reject:
+      - pulsar
+
   # everything else
 
   _wigtobigwig:
@@ -815,6 +821,11 @@ tools:
     cores: 8
     mem: 28
 
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/.*:
+    # increase from shared db
+    cores: 8
+    mem: 28
+
   toolshed.g2.bx.psu.edu/repos/iuc/megahit/megahit/.*:
     cores: 8
     mem: 28
@@ -1040,6 +1051,9 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/windowmasker/windowmasker_mkcounts/.*:
     mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/iuc/yahs/yahs/.*:
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     rules:
