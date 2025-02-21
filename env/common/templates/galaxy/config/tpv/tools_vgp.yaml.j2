@@ -5,6 +5,17 @@
 
 tools:
 
+  export_remote:
+    mem: 28
+    scheduling:
+      require:
+      - conda
+      reject:
+      - singularity
+      - hpc
+      - pulsar
+      - offline
+
   toolshed.g2.bx.psu.edu/repos/bgruening/agat/agat/.*:
     # TODO: set high until we collect some runtime data
     cores: 1
