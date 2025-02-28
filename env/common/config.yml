@@ -33,6 +33,7 @@
       galaxy_build_client: no
       galaxy_manage_systemd: no
       galaxy_manage_gravity: no
+    - role: usegalaxy_webhooks
     - role: usegalaxy_eu.tpv_auto_lint
   handlers:
     - name: galaxy gravity graceful restart

@@ -1,0 +1,80 @@
+// Custom messages for tool forms
+
+const enableDebug = false;
+const debugLog = (msg) => enableDebug && console.debug("[ToolMsg]: " + msg);
+
+const WAIT_TOOL_MAX_TRIES = 3;
+const WAIT_TOOL_INTERVAL = 500;
+const toolMessages = [
+    {
+        {% for message in toolmsg_messages %}
+        tool_id: "{{ message.tool_id }}",
+        message: `{{ message.message }}`,
+        class: "{{ message.class }}",
+        {% endfor %}
+    },
+];
+
+function waitToolFormLoad() {
+    tries++;
+    let matched = false;
+    const element = document.querySelector('div[tool_id]');
+    if (element) {
+        debugLog('Tool form has been loaded');
+        matched = showToolMessages();
+        tries = WAIT_TOOL_MAX_TRIES;
+    } else {
+        debugLog("No tool form detected (tries: " + tries + ")");
+    }
+    tries < WAIT_TOOL_MAX_TRIES
+        && !matched
+        && setTimeout(waitToolFormLoad, WAIT_TOOL_INTERVAL);
+}
+
+function isCurrentToolForm(toolId) {
+    const elements = document.querySelectorAll('[tool_id]');
+    for (let element of elements) {
+        const thisToolId = element.getAttribute('tool_id');
+        if (thisToolId && thisToolId.startsWith(toolId)) {
+            debugLog(toolId + " matches " + thisToolId);
+            return true;
+        }
+    }
+    debugLog(toolId + " not found in page.");
+    return false;
+}
+
+function showToolMessages() {
+    let match = false;
+    toolMessages.forEach( (toolMessage) => {
+        if (isCurrentToolForm(toolMessage.tool_id)) {
+            const newElement = document.createElement('p');
+            newElement.className = 'alert alert-' + toolMessage.class + ' my-3';
+            newElement.innerHTML = toolMessage.message;
+            const referenceElement = document.getElementById('tool-card-body');
+            if (referenceElement) {
+                referenceElement.parentNode.insertBefore(newElement, referenceElement);
+            } else {
+                debugLog('Reference element with id="tool-card-body" not found.');
+            }
+            match = true;
+        }
+    })
+    return match;
+}
+
+let tries = 0;
+let lastUrlPath = null;
+
+// Add observer for Vue pathname changes
+const observer = new MutationObserver( () => {
+    if (lastUrlPath !== window.location.href) {
+        debugLog("Triggered mutation observer");
+        tries = 0;
+        lastUrlPath = window.location.href;
+        setTimeout(waitToolFormLoad, 500);
+    }
+});
+
+// Observe the document body for changes (or another relevant element)
+observer.observe(document.body, { childList: true, subtree: true });

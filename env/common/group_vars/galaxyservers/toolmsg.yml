@@ -1,0 +1,37 @@
+---
+# This file is used to define custom messages for tools that are displayed in the tool form
+# The toolmsg webhook wil be triggered and the message will be displayed in the tool form if the tool_id matches
+
+# Format:
+# toolmsg_messages:
+#   - tool_id: to match subject.startsWith(tool_id)
+#              Best to use remove version numbers and trailing slash
+#              e.g. toolshed.g2.bx.psu.edu/repos/galaxyp/diann/diann
+#     message: A custom HTML message to be displayed for this tool
+#     class: bootstrap class [primary, info, success, warning, danger]
+
+# Example 1: Display a warning message for the tool ncbi_blastp_wrapper, the message will be in bold format
+# toolmsg_messages:
+#   - tool_id: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper
+#     message: <strong>We recommend using Diamond instead.</strong>
+#     class: warning
+
+# Example 2: Display a warning message for the tool ncbi_blastp_wrapper, the message will be in bold format and will have a link to the Diamond tool
+# toolmsg_messages:
+#   - tool_id: toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastp_wrapper
+#     message: >
+#       <strong>We recommend using
+#       <a href="https://usegalaxy.eu/?tool_id=toolshed.g2.bx.psu.edu%2Frepos%2Fbgruening%2Fdiamond%2Fbg_diamond%2F2.1.11%2Bgalaxy0&version=latest"
+#           target="_blank"
+#       >
+#         Diamond
+#       </a>
+#       instead.</strong>
+#     class: warning
+
+toolmsg_messages:
+  - tool_id: toolshed.g2.bx.psu.edu/repos/iuc/trinity/trinity
+    class: warning
+    message: >
+      <strong>Trinity is deprecated on usegalaxy.org and receives only limited computing resources. Please consider
+      using <a href="/?tool_id=rnaspades">rnaSPAdes</a> instead.</strong>

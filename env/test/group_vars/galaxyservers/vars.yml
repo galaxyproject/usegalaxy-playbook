@@ -29,6 +29,9 @@ elementbio_aws_access_key_id: "{{ vault_elementbio_aws_access_key_id }}"
 # used by interactive_tool_chat_analysis
 groq_api_key: "{{ vault_groq_api_key }}"
 
+webhook_plugins:
+  - toolmsg
+
 ## used by: galaxy supervisor templates
 galaxy_host_codename: test
 

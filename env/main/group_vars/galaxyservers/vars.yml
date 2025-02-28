@@ -24,6 +24,9 @@ elementbio_aws_access_key_id: "{{ vault_elementbio_aws_access_key_id }}"
 # used by interactive_tool_chat_analysis
 groq_api_key: "{{ vault_groq_api_key }}"
 
+webhook_plugins:
+  - toolmsg
+
 # FIXME: "{{ galaxy_remote_users.privsep | default(omit) }}" is blanking remote_user on the play. I set the below option
 # to workaround but this needs to be fixed in galaxyproject.galaxy, nothing should be breaking when privsep mode is not
 # enabled in the role

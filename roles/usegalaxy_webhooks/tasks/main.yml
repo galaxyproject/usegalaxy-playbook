@@ -1,0 +1,48 @@
+---
+
+# largely stolen from AU
+
+- name: Create webhook directories
+  ansible.builtin.file:
+    path: "{{ webhook_plugins_dest_dir }}/{{ item }}"
+    state: directory
+    owner: "{{ galaxy_privileged_user }}"
+    group: "{{ galaxy_group }}"
+    mode: "0755"
+  loop: "{{ webhook_plugins }}"
+
+- name: Collect webhook template files
+  ansible.builtin.find:
+    paths: "{{ webhook_plugins_src_dir }}/{{ item }}"
+    file_type: "file"
+    recurse: false
+  loop: "{{ webhook_plugins }}"
+  delegate_to: localhost
+  register: __webhook_local_files
+
+- name: Template webhook files
+  ansible.builtin.template:
+    src: "{{ webhook_plugins_src_dir }}/{{ item.0.item }}/{{ item.1.path | basename }}"
+    dest: "{{ webhook_plugins_dest_dir }}/{{ item.0.item }}/{{ item.1.path | basename | regex_replace('\\.j2$', '') }}"
+    owner: "{{ galaxy_privileged_user }}"
+    group: "{{ galaxy_group }}"
+    mode: "0644"
+  with_subelements:
+    - "{{ __webhook_local_files.results }}"
+    - files
+  loop_control:
+    label: "{{ item.0.item }}/{{ item.1.path | basename }}"
+
+- name: Collect list of webhooks
+  ansible.builtin.find:
+    paths: "{{ webhook_plugins_dest_dir }}"
+    file_type: "directory"
+    recurse: false
+  register: __webhook_remote_files
+
+- name: Remove any undefined webhooks
+  ansible.builtin.file:
+    path: "{{ webhook_plugins_dest_dir }}/{{ item | basename }}"
+    state: absent
+  when: "(item | basename) not in webhook_plugins"
+  loop: "{{ __webhook_remote_files.files | map(attribute='path') }}"
