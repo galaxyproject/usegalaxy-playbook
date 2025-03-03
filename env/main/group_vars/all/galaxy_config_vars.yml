@@ -89,6 +89,8 @@ base_app_main: &BASE_APP_MAIN
     - "/cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml"
   build_sites_config_file: "{{ galaxy_config_dir }}/build_sites.yml"
   #datatypes_config_file: "{{ galaxy_config_dir }}/datatypes_conf.xml"
+  oidc_config_file: "{{ galaxy_config_dir }}/oidc_config.xml"
+  oidc_backends_config_file: "{{ galaxy_config_dir }}/oidc_backends_config.xml"
   job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
   workflow_schedulers_config_file: "{{ galaxy_config_dir }}/workflow_schedulers_conf.xml"
   trs_servers_config_file: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
