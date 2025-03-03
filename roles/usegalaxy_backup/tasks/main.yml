@@ -21,5 +21,6 @@
         - "{{ galaxy_shed_tool_conf_file }}"
         - "{{ galaxy_config[galaxy_app_config_section].integrated_tool_panel_config }}"
         - "{{ galaxy_config[galaxy_app_config_section].migrated_tools_config }}"
+        - "{{ galaxy_config[galaxy_app_config_section].sanitize_allowlist_file }}"
 
   when: inventory_hostname == groups['galaxyservers'][0]
