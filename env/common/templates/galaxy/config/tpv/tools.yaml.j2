@@ -1165,7 +1165,9 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/rdeval/rdeval/.*:
-    cores: 4
+    context:
+      force_cores: true
+    cores: 16
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/segalign/segalign/.*:
