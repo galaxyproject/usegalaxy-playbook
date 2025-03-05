@@ -191,7 +191,7 @@ destinations:
     max_accepted_cores: 12
     max_accepted_mem: 48
     params:
-      native_specification: "--nodes=1 --ntasks={max(int(cores), 2)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
+      native_specification: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
 
   cyclone_small:
     inherits: _cyclone_singularity
