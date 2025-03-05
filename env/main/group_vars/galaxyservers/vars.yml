@@ -217,7 +217,7 @@ galaxy_job_conf_tools: []
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
   - type: registered_user_concurrent_jobs
-    value: 6
+    value: 8
   - type: anonymous_user_concurrent_jobs
     value: 1
 
@@ -237,13 +237,16 @@ galaxy_job_conf_limits:
 
   # tpv per-environment user limits
   - type: environment_user_concurrent_jobs
-    id: roundup_small
-    value: 6
-  - type: environment_user_concurrent_jobs
-    id: roundup
+    id: cyclone_conda_direct
     value: 4
   - type: environment_user_concurrent_jobs
-    id: roundup_mem
+    id: cyclone_small
+    value: 6
+  - type: environment_user_concurrent_jobs
+    id: cyclone
+    value: 4
+  - type: environment_user_concurrent_jobs
+    id: cyclone_mem
     value: 1
   - type: environment_user_concurrent_jobs
     id: jetstream2
