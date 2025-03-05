@@ -332,6 +332,7 @@ tools:
     - id: flye_scalable_input_rule
       if: input_size > 0.5
       cores: 16
+      # 95th is 9x, 99th is 37x
       mem: |
         options = job.get_param_values(app)
         inputs = options["inputs"]
@@ -343,9 +344,9 @@ tools:
                 input = input.dataset_instances[0]
             mult = 1.0
             if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
-                mult = 3.3
+                mult = 3.4
             total_size += helpers.get_dataset_size(input.dataset) * mult
-        min(max(int(total_size * 8), 28), 58)
+        min(max(int(total_size * 12), 28), 58)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
@@ -368,6 +369,7 @@ tools:
       if: input_size >= 9.4
       # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
       cores: 16
+      # 99th is 6x for fastqsanger, 8x for fastqsanger.gz
       mem: min(max(int(input_size * 9), 28), max_scaled_mem)
 
   # the image exists, it just takes a long time to convert
@@ -700,6 +702,20 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/egsea/egsea/.*:
     mem: 5.6
 
+  toolshed.g2.bx.psu.edu/repos/iuc/fastk_fastk/fastk_fastk/.*:
+    # should be similar to meryl
+    cores: 2
+    mem: 5.6
+    rules:
+    - id: fastk_medium_input_rule
+      if: 0.001 <= input_size < 5
+      cores: 16
+      mem: 58
+    - id: fastk_large_input_rule
+      if: input_size >= 5
+      cores: 32
+      mem: 120
+
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/3.1.1+galaxy0:
     # Shared DB is 20 but it's single core, this allows it to run on cyclone_small
     mem: 14
@@ -791,6 +807,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/porechop/porechop/.*:
     # decrease from shared DB
+    # 99th is 15, with no difference to .gz
     mem: min(max(int(input_size * 15), 14), 58)
 
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
@@ -1127,6 +1144,9 @@ tools:
     - id: spades_fail_rule
       if: input_size >= 25
       fail: "Too much data for this public service, please input fewer reads. Example method: SeqTk subsample"
+
+  toolshed.g2.bx.psu.edu/repos/perssond/ashlar/ashlar/.*:
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
     # stampede3-icx
