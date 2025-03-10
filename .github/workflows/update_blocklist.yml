@@ -19,7 +19,7 @@ jobs:
       - name: Update
         run: |
             wget https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/refs/heads/main/disposable_email_blocklist.conf
-            cp disposable_email_blocklist.conf env/common/files/galaxy/config/disposable_email_blocklist.conf
+            mv disposable_email_blocklist.conf env/common/files/galaxy/config/disposable_email_blocklist.conf
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
