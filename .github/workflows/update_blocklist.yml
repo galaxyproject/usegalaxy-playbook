@@ -1,0 +1,31 @@
+name: Update Blocklist
+
+on:
+  schedule:
+    - cron:  '3 3 1 * *' # 3:03 every first day of month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Update
+        run: |
+            wget https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/refs/heads/main/disposable_email_blocklist.conf
+            cp disposable_email_blocklist.conf env/common/files/galaxy/config/disposable_email_blocklist.conf
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          committer: galaxybot <martin.cech@cesnet.cz>
+          commit-message: "update blocklist"
+          title: "update blocklist"
+          labels: automated
+          assignees: martenson
+          reviewers: martenson
