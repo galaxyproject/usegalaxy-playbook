@@ -223,7 +223,7 @@ base_app_main: &BASE_APP_MAIN
   mailing_join_addr: galaxy-announce-join@lists.galaxyproject.org
   email_from: "UseGalaxy.org Support <galaxy-bugs@galaxyproject.org>"
   instance_resource_url: "https://galaxyproject.org/support"
-  email_domain_blocklist_file: "{{ galaxy_config_dir }}/disposable_email_blacklist.conf"
+  email_domain_blocklist_file: "{{ galaxy_config_dir }}/disposable_email_blocklist.conf"
   registration_warning_message: "Please register only one account. The {{ galaxy_instance_hostname }} service is provided free of charge and has limited computational and data storage resources. <strong>Registration and usage of multiple accounts is tracked and such accounts are subject to termination and data deletion.</strong>"
   user_activation_on: true
   activation_grace_period: 6
