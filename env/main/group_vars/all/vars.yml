@@ -14,7 +14,7 @@ galaxy_database_name: galaxy_main
 galaxy_virtualenv_command: "/cvmfs/main.galaxyproject.org/deps/_conda/envs/__python@3.11/bin/python3 -m venv"
 galaxy_repo: https://github.com/{{ galaxy_repo_owner }}/galaxy.git
 galaxy_repo_owner: galaxyproject
-galaxy_commit_id: usegalaxy_24.2
+galaxy_commit_id: usegalaxy
 
 galaxy_force_checkout: true
 galaxy_user: g2main
@@ -39,10 +39,11 @@ galaxy_gravity_command: "{{ gravity_venv_dir }}/bin/galaxyctl"
 # FIXME: don't want the backups of the TPV configs to be watched, maybe add a per-item backup option to
 # galaxy_config_{files,templates}, or maybe we really don't need backups
 galaxy_backup_configfiles: false
+
 # specifies config files to copy from the playbook
 galaxy_config_files:
-  - src: files/galaxy/config/disposable_email_blacklist.conf
-    dest: "{{ galaxy_config[galaxy_app_config_section]['blacklist_file'] }}"
+  - src: files/galaxy/config/disposable_email_blocklist.conf
+    dest: "{{ galaxy_config[galaxy_app_config_section].email_domain_blocklist_file }}"
 
 nginx_srv: /srv/nginx
 
