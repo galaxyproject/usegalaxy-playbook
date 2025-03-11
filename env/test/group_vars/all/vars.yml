@@ -47,3 +47,7 @@ galaxy_venv_dir: /cvmfs/{{ galaxy_cvmfs_repo }}/venv
 
 # disable running tusd from the galaxyproject.tusd role
 tusd_systemd: false
+  # specifies config files to copy from the playbook
+galaxy_config_files:
+  - src: files/galaxy/config/disposable_email_blacklist.conf
+    dest: "{{ galaxy_config[galaxy_app_config_section]['blacklist_file'] }}"
