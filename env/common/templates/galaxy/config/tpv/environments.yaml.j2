@@ -177,7 +177,7 @@ destinations:
     max_accepted_cores: 4
     max_accepted_mem: 32
     params:
-      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={cyclone_small_partition}"
+      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_small_partition}"
     scheduling:
       accept:
       - training
@@ -191,7 +191,7 @@ destinations:
     max_accepted_cores: 12
     max_accepted_mem: 48
     params:
-      native_specification: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
+      native_specification: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}"
 
   cyclone_small:
     inherits: _cyclone_singularity
@@ -200,7 +200,7 @@ destinations:
     max_accepted_cores: 2
     max_accepted_mem: 16
     params:
-      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={cyclone_small_partition}"
+      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_small_partition}"
 
   # this is only for pulsar-incompatible large jobs, so requires an explicit tag
   cyclone_mem:
@@ -212,7 +212,7 @@ destinations:
     max_cores: 8
     max_mem: 96
     params:
-      native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 20), 1)} --mem={round(mem*1024)} --time={time} --partition={cyclone_large_partition}"
+      native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 20), 1)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}"
     scheduling:
       require:
       - cyclone-mem
@@ -247,21 +247,21 @@ destinations:
     max_accepted_cores: 64
     max_accepted_mem: 248
     params:
-      submit_native_specification: "--nodes=1 --ntasks={max(int(mem/4), 1)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
+      submit_native_specification: "--nodes=1 --ntasks={max(int(mem/4), 1)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
     rules:
     - id: jetstream2_single_core_rule
       if: cores == 1
       params:
-        submit_native_specification: "--nodes=1 --ntasks=1 --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
+        submit_native_specification: "--nodes=1 --ntasks=1 --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
     - id: jetstream2_mem_rule
       # TODO: should maybe be less to cram more on Large Memory instances?
       if: not force_cores and cores > 1 and mem > 120
       params:
-        submit_native_specification: "--nodes=1 --ntasks={int(mem/8)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
+        submit_native_specification: "--nodes=1 --ntasks={int(mem/8)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
     - id: jetstream2_force_cores_rule
       if: force_cores and cores > 1
       params:
-        submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
+        submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
 
   jetstream2_lm:
     inherits: _jetstream2
@@ -270,7 +270,7 @@ destinations:
     max_accepted_cores: 128
     max_accepted_mem: 980
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(mem/8)} --mem={int(mem*1024)} --time={time} --partition={js2_partition}"
+      submit_native_specification: "--nodes=1 --ntasks={int(mem/8)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
     scheduling:
       require:
       - large-mem
@@ -286,7 +286,7 @@ destinations:
     #context:
     #  js2_gpu_partition: gpu-small
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time} --partition={js2_gpu_partition}"
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={js2_gpu_partition}"
       singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
     rules:
     - id: jetstream2_gpu_medium_rule
@@ -316,7 +316,7 @@ destinations:
   jetstream2_resize_shm:
     inherits: _jetstream2
     params:
-      submit_native_specification: "--nodes=1 --time={time} --partition=resize-shm"
+      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=resize-shm"
       tmp_dir: false
     env:
     - name: TMPDIR
@@ -339,7 +339,7 @@ destinations:
     context:
       time: "06:00:00"
     params:
-      submit_native_specification: "--partition=gxit --nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time}"
+      submit_native_specification: "--partition=gxit --nodes=1 --ntasks={cores} --mem={round(mem*1024)} --time={time or default_time}"
       tmp_dir: true
       outputs_to_working_directory: false
       singularity_enabled: false
@@ -443,8 +443,8 @@ destinations:
       time: 36:00:00
     params:
       # https://github.com/natefoo/slurm-drmaa/issues/83
-      #submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks-per-node={int(mem/2)} --mem={int(mem/2)*2000}"
-      submit_native_specification: "--partition=RM-shared --time={time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2000}"
+      #submit_native_specification: "--partition=RM-shared --time={time or default_time} --nodes=1 --ntasks-per-node={int(mem/2)} --mem={int(mem/2)*2000}"
+      submit_native_specification: "--partition=RM-shared --time={time or default_time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2000}"
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
@@ -460,7 +460,7 @@ destinations:
     rules:
     - if: mem >= 128
       params:
-        submit_native_specification: "--partition=RM --time={time} --nodes=1 --ntasks={int(mem/2)}"
+        submit_native_specification: "--partition=RM --time={time or default_time} --nodes=1 --ntasks={int(mem/2)}"
     env:
     - name: PATH
       value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
@@ -513,7 +513,7 @@ destinations:
       time: 36:00:00
     params:
       # --mem={int(mem/2)*2048} ensures that mem is always exactly 2GB per core
-      submit_native_specification: "--account=TG-MCB140147 --partition=shared --time={time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048}"
+      submit_native_specification: "--account=TG-MCB140147 --partition=shared --time={time or default_time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048}"
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
@@ -529,7 +529,7 @@ destinations:
     rules:
     - if: mem >= 128
       params:
-        submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time} --nodes=1 --ntasks={int(mem/2)}"
+        submit_native_specification: "--account=TG-MCB140147 --partition=compute --time={time or default_time} --nodes=1 --ntasks={int(mem/2)}"
     env:
     # Expanse has some aggressive scratch cleanup, txn especially gets quickly nuked
     - execute: for d in $(seq 0 255 | while read n; do printf "%02x " "$n"; done) txn quarantaine; do mkdir -p /expanse/lustre/scratch/xgalaxy/temp_project/cvmfs_cache/$d; done
@@ -577,8 +577,8 @@ destinations:
       - expanse
       require:
       - pulsar
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   # could just dual-purpose devgalaxy Pulsar for a100 access
   #rockfish_gpu:
@@ -683,7 +683,7 @@ destinations:
     max_accepted_cores: 56
     max_accepted_mem: 190
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=small"
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=small"
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- apptainer
     env:
@@ -722,7 +722,7 @@ destinations:
       account: BIR23002
       partition: rtx
     params:
-      submit_native_specification: "--account={account} --nodes=1 --ntasks={int(cores)} --time={time} --partition={partition}"
+      submit_native_specification: "--account={account} --nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition={partition}"
       singularity_run_extra_arguments: --nv
       # _tacc_hpc params
       outputs_to_working_directory: false
@@ -764,8 +764,8 @@ destinations:
     max_mem: 184
     params:
       # $GALAXY_SLOTS is forced to 48 to avoid wastage
-      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=skx"
-      submit_native_specification: "--nodes=1 --time={time} --partition=skx"
+      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=skx"
+      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=skx"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_SLOTS
@@ -798,8 +798,8 @@ destinations:
     max_mem: 248
     params:
       # $GALAXY_SLOTS is forced to 64 to avoid wastage
-      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=icx"
-      submit_native_specification: "--nodes=1 --time={time} --partition=icx"
+      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=icx"
+      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=icx"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_SLOTS
@@ -832,8 +832,8 @@ destinations:
     max_mem: 120
     params:
       # $GALAXY_SLOTS is forced to 112 to avoid wastage
-      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time} --partition=icx"
-      submit_native_specification: "--nodes=1 --time={time} --partition=spr"
+      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=icx"
+      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=spr"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_SLOTS
