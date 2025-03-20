@@ -580,6 +580,60 @@ destinations:
       reject:
       - offline
 
+  anvil:
+    runner: anvil
+    min_accepted_cores: 8
+    min_accepted_mem: 16
+    max_accepted_cores: 128
+    max_accepted_mem: 256
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=shared"
+      jobs_directory: /anvil/scratch/x-xcgalaxy/{{ galaxy_instance_codename }}/staging
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.anvil | join(',') }}"
+      singularity_no_mount: null
+      container_resolvers:
+      - type: explicit_singularity
+      - type: cached_mulled_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime
+      - type: mulled_singularity
+      require_container: true
+    env:
+    #- file: /etc/profile.d/z01_lmod.sh
+    - execute: module --force purge
+    - name: GALAXY_SLOTS
+      value: "$SLURM_NTASKS"
+    - name: TRINITY_SCRATCH_DIR
+      value: /tmp
+    - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
+      value: $TRINITY_SCRATCH_DIR
+    - name: GALAXY_MEMORY_MB
+      value: "{int(mem*1024)}"
+    - name: CVMFSEXEC_PATH
+      value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+    - name: APPTAINER_CACHEDIR
+      value: /anvil/scratch/x-xcgalaxy/apptainer_cache
+    - name: APPTAINER_PYTHREADS
+      value: "9"
+    scheduling:
+      accept:
+      - anvil
+      - hpc
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
+      prefer:
+      - anvil
+      require:
+      - pulsar
+      - anvil
+      #reject:
+      #- offline
+
   # could just dual-purpose devgalaxy Pulsar for a100 access
   #rockfish_gpu:
   #  runner: rockfish

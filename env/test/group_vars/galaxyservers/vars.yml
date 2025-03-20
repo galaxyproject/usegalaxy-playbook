@@ -108,9 +108,9 @@ galaxy_job_conf_runners:
   expanse:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: expanse
-  rockfish:
+  anvil:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: rockfish
+    manager: anvil
   rockfish_devgalaxy:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: rockfish_devgalaxy
@@ -157,6 +157,12 @@ galaxy_job_conf_singularity_volumes:
     - "$job_directory:rw"
     - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/data.galaxyproject.org:/cvmfs/data.galaxyproject.org:ro"
     - "/scratch:rw"
+  anvil:
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/tmp:rw"
   rockfish:
     - "$tool_directory:ro"
     - "$working_directory:rw"
