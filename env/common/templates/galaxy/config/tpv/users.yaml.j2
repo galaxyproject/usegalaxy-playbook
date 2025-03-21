@@ -52,7 +52,7 @@ users:
       - id: test_user_non_local_tool
         if: not tool.id.startswith("__") and tool.tool_type not in ("data_source", "expression") and not tool.requires_galaxy_python_environment
         cores: 8
-        mem: 64
+        mem: 16
         scheduling:
           accept:
           - pulsar

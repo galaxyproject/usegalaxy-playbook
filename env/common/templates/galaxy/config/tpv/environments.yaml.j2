@@ -587,7 +587,7 @@ destinations:
     max_accepted_cores: 128
     max_accepted_mem: 256
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=shared"
+      submit_native_specification: "--partition=shared --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048} --time={time or default_time}"
       jobs_directory: /anvil/scratch/x-xcgalaxy/{{ galaxy_instance_codename }}/staging
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- apptainer
       singularity_enabled: true
@@ -630,7 +630,6 @@ destinations:
       - anvil
       require:
       - pulsar
-      - anvil
       #reject:
       #- offline
 

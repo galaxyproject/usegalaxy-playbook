@@ -290,6 +290,10 @@ galaxy_job_conf_limits:
     # technically 64 for compute, 4096 for shared, but this prevents us from burning all of expanse at once
     value: 64
   - type: environment_total_concurrent_jobs
+    id: anvil
+    # limit is 6400 cores
+    value: 100
+  - type: environment_total_concurrent_jobs
     id: rockfish
     # doesn't have a published limit
     value: 50
