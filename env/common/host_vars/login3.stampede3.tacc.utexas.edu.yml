@@ -25,9 +25,9 @@ host_files:
 host_crontabs:
   - id: "pulsar-clean-{{ galaxy_instance_codename }}-scratch"
     use_cron_file: false
-    minute: "0"
+    minute: "{{ 59 | random(seed=galaxy_instance_codename) }}"
     hour: "*/6"
-    job: "{{ _stampede_home_root }}/bin/tmpwatch --all --mtime --dirmtime 7d {{ pulsar_staging_dir }}"
+    job: "{{ _stampede_home_root }}/bin/pulsar-clean-jobs {{ pulsar_staging_dir }} >> {{ pulsar_root }}/log/pulsar-clean-jobs.log 2>&1"
   - id: "pulsar-clean-{{ galaxy_instance_codename }}-amqp-consume"
     use_cron_file: false
     minute: "15"
