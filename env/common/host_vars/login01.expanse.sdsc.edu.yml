@@ -26,11 +26,6 @@ host_files:
     dest: "{{ _expanse_home_root }}/bin/tmpwatch"
     mode: "0755"
 
-host_templates:
-  - src: "templates/pulsar/expanse-supervisord-launch.sh.j2"
-    dest: "{{ _expanse_home_root }}/bin/supervisord-launch.sh"
-    mode: "0755"
-
 host_crontabs:
   - id: "pulsar-clean-{{ galaxy_instance_codename }}-scratch"
     use_cron_file: false
@@ -70,7 +65,7 @@ supervisord_run_dir: "{{ supervisord_prefix }}/var/run"
 host_supervisor_configs:
   - "{{ galaxy_instance_codename }}_pulsar"
 
-supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || /bin/bash '{{ _expanse_home_root }}/bin/supervisord-launch.sh'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
+supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || '{{ supervisord_prefix }}/bin/supervisord' -c '{{ supervisord_conf_path }}'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
 
 # This is the rebased commit on top of the cvmfsexec-singularity branch
 pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@f13cdf0de588471fb8b0f5f50e22b6d612579e22#egg=pulsar-app"
@@ -88,7 +83,8 @@ pulsar_env:
 pulsar_supervisor_env:
   - PATH="{{ pulsar_venv_dir }}/bin:/cm/shared/apps/slurm/current/bin:%(ENV_PATH)s"
   - LD_LIBRARY_PATH="{{ miniconda_prefix }}/envs/__curl@7.71/lib:/cm/shared/apps/slurm/current/lib64"
-  - SLURM_CONF="{{ _expanse_home_root }}/etc/slurm.conf"
+  # determine where the slurm.conf is with `scontrol write config` with no path arg
+  - SLURM_CONF="/cm/shared/apps/slurm/var/etc/expanse/slurm.conf"
 
 galaxy_user: xgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
