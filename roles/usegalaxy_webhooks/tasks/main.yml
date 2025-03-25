@@ -33,6 +33,15 @@
   loop_control:
     label: "{{ item.0.item }}/{{ item.1.path | basename }}"
 
+- name: Link webhooks from distribution
+  ansible.builtin.file:
+    src: "{{ galaxy_server_dir }}/config/plugins/webhooks/{{ item }}"
+    dest: "{{ webhook_plugins_dest_dir }}/{{ item }}"
+    state: link
+    #owner: "{{ galaxy_privileged_user }}"
+    #group: "{{ galaxy_group }}"
+  loop: "{{ webhook_links }}"
+
 - name: Collect list of webhooks
   ansible.builtin.find:
     paths: "{{ webhook_plugins_dest_dir }}"
@@ -44,5 +53,5 @@
   ansible.builtin.file:
     path: "{{ webhook_plugins_dest_dir }}/{{ item | basename }}"
     state: absent
-  when: "(item | basename) not in webhook_plugins"
+  when: "(item | basename) not in webhook_plugins + webhook_links"
   loop: "{{ __webhook_remote_files.files | map(attribute='path') }}"
