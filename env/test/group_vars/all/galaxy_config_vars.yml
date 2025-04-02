@@ -53,57 +53,64 @@ base_app_main: &BASE_APP_MAIN
   # logging
   #log_rotate_size: 50 MB
   #log_rotate_count: 10
-  #logging:
-  #  filters:
-  #    stack:
-  #      (): galaxy.web_stack.application_stack_log_filter
-  #  formatters:
-  #    stack:
-  #      (): galaxy.web_stack.application_stack_log_formatter
-  #  handlers:
-  #    console:
-  #      class: logging.StreamHandler
-  #      filters:
-  #      - stack
-  #      formatter: stack
-  #      #level: TRACE
-  #      level: DEBUG
-  #      stream: ext://sys.stderr
-  #    #file:
-  #    #  class: logging.handlers.TimedRotatingFileHandler
-  #    #  filters:
-  #    #  - stack
-  #    #  formatter: stack
-  #    # level: DEBUG
-  #    #  filename: "{{ galaxy_log_dir }}/gunicorn.log"
-  #    #  when: midnight
-  #    #  backupCount: 10
-  #  loggers:
-  #    #galaxy:
-  #    #  level: TRACE
-  #    #  qualname: galaxy
-  #    paste.httpserver.ThreadPool:
-  #      level: WARN
-  #      qualname: paste.httpserver.ThreadPool
-  #    routes.middleware:
-  #      level: WARN
-  #      qualname: routes.middleware
-  #    amqp:
-  #      level: INFO
-  #      qualname: amqp
-  #    dogpile:
-  #      level: INFO
-  #      qualname: dogpile
-  #    irods:
-  #      level: INFO
-  #      qualname: irods
-  #  root:
-  #    handlers:
-  #      - console
-  #      #- file
-  #    level: DEBUG
-  #  disable_existing_loggers: false
-  #  version: 1
+  logging:
+    disable_existing_loggers: false
+    filters:
+      stack:
+        (): galaxy.web_stack.application_stack_log_filter
+    formatters:
+      stack:
+        (): galaxy.web_stack.application_stack_log_formatter
+    handlers:
+      console:
+        class: logging.StreamHandler
+        filters:
+        - stack
+        formatter: stack
+        level: DEBUG
+        stream: ext://sys.stderr
+    loggers:
+      amqp:
+        level: INFO
+        qualname: amqp
+      botocore:
+        level: INFO
+        qualname: botocore
+      celery.utils.functional:
+        level: INFO
+        qualname: celery.utils.functional
+      gunicorn.access:
+        handlers:
+        - console
+        level: INFO
+        propagate: false
+        qualname: gunicorn.access
+      paste.httpserver.ThreadPool:
+        level: WARN
+        qualname: paste.httpserver.ThreadPool
+      py.warnings:
+        level: ERROR
+        qualname: py.warnings
+      routes.middleware:
+        level: WARN
+        qualname: routes.middleware
+      sentry_sdk.errors:
+        level: INFO
+        qualname: sentry_sdk.errors
+      sqlalchemy_json.track:
+        level: WARN
+        qualname: sqlalchemy_json.track
+      urllib3.connectionpool:
+        level: WARN
+        qualname: urllib3.connectionpool
+      watchdog.observers.inotify_buffer:
+        level: INFO
+        qualname: watchdog.observers.inotify_buffer
+    root:
+      handlers:
+      - console
+      level: DEBUG
+    version: 1
 
   # paths
 
@@ -126,6 +133,7 @@ base_app_main: &BASE_APP_MAIN
   tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
   short_term_storage_dir: /corral4/test/short_term_web_storage
   webhooks_dir: "{{ galaxy_config_dir }}/webhooks"
+  panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
 
   tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
   tool_data_table_config_path:
@@ -146,7 +154,7 @@ base_app_main: &BASE_APP_MAIN
   dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
   container_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.yml"
   themes_config_file: "{{ galaxy_server_dir }}/config/themes_conf.yml.sample"
-  panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
+  vault_config_file: "{{ galaxy_config_dir }}/vault_conf.yml"
 
   migrated_tools_config: "/cvmfs/test.galaxyproject.org/config/migrated_tools_conf.xml"
   shed_tool_data_table_config: "/cvmfs/test.galaxyproject.org/config/shed_tool_data_table_conf.xml"

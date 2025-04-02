@@ -7,7 +7,7 @@ restart: true
 
 galaxy_database_name: galaxy_test
 
-galaxy_virtualenv_command: "/cvmfs/test.galaxyproject.org/deps/_conda/envs/__python@3.11/bin/python3 -m venv"
+galaxy_virtualenv_command: "/cvmfs/test.galaxyproject.org/deps/_conda/envs/__python@3.13/bin/python3 -m venv"
 #galaxy_repo: https://github.com/{{ galaxy_repo_owner }}/galaxy.git
 #galaxy_repo_owner: mvdbeek
 #galaxy_commit_id: containerized_set_metadata
@@ -26,6 +26,7 @@ galaxy_diff_mode_verbose: false
 galaxy_config_perms: 0644
 galaxy_additional_venv_packages:
   - drmaa
+  - hvac
   - "redis>=4.5.2,<6.0.0,!=4.5.5"
   - weasyprint
 amqp_server: mq.galaxyproject.org

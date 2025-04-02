@@ -11,6 +11,7 @@ paratus_aws_secret_access_key: foo
 paratus_aws_access_key_id: foo
 elementbio_aws_secret_access_key: foo
 elementbio_aws_access_key_id: foo
+galaxy_vault_token: foo
 galaxy_job_conf_tpv_config_files: [tpv.yaml]
 
 miniconda_prefix: /cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda
@@ -22,9 +23,9 @@ miniconda_base_env_packages:
   - conda-libmamba-solver
   - pyopenssl>=22.1.0
 miniconda_conda_environments:
-  __python@3.11:
+  __python@3.13:
     packages:
-      - python=3.11.4
+      - python=3.13
   _galaxy_weasyprint_deps_:
     packages:
       - pango
