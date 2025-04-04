@@ -29,6 +29,7 @@ webhook_links:
 
 webhook_plugins:
   - toolmsg
+  - subdomain_switcher
 
 # FIXME: "{{ galaxy_remote_users.privsep | default(omit) }}" is blanking remote_user on the play. I set the below option
 # to workaround but this needs to be fixed in galaxyproject.galaxy, nothing should be breaking when privsep mode is not

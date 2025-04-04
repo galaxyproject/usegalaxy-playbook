@@ -11,6 +11,13 @@ galaxy_job_conf_persistence_directory: "/srv/galaxy/main/var/pulsar_amqp_ack"
 galaxy_job_conf_jetstream2_jobs_directory: "/jetstream2/scratch/{{ galaxy_instance_codename }}/jobs-vgp"
 pulsar_default_file_action: remote_transfer_tus
 
+webhook_links:
+  - gtn
+
+webhook_plugins:
+  - toolmsg
+  # no subdomain_switcher for now unless we want to advertise VGP
+
 galaxy_job_conf_runners:
   slurm:
     load: galaxy.jobs.runners.slurm:SlurmJobRunner

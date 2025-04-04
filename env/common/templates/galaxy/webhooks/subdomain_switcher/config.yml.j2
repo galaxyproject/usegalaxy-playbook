@@ -1,0 +1,68 @@
+id: subdomain_switcher
+type: masthead
+activate: true
+icon: fa-connectdevelop
+tooltip: Switch sites
+function: >
+  const SUBDOMAINS = [
+    {
+      label: "Base site",
+      url: "https://{{ galaxy_instance_hostname }}",
+    },
+    {% for subdomain in galaxy_themes_subdomains %}
+    {% if 'hidden' not in subdomain or not subdomain.hidden %}
+    {
+      label: "{{ galaxy_config.galaxy.brand_by_host[subdomain.name ~ '.' ~ galaxy_instance_hostname] }}",
+      url: "https://{{ subdomain.name }}.{{ galaxy_instance_hostname }}",
+    },
+    {% endif %}
+    {% endfor %}
+  ];
+
+  function getDropdown() {
+    return document.querySelector('#subdomain_switcher ul');
+  }
+
+  function showDomainSwitcher() {
+    const dropdown = getDropdown();
+    if (dropdown) {
+      dropdown.remove();
+      return;
+    }
+
+    const listItems = SUBDOMAINS
+      .filter( site => site.url.replace(/\/$/, '') !== window.location.origin )
+      .map(site => `<li>
+        <a class="dropdown-item" role="menuitem" href="${site.url}">${site.label}</a>
+      </li>`);
+    let ul = document.createElement('ul');
+    ul.className = "dropdown-menu show";
+    ul.innerHTML = listItems.join('\n');
+    const parent = document.getElementById("subdomain_switcher");
+    parent.style.position = 'relative';
+    parent.append(ul);
+
+    // Hide tooltip on click
+    let tip = document.getElementsByClassName('tooltip')[0];
+    if (tip) tip.style.display = 'none';
+
+    // Stop tooltips from displaying on top of the dropdown
+    getDropdown().addEventListener('mouseover', function(event) {
+      let tip = document.getElementsByClassName('tooltip')[0];
+      if (tip) tip.style.display = 'none';
+    });
+
+    // Close dropdown when clicking outside of it
+    function closeDropdownOnClick(event) {
+      const parent = document.getElementById("subdomain_switcher");
+      const dropdown = getDropdown();
+      if (dropdown && !parent.contains(event.target)) {
+        dropdown.remove();
+      }
+    }
+    document.addEventListener('click', closeDropdownOnClick);
+    const iframe = document.getElementById('galaxy_main');
+    iframe.contentDocument
+      .addEventListener('click', closeDropdownOnClick);
+  }
+  showDomainSwitcher();
