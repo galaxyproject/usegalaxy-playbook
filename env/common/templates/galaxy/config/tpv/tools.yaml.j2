@@ -15,6 +15,10 @@
 #   necessary for matching valid destinations that will take multicore jobs
 # - If a tool is multicore and SHOULD NOT scale cores by memory and destination, set {context: {force_cores: true}}
 #
+# Be aware that the cores value will have some effect on what destinations are available for a job due to those
+# destinations' min_cores_allowed. Thus, cores: 8 probably won't be eligible to run on most HPC systems, cores: 16 won't
+# be eligible for whole-node HPC systems like Stampede3, etc.
+#
 # Where it makes sense, try to use these buckets which fit nicely for our Cyclone and Jetstream2 instances:
 #
 # - {cores: 2, mem: 7}
@@ -140,7 +144,14 @@ tools:
     mem: 5.6
   #__.*__: {inherits: _conda_local}
   __SET_METADATA__: {inherits: _conda_local}
-  export_remote: {inherits: _conda_local}
+  export_remote:
+    inherits: _conda_local
+    # TEMP: https://tracker.ceph.com/issues/63153, below should not needed once JS2 is upgraded to Ceph 18.2.5
+    env:
+    - name: AWS_REQUEST_CHECKSUM_CALCULATION
+      value: when_required
+    - name: AWS_RESPONSE_CHECKSUM_VALIDATION
+      value: when_required
 
   __IMPORT_HISTORY__:
     env:
@@ -232,6 +243,14 @@ tools:
       - type: docker
         shell: /bin/bash
         identifier: quay.io/natefoo/docker-rstudio-notebook:23.1-proxy1
+
+  interactive_tool_rstudio_bioc:
+    params:
+      docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
+      container_override:
+      - type: docker
+        shell: /bin/bash
+        identifier: afgane/bioc-galaxy:3.20-proxy1
 
   toolshed.g2.bx.psu.edu/repos/goeckslab/chatanalysis/interactive_tool_chat_analysis/.*:
     params:
@@ -505,6 +524,9 @@ tools:
         helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
       cores: 16
       mem: 64
+      #scheduling:
+      #  require:
+      #  - stampede3-icx
     # 2023-11-02 getting this on Expanse, even after clearing Singualrity and CVMFS caches:
     # /usr/local/bin/blastn: error while loading shared libraries: /usr/local/bin/../lib/ncbi-blast+/libblastinput.so: cannot read file data: Input/output error
     scheduling:
@@ -613,48 +635,120 @@ tools:
       value: -m
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
-    cores: 32
-    mem: 120
-    rules:
+    # should allow scheduling on JS2, hpc-shared, and hpc-whole node
+    #cores: 32
+    # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference to index
+    #mem: |
+    # cores and mem need separate maxes but then that would affect mem if you just multiplied it by cores, so we must duplicate
+    cores: |
+      options = job.get_param_values(app)
+      ref_size = 0
+      ref_index_mem = 0
+      if helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}}):
+          ref_file = options["reference_source"]["ref_file"]
+          if hasattr(ref_file, "first_dataset_instance"):
+              ref_file = ref_file.first_dataset_instance()
+          elif hasattr(ref_file, "dataset_instances"):
+              ref_file = ref_file.dataset_instances[0]
+          ref_size = float(ref_file.get_size())/1024**3
+          if ref_file.ext != "bwa_mem2_index":
+              ref_index_mem = ref_size * 28
+      input1 = options["fastq_input"]["fastq_input1"]
+      if hasattr(input1, "first_dataset_instance"):
+          input1 = input1.first_dataset_instance()
+      elif hasattr(input1, "dataset_instances"):
+          input1 = input1.dataset_instances[0]
+      mult = 1.0
+      if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
+          mult = 3.3
+      min(round(min(max(ref_index_mem, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem) / 4), 128)
+    mem: |
+      options = job.get_param_values(app)
+      ref_size = 0
+      ref_index_mem = 0
+      if helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}}):
+          ref_file = options["reference_source"]["ref_file"]
+          if hasattr(ref_file, "first_dataset_instance"):
+              ref_file = ref_file.first_dataset_instance()
+          elif hasattr(ref_file, "dataset_instances"):
+              ref_file = ref_file.dataset_instances[0]
+          ref_size = float(ref_file.get_size())/1024**3
+          if ref_file.ext != "bwa_mem2_index":
+              ref_index_mem = ref_size * 28
+      input1 = options["fastq_input"]["fastq_input1"]
+      if hasattr(input1, "first_dataset_instance"):
+          input1 = input1.first_dataset_instance()
+      elif hasattr(input1, "dataset_instances"):
+          input1 = input1.dataset_instances[0]
+      mult = 1.0
+      if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
+          mult = 3.3
+      round(min(max(ref_index_mem, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem))
+      #round(cores * 3.9)
+    #rules:
     # TODO: make input rules for cached reference compression-aware
     # TODO: does paired use 2x single?
-    - id: bwa_mem2_small_input_rule
-      if: input_size < 0.25
-      cores: 2
-      mem: 7.6
-    - id: bwa_mem2_medium_input_rule
-      if: 0.25 <= input_size < 16
-      cores: 8
-      mem: 28
-    - id: bwa_mem2_large_input_rule
-      if: 16 <= input_size < 32
-      cores: 16
-      mem: 58
-    - id: bwa_mem2_xlarge_input_rule
-      if: 32 <= input_size < 64
-      cores: 24
-      mem: 120
-    - id: bwa_mem2_history_reference_rule
-      if: |
-        helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}})
-      # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
-      mem: |
-        options = job.get_param_values(app)
-        ref_file = options["reference_source"]["ref_file"]
-        if hasattr(ref_file, "first_dataset_instance"):
-            ref_file = ref_file.first_dataset_instance()
-        elif hasattr(ref_file, "dataset_instances"):
-            ref_file = ref_file.dataset_instances[0]
-        ref_size = float(ref_file.get_size())/1024**3
-        input1 = options["fastq_input"]["fastq_input1"]
-        if hasattr(input1, "first_dataset_instance"):
-            input1 = input1.first_dataset_instance()
-        elif hasattr(input1, "dataset_instances"):
-            input1 = input1.dataset_instances[0]
-        mult = 1.0
-        if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
-            mult = 3.3
-        min(max(ref_size * 28, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem)
+    #- id: bwa_mem2_small_input_rule
+    #  if: input_size < 0.25
+    #  cores: 2
+    #  mem: 7.6
+    #- id: bwa_mem2_medium_input_rule
+    #  if: 0.25 <= input_size < 16
+    #  cores: 8
+    #  mem: 28
+    #- id: bwa_mem2_large_input_rule
+    #  if: 16 <= input_size < 32
+    #  cores: 16
+    #  mem: 58
+    #- id: bwa_mem2_xlarge_input_rule
+    #  if: 32 <= input_size < 64
+    #  cores: 24
+    #  mem: 120
+    #- id: bwa_mem2_history_reference_rule
+    #  if: |
+    #    helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}})
+    #  # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
+    #  mem: |
+    #    options = job.get_param_values(app)
+    #    ref_file = options["reference_source"]["ref_file"]
+    #    if hasattr(ref_file, "first_dataset_instance"):
+    #        ref_file = ref_file.first_dataset_instance()
+    #    elif hasattr(ref_file, "dataset_instances"):
+    #        ref_file = ref_file.dataset_instances[0]
+    #    ref_size = float(ref_file.get_size())/1024**3
+    #    input1 = options["fastq_input"]["fastq_input1"]
+    #    if hasattr(input1, "first_dataset_instance"):
+    #        input1 = input1.first_dataset_instance()
+    #    elif hasattr(input1, "dataset_instances"):
+    #        input1 = input1.dataset_instances[0]
+    #    mult = 1.0
+    #    if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
+    #        mult = 3.3
+    #    min(max(ref_size * 28, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem)
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/2\.2\.1\+galaxy3:
+    env:
+    # $GALAXY_MEMORY_MB does not check to see if it's set first, but $GALAXY_MEMORY_MB_PER_SLOT does
+    - name: GALAXY_MEMORY_MB
+      value: $(printf "%.0f" $(echo "$(scontrol -do show job "$SLURM_JOB_ID" | sed 's/.*\( \|^\)Mem=\([0-9][0-9]*\)\( \|$\).*/\2/p;d')*0.4" | bc -l))
+      raw: true
+    - name: GALAXY_MEMORY_MB_PER_SLOT
+      value: GALAXY_MEMORY_MB_PER_SLOT=$(($GALAXY_MEMORY_MB / $GALAXY_SLOTS))
+      raw: true
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2_idx/.*:
+    mem: |
+      options = job.get_param_values(app)
+      reference = options["reference"]
+      if hasattr(reference, "first_dataset_instance"):
+          reference = reference.first_dataset_instance()
+      elif hasattr(reference, "dataset_instances"):
+          reference = reference.dataset_instances[0]
+      ref_size = float(reference.get_size())/1024**3
+      mult = 1.0
+      if reference.ext.endswith(".gz") or reference.ext.endswith(".bz2"):
+          mult = 3.3
+      min(max(ref_size * mult * 28, 7.6), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/checkm2/checkm2/.*:
     cores: 8
@@ -681,6 +775,9 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_filterandtrim/dada2_filterAndTrim/.*:
     cores: 4
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.8\+galaxy0:
@@ -761,6 +858,7 @@ tools:
     mem: 5.7
 
   toolshed.g2.bx.psu.edu/repos/iuc/kraken2/kraken2/.*:
+    # FIXME: make this 32 so it can schedule on Stampede3
     cores: 16
     # TODO: make a helper
     # TODO: per delphine, at 24GB overhead it worked if the input fasta had 200 scaffolds but still OOMed with 1000
@@ -786,14 +884,15 @@ tools:
       else:
           log.warning("Data table '%s' lookup '%s=%s: %s=None' returned None!, defaulting to %s",
                       table_name, lookup_column, lookup_value, value_column, mem)
-      min(mem + 32, 980)
-    rules:
-    - id: rule_kraken2_concurrency
-      if: |
-        helpers.concurrent_job_count_for_tool(app, tool, user) >= 1
-      execute: |
-        from galaxy.jobs.mapper import JobNotReadyException
-        raise JobNotReadyException()
+      min(mem + 48, 980)
+    # FIXME: this causes extremely slow handler monitor loops when there are a lot of jobs
+    #rules:
+    #- id: rule_kraken2_concurrency
+    #  if: |
+    #    helpers.concurrent_job_count_for_tool(app, tool, user) >= 1
+    #  execute: |
+    #    from galaxy.jobs.mapper import JobNotReadyException
+    #    raise JobNotReadyException()
     scheduling:
       accept:
       - training-exempt
@@ -1110,7 +1209,7 @@ tools:
     - id: metaspades_large_input_rule
       if: 1 <= input_size < 60
       cores: 16
-      mem: 58
+      mem: 86
     #- id: metaspades_scalable_input_rule
     #  if: 1 <= input_size < 60
     #  cores: 16

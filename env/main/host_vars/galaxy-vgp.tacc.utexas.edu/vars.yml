@@ -31,6 +31,9 @@ galaxy_job_conf_runners:
   stampede3:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: vgp_stampede3
+  bridges:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: vgp_bridges2
 
 galaxy_job_conf_default_handler: vgp
 

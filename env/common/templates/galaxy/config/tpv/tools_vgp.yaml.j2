@@ -67,5 +67,25 @@ tools:
     mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
-    cores: 32
-    mem: 120
+    cores: 64
+    mem: 480
+
+  #toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_blastn_wrapper/.*:
+  #  cores: 4
+  #  mem: 14
+  #  rules:
+  #  - id: ncbi_blastn_wrapper_db_rule
+  #    if: |
+  #      helpers.job_args_match(job, app, {'db_opts': {'db_opts_selector': 'db'}})
+  #    cores: 96
+  #    mem: 4096
+  #    scheduling:
+  #      require:
+  #      - bridges2-em
+
+  toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/.*:
+    mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
+    context:
+      time: "672:00:00"
