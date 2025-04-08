@@ -1,1 +1,148 @@
-../../../../common/templates/galaxy/config/file_sources_conf.yml.j2
+---
+
+- type: dropbox
+  id: dropbox
+  label: Your Dropbox Files
+  doc: Your Dropbox files (configure access via the user preferences)
+  #accessToken: ${user.preferences['dropbox|access_token']}
+  accessToken: ${user.user_vault.read_secret('preferences/dropbox/access_token')}
+
+- type: s3fs
+  id: aws_s3
+  label: AWS S3
+  doc: Your AWS S3 bucket (configure access via the user preferences)
+  anon: false
+  #key: ${user.preferences['aws|aws_access_key_id']}
+  #secret: ${user.preferences['aws|aws_secret_access_key']}
+  bucket: ${user.preferences['aws|bucket_name']}
+  key:  ${user.user_vault.read_secret('preferences/aws/aws_access_key_id')}
+  secret: ${user.user_vault.read_secret('preferences/aws/aws_secret_access_key')}
+  #bucket: ${user.user_vault.read_secret('preferences/aws/bucket_name')}
+
+- type: ftp
+  id: ebi-ftp
+  label: "EBI FTP server"
+  doc: "European Bioinformatic Institute FTP server"
+  host: "ftp.ebi.ac.uk"
+  user: "anonymous"
+  passwd: ""
+  timeout: 10
+  port: 21
+
+- type: ftp
+  id: covid-monitoring
+  label: "SARS-CoV-2 result files"
+  doc: "SARS-CoV-2 variants and consensus sequences"
+  host: "xfer13.crg.eu"
+  user: "anonymous"
+  passwd: ""
+  timeout: 10
+  port: 21
+
+- type: ftp
+  id: ncbi-ftp
+  label: "NCBI FTP server"
+  doc: "NCBI FTP server"
+  host: "ftp.ncbi.nlm.nih.gov"
+  user: "anonymous"
+  passwd: ""
+  timeout: 10
+  port: 21
+
+- type: ftp
+  id: ensembl-ftp
+  label: "ENSEMBL FTP server"
+  doc: "ENSEMBL FTP server"
+  host: "ftp.ensemblgenomes.org/vol1/pub/"
+  user: "anonymous"
+  passwd: ""
+  timeout: 10
+  port: 21
+
+- type: s3fs
+  label: Genome Ark
+  id: genomeark
+  doc: Access to Genome Ark open data on AWS.
+  bucket: genomeark
+  anon: true
+  listings_expiry_time: 60
+
+- type: s3fs
+  label: 1000 Genomes
+  id: 1000genomes
+  doc: Access to the 1000 Genomes Project with human genetic variation, including SNPs, structural variants, and their haplotype context.
+  bucket: 1000genomes
+  anon: true
+  listings_expiry_time: 60
+
+# has millions of files at the root level
+#- type: s3fs
+#  label: The Cancer Genome Atlas
+#  id: tcga-2-open
+#  doc: Access to the Cancer Genome Atlas (TCGA)
+#  bucket: tcga-2-open
+#  anon: true
+#  listings_expiry_time: 60
+
+- type: s3fs
+  label: COVID-19 Data Lake
+  id: covid19-lake
+  doc: A centralized repository of up-to-date and curated datasets on or related to the spread and characteristics of the novel corona virus (SARS-CoV-2) and its associated illness, COVID-19
+  bucket: covid19-lake
+  anon: true
+  listings_expiry_time: 60
+
+- type: s3fs
+  label: Encyclopedia of DNA Elements (ENCODE)
+  id: encode-public
+  doc: The Encyclopedia of DNA Elements (ENCODE) Consortium is an international collaboration of research groups funded by the National Human Genome Research Institute (NHGRI)
+  bucket: encode-public
+  anon: true
+  listings_expiry_time: 60
+
+- type: s3fs
+  label: Coupled Model Intercomparison Project 6
+  id: esgf-world
+  doc: The sixth phase of global coupled ocean-atmosphere general circulation model ensemble
+  bucket: esgf-world
+  anon: true
+  listings_expiry_time: 60
+
+- type: s3fs
+  label: CMIP6 GCMs downscaled using WRF
+  id: wrf-cmip6-noversioning
+  doc: High-resolution historical and future climate simulations from 1980-2100
+  bucket: wrf-cmip6-noversioning
+  anon: true
+  listings_expiry_time: 60
+
+- type: s3fs
+  label: GBIF European region public datasets
+  id: gbif-open-data-eu-central-1
+  doc: The Global Biodiversity Information Facility is an international network and data infrastructure aimed at providing anyone, anywhere, open access to data about all types of life on Earth.
+  bucket: gbif-open-data-eu-central-1
+  anon: true
+  listings_expiry_time: 60
+
+- type: s3fs
+  label: Element Biosciences
+  requires_groups: ElementBio
+  id: elembio-macro-galaxy
+  doc: Access to Element Biosciences data on AWS.
+  bucket: elembio-macro-galaxy
+  writable: false
+  secret: "{{ elementbio_aws_secret_access_key }}"
+  key: "{{ elementbio_aws_access_key_id }}"
+  listings_expiry_time: 60
+
+- type: s3fs
+  label: Galaxy Sandbox
+  requires_groups: GalaxySandboxFileSource
+  id: galaxy-sandbox
+  doc: galaxy-sandbox bucket on JS2 for file source testing
+  endpoint_url: https://js2.jetstream-cloud.org:8001
+  bucket: galaxy-sandbox
+  writable: true
+  secret: "{{ galaxy_sandbox_secret_access_key }}"
+  key: "{{ galaxy_sandbox_access_key_id }}"
+  listings_expiry_time: 60
