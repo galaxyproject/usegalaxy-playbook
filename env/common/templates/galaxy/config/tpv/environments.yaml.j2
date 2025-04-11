@@ -837,8 +837,8 @@ destinations:
       - stampede3-skx
       require:
       - pulsar
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   stampede3_icx:
     inherits: _stampede3
@@ -872,8 +872,8 @@ destinations:
       - stampede3-icx
       require:
       - pulsar
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   stampede3_spr:
     inherits: _stampede3
@@ -906,5 +906,5 @@ destinations:
       - stampede3-spr
       require:
       - pulsar
-      #reject:
-      #- offline
+      reject:
+      - offline
