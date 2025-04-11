@@ -292,6 +292,12 @@ tools:
       reject:
       - pulsar
 
+  toolshed.g2.bx.psu.edu/repos/iuc/table_compute/table_compute/.*:
+    # https://github.com/galaxyproject/pulsar/issues/392
+    scheduling:
+      reject:
+      - pulsar
+
   # everything else
 
   _wigtobigwig:
