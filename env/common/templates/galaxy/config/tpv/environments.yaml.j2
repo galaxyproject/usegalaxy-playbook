@@ -6,9 +6,20 @@ destinations:
   ### abstract envs for inheritance
   ###
 
+  _default_environment:
+    abstract: true
+    env:
+    # tools in the shared DB override this, which then breaks some tools, so set on the destinations instead for
+    # precendence
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+
   # CHANGES HERE MUST BE REFLECTED IN environments_vgp.yaml.j2
   _pulsar:
     abstract: true
+    inherits: _default_environment
     params:
       tmp_dir: true
       outputs_to_working_directory: false
@@ -23,6 +34,7 @@ destinations:
 
   _cyclone:
     abstract: true
+    inherits: _default_environment
     runner: slurm
     #context:
     #  cyclone_*_partition and time are set on role and (default) tool entitites
@@ -429,6 +441,7 @@ destinations:
   #
 
   bridges2:
+    inherits: _default_environment
     runner: bridges
     min_accepted_cores: 16
     min_accepted_mem: 64
@@ -504,6 +517,7 @@ destinations:
       #- offline
 
   expanse:
+    inherits: _default_environment
     runner: expanse
     min_accepted_cores: 16
     min_accepted_mem: 64
@@ -581,6 +595,7 @@ destinations:
       #- offline
 
   anvil:
+    inherits: _default_environment
     runner: anvil
     min_accepted_cores: 8
     min_accepted_mem: 16
@@ -693,6 +708,7 @@ destinations:
   #    - rockfish-gpu
 
   rockfish_devgalaxy:
+    inherits: _default_environment
     runner: rockfish_devgalaxy
     min_accepted_cores: 1
     min_accepted_mem: 0
@@ -766,6 +782,7 @@ destinations:
       - offline
 
   frontera_rtx:
+    inherits: _default_environment
     runner: frontera
     min_accepted_cores: 1
     min_accepted_mem: 2

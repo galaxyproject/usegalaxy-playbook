@@ -2,9 +2,20 @@
 
 destinations:
 
+  _default_environment_vgp:
+    abstract: true
+    env:
+    # tools in the shared DB override this, which then breaks some tools, so set on the destinations instead for
+    # precendence
+    - name: _JAVA_OPTIONS
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m
+    - name: SINGULARITYENV__JAVA_OPTIONS
+      value: $_JAVA_OPTIONS
+
   jetstream2_vgp:
     # Cannot inherit a definition from another file
     #inherits: _jetstream2
+    inherits: _default_environment_vgp
     runner: jetstream2
     min_accepted_cores: 1
     min_accepted_mem: 0
@@ -85,6 +96,7 @@ destinations:
   bridges2_em:
     # Cannot inherit a definition from another file
     #inherits: bridges2
+    inherits: _default_environment_vgp
     runner: bridges
     min_accepted_cores: 24
     min_accepted_mem: 1024
