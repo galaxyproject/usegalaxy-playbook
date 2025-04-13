@@ -134,15 +134,3 @@
   secret: "{{ elementbio_aws_secret_access_key }}"
   key: "{{ elementbio_aws_access_key_id }}"
   listings_expiry_time: 60
-
-- type: s3fs
-  label: Galaxy Sandbox
-  requires_groups: GalaxySandboxFileSource
-  id: galaxy-sandbox
-  doc: galaxy-sandbox bucket on JS2 for file source testing
-  endpoint_url: https://js2.jetstream-cloud.org:8001
-  bucket: galaxy-sandbox
-  writable: true
-  secret: "{{ galaxy_sandbox_secret_access_key }}"
-  key: "{{ galaxy_sandbox_access_key_id }}"
-  listings_expiry_time: 60
