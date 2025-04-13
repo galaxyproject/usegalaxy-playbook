@@ -370,3 +370,5 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
   - src: templates/galaxy/config/vault_conf.yml.j2
     dest: "{{ galaxy_config.galaxy.vault_config_file }}"
+  - src: templates/galaxy/config/file_source_templates.yml.j2
+    dest: "{{ galaxy_config_dir }}/file_source_templates.yml"
