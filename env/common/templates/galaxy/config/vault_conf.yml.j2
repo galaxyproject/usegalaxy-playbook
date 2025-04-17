@@ -1,5 +1,5 @@
 ---
 
 type: hashicorp
-vault_address: https://{{ galaxy_instance_hostname }}:8200
+vault_address: https://{{ galaxy_vault_address | default(galaxy_instance_hostname) }}:8200
 vault_token: {{ galaxy_vault_token }}

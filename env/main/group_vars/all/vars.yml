@@ -28,9 +28,12 @@ galaxy_diff_mode_verbose: false
 galaxy_config_perms: 0644
 galaxy_additional_venv_packages:
   - drmaa
+  - hvac
   - "redis>=4.5.2,<6.0.0,!=4.5.5"
   - weasyprint
 amqp_server: mq.galaxyproject.org
+
+galaxy_vault_address: vault.usegalaxy.org
 
 gravity_venv_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/gravity"
 gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"

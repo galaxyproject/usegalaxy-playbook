@@ -28,6 +28,9 @@ elementbio_aws_access_key_id: "{{ vault_elementbio_aws_access_key_id }}"
 # used by interactive_tool_chat_analysis
 groq_api_key: "{{ vault_groq_api_key }}"
 
+# Hashicorp Vault token
+galaxy_vault_token: "{{ vault_galaxy_vault_token }}"
+
 webhook_links:
   - gtn
 
@@ -414,3 +417,7 @@ galaxy_config_templates:
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_backends_config_file'] }}"
   - src: templates/galaxy/config/file_sources_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
+  - src: templates/galaxy/config/vault_conf.yml.j2
+    dest: "{{ galaxy_config.galaxy.vault_config_file }}"
+  - src: templates/galaxy/config/file_source_templates.yml.j2
+    dest: "{{ galaxy_config_dir }}/file_source_templates.yml"

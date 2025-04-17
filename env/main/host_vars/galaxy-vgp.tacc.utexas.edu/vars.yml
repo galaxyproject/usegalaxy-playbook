@@ -80,6 +80,10 @@ galaxy_config_templates:
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
   - src: templates/galaxy/static/welcome_vgp.html.j2
     dest: "{{ nginx_srv }}/{{ galaxy_instance_hostname }}/root/welcome.html"
+  - src: templates/galaxy/config/vault_conf.yml.j2
+    dest: "{{ galaxy_config.galaxy.vault_config_file }}"
+  - src: templates/galaxy/config/file_source_templates.yml.j2
+    dest: "{{ galaxy_config_dir }}/file_source_templates.yml"
 
 # themes are deployed manually for VGP
 __galaxy_manage_themes: false
@@ -108,6 +112,7 @@ galaxy_config_hash:
     tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
     tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
     short_term_storage_dir: /corral4/main/short_term_web_storage
+    panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
 
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
     tool_data_table_config_path:
@@ -122,7 +127,8 @@ galaxy_config_hash:
     job_resource_params_file: "{{ galaxy_config_dir }}/job_resource_params_conf.xml"
     data_manager_config_file: "{{ galaxy_config_dir }}/data_manager_conf.xml"
     themes_config_file: "{{ galaxy_config_dir }}/themes_conf.yml"
-    panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
+    vault_config_file: "{{ galaxy_config_dir }}/vault_conf.yml"
+    file_source_templates_config_file: "{{ galaxy_config_dir }}/file_source_templates.yml"
 
     migrated_tools_config: "/cvmfs/main.galaxyproject.org/config/migrated_tools_conf.xml"
     shed_tool_data_table_config: "/cvmfs/main.galaxyproject.org/config/shed_tool_data_table_conf.xml"
