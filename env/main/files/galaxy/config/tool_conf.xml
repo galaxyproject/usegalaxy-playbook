@@ -27,6 +27,7 @@
     <tool file="${model_tools_path}/zip_collection.xml" />
     <tool file="${model_tools_path}/filter_failed_collection.xml" />
     <tool file="${model_tools_path}/filter_empty_collection.xml" />
+    <tool file="${model_tools_path}/keep_success_collection.xml" />
     <tool file="${model_tools_path}/flatten_collection.xml" />
     <tool file="${model_tools_path}/merge_collection.xml" />
     <tool file="${model_tools_path}/relabel_from_file.xml" />
@@ -115,7 +116,6 @@
   </section>
   <label id="genomics_analysis_label" text="Genomics Analysis" />
   <section id="phenotype_association" name="Phenotype Association">
-    <tool file="phenotype_association/sift.xml" />
     <tool file="phenotype_association/linkToGProfile.xml" />
     <tool file="phenotype_association/linkToDavid.xml" />
     <tool file="phenotype_association/ldtools.xml" />
