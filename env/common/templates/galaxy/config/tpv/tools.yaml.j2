@@ -239,10 +239,10 @@ tools:
   interactive_tool_rstudio:
     params:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
-      #container_override:
-      #- type: docker
-      #  shell: /bin/bash
-      #  identifier: quay.io/natefoo/docker-rstudio-notebook:23.1-proxy1
+      container_override:
+      - type: docker
+        shell: /bin/bash
+        identifier: quay.io/natefoo/docker-rstudio-notebook:23.1-proxy1
 
   toolshed.g2.bx.psu.edu/repos/goeckslab/chatanalysis/interactive_tool_chat_analysis/.*:
     params:
