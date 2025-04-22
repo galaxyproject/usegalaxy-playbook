@@ -56,7 +56,7 @@ tools:
       container_override:
       - type: singularity
         shell: /bin/sh
-        identifier: /cvmfs/singularity.galaxyproject.org/all/centos:8.3.2011
+        identifier: /cvmfs/main.galaxyproject.org/singularity/rockylinux:9.5.20241118--0
     env:
     - name: SINGULARITYENV_PREPEND_PATH
       value: $GALAXY_VIRTUAL_ENV/bin
@@ -286,6 +286,18 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/table_compute/table_compute/.*:
     # https://github.com/galaxyproject/pulsar/issues/392
+    scheduling:
+      reject:
+      - pulsar
+
+  #toolshed.g2.bx.psu.edu/repos/devteam/intersect/gops_intersect_1/1.0.0:
+  #  # python: can't open file '..../tool_files/gops_intersect.py': [Errno 2] No such file or directory 
+  #  scheduling:
+  #    reject:
+  #    - pulsar
+
+  toolshed.g2.bx.psu.edu/repos/devteam/column_maker/Add_a_column1/1\.*:
+    # FileNotFoundError: [Errno 2] No such file or directory: '/jetstream2/scratch/main/jobs-vgp/67013138/configs/tmpe095jz_v'
     scheduling:
       reject:
       - pulsar
@@ -1022,6 +1034,7 @@ tools:
     mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/miniprot/miniprot/.*:
+    cores: 8
     mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
