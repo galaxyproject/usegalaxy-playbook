@@ -59,7 +59,7 @@ destinations:
     inherits: _cyclone
     params:
       singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
+      singularity_volumes: "{cyclone_volumes}"
       singularity_no_mount: null
       singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
     env:
@@ -513,8 +513,9 @@ destinations:
       - bridges2
       require:
       - pulsar
-      #reject:
-      #- offline
+      # Down but also we are overspent - 2025-04-30
+      reject:
+      - offline
 
   expanse:
     inherits: _default_environment

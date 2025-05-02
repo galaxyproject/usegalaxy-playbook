@@ -154,9 +154,9 @@ tools:
       value: when_required
 
   __IMPORT_HISTORY__:
-    env:
-    - name: APPTAINER_BIND
-      value: "{{ galaxy_new_file_path }}:{{ galaxy_new_file_path }}:rw"
+    context:
+      # uses new_file_path to write
+      cyclone_volumes: "{{ galaxy_job_conf_singularity_volumes.local | map('replace', galaxy_new_file_path ~ ':ro', galaxy_new_file_path ~ ':rw')  | join(',') }}"
     scheduling:
       require:
       - cyclone
@@ -1409,29 +1409,6 @@ tools:
       fail: |
         This tool is currently being beta-tested and your account has not been given access.
 
-  colabfold_msa_test:
-    params:
-      require_container: true
-      container_override:
-        - type: singularity
-          shell: /bin/bash
-          resolve_dependencies: false
-          #identifier: /corral4/ndc/singularity/colabfold-1.5.5-cuda12.2.2
-          identifier: /scratch4/nekrut/ndc/colabfold-1.5.5-cuda12.2.2
-    env:
-      - name: SINGULARITYENV_COLABFOLD_EXTRA_OPTIONS
-        value: "--host-url http://localhost:8000"
-    rules:
-    - id: colabfold_msa_test_sequence_length_rule
-      if: |
-        options = job.get_param_values(app)
-        sequences = options["query_type"]["input"].metadata.get("sequences")
-        sequences > 10
-      fail: Limit 10 sequences per input, please decrease the number of sequences in your input by splitting into multiple files
-    scheduling:
-      require:
-      - rockfish-devgalaxy
-
   toolshed.g2.bx.psu.edu/repos/iuc/colabfold_msa/colabfold_msa/.*:
     params:
       require_container: true
@@ -1439,7 +1416,7 @@ tools:
         - type: singularity
           shell: /bin/bash
           resolve_dependencies: false
-          identifier: /scratch4/nekrut/ndc/colabfold-1.5.5-cuda12.2.2
+          identifier: /scratch4/mschatz1/ndc/colabfold-1.5.5-cuda12.2.2
     env:
       - name: SINGULARITYENV_COLABFOLD_EXTRA_OPTIONS
         value: "--host-url http://localhost:8000"
@@ -1483,85 +1460,74 @@ tools:
         from galaxy.jobs.mapper import JobNotReadyException
         raise JobNotReadyException()
 
-  colabfold_alphafold_test:
-    gpus: 1
-    cores: 16
-    mem: 120
-    params:
-      require_container: true
-    env:
-    - name: SINGULARITY_BINDPATH
-      value: $_GALAXY_JOB_TMP_DIR:/cache:rw
-    rules:
-    - id: colabfold_allow_rule
-      if: |
-        user and 'ColabFold' in [role.name for role in user.all_roles() if not role.deleted]
-      params:
-        container_override:
-          - type: singularity
-            shell: /bin/bash
-            resolve_dependencies: false
-            identifier: /work2/02232/ndc/frontera/singularity/colabfold-1.5.5-cuda12.2.2
-      scheduling:
-        require:
-        - frontera-rtx
-    - id: colabfold_deny_rule
-      if: |
-        not user or not any([
-          role for role in user.all_roles() if (
-            role.name in ['ColabFold'] and not role.deleted
-        )])
-      fail: |
-        This tool is currently being beta-tested and your account has not been given access.
-
   toolshed.g2.bx.psu.edu/repos/iuc/colabfold_alphafold/colabfold_alphafold/.*:
-    gpus: 1
+    #gpus: 1
+    gpus: 0.25
     #cores: 12
     ## mem uses --mem-per-cpu=4G so this isn't actually used, we just set it for min_accepted_mem
     #mem: 48
-    cores: 16
-    mem: 120
+    #cores: 16
+    #mem: 120
+    cores: 8
+    mem: 28
     context:
-      time: "02:00:00"
+      time: "06:00:00"
+      #js2_gpu_partition: gpu-medium
     params:
       require_container: true
+      container_override:
+        - type: singularity
+          shell: /bin/bash
+          resolve_dependencies: false
+          identifier: /jetstream2/scratch/nate/colabfold-1.5.5-cuda12.2.2
+    env:
+    - execute: mkdir -p /jetstream2/scratch/main/colabfold
+    # for JS2
+    - name: SINGULARITYENV_TF_FORCE_UNIFIED_MEMORY
+      value: 0
+    - name: SINGULARITY_BINDPATH
+      value: $_GALAXY_JOB_TMP_DIR:/cache:rw,/jetstream2/scratch/main/colabfold:/cache/colabfold:rw
+    scheduling:
+      require:
+      - gpu
+      - pulsar
     rules:
     - id: require_login
       if: user is None
       fail: An account is required to run this tool. Please log in or create an account.
-    - id: colabfold_rockfish_rule
-      if: |
-        user and 'ColabFoldRockfish' in [role.name for role in user.all_roles() if not role.deleted]
-      params:
-        container_override:
-          - type: singularity
-            shell: /bin/bash
-            resolve_dependencies: false
-            identifier: /scratch4/nekrut/ndc/colabfold-1.5.5-cuda12.2.2
-      cores: 12
-      mem: 48
-      scheduling:
-        require:
-        - rockfish-gpu
-    - id: colabfold_allow_rule
-      #if: |
-      #  user and 'ColabFold' in [role.name for role in user.all_roles() if not role.deleted] and 'ColabFoldRockfish' not in [role.name for role in user.all_roles() if not role.deleted]
-      if: |
-        user and 'ColabFoldRockfish' not in [role.name for role in user.all_roles() if not role.deleted]
-      params:
-        container_override:
-          - type: singularity
-            shell: /bin/bash
-            resolve_dependencies: false
-            identifier: /work2/02232/ndc/frontera/singularity/colabfold-1.5.5-cuda12.2.2
-      env:
-      - execute: mkdir -p /scratch1/03166/xcgalaxy/colabfold
-      - name: SINGULARITY_BINDPATH
-        value: $_GALAXY_JOB_TMP_DIR:/cache:rw,/scratch1/03166/xcgalaxy/colabfold:/cache/colabfold:rw
-        #value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3:/cache/colabfold:ro
-      scheduling:
-        require:
-        - frontera-rtx
+    #- id: colabfold_rockfish_rule
+    #  if: |
+    #    user and 'ColabFoldRockfish' in [role.name for role in user.all_roles() if not role.deleted]
+    #  params:
+    #    container_override:
+    #      - type: singularity
+    #        shell: /bin/bash
+    #        resolve_dependencies: false
+    #        identifier: /scratch4/nekrut/ndc/colabfold-1.5.5-cuda12.2.2
+    #  cores: 12
+    #  mem: 48
+    #  scheduling:
+    #    require:
+    #    - rockfish-gpu
+    #- id: colabfold_allow_rule
+    #  #if: |
+    #  #  user and 'ColabFold' in [role.name for role in user.all_roles() if not role.deleted] and 'ColabFoldRockfish' not in [role.name for role in user.all_roles() if not role.deleted]
+    #  if: |
+    #    user and 'ColabFoldRockfish' not in [role.name for role in user.all_roles() if not role.deleted]
+    #  params:
+    #    container_override:
+    #      - type: singularity
+    #        shell: /bin/bash
+    #        resolve_dependencies: false
+    #        identifier: /work2/02232/ndc/frontera/singularity/colabfold-1.5.5-cuda12.2.2
+    #  env:
+    #  - execute: mkdir -p /scratch1/03166/xcgalaxy/colabfold
+    #  - name: SINGULARITY_BINDPATH
+    #    value: $_GALAXY_JOB_TMP_DIR:/cache:rw,/scratch1/03166/xcgalaxy/colabfold:/cache/colabfold:rw
+    #    #value: /cvmfs/data.galaxyproject.org/byhand/alphafold/2.3:/cache/colabfold:ro
+    #  scheduling:
+    #    require:
+    #    - frontera-rtx
     #- id: colabfold_deny_rule
     #  if: |
     #    not user or not any([

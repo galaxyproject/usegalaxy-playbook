@@ -12,6 +12,7 @@ tools:
       force_cores: false
       cyclone_small_partition: normal
       cyclone_large_partition: multi
+      cyclone_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
       js2_partition: tpv
       js2_gpu_partition: gpu-small
       mem_factor: 3.7
