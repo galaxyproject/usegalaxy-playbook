@@ -154,9 +154,9 @@ tools:
       value: when_required
 
   __IMPORT_HISTORY__:
-    context:
-      # uses new_file_path to write
-      cyclone_volumes: "{{ galaxy_job_conf_singularity_volumes.local | map('replace', galaxy_new_file_path ~ ':ro', galaxy_new_file_path ~ ':rw')  | join(',') }}"
+    env:
+    - name: APPTAINER_BIND
+      value: "{{ galaxy_new_file_path }}:{{ galaxy_new_file_path }}:rw"
     scheduling:
       require:
       - cyclone

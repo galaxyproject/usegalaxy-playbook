@@ -59,7 +59,7 @@ destinations:
     inherits: _cyclone
     params:
       singularity_enabled: true
-      singularity_volumes: "{cyclone_volumes}"
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
       singularity_no_mount: null
       singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
     env:
