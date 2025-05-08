@@ -459,6 +459,7 @@ destinations:
       #submit_native_specification: "--partition=RM-shared --time={time or default_time} --nodes=1 --ntasks-per-node={int(mem/2)} --mem={int(mem/2)*2000}"
       submit_native_specification: "--partition=RM-shared --time={time or default_time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2000}"
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      metadata_strategy: directory_celery
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
       singularity_no_mount: null
@@ -530,6 +531,7 @@ destinations:
       # --mem={int(mem/2)*2048} ensures that mem is always exactly 2GB per core
       submit_native_specification: "--account=TG-MCB140147 --partition=shared --time={time or default_time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048}"
       jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
+      metadata_strategy: directory_celery
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
       #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
@@ -605,6 +607,7 @@ destinations:
     params:
       submit_native_specification: "--partition=shared --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048} --time={time or default_time}"
       jobs_directory: /anvil/scratch/x-xcgalaxy/{{ galaxy_instance_codename }}/staging
+      metadata_strategy: directory_celery
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org singularity.galaxyproject.org -- apptainer
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.anvil | join(',') }}"
