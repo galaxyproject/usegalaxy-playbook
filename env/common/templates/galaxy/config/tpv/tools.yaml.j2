@@ -2325,14 +2325,16 @@ tools:
   # libs, but not the png driver). The hand-built container still needs the lib bind for system libGL.
   #   mulled-build --singularity --name-override 'gnuplot-py:1.8--0' --test "true" --use-mamba build-and-test gnuplot-py=1.8
   _gnuplot_1_8:
-    #params:
-    #  container_override:
-    #  - type: singularity
-    #    shell: /bin/sh
-    #    identifier: /cvmfs/main.galaxyproject.org/singularity/gnuplot-py:1.8--0
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/sh
+        identifier: /cvmfs/main.galaxyproject.org/singularity/gnuplot-py:1.8--0
     env:
       - name: APPTAINER_BINDPATH
-        value: /usr/lib64:/usr/lib:ro
+        value: /cvmfs/main.galaxyproject.org/deps/_conda/envs/__libgl@1.7.0/lib:/libgl:ro,/cvmfs/main.galaxyproject.org/deps/_conda/pkgs/gcc-4.8.5-6/lib/libstdc++.so.6.0.19:/usr/lib64/libstdc++.so.6:ro
+      - name: APPTAINERENV_LD_LIBRARY_PATH
+        value: /libgl
       - name: APPTAINERENV_FONTCONFIG_FILE
         value: /cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org/fontconfig/fonts.conf
       - name: APPTAINER_XDG_CACHE_HOME
