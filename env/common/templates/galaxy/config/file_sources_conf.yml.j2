@@ -57,8 +57,16 @@
 - type: s3fs
   label: Genome Ark
   id: genomeark
-  doc: Access to Genome Ark open data on AWS.
+  doc: Access to Genome Ark open data on AWS
   bucket: genomeark
+  anon: true
+  listings_expiry_time: 60
+
+- type: s3fs
+  label: Genome Ark Mirror at Jetstream2 Cloud
+  endpoint_url: "https://js2.jetstream-cloud.org:8001/"
+  id: genomeark-js2
+  doc: Access to Genome Ark open data on the Jetstream2 Cloud at Indiana University
   anon: true
   listings_expiry_time: 60
 
