@@ -840,4 +840,54 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager id="vibrant_build_database" guid="toolshed.g2.bx.psu.edu/repos/ufz/vibrant_build_database/data_manager/vibrant_build_database/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/ufz/vibrant_build_database/e0faddfd9cf9/vibrant_build_database/data_manager/vibrant_datamanager.xml" guid="toolshed.g2.bx.psu.edu/repos/ufz/vibrant_build_database/vibrant_build_database/1.2.1+galaxy2"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>vibrant_build_database</repository_name><repository_owner>ufz</repository_owner><installed_changeset_revision>e0faddfd9cf9</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/ufz/vibrant_build_database/vibrant_build_database/1.2.1+galaxy2</id><version>1.2.1+galaxy2</version></tool><data_table name="vibrant">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="version"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">vibrant_databases/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/vibrant_databases/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="checkv_build_database" guid="toolshed.g2.bx.psu.edu/repos/ufz/checkv_build_database/data_manager/checkv_build_database/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/ufz/checkv_build_database/7e80c69020f7/checkv_build_database/data_manager/checkv_datamanager.xml" guid="toolshed.g2.bx.psu.edu/repos/ufz/checkv_build_database/checkv_build_database/1.0.3+galaxy3"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>checkv_build_database</repository_name><repository_owner>ufz</repository_owner><installed_changeset_revision>7e80c69020f7</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/ufz/checkv_build_database/checkv_build_database/1.0.3+galaxy3</id><version>1.0.3+galaxy3</version></tool><data_table name="checkv">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="version"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">checkv/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/checkv/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="genomad_build_database" guid="toolshed.g2.bx.psu.edu/repos/ufz/genomad_build_database/data_manager/genomad_build_database/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/ufz/genomad_build_database/75abfb03b635/genomad_build_database/data_manager/genomad_datamanager.xml" guid="toolshed.g2.bx.psu.edu/repos/ufz/genomad_build_database/genomad_build_database/1.8.0+galaxy2"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>genomad_build_database</repository_name><repository_owner>ufz</repository_owner><installed_changeset_revision>75abfb03b635</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/ufz/genomad_build_database/genomad_build_database/1.8.0+galaxy2</id><version>1.8.0+galaxy2</version></tool><data_table name="genomad">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomad_databases/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomad_databases/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>

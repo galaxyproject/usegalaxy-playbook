@@ -3,6 +3,8 @@
 - name: Update Galaxy on CVMFS stratum 0 server
   hosts: cvmfsstratum0servers
   remote_user: "{{ galaxy_user }}"
+  tags:
+    - cvmfs
   roles:
     - role: usegalaxy_cvmfs
       galaxy_cvmfs_update: yes

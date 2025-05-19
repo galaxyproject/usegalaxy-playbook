@@ -7,6 +7,7 @@
     - role: usegalaxy_cvmfs
       galaxy_cvmfs_snapshot: yes
   tags:
+    - cvmfs
     - no-restart
 
 - name: Wipe CVMFS cache on Galaxy servers
@@ -16,4 +17,5 @@
     - role: usegalaxy_cvmfs
       galaxy_cvmfs_flush_cache: yes
   tags:
+    - cvmfs
     - no-restart
