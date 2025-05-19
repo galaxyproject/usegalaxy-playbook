@@ -594,8 +594,9 @@ destinations:
       - expanse
       require:
       - pulsar
-      #reject:
-      #- offline
+      # lots of stage out failures, fix after GTA 2025-05-14
+      reject:
+      - offline
 
   anvil:
     inherits: _default_environment
