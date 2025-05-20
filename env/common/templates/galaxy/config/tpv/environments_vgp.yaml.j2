@@ -163,6 +163,7 @@ destinations:
     - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo brc.galaxyproject.org
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo vgp.galaxyproject.org
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /ocean/projects/mcb140028p/xcgalaxy/singularity_cache
