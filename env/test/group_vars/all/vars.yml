@@ -35,6 +35,9 @@ gravity_venv_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/gravity"
 gravity_config_file: "/etc/galaxy/gravity.d/galaxy_{{ galaxy_instance_codename }}.yml"
 galaxy_gravity_command: "{{ gravity_venv_dir }}/bin/galaxyctl"
 
+galaxy_dropbox_app_client_id: "{{ vault_galaxy_dropbox_app_client_id }}"
+galaxy_dropbox_app_client_secret: "{{ vault_galaxy_dropbox_app_client_secret }}"
+
 # FIXME: don't want the backups of the TPV configs to be watched, maybe add a per-item backup option to
 # galaxy_config_{files,templates}, or maybe we really don't need backups
 galaxy_backup_configfiles: false
