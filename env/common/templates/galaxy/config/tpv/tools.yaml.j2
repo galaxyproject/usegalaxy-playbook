@@ -177,21 +177,20 @@ tools:
 
   # framework tools without requirement tags (as of 23.1)
 
-  addValue:
-    params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.26.2"}]
-  # there are both a framework and a TS version
-  toolshed.g2.bx.psu.edu/repos/devteam/add_value/addValue/.*:
-    inherits: addValue
-
   Paste1:
     params:
       # coreutils=8.25,perl=5.22.0.1
       container_override: [{type: singularity, shell: '/bin/bash', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-c5660771860859a51697ce13d5d74251dc4c8eb6:254c9751502b0d56aa64890243ee9ebd88e94048-0"}]
 
   _perl_5_26_2:
+    abstract: true
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/perl:5.26.2"}]
+    env:
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
   Remove beginning1: {inherits: _perl_5_26_2}
   Condense characters1: {inherits: _perl_5_26_2}
   createInterval: {inherits: _perl_5_26_2}
@@ -200,6 +199,9 @@ tools:
   hgv_david: {inherits: _perl_5_26_2}
   hgv_linkToGProfile: {inherits: _perl_5_26_2}
   master2pgSnp: {inherits: _perl_5_26_2}
+  addValue: {inherits: _perl_5_26_2}
+  # there are both a framework and a TS version
+  toolshed.g2.bx.psu.edu/repos/devteam/add_value/addValue/.*: {inherits: _perl_5_26_2}
 
   Extract_features1:
     params:
