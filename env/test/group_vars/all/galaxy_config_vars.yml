@@ -136,6 +136,7 @@ base_app_main: &BASE_APP_MAIN
   panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
 
   tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
+  enable_beta_tool_formats: true
   tool_data_table_config_path:
     - "{{ galaxy_config_dir }}/tool_data_table_conf.xml"
     - "/cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml"
