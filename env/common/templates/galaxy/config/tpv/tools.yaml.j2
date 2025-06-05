@@ -83,6 +83,11 @@ tools:
         shell: /bin/bash
         resolve_dependencies: true
         identifier: /cvmfs/main.galaxyproject.org/singularity/usegalaxy.org-legacy-environment--0
+    env:
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
     scheduling:
       require:
       - singularity
@@ -238,7 +243,7 @@ tools:
     inherits: interactive_tool_jupyter_notebook
     mem: 7
 
-  interactive_tool_rstudio:
+  .*interactive_tool_rstudio:
     params:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
       #container_override:
@@ -628,6 +633,10 @@ tools:
   # toolshed.g2.bx.psu.edu/repos/iuc/bedtools/.* in tools_pre_shared.yaml
 
   toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_coveragebed/.*:
+    mem: min(max(int(input_size * 200), 14), 58)
+
+  toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_genomecoveragebed/.*:
+    # TODO: collect some stats for jobs after 2025-05-30 to see how much is used
     mem: min(max(int(input_size * 200), 14), 58)
 
   toolshed.g2.bx.psu.edu/repos/iuc/bellerophon/bellerophon/.*:
@@ -2296,6 +2305,19 @@ tools:
   #toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1\.[3567]\..*: {inherits: _env_lc_all_utf8}
   #toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1\.[67]: {inherits: _env_lc_all_utf8}
   #toolshed.g2.bx.psu.edu/repos/ebi-gxa/scanpy_[^/]*/scanpy_[^/]*/1\.6\.0.*: {inherits: _env_lc_all_utf8}
+
+  # tools with older containers that don't have utf-8 locales
+
+  _env_lc_all_c:
+    abstract: true
+    env:
+    - name: LC_ALL
+      value: C
+    - name: SINGULARITYENV_LC_ALL
+      value: $LC_ALL
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/[^/]*/1\..*: {inherits: _env_lc_all_c}
+  toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/4\..*: {inherits: _env_lc_all_c}
+  toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5\.1\.0: {inherits: _env_lc_all_c}
 
   # TODO: test without this
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.[023]:
