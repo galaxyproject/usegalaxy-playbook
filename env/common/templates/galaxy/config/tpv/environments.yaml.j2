@@ -332,7 +332,15 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --time={time or default_time} --partition=resize-shm"
       tmp_dir: false
+      singularity_contain: false
+      singularity_run_extra_arguments: -S /tmp,/var/tmp -B /tmp/slurm_job_$SLURM_JOB_ID/dev:/dev,/dev/pts/ptmx,/dev/null,/dev/zero,/dev/random,/dev/urandom,/dev/shm
     env:
+    - execute: mkdir -p /tmp/slurm_job_$SLURM_JOB_ID/dev
+    - execute: ln -sf /proc/self/fd /tmp/slurm_job_$SLURM_JOB_ID/dev/fd
+    - execute: ln -sf /proc/self/fd/0 /tmp/slurm_job_$SLURM_JOB_ID/dev/stdin
+    - execute: ln -sf /proc/self/fd/1 /tmp/slurm_job_$SLURM_JOB_ID/dev/stdout
+    - execute: ln -sf /proc/self/fd/2 /tmp/slurm_job_$SLURM_JOB_ID/dev/stderr
+    - execute: ln -sf /dev/pts/ptmx /tmp/slurm_job_$SLURM_JOB_ID/dev/ptmx
     - name: TMPDIR
       value: /dev/shm
     scheduling:
