@@ -78,6 +78,8 @@ destinations:
     runner: jetstream2
     #context:
     #  js2_partition and time are set on role and (default) tool entitites
+    context:
+      default_xdg_cache_home: "/tmp/{{ galaxy_user }}-cache"
     params:
       remote_metadata: true
       remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
@@ -97,7 +99,7 @@ destinations:
     - name: XDG_DATA_HOME
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
     - name: XDG_CACHE_HOME
-      value: /tmp/{{ galaxy_user }}-cache
+      value: "{xdg_cache_home or default_xdg_cache_home}"
     - name: TRINITY_SCRATCH_DIR
       value: /tmp/slurm_job_$SLURM_JOB_ID
     - name: SINGULARITYENV_XDG_DATA_HOME
