@@ -246,10 +246,15 @@ tools:
   .*interactive_tool_rstudio:
     params:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
-      #container_override:
-      #- type: docker
-      #  shell: /bin/bash
-      #  identifier: quay.io/natefoo/docker-rstudio-notebook:23.1-proxy1
+
+  .*interactive_tool_rstudio_bioconductor.*:
+    params:
+      # FIXME: set after Galaxy LIVE, this was accidentally not set during testing and it's too late to change it now
+      #docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
+      container_override:
+      - type: docker
+        shell: /bin/bash
+        identifier: afgane/bioc-galaxy:3.21.live.2
 
   toolshed.g2.bx.psu.edu/repos/goeckslab/chatanalysis/interactive_tool_chat_analysis/.*:
     params:
