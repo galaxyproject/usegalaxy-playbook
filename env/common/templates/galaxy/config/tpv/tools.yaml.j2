@@ -216,6 +216,15 @@ tools:
       # python=3.7,coreutils=8.30
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-879928bcdd8adc5b4660a3f6de3703d7c7861de4:6ce96688844d469d84f94fabb34055d8dfa283c7-0"}]
 
+  # Marius' user defined tool for Galaxy Live!
+  h5ad-to-csv:
+    mem: 14
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/sh
+        identifier: /cvmfs/main.galaxyproject.org/singularity/bioc-galaxy:3.21.live.2
+
   # interactive tools
 
   .*interactive_tool_.*:
