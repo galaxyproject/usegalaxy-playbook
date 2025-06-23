@@ -225,6 +225,12 @@ tools:
         shell: /bin/sh
         identifier: /cvmfs/main.galaxyproject.org/singularity/bioc-galaxy:3.21.live.2
 
+  # TEMP for Live!
+  toolshed.g2.bx.psu.edu/repos/goeckslab/vitessce_spatial/vitessce_spatial/.*:
+    scheduling:
+      reject:
+      - pulsar
+
   # interactive tools
 
   .*interactive_tool_.*:
