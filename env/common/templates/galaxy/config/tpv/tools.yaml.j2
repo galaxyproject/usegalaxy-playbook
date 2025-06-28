@@ -263,6 +263,8 @@ tools:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
 
   .*interactive_tool_pcstudio.*:
+    cores: 4
+    mem: 14
     params:
       docker_run_extra_arguments: "-e USER_ID=$(id -u) -e GROUP_ID=$(id -g)"
       container_override:
