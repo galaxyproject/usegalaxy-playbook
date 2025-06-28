@@ -208,7 +208,7 @@ base_app_main: &BASE_APP_MAIN
   brand_by_host:
     singlecell.usegalaxy.org: Single Cell Omics
     microbiology.usegalaxy.org: Microbiology
-    brc.usegalaxy.org: BRC Analytics
+    #brc.usegalaxy.org: BRC Analytics
 
   default_panel_view_by_host:
     singlecell.usegalaxy.org: singlecell
@@ -256,6 +256,7 @@ base_app_main: &BASE_APP_MAIN
   max_metadata_value_size: 1000000
   allow_user_impersonation: true
   enable_beta_markdown_export: true
+  enable_beta_tool_formats: true
   use_access_logging_middleware: true
 
   #tool_search_limit: 30
