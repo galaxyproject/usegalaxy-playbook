@@ -262,7 +262,17 @@ tools:
     params:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
 
+  .*interactive_tool_pcstudio.*:
+    params:
+      docker_run_extra_arguments: "-e USER_ID=$(id -u) -e GROUP_ID=$(id -g)"
+      container_override:
+      - type: docker
+        shell: /bin/bash
+        identifier: afgane/pcstudio-galaxy:0.3
+
   .*interactive_tool_rstudio_bioconductor.*:
+    #cores: 2
+    #mem: 7
     params:
       # FIXME: set after Galaxy LIVE, this was accidentally not set during testing and it's too late to change it now
       #docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
@@ -2345,6 +2355,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/4\..*: {inherits: _env_lc_all_c}
   toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5\.1\.0: {inherits: _env_lc_all_c}
   toolshed.g2.bx.psu.edu/repos/iuc/deg_annotate/deg_annotate/1\.1\.0: {inherits: _env_lc_all_c}
+  toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_.*/4\.3\+t.*: {inherits: _env_lc_all_c}
 
   # TODO: test without this
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.[023]:
