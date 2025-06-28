@@ -890,4 +890,20 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager id="genomad_build_database" guid="toolshed.g2.bx.psu.edu/repos/ufz/genomad_build_database/data_manager/genomad_build_database/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/ufz/genomad_build_database/34b729713d0c/genomad_build_database/data_manager/genomad_datamanager.xml" guid="toolshed.g2.bx.psu.edu/repos/ufz/genomad_build_database/genomad_build_database/1.11.1+galaxy0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>genomad_build_database</repository_name><repository_owner>ufz</repository_owner><installed_changeset_revision>34b729713d0c</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/ufz/genomad_build_database/genomad_build_database/1.11.1+galaxy0</id><version>1.11.1+galaxy0</version></tool><data_table name="genomad">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomad_databases/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomad_databases/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
