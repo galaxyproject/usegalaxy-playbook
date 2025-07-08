@@ -816,9 +816,15 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/checkm2/checkm2/.*:
     cores: 8
-    mem: 7
-    context:
-      force_cores: true
+    mem: 58
+    #context:
+    #  force_cores: true
+
+  toolshed.g2.bx.psu.edu/repos/iuc/checkm_lineage_wf/checkm_lineage_wf/.*:
+    cores: 8
+    mem: 58
+    #context:
+    #  force_cores: true
 
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     # was 16 in the job router but let's try this
@@ -853,6 +859,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/deepvariant/deepvariant/.*:
     cores: int(min(max(input_size * 4, 14), 250) / 4)
     mem: int(min(max(input_size * 4, 14), 250))
+
+  toolshed.g2.bx.psu.edu/repos/iuc/drep_dereplicate/drep_dereplicate/.*:
+    cores: 8
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/ebi_metagenomics_run_downloader/ebi_metagenomics_run_downloader/0.1.0:
     inherits: _singularity_resolv_fix
