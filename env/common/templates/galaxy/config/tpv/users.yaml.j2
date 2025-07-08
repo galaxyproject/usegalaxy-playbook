@@ -39,8 +39,10 @@ users:
     rules:
       - id: test_user_non_local_tool
         if: not tool.id.startswith("__") and tool.tool_type not in ("data_source", "expression") and not tool.requires_galaxy_python_environment
-        cores: 8
-        mem: 64
+        min_cores: 8
+        min_mem: 16
+        #cores: 8
+        #mem: 32
         scheduling:
           accept:
           - pulsar
@@ -59,3 +61,15 @@ users:
           - offline # allow scheduling to a destination even when it is offline
           require:
           - anvil
+  test-stampede3@usegalaxy.org:
+    rules:
+      - id: test_user_non_local_tool
+        if: not tool.id.startswith("__") and tool.tool_type not in ("data_source", "expression") and not tool.requires_galaxy_python_environment
+        cores: 32
+        mem: 128
+        scheduling:
+          accept:
+          - pulsar
+          - offline # allow scheduling to a destination even when it is offline
+          require:
+          - stampede3

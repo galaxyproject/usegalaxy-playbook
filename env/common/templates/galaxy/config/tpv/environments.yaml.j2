@@ -134,7 +134,7 @@ destinations:
       # override for max allowed time at TACC
       time: 24:00:00
     params:
-      jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.tacc_hpc | join(',') }}"
       singularity_no_mount: null
@@ -532,8 +532,8 @@ destinations:
   expanse:
     inherits: _default_environment
     runner: expanse
-    min_accepted_cores: 16
-    min_accepted_mem: 64
+    min_accepted_cores: 8
+    min_accepted_mem: 16
     max_accepted_cores: 64
     max_accepted_mem: 128
     context:
@@ -606,9 +606,8 @@ destinations:
       - expanse
       require:
       - pulsar
-      # lots of stage out failures, fix after GTA 2025-05-14
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   anvil:
     inherits: _default_environment
