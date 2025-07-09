@@ -451,7 +451,7 @@ destinations:
   #
 
   bridges2:
-    inherits: _default_environment
+    inherits: _pulsar
     runner: bridges
     min_accepted_cores: 16
     min_accepted_mem: 64
@@ -530,7 +530,7 @@ destinations:
       - offline
 
   expanse:
-    inherits: _default_environment
+    inherits: _pulsar
     runner: expanse
     min_accepted_cores: 8
     min_accepted_mem: 16
@@ -610,7 +610,7 @@ destinations:
       #- offline
 
   anvil:
-    inherits: _default_environment
+    inherits: _pulsar
     runner: anvil
     min_accepted_cores: 8
     min_accepted_mem: 16
