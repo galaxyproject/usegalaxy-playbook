@@ -34,9 +34,10 @@ tools:
     - name: SINGULARITYENV_HDF5_USE_FILE_LOCKING
       value: $HDF5_USE_FILE_LOCKING
     - name: LC_ALL
-      value: C.UTF-8
+      value: C
     - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
+      value: {% raw %}'\\${{LANG:-C}}'
+{% endraw %}
     - name: TERM
       value: vt100
     - name: SINGULARITYENV_TERM

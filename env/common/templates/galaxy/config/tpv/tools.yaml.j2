@@ -2362,18 +2362,18 @@ tools:
 
   # tools with older containers that don't have utf-8 locales
 
-  _env_lc_all_c:
-    abstract: true
-    env:
-    - name: LC_ALL
-      value: C
-    - name: SINGULARITYENV_LC_ALL
-      value: $LC_ALL
-  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/[^/]*/[01]\..*: {inherits: _env_lc_all_c}
-  toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/4\..*: {inherits: _env_lc_all_c}
-  toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5\.1\.0: {inherits: _env_lc_all_c}
-  toolshed.g2.bx.psu.edu/repos/iuc/deg_annotate/deg_annotate/1\.1\.0: {inherits: _env_lc_all_c}
-  toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_.*/4\.3\+t.*: {inherits: _env_lc_all_c}
+  #_env_lc_all_c:
+  #  abstract: true
+  #  env:
+  #  - name: LC_ALL
+  #    value: C
+  #  - name: SINGULARITYENV_LC_ALL
+  #    value: $LC_ALL
+  #toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/[^/]*/[01]\..*: {inherits: _env_lc_all_c}
+  #toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/4\..*: {inherits: _env_lc_all_c}
+  #toolshed.g2.bx.psu.edu/repos/nml/collapse_collections/collapse_dataset/5\.1\.0: {inherits: _env_lc_all_c}
+  #toolshed.g2.bx.psu.edu/repos/iuc/deg_annotate/deg_annotate/1\.1\.0: {inherits: _env_lc_all_c}
+  #toolshed.g2.bx.psu.edu/repos/iuc/snpsift/snpSift_.*/4\.3\+t.*: {inherits: _env_lc_all_c}
 
   # TODO: test without this
   toolshed.g2.bx.psu.edu/repos/devteam/pileup_interval/pileup_interval/1.0.[023]:
