@@ -906,4 +906,41 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager id="defense_finder_models_fetcher" guid="toolshed.g2.bx.psu.edu/repos/rplanel/data_manager_defense_finder/data_manager/defense_finder_models_fetcher/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/rplanel/data_manager_defense_finder/502208b90cfe/data_manager_defense_finder/data_manager/data_manager_defense_finder.xml" guid="toolshed.g2.bx.psu.edu/repos/rplanel/data_manager_defense_finder/defense_finder_models_fetcher_data_manager/2.0.0+galaxy2"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_defense_finder</repository_name><repository_owner>rplanel</repository_owner><installed_changeset_revision>502208b90cfe</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/rplanel/data_manager_defense_finder/defense_finder_models_fetcher_data_manager/2.0.0+galaxy2</id><version>2.0.0+galaxy2</version></tool><data_table name="defense-finder-2">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="version"/>
+                <column name="soft_compatibility_version"/>
+                <column name="description"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">defense-finder/${value}/</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/defense-finder/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="iphop_build_database" guid="toolshed.g2.bx.psu.edu/repos/ufz/iphop_build_database/data_manager/iphop_build_database/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/ufz/iphop_build_database/39dc692a9554/iphop_build_database/data_manager/iphop_datamanager.xml" guid="toolshed.g2.bx.psu.edu/repos/ufz/iphop_build_database/iphop_build_database/1.3.3+galaxy3"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>iphop_build_database</repository_name><repository_owner>ufz</repository_owner><installed_changeset_revision>39dc692a9554</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/ufz/iphop_build_database/iphop_build_database/1.3.3+galaxy3</id><version>1.3.3+galaxy3</version></tool><data_table name="iphop">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="version"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">iphop/${version}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/iphop/${version}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
