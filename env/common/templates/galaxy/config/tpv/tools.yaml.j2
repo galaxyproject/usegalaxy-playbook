@@ -1384,7 +1384,19 @@ tools:
   toolshed.g2.bx.psu.edu/repos/richard-burhans/rdeval/rdeval_report/.*:
     mem: 14
 
+  toolshed.g2.bx.psu.edu/repos/rnateam/splitfasta/rbc_splitfasta/.*:
+    # this is only implemented in 0.6.0+, consider uninstalling old versions
+    env:
+      - name: SINGULARITYENV_GALAXY_FILE_LIMIT
+        value: 250
+
+  toolshed.g2.bx.psu.edu/repos/ufz/genomad_end_to_end/genomad_end_to_end/.*:
+    cores: 32
+    mem: 120
+
+  #
   # GPU tools
+  #
 
   toolshed.g2.bx.psu.edu/repos/chemteam/gmx_sim/gmx_sim/.*:
     gpus: 0.2
@@ -1452,12 +1464,6 @@ tools:
       - pulsar
       # frontera
       #- frontera-rtx
-
-  toolshed.g2.bx.psu.edu/repos/rnateam/splitfasta/rbc_splitfasta/.*:
-    # this is only implemented in 0.6.0+, consider uninstalling old versions
-    env:
-      - name: SINGULARITYENV_GALAXY_FILE_LIMIT
-        value: 250
 
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/alphafold2/alphafold/.*:
     gpus: 1
