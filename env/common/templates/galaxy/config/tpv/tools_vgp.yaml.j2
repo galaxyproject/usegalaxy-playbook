@@ -101,3 +101,21 @@ tools:
     mem: 14
     context:
       force_cores: true
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
+    # should use the def from tools.yaml, this is just to override for Bridges-2 EM
+    rules:
+    - id: hifiasm_scalable_input_rule
+      if: input_size >= 9.4 and input_size < 106
+      # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
+      cores: 16
+      # 99th is 6x for fastqsanger, 8x for fastqsanger.gz
+      mem: min(max(int(input_size * 9), 28), max_scaled_mem)
+    - id: hifiasm_vgp_em_input_rule
+      if: input_size >= 106
+      cores: min(max(int((input_size * 9)/1024), 1), 4) * 24
+      # just needs to be inside the min/max range, mem is a product of cores
+      mem: 1024
+      scheduling:
+        require:
+        - bridges2-em
