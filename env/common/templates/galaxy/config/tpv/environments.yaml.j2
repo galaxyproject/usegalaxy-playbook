@@ -28,6 +28,7 @@ destinations:
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
       rewrite_parameters: true
+      live_tool_output_reporting: true
     scheduling:
       require:
       - pulsar
