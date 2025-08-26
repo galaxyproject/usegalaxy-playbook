@@ -103,7 +103,7 @@ destinations:
     max_accepted_cores: 96
     max_accepted_mem: 4096
     context:
-      time: 24:00:00
+      time: 120:00:00
     params:
       submit_native_specification: "--partition=EM --time={time or default_time} --nodes=1 --ntasks={int(cores - (cores % 24))}"
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
