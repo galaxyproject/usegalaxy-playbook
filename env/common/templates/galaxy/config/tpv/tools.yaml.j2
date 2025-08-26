@@ -656,12 +656,15 @@ tools:
     mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/.*:
-    mem: 28
+    cores: 8
+    mem: 4 + 0.94 * input_size
 
   # https://github.com/bioconda/bioconda-recipes/pull/41091
   #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
+    cores: 8
     mem: 28
+    mem: 4 + 0.94 * input_size
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/bandage_ng:2022.09--0"}]
     env:
