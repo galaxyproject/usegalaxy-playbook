@@ -194,6 +194,9 @@ galaxy_job_conf_singularity_volumes:
   # the tacc-apptainer module mostly automatically sets up mounts, but we need to ensure that /tmp inside the container
   # is always the host /tmp (e.g. in trinity containers it is /var/tmp)
   tacc_hpc:
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
@@ -300,6 +303,7 @@ galaxy_job_conf_limits:
     value: 2
 
   # tpv per-environment total limits
+  # NOTE: these limits are used in the TPV rank function and if they are changed here they must be updated there
   - type: environment_total_concurrent_jobs
     id: bridges2
     value: 100
