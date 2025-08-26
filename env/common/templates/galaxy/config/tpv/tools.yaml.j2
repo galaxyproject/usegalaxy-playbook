@@ -649,7 +649,7 @@ tools:
     mem: 5.6
 
   toolshed.g2.bx.psu.edu/repos/iuc/arriba/arriba/.*:
-    mem: 16
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/bakta/bakta/.*:
     cores: 8
@@ -663,7 +663,6 @@ tools:
   #   mulled-build --singularity --test "QT_QPA_PLATFORM='offscreen' Bandage --version" build-and-test bandage_ng=2022.09
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/2022.09.*:
     cores: 8
-    mem: 28
     mem: 4 + 0.94 * input_size
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/bandage_ng:2022.09--0"}]
@@ -1104,6 +1103,9 @@ tools:
     cores: 8
     mem: min(max(int(input_size * 8), 14), 84)
 
+  toolshed.g2.bx.psu.edu/repos/iuc/ragtag/ragtag/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*
+
   toolshed.g2.bx.psu.edu/repos/iuc/miniprot_index/miniprot_index/.*:
     # TODO: check on this after we've collected some real data, this was based of a 1.3 GB fasta.gz taking 34 GB
     mem: 58
@@ -1194,6 +1196,23 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     mem: 7.8
+
+  toolshed.g2.bx.psu.edu/repos/iuc/samtools_merge/samtools_merge/.*:
+    cores: 2
+    mem: 7
+    rules:
+    - id: samtools_merge_small_input_rule
+      if: input_size >= 0.1 and input_size < 1
+      cores: 4
+      mem: 14
+    - id: samtools_merge_medium_input_rule
+      if: input_size >= 1 and input_size < 10
+      cores: 8
+      mem: 28
+    - id: samtools_merge_large_input_rule
+      if: input_size >= 10
+      cores: 16
+      mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/sniffles/sniffles/.*:
     cores: 4
