@@ -372,6 +372,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/[^/]+/staramr/staramr_search/.*:
     cores: 8
     mem: 28
+    env:
+    - name: SINGULARITYENV_GIT_CONFIG_COUNT
+      value: 1
+    - name: SINGULARITYENV_GIT_CONFIG_KEY_0
+      value: safe.directory
+    - name: SINGULARITYENV_GIT_CONFIG_VALUE_0
+      # in git 2.46 this is possible but in mulled-v2-30758c5e2be407d6bbf2570c832fb245e8488634:cee18060512b4798b44304ab578153ae98183923-0, git is 2.45.2
+      #value: /cvmfs/data.galaxyproject.org/byhand/staramr/*
+      value: '*'
 
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_dustmasker_wrapper/.*:
     mem: 14
