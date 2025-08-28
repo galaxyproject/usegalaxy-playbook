@@ -2,7 +2,6 @@ name: Biodiversity
 type: generic
 id: biodiversity
 items:
-##TO ADAPT FOR BIODIV
 - sections: [get_data, send_data, collection_operations, expression_tools]
 - id: general_text_tools_label
   text: General Text Tools
@@ -19,20 +18,12 @@ items:
 - id: genomics_analysis_label
   text: Genomics Analysis
   type: label
-- sections: [annotation, multiple_alignments, assembly, mapping]
+- sections: [assembly, annotation, multiple_alignments, phenotype_association, evolution, biodiversity_data_exploration, sequence_contamination_filtering, genome_diversity]
 - id: genomics_toolkits_label
   text: Genomics Toolkits
   type: label
 - sections: [picard, deeptools, ncbi_blast_]
-- id: metagenomics_label
-  text: Metagenomics
+- id: domain_tools_label
+  text: Domain Tools
   type: label
-- sections: [metagenomic_analysis, qiime2, mothur]
-- id: metabolomics_label
-  text: Metabolomics
-  type: label
-- sections: [metabolomics]
-- id: statistics_and_visualization_label
-  text: Statistics and Visualization
-  type: label
-- sections: [graph_display_data, interactive_tools]
+- sections: [metagenomic_analysis]
