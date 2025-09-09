@@ -721,6 +721,7 @@ tools:
     # should allow scheduling on JS2, hpc-shared, and hpc-whole node
     #cores: 32
     # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference to index
+    # however that failed on the hellbender genomes
     #mem: |
     # cores and mem need separate maxes but then that would affect mem if you just multiplied it by cores, so we must duplicate
     cores: |
@@ -735,7 +736,7 @@ tools:
               ref_file = ref_file.dataset_instances[0]
           ref_size = float(ref_file.get_size())/1024**3
           if ref_file.ext != "bwa_mem2_index":
-              ref_index_mem = ref_size * 28
+              ref_index_mem = ref_size * 30
       input1 = options["fastq_input"]["fastq_input1"]
       if hasattr(input1, "first_dataset_instance"):
           input1 = input1.first_dataset_instance()
