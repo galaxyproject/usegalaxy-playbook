@@ -471,7 +471,8 @@ tools:
   # the image exists, it just takes a long time to convert
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/3\+galaxy0:
     cores: 8
-    mem: 28
+    # n is very low, adjust in the future
+    mem: 12 + 0.75 * input_size
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/mitohifi:3_galaxy0--0"}]
 
