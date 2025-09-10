@@ -442,7 +442,9 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
-    mem: 3.06 + 1.809 * input_size
+    mem: |
+      scale_factor = 3.4 if any(da.dataset and da.dataset.extension.endswith(".gz") for da in job.input_datasets) else 1
+      3.06 + 1.809 * input_size * 3.4 scale_factor
 
   toolshed.g2.bx.psu.edu/repos/iuc/binette/binette/.*:
     cores: 8
