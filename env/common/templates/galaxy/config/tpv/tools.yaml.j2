@@ -276,12 +276,11 @@ tools:
     #cores: 2
     #mem: 7
     params:
-      # FIXME: set after Galaxy LIVE, this was accidentally not set during testing and it's too late to change it now
-      #docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
+      docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
       container_override:
       - type: docker
         shell: /bin/bash
-        identifier: afgane/bioc-galaxy:3.21.live.2
+        identifier: afgane/bioc-galaxy:3.21
 
   toolshed.g2.bx.psu.edu/repos/goeckslab/chatanalysis/interactive_tool_chat_analysis/.*:
     params:
@@ -1150,8 +1149,8 @@ tools:
     mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
-    cores: 8
-    mem: 28
+    cores: 16
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
     rules:
