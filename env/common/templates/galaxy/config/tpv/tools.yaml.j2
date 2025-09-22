@@ -544,7 +544,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 32
-    mem: 120
+    mem: 240
     rules:
     - id: bwa_mem_small_input_rule
       if: input_size < 0.1
@@ -558,6 +558,10 @@ tools:
       if: 1 <= input_size < 20
       cores: 8
       mem: 28
+    - id: bwa_mem_pretty_large_input_rule
+      if: 20 <= input_size < 100
+      cores: 32
+      mem: 120
 
   toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/.*:
     mem: 5.7
