@@ -53,14 +53,13 @@ host_crontabs:
 miniconda_prefix: "{{ _bridges_project_root }}/conda"
 miniconda_channels:
   - conda-forge
-  - defaults
 miniconda_conda_environments:
-  __python@3.11:
+  __python@3.13:
     packages:
-      - python=3.11
-  __curl@7.71:
-    packages:
-      - curl=7.71
+      - python=3.13
+  #__curl@7.71:
+  #  packages:
+  #    - curl=7.71
 
 supervisord_install: virtualenv-unprivileged
 supervisord_prefix: "{{ _bridges_home_root }}/supervisor"
@@ -76,7 +75,7 @@ host_supervisor_configs:
 supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || /bin/bash '{{ _bridges_home_root }}/bin/supervisord-launch.sh'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
 
 # This is the rebased commit on top of the cvmfsexec-singularity branch
-pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@f13cdf0de588471fb8b0f5f50e22b6d612579e22#egg=pulsar-app"
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@9fa13efda85096e31bfac531a5c61d9848db3ff4#egg=pulsar-app"
 pulsar_package_version: "{{ omit }}"
 pulsar_root: "{{ _bridges_instance_root }}/pulsar"
 pulsar_restart_handler_name: supervisor restart pulsar
@@ -85,10 +84,10 @@ pulsar_staging_dir: "{{ _bridges_scratch_root }}/{{ galaxy_instance_codename }}/
 #galaxy_root: not required
 
 # default $PATH contains puppet bin/sbin, which contain a newer curl that isn't found at pycurl runtime
-pulsar_env:
-  PATH: "{{ miniconda_prefix }}/envs/__curl@7.71/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/bin:/sbin:/home/xcgalaxy/.local/bin:/home/xcgalaxy/bin"
-  # this isn't working, using LD_LIBRARY_PATH in supervisor env instead
-  #LD_RUN_PATH: /pylon5/mc48nsp/xcgalaxy/conda/envs/__curl@7.71/lib
+#pulsar_env:
+#  PATH: "{{ miniconda_prefix }}/envs/__curl@7.71/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/bin:/sbin:/home/xcgalaxy/.local/bin:/home/xcgalaxy/bin"
+#  # this isn't working, using LD_LIBRARY_PATH in supervisor env instead
+#  #LD_RUN_PATH: /pylon5/mc48nsp/xcgalaxy/conda/envs/__curl@7.71/lib
 
 pulsar_supervisor_env:
   - PATH="{{ pulsar_venv_dir }}/bin:/opt/packages/slurm/default/bin:%(ENV_PATH)s"
@@ -97,7 +96,7 @@ pulsar_supervisor_env:
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
-pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.11/bin/python3 -m venv"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.13/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: openssl

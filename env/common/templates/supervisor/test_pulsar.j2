@@ -5,7 +5,7 @@
 [program:{{ galaxy_instance_codename }}_pulsar]
 command         = {{ pulsar_venv_dir }}/bin/pulsar -c {{ pulsar_config_dir }} -m webless
 directory       = {{ pulsar_root }}
-umask           = 077
+umask           = 027
 autostart       = true
 autorestart     = true
 startsecs       = 15

@@ -10,9 +10,8 @@ host_packages:
   - python3.11
 
 # TEMP until release of >0.15.5
-pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@973f7b309565d4d0152abd468c952e17376217d4#egg=pulsar-app"
-pulsar_package_version: "{{ omit }}"
-#pulsar_package_version: "0.15.6"
+#pulsar_package_name: "git+https://github.com/galaxyproject/pulsar.git@973f7b309565d4d0152abd468c952e17376217d4#egg=pulsar-app"
+#pulsar_package_version: "{{ omit }}"
 pulsar_root: "/srv/pulsar/{{ galaxy_instance_codename }}"
 #galaxy_root: not required
 
