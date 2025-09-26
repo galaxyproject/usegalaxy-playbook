@@ -657,6 +657,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_kaks_analysis/plant_tribes_kaks_analysis/.*:
     mem: 5.6
 
+  toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/2.0.33.*:
+    env:
+      - execute: touch $_GALAXY_JOB_TMP_DIR/paths.txt
+      - name: APPTAINER_BINDPATH
+        value: $_GALAXY_JOB_TMP_DIR/paths.txt:/usr/local/share/peptide-shaker-2.0.33-0/resources/conf/paths.txt:rw
+
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 90
     mem: 120
