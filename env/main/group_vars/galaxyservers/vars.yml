@@ -154,6 +154,7 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/vgp.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
     - "/dev/shm:rw"
+    - "/tmp/slurm_job_$SLURM_JOB_ID:rw"
   bridges:
     - "$tool_directory:ro"
     - "$working_directory:rw"
