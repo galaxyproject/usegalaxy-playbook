@@ -1674,7 +1674,7 @@ tools:
     - execute: mkdir -p /jetstream2/scratch/main/colabfold
     # for JS2
     - name: SINGULARITYENV_TF_FORCE_UNIFIED_MEMORY
-      value: 0
+      value: "0"
     - name: SINGULARITY_BINDPATH
       value: $_GALAXY_JOB_TMP_DIR:/cache:rw,/jetstream2/scratch/main/colabfold:/cache/colabfold:rw
     scheduling:
