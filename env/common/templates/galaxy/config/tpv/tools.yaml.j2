@@ -379,7 +379,7 @@ tools:
     mem: 28
     env:
     - name: SINGULARITYENV_GIT_CONFIG_COUNT
-      value: 1
+      value: "1"
     - name: SINGULARITYENV_GIT_CONFIG_KEY_0
       value: safe.directory
     - name: SINGULARITYENV_GIT_CONFIG_VALUE_0
@@ -666,7 +666,7 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 90
     mem: 120
-    scheduling:
+    scheduling: {}
     rules:
     - id: abyss-pe_small_input_rule
       if: input_size < 0.002
@@ -843,10 +843,10 @@ tools:
     # $GALAXY_MEMORY_MB does not check to see if it's set first, but $GALAXY_MEMORY_MB_PER_SLOT does
     - name: GALAXY_MEMORY_MB
       value: $(printf "%.0f" $(echo "$(scontrol -do show job "$SLURM_JOB_ID" | sed 's/.*\( \|^\)Mem=\([0-9][0-9]*\)\( \|$\).*/\2/p;d')*0.4" | bc -l))
-      raw: true
+      raw: "true"
     - name: GALAXY_MEMORY_MB_PER_SLOT
       value: GALAXY_MEMORY_MB_PER_SLOT=$(($GALAXY_MEMORY_MB / $GALAXY_SLOTS))
-      raw: true
+      raw: "true"
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2_idx/.*:
     mem: |
@@ -1482,7 +1482,7 @@ tools:
     # this is only implemented in 0.6.0+, consider uninstalling old versions
     env:
       - name: SINGULARITYENV_GALAXY_FILE_LIMIT
-        value: 250
+        value: "250"
 
   toolshed.g2.bx.psu.edu/repos/ufz/genomad_end_to_end/genomad_end_to_end/.*:
     cores: 32

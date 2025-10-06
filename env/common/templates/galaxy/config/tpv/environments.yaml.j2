@@ -49,7 +49,6 @@ destinations:
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
     scheduling:
       accept:
-      - cyclone
       - general
       - cvmfs
       - vgp
@@ -116,7 +115,6 @@ destinations:
       value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_tmp
     scheduling:
       accept:
-      - jetstream2
       - general
       - cvmfs
       - singularity
@@ -511,7 +509,6 @@ destinations:
       value: "9"
     scheduling:
       accept:
-      - bridges2
       - hpc
       - cvmfs
       - singularity
@@ -591,7 +588,6 @@ destinations:
       value: "9"
     scheduling:
       accept:
-      - expanse
       - hpc
       - cvmfs
       - singularity
@@ -646,7 +642,6 @@ destinations:
       value: "9"
     scheduling:
       accept:
-      - anvil
       - hpc
       - cvmfs
       - singularity
@@ -779,7 +774,6 @@ destinations:
       value: "9"
     scheduling:
       accept:
-      - frontera
       - hpc
       - cvmfs
       - singularity
@@ -850,7 +844,7 @@ destinations:
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_SLOTS
-      value: 48
+      value: "48"
     - name: GALAXY_MEMORY_MB
       value: "188000"
     scheduling:
@@ -884,7 +878,7 @@ destinations:
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_SLOTS
-      value: 80
+      value: "80"
     - name: GALAXY_MEMORY_MB
       value: "248000"
     scheduling:
@@ -919,7 +913,7 @@ destinations:
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
     env:
     - name: GALAXY_SLOTS
-      value: 112
+      value: "112"
     - name: GALAXY_MEMORY_MB
       value: "122880"
     scheduling:
