@@ -988,6 +988,11 @@ tools:
       cores: 16
       mem: 58
 
+  toolshed.g2.bx.psu.edu/repos/iuc/hyphy_meme/hyphy_meme/.*:
+    env:
+    - name: SINGULARITYENV_OMPI_MCA_plm_rsh_agent
+      value: "false"
+
   toolshed.g2.bx.psu.edu/repos/iuc/isoformswitchanalyzer/isoformswitchanalyzer/.*:
     mem: 5.7
 
