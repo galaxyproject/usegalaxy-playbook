@@ -1324,6 +1324,10 @@ tools:
       # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
       cores: 16
       mem: min(max(int(input_size * 24), 64), max_scaled_mem)
+      scheduling:
+        reject:
+        - cyclone
+        - jetstream2
     - id: trinity_fail_rule
       if: input_size >= 20
       fail: |

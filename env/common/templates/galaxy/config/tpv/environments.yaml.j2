@@ -447,7 +447,7 @@ destinations:
     inherits: _pulsar
     runner: bridges
     min_accepted_cores: 16
-    min_accepted_mem: 64
+    min_accepted_mem: 32
     #max_accepted_cores: 256
     #max_accepted_mem: 4096
     #max_cores: 128
@@ -517,9 +517,8 @@ destinations:
       - bridges2
       require:
       - pulsar
-      # Down but also we are overspent - 2025-04-30
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   expanse:
     inherits: _pulsar
