@@ -263,8 +263,8 @@ tools:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
 
   .*interactive_tool_pcstudio.*:
-    cores: 4
-    mem: 14
+    cores: 2
+    mem: 7
     params:
       docker_run_extra_arguments: "-e USER_ID=$(id -u) -e GROUP_ID=$(id -g)"
       container_override:
@@ -443,7 +443,7 @@ tools:
             if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
                 mult = 3.4
             total_size += helpers.get_dataset_size(input.dataset) * mult
-        min(max(int(total_size * 12), 28), 58)
+        min(max(int(total_size * 12), 28), 86)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
@@ -477,7 +477,8 @@ tools:
       # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
       cores: 16
       # 99th is 6x for fastqsanger, 8x for fastqsanger.gz
-      mem: min(max(int(input_size * 9), 28), max_scaled_mem)
+      # this is appears to be way overallocated, decreased to 5x
+      mem: min(max(int(input_size * 5), 28), max_scaled_mem)
 
   # the image exists, it just takes a long time to convert
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/3\+galaxy0:
