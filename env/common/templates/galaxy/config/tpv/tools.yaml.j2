@@ -443,7 +443,7 @@ tools:
             if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
                 mult = 3.4
             total_size += helpers.get_dataset_size(input.dataset) * mult
-        min(max(int(total_size * 12), 28), 86)
+        min(max(int(total_size * 12), 28), 120)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
