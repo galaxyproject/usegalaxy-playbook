@@ -117,14 +117,15 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     # should use the def from tools.yaml, this is just to override for Bridges-2 EM
+    # actual usage for VGP appears to be < (input_size * 2)
     rules:
     - id: hifiasm_scalable_input_rule
-      if: input_size >= 9.4 and input_size < 106
+      if: input_size >= 9.4 and input_size < 320
       cores: 16
-      mem: min(max(int(input_size * 9), 28), max_scaled_mem)
+      mem: min(max(int(input_size * 3), 28), max_scaled_mem)
     - id: hifiasm_vgp_em_input_rule
-      if: input_size >= 106
-      cores: min(max(int((input_size * 9)/1024), 1), 4) * 24
+      if: input_size >= 320
+      cores: min(max(int((input_size * 3)/1024), 1), 4) * 24
       # just needs to be inside the min/max range, mem is a product of cores
       mem: 1024
       scheduling:
