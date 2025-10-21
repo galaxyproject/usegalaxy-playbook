@@ -431,7 +431,7 @@ tools:
       cores: 16
       # 95th is 9x, 99th is 37x
       mem: |
-        options = job.get_param_values(app)
+        options = tool.get_param_values(job)
         inputs = options["inputs"]
         total_size = 0
         for input in inputs:
@@ -754,7 +754,7 @@ tools:
     #mem: |
     # cores and mem need separate maxes but then that would affect mem if you just multiplied it by cores, so we must duplicate
     cores: |
-      options = job.get_param_values(app)
+      options = tool.get_param_values(job)
       ref_size = 0
       ref_index_mem = 0
       if helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}}):
@@ -776,7 +776,7 @@ tools:
           mult = 3.3
       min(round(min(max(ref_index_mem, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem) / 4), 128)
     mem: |
-      options = job.get_param_values(app)
+      options = tool.get_param_values(job)
       ref_size = 0
       ref_index_mem = 0
       if helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}}):
@@ -822,7 +822,7 @@ tools:
     #    helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}})
     #  # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
     #  mem: |
-    #    options = job.get_param_values(app)
+    #    options = tool.get_param_values(job)
     #    ref_file = options["reference_source"]["ref_file"]
     #    if hasattr(ref_file, "first_dataset_instance"):
     #        ref_file = ref_file.first_dataset_instance()
@@ -851,7 +851,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2_idx/.*:
     mem: |
-      options = job.get_param_values(app)
+      options = tool.get_param_values(job)
       reference = options["reference"]
       if hasattr(reference, "first_dataset_instance"):
           reference = reference.first_dataset_instance()
@@ -1010,7 +1010,7 @@ tools:
       lookup_column = "value"
       value_column = "path"
       value_template = "{value}/hash.k2d"
-      options = job.get_param_values(app)
+      options = tool.get_param_values(job)
       lookup_value = options["kraken2_database"]
       table_value = app.tool_data_tables.get(table_name).get_entry(lookup_column, lookup_value, value_column)
       if table_value is not None:
@@ -1406,7 +1406,7 @@ tools:
     #  # uncompressed 95th is 11x, 99th is 14x; compressed 95th is 14x, 99th is 20x
     #  # however w/ 1.2 GB of compressed reads we are needing over 58 GB so wtf?
     #  mem: |
-    #    options = job.get_param_values(app)
+    #    options = tool.get_param_values(job)
     #    inputs = options["inputs"]
     #    total_size = 0
     #    for input in inputs:
@@ -1636,7 +1636,7 @@ tools:
       fail: An account is required to run this tool. Please log in or create an account.
     - id: colabfold_msa_sequence_length_rule
       if: |
-        options = job.get_param_values(app)
+        options = tool.get_param_values(job)
         sequences = options["query_type"]["input"].metadata.get("sequences")
         sequences > 60
       fail: Limit 60 sequences per input, please decrease the number of sequences in your input by splitting into multiple files
