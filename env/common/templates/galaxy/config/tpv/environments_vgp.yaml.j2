@@ -80,7 +80,6 @@ destinations:
         submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
     scheduling:
       accept:
-      - jetstream2
       - general
       - cvmfs
       - docker
@@ -171,14 +170,11 @@ destinations:
       value: "9"
     scheduling:
       accept:
-      - bridges2-em
       - hpc
       - cvmfs
       - singularity
       - docker
       - vgp
-      prefer:
-      - bridges2-em
       require:
       - pulsar
       - bridges2-em
