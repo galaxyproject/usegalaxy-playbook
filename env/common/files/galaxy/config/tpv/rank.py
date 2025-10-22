@@ -25,7 +25,7 @@ tags = history and history.tags
 
 if tags and not tool.id.startswith("interactive_tool_"):
     for history_tag, dest in product([hta.user_tname for hta in tags], candidate_destinations):
-        matches = list(dest.tpv_dest_tags.filter(TagType.PREFER, "scheduling", history_tag))
+        matches = list(dest.tpv_dest_tags.filter(TagType.PREFER, history_tag))
         if matches:
             log.debug(f"#### ({job.id=}) overriding destination due to history tag {history_tag=} in prefer tags for dest: {dest=}")
             final_destinations = [dest]
