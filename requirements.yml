@@ -1,7 +1,8 @@
 ---
 roles:
   - name: galaxyproject.galaxy
-    version: 0.11.3
+    src: https://github.com/galaxyproject/ansible-galaxy
+    version: client-25.1
   - name: galaxyproject.pulsar
     version: 1.0.11
   - name: galaxyproject.miniconda
@@ -11,3 +12,7 @@ roles:
   - name: usegalaxy_eu.tpv_auto_lint
     src: https://github.com/usegalaxy-eu/ansible-tpv-lint
     version: deploy-configs
+
+collections:
+  - name: galaxyproject.general
+    version: 1.3.4
