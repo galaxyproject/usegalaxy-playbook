@@ -172,6 +172,7 @@ galaxy_config_hash:
             source: scratch
           name: "30-day Storage at TACC"
           description: Data in 30-day Storage is scheduled for removal after 30 days, but is afforded a much larger quota than Permanent Storage. Storage is provided by Texas Advanced Computing Center.
+          object_expires_after_days: 30
           files_dir: /corral4/main/objects
           badges:
             - type: not_backed_up
