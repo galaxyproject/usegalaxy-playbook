@@ -65,7 +65,7 @@
   doc: Access to Genome Ark open data on AWS
   bucket: genomeark
   anon: true
-  listings_expiry_time: 60
+  #listings_expiry_time: 60
 
 - type: s3fs
   label: Genome Ark Mirror at Jetstream2 Cloud
@@ -74,7 +74,7 @@
   doc: Access to Genome Ark open data on the Jetstream2 Cloud at Indiana University
   bucket: genomeark
   anon: true
-  listings_expiry_time: 60
+  #listings_expiry_time: 60
 
 - type: s3fs
   label: 1000 Genomes
@@ -82,7 +82,7 @@
   doc: Access to the 1000 Genomes Project with human genetic variation, including SNPs, structural variants, and their haplotype context.
   bucket: 1000genomes
   anon: true
-  listings_expiry_time: 60
+  #listings_expiry_time: 60
 
 # has millions of files at the root level
 #- type: s3fs
@@ -99,7 +99,7 @@
   doc: A centralized repository of up-to-date and curated datasets on or related to the spread and characteristics of the novel corona virus (SARS-CoV-2) and its associated illness, COVID-19
   bucket: covid19-lake
   anon: true
-  listings_expiry_time: 60
+  #listings_expiry_time: 60
 
 - type: s3fs
   label: Encyclopedia of DNA Elements (ENCODE)
@@ -107,7 +107,7 @@
   doc: The Encyclopedia of DNA Elements (ENCODE) Consortium is an international collaboration of research groups funded by the National Human Genome Research Institute (NHGRI)
   bucket: encode-public
   anon: true
-  listings_expiry_time: 60
+  #listings_expiry_time: 60
 
 - type: s3fs
   label: Coupled Model Intercomparison Project 6
@@ -115,7 +115,7 @@
   doc: The sixth phase of global coupled ocean-atmosphere general circulation model ensemble
   bucket: esgf-world
   anon: true
-  listings_expiry_time: 60
+  #listings_expiry_time: 60
 
 - type: s3fs
   label: CMIP6 GCMs downscaled using WRF
@@ -123,7 +123,7 @@
   doc: High-resolution historical and future climate simulations from 1980-2100
   bucket: wrf-cmip6-noversioning
   anon: true
-  listings_expiry_time: 60
+  #listings_expiry_time: 60
 
 - type: s3fs
   label: GBIF European region public datasets
@@ -131,7 +131,7 @@
   doc: The Global Biodiversity Information Facility is an international network and data infrastructure aimed at providing anyone, anywhere, open access to data about all types of life on Earth.
   bucket: gbif-open-data-eu-central-1
   anon: true
-  listings_expiry_time: 60
+  #listings_expiry_time: 60
 
 - type: s3fs
   label: Element Biosciences
@@ -142,4 +142,4 @@
   writable: false
   secret: "{{ elementbio_aws_secret_access_key }}"
   key: "{{ elementbio_aws_access_key_id }}"
-  listings_expiry_time: 60
+  #listings_expiry_time: 60
