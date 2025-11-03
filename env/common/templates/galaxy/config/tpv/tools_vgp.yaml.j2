@@ -123,6 +123,9 @@ tools:
       if: input_size >= 9.4 and input_size < 320
       cores: 16
       mem: min(max(int(input_size * 3), 28), max_scaled_mem)
+      context:
+        # avoid default time on the non-VGP rule
+        time: 144:00:00
     - id: hifiasm_vgp_em_input_rule
       if: input_size >= 320
       cores: min(max(int((input_size * 3)/1024), 1), 4) * 24
