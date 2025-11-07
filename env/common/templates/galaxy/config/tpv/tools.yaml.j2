@@ -992,6 +992,11 @@ tools:
       if: 15 <= input_size < 30
       cores: 16
       mem: 58
+    scheduling:
+      reject:
+      # even small jobs can run long, classes and workshops can consume the entire local cluster so it's best to push
+      # them off
+      - cyclone
 
   toolshed.g2.bx.psu.edu/repos/iuc/hyphy_meme/hyphy_meme/.*:
     env:
