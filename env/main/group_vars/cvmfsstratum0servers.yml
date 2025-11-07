@@ -16,15 +16,14 @@ galaxy_job_conf_tpv_config_files: [tpv.yaml]
 miniconda_prefix: /cvmfs/{{ galaxy_cvmfs_repo }}/deps/_conda
 miniconda_channels:
   - conda-forge
-  - defaults
 miniconda_version: "23.7.4"
 miniconda_base_env_packages:
-  - conda-libmamba-solver=23.7.0
+  - conda-libmamba-solver
   - pyopenssl>=22.1.0
 miniconda_conda_environments:
-  __python@3.11:
+  __python@3.13:
     packages:
-      - python=3.11.6
+      - python=3.13
   _galaxy_weasyprint_deps_:
     packages:
       - pango
