@@ -14,6 +14,7 @@
         mode: "0755"
       loop:
         - "{{ galaxy_config.galaxy.panel_views_dir }}"
+        - "{{ galaxy_config_dir }}/location"
     - name: Locate TPV python blobs
       set_fact:
         tpv_python_blobs: "{{ (tpv_python_blobs | default({})) | combine({(item | basename | splitext | first): lookup('file', item)}) }}"

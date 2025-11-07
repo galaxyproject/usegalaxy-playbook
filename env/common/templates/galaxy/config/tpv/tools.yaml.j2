@@ -127,6 +127,14 @@ tools:
 
   # test tools
 
+  toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/.*:
+    env:
+    - name: APPTAINER_BINDPATH
+      value: /corral/projects/MCB24094/completed_indices:/corral/projects/MCB24094/completed_indices:ro
+    scheduling:
+      require:
+      - ls6
+
   #echo: {scheduling: {require: [jetstream2]}}
 
   #secure_hash_message_digest:

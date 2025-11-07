@@ -929,3 +929,42 @@ destinations:
       - pulsar
       reject:
       - offline
+{% if galaxy_instance_codename == 'test' %}
+
+  ls6:
+    inherits: _tacc_hpc
+    runner: ls6
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time} --partition=normal"
+      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time=00:20:00 --partition=development"
+      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.ls6 | join(',') }}"
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "240000"
+    # LS6 /scratch doesn't support cross-dir hard links
+    - execute: CVMFSEXEC_DIR=$(mktemp -dt cvmfsexec-XXXXXX)
+    - name: CVMFSEXEC_PATH
+      value: $CVMFSEXEC_DIR/cvmfsexec
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+    {# FIXME: why is this not set by module load tacc-apptainer? -#}
+    - name: APPTAINER_CACHEDIR
+      value: /work/03166/xcgalaxy/apptainer_cache
+    - name: APPTAINER_PYTHREADS
+      value: "9"
+    scheduling:
+      accept:
+      - hpc
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
+      require:
+      - pulsar
+      - ls6
+      #reject:
+      #- offline
+{% endif %}

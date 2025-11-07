@@ -110,6 +110,9 @@ galaxy_job_conf_runners:
   frontera:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: frontera
+  ls6:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: ls6
   bridges:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: bridges
@@ -204,6 +207,17 @@ galaxy_job_conf_singularity_volumes:
   tacc_hpc:
     - "/cvmfs/data.galaxyproject.org:ro"
     #- "/cvmfs/main.galaxyproject.org:ro"
+    - "/cvmfs/brc.galaxyproject.org:ro"
+    - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/tmp:/tmp:rw"
+    - "/tmp:/var/tmp:rw"
+  ls6:
+    - "$job_directory:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
+    - "$job_directory/home:rw"
+    - "$working_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
     - "/tmp:/tmp:rw"
@@ -373,6 +387,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
   - src: files/galaxy/config/dropbox_file_source_template.yml
     dest: "{{ galaxy_config_dir }}/dropbox_file_source_template.yml"
+  - src: files/galaxy/config/location/lexicmap_index.loc
+    dest: "{{ galaxy_config_dir }}/location/lexicmap_index.loc"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
