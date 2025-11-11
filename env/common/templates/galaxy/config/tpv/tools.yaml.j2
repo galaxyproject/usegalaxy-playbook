@@ -497,6 +497,12 @@ tools:
     # n is very low, adjust in the future
     mem: 12 + 0.75 * input_size
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/racon/racon/1\.5\.0.*:
+    # https://github.com/bioconda/bioconda-recipes/issues/60605
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/racon:1.5.0--h077b44d_6"}]
+
+
   # only this container version contains the required databases, see https://github.com/bioconda/bioconda-recipes/issues/45328
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
     cores: 20
