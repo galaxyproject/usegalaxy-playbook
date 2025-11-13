@@ -1078,6 +1078,10 @@ tools:
     # 99th is 15, with no difference to .gz
     mem: min(max(int(input_size * 15), 14), 58)
 
+  toolshed.g2.bx.psu.edu/repos/iuc/presto_collapseseq/presto_collapseseq/.*:
+    cores: 1
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
     # WARNING: Temporary directory set to an NFS location.
     # TMP=/corral4/main/jobs/043/126/43126138/_job_tmp
