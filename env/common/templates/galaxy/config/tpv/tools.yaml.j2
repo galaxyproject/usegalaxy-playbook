@@ -274,10 +274,6 @@ tools:
     mem: 7
     params:
       docker_run_extra_arguments: "-e USER_ID=$(id -u) -e GROUP_ID=$(id -g)"
-      container_override:
-      - type: docker
-        shell: /bin/bash
-        identifier: afgane/pcstudio-galaxy:0.3
 
   .*interactive_tool_rstudio_bioconductor.*:
     #cores: 2
