@@ -936,6 +936,8 @@ destinations:
     runner: ls6
     min_accepted_cores: 1
     min_accepted_mem: 0
+    context:
+      time: 48:00:00
     params:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time} --partition=normal"
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time=00:20:00 --partition=development"
