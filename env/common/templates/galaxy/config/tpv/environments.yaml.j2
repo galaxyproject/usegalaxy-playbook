@@ -370,6 +370,7 @@ destinations:
       #remote_metadata: true
       #remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
       remote_metadata: false
+      metadata_strategy: directory_celery
       transport: curl
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       #dependency_resolution: local
