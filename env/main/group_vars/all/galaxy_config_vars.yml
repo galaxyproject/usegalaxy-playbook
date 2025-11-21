@@ -217,8 +217,8 @@ base_app_main: &BASE_APP_MAIN
     usegalaxy.org: all_tools
 
   load_tool_shed_datatypes: false
-  database_engine_option_pool_size: 10
-  database_engine_option_max_overflow: 20
+  database_engine_option_pool_size: "{{ galaxy_config_database_engine_option_pool_size | default(10) }}"
+  database_engine_option_max_overflow: "{{ galaxy_config_option_database_engine_option_max_overflow | default(20) }}"
   database_engine_option_server_side_cursors: false
   manage_dependency_relationships: "False"
   len_file_path: /cvmfs/data.galaxyproject.org/managed/len/ucsc
