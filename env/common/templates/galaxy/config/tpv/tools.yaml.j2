@@ -294,8 +294,7 @@ tools:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-pycaret:3.3.2--0"}]
 
   toolshed.g2.bx.psu.edu/repos/goeckslab/tabular_learner/tabular_learner/0\.1\..*:
-    params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-pycaret:3.3.2--0"}]
+    inherits: toolshed.g2.bx.psu.edu/repos/goeckslab/pycaret_[^/]*/pycaret_[^/]*/3.3.2.*:
 
   # pulsar incompatible
 
