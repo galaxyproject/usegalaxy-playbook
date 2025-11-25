@@ -1540,12 +1540,14 @@ tools:
       - gpu
       - pulsar
 
-  toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_[^/]*/ludwig_[^/]*/0\.10\.1.*:
+  _ludwig_0.10.1:
+    abstract: true
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-ludwig-gpu:0.10.1--0"}]
 
   _ludwig_0.10.1_gpu:
     abstract: true
+    inherits: _ludwig_0.10.1
     gpus: 0.5
     cores: 16
     mem: 58
@@ -1557,6 +1559,7 @@ tools:
       - gpu
       - pulsar
 
+  toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_[^/]*/ludwig_[^/]*/0\.10\.1.*: {inherits: _ludwig_0.10.1}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_experiment/ludwig_experiment/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_hyperopt/ludwig_hyperopt/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_train/ludwig_train/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
