@@ -723,6 +723,7 @@ destinations:
     params:
       submit_native_specification: "--account=mschatz1 --partition=shared --time=12:00:00 --nodes=1 --ntasks={int(mem/4)} --mem={int(mem*1024)}"
       remote_metadata: false
+      metadata_strategy: directory_celery
       transport: curl
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local

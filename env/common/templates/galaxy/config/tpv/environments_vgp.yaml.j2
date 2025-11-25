@@ -180,3 +180,75 @@ destinations:
       - bridges2-em
       #reject:
       #- offline
+
+  stampede3_nvdimm:
+    inherits: _default_environment_vgp
+    runner: stampede3
+    min_accepted_cores: 32
+    min_accepted_mem: 960
+    max_accepted_cores: 80
+    max_accepted_mem: 4096
+    max_cores: 80
+    max_mem: 4096
+    context:
+      # override for max allowed time at TACC
+      time: 48:00:00
+    params:
+      submit_native_specification: "--nodes=1 --time={time or default_time} --account=TG-MCB140147 --partition=nvdimm"
+      tmp_dir: true
+      outputs_to_working_directory: false
+      remote_metadata: false
+      transport: curl
+      default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
+      dependency_resolution: local
+      rewrite_parameters: true
+      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.tacc_hpc | join(',') }}"
+      singularity_no_mount: null
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      container_resolvers:
+      - type: explicit_singularity
+      - type: cached_mulled_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        cache_directory_cacher_type: dir_mtime
+      - type: mulled_singularity
+      require_container: true
+    env:
+    - file: /etc/profile.d/z01_lmod.sh
+    - execute: module unload xalt
+    - execute: module load tacc-apptainer
+    - name: GALAXY_SLOTS
+      value: "$SLURM_NTASKS"
+    - name: TRINITY_SCRATCH_DIR
+      value: /tmp
+    - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
+      value: $TRINITY_SCRATCH_DIR
+    - name: SCRATCH
+      value: /scratch/03166/xcgalaxy
+    - name: WORK2
+      value: /work2/03166/xcgalaxy/stampede3
+    - name: CVMFSEXEC_PATH
+      value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+    - name: APPTAINER_CACHEDIR
+      value: /work2/03166/xcgalaxy/apptainer_cache
+    - name: APPTAINER_PYTHREADS
+      value: "9"
+    - name: GALAXY_SLOTS
+      value: "80"
+    - name: GALAXY_MEMORY_MB
+      value: "4177920"
+    scheduling:
+      accept:
+      - hpc
+      - cvmfs
+      - singularity
+      - docker
+      - vgp
+      require:
+      - pulsar
+      - stampede3-nvdimm
+      #reject:
+      #- offline
+
