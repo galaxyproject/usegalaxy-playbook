@@ -782,7 +782,10 @@ tools:
               ref_file = ref_file.dataset_instances[0]
           ref_size = float(ref_file.get_size())/1024**3
           if ref_file.ext != "bwa_mem2_index":
-              ref_index_mem = ref_size * 30
+              mult = 1.0
+              if ref_file.ext.endswith(".gz") or ref_file.ext.endswith(".bz2"):
+                  mult = 3.3
+              ref_index_mem = ref_size * 30 * mult
       input1 = options["fastq_input"]["fastq_input1"]
       if hasattr(input1, "first_dataset_instance"):
           input1 = input1.first_dataset_instance()
