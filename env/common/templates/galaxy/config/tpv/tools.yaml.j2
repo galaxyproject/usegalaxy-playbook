@@ -1285,7 +1285,22 @@ tools:
       reject:
       - hpc
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaviralspades/spades_metaviralspades/.*:
-    inherits: _spades_flavors
+    #inherits: _spades_flavors
+    cores: 16
+    mem: 58
+    scheduling:
+      accept:
+      - training-large
+    rules:
+    - id: spades_flavor_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 5.7
+    - id: spades_flavor_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 28
+
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
     inherits: _spades_flavors
   toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
