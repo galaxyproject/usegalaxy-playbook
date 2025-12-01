@@ -128,11 +128,14 @@ tools:
         time: 144:00:00
     - id: hifiasm_vgp_em_input_rule
       if: input_size >= 320
-      #cores: min(max(int((input_size * 3)/1024), 1), 4) * 24
+      # Bridges-2 EM
+      cores: min(max(int((input_size * 3)/1024), 1), 4) * 24
       # just needs to be inside the min/max range, mem is a product of cores
-      #mem: 1024
-      cores: 80
-      mem: 3080
+      mem: 1024
+      # Stampede3 nvdimm
+      #cores: 80
+      #mem: 3080
       scheduling:
         require:
-        - stampede3-nvdimm
+        #- stampede3-nvdimm
+        - bridges2-em
