@@ -1066,4 +1066,34 @@
 
         </data_table>
     </data_manager>
+<data_manager id="ncbi_taxonomy_fetcher" version="1.0.3" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_ncbi_taxonomy/data_manager/ncbi_taxonomy_fetcher/1.0.3" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_ncbi_taxonomy/2649aece3781/data_manager_fetch_ncbi_taxonomy/data_manager/ncbi_taxonomy_fetcher.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_ncbi_taxonomy/ncbi_taxonomy_fetcher/1.1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_fetch_ncbi_taxonomy</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>2649aece3781</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_ncbi_taxonomy/ncbi_taxonomy_fetcher/1.1</id><version>1.1</version></tool><data_table name="ncbi_taxonomy">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <source>${path}/taxonomy</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">ncbi_taxonomy/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/ncbi_taxonomy/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+        <data_table name="ncbi_accession2taxid">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <source>${path}/accession2taxid</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">ncbi_accession2taxid/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/ncbi_accession2taxid/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
