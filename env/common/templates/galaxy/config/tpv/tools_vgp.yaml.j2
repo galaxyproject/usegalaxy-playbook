@@ -106,7 +106,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
     context:
       time: "672:00:00"
-    cores: 32
+    cores: |
+      options = job.get_param_values(app)
+      gbp = int(options.get("developer", {}).get("gigabase_pairs", 2))
+      gbp * 16
     mem: |
       options = job.get_param_values(app)
       gbp = int(options.get("developer", {}).get("gigabase_pairs", 2))

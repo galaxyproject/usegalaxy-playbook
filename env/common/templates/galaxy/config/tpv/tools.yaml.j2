@@ -1300,8 +1300,11 @@ tools:
       - hpc
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaviralspades/spades_metaviralspades/.*:
     #inherits: _spades_flavors
-    cores: 16
-    mem: 58
+    # test for valeriya
+    #cores: 16
+    #mem: 58
+    cores: 32
+    mem: 120
     scheduling:
       accept:
       - training-large
@@ -1314,6 +1317,10 @@ tools:
       if: 0.005 <= input_size < 2
       cores: 8
       mem: 28
+    - id: spades_flavor_large_input_rule
+      if: 2 <= input_size < 16
+      cores: 16
+      mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
     #inherits: _spades_flavors
