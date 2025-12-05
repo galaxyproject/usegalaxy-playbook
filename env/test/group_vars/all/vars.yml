@@ -29,6 +29,7 @@ galaxy_additional_venv_packages:
   - hvac
   - "redis>=4.5.2,<6.0.0,!=4.5.5"
   - weasyprint
+  - fs.googledrivefs
 amqp_server: mq.galaxyproject.org
 
 gravity_venv_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/gravity"
