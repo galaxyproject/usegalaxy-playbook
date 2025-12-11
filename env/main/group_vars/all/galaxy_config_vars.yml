@@ -25,7 +25,7 @@ galaxy_tool_dependency_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
 galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_cache"
-galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
+galaxy_tool_search_index_dir: "/corral4/{{ galaxy_instance_codename }}/tool_search_index"
 galaxy_object_store_cache_path: "/corral4/{{ galaxy_instance_codename }}/object_store_cache"
 
 galaxy_interactivetoolsproxy_map: "postgresql://g2main:{{ galaxy_database_password }}@{{ galaxy_db_server }}/gxitproxy_main"
