@@ -161,4 +161,4 @@
   enable_resume: true  # Enable resume for interrupted transfers
   ssh_key_passphrase: "{{ ascp_ssh_key_passphrase }}"
   ssh_key_content: |
-{{ ascp_ssh_key_content | indent(4, true) }}
+    {{ ascp_ssh_key_content | indent(4) }}
