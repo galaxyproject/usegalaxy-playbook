@@ -1229,6 +1229,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/pretext_map/pretext_map/.*:
     mem: 7
 
+  toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
+    cores: 1
+    # 95th pctle is 4x, 99th is 7x
+    mem: min(max(int(input_size * 4), 14), max_scaled_mem)
+
   toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
     mem: 5.6
 
