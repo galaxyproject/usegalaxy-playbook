@@ -280,10 +280,10 @@ tools:
     #mem: 7
     params:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
-      container_override:
-      - type: docker
-        shell: /bin/bash
-        identifier: afgane/bioc-galaxy:3.21
+      #container_override:
+      #- type: docker
+      #  shell: /bin/bash
+      #  identifier: afgane/bioc-galaxy:3.21
 
   toolshed.g2.bx.psu.edu/repos/goeckslab/chatanalysis/interactive_tool_chat_analysis/.*:
     params:
@@ -762,6 +762,21 @@ tools:
     # prevent premature removal of untarred busco DBs
     - name: SINGULARITYENV_TAR_OPTIONS
       value: -m
+
+  toolshed.g2.bx.psu.edu/repos/iuc/teloscope/teloscope/.*:
+    cores: 16
+    mem: |
+      options = job.get_param_values(app)
+      input_sequence = options["input_sequence"]
+      if hasattr(input_sequence, "first_dataset_instance"):
+          input_sequence = input_sequence.first_dataset_instance()
+      elif hasattr(input_sequence, "dataset_instances"):
+          input_sequence = input_sequence.dataset_instances[0]
+      mult = 1.0
+      if input_sequence.ext.endswith(".gz") or input_sequence.ext.endswith(".bz2"):
+          mult = 3.3
+      input_sequence_size = float(input_sequence.get_size())/1024**3
+      min(max(input_sequence_size * mult + 2, 7), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     # should allow scheduling on JS2, hpc-shared, and hpc-whole node
@@ -1607,8 +1622,8 @@ tools:
     mem: 120
 
   toolshed.g2.bx.psu.edu/repos/ufz/vibrant/vibrant/.*:
-    cores: 4
-    mem: 14
+    cores: 16
+    mem: 58
 
   #
   # GPU tools
