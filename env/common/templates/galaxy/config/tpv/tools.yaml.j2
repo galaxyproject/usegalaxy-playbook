@@ -1646,7 +1646,7 @@ tools:
     abstract: true
     inherits: _ludwig_0.10.1_gpu
     params:
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "docker://quay.io/goeckslab/multimodal-learner:1.4.0"}]
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-multimodal-learner:1.4.0--0"}]
 
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_[^/]*/ludwig_[^/]*/0\.10\.1.*: {inherits: _ludwig_0.10.1}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_experiment/ludwig_experiment/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
