@@ -255,9 +255,9 @@ tools:
     - id: require_login
       if: user is None
       fail: An account is required to run this tool. Please log in or create an account.
-    - id: offline
-      if: true
-      fail: Galaxy Interactive Tools are unavailable until the Jetstream 2 maintenance is complete
+    #- id: offline
+    #  if: true
+    #  fail: Galaxy Interactive Tools are unavailable until the Jetstream 2 maintenance is complete
 
   interactive_tool_jupyter_notebook:
     params:

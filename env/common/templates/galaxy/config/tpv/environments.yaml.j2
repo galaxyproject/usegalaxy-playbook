@@ -202,10 +202,8 @@ destinations:
     inherits: _cyclone_singularity
     min_accepted_cores: 3
     min_accepted_mem: 0
-    #max_accepted_cores: 12
-    #max_accepted_mem: 48
-    max_accepted_cores: 16
-    max_accepted_mem: 32
+    max_accepted_cores: 12
+    max_accepted_mem: 48
     params:
       native_specification: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}{' -w ' + cyclone_node if cyclone_node else ''}"
 
@@ -278,9 +276,9 @@ destinations:
       if: force_cores and cores > 1
       params:
         submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
-    scheduling:
-      reject:
-      - offline
+    #scheduling:
+    #  reject:
+    #  - offline
 
   jetstream2_lm:
     inherits: _jetstream2
@@ -293,8 +291,8 @@ destinations:
     scheduling:
       require:
       - large-mem
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_gpu:
     inherits: _jetstream2
@@ -310,9 +308,9 @@ destinations:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={js2_gpu_partition}"
       singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
     rules:
-    - id: offline
-      if: true
-      fail: GPU tools are unavailable until the Jetstream 2 maintenance is complete
+    #- id: offline
+    #  if: true
+    #  fail: GPU tools are unavailable until the Jetstream 2 maintenance is complete
     - id: jetstream2_gpu_medium_rule
       if: 0.2 < gpus <= 0.25
       context:
@@ -348,10 +346,10 @@ destinations:
     env:
     - name: TMPDIR
       value: /mnt/shm
-    rules:
-      - id: offline
-        if: true
-        fail: NCBI FCS-GX is unavailable until the Jetstream 2 maintenance is complete
+    #rules:
+    #  - id: offline
+    #    if: true
+    #    fail: NCBI FCS-GX is unavailable until the Jetstream 2 maintenance is complete
     scheduling:
       accept:
       - vgp
@@ -399,8 +397,8 @@ destinations:
       - training
       require:
       - gxit
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_training:
     inherits: jetstream2
@@ -411,8 +409,8 @@ destinations:
     scheduling:
       require:
       - training
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_k8s:
     runner: jetstream2_k8s
