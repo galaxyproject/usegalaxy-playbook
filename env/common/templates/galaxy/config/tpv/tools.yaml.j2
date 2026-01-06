@@ -1668,12 +1668,19 @@ tools:
       - gpu
       - pulsar
 
+  _multimodal_learner_1.4.0_gpu:
+    abstract: true
+    inherits: _ludwig_0.10.1_gpu
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-multimodal-learner:1.4.0--0"}]
+
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_[^/]*/ludwig_[^/]*/0\.10\.1.*: {inherits: _ludwig_0.10.1}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_experiment/ludwig_experiment/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_hyperopt/ludwig_hyperopt/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_train/ludwig_train/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_evaluate/ludwig_evaluate/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/image_learner/image_learner/.*: {inherits: _ludwig_0.10.1_gpu}
+  toolshed.g2.bx.psu.edu/repos/goeckslab/multimodal_learner/multimodal_learner/0\.1\..*: {inherits: _multimodal_learner_1.4.0_gpu}
 
   #toolshed.g2.bx.psu.edu/repos/perssond/coreograph/unet_coreograph/.*:
   #  gpus: 0.2
