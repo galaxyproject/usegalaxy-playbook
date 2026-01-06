@@ -94,7 +94,7 @@ tools:
   #      - bridges2-em
 
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/.*:
-    mem: 58
+    mem: min(max(int(input_size * 14), 28), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
     context:
