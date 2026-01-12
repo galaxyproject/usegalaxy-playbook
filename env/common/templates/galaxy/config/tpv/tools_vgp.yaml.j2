@@ -126,14 +126,14 @@ tools:
     # actual usage for VGP appears to be < (input_size * 2)
     rules:
     - id: hifiasm_scalable_input_rule
-      if: input_size >= 9.4 and input_size < 320
+      if: input_size >= 9.4 and input_size < 240
       cores: 16
-      mem: min(max(int(input_size * 3), 28), max_scaled_mem)
+      mem: min(max(int(input_size * 4), 28), max_scaled_mem)
       context:
         # avoid default time on the non-VGP rule
         time: 144:00:00
     - id: hifiasm_vgp_em_input_rule
-      if: input_size >= 320
+      if: input_size >= 240
       # Bridges-2 EM
       cores: min(max(int((input_size * 3)/1024), 1), 4) * 24
       # just needs to be inside the min/max range, mem is a product of cores

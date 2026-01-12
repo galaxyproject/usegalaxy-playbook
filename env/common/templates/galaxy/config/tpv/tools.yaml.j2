@@ -680,6 +680,10 @@ tools:
       - name: APPTAINER_BINDPATH
         value: $_GALAXY_JOB_TMP_DIR/paths.txt:/usr/local/share/peptide-shaker-2.0.33-0/resources/conf/paths.txt:rw
 
+  toolshed.g2.bx.psu.edu/repos/galaxyp/fragpipe/fragpipe/.*:
+    slots: 32
+    mem: 240
+
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 90
     mem: 120
