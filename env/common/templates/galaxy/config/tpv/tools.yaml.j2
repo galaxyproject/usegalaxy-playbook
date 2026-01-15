@@ -683,6 +683,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/galaxyp/fragpipe/fragpipe/.*:
     slots: 32
     mem: 240
+    scheduling:
+      require:
+      - stampede3
 
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 90
