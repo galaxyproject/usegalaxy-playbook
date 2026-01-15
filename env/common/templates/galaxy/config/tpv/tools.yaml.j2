@@ -762,9 +762,8 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
     # TODO: seems to work ok at the memory limit? if the histogram is to be believed
-    # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
-    cores: 16
-    mem: 58
+    cores: 32
+    mem: 120
     env:
     # prevent premature removal of untarred busco DBs
     - name: SINGULARITYENV_TAR_OPTIONS
