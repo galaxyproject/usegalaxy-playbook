@@ -1637,6 +1637,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/ufz/genomad_end_to_end/genomad_end_to_end/.*:
     cores: 32
     mem: 120
+    scheduling:
+      reject:
+      # OSError: [Errno 28] No space left on device
+      # I think it's maybe open file handles though. Works on Anvil.
+      - bridges2
 
   toolshed.g2.bx.psu.edu/repos/ufz/vibrant/vibrant/.*:
     cores: 16

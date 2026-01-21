@@ -94,7 +94,22 @@ tools:
   #      - bridges2-em
 
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/.*:
-    mem: min(max(int(input_size * 14), 28), max_scaled_mem)
+    rules:
+    - id: picard_markduplicates_scalable_input_rule
+      if: input_size < 68
+      mem: min(max(int(input_size * 14), 28), max_scaled_mem)
+    - id: picard_markduplicates_scalable_input_rule
+      if: input_size >= 68
+      # Bridges-2 EM
+      #cores: min(max(int((input_size * 14)/1024), 1), 4) * 24
+      # just needs to be inside the min/max range, mem is a product of cores
+      #mem: 1024
+      cores: 80
+      mem: 4080
+      scheduling:
+        require:
+        - stampede3-nvdimm
+        #- bridges2-em
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
     context:
@@ -135,7 +150,7 @@ tools:
     - id: hifiasm_vgp_em_input_rule
       if: input_size >= 240
       # Bridges-2 EM
-      cores: min(max(int((input_size * 3)/1024), 1), 4) * 24
+      cores: min(max(int((input_size * 4)/1024), 1), 4) * 24
       # just needs to be inside the min/max range, mem is a product of cores
       mem: 1024
       # Stampede3 nvdimm

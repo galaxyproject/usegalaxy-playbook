@@ -202,7 +202,7 @@ destinations:
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
       rewrite_parameters: true
-      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging
+      jobs_directory: /scratch/03166/xcgalaxy/jobs/vgp
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.tacc_hpc | join(',') }}"
       singularity_no_mount: null
