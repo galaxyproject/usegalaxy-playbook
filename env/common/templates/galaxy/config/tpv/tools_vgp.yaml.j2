@@ -29,10 +29,10 @@ tools:
     mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/ucsc_axtchain/ucsc_axtchain/.*:
-    mem: 240
+    mem: min(max(int(input_size * 32), 240), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/ucsc_netchainsubset/ucsc_netchainsubset/.*:
-    mem: 240
+    mem: min(max(int(input_size * 16), 120), max_scaled_mem)
 
   # TEST we can be smarter see https://github.com/KamilSJaron/smudgeplot/wiki/smudgeplot-hetkmers#memory-requirements
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/.*:
