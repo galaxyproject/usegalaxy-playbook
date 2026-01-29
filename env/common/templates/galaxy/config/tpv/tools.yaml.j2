@@ -1238,6 +1238,13 @@ tools:
     cores: 8
     mem: 28
 
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
+    # python multiprocessing does not react well to $TMPDIR on NFS:
+    # OSError: [Errno 39] Directory not empty: '/corral4/main/jobs/074/255/74255543/tmp/pymp-vpemx3ef'
+    env:
+    - name: _GALAXY_JOB_TMP_DIR
+      value: /tmp
+
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
     cores: 16
     mem: 58
