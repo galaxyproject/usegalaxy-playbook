@@ -131,12 +131,18 @@ tools:
     cores: 96
     mem: 240
     time: "48:00:00"
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/lexicmap-0.8.1--0
     env:
     - name: APPTAINER_BINDPATH
-      value: /corral/projects/MCB24094/completed_indices:/corral/projects/MCB24094/completed_indices:ro
+      #value: /corral/projects/MCB24094/completed_indices:/corral/projects/MCB24094/completed_indices:ro
+      value: /scratch/09794/kbeavers/Viral.index:/scratch/09794/kbeavers/Viral.index:ro
     scheduling:
       require:
-      - ls6
+      - vista
 
   #echo: {scheduling: {require: [jetstream2]}}
 
@@ -516,6 +522,10 @@ tools:
     # decrease from shared DB
     cores: 8
     mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/sambamba_markdup/sambamba_markdup/.*:
+    cores: 16
+    mem: min(max(int(input_size * 14), 28), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     cores: 1
@@ -1433,6 +1443,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/sniffles/sniffles/.*:
     cores: 4
     mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
+    mem: 28
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "26624"
 
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
     mem: 7

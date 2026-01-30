@@ -6,6 +6,7 @@
 galaxy_job_conf_amqp_url: "amqp://{{ pulsar_amqp_credentials }}@{{ amqp_server }}:5671//test_pulsar?ssl=1"
 # For single-Pulsar dests like rockfish-devgalaxy
 galaxy_job_conf_main_amqp_url: "{{ vault_galaxy_job_conf_main_amqp_url }}"
+pulsar_relay_password: "{{ vault_pulsar_relay_password }}"
 
 # used by: oidc backends config template
 galaxy_custos_client_id: "{{ vault_galaxy_custos_client_id }}"
@@ -113,6 +114,13 @@ galaxy_job_conf_runners:
   ls6:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: ls6
+  vista:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: test_vista
+    relay_url: https://relay.usegalaxy.org
+    relay_username: pulsar
+    relay_password: "{{ pulsar_relay_password }}"
+    #relay_topic_prefix: "{{ galaxy_instance_codename }}"
   bridges:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: bridges
@@ -221,6 +229,17 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/tmp:/tmp:rw"
+    - "/tmp:/var/tmp:rw"
+  vista:
+    - "$job_directory:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
+    - "$job_directory/home:rw"
+    - "$working_directory:rw"
+    #- "/cvmfs/data.galaxyproject.org:ro"
+    #- "/cvmfs/brc.galaxyproject.org:ro"
+    #- "/cvmfs/vgp.galaxyproject.org:ro"
     - "/tmp:/tmp:rw"
     - "/tmp:/var/tmp:rw"
 

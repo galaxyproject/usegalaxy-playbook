@@ -73,3 +73,15 @@ users:
           - offline # allow scheduling to a destination even when it is offline
           require:
           - stampede3
+  test-vista@usegalaxy.org:
+    rules:
+      - id: test_user_non_local_tool
+        if: not tool.id.startswith("__") and tool.tool_type not in ("data_source", "expression") and not tool.requires_galaxy_python_environment
+        cores: 2
+        mem: 16
+        scheduling:
+          accept:
+          - pulsar
+          - offline # allow scheduling to a destination even when it is offline
+          require:
+          - vista

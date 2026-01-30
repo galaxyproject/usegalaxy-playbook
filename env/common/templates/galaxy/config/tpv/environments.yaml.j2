@@ -665,8 +665,8 @@ destinations:
       - anvil
       require:
       - pulsar
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   # could just dual-purpose devgalaxy Pulsar for a100 access
   #rockfish_gpu:
@@ -983,6 +983,37 @@ destinations:
       require:
       - pulsar
       - ls6
+      #reject:
+      #- offline
+
+  vista:
+    inherits: _tacc_hpc
+    runner: vista
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    context:
+      time: 48:00:00
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time} --partition=gg"
+      jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.vista | join(',') }}"
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "240000"
+    - name: APPTAINER_CACHEDIR
+      value: /work/03166/xcgalaxy/apptainer_cache
+    - name: APPTAINER_PYTHREADS
+      value: "9"
+    scheduling:
+      accept:
+      - hpc
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
+      require:
+      - pulsar
+      - vista
       #reject:
       #- offline
 {% endif %}
