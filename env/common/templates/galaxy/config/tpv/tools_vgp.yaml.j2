@@ -113,6 +113,9 @@ tools:
         require:
         - stampede3-nvdimm
         #- bridges2-em
+    env:
+    - name: _JAVA_OPTIONS_EXTRA
+      value: "-XX:-UseGCOverheadLimit"
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
     context:
@@ -143,15 +146,29 @@ tools:
     # should use the def from tools.yaml, this is just to override for Bridges-2 EM
     # actual usage for VGP appears to be < (input_size * 2)
     rules:
-    - id: hifiasm_scalable_input_rule
-      if: input_size >= 9.4 and input_size < 240
+    - id: hifiasm_scalable_input_rule_ont
+      #if: input_size >= 4 and input_size < 240
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        input_size >= 3.5 and input_size < 120 and ont
       cores: 16
-      mem: min(max(int(input_size * 4), 28), max_scaled_mem)
+      mem: min(max(int(input_size * 8), 28), max_scaled_mem)
       context:
         # avoid default time on the non-VGP rule
         time: 144:00:00
+    - id: hifiasm_scalable_input_rule
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        input_size >= 9.4 and input_size < 240 and not ont
+      cores: 16
+      mem: min(max(int(input_size * 4), 28), max_scaled_mem)
     - id: hifiasm_vgp_em_input_rule
-      if: input_size >= 240
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        (input_size >= 120 and ont) or input_size >= 240
       # Bridges-2 EM
       cores: min(max(int((input_size * 4)/1024), 1), 4) * 24
       # just needs to be inside the min/max range, mem is a product of cores

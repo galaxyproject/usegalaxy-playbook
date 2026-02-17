@@ -828,7 +828,7 @@ tools:
       mult = 1.0
       if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
           mult = 3.3
-      min(round(min(max(ref_index_mem, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem) / 4), 128)
+      min(round(min(max(ref_index_mem, (input_size - ref_size) * 2.3 * mult, 7.6), max_scaled_mem) / 4), 128)
     mem: |
       options = job.get_param_values(app)
       ref_size = 0
@@ -853,7 +853,7 @@ tools:
       mult = 1.0
       if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
           mult = 3.3
-      round(min(max(ref_index_mem, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem))
+      round(min(max(ref_index_mem, (input_size - ref_size) * 2.3 * mult, 7.6), max_scaled_mem))
       #round(cores * 3.9)
     #rules:
     # TODO: make input rules for cached reference compression-aware
@@ -962,7 +962,7 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
-    mem: 14
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.8\+galaxy0:
     # https://github.com/galaxyproject/tools-iuc/issues/5621
@@ -971,8 +971,8 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/iuc/deepvariant/deepvariant/.*:
-    cores: int(min(max(input_size * 4, 14), 250) / 4)
-    mem: int(min(max(input_size * 4, 14), 250))
+    cores: int(min(max(input_size * 4, 14), 240) / 4)
+    mem: int(min(max(input_size * 4, 14), 240))
 
   toolshed.g2.bx.psu.edu/repos/iuc/drep_dereplicate/drep_dereplicate/.*:
     cores: 8
@@ -1445,10 +1445,10 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
-    mem: 28
+    mem: int(min(max(input_size * 14, 14), 240))
     env:
     - name: GALAXY_MEMORY_MB
-      value: "26624"
+      value: "{int(min(max(input_size * 14, 14), 240)) - 2}"
 
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
     mem: 7

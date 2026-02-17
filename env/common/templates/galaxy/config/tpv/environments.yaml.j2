@@ -12,7 +12,7 @@ destinations:
     # tools in the shared DB override this, which then breaks some tools, so set on the destinations instead for
     # precendence
     - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m $_JAVA_OPTIONS_EXTRA
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
 
