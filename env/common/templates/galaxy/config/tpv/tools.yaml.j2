@@ -127,6 +127,22 @@ tools:
 
   # test tools
 
+  toolshed.g2.bx.psu.edu/repos/iuc/kmindex/kmindex_query/.*:
+    cores: 96
+    mem: 240
+    time: "48:00:00"
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.6.0--0
+    env:
+    - name: APPTAINER_BINDPATH
+      value: /scratch/09794/kbeavers/logan-index-data:/scratch/09794/kbeavers/logan-index-data:ro
+    scheduling:
+      require:
+      - vista
+
   toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/.*:
     cores: 96
     mem: 240
