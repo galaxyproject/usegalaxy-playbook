@@ -504,6 +504,9 @@ destinations:
     - name: GALAXY_MEMORY_MB
       # TODO: use a scaling factor here?
       value: "{int(mem/2)*2000}"
+    # Bridges-2 sets $TMPDIR to /var/tmp
+    - name: TMPDIR
+      value: $_GALAXY_JOB_TMP_DIR
     - name: TRINITY_SCRATCH_DIR
       value: $LOCAL
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
@@ -623,7 +626,7 @@ destinations:
     max_accepted_mem: 128
     params:
       submit_native_specification: "--partition=shared --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048} --time={time or default_time}"
-      jobs_directory: /anvil/scratch/x-xcgalaxy/{{ galaxy_instance_codename }}/staging
+      jobs_directory: /anvil/scratch/x-xcgalaxy/jobs/{{ galaxy_instance_codename }}
       metadata_strategy: directory_celery
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
       singularity_enabled: true
@@ -665,8 +668,8 @@ destinations:
       - anvil
       require:
       - pulsar
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   # could just dual-purpose devgalaxy Pulsar for a100 access
   #rockfish_gpu:

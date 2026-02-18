@@ -107,7 +107,8 @@ galaxy_job_conf_runners:
     manager: jetstream2
   stampede3:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: stampede3
+    manager: test_stampede3
+    amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
   frontera:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: frontera
@@ -130,7 +131,8 @@ galaxy_job_conf_runners:
     amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
   anvil:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: anvil
+    manager: test_anvil
+    amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
   rockfish_devgalaxy:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: rockfish_devgalaxy
