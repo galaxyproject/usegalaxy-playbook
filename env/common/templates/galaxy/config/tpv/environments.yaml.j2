@@ -858,16 +858,20 @@ destinations:
     params:
       # $GALAXY_SLOTS is forced to 48 to avoid wastage
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=skx"
-      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=skx"
+      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=skx --ntasks=48"
       jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
     env:
-    - name: GALAXY_SLOTS
-      value: "48"
+    #- name: GALAXY_SLOTS
+    #  value: "48"
     - name: GALAXY_MEMORY_MB
       value: "188000"
+    rules:
+    - id: stampede3_skx_force_cores_rule
+      if: force_cores
+      params:
+        submit_native_specification: "--nodes=1 --time={time or default_time} --partition=skx --ntasks={int(cores)}"
     scheduling:
       accept:
-      - stampede3
       - hpc
       - cvmfs
       - singularity
@@ -877,8 +881,9 @@ destinations:
       - stampede3-skx
       require:
       - pulsar
-      reject:
-      - offline
+      - stampede3
+      #reject:
+      #- offline
 
   stampede3_icx:
     inherits: _stampede3

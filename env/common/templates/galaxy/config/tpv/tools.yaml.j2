@@ -155,7 +155,7 @@ tools:
     env:
     - name: APPTAINER_BINDPATH
       #value: /corral/projects/MCB24094/completed_indices:/corral/projects/MCB24094/completed_indices:ro
-      value: /scratch/09794/kbeavers/Viral.index:/scratch/09794/kbeavers/Viral.index:ro
+      value: /scratch/09794/kbeavers:/scratch/09794/kbeavers:ro
     scheduling:
       require:
       - vista
@@ -934,7 +934,7 @@ tools:
       mult = 1.0
       if reference.ext.endswith(".gz") or reference.ext.endswith(".bz2"):
           mult = 3.3
-      min(max(ref_size * mult * 28, 7.6), max_scaled_mem)
+      min(max(ref_size * mult * 30, 7.6), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/checkm2/checkm2/.*:
     cores: 8
@@ -1027,8 +1027,18 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
-    cores: 12
-    mem: 92
+    #cores: 12
+    #mem: 92
+    cores: 32
+    mem: 190
+    context:
+      force_cores: true
+    scheduling:
+      #prefer:
+      #- stampede3-skx
+      require:
+      - stampede3-skx
+      - stampede3
 
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     cores: 8
