@@ -26,6 +26,9 @@ main-config: main
 main-config-no-restart: PLAYBOOK = config
 main-config-no-restart: RESTART_ARG = "-e restart=false"
 main-config-no-restart: main
+main-config-restart: PLAYBOOK = config
+main-config-restart: RESTART_ARG = "-e restart=true"
+main-config-restart: main
 main-pulsar: PLAYBOOK = pulsar
 main-pulsar: main
 main-restart: PLAYBOOK = restart
@@ -39,6 +42,9 @@ main-update: main
 main-update-no-restart: PLAYBOOK = update
 main-update-no-restart: RESTART_ARG = "-e restart=false"
 main-update-no-restart: main
+main-update-restart: PLAYBOOK = update
+main-update-restart: RESTART_ARG = "-e restart=true"
+main-update-restart: main
 main-tpv: PLAYBOOK = tpv
 main-tpv: main
 test-backup: PLAYBOOK = backup
@@ -50,6 +56,9 @@ test-config: test
 test-config-no-restart: PLAYBOOK = config
 test-config-no-restart: RESTART_ARG = "-e restart=false"
 test-config-no-restart: test
+test-config-restart: PLAYBOOK = config
+test-config-restart: RESTART_ARG = "-e restart=true"
+test-config-restart: test
 test-pulsar: PLAYBOOK = pulsar
 test-pulsar: test
 test-restart: PLAYBOOK = restart
@@ -65,6 +74,9 @@ test-update: test
 test-update-no-restart: PLAYBOOK = update
 test-update-no-restart: RESTART_ARG = "-e restart=false"
 test-update-no-restart: test
+test-update-restart: PLAYBOOK = update
+test-update-restart: RESTART_ARG = "-e restart=true"
+test-update-restart: test
 
 
 test main:

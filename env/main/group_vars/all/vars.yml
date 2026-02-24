@@ -2,8 +2,8 @@
 
 pulsar_amqp_credentials: "{{ vault_pulsar_amqp_credentials }}"
 
-# set -e restart=false to disable restart
-restart: true
+# set -e restart=true to enable restart
+restart: false
 
 ## these vars are defined in vault.yml
 galaxy_database_password: "{{ vault_galaxy_database_password }}"
