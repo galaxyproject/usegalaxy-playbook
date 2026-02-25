@@ -198,6 +198,7 @@ base_app_main: &BASE_APP_MAIN
           source: scratch
         name: "Short Term Storage at TACC"
         description: Data in Short Term Storage is regularly removed, but is afforded a much larger quota than Long Term Storage.
+        object_expires_after_days: 30
         files_dir: "/corral4/test/files-test"
         badges:
           - type: not_backed_up

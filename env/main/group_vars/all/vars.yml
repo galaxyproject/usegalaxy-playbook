@@ -2,8 +2,8 @@
 
 pulsar_amqp_credentials: "{{ vault_pulsar_amqp_credentials }}"
 
-# set -e restart=false to disable restart
-restart: true
+# set -e restart=true to enable restart
+restart: false
 
 ## these vars are defined in vault.yml
 galaxy_database_password: "{{ vault_galaxy_database_password }}"
@@ -11,10 +11,10 @@ tiaas_database_password: "{{ vault_tiaas_database_password }}"
 
 galaxy_database_name: galaxy_main
 
-galaxy_virtualenv_command: "/cvmfs/main.galaxyproject.org/deps/_conda/envs/__python@3.11/bin/python3 -m venv"
+galaxy_virtualenv_command: "/cvmfs/main.galaxyproject.org/deps/_conda/envs/__python@3.13/bin/python3 -m venv"
 galaxy_repo: https://github.com/{{ galaxy_repo_owner }}/galaxy.git
 galaxy_repo_owner: galaxyproject
-galaxy_commit_id: usegalaxy
+galaxy_commit_id: usegalaxy_25.1
 
 galaxy_force_checkout: true
 galaxy_user: g2main
@@ -31,6 +31,7 @@ galaxy_additional_venv_packages:
   - hvac
   - "redis>=4.5.2,<6.0.0,!=4.5.5"
   - weasyprint
+  - fs.googledrivefs
 amqp_server: mq.galaxyproject.org
 
 galaxy_vault_address: vault.usegalaxy.org
@@ -83,6 +84,18 @@ galaxy_themes_subdomains:
       biodiversity-genomics:
         masthead:
           color: "#809900"
+  - name: imaging
+    theme:
+      imaging:
+        masthead:
+          color: >
+            linear-gradient(90deg,
+              rgb(0, 0, 0) 0%,
+              rgb(0, 69, 227) 17%,
+              rgb(9, 121, 33) 30%,
+              rgb(180, 170, 15) 70%,
+              rgb(193, 35, 0) 79%,
+              rgb(0, 0, 0) 100%)
   #- name: brc
   #  theme:
   #    brc:

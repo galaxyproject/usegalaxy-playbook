@@ -12,7 +12,7 @@ destinations:
     # tools in the shared DB override this, which then breaks some tools, so set on the destinations instead for
     # precendence
     - name: _JAVA_OPTIONS
-      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m
+      value: -Djava.io.tmpdir=$_GALAXY_JOB_TMP_DIR -Xmx{round(mem*0.9*1024)}m -Xms256m $_JAVA_OPTIONS_EXTRA
     - name: SINGULARITYENV__JAVA_OPTIONS
       value: $_JAVA_OPTIONS
 
@@ -28,7 +28,8 @@ destinations:
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
       rewrite_parameters: true
-      live_tool_output_reporting: true
+      # TODO: pulsar side not deployed yet
+      #live_tool_output_reporting: true
     scheduling:
       require:
       - pulsar
@@ -48,7 +49,6 @@ destinations:
       value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
     scheduling:
       accept:
-      - cyclone
       - general
       - cvmfs
       - vgp
@@ -115,7 +115,6 @@ destinations:
       value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_tmp
     scheduling:
       accept:
-      - jetstream2
       - general
       - cvmfs
       - singularity
@@ -277,6 +276,9 @@ destinations:
       if: force_cores and cores > 1
       params:
         submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
+    #scheduling:
+    #  reject:
+    #  - offline
 
   jetstream2_lm:
     inherits: _jetstream2
@@ -289,6 +291,8 @@ destinations:
     scheduling:
       require:
       - large-mem
+      #reject:
+      #- offline
 
   jetstream2_gpu:
     inherits: _jetstream2
@@ -304,6 +308,9 @@ destinations:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={js2_gpu_partition}"
       singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
     rules:
+    #- id: offline
+    #  if: true
+    #  fail: GPU tools are unavailable until the Jetstream 2 maintenance is complete
     - id: jetstream2_gpu_medium_rule
       if: 0.2 < gpus <= 0.25
       context:
@@ -327,6 +334,8 @@ destinations:
       - vgp
       require:
       - gpu
+      #reject:
+      #- offline
 
   jetstream2_resize_shm:
     inherits: _jetstream2
@@ -337,6 +346,10 @@ destinations:
     env:
     - name: TMPDIR
       value: /mnt/shm
+    #rules:
+    #  - id: offline
+    #    if: true
+    #    fail: NCBI FCS-GX is unavailable until the Jetstream 2 maintenance is complete
     scheduling:
       accept:
       - vgp
@@ -371,6 +384,7 @@ destinations:
       #remote_metadata: true
       #remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
       remote_metadata: false
+      metadata_strategy: directory_celery
       transport: curl
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       #dependency_resolution: local
@@ -448,7 +462,7 @@ destinations:
     inherits: _pulsar
     runner: bridges
     min_accepted_cores: 16
-    min_accepted_mem: 64
+    min_accepted_mem: 32
     #max_accepted_cores: 256
     #max_accepted_mem: 4096
     #max_cores: 128
@@ -490,6 +504,9 @@ destinations:
     - name: GALAXY_MEMORY_MB
       # TODO: use a scaling factor here?
       value: "{int(mem/2)*2000}"
+    # Bridges-2 sets $TMPDIR to /var/tmp
+    - name: TMPDIR
+      value: $_GALAXY_JOB_TMP_DIR
     - name: TRINITY_SCRATCH_DIR
       value: $LOCAL
     - name: SINGULARITYENV_TRINITY_SCRATCH_DIR
@@ -510,7 +527,6 @@ destinations:
       value: "9"
     scheduling:
       accept:
-      - bridges2
       - hpc
       - cvmfs
       - singularity
@@ -519,9 +535,8 @@ destinations:
       - bridges2
       require:
       - pulsar
-      # Down but also we are overspent - 2025-04-30
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   expanse:
     inherits: _pulsar
@@ -535,7 +550,7 @@ destinations:
     params:
       # --mem={int(mem/2)*2048} ensures that mem is always exactly 2GB per core
       submit_native_specification: "--account=TG-MCB140147 --partition=shared --time={time or default_time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048}"
-      jobs_directory: /expanse/lustre/scratch/xgalaxy/temp_project/{{ galaxy_instance_codename }}/staging
+      jobs_directory: "{{ galaxy_job_conf_pulsar_jobs_dirs.expanse | default('/expanse/lustre/scratch/xgalaxy/temp_project/jobs/' + galaxy_instance_codename) }}"
       metadata_strategy: directory_celery
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.expanse | join(',') }}"
@@ -590,7 +605,6 @@ destinations:
       value: "9"
     scheduling:
       accept:
-      - expanse
       - hpc
       - cvmfs
       - singularity
@@ -612,7 +626,7 @@ destinations:
     max_accepted_mem: 128
     params:
       submit_native_specification: "--partition=shared --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048} --time={time or default_time}"
-      jobs_directory: /anvil/scratch/x-xcgalaxy/{{ galaxy_instance_codename }}/staging
+      jobs_directory: /anvil/scratch/x-xcgalaxy/jobs/{{ galaxy_instance_codename }}
       metadata_strategy: directory_celery
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
       singularity_enabled: true
@@ -645,7 +659,6 @@ destinations:
       value: "9"
     scheduling:
       accept:
-      - anvil
       - hpc
       - cvmfs
       - singularity
@@ -727,6 +740,7 @@ destinations:
     params:
       submit_native_specification: "--account=mschatz1 --partition=shared --time=12:00:00 --nodes=1 --ntasks={int(mem/4)} --mem={int(mem*1024)}"
       remote_metadata: false
+      metadata_strategy: directory_celery
       transport: curl
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       dependency_resolution: local
@@ -778,7 +792,6 @@ destinations:
       value: "9"
     scheduling:
       accept:
-      - frontera
       - hpc
       - cvmfs
       - singularity
@@ -845,16 +858,20 @@ destinations:
     params:
       # $GALAXY_SLOTS is forced to 48 to avoid wastage
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=skx"
-      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=skx"
-      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=skx --ntasks=48"
+      jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
     env:
-    - name: GALAXY_SLOTS
-      value: 48
+    #- name: GALAXY_SLOTS
+    #  value: "48"
     - name: GALAXY_MEMORY_MB
       value: "188000"
+    rules:
+    - id: stampede3_skx_force_cores_rule
+      if: force_cores
+      params:
+        submit_native_specification: "--nodes=1 --time={time or default_time} --partition=skx --ntasks={int(cores)}"
     scheduling:
       accept:
-      - stampede3
       - hpc
       - cvmfs
       - singularity
@@ -864,8 +881,9 @@ destinations:
       - stampede3-skx
       require:
       - pulsar
-      reject:
-      - offline
+      - stampede3
+      #reject:
+      #- offline
 
   stampede3_icx:
     inherits: _stampede3
@@ -880,15 +898,14 @@ destinations:
       # $GALAXY_SLOTS is forced to 64 to avoid wastage
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=icx"
       submit_native_specification: "--nodes=1 --time={time or default_time} --partition=icx"
-      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
     env:
     - name: GALAXY_SLOTS
-      value: 80
+      value: "80"
     - name: GALAXY_MEMORY_MB
       value: "248000"
     scheduling:
       accept:
-      - stampede3
       - hpc
       - cvmfs
       - singularity
@@ -899,8 +916,9 @@ destinations:
       - stampede3-icx
       require:
       - pulsar
-      reject:
-      - offline
+      - stampede3
+      #reject:
+      #- offline
 
   stampede3_spr:
     inherits: _stampede3
@@ -915,10 +933,10 @@ destinations:
       # $GALAXY_SLOTS is forced to 112 to avoid wastage
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=icx"
       submit_native_specification: "--nodes=1 --time={time or default_time} --partition=spr"
-      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
     env:
     - name: GALAXY_SLOTS
-      value: 112
+      value: "112"
     - name: GALAXY_MEMORY_MB
       value: "122880"
     scheduling:
@@ -935,3 +953,75 @@ destinations:
       - pulsar
       reject:
       - offline
+{% if galaxy_instance_codename == 'test' %}
+
+  ls6:
+    inherits: _tacc_hpc
+    runner: ls6
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    context:
+      time: 48:00:00
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time} --partition=normal"
+      #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time=00:20:00 --partition=development"
+      jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging
+      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.ls6 | join(',') }}"
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "240000"
+    # LS6 /scratch doesn't support cross-dir hard links
+    - execute: CVMFSEXEC_DIR=$(mktemp -dt cvmfsexec-XXXXXX)
+    - name: CVMFSEXEC_PATH
+      value: $CVMFSEXEC_DIR/cvmfsexec
+    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
+    {# FIXME: why is this not set by module load tacc-apptainer? -#}
+    - name: APPTAINER_CACHEDIR
+      value: /work/03166/xcgalaxy/apptainer_cache
+    - name: APPTAINER_PYTHREADS
+      value: "9"
+    scheduling:
+      accept:
+      - hpc
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
+      require:
+      - pulsar
+      - ls6
+      #reject:
+      #- offline
+
+  vista:
+    inherits: _tacc_hpc
+    runner: vista
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    context:
+      time: 48:00:00
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time} --partition=gg"
+      jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.vista | join(',') }}"
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "240000"
+    - name: APPTAINER_CACHEDIR
+      value: /work/03166/xcgalaxy/apptainer_cache
+    - name: APPTAINER_PYTHREADS
+      value: "9"
+    scheduling:
+      accept:
+      - hpc
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
+      require:
+      - pulsar
+      - vista
+      #reject:
+      #- offline
+{% endif %}

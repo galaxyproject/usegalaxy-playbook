@@ -2,15 +2,14 @@
 
 pulsar_amqp_credentials: "{{ vault_pulsar_amqp_credentials }}"
 
-# set -e restart=false to disable restart
-restart: true
+# set -e restart=true to enable restart
+restart: false
 
 galaxy_database_name: galaxy_test
 
 galaxy_virtualenv_command: "/cvmfs/test.galaxyproject.org/deps/_conda/envs/__python@3.13/bin/python3 -m venv"
-#galaxy_repo: https://github.com/{{ galaxy_repo_owner }}/galaxy.git
-#galaxy_repo_owner: mvdbeek
-#galaxy_commit_id: containerized_set_metadata
+galaxy_repo: https://github.com/{{ galaxy_repo_owner }}/galaxy.git
+galaxy_repo_owner: galaxyproject
 galaxy_commit_id: test.galaxyproject.org
 #galaxy_commit_id: dev
 
@@ -29,6 +28,7 @@ galaxy_additional_venv_packages:
   - hvac
   - "redis>=4.5.2,<6.0.0,!=4.5.5"
   - weasyprint
+  - fs.googledrivefs
 amqp_server: mq.galaxyproject.org
 
 gravity_venv_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/gravity"

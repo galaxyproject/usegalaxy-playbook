@@ -5,6 +5,9 @@
 
 tools:
 
+  __DATA_FETCH__:
+    mem: 14
+
   export_remote:
     mem: 28
     scheduling:
@@ -26,7 +29,10 @@ tools:
     mem: 7
 
   toolshed.g2.bx.psu.edu/repos/iuc/ucsc_axtchain/ucsc_axtchain/.*:
-    mem: 120
+    mem: min(max(int(input_size * 32), 64), max_scaled_mem)
+
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_netchainsubset/ucsc_netchainsubset/.*:
+    mem: min(max(int(input_size * 16), 32), max_scaled_mem)
 
   # TEST we can be smarter see https://github.com/KamilSJaron/smudgeplot/wiki/smudgeplot-hetkmers#memory-requirements
   toolshed.g2.bx.psu.edu/repos/galaxy-australia/smudgeplot/smudgeplot/.*:
@@ -62,12 +68,13 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/merqury/merqury/.*:
     # TODO: temp increase, check again later
-    mem: 58
+    #mem: 58
+    mem: 180
 
   toolshed.g2.bx.psu.edu/repos/iuc/minimap2/minimap2/.*:
     # TODO: temp increase to get memory usage on a self alignment
-    cores: 8
-    mem: 84
+    cores: 16
+    mem: 120
 
   toolshed.g2.bx.psu.edu/repos/iuc/bandage/bandage_image/0\.8\..*:
     mem: 58
@@ -90,11 +97,44 @@ tools:
   #      - bridges2-em
 
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/.*:
-    mem: 58
+    rules:
+    - id: picard_markduplicates_scalable_input_rule
+      if: input_size < 68
+      mem: min(max(int(input_size * 14), 28), max_scaled_mem)
+    - id: picard_markduplicates_scalable_input_rule
+      if: input_size >= 68
+      # Bridges-2 EM
+      #cores: min(max(int((input_size * 14)/1024), 1), 4) * 24
+      # just needs to be inside the min/max range, mem is a product of cores
+      #mem: 1024
+      cores: 80
+      mem: 4080
+      scheduling:
+        require:
+        - stampede3-nvdimm
+        #- bridges2-em
+    env:
+    - name: _JAVA_OPTIONS_EXTRA
+      value: "-XX:-UseGCOverheadLimit"
+
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
+    context:
+      force_cores: true
+      time: "672:00:00"
+    cores: 30
+    mem: 480
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
     context:
       time: "672:00:00"
+    cores: |
+      options = job.get_param_values(app)
+      gbp = int(options.get("developer", {}).get("gigabase_pairs", 2))
+      gbp * 16
+    mem: |
+      options = job.get_param_values(app)
+      gbp = int(options.get("developer", {}).get("gigabase_pairs", 2))
+      gbp * 120
 
   toolshed.g2.bx.psu.edu/repos/iuc/orfipy/orfipy/.*:
     cores: 16
@@ -104,16 +144,39 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     # should use the def from tools.yaml, this is just to override for Bridges-2 EM
+    # actual usage for VGP appears to be < (input_size * 2)
     rules:
-    - id: hifiasm_scalable_input_rule
-      if: input_size >= 9.4 and input_size < 106
+    - id: hifiasm_scalable_input_rule_ont
+      #if: input_size >= 4 and input_size < 240
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        input_size >= 3.5 and input_size < 120 and ont
       cores: 16
-      mem: min(max(int(input_size * 9), 28), max_scaled_mem)
+      mem: min(max(int(input_size * 8), 28), max_scaled_mem)
+      context:
+        # avoid default time on the non-VGP rule
+        time: 144:00:00
+    - id: hifiasm_scalable_input_rule
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        input_size >= 9.4 and input_size < 240 and not ont
+      cores: 16
+      mem: min(max(int(input_size * 4), 28), max_scaled_mem)
     - id: hifiasm_vgp_em_input_rule
-      if: input_size >= 106
-      cores: min(max(int((input_size * 9)/1024), 1), 4) * 24
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        (input_size >= 120 and ont) or input_size >= 240
+      # Bridges-2 EM
+      cores: min(max(int((input_size * 4)/1024), 1), 4) * 24
       # just needs to be inside the min/max range, mem is a product of cores
       mem: 1024
+      # Stampede3 nvdimm
+      #cores: 80
+      #mem: 3080
       scheduling:
         require:
+        #- stampede3-nvdimm
         - bridges2-em

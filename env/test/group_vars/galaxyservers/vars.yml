@@ -6,6 +6,7 @@
 galaxy_job_conf_amqp_url: "amqp://{{ pulsar_amqp_credentials }}@{{ amqp_server }}:5671//test_pulsar?ssl=1"
 # For single-Pulsar dests like rockfish-devgalaxy
 galaxy_job_conf_main_amqp_url: "{{ vault_galaxy_job_conf_main_amqp_url }}"
+pulsar_relay_password: "{{ vault_pulsar_relay_password }}"
 
 # used by: oidc backends config template
 galaxy_custos_client_id: "{{ vault_galaxy_custos_client_id }}"
@@ -106,19 +107,32 @@ galaxy_job_conf_runners:
     manager: jetstream2
   stampede3:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: stampede3
+    manager: test_stampede3
+    amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
   frontera:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: frontera
+  ls6:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: ls6
+  vista:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: test_vista
+    relay_url: https://relay.usegalaxy.org
+    relay_username: pulsar
+    relay_password: "{{ pulsar_relay_password }}"
+    #relay_topic_prefix: "{{ galaxy_instance_codename }}"
   bridges:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: bridges
   expanse:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: expanse
+    manager: test_expanse
+    amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
   anvil:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: anvil
+    manager: test_anvil
+    amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
   rockfish_devgalaxy:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: rockfish_devgalaxy
@@ -206,6 +220,28 @@ galaxy_job_conf_singularity_volumes:
     #- "/cvmfs/main.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/tmp:/tmp:rw"
+    - "/tmp:/var/tmp:rw"
+  ls6:
+    - "$job_directory:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
+    - "$job_directory/home:rw"
+    - "$working_directory:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/brc.galaxyproject.org:ro"
+    - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/tmp:/tmp:rw"
+    - "/tmp:/var/tmp:rw"
+  vista:
+    - "$job_directory:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
+    - "$job_directory/home:rw"
+    - "$working_directory:rw"
+    #- "/cvmfs/data.galaxyproject.org:ro"
+    #- "/cvmfs/brc.galaxyproject.org:ro"
+    #- "/cvmfs/vgp.galaxyproject.org:ro"
     - "/tmp:/tmp:rw"
     - "/tmp:/var/tmp:rw"
 
@@ -325,7 +361,10 @@ tool_list_file: files/galaxy/test.galaxyproject.org/tool_list.yaml
 #galaxy_local_tools_dir: "{{ galaxy_root }}/tools"
 galaxy_local_tools_dir: "/corral4/gxsrc/{{ galaxy_instance_codename }}/local_tools"
 galaxy_local_tools:
-  - echo.xml
+  - section_name: Development/Testing
+    file: echo.xml
+  - section_name: Development/Testing
+    file: secret_tool.xml
   #- section_name: Interactive Tools
   #  file: interactivetool_rstudio.xml
   #- section_name: Interactive Tools
@@ -368,8 +407,14 @@ galaxy_config_files:
     dest: "{{ galaxy_config[galaxy_app_config_section]['user_preferences_extra_conf_path'] }}"
   - src: files/galaxy/config/trs_servers_conf.yml
     dest: "{{ galaxy_config_dir }}/trs_servers_conf.yml"
-  - src: files/galaxy/config/dropbox_file_source_template.yml
-    dest: "{{ galaxy_config_dir }}/dropbox_file_source_template.yml"
+  - src: files/galaxy/config/file_source_template_dropbox.yml
+    dest: "{{ galaxy_config_dir }}/file_source_template_dropbox.yml"
+  - src: files/galaxy/config/file_source_template_google_drive.yml
+    dest: "{{ galaxy_config_dir }}/file_source_template_google_drive.yml"
+  - src: files/galaxy/config/location/lexicmap_index.loc
+    dest: "{{ galaxy_config_dir }}/location/lexicmap_index.loc"
+  - src: files/galaxy/config/location/kmindex.loc
+    dest: "{{ galaxy_config_dir }}/location/kmindex.loc"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:

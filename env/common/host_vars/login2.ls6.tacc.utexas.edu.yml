@@ -1,0 +1,147 @@
+---
+#
+# WARNING: this is shared by both Test and Main
+#
+
+# FIXME:
+#   - slurm-drmaa installed by hand
+
+_ls6_home_root: "/home1/03166/xcgalaxy"
+_ls6_work_root: "/work/03166/xcgalaxy/ls6"
+_ls6_scratch_root: "/scratch/03166/xcgalaxy"
+_ls6_instance_root: "{{ _ls6_work_root }}/{{ galaxy_instance_codename }}"
+
+host_directories:
+  - path: "{{ _ls6_home_root }}/bin"
+    mode: "0755"
+  - path: "{{ pulsar_root }}/log"
+    mode: "0750"
+
+host_files:
+  - src: "files/pulsar/el7/tmpwatch"
+    dest: "{{ _ls6_home_root }}/bin"
+    mode: "0755"
+
+host_crontabs:
+  - id: "pulsar-clean-{{ galaxy_instance_codename }}-scratch"
+    use_cron_file: false
+    minute: "{{ 59 | random(seed=galaxy_instance_codename) }}"
+    hour: "*/6"
+    job: "{{ _ls6_home_root }}/bin/pulsar-clean-jobs {{ pulsar_staging_dir }} >> {{ pulsar_root }}/log/pulsar-clean-jobs.log 2>&1"
+  - id: "pulsar-clean-{{ galaxy_instance_codename }}-amqp-consume"
+    use_cron_file: false
+    minute: "15"
+    hour: "2"
+    job: "{{ _ls6_home_root }}/bin/tmpwatch 7d {{ pulsar_persistence_dir }}/amqp_ack-ls6/consume"
+  - id: "pulsar-clean-cvmfs-cache"
+    use_cron_file: false
+    minute: "30"
+    hour: "*/6"
+    job: "{{ _ls6_home_root }}/bin/tmpwatch --nodirs 7d {{ _ls6_scratch_root }}/cvmfs_cache"
+
+miniconda_prefix: "{{ _ls6_work_root }}/conda"
+miniconda_channels:
+  - conda-forge
+miniconda_conda_environments:
+  __python@3.13:
+    packages:
+      - python=3.13
+  __curl@8.16:
+    packages:
+      - curl=8.16
+
+supervisord_install: virtualenv-unprivileged
+supervisord_prefix: "{{ _ls6_work_root }}/supervisor"
+supervisord_conf_path: "{{ supervisord_prefix }}/etc/supervisord.conf"
+supervisord_conf_dir: "{{ supervisord_prefix }}/etc/supervisord.d"
+supervisord_log_dir: "{{ supervisord_prefix }}/var/log"
+supervisord_run_dir: "{{ supervisord_prefix }}/var/run"
+host_supervisor_configs:
+  - "{{ galaxy_instance_codename }}_pulsar"
+
+pulsar_root: "{{ _ls6_instance_root }}/pulsar"
+pulsar_restart_handler_name: supervisor restart pulsar
+pulsar_persistence_dir: "{{ pulsar_root }}/var/persisted_data"
+pulsar_staging_dir: "{{ _ls6_scratch_root }}/{{ galaxy_instance_codename }}/staging"
+#galaxy_root: not required
+
+pulsar_env:
+  PATH: "{{ miniconda_prefix }}/envs/__curl@8.16/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
+
+pulsar_supervisor_env:
+  - PATH="{{ pulsar_venv_dir }}/bin:%(ENV_PATH)s"
+  - LD_LIBRARY_PATH="{{ miniconda_prefix }}/envs/__curl@8.11/lib"
+
+galaxy_user: xcgalaxy
+pulsar_privsep_user: "{{ galaxy_user }}"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.13/bin/python3 -m venv"
+pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
+
+#pulsar_pycurl_ssl_library: nss
+pulsar_pycurl_ssl_library: openssl
+pulsar_drmaa_library_path: "{{ _ls6_instance_root }}/slurm-drmaa/lib/libdrmaa.so"
+
+pulsar_job_metrics_plugins:
+  - type: core
+  - type: cpuinfo
+    verbose: true
+  - type: meminfo
+  - type: uname
+  - type: cgroup
+
+pulsar_yaml_config:
+  staging_directory: "{{ pulsar_staging_dir }}"
+  persistence_directory: "{{ pulsar_persistence_dir }}"
+  message_queue_url: "{{ pulsar_message_queue_url }}"
+  sentry_dsn: "{{ pulsar_sentry_dsn }}"
+  maximum_stream_size: 1048576  # 1 MB
+  amqp_acknowledge: True
+  amqp_ack_republish_time: 180
+  amqp_publish_retry: True
+  amqp_publish_retry_max_retries: 5
+  amqp_publish_retry_interval_start: 10
+  amqp_publish_retry_interval_step: 10
+  amqp_publish_retry_interval_max: 60
+  dependency_resolution:
+    resolvers:
+      - type: conda
+        prefix: "{{ miniconda_prefix }}"
+        auto_init: false
+        auto_install: true
+  managers:
+    ls6:
+      type: queued_drmaa
+      preprocess_action_max_retries: 10
+      preprocess_action_interval_start: 2
+      preprocess_action_interval_step: 2
+      preprocess_action_interval_max: 60
+      postprocess_action_max_retries: 10
+      postprocess_action_interval_start: 2
+      postprocess_action_interval_step: 2
+      postprocess_action_interval_max: 60
+      min_polling_interval: 15
+
+cvmfsexec_source: none
+cvmfsexec_url: https://github.com/natefoo/cvmfsexec/archive/refs/heads/untar-no-preserve-times.tar.gz
+
+cvmfsexec_files:
+  - src: files/pulsar/galaxyproject.org.pub
+    dest: /etc/cvmfs/keys/galaxyproject.org/galaxyproject.org.pub
+  - src: files/pulsar/data.galaxyproject.org.pub
+    dest: /etc/cvmfs/keys/galaxyproject.org/data.galaxyproject.org.pub
+  - content: |
+      CVMFS_SERVER_URL='http://cvmfs1-tacc0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-iu0.galaxyproject.org/cvmfs/@fqrn@;http://cvmfs1-psu0.galaxyproject.org/cvmfs/@fqrn@'
+      CVMFS_KEYS_DIR=/etc/cvmfs/keys/galaxyproject.org
+    dest: /etc/cvmfs/domain.d/galaxyproject.org.conf
+
+cvmfsexec_local_options:
+  - key: CVMFS_ALIEN_CACHE
+    value: "{{ _ls6_scratch_root }}/cvmfs_cache"
+  - key: CVMFS_QUOTA_LIMIT
+    value: "-1"
+  - key: CVMFS_SHARED_CACHE
+    value: "no"
+  - key: CVMFS_CLAIM_OWNERSHIP
+    value: "yes"
+  - key: CVMFS_HTTP_PROXY
+    value: "DIRECT"

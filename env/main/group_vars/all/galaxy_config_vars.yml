@@ -25,7 +25,7 @@ galaxy_tool_dependency_dir: "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject
 galaxy_file_path: "{{ galaxy_mutable_data_dir }}/datasets"
 galaxy_log_dir: "{{ galaxy_root }}/log"
 galaxy_tool_cache_data_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_cache"
-galaxy_tool_search_index_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/var/tool_search_index"
+galaxy_tool_search_index_dir: "/corral4/{{ galaxy_instance_codename }}/tool_search_index"
 galaxy_object_store_cache_path: "/corral4/{{ galaxy_instance_codename }}/object_store_cache"
 
 galaxy_interactivetoolsproxy_map: "postgresql://g2main:{{ galaxy_database_password }}@{{ galaxy_db_server }}/gxitproxy_main"
@@ -141,6 +141,7 @@ base_app_main: &BASE_APP_MAIN
           source: scratch
         name: "30-day Storage at TACC"
         description: Data in 30-day Storage is scheduled for removal after 30 days, but is afforded a much larger quota than Permanent Storage. Storage is provided by Texas Advanced Computing Center.
+        object_expires_after_days: 30
         files_dir: /corral4/main/objects
         badges:
           - type: not_backed_up
@@ -209,17 +210,19 @@ base_app_main: &BASE_APP_MAIN
     singlecell.usegalaxy.org: Single Cell Omics
     microbiology.usegalaxy.org: Microbiology
     biodiversity-genomics.usegalaxy.org: Biodiversity Genomics
+    imaging.usegalaxy.org: Imaging
     #brc.usegalaxy.org: BRC Analytics
 
   default_panel_view_by_host:
     singlecell.usegalaxy.org: singlecell
     microbiology.usegalaxy.org: microgalaxy
     biodiversity-genomics.usegalaxy.org: biodiversity-genomics
+    imaging.usegalaxy.org: imaging
     usegalaxy.org: all_tools
 
   load_tool_shed_datatypes: false
-  database_engine_option_pool_size: 10
-  database_engine_option_max_overflow: 20
+  database_engine_option_pool_size: "{{ galaxy_config_database_engine_option_pool_size | default(10) }}"
+  database_engine_option_max_overflow: "{{ galaxy_config_option_database_engine_option_max_overflow | default(20) }}"
   database_engine_option_server_side_cursors: false
   manage_dependency_relationships: "False"
   len_file_path: /cvmfs/data.galaxyproject.org/managed/len/ucsc

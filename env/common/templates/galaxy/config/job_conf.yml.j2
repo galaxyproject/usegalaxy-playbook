@@ -15,7 +15,7 @@ runners:
 {% for k, v in (params | default({})).items() %}
     {{ k }}: {{ v }}
 {% endfor %}
-{% if params.load.startswith("galaxy.jobs.runners.pulsar:") %}
+{% if params.load.startswith("galaxy.jobs.runners.pulsar:") and "relay_url" not in params %}
 {% for k, v in galaxy_job_conf_pulsar_runner_params.items() %}
 {% if k not in (params | default({})) %}
     {{ k }}: {{ v }}

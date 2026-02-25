@@ -42,11 +42,10 @@ host_crontabs:
 miniconda_prefix: "{{ _stampede_work_root }}/conda"
 miniconda_channels:
   - conda-forge
-  - defaults
 miniconda_conda_environments:
-  __python@3.11:
+  __python@3.13:
     packages:
-      - python=3.11
+      - python=3.13
 
 supervisord_install: virtualenv-unprivileged
 supervisord_prefix: "{{ _stampede_work_root }}/supervisor"
@@ -65,7 +64,7 @@ pulsar_staging_dir: "{{ _stampede_scratch_root }}/{{ galaxy_instance_codename }}
 
 galaxy_user: xcgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
-pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.11/bin/python3 -m venv"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.13/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: nss

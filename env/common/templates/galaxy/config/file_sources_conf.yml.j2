@@ -189,3 +189,22 @@
   root: "/corral4/{{ galaxy_instance_codename }}/archive/export/"
   requires_roles: galaxy-archiver-role
   writable: true
+
+- type: ascp
+  id: ebi_aspera
+  label: "EBI Aspera Downloads"
+  doc: "High-speed downloads from EBI SRA using Aspera FASP protocol"
+  ascp_path: "/cvmfs/main.galaxyproject.org/deps/aspera/bin/ascp"  # Path to ascp binary, or just "ascp" if in PATH
+  user: "era-fasp"
+  host: "fasp.sra.ebi.ac.uk"
+  port: 33001
+  rate_limit: "300m"  # Transfer rate limit (e.g., "300m" for 300 Mbps, "1g" for 1 Gbps)
+  disable_encryption: true  # Disable encryption for maximum speed (set to false for sensitive data)
+  # Retry and resume configuration (optional, defaults shown)
+  max_retries: 3  # Maximum retry attempts for failed transfers
+  retry_base_delay: 2.0  # Base delay in seconds for exponential backoff
+  retry_max_delay: 60.0  # Maximum delay between retries
+  enable_resume: true  # Enable resume for interrupted transfers
+  ssh_key_passphrase: "{{ ascp_ssh_key_passphrase }}"
+  ssh_key_content: |
+    {{ ascp_ssh_key_content | indent(4) }}

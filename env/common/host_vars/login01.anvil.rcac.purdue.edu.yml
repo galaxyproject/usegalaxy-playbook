@@ -6,8 +6,6 @@
 # FIXME:
 #   - slurm-drmaa installed by hand
 
-# No FUSE on Rockfish =(
-
 _anvil_home_root: "/home/x-xcgalaxy"
 _anvil_project_root: "/anvil/projects/x-mcb140147"
 _anvil_scratch_root: "/anvil/scratch/x-xcgalaxy"
@@ -52,7 +50,7 @@ miniconda_channels:
 miniconda_conda_environments:
   "{{ _anvil_instance_root }}/venv-python":
     packages:
-      - python=3.11
+      - python=3.13
   #__curl@7.71:
   #  packages:
   #    - curl=7.71

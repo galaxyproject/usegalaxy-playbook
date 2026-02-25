@@ -943,4 +943,157 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager id="bowtie2_index_builder" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bowtie2_index_builder/data_manager/bowtie2_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bowtie2_index_builder/6754002631cd/data_manager_bowtie2_index_builder/data_manager/bowtie2_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bowtie2_index_builder/bowtie2_index_builder_data_manager/2.5.4+galaxy1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_bowtie2_index_builder</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>6754002631cd</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bowtie2_index_builder/bowtie2_index_builder_data_manager/2.5.4+galaxy1</id><version>2.5.4+galaxy1</version></tool><data_table name="bowtie2_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/bowtie_index/v2/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/bowtie_index/v2/${value}/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+
+        <data_table name="tophat2_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <!-- no move, always happens as part of bowtie2 and uses that path -->
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/bowtie_index/v2/${value}/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="bwa_mem_index_builder" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bwa_mem_index_builder/data_manager/bwa_mem_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bwa_mem_index_builder/966d4de7bf2d/data_manager_bwa_mem_index_builder/data_manager/bwa_mem_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bwa_mem_index_builder/bwa_mem_index_builder_data_manager/0.7.18+galaxy1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_bwa_mem_index_builder</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>966d4de7bf2d</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_bwa_mem_index_builder/bwa_mem_index_builder_data_manager/0.7.18+galaxy1</id><version>0.7.18+galaxy1</version></tool><data_table name="bwa_mem_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/bwa_mem_index/v1/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/bwa_mem_index/v1/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="hisat2_index_builder" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_hisat2_index_builder/data_manager/hisat2_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_hisat2_index_builder/e4f36467bb51/data_manager_hisat2_index_builder/data_manager/hisat2_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_hisat2_index_builder/hisat2_index_builder_data_manager/2.2.1+galaxy1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_hisat2_index_builder</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>e4f36467bb51</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_hisat2_index_builder/hisat2_index_builder_data_manager/2.2.1+galaxy1</id><version>2.2.1+galaxy1</version></tool><data_table name="hisat2_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/hisat_index/v2/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/hisat_index/v2/${value}/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="bowtie_index_builder" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_bowtie_index_builder/data_manager/bowtie_index_builder/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_bowtie_index_builder/b3f54bd230de/data_manager_bowtie_index_builder/data_manager/bowtie_index_builder.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_bowtie_index_builder/bowtie_index_builder_data_manager/1.3.1+galaxy1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_bowtie_index_builder</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>b3f54bd230de</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_bowtie_index_builder/bowtie_index_builder_data_manager/1.3.1+galaxy1</id><version>1.3.1+galaxy1</version></tool><data_table name="bowtie_indexes">
+            <output>
+                <column name="value"/>
+                <column name="dbkey"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- <source>${path}</source>--> <!-- out_file.extra_files_path is used as base by default --> <!-- if no source, eg for type=directory, then refers to base -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">genomes/${dbkey}/bowtie_index/v1/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/bowtie_index/v1/${value}/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="kraken2_build_database" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/data_manager/kraken2_build_database/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/54871a78828e/data_manager_build_kraken2_database/data_manager/kraken2_build_database.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/kraken2_build_database/2.1.6+galaxy0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_build_kraken2_database</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>54871a78828e</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_kraken2_database/kraken2_build_database/2.1.6+galaxy0</id><version>2.1.6+galaxy0</version></tool><data_table name="kraken2_databases">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">kraken2_databases/${path}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/kraken2_databases/${path}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="bracken_build_database" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_bracken_database/data_manager/bracken_build_database/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_bracken_database/174a754bd3b6/data_manager_build_bracken_database/data_manager/bracken_build_database.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_bracken_database/bracken_build_database/3.1+galaxy0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_build_bracken_database</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>174a754bd3b6</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_build_bracken_database/bracken_build_database/3.1+galaxy0</id><version>3.1+galaxy0</version></tool><data_table name="bracken_databases">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <!-- we move the top level folder, since the path points to the bracken DB file -->
+		                <source>
+                        #import os
+                        #set base_dir = os.path.dirname($path)
+                        ${base_dir}
+                        </source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">bracken_databases/${value}</target>
+                    </move>
+                    <!-- we store the path to the bracken DB file, since this is what bracken uses -->
+                <value_translation>
+                    #import os
+                    ${GALAXY_DATA_MANAGER_DATA_PATH}/bracken_databases/${value}/${os.path.basename($path)}
+                </value_translation>                    
+                <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+
+        </data_table>
+    </data_manager>
+<data_manager id="ncbi_taxonomy_fetcher" version="1.0.3" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_ncbi_taxonomy/data_manager/ncbi_taxonomy_fetcher/1.0.3" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_ncbi_taxonomy/2649aece3781/data_manager_fetch_ncbi_taxonomy/data_manager/ncbi_taxonomy_fetcher.xml" guid="toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_ncbi_taxonomy/ncbi_taxonomy_fetcher/1.1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_fetch_ncbi_taxonomy</repository_name><repository_owner>devteam</repository_owner><installed_changeset_revision>2649aece3781</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_ncbi_taxonomy/ncbi_taxonomy_fetcher/1.1</id><version>1.1</version></tool><data_table name="ncbi_taxonomy">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <source>${path}/taxonomy</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">ncbi_taxonomy/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/ncbi_taxonomy/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+        <data_table name="ncbi_accession2taxid">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <source>${path}/accession2taxid</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">ncbi_accession2taxid/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/ncbi_accession2taxid/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>

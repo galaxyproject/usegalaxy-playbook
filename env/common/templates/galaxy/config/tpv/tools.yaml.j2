@@ -127,6 +127,39 @@ tools:
 
   # test tools
 
+  toolshed.g2.bx.psu.edu/repos/iuc/kmindex/kmindex_query/.*:
+    cores: 96
+    mem: 240
+    time: "48:00:00"
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.6.0--0
+    env:
+    - name: APPTAINER_BINDPATH
+      value: /scratch/09794/kbeavers/logan-index-data:/scratch/09794/kbeavers/logan-index-data:ro
+    scheduling:
+      require:
+      - vista
+
+  toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/.*:
+    cores: 96
+    mem: 240
+    time: "48:00:00"
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/lexicmap-0.8.1--0
+    env:
+    - name: APPTAINER_BINDPATH
+      #value: /corral/projects/MCB24094/completed_indices:/corral/projects/MCB24094/completed_indices:ro
+      value: /scratch/09794/kbeavers:/scratch/09794/kbeavers:ro
+    scheduling:
+      require:
+      - vista
+
   #echo: {scheduling: {require: [jetstream2]}}
 
   #secure_hash_message_digest:
@@ -211,10 +244,6 @@ tools:
   Extract_features1:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/bx-python:0.8.9--py38hb90e610_2"}]
-  comp1:
-    params:
-      # python=3.7,coreutils=8.30
-      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/mulled-v2-879928bcdd8adc5b4660a3f6de3703d7c7861de4:6ce96688844d469d84f94fabb34055d8dfa283c7-0"}]
 
   # Marius' user defined tool for Galaxy Live!
   h5ad-to-csv:
@@ -248,6 +277,9 @@ tools:
     - id: require_login
       if: user is None
       fail: An account is required to run this tool. Please log in or create an account.
+    #- id: offline
+    #  if: true
+    #  fail: Galaxy Interactive Tools are unavailable until the Jetstream 2 maintenance is complete
 
   interactive_tool_jupyter_notebook:
     params:
@@ -263,25 +295,20 @@ tools:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
 
   .*interactive_tool_pcstudio.*:
-    cores: 4
-    mem: 14
+    cores: 2
+    mem: 7
     params:
       docker_run_extra_arguments: "-e USER_ID=$(id -u) -e GROUP_ID=$(id -g)"
-      container_override:
-      - type: docker
-        shell: /bin/bash
-        identifier: afgane/pcstudio-galaxy:0.3
 
   .*interactive_tool_rstudio_bioconductor.*:
     #cores: 2
     #mem: 7
     params:
-      # FIXME: set after Galaxy LIVE, this was accidentally not set during testing and it's too late to change it now
-      #docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
-      container_override:
-      - type: docker
-        shell: /bin/bash
-        identifier: afgane/bioc-galaxy:3.21.live.2
+      docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
+      #container_override:
+      #- type: docker
+      #  shell: /bin/bash
+      #  identifier: afgane/bioc-galaxy:3.21
 
   toolshed.g2.bx.psu.edu/repos/goeckslab/chatanalysis/interactive_tool_chat_analysis/.*:
     params:
@@ -290,6 +317,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/goeckslab/pycaret_[^/]*/pycaret_[^/]*/3.3.2.*:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-pycaret:3.3.2--0"}]
+
+  toolshed.g2.bx.psu.edu/repos/goeckslab/tabular_learner/tabular_learner/0\.1\..*:
+    inherits: toolshed.g2.bx.psu.edu/repos/goeckslab/pycaret_[^/]*/pycaret_[^/]*/3.3.2.*
 
   # pulsar incompatible
 
@@ -329,11 +359,11 @@ tools:
       reject:
       - pulsar
 
-  #toolshed.g2.bx.psu.edu/repos/devteam/intersect/gops_intersect_1/1.0.0:
-  #  # python: can't open file '..../tool_files/gops_intersect.py': [Errno 2] No such file or directory 
-  #  scheduling:
-  #    reject:
-  #    - pulsar
+  toolshed.g2.bx.psu.edu/repos/devteam/intersect/gops_intersect_1/1.0.0:
+    # python: can't open file '..../tool_files/gops_intersect.py': [Errno 2] No such file or directory 
+    scheduling:
+      reject:
+      - pulsar
 
   toolshed.g2.bx.psu.edu/repos/ebi-gxa/anndata_ops/anndata_ops/.*:
     scheduling:
@@ -342,6 +372,12 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/devteam/column_maker/Add_a_column1/1\.*:
     # FileNotFoundError: [Errno 2] No such file or directory: '/jetstream2/scratch/main/jobs-vgp/67013138/configs/tmpe095jz_v'
+    scheduling:
+      reject:
+      - pulsar
+
+  toolshed.g2.bx.psu.edu/repos/mvdbeek/add_input_name_as_column/addName/.*:
+    # https://github.com/galaxyproject/tools-iuc/pull/7264
     scheduling:
       reject:
       - pulsar
@@ -374,7 +410,7 @@ tools:
     mem: 28
     env:
     - name: SINGULARITYENV_GIT_CONFIG_COUNT
-      value: 1
+      value: "1"
     - name: SINGULARITYENV_GIT_CONFIG_KEY_0
       value: safe.directory
     - name: SINGULARITYENV_GIT_CONFIG_VALUE_0
@@ -438,11 +474,21 @@ tools:
             if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
                 mult = 3.4
             total_size += helpers.get_dataset_size(input.dataset) * mult
-        min(max(int(total_size * 12), 28), 58)
+        min(max(int(total_size * 12), 28), 240)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
-    mem: 3.06 + 1.809 * input_size
+    mem: |
+      scale_factor = 3.4 if any(da.dataset and da.dataset.extension.endswith(".gz") for da in job.input_datasets) else 1
+      3.06 + 1.809 * input_size * scale_factor
+
+  toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
+    cores: 8
+    mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/iuc/binette/binette/.*:
+    cores: 8
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
     cores: 4
@@ -462,14 +508,24 @@ tools:
       # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
       cores: 16
       # 99th is 6x for fastqsanger, 8x for fastqsanger.gz
-      mem: min(max(int(input_size * 9), 28), max_scaled_mem)
+      # this is appears to be way overallocated, decreased to 5x
+      mem: min(max(int(input_size * 5), 28), max_scaled_mem)
 
   # the image exists, it just takes a long time to convert
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/3\+galaxy0:
-    cores: 8
-    mem: 28
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/mitohifi:3_galaxy0--0"}]
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/.*:
+    cores: 8
+    # n is very low, adjust in the future
+    mem: 12 + 0.75 * input_size
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/racon/racon/1\.5\.0.*:
+    # https://github.com/bioconda/bioconda-recipes/issues/60605
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/racon:1.5.0--h077b44d_6"}]
+
 
   # only this container version contains the required databases, see https://github.com/bioconda/bioconda-recipes/issues/45328
   toolshed.g2.bx.psu.edu/repos/bgruening/repeat_masker/repeatmasker_wrapper/4\.1\.5.*:
@@ -482,6 +538,10 @@ tools:
     # decrease from shared DB
     cores: 8
     mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/bgruening/sambamba_markdup/sambamba_markdup/.*:
+    cores: 16
+    mem: min(max(int(input_size * 14), 28), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/trim_galore/trim_galore/.*:
     cores: 1
@@ -526,7 +586,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
     cores: 32
-    mem: 120
+    mem: 240
     rules:
     - id: bwa_mem_small_input_rule
       if: input_size < 0.1
@@ -540,6 +600,10 @@ tools:
       if: 1 <= input_size < 20
       cores: 8
       mem: 28
+    - id: bwa_mem_pretty_large_input_rule
+      if: 20 <= input_size < 100
+      cores: 32
+      mem: 120
 
   toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/.*:
     mem: 5.7
@@ -622,19 +686,37 @@ tools:
 
   # TODO: good candidate for memory resubmission
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/.*:
-    mem: 18
+    # 99th is 9x
+    mem: min(max(int(input_size * 9), 14), 240)
 
   toolshed.g2.bx.psu.edu/repos/devteam/varscan_version_2/varscan/.*:
     # was 16 in the job router but let's try this
     mem: 7
 
+  toolshed.g2.bx.psu.edu/repos/genouest/helixer/helixer/.*:
+    cores: 1
+    mem: 28
+
   toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_kaks_analysis/plant_tribes_kaks_analysis/.*:
     mem: 5.6
+
+  toolshed.g2.bx.psu.edu/repos/galaxyp/peptideshaker/peptide_shaker/2.0.33.*:
+    env:
+      - execute: touch $_GALAXY_JOB_TMP_DIR/paths.txt
+      - name: APPTAINER_BINDPATH
+        value: $_GALAXY_JOB_TMP_DIR/paths.txt:/usr/local/share/peptide-shaker-2.0.33-0/resources/conf/paths.txt:rw
+
+  toolshed.g2.bx.psu.edu/repos/galaxyp/fragpipe/fragpipe/.*:
+    cores: 32
+    mem: 240
+    scheduling:
+      require:
+      - stampede3
 
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 90
     mem: 120
-    scheduling:
+    scheduling: {}
     rules:
     - id: abyss-pe_small_input_rule
       if: input_size < 0.002
@@ -649,6 +731,10 @@ tools:
       fail: |
         Too much data, we cannot support such large Abyss assemblies with our
         backend. Please use another server for your job.
+
+  toolshed.g2.bx.psu.edu/repos/iuc/amrfinderplus/amrfinderplus/.*:
+    cores: 4
+    mem: 14
 
   # TODO: this needs a cap
   toolshed.g2.bx.psu.edu/repos/iuc/anndata_import/anndata_import/.*:
@@ -705,18 +791,33 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/.*:
     # TODO: seems to work ok at the memory limit? if the histogram is to be believed
-    # busco fails miserably on Stampede2 (all partitions) with a variety of multiprocessing-related errors
-    cores: 16
-    mem: 58
+    cores: 32
+    mem: 120
     env:
     # prevent premature removal of untarred busco DBs
     - name: SINGULARITYENV_TAR_OPTIONS
       value: -m
 
+  toolshed.g2.bx.psu.edu/repos/iuc/teloscope/teloscope/.*:
+    cores: 16
+    mem: |
+      options = job.get_param_values(app)
+      input_sequence = options["input_sequence"]
+      if hasattr(input_sequence, "first_dataset_instance"):
+          input_sequence = input_sequence.first_dataset_instance()
+      elif hasattr(input_sequence, "dataset_instances"):
+          input_sequence = input_sequence.dataset_instances[0]
+      mult = 1.0
+      if input_sequence.ext.endswith(".gz") or input_sequence.ext.endswith(".bz2"):
+          mult = 3.3
+      input_sequence_size = float(input_sequence.get_size())/1024**3
+      min(max(input_sequence_size * mult + 2, 7), max_scaled_mem)
+
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     # should allow scheduling on JS2, hpc-shared, and hpc-whole node
     #cores: 32
     # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference to index
+    # however that failed on the hellbender genomes
     #mem: |
     # cores and mem need separate maxes but then that would affect mem if you just multiplied it by cores, so we must duplicate
     cores: |
@@ -731,7 +832,10 @@ tools:
               ref_file = ref_file.dataset_instances[0]
           ref_size = float(ref_file.get_size())/1024**3
           if ref_file.ext != "bwa_mem2_index":
-              ref_index_mem = ref_size * 28
+              mult = 1.0
+              if ref_file.ext.endswith(".gz") or ref_file.ext.endswith(".bz2"):
+                  mult = 3.3
+              ref_index_mem = ref_size * 30 * mult
       input1 = options["fastq_input"]["fastq_input1"]
       if hasattr(input1, "first_dataset_instance"):
           input1 = input1.first_dataset_instance()
@@ -740,7 +844,7 @@ tools:
       mult = 1.0
       if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
           mult = 3.3
-      min(round(min(max(ref_index_mem, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem) / 4), 128)
+      min(round(min(max(ref_index_mem, (input_size - ref_size) * 2.3 * mult, 7.6), max_scaled_mem) / 4), 128)
     mem: |
       options = job.get_param_values(app)
       ref_size = 0
@@ -753,7 +857,10 @@ tools:
               ref_file = ref_file.dataset_instances[0]
           ref_size = float(ref_file.get_size())/1024**3
           if ref_file.ext != "bwa_mem2_index":
-              ref_index_mem = ref_size * 28
+              mult = 1.0
+              if ref_file.ext.endswith(".gz") or ref_file.ext.endswith(".bz2"):
+                  mult = 3.3
+              ref_index_mem = ref_size * 30 * mult
       input1 = options["fastq_input"]["fastq_input1"]
       if hasattr(input1, "first_dataset_instance"):
           input1 = input1.first_dataset_instance()
@@ -762,7 +869,7 @@ tools:
       mult = 1.0
       if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
           mult = 3.3
-      round(min(max(ref_index_mem, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem))
+      round(min(max(ref_index_mem, (input_size - ref_size) * 2.3 * mult, 7.6), max_scaled_mem))
       #round(cores * 3.9)
     #rules:
     # TODO: make input rules for cached reference compression-aware
@@ -810,10 +917,10 @@ tools:
     # $GALAXY_MEMORY_MB does not check to see if it's set first, but $GALAXY_MEMORY_MB_PER_SLOT does
     - name: GALAXY_MEMORY_MB
       value: $(printf "%.0f" $(echo "$(scontrol -do show job "$SLURM_JOB_ID" | sed 's/.*\( \|^\)Mem=\([0-9][0-9]*\)\( \|$\).*/\2/p;d')*0.4" | bc -l))
-      raw: true
+      raw: "true"
     - name: GALAXY_MEMORY_MB_PER_SLOT
       value: GALAXY_MEMORY_MB_PER_SLOT=$(($GALAXY_MEMORY_MB / $GALAXY_SLOTS))
-      raw: true
+      raw: "true"
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2_idx/.*:
     mem: |
@@ -827,7 +934,7 @@ tools:
       mult = 1.0
       if reference.ext.endswith(".gz") or reference.ext.endswith(".bz2"):
           mult = 3.3
-      min(max(ref_size * mult * 28, 7.6), max_scaled_mem)
+      min(max(ref_size * mult * 30, 7.6), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/checkm2/checkm2/.*:
     cores: 8
@@ -848,7 +955,15 @@ tools:
   # busco under the hood?
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
     cores: 16
-    mem: 8 + 8.28 * input_size
+    mem: 8 + 10 * input_size
+
+  toolshed.g2.bx.psu.edu/repos/iuc/crossmap_bed/crossmap_bed/.*:
+    cores: 1
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/crossmap_gff/crossmap_gff/.*:
+    cores: 1
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/dada2_assigntaxonomyaddspecies/dada2_assignTaxonomyAddspecies/.*:
     cores: 4
@@ -863,7 +978,7 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_ops/datamash_ops/.*:
-    mem: 14
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.8\+galaxy0:
     # https://github.com/galaxyproject/tools-iuc/issues/5621
@@ -872,8 +987,8 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/iuc/deepvariant/deepvariant/.*:
-    cores: int(min(max(input_size * 4, 14), 250) / 4)
-    mem: int(min(max(input_size * 4, 14), 250))
+    cores: int(min(max(input_size * 4, 14), 240) / 4)
+    mem: int(min(max(input_size * 4, 14), 240))
 
   toolshed.g2.bx.psu.edu/repos/iuc/drep_dereplicate/drep_dereplicate/.*:
     cores: 8
@@ -912,8 +1027,18 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
-    cores: 12
-    mem: 92
+    #cores: 12
+    #mem: 92
+    cores: 32
+    mem: 190
+    context:
+      force_cores: true
+    scheduling:
+      #prefer:
+      #- stampede3-skx
+      require:
+      - stampede3-skx
+      - stampede3
 
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     cores: 8
@@ -946,6 +1071,16 @@ tools:
       if: 15 <= input_size < 30
       cores: 16
       mem: 58
+    scheduling:
+      reject:
+      # even small jobs can run long, classes and workshops can consume the entire local cluster so it's best to push
+      # them off
+      - cyclone
+
+  toolshed.g2.bx.psu.edu/repos/iuc/hyphy_meme/hyphy_meme/.*:
+    env:
+    - name: SINGULARITYENV_OMPI_MCA_plm_rsh_agent
+      value: "false"
 
   toolshed.g2.bx.psu.edu/repos/iuc/isoformswitchanalyzer/isoformswitchanalyzer/.*:
     mem: 5.7
@@ -998,6 +1133,14 @@ tools:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/lofreq:2.1.5--py312he57d009_12"}]
 
+  toolshed.g2.bx.psu.edu/repos/iuc/metasbt_index/metasbt_index/0.1.5+galaxy1:
+    cores: 8
+    mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/iuc/metasbt_profile/metasbt_profile/.*:
+    cores: 8
+    mem: 28
+
   toolshed.g2.bx.psu.edu/repos/iuc/orfipy/orfipy/.*:
     cores: 8
     mem: 14
@@ -1008,6 +1151,10 @@ tools:
     # decrease from shared DB
     # 99th is 15, with no difference to .gz
     mem: min(max(int(input_size * 15), 14), 58)
+
+  toolshed.g2.bx.psu.edu/repos/iuc/presto_collapseseq/presto_collapseseq/.*:
+    cores: 1
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/maker/maker/.*:
     # WARNING: Temporary directory set to an NFS location.
@@ -1039,6 +1186,10 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/medaka_consensus_pipeline/medaka_consensus_pipeline/.*:
     # increase from shared db
+    cores: 8
+    mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/iuc/medaka_variant_pipeline/medaka_variant_pipeline/.*:
     cores: 8
     mem: 28
 
@@ -1123,9 +1274,16 @@ tools:
     cores: 8
     mem: 28
 
+  toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
+    # python multiprocessing does not react well to $TMPDIR on NFS:
+    # OSError: [Errno 39] Directory not empty: '/corral4/main/jobs/074/255/74255543/tmp/pymp-vpemx3ef'
+    env:
+    - name: _GALAXY_JOB_TMP_DIR
+      value: /tmp
+
   toolshed.g2.bx.psu.edu/repos/iuc/mummer_nucmer/mummer_nucmer/.*:
-    cores: 8
-    mem: 28
+    cores: 16
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
     rules:
@@ -1145,6 +1303,11 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/pretext_map/pretext_map/.*:
     mem: 7
+
+  toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
+    cores: 1
+    # 95th pctle is 4x, 99th is 7x
+    mem: min(max(int(input_size * 4), 14), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/pycoqc/pycoqc/.*:
     mem: 5.6
@@ -1189,15 +1352,91 @@ tools:
       mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/rnaspades/rnaspades/.*:
-    inherits: _spades_flavors
+    #inherits: _spades_flavors
+    cores: 16
+    mem: 58
+    scheduling:
+      accept:
+      - training-large
+    rules:
+    - id: spades_flavor_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 5.7
+    - id: spades_flavor_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 28
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaplasmidspades/spades_metaplasmidspades/.*:
     inherits: _spades_flavors
+    context:
+      # for valeriya
+      time: "72:00:00"
+    rules:
+    - id: spades_flavor_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 16
+      mem: 58
+    scheduling:
+      # avoids destinations with a low max walltime
+      reject:
+      - hpc
   toolshed.g2.bx.psu.edu/repos/iuc/spades_metaviralspades/spades_metaviralspades/.*:
-    inherits: _spades_flavors
+    #inherits: _spades_flavors
+    # test for valeriya
+    #cores: 16
+    #mem: 58
+    cores: 32
+    mem: 120
+    scheduling:
+      accept:
+      - training-large
+    #rules:
+    #- id: spades_flavor_small_input_rule
+    #  if: input_size < 0.005
+    #  cores: 2
+    #  mem: 5.7
+    #- id: spades_flavor_medium_input_rule
+    #  if: 0.005 <= input_size < 2
+    #  cores: 8
+    #  mem: 28
+    #- id: spades_flavor_large_input_rule
+    #  if: 2 <= input_size < 16
+    #  cores: 16
+    #  mem: 58
+
   toolshed.g2.bx.psu.edu/repos/iuc/spades_plasmidspades/spades_plasmidspades/.*:
-    inherits: _spades_flavors
+    #inherits: _spades_flavors
+    cores: 16
+    mem: 58
+    scheduling:
+      accept:
+      - training-large
+    rules:
+    - id: spades_flavor_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 5.7
+    - id: spades_flavor_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 28
   toolshed.g2.bx.psu.edu/repos/iuc/spades_rnaviralspades/spades_rnaviralspades/.*:
-    inherits: _spades_flavors
+    #inherits: _spades_flavors
+    cores: 16
+    mem: 58
+    scheduling:
+      accept:
+      - training-large
+    rules:
+    - id: spades_flavor_small_input_rule
+      if: input_size < 0.005
+      cores: 2
+      mem: 5.7
+    - id: spades_flavor_medium_input_rule
+      if: 0.005 <= input_size < 2
+      cores: 8
+      mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/spades_coronaspades/spades_coronaspades/.*:
     cores: 4
@@ -1223,9 +1462,19 @@ tools:
       cores: 16
       mem: 58
 
+  toolshed.g2.bx.psu.edu/repos/iuc/seqkit_split2/seqkit_split2/.*:
+    cores: 4
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/iuc/sniffles/sniffles/.*:
     cores: 4
     mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
+    mem: int(min(max(input_size * 14, 14), 240))
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "{int(min(max(input_size * 14, 14), 240)) - 2}"
 
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
     mem: 7
@@ -1262,6 +1511,10 @@ tools:
       # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
       cores: 16
       mem: min(max(int(input_size * 24), 64), max_scaled_mem)
+      scheduling:
+        reject:
+        - cyclone
+        - jetstream2
     - id: trinity_fail_rule
       if: input_size >= 20
       fail: |
@@ -1293,7 +1546,7 @@ tools:
     mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/yahs/yahs/.*:
-    mem: 58
+    mem: 8 + 1.44 * input_size
 
   toolshed.g2.bx.psu.edu/repos/lparsons/htseq_count/htseq_count/.*:
     rules:
@@ -1391,9 +1644,11 @@ tools:
     mem: 28
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/batched_lastz/batched_lastz/.*:
-    # stampede3-icx
-    cores: 80
-    mem: 240
+    ## stampede3-icx
+    #cores: 80
+    #mem: 240
+    cores: 32
+    mem: 120
 
   # NCBI recommends AWS r6a.8xlarge: cores: 32, mem:256
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*:
@@ -1406,6 +1661,10 @@ tools:
       require:
       - jetstream2
 
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_fcs_adaptor/ncbi_fcs_adaptor/.*:
+    cores: 1
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/richard-burhans/rdeval/rdeval/.*:
     context:
       force_cores: true
@@ -1415,15 +1674,27 @@ tools:
   toolshed.g2.bx.psu.edu/repos/richard-burhans/rdeval/rdeval_report/.*:
     mem: 14
 
+  toolshed.g2.bx.psu.edu/repos/iuc/omark/omark/.*:
+    mem: 28
+
   toolshed.g2.bx.psu.edu/repos/rnateam/splitfasta/rbc_splitfasta/.*:
     # this is only implemented in 0.6.0+, consider uninstalling old versions
     env:
       - name: SINGULARITYENV_GALAXY_FILE_LIMIT
-        value: 250
+        value: "250"
 
   toolshed.g2.bx.psu.edu/repos/ufz/genomad_end_to_end/genomad_end_to_end/.*:
     cores: 32
     mem: 120
+    scheduling:
+      reject:
+      # OSError: [Errno 28] No space left on device
+      # I think it's maybe open file handles though. Works on Anvil.
+      - bridges2
+
+  toolshed.g2.bx.psu.edu/repos/ufz/vibrant/vibrant/.*:
+    cores: 16
+    mem: 58
 
   #
   # GPU tools
@@ -1438,12 +1709,14 @@ tools:
       - gpu
       - pulsar
 
-  toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_[^/]*/ludwig_[^/]*/0\.10\.1.*:
+  _ludwig_0.10.1:
+    abstract: true
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-ludwig-gpu:0.10.1--0"}]
 
   _ludwig_0.10.1_gpu:
     abstract: true
+    inherits: _ludwig_0.10.1
     gpus: 0.5
     cores: 16
     mem: 58
@@ -1455,10 +1728,19 @@ tools:
       - gpu
       - pulsar
 
+  _multimodal_learner_1.4.0_gpu:
+    abstract: true
+    inherits: _ludwig_0.10.1_gpu
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-multimodal-learner:1.4.0--0"}]
+
+  toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_[^/]*/ludwig_[^/]*/0\.10\.1.*: {inherits: _ludwig_0.10.1}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_experiment/ludwig_experiment/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_hyperopt/ludwig_hyperopt/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_train/ludwig_train/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_evaluate/ludwig_evaluate/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
+  toolshed.g2.bx.psu.edu/repos/goeckslab/image_learner/image_learner/.*: {inherits: _ludwig_0.10.1_gpu}
+  toolshed.g2.bx.psu.edu/repos/goeckslab/multimodal_learner/multimodal_learner/0\.1\..*: {inherits: _multimodal_learner_1.4.0_gpu}
 
   #toolshed.g2.bx.psu.edu/repos/perssond/coreograph/unet_coreograph/.*:
   #  gpus: 0.2
@@ -1611,7 +1893,7 @@ tools:
     - execute: mkdir -p /jetstream2/scratch/main/colabfold
     # for JS2
     - name: SINGULARITYENV_TF_FORCE_UNIFIED_MEMORY
-      value: 0
+      value: "0"
     - name: SINGULARITY_BINDPATH
       value: $_GALAXY_JOB_TMP_DIR:/cache:rw,/jetstream2/scratch/main/colabfold:/cache/colabfold:rw
     scheduling:

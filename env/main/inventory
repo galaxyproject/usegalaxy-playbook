@@ -1,7 +1,3 @@
-# otherwise it uses 3.9, which doesn't have all the system modules installed, probably fixed in a newer ansible (I'm
-# using 2.11.11)
-galaxy-vgp.tacc.utexas.edu ansible_python_interpreter=/usr/libexec/platform-python3.6
-
 [all:vars]
 ansible_ssh_executable = ./.ssh-keyboard-interactive
 
@@ -12,6 +8,10 @@ galaxy-main2.tacc.utexas.edu
 galaxy-main3.tacc.utexas.edu
 galaxy-main4.tacc.utexas.edu
 galaxy-vgp.tacc.utexas.edu
+#galaxy-vgp.tacc.utexas.edu ansible_host=galaxy-vgpr.tacc.utexas.edu
+
+[galaxywebservers]
+galaxy-main1.tacc.utexas.edu
 
 [galaxystaticservers]
 galaxy-main.tacc.utexas.edu
@@ -20,11 +20,8 @@ galaxy-main.tacc.utexas.edu
 galaxyservers
 
 [pulsarservers]
-login3.stampede3.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executable=./.ssh-keyboard-interactive
 login4.frontera.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executable=./.ssh-keyboard-interactive
 vm030.bridges2.psc.edu ansible_ssh_user=xcgalaxy ansible_python_interpreter=/usr/bin/python3
-login01.expanse.sdsc.edu ansible_ssh_user=xgalaxy ansible_python_interpreter=/usr/bin/python3
-login01.anvil.rcac.purdue.edu ansible_ssh_user=x-xcgalaxy
 jetstream2.galaxyproject.org ansible_ssh_user=rocky
 jetstream2-vgp.galaxyproject.org ansible_ssh_user=rocky
 

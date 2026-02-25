@@ -46,14 +46,13 @@ host_crontabs:
 miniconda_prefix: "{{ _expanse_nfs_root }}/conda"
 miniconda_channels:
   - conda-forge
-  - defaults
 miniconda_conda_environments:
-  __python@3.11:
+  __python@3.13:
     packages:
-      - python=3.11
-  __curl@7.71:
+      - python=3.13
+  __curl@8.14:
     packages:
-      - curl=7.71
+      - curl=8.14.1
 
 supervisord_install: virtualenv-unprivileged
 #supervisord_prefix: "{{ _expanse_project_root }}/supervisor"
@@ -68,7 +67,7 @@ host_supervisor_configs:
 supervisord_unprivileged_command: "{ date; pgrep -u {{ ansible_user }} supervisord || '{{ supervisord_prefix }}/bin/supervisord' -c '{{ supervisord_conf_path }}'; } >> {{ supervisord_log_dir }}/supervisord-launch.log 2>&1"
 
 # This is the rebased commit on top of the cvmfsexec-singularity branch
-pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@f13cdf0de588471fb8b0f5f50e22b6d612579e22#egg=pulsar-app"
+pulsar_package_name: "git+https://github.com/natefoo/pulsar.git@9fa13efda85096e31bfac531a5c61d9848db3ff4#egg=pulsar-app"
 pulsar_package_version: "{{ omit }}"
 pulsar_root: "{{ _expanse_instance_root }}/pulsar"
 pulsar_restart_handler_name: supervisor restart pulsar
@@ -76,19 +75,20 @@ pulsar_persistence_dir: "{{ _expanse_scratch_root }}/{{ galaxy_instance_codename
 pulsar_staging_dir: "{{ _expanse_scratch_root }}/{{ galaxy_instance_codename }}/staging"
 #galaxy_root: not required
 
-pulsar_env:
-  PATH: "{{ miniconda_prefix }}/envs/__curl@7.71/bin:/cm/shared/apps/slurm/current/sbin:/cm/shared/apps/slurm/current/bin:/cm/shared/apps/spack/cpu/opt/spack/linux-centos8-zen/gcc-8.3.1/gcc-10.2.0-n7su7jf54rc7l2ozegds5xksy6qhrjin/bin:/home/xgalaxy/.local/bin:/home/xgalaxy/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/dell/srvadmin/bin"
+#pulsar_env:
+#  #PATH: "{{ miniconda_prefix }}/envs/__curl@8.14/bin:/cm/shared/apps/slurm/current/sbin:/cm/shared/apps/slurm/current/bin:/cm/shared/apps/spack/cpu/opt/spack/linux-centos8-zen/gcc-8.3.1/gcc-10.2.0-n7su7jf54rc7l2ozegds5xksy6qhrjin/bin:/home/xgalaxy/.local/bin:/home/xgalaxy/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/dell/srvadmin/bin"
+#  #PATH: "{{ miniconda_prefix }}/envs/__curl@8.14/bin:/cm/shared/apps/slurm/current/sbin:/cm/shared/apps/slurm/current/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
 
 
 pulsar_supervisor_env:
   - PATH="{{ pulsar_venv_dir }}/bin:/cm/shared/apps/slurm/current/bin:%(ENV_PATH)s"
-  - LD_LIBRARY_PATH="{{ miniconda_prefix }}/envs/__curl@7.71/lib:/cm/shared/apps/slurm/current/lib64"
+  - LD_LIBRARY_PATH="{{ miniconda_prefix }}/envs/__curl@8.14/lib:/cm/shared/apps/slurm/current/lib64"
   # determine where the slurm.conf is with `scontrol write config` with no path arg
   - SLURM_CONF="/cm/shared/apps/slurm/var/etc/expanse/slurm.conf"
 
 galaxy_user: xgalaxy
 pulsar_privsep_user: "{{ galaxy_user }}"
-pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.11/bin/python3 -m venv"
+pip_virtualenv_command: "{{ miniconda_prefix }}/envs/__python@3.13/bin/python3 -m venv"
 pip_extra_args: "--index-url https://wheels.galaxyproject.org/ --extra-index-url https://pypi.org/simple"
 
 pulsar_pycurl_ssl_library: openssl
