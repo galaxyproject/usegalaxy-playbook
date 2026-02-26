@@ -254,12 +254,6 @@ tools:
         shell: /bin/sh
         identifier: /cvmfs/main.galaxyproject.org/singularity/bioc-galaxy:3.21.live.2
 
-  # TEMP for Live!
-  toolshed.g2.bx.psu.edu/repos/goeckslab/vitessce_spatial/vitessce_spatial/.*:
-    scheduling:
-      reject:
-      - pulsar
-
   # interactive tools
 
   .*interactive_tool_.*:
@@ -712,6 +706,46 @@ tools:
     scheduling:
       require:
       - stampede3
+
+  toolshed.g2.bx.psu.edu/repos/goeckslab/rename_tiff_channels/rename_tiff_channels/.*:
+    cores: 1
+    mem: 3.7
+
+  toolshed.g2.bx.psu.edu/repos/goeckslab/scimap_mcmicro_to_anndata/scimap_mcmicro_to_anndata/.*:
+    cores: 4
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/goeckslab/scimap_phenotyping/scimap_phenotyping/.*:
+    cores: 4
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/goeckslab/squidpy/squidpy_spatial/*:
+    cores: 1
+    mem: 7
+    env:
+    - name: _GALAXY_JOB_TMP_DIR
+      value: /tmp
+
+  toolshed.g2.bx.psu.edu/repos/goeckslab/vitessce_spatial/vitessce_spatial/.*:
+    cores: 16
+    mem: 58
+
+  toolshed.g2.bx.psu.edu/repos/imgteam/bfconvert/ip_convertimage/.*:
+    cores: 8
+    mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/imgteam/overlay_moving_and_fixed_image/ip_viz_overlay_moving_and_fixed_image/.*:
+    cores: 8
+    # TODO: is this needed? shared DB is just cores: 8 with no mem
+    mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/imgteam/projective_transformation/ip_projective_transformation/.*:
+    cores: 1
+    mem: 28
+
+  toolshed.g2.bx.psu.edu/repos/imgteam/scale_image/ip_scale_image/.*:
+    cores: 1
+    mem: 12
 
   toolshed.g2.bx.psu.edu/repos/iuc/abyss/abyss-pe/.*:
     cores: 90
@@ -1745,6 +1779,15 @@ tools:
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_evaluate/ludwig_evaluate/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/image_learner/image_learner/.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/multimodal_learner/multimodal_learner/0\.1\..*: {inherits: _multimodal_learner_1.4.0_gpu}
+
+  toolshed.g2.bx.psu.edu/repos/imgteam/libcarna_render/libcarna_render/.*:
+    gpus: 0.2
+    cores: 4
+    mem: 14
+    scheduling:
+      require:
+      - gpu
+      - pulsar
 
   #toolshed.g2.bx.psu.edu/repos/perssond/coreograph/unet_coreograph/.*:
   #  gpus: 0.2
