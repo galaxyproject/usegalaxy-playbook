@@ -535,8 +535,9 @@ destinations:
       - bridges2
       require:
       - pulsar
-      #reject:
-      #- offline
+      # moving to hpc_pulsar_servers 2026-02-26
+      reject:
+      - offline
 
   expanse:
     inherits: _pulsar
