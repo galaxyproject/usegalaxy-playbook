@@ -1958,7 +1958,6 @@ tools:
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.0: {inherits: _legacy_local}
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/1.1.1: {inherits: _legacy_local}
   toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/1\.2\.1.*: {inherits: _legacy_local}
-  toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/1\.10\.0.*: {inherits: _legacy_local}
 
   # legacy conda-in-singularity tools
 
@@ -2153,6 +2152,11 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/pipelign/pipelign/0.2\+galaxy0:
     inherits: _legacy
     mem: 5.6
+
+  toolshed.g2.bx.psu.edu/repos/iuc/dropletutils/dropletutils/1\.10\.0.*:
+    inherits: _legacy_local
+    mem: 14
+
 
   # mothur needs special limits on file sizes and forks
   _mothur:
