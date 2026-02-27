@@ -1,0 +1,48 @@
+<tool id="interactive_tool_qupath" tool_type="interactive" name="QuPath" version="@VERSION@" profile="22.05">
+    <icon src="qupath.png"/>
+    <description>interactive Open Software for Bioimage Analysis</description>
+    <macros>
+        <token name="@VERSION@">0.6.0-1</token>
+    </macros>
+    <requirements>
+        <container type="docker">quay.io/galaxy/qupath-headless:@VERSION@</container>
+    </requirements>
+    <entry_points>
+        <entry_point name="QuPath on $infile.display_name" requires_domain="True">
+            <port>5800</port>
+        </entry_point>
+    </entry_points>
+    <command detect_errors="exit_code">
+    <![CDATA[
+        export HOME=\$PWD &&
+        mkdir -p ./outputs &&
+        chown 1000:1000 ./outputs || true && ## the app user of the container (in NFS export with root-shash this will fail and is not needed)
+        ## the /opt/qupath/infile.tiff file is loaded automatically into the application
+        ln -s '$infile' '/opt/qupath/infile.tiff' &&
+        /init
+    ]]>
+    </command>
+    <inputs>
+        <param name="infile" type="data" format="tiff" label="Input file in TIFF format"/>
+    </inputs>
+    <outputs>
+        <data name="version" format="txt" label="${tool.name} on ${on_string}: version.txt" from_work_dir="version.txt" />
+        <collection name="outputs" type="list" label="QuPath outputs">
+            <discover_datasets pattern="__name_and_ext__" directory="outputs" />
+        </collection>
+    </outputs>
+    <tests>
+    </tests>
+    <help><![CDATA[
+
+QuPath is a cross-platform software application designed for bioimage analysis - and specifically to meet the needs of whole slide image analysis and digital pathology.
+
+QuPath aims to be user-friendly without compromising on power and flexibility so that it can handle tasks at all levels of complexity:
+from manually drawing regions and counting structures, to automatically detecting and interactively classifying hundreds of thousands
+of cells in huge images many gigabytes in size.
+]]>
+    </help>
+    <citations>
+        <citation type="doi">10.1038/s41598-017-17204-5</citation>
+    </citations>
+</tool>
