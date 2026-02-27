@@ -1061,18 +1061,18 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
-    #cores: 12
-    #mem: 92
-    cores: 32
-    mem: 190
-    context:
-      force_cores: true
-    scheduling:
-      #prefer:
-      #- stampede3-skx
-      require:
-      - stampede3-skx
-      - stampede3
+    cores: 12
+    mem: 92
+    #cores: 32
+    #mem: 190
+    #context:
+    #  force_cores: true
+    #scheduling:
+    #  #prefer:
+    #  #- stampede3-skx
+    #  require:
+    #  - stampede3-skx
+    #  - stampede3
 
   toolshed.g2.bx.psu.edu/repos/iuc/gemini_load/gemini_load/.*:
     cores: 8
