@@ -1067,7 +1067,9 @@ tools:
     #mem: 190
     #context:
     #  force_cores: true
-    #scheduling:
+    scheduling:
+      reject:
+      - expanse
     #  #prefer:
     #  #- stampede3-skx
     #  require:
@@ -1481,8 +1483,8 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_collate/samtools_collate/.*:
-    cores: 4
-    mem: 14
+    cores: 16
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/samtools_fixmate/samtools_fixmate/.*:
     mem: 7.8
