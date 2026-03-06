@@ -280,9 +280,11 @@ tools:
       docker_run_extra_arguments: "-e NB_UID=$(id -u)"
 
   interactive_tool_qiskit_jupyter_notebook:
-    # TODO: container doesn't honor $NB_UID
-    inherits: interactive_tool_jupyter_notebook
-    mem: 7
+    cores: 3
+    mem: 12
+    params:
+      # TODO: the env vars are already included, why don't they work?
+      docker_run_extra_arguments: "-m {mem}g -e IBM_QUANTUM_TOKEN -e IBM_QUANTUM_INSTANCE -e IBM_QUANTUM_CHANNEL"
 
   .*interactive_tool_rstudio:
     params:
@@ -544,6 +546,10 @@ tools:
       if: input_size >= 0.02
       cores: 4
       mem: min(max(int(input_size * 12), 8), 28)
+
+  toolshed.g2.bx.psu.edu/repos/card/rgi/rgi/.*:
+    cores: 4
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/csbl/repeatmodeler/repeatmodeler/.*:
     # FIXME: this is wasting huge amounts of r3.xl memory. used to use stampede3-icx, why did that change?
@@ -989,7 +995,17 @@ tools:
   # busco under the hood?
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
     cores: 16
-    mem: 8 + 10 * input_size
+    mem: |
+      options = job.get_param_values(app)
+      input = options["input"]
+      if hasattr(input, "first_dataset_instance"):
+          input = input.first_dataset_instance()
+      elif hasattr(input, "dataset_instances"):
+          input = input.dataset_instances[0]
+      mult = 1.0
+      if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
+          mult = 3.3
+      8 + 10 * mult * input_size
 
   toolshed.g2.bx.psu.edu/repos/iuc/crossmap_bed/crossmap_bed/.*:
     cores: 1
@@ -1061,8 +1077,8 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/gtdbtk_classify_wf/gtdbtk_classify_wf/.*:
-    cores: 12
-    mem: 92
+    cores: 32
+    mem: 120
     #cores: 32
     #mem: 190
     #context:

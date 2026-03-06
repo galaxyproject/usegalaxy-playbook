@@ -97,22 +97,24 @@ tools:
   #      - bridges2-em
 
   toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/.*:
-    rules:
-    - id: picard_markduplicates_scalable_input_rule
-      if: input_size < 68
-      mem: min(max(int(input_size * 14), 28), max_scaled_mem)
-    - id: picard_markduplicates_scalable_input_rule
-      if: input_size >= 68
-      # Bridges-2 EM
-      #cores: min(max(int((input_size * 14)/1024), 1), 4) * 24
-      # just needs to be inside the min/max range, mem is a product of cores
-      #mem: 1024
-      cores: 80
-      mem: 4080
-      scheduling:
-        require:
-        - stampede3-nvdimm
-        #- bridges2-em
+    cores: 1
+    mem: min(max(int(input_size * 14), 28), max_scaled_mem)
+    #rules:
+    #- id: picard_markduplicates_scalable_input_rule
+    #  if: input_size < 68
+    #  mem: min(max(int(input_size * 14), 28), max_scaled_mem)
+    #- id: picard_markduplicates_scalable_input_rule
+    #  if: input_size >= 68
+    #  # Bridges-2 EM
+    #  #cores: min(max(int((input_size * 14)/1024), 1), 4) * 24
+    #  # just needs to be inside the min/max range, mem is a product of cores
+    #  #mem: 1024
+    #  cores: 80
+    #  mem: 4080
+    #  scheduling:
+    #    require:
+    #    - stampede3-nvdimm
+    #    #- bridges2-em
     env:
     - name: _JAVA_OPTIONS_EXTRA
       value: "-XX:-UseGCOverheadLimit"
