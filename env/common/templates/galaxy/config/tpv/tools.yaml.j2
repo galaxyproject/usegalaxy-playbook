@@ -1185,6 +1185,21 @@ tools:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/singularity.galaxyproject.org/all/lofreq:2.1.5--py312he57d009_12"}]
 
+  toolshed.g2.bx.psu.edu/repos/iuc/metamdbg_asm/metamdbg_asm/.*:
+    cores: 16
+    mem: |
+      options = job.get_param_values(app)
+      # FIXME: doesn't handle mixed types
+      input = options["inputs"]["reads"][0]
+      if hasattr(input, "first_dataset_instance"):
+          input = input.first_dataset_instance()
+      elif hasattr(input, "dataset_instances"):
+          input = input.dataset_instances[0]
+      mult = 1.0
+      if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
+          mult = 3.3
+      min(max(input_size * 2 * mult, 7), max_scaled_mem)
+
   toolshed.g2.bx.psu.edu/repos/iuc/metasbt_index/metasbt_index/0.1.5+galaxy1:
     cores: 8
     mem: 28
