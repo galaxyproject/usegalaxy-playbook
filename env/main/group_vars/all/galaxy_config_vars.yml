@@ -196,7 +196,7 @@ base_app_main: &BASE_APP_MAIN
 
   # TODO: this was for GIEs but other stuff uses this now?
   galaxy_infrastructure_url: https://usegalaxy.org
-  #trust_ipython_notebook_conversion: "True"
+  #trust_ipython_notebook_conversion: true
 
   interactivetools_enable: true
   # TODO: required?
@@ -224,7 +224,7 @@ base_app_main: &BASE_APP_MAIN
   database_engine_option_pool_size: "{{ galaxy_config_database_engine_option_pool_size | default(10) }}"
   database_engine_option_max_overflow: "{{ galaxy_config_option_database_engine_option_max_overflow | default(20) }}"
   database_engine_option_server_side_cursors: false
-  manage_dependency_relationships: "False"
+  manage_dependency_relationships: false
   len_file_path: /cvmfs/data.galaxyproject.org/managed/len/ucsc
   collect_outputs_from: job_working_directory
   smtp_server: localhost
@@ -243,10 +243,10 @@ base_app_main: &BASE_APP_MAIN
   nginx_x_accel_redirect_base: /_x_accel_redirect
   #upstream_mod_zip: true
   upstream_gzip: true
-  log_events: "False"
-  log_actions: "False"
-  debug: "False"
-  use_interactive: "False"
+  log_events: false
+  log_actions: false
+  debug: false
+  use_interactive: false
   use_pbkdf2: true
   allow_user_deletion: true
   allow_user_dataset_purge: true
@@ -314,7 +314,7 @@ base_app_main: &BASE_APP_MAIN
     - type: cgroup
 
   # For handler heartbeats
-  #use_heartbeat: "True"
+  #use_heartbeat: true
   #heartbeat_interval: "-1"
   #heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}_{pid}.log"
 
@@ -326,7 +326,7 @@ base_app_main: &BASE_APP_MAIN
   # start high, decrease when we've fixed things
   slow_query_log_threshold: "2"
 
-  legacy_eager_objectstore_initialization: "False"
+  legacy_eager_objectstore_initialization: false
 
   enable_notification_system: true
   enable_celery_tasks: true

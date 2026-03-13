@@ -33,12 +33,6 @@ galaxy_themes_default_welcome: https://galaxyproject.org/usegalaxy/welcome/
 ## used by: galaxyproject.galaxy
 base_app_main: &BASE_APP_MAIN
 
-  # message box
-
-  #message_box_visible: "True"
-  #message_box_content: 'This Galaxy currently runs experimental version with many bugs, please report them <a target="_blank" href="https://github.com/galaxyproject/galaxy/issues/new">on GitHub</a> or come talk to us about them on <a href="https://gitter.im/galaxyproject/Lobby">Gitter</a>.'
-  #message_box_class: warning
-
   # secrets
 
   database_connection: "{{ galaxy_config_database_connection }}"
@@ -226,7 +220,7 @@ base_app_main: &BASE_APP_MAIN
 
   # TODO: this was for GIEs but other stuff uses this now?
   galaxy_infrastructure_url: https://test.galaxyproject.org
-  #trust_ipython_notebook_conversion: "True"
+  #trust_ipython_notebook_conversion: true
 
   interactivetools_enable: true
   # TODO: required?
@@ -239,7 +233,7 @@ base_app_main: &BASE_APP_MAIN
   database_engine_option_pool_size: 10
   database_engine_option_max_overflow: 20
   database_engine_option_server_side_cursors: false
-  manage_dependency_relationships: "False"
+  manage_dependency_relationships: false
   len_file_path: /cvmfs/data.galaxyproject.org/managed/len/ucsc
   collect_outputs_from: job_working_directory
   smtp_server: localhost
@@ -250,42 +244,42 @@ base_app_main: &BASE_APP_MAIN
   search_url: "https://galaxyproject.org/search/"
   email_domain_blocklist_file: "{{ galaxy_config_dir }}/disposable_email_blocklist.conf"
   registration_warning_message: "Please register only one account. The {{ galaxy_instance_hostname }} service is provided free of charge and has limited computational and data storage resources. <strong>Registration and usage of multiple accounts is tracked and such accounts are subject to termination and data deletion.</strong>"
-  user_activation_on: "True"
+  user_activation_on: true
   activation_grace_period: 6
   inactivity_box_content: "Your account has not been activated yet.  Feel free to browse around and see what's available, but you won't be able to upload data or run jobs until you have verified your email address."
   helpsite_url: "https://help.galaxyproject.org/"
   wiki_url: "https://galaxyproject.org/"
   terms_url: "https://{{ galaxy_instance_hostname }}/static/terms.html"
   ga_code: "UA-45719423-9"
-  static_enabled: "False"
-  enable_cloud_launch: "True"
+  static_enabled: false
+  enable_cloud_launch: true
   cloudlaunch_default_ami: ami-a7dbf6ce
   nginx_x_accel_redirect_base: /_x_accel_redirect
   #upstream_mod_zip: true
-  log_events: "False"
-  log_actions: "False"
-  debug: "False"
-  use_interactive: "False"
-  use_pbkdf2: "True"
-  allow_user_deletion: "True"
-  allow_user_dataset_purge: "True"
-  enable_openid: "True"
+  log_events: false
+  log_actions: false
+  debug: false
+  use_interactive: false
+  use_pbkdf2: true
+  allow_user_deletion: true
+  allow_user_dataset_purge: true
+  enable_openid: true
   enable_oidc: true
-  enable_quotas: "True"
-  track_jobs_in_database: "True"
-  retry_metadata_internally: "False"
+  enable_quotas: true
+  track_jobs_in_database: true
+  retry_metadata_internally: false
   retry_job_output_collection: 5
   #metadata_strategy: "legacy"
   #cleanup_job: onsuccess
   cleanup_job: never
   monitor_thread_join_timeout: 60
-  cache_user_job_count: "True"
-  #outputs_to_working_directory: "True"
-  allow_user_impersonation: "True"
+  cache_user_job_count: true
+  #outputs_to_working_directory: true
+  allow_user_impersonation: true
   max_metadata_value_size: 1000000
   brand: 'Test'
-  enable_beta_tool_command_isolation: "True"
-  new_user_dataset_access_role_default_private: "True"
+  enable_beta_tool_command_isolation: true
+  new_user_dataset_access_role_default_private: true
   tool_name_boost: 12
   tool_section_boost: 5
   #tool_description_bost: 40
@@ -293,7 +287,7 @@ base_app_main: &BASE_APP_MAIN
   #tool_stub_boost: 1
   #tool_help_boost: 1
   tool_search_limit: 30
-  tool_enable_ngram_search: "True"
+  tool_enable_ngram_search: true
   tool_ngram_minsize: 3
   tool_ngram_maxsize: 4
 
@@ -314,16 +308,16 @@ base_app_main: &BASE_APP_MAIN
 
   # dependency resolver config
   conda_prefix: "/cvmfs/test.galaxyproject.org/deps/_conda"
-  #enable_beta_mulled_containers: "True"
-  enable_mulled_containers: "True"
+  #enable_beta_mulled_containers: true
+  enable_mulled_containers: true
   #container_image_cache_path: /cvmfs/sandbox.galaxyproject.org
-  outputs_to_working_directory: "True"
+  outputs_to_working_directory: true
 
   #mulled_resolution_cache_data_dir: "{{ galaxy_mutable_data_dir }}/mulled/data"
   #mulled_resolution_cache_lock_dir: "{{ galaxy_mutable_data_dir }}/mulled/lock"
 
   # For handler heartbeats
-  #use_heartbeat: "True"
+  #use_heartbeat: true
   #heartbeat_interval: "-1"
   #heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}.log"
 
