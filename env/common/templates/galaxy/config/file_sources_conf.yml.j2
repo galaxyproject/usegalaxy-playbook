@@ -190,6 +190,15 @@
   requires_roles: galaxy-archiver-role
   writable: true
 
+# Temp for Marius
+- type: posix
+  id: brc-export-temp
+  label: BRC Export Temp
+  doc: Temporary export source for BRC Analytics
+  root: "/corral4/{{ galaxy_instance_codename }}/brc-export-temp/"
+  requires_roles: brc-export
+  writable: true
+
 - type: ascp
   id: ebi_aspera
   label: "EBI Aspera Downloads"
