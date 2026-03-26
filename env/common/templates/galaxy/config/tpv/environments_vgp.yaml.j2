@@ -106,7 +106,7 @@ destinations:
     params:
       submit_native_specification: "--partition=EM --time={time or default_time} --nodes=1 --ntasks={int(cores - (cores % 24))}"
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
-      jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/jobs/vgp
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
       singularity_no_mount: null
