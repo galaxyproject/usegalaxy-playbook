@@ -458,16 +458,11 @@ tools:
       cores: 16
       # 95th is 9x, 99th is 37x
       mem: |
-        options = job.get_param_values(app)
-        inputs = options["inputs"]
         total_size = 0
-        for input in inputs:
-            if hasattr(input, "first_dataset_instance"):
-                input = input.first_dataset_instance()
-            elif hasattr(input, "dataset_instances"):
-                input = input.dataset_instances[0]
+        for da in job.input_datasets:
+            input = da.dataset
             mult = 1.0
-            if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
+            if input.extension.endswith((".gz", ".bz2")):
                 mult = 3.4
             total_size += helpers.get_dataset_size(input.dataset) * mult
         min(max(int(total_size * 12), 28), 240)
