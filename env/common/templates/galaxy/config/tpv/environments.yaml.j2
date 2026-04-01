@@ -82,6 +82,7 @@ destinations:
     context:
       default_xdg_cache_home: "/tmp/{{ galaxy_user }}-cache"
     params:
+      transport_timeout: 300
       remote_metadata: true
       remote_property_galaxy_home: /cvmfs/{{ galaxy_cvmfs_repo }}/galaxy
       jobs_directory: {{ galaxy_job_conf_jetstream2_jobs_directory }}
