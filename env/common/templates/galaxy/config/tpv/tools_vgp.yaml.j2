@@ -19,6 +19,10 @@ tools:
       - pulsar
       - offline
 
+  # TODO: https://github.com/galaxyproject/galaxy/issues/22331
+  CONVERTER_gz_to_uncompressed:
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/bgruening/agat/agat/.*:
     # TODO: set high until we collect some runtime data
     cores: 1
