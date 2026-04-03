@@ -96,7 +96,7 @@ destinations:
     # Cannot inherit a definition from another file
     #inherits: bridges2
     inherits: _default_environment_vgp
-    runner: bridges
+    runner: bridges2
     min_accepted_cores: 24
     min_accepted_mem: 1024
     max_accepted_cores: 96
@@ -108,7 +108,7 @@ destinations:
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/jobs/vgp
       singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges2 | join(',') }}"
       singularity_no_mount: null
       tmp_dir: true
       outputs_to_working_directory: false

@@ -103,9 +103,9 @@ galaxy_job_conf_runners:
   frontera:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: frontera
-  bridges:
+  bridges2:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: bridges
+    manager: bridges2
   expanse:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: expanse
@@ -158,7 +158,7 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
     - "/dev/shm:rw"
     - "/tmp/slurm_job_$SLURM_JOB_ID:rw"
-  bridges:
+  bridges2:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"

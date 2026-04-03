@@ -461,7 +461,7 @@ destinations:
 
   bridges2:
     inherits: _pulsar
-    runner: bridges
+    runner: bridges2
     min_accepted_cores: 16
     min_accepted_mem: 32
     #max_accepted_cores: 256
@@ -477,10 +477,10 @@ destinations:
       # https://github.com/natefoo/slurm-drmaa/issues/83
       #submit_native_specification: "--partition=RM-shared --time={time or default_time} --nodes=1 --ntasks-per-node={int(mem/2)} --mem={int(mem/2)*2000}"
       submit_native_specification: "--partition=RM-shared --time={time or default_time} --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2000}"
-      jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/{{ galaxy_instance_codename }}/staging/
+      jobs_directory: /ocean/projects/mcb140028p/xcgalaxy/jobs/{{ galaxy_instance_codename }}
       metadata_strategy: directory_celery
       singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges | join(',') }}"
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.bridges2 | join(',') }}"
       singularity_no_mount: null
       #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- singularity
       container_resolvers:
@@ -536,9 +536,8 @@ destinations:
       - bridges2
       require:
       - pulsar
-      # moving to hpc_pulsar_servers 2026-02-26
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   expanse:
     inherits: _pulsar

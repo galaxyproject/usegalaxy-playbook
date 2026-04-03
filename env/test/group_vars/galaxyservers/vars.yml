@@ -122,9 +122,9 @@ galaxy_job_conf_runners:
     relay_username: pulsar
     relay_password: "{{ pulsar_relay_password }}"
     #relay_topic_prefix: "{{ galaxy_instance_codename }}"
-  bridges:
+  bridges2:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: bridges
+    manager: bridges2
   expanse:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: test_expanse
@@ -172,7 +172,7 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
-  bridges:
+  bridges2:
     - "$tool_directory:ro"
     - "$working_directory:rw"
     - "$job_directory:rw"
