@@ -229,22 +229,6 @@ galaxy_job_conf_singularity_volumes:
 galaxy_job_conf_tools: []
   #- id: interactive_tool_jupyter_notebook
   #  handler: k8s
-  #- id: interactive_tool_rstudio
-  #  handler: k8s
-  #- id: interactive_tool_panoply
-  #  handler: k8s
-  #- id: interactive_tool_phinch
-  #  handler: k8s
-  #- id: interactive_tool_pavian
-  #  handler: k8s
-  #- id: interactive_tool_qiskit_jupyter_notebook
-  #  handler: k8s
-  #- id: interactive_tool_blobtoolkit
-  #  handler: k8s
-  #- id: interactive_tool_phyloseq
-  #  handler: k8s
-  #- id: interactive_tool_chat_analysis
-  #  handler: k8s
 
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
@@ -260,9 +244,6 @@ galaxy_job_conf_limits:
     value: 200G
 
   # pulsar envs
-  - type: environment_user_concurrent_jobs
-    id: jetstream2_k8s
-    value: 1
   - type: environment_user_concurrent_jobs
     id: jetstream2_gxit
     value: 1

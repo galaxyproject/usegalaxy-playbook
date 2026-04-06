@@ -14,6 +14,7 @@ tools:
       cyclone_large_partition: multi
       cyclone_node: null
       js2_partition: tpv
+      js2_lm_partition: tpv-lm
       js2_gpu_partition: gpu-medium
       mem_factor: 3.7
       # some rules use this as the maximum amount of allowed memory in scaled calculations
@@ -107,6 +108,7 @@ tools:
         cyclone_small_partition: priority
         cyclone_large_partition: priority
         js2_partition: priority
+        js2_lm_partition: priority
       max_cores: 2
       max_mem: max_cores * 3.5
       scheduling:
@@ -126,6 +128,7 @@ tools:
         cyclone_small_partition: priority
         cyclone_large_partition: priority
         js2_partition: priority
+        js2_lm_partition: priority
       max_cores: 8
       max_mem: max_cores * 3.5
       scheduling:
@@ -145,6 +148,7 @@ tools:
         cyclone_small_partition: priority
         cyclone_large_partition: priority
         js2_partition: priority
+        js2_lm_partition: priority
       max_cores: 16
       scheduling:
         require:

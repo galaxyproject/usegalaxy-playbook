@@ -124,7 +124,8 @@ galaxy_job_conf_runners:
     #relay_topic_prefix: "{{ galaxy_instance_codename }}"
   bridges2:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: bridges2
+    manager: test_bridges2
+    amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
   expanse:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: test_expanse
@@ -138,9 +139,6 @@ galaxy_job_conf_runners:
     manager: rockfish_devgalaxy
     # FIXME: this doesn't work because status updates/finish go back to Main
     #amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
-  jetstream2_k8s:
-    load: galaxy.jobs.runners.pulsar:PulsarKubernetesJobRunner
-    manager: jetstream2_k8s
 
 galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:3.8.3
 
@@ -260,10 +258,6 @@ galaxy_job_conf_tools:
   - id: interactive_tool_jupyter_notebook
     environment: tpv_dispatcher
     #environment: jetstream2_gxit
-  #- id: interactive_tool_rstudio
-  #  environment: tacc_k8s
-  #- id: interactive_tool_panoply
-  #  environment: tacc_k8s
 
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
@@ -285,9 +279,6 @@ galaxy_job_conf_limits:
   - type: environment_user_concurrent_jobs
     id: jetstream2
     value: 6
-  - type: environment_user_concurrent_jobs
-    id: tacc_k8s
-    value: 1
 
   # tpv per-environment total limits
   - type: environment_total_concurrent_jobs

@@ -6,6 +6,7 @@ roles:
       cyclone_small_partition: priority
       cyclone_large_partition: priority
       js2_partition: priority
+      js2_lm_partition: priority
   "JS2 Full GPU":
     context:
       js2_gpu_partition: gpu-xl
@@ -15,6 +16,7 @@ roles:
       cyclone_small_partition: priority
       cyclone_large_partition: priority
       js2_partition: priority
+      js2_lm_partition: priority
     rules:
     # NOTE: changes to training rules need to be reflected in the training tag rules on the default tool
     - id: training_small_rule
