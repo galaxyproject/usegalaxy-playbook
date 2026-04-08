@@ -406,6 +406,9 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/location/lexicmap_index.loc"
   - src: files/galaxy/config/location/kmindex.loc
     dest: "{{ galaxy_config_dir }}/location/kmindex.loc"
+  # HACK
+  - src: files/galaxy/tools/qupath.png
+    dest: "{{ galaxy_local_tools_dir }}"
 
 # specifies config files to template from the playbook
 galaxy_config_templates:
