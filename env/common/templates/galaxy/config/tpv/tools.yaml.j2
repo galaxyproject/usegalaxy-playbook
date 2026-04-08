@@ -1745,14 +1745,7 @@ tools:
       - jetstream2
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx_execute/.*:
-    context:
-      force_cores: true
-      time: "168:00:00"
-    cores: 32
-    mem: 248
-    scheduling:
-      require:
-      - jetstream2
+    inherits: toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_fcs_adaptor/ncbi_fcs_adaptor/.*:
     cores: 1
