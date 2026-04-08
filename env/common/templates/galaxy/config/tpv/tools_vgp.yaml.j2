@@ -142,6 +142,9 @@ tools:
       gbp = int(options.get("developer", {}).get("gigabase_pairs", 2))
       gbp * 120
 
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx_execute/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*
+
   toolshed.g2.bx.psu.edu/repos/iuc/orfipy/orfipy/.*:
     cores: 16
     mem: 14
