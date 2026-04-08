@@ -1747,6 +1747,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx_execute/.*:
     inherits: toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx/.*
 
+  toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_egapx/ncbi_egapx_prepare_input/.*:
+    # needs minimal resources, produces very large outputs
+    scheduling:
+      reject:
+      - pulsar
+
   toolshed.g2.bx.psu.edu/repos/richard-burhans/ncbi_fcs_adaptor/ncbi_fcs_adaptor/.*:
     cores: 1
     mem: 28
