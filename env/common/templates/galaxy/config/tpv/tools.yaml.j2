@@ -293,6 +293,9 @@ tools:
   .*interactive_tool_pcstudio.*:
     cores: 2
     mem: 7
+    context:
+      # TODO: temp for workshop 2026-04-09
+      time: 12:00:00
     params:
       docker_run_extra_arguments: "-e USER_ID=$(id -u) -e GROUP_ID=$(id -g)"
 
