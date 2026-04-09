@@ -1186,4 +1186,40 @@
       </output>
     </data_table>
   </data_manager>
+<data_manager id="data_manager_snpeff_databases" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_snpeff/data_manager/data_manager_snpeff_databases/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_snpeff/617d95d798fa/data_manager_snpeff/data_manager/data_manager_snpEff_databases.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_snpeff/data_manager_snpeff_databases/5.4.0c"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_snpeff</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>617d95d798fa</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_snpeff/data_manager_snpeff_databases/5.4.0c</id><version>5.4.0c</version></tool><data_table name="snpeffv_databases">  <!-- Defines a Data Table to be modified. -->
+      <output> <!-- Handle the output of the Data Manager Tool -->
+        <column name="key"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="version"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="value"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="name"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+      </output>
+    </data_table>
+  </data_manager>
+  <data_manager id="data_manager_snpeff_download" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_snpeff/data_manager/data_manager_snpeff_download/0.0.1" shed_conf_file="/cvmfs/main.galaxyproject.org/config/shed_tool_conf.xml">
+    <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_snpeff/617d95d798fa/data_manager_snpeff/data_manager/data_manager_snpEff_download.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_snpeff/data_manager_snpeff_download/5.4.0c"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_snpeff</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>617d95d798fa</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_snpeff/data_manager_snpeff_download/5.4.0c</id><version>5.4.0c</version></tool><data_table name="snpeffv_genomedb">  <!-- Defines a Data Table to be modified. -->
+      <output> <!-- Handle the output of the Data Manager Tool -->
+        <column name="key"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="version"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="value"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="name"/>  <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="path" output_ref="out_file">
+          <move type="directory" relativize_symlinks="True">
+            <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">${path}</target>
+          </move>
+          <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/${path}</value_translation>
+          <value_translation type="function">abspath</value_translation>
+        </column>
+      </output>
+    </data_table>
+    <data_table name="snpeffv_regulationdb">  <!-- Defines a Data Table to be modified. -->
+      <output> <!-- Handle the output of the Data Manager Tool -->
+        <column name="key"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="version"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="genome"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="value"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+        <column name="name"/>  <!-- columns that are going to be specified by the Data Manager Tool -->
+      </output>
+    </data_table>
+  </data_manager>
 </data_managers>
