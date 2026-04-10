@@ -15,8 +15,17 @@
     <command detect_errors="exit_code">
     <![CDATA[
         export HOME=\$PWD &&
+        ## Match the container user id to the host user/group id if supplied
+        if [ -n "\$USERID" ]; then
+            APP_USER=\$(getent passwd 1000 | cut -d: -f1) &&
+            usermod -u "\$USERID" "\$APP_USER";
+        fi &&
+        if [ -n "\$GROUPID" ]; then
+            APP_GROUP=\$(getent group 1000 | cut -d: -f1) &&
+            groupmod -g "\$GROUPID" "\$APP_GROUP";
+        fi &&
         mkdir -p ./outputs &&
-        chown 1000:1000 ./outputs || true && ## the app user of the container (in NFS export with root-shash this will fail and is not needed)
+        chown "\${USERID:-1000}:\${GROUPID:-1000}" ./outputs || true && ## the app user of the container (in NFS export with root-squash this will fail and is not needed)
         ## the /opt/qupath/infile.tiff file is loaded automatically into the application
         ln -s '$infile' '/opt/qupath/infile.tiff' &&
         /init
