@@ -28,6 +28,9 @@ tools:
     cores: 1
     mem: 14
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_replace_in_line/.*:
+    mem: 7
+
   toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/.*:
     #mem: 120
     mem: 7
@@ -155,6 +158,13 @@ tools:
     # should use the def from tools.yaml, this is just to override for Bridges-2 EM
     # actual usage for VGP appears to be < (input_size * 2)
     rules:
+    - id: hifiasm_small_input_rule
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        (input_size < 3.5 and ont) or (input_size < 9.4 and not ont)
+      cores: 8
+      mem: 28
     - id: hifiasm_scalable_input_rule_ont
       #if: input_size >= 4 and input_size < 240
       if: |
