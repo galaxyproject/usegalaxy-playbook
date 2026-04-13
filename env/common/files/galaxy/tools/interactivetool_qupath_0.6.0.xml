@@ -25,7 +25,9 @@
             groupmod -g "\$GROUPID" "\$APP_GROUP";
         fi &&
         mkdir -p ./outputs &&
-        chown "\${USERID:-1000}:\${GROUPID:-1000}" ./outputs || true && ## the app user of the container (in NFS export with root-squash this will fail and is not needed)
+        ## Skip chown when $USERID is set: the working directory is on NFS already
+        ## owned by the Galaxy job user, and root-squash prevents chown by root.
+        if [ -z "\$USERID" ]; then chown 1000:1000 ./outputs || true; fi && ## 1000 is the uid/gid of the app user inside the QuPath container
         ## the /opt/qupath/infile.tiff file is loaded automatically into the application
         ln -s '$infile' '/opt/qupath/infile.tiff' &&
         /init
