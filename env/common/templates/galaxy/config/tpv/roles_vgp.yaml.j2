@@ -3,10 +3,19 @@
 roles:
   VGP:
     context:
-      js2_partition: vgp
-      js2_lm_partition: vgp
-      default_time: "144:00:00"
+      js2_partition: tpv
+      js2_lm_partition: tpv-lm
+      default_time: "72:00:00"
       max_scaled_mem: 960
     scheduling:
       require:
       - vgp
+  VGL:
+    context:
+      js2_partition: tpv
+      #js2_lm_partition: vgp
+      default_time: "144:00:00"
+      max_scaled_mem: 960
+    scheduling:
+      accept:
+      - vgl

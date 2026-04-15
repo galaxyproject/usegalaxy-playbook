@@ -17,8 +17,8 @@ destinations:
     #inherits: _jetstream2
     inherits: _default_environment_vgp
     runner: jetstream2
-    min_accepted_cores: 1
-    min_accepted_mem: 0
+    min_accepted_cores: 16
+    min_accepted_mem: 240
     max_accepted_cores: 128
     max_accepted_mem: 1024
     max_cores: 128
@@ -27,7 +27,7 @@ destinations:
     #  time: 36:00:00
     #   js2_partition is set on role and (default) tool entitites
     params:
-      submit_native_specification: "--nodes=1 --ntasks={max(int(mem/4), 1)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
+      submit_native_specification: "--nodes=1 --ntasks={max(int(mem/8), 1)} --mem={int(mem*1024)} --time={time or default_time} --partition=vgp"
       default_file_action: {{ pulsar_default_file_action | default("remote_transfer") }}
       jobs_directory: {{ galaxy_job_conf_jetstream2_jobs_directory }}
       remote_metadata: true
@@ -65,30 +65,31 @@ destinations:
       value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_cache
     - name: SINGULARITY_TMPDIR
       value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_tmp
-    rules:
-    - id: jetstream2_single_core_rule
-      if: cores == 1
-      params:
-        submit_native_specification: "--nodes=1 --ntasks=1 --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
-    - id: jetstream2_mem_rule
-      if: not force_cores and cores > 1 and mem > 120
-      params:
-        submit_native_specification: "--nodes=1 --ntasks={int(mem/8)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
-    - id: jetstream2_force_cores_rule
-      if: force_cores and cores > 1
-      params:
-        submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
+    #rules:
+    #- id: jetstream2_single_core_rule
+    #  if: cores == 1
+    #  params:
+    #    submit_native_specification: "--nodes=1 --ntasks=1 --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
+    #- id: jetstream2_mem_rule
+    #  if: not force_cores and cores > 1 and mem > 120
+    #  params:
+    #    submit_native_specification: "--nodes=1 --ntasks={int(mem/8)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
+    #- id: jetstream2_force_cores_rule
+    #  if: force_cores and cores > 1
+    #  params:
+    #    submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
     scheduling:
       accept:
       - general
       - cvmfs
       - docker
+      - vgp
       prefer:
       - jetstream2
       require:
       - pulsar
       - singularity
-      - vgp
+      - vgl
       #reject:
       #- offline
 
