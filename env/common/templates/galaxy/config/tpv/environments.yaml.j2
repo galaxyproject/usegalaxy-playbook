@@ -259,7 +259,7 @@ destinations:
     min_accepted_cores: 1
     min_accepted_mem: 0
     max_accepted_cores: 64
-    max_accepted_mem: 248
+    max_accepted_mem: 240
     params:
       submit_native_specification: "--nodes=1 --ntasks={max(int(mem/4), 1)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
     rules:

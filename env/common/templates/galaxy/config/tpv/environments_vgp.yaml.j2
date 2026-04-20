@@ -17,7 +17,8 @@ destinations:
     #inherits: _jetstream2
     inherits: _default_environment_vgp
     runner: jetstream2
-    min_accepted_cores: 16
+    # for large memory single core tools like picard_MarkDuplicates
+    min_accepted_cores: 1
     min_accepted_mem: 240
     max_accepted_cores: 128
     max_accepted_mem: 1024
