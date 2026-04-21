@@ -66,11 +66,11 @@ destinations:
       value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_cache
     - name: SINGULARITY_TMPDIR
       value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_tmp
-    #rules:
-    #- id: jetstream2_single_core_rule
-    #  if: cores == 1
-    #  params:
-    #    submit_native_specification: "--nodes=1 --ntasks=1 --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
+    rules:
+    - id: jetstream2_single_core_rule
+      if: cores == 1
+      params:
+        submit_native_specification: "--nodes=1 --ntasks=1 --mem={int(mem*1024)} --time={time or default_time} --partition=vgp"
     #- id: jetstream2_mem_rule
     #  if: not force_cores and cores > 1 and mem > 120
     #  params:
@@ -84,7 +84,7 @@ destinations:
       - general
       - cvmfs
       - docker
-      - vgp
+      - large-mem
       prefer:
       - jetstream2
       require:
