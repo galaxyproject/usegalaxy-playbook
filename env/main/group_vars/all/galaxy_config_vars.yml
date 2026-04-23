@@ -8,6 +8,7 @@ galaxy_config_id_secret: "{{ vault_galaxy_config_id_secret }}"
 galaxy_config_sentry_dsn: "{{ vault_galaxy_config_sentry_dsn }}"
 galaxy_internal_amqp_credentials: "{{ vault_galaxy_internal_amqp_credentials }}"
 galaxy_openai_api_key: "{{ vault_galaxy_openai_api_key }}"
+galaxy_litellm_api_key: "{{ vault_galaxy_litellm_api_key }}"
 
 galaxy_db_server: galaxy-db.tacc.utexas.edu
 galaxy_config_database_connection: "postgresql://g2main:{{ galaxy_database_password }}@{{ galaxy_db_server }}/galaxy_main"
@@ -344,8 +345,15 @@ base_app_main: &BASE_APP_MAIN
 
   # https://github.com/galaxyproject/galaxy/issues/18926
   #allowed_origin_hostnames: nekrut.static.observableusercontent.com
-  openai_api_key: "{{ galaxy_openai_api_key }}"
-  openai_model: "gpt-4o"
+  inference_services:
+    default:
+      model: "gpt-oss-120b"
+      api_base_url: "https://litellm.galaxyproject.org/v1/"
+      api_key: "{{ galaxy_litellm_api_key }}"
+    custom_tool:
+      model: "openai:gpt-5-mini"
+      api_key: "{{ galaxy_openai_api_key }}"
+      api_base_url: null
 
 # galaxy.yml contents
 galaxy_config_hash:
