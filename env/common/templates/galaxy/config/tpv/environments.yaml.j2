@@ -506,8 +506,9 @@ destinations:
       - bridges2
       require:
       - pulsar
-      #reject:
-      #- offline
+      # power outage 2026-04-21
+      reject:
+      - offline
 
   expanse:
     inherits: _pulsar
@@ -639,8 +640,9 @@ destinations:
       - anvil
       require:
       - pulsar
-      #reject:
-      #- offline
+      # maintenance 2026-04-22
+      reject:
+      - offline
 
   # could just dual-purpose devgalaxy Pulsar for a100 access
   #rockfish_gpu:
