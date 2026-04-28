@@ -849,7 +849,7 @@ tools:
       if input_sequence.ext.endswith(".gz") or input_sequence.ext.endswith(".bz2"):
           mult = 3.3
       input_sequence_size = float(input_sequence.get_size())/1024**3
-      min(max(input_sequence_size * mult + 2, 14), max_scaled_mem)
+      min(max(input_sequence_size * mult + 12, 14), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     # should allow scheduling on JS2, hpc-shared, and hpc-whole node
