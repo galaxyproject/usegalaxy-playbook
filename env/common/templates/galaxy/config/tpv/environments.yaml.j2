@@ -404,6 +404,11 @@ destinations:
       dependency_resolution: remote
       rewrite_parameters: true
       jobs_directory: /jetstream2/scratch/{{ galaxy_instance_codename }}/jobs
+    # Allows for offlining while still providing a useful message to the user
+    #rules:
+    #  - id: gxits_offline
+    #    if: true
+    #    fail: Galaxy Interactive Tools are temporarily disabled, but should be available again within 24 hours (on May 1).
     scheduling:
       accept:
       - pulsar
