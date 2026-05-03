@@ -254,6 +254,23 @@ tools:
         shell: /bin/sh
         identifier: /cvmfs/main.galaxyproject.org/singularity/bioc-galaxy:3.21.live.2
 
+  # user-defined tools (Galaxy tool builder / DynamicTool). The TPV mapper
+  # looks them up under id `{tool_type}-{uuid}` (tpv/core/mapper.py); the
+  # `tool_provided_resources_<uuid>` id surfaced in errors is a synthetic
+  # entity TPV builds to expose UDT resource requirements.
+  user_defined-.*:
+    cores: 1
+    mem: 3.7
+    scheduling:
+      require:
+      - tool_type_user_defined
+      - pulsar
+      - singularity
+    rules:
+    - id: require_login_user_defined
+      if: user is None
+      fail: An account is required to run this tool. Please log in or create an account.
+
   # interactive tools
 
   .*interactive_tool_.*:
