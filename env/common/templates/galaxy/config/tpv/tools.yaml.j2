@@ -882,7 +882,7 @@ tools:
       mult = 1.0
       if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
           mult = 3.3
-      min(round(min(max(ref_index_mem, (input_size - ref_size) * 2.3 * mult, 7.6), max_scaled_mem) / 4), 128)
+      min(round(min(max(ref_index_mem, (input_size - ref_size + 1) * 2.3 * mult, 7.6), max_scaled_mem) / 4), 128)
     mem: |
       options = job.get_param_values(app)
       ref_size = 0
@@ -907,7 +907,7 @@ tools:
       mult = 1.0
       if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
           mult = 3.3
-      round(min(max(ref_index_mem, (input_size - ref_size) * 2.3 * mult, 7.6), max_scaled_mem))
+      round(min(max(ref_index_mem, (input_size - ref_size + 1) * 2.3 * mult, 7.6), max_scaled_mem))
       #round(cores * 3.9)
     #rules:
     # TODO: make input rules for cached reference compression-aware
