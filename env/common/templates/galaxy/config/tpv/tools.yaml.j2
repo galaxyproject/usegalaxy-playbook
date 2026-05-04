@@ -254,6 +254,21 @@ tools:
         shell: /bin/sh
         identifier: /cvmfs/main.galaxyproject.org/singularity/bioc-galaxy:3.21.live.2
 
+  # user-defined tools (Galaxy tool builder / DynamicTool).
+  # Routing/isolation is handled automatically by current TPV:
+  #   - the synthesized tool entity gets `accept: tool_type_user_defined`
+  #     (tpv/core/mapper.py: __get_environment_inherits)
+  #   - all destinations inherit a synthesized `reject: tool_type_user_defined`
+  #     unless they explicitly opt in via `accept` (jetstream2_user_defined).
+  # We only need to set sensible resource defaults and gate on login.
+  user_defined-.*:
+    cores: 1
+    mem: 3.7
+    rules:
+    - id: require_login_user_defined
+      if: user is None
+      fail: An account is required to run this tool. Please log in or create an account.
+
   # interactive tools
 
   .*interactive_tool_.*:
