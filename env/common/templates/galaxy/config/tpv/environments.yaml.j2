@@ -387,9 +387,8 @@ destinations:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
       require_container: true
     scheduling:
-      accept:
-      - tool_type_user_defined
       require:
+      - tool_type_user_defined
       - pulsar
       - singularity
 
