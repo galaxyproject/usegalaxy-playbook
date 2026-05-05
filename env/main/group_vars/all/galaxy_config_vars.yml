@@ -323,6 +323,7 @@ base_app_main: &BASE_APP_MAIN
   statsd_host: "127.0.0.1"
   statsd_port: "8125"
   statsd_prefix: "main"
+  enable_statsd_middleware: false
 
   # start high, decrease when we've fixed things
   slow_query_log_threshold: "2"
