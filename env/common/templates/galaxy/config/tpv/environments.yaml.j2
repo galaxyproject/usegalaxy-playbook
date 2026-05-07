@@ -873,21 +873,21 @@ destinations:
       - singularity
       # for TPV shared DB
       - docker
+      - stampede3
       prefer:
       - stampede3-skx
       require:
       - pulsar
-      - stampede3
       #reject:
       #- offline
 
   stampede3_icx:
     inherits: _stampede3
     runner: stampede3
-    min_accepted_cores: 32
+    min_accepted_cores: 16
     min_accepted_mem: 190
     max_accepted_cores: 80
-    max_accepted_mem: 4096
+    max_accepted_mem: 256
     max_cores: 80
     max_mem: 248
     params:
@@ -907,11 +907,11 @@ destinations:
       - singularity
       # for TPV shared DB
       - docker
+      - stampede3
       prefer:
       - stampede3-icx
       require:
       - pulsar
-      - stampede3
       #reject:
       #- offline
 
