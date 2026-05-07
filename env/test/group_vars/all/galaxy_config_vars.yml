@@ -329,6 +329,9 @@ base_app_main: &BASE_APP_MAIN
   #heartbeat_interval: "-1"
   #heartbeat_log: "{{ galaxy_log_dir }}/heartbeat_{server_name}.log"
 
+  enable_mcp_server: true
+  enable_sse_updates: true
+
   # stats
   statsd_host: "127.0.0.1"
   statsd_port: "8125"
