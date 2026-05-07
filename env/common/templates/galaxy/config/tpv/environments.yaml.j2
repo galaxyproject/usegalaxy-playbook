@@ -1019,4 +1019,30 @@ destinations:
       - vista
       #reject:
       #- offline
+
+  anton:
+    inherits: _pulsar
+    runner: anton
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    params:
+      docker_enabled: true
+      #docker_set_user: "\$UID"
+      metadata_strategy: directory_celery
+      jobs_directory: /media/anton/data/staging
+      container_resolvers:
+      - type: explicit
+      #- type: cached_mulled_docker
+      #- type: mulled_docker
+      require_container: true
+    scheduling:
+      accept:
+      - hpc
+      - cvmfs
+      - singularity
+      - docker
+      - pulsar
+      - tool_type_user_defined
+      require:
+      - anton
 {% endif %}

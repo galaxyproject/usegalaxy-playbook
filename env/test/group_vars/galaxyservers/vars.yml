@@ -7,6 +7,7 @@ galaxy_job_conf_amqp_url: "amqp://{{ pulsar_amqp_credentials }}@{{ amqp_server }
 # For single-Pulsar dests like rockfish-devgalaxy
 galaxy_job_conf_main_amqp_url: "{{ vault_galaxy_job_conf_main_amqp_url }}"
 pulsar_relay_password: "{{ vault_pulsar_relay_password }}"
+pulsar_relay_anton_password: "{{ vault_pulsar_relay_anton_password }}"
 
 # used by: oidc backends config template
 galaxy_custos_client_id: "{{ vault_galaxy_custos_client_id }}"
@@ -139,6 +140,13 @@ galaxy_job_conf_runners:
     manager: rockfish_devgalaxy
     # FIXME: this doesn't work because status updates/finish go back to Main
     #amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
+  anton:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: anton
+    relay_url: https://relay.usegalaxy.org
+    relay_username: anton
+    relay_password: "{{ pulsar_relay_anton_password }}"
+    #relay_topic_prefix: "{{ galaxy_instance_codename }}"
 
 galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/python:3.8.3
 
