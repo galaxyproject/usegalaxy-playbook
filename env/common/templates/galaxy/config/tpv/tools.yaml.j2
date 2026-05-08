@@ -270,7 +270,10 @@ tools:
       fail: An account is required to run this tool. Please log in or create an account.
     - id: user_is_anton
       if: user.email == 'anton@bx.psu.edu'
-      cores: 8
+      #cores: 8
+      env:
+      - name: GALAXY_SLOTS
+        value: "8"
       scheduling:
         require:
         - anton
