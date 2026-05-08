@@ -330,10 +330,10 @@ destinations:
       if: 0.25 < gpus <= 0.5
       context:
         js2_gpu_partition: gpu-large
-    - id: jetstream2_gpu_large_rule
+    - id: jetstream2_gpu_xl_rule
       if: 0.5 < gpus
       context:
-        js2_gpu_partition: gpu-large
+        js2_gpu_partition: gpu-xl
     env:
     # gmx_sim uses this, maybe others?
     - name: SINGULARITYENV_GPU_AVAILABLE

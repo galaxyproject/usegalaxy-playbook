@@ -1842,9 +1842,6 @@ tools:
     gpus: 0.5
     cores: 16
     mem: 58
-    context:
-      # FIXME: context overrides in rules don't work
-      js2_gpu_partition: gpu-large
     scheduling:
       require:
       - gpu
@@ -1861,8 +1858,18 @@ tools:
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_hyperopt/ludwig_hyperopt/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_train/ludwig_train/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/ludwig_evaluate/ludwig_evaluate/0\.10\.1.*: {inherits: _ludwig_0.10.1_gpu}
-  toolshed.g2.bx.psu.edu/repos/goeckslab/image_learner/image_learner/.*: {inherits: _ludwig_0.10.1_gpu}
+  #toolshed.g2.bx.psu.edu/repos/goeckslab/image_learner/image_learner/.*: {inherits: _ludwig_0.10.1_gpu}
   toolshed.g2.bx.psu.edu/repos/goeckslab/multimodal_learner/multimodal_learner/0\.1\..*: {inherits: _multimodal_learner_1.4.0_gpu}
+
+  toolshed.g2.bx.psu.edu/repos/goeckslab/image_learner/image_learner/.*:
+    inherits: _ludwig_0.10.1
+    gpus: 1
+    cores: 32
+    mem: 116
+    scheduling:
+      require:
+      - gpu
+      - pulsar
 
   toolshed.g2.bx.psu.edu/repos/imgteam/libcarna_render/libcarna_render/.*:
     gpus: 0.25
