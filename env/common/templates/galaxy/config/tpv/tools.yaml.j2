@@ -407,9 +407,21 @@ tools:
 
   # everything else
 
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_axtchain/ucsc_axtchain/.*:
+    cores: 1
+    mem: min(max(int(input_size * 32), 64), max_scaled_mem)
+
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_chainnet/ucsc_chainnet/.*:
+    cores: 1
+    mem: min(max(int(input_size * 4), 14), max_scaled_mem)
+
   toolshed.g2.bx.psu.edu/repos/iuc/ucsc_chainsort/ucsc_chainsort/.*:
     cores: 1
-    mem: min(max(input_size * 4, 14), max_scaled_mem)
+    mem: min(max(int(input_size * 4), 14), max_scaled_mem)
+
+  toolshed.g2.bx.psu.edu/repos/iuc/ucsc_netchainsubset/ucsc_netchainsubset/.*:
+    cores: 1
+    mem: min(max(int(input_size * 16), 28), max_scaled_mem)
 
   _wigtobigwig:
     abstract: true
