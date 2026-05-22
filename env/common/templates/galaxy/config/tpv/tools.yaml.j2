@@ -314,6 +314,10 @@ tools:
     params:
       docker_run_extra_arguments: "-e USERID=$(id -u) -e GROUPID=$(id -g)"
 
+  interactive_tool_pavian:
+    params:
+      docker_run_extra_arguments: null
+
   .*interactive_tool_pcstudio.*:
     cores: 2
     mem: 7
