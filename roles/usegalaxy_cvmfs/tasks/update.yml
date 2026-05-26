@@ -32,11 +32,18 @@
         galaxy_job_conf_singularity_volumes: {local: [], jetstream: []}
         galaxy_job_conf_default_container_id: null
         galaxy_job_conf_persistence_directory: null
+        galaxy_config_files:
+          - src: files/galaxy/config/file_source_template_dropbox.yml
+            dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/file_source_template_dropbox.yml"
+          - src: files/galaxy/config/file_source_template_google_drive.yml
+            dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/file_source_template_google_drive.yml"
         galaxy_config_templates:
           - src: templates/galaxy/config/job_conf.yml.j2
             dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/job_conf.yml"
           - src: templates/galaxy/config/file_sources_conf.yml.j2
             dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/file_sources_conf.yml"
+          - src: templates/galaxy/config/file_source_templates.yml.j2
+            dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/file_source_templates.yml"
         galaxy_backup_configfiles: false
 
         galaxy_manage_clone: true
