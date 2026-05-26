@@ -32,6 +32,13 @@
         galaxy_job_conf_singularity_volumes: {local: [], jetstream: []}
         galaxy_job_conf_default_container_id: null
         galaxy_job_conf_persistence_directory: null
+        # This minimal config doesn't ship the email domain block/allowlist
+        # files, and email_domain_(block|allow)list_file is loaded eagerly during
+        # config construction (unlike the sanitize allowlist / user prefs files,
+        # it crashes hard if the file is missing). They're irrelevant to
+        # conditional dependency collection, so null them out here.
+        galaxy_config: "{{ galaxy_config_hash | combine({'galaxy': {'email_domain_blocklist_file': none, 'email_domain_allowlist_file': none}}, recursive=true) }}"
+        # file source template includes referenced by file_source_templates.yml
         galaxy_config_files:
           - src: files/galaxy/config/file_source_template_dropbox.yml
             dest: "{{ __usegalaxy_cvmfs_galaxy_config_result.path }}/file_source_template_dropbox.yml"
