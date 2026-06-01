@@ -522,7 +522,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
     context:
-      time: 72:00:00
+      time: 144:00:00
     cores: 8
     mem: 28
 
@@ -1049,7 +1049,7 @@ tools:
       mult = 1.0
       if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
           mult = 3.3
-      14 + 11 * mult * input_size
+      14 + 14 * mult * input_size
 
   toolshed.g2.bx.psu.edu/repos/iuc/crossmap_bed/crossmap_bed/.*:
     cores: 1
@@ -2108,6 +2108,14 @@ tools:
     #    )])
     #  fail: |
     #    This tool is currently being beta-tested and your account has not been given access.
+
+  toolshed.g2.bx.psu.edu/repos/tcollins/rgi_bwt/rgi_bwt/.*:
+    cores: 4
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/tcollins/rgi_main/rgi_main/.*:
+    cores: 4
+    mem: 14
 
   # legacy conda-in-singularity non-pulsar tools
 
