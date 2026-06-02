@@ -357,6 +357,8 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/1\.0\.[0123]:
+    # TODO: just a guess, increased for VGP, check later
+    mem: 14
     # python: can't open file '/jetstream2/scratch/main/jobs-vgp/61019498/tool_files/fasta_compute_length.py': [Errno 2] No such file or directory, fixed in 1.0.4
     scheduling:
       reject:
@@ -1049,7 +1051,7 @@ tools:
       mult = 1.0
       if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
           mult = 3.3
-      14 + 14 * mult * input_size
+      14 + 16 * mult * input_size
 
   toolshed.g2.bx.psu.edu/repos/iuc/crossmap_bed/crossmap_bed/.*:
     cores: 1
@@ -1430,7 +1432,7 @@ tools:
     mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/pretext_map/pretext_map/.*:
-    mem: 14
+    mem: 28
 
   toolshed.g2.bx.psu.edu/repos/iuc/purge_dups/purge_dups/.*:
     cores: 1
@@ -2110,12 +2112,12 @@ tools:
     #    This tool is currently being beta-tested and your account has not been given access.
 
   toolshed.g2.bx.psu.edu/repos/tcollins/rgi_bwt/rgi_bwt/.*:
-    cores: 4
-    mem: 14
+    cores: 16
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/tcollins/rgi_main/rgi_main/.*:
-    cores: 4
-    mem: 14
+    cores: 16
+    mem: 58
 
   # legacy conda-in-singularity non-pulsar tools
 
