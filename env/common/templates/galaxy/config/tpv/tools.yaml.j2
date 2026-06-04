@@ -357,8 +357,6 @@ tools:
       - pulsar
 
   toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/1\.0\.[0123]:
-    # TODO: just a guess, increased for VGP, check later
-    mem: 14
     # python: can't open file '/jetstream2/scratch/main/jobs-vgp/61019498/tool_files/fasta_compute_length.py': [Errno 2] No such file or directory, fixed in 1.0.4
     scheduling:
       reject:
@@ -662,6 +660,10 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/[^/]*/5\..*:
     mem: 5.7
+
+  toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/.*:
+    # TODO: just a guess, increased for VGP, check later
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/devteam/fastq_paired_end_deinterlacer/fastq_paired_end_deinterlacer/.*:
     # decrease from shared DB
@@ -2116,8 +2118,8 @@ tools:
     mem: 58
 
   toolshed.g2.bx.psu.edu/repos/tcollins/rgi_main/rgi_main/.*:
-    cores: 16
-    mem: 58
+    cores: 32
+    mem: 120
 
   # legacy conda-in-singularity non-pulsar tools
 
