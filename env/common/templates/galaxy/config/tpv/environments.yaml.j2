@@ -316,7 +316,7 @@ destinations:
     #context:
     #  js2_gpu_partition: gpu-small
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={js2_gpu_partition}"
+      submit_native_specification: "--nodes=1 --ntasks={int(js2_gpu_cores)} --mem={int(js2_gpu_mem*1024)} --time={time or default_time} --partition={js2_gpu_partition}"
       singularity_run_extra_arguments: --nv -B /etc/OpenCL/vendors:/usr/local/etc/OpenCL/vendors
     rules:
     #- id: offline
@@ -325,15 +325,27 @@ destinations:
     - id: jetstream2_gpu_medium_rule
       if: 0.2 < gpus <= 0.25
       context:
+        js2_gpu_cores: 8
+        js2_gpu_mem: 28
         js2_gpu_partition: gpu-medium
     - id: jetstream2_gpu_large_rule
       if: 0.25 < gpus <= 0.5
       context:
+        js2_gpu_cores: 16
+        js2_gpu_mem: 58
         js2_gpu_partition: gpu-large
     - id: jetstream2_gpu_xl_rule
       if: 0.5 < gpus
       context:
+        js2_gpu_cores: 32
+        js2_gpu_mem: 118
         js2_gpu_partition: gpu-xl
+    - id: jetstream2_gpu_training_rule
+      if: helpers.tag_values_match(entity, ['training'], ['training-exempt'])
+      context:
+        js2_gpu_cores: 8
+        js2_gpu_mem: 28
+        js2_gpu_partition: gpu-medium
     env:
     # gmx_sim uses this, maybe others?
     - name: SINGULARITYENV_GPU_AVAILABLE
@@ -344,6 +356,7 @@ destinations:
       accept:
       - vgp
       - vgl
+      - training
       require:
       - gpu
       #reject:
