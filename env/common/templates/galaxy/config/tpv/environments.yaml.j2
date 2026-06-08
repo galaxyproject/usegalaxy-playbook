@@ -678,8 +678,9 @@ destinations:
       - anvil
       require:
       - pulsar
-      #reject:
-      #- offline
+      # exhausted 2026-06-08
+      reject:
+      - offline
 
   # could just dual-purpose devgalaxy Pulsar for a100 access
   #rockfish_gpu:
