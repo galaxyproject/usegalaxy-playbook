@@ -40,19 +40,19 @@
   timeout: 10
   port: 21
 
-- type: ssh
-  id: covid-crg-ftp-staging
-  requires_roles: covid-crg-ftp-staging-upload
-  writable: true
-  label: "CRG COVID data - staging"
-  doc: "Center for Genomic regulation COVID19 FTP server"
-  host: "xfer13.crg.eu"
-  user: "{{ covid_crg_ftp_staging_user }}"
-  passwd: "{{ covid_crg_ftp_staging_passwd }}"
-  timeout: 10
-  path: "/home/FTPvandenbeek/userspace/staging/"
-  config_path: ""
-  port: 2222
+#- type: ssh
+#  id: covid-crg-ftp-staging
+#  requires_roles: covid-crg-ftp-staging-upload
+#  writable: true
+#  label: "CRG COVID data - staging"
+#  doc: "Center for Genomic regulation COVID19 FTP server"
+#  host: "xfer13.crg.eu"
+#  user: "{{ covid_crg_ftp_staging_user }}"
+#  passwd: "{{ covid_crg_ftp_staging_passwd }}"
+#  timeout: 10
+#  path: "/home/FTPvandenbeek/userspace/staging/"
+#  config_path: ""
+#  port: 2222
 
 - type: s3fs
   label: Genome Ark
