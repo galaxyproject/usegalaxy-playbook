@@ -293,6 +293,10 @@ base_app_main: &BASE_APP_MAIN
       versionless: true
 
   container_resolvers:
+    - type: cached_explicit_singularity
+      cache_directory: /cvmfs/singularity.galaxyproject.org/all
+      namespace: biocontainers
+      cache_directory_cacher_type: dir_mtime
     - type: cached_mulled_singularity
       cache_directory: /cvmfs/singularity.galaxyproject.org/all
       cache_directory_cacher_type: dir_mtime
