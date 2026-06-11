@@ -268,15 +268,47 @@ tools:
     - id: require_login_user_defined
       if: user is None
       fail: An account is required to run this tool. Please log in or create an account.
-    - id: user_is_anton
-      if: user.email == 'anton@bx.psu.edu'
-      #cores: 8
-      env:
-      - name: GALAXY_SLOTS
-        value: "8"
+    - id: anton_udt_8c
+      if: user.email == "anton@bx.psu.edu" and tool.id.startswith("anton-8-")
+      cores: 8
+      mem: 28
+    - id: anton_udt_32c
+      if: user.email == "anton@bx.psu.edu" and tool.id.startswith("anton-32-")
+      cores: 32
+      mem: 120
+    - id: anton_udt_gpu_medium
+      if: user.email == "anton@bx.psu.edu" and tool.id.startswith("anton-gpu-medium-")
+      cores: 8
+      mem: 28
+      gpus: 0.25
       scheduling:
         require:
-        - anton
+        - gpu
+    - id: anton_udt_gpu_large
+      if: user.email == "anton@bx.psu.edu" and tool.id.startswith("anton-gpu-large-")
+      cores: 16
+      mem: 58
+      gpus: 0.5
+      scheduling:
+        require:
+        - gpu
+    - id: anton_udt_gpu_xl
+      if: user.email == "anton@bx.psu.edu" and tool.id.startswith("anton-gpu-xl-")
+      cores: 32
+      mem: 118
+      gpus: 1
+      scheduling:
+        require:
+        - gpu
+    #- id: user_is_anton
+    #  if: user.email == "anton@bx.psu.edu"
+    #  #cores: 8
+    #  env:
+    #  - name: GALAXY_SLOTS
+    #    value: "8"
+    #  scheduling:
+    #    require:
+    #    - anton
 
   # interactive tools
 
