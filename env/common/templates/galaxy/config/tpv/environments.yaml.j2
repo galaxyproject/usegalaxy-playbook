@@ -139,6 +139,10 @@ destinations:
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.tacc_hpc | join(',') }}"
       singularity_no_mount: null
       container_resolvers:
+      - type: cached_explicit_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        namespace: biocontainers
+        cache_directory_cacher_type: dir_mtime
       - type: explicit_singularity
       - type: cached_mulled_singularity
         cache_directory: /cvmfs/singularity.galaxyproject.org/all
@@ -492,6 +496,10 @@ destinations:
       singularity_no_mount: null
       #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- singularity
       container_resolvers:
+      - type: cached_explicit_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        namespace: biocontainers
+        cache_directory_cacher_type: dir_mtime
       - type: explicit_singularity
       - type: cached_mulled_singularity
         cache_directory: /cvmfs/singularity.galaxyproject.org/all
@@ -567,6 +575,10 @@ destinations:
       #singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org oasis.opensciencegrid.org -- /cvmfs/oasis.opensciencegrid.org/mis/apptainer/bin/apptainer
       singularity_no_mount: null
       container_resolvers:
+      - type: cached_explicit_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        namespace: biocontainers
+        cache_directory_cacher_type: dir_mtime
       - type: explicit_singularity
       - type: cached_mulled_singularity
         cache_directory: /cvmfs/singularity.galaxyproject.org/all
@@ -643,6 +655,10 @@ destinations:
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.anvil | join(',') }}"
       singularity_no_mount: null
       container_resolvers:
+      - type: cached_explicit_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        namespace: biocontainers
+        cache_directory_cacher_type: dir_mtime
       - type: explicit_singularity
       - type: cached_mulled_singularity
         cache_directory: /cvmfs/singularity.galaxyproject.org/all

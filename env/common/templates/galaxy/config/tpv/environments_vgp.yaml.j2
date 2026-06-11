@@ -210,6 +210,10 @@ destinations:
       singularity_no_mount: null
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
       container_resolvers:
+      - type: cached_explicit_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        namespace: biocontainers
+        cache_directory_cacher_type: dir_mtime
       - type: explicit_singularity
       - type: cached_mulled_singularity
         cache_directory: /cvmfs/singularity.galaxyproject.org/all
