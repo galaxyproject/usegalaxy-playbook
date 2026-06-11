@@ -988,6 +988,15 @@ destinations:
       - offline
 {% if galaxy_instance_codename == 'test' %}
 
+  #delta:
+  #  inherits: _pulsar
+  #  runner: delta
+  #  min_accepted_cores: 1
+  #  min_accepted_mem: 0
+  #  params:
+  #    submit_native_specification: "--nodes=1 --time={time or default_time} --partition=gpuA100x4"
+  #    jobs_directory:
+
   ls6:
     inherits: _tacc_hpc
     runner: ls6

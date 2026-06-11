@@ -1957,9 +1957,12 @@ tools:
   #    - pulsar
 
   toolshed.g2.bx.psu.edu/repos/richard-burhans/kegalign/kegalign/.*:
-    gpus: 0.25
-    cores: 8
-    mem: 28
+    #gpus: 0.5
+    #cores: 16
+    #mem: 58
+    gpus: 1
+    cores: 32
+    mem: 120
     scheduling:
       require:
       - gpu
