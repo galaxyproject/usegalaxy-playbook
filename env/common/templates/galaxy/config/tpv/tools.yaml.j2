@@ -269,10 +269,10 @@ tools:
       if: user is None
       fail: An account is required to run this tool. Please log in or create an account.
     - id: udt_gpu_access
-      if: gpus is not None and gpus > 0 and not any(role.name == 'GPU Access' and not role.deleted for role in user.all_roles())
+      if: entity.gpus is not None and entity.gpus > 0 and not any(role.name == 'GPU Access' and not role.deleted for role in user.all_roles())
       fail: GPU access is not authorized for your account. Please request the "GPU Access" role.
     - id: udt_gpu_routing
-      if: gpus is not None and gpus > 0
+      if: entity.gpus is not None and entity.gpus > 0
       scheduling:
         require:
         - gpu
