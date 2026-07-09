@@ -278,6 +278,14 @@ tools:
         require:
         - gpu
 
+  # data managers
+
+  .*/data_manager_.*:
+    mem: 28
+    scheduling:
+      reject:
+      - pulsar
+
   # interactive tools
 
   .*interactive_tool_.*:
