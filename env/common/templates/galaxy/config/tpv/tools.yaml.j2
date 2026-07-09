@@ -262,8 +262,9 @@ tools:
   #     unless they explicitly opt in via `accept` (jetstream2_user_defined).
   # We only need to set sensible resource defaults and gate on login.
   user_defined-.*:
-    cores: 1
-    mem: 3.7
+    # Default tool cores/mem will be applied, but not setting them explicitly here allows for resource requests
+    #cores: 1
+    #mem: 3.7
     rules:
     - id: require_login_user_defined
       if: user is None
@@ -296,7 +297,7 @@ tools:
       fail: An account is required to run this tool. Please log in or create an account.
     #- id: offline
     #  if: true
-    #  fail: Galaxy Interactive Tools are unavailable until the Jetstream 2 maintenance is complete
+    #  fail: Galaxy Interactive Tools are temporarily unavailable
 
   interactive_tool_jupyter_notebook:
     params:
