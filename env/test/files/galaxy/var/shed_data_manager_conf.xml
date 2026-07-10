@@ -976,4 +976,62 @@
             </output>
         </data_table>
     </data_manager>
+<data_manager id="data_manager_metaphlan_download" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_metaphlan_database_downloader/data_manager/data_manager_metaphlan_download/0.0.1" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_metaphlan_database_downloader/2c22b676ec46/data_manager_metaphlan_database_downloader/data_manager/data_manager_metaphlan_download.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_metaphlan_database_downloader/data_manager_metaphlan_download/4.0.6+galaxy5"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_metaphlan_database_downloader</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>2c22b676ec46</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_metaphlan_database_downloader/data_manager_metaphlan_download/4.0.6+galaxy5</id><version>4.0.6+galaxy5</version></tool><data_table name="metaphlan_database_versioned">  <!-- Defines a Data Table to be modified. -->
+            <output> <!-- Handle the output of the Data Manager Tool -->
+                <column name="value"/>  <!-- columns that are going to be specified by the Data Manager Tool -->
+                <column name="name"/>  <!-- columns that are going to be specified by the Data Manager Tool -->
+                <column name="dbkey"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+                <column name="path" output_ref="out_file">
+                    <move type="directory">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">metaphlan/data/${dbkey}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/metaphlan/data/${dbkey}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+                <column name="db_version"/> <!-- columns that are going to be specified by the Data Manager Tool -->
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="samestr_db" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_samestr/data_manager/samestr_db/0.0.1" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_samestr/e8873a70f416/data_manager_samestr/data_manager/samestr_db.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_samestr/samestr_db/1.2025.111+galaxy1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_samestr</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>e8873a70f416</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_samestr/samestr_db/1.2025.111+galaxy1</id><version>1.2025.111+galaxy1</version></tool><data_table name="samestr_db">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">samestr_db/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/samestr_db/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+                <column name="version_file" output_ref="out_file">
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/samestr_db/${value}/${version_file}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+                <column name="samestr_version"/>
+            </output>
+        </data_table>
+    </data_manager>
+<data_manager id="motus_db_fetcher" guid="toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_motus/data_manager/motus_db_fetcher/0.0.1" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_motus/c153e8dd94ad/data_manager_motus/data_manager/motus_db_fetcher.xml" guid="toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_motus/motus_db_fetcher/3.1.0+galaxy0"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_motus</repository_name><repository_owner>bgruening</repository_owner><installed_changeset_revision>c153e8dd94ad</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/bgruening/data_manager_motus/motus_db_fetcher/3.1.0+galaxy0</id><version>3.1.0+galaxy0</version></tool><data_table name="motus_db_versioned">
+            <output>
+                <column name="value"/>
+                <column name="version"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <source>${path}</source>
+                        <!-- the /db_mOTU path is important since motus looks for a folder named like this  -->
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">motus_database/${value}/db_mOTU</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/motus_database/${value}/db_mOTU</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
+
 </data_managers>
