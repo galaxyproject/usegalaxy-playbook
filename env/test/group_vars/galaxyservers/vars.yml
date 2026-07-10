@@ -14,6 +14,10 @@ galaxy_custos_client_id: "{{ vault_galaxy_custos_client_id }}"
 galaxy_custos_client_secret: "{{ vault_galaxy_custos_client_secret }}"
 galaxy_google_client_id: "{{ vault_galaxy_google_client_id }}"
 galaxy_google_client_secret: "{{ vault_galaxy_google_client_secret }}"
+# Keycloak "galaxy-test" realm, galaxy-api client. The secret must match
+# vault_keycloak_galaxy_api_test_client_secret in the infrastructure-playbook.
+galaxy_keycloak_client_id: galaxy-api
+galaxy_keycloak_client_secret: "{{ vault_galaxy_keycloak_client_secret }}"
 
 # file_sources_conf.yml
 covid_crg_ftp_staging_user: "{{ vault_covid_crg_ftp_staging_user }}"

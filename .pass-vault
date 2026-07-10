@@ -6,7 +6,25 @@ if [ -n "${VAULT_PASSWORD_STORE_DIR:-}" ]; then
     export PASSWORD_STORE_DIR
 fi
 
-pass=$(pass "$password_path" | head -1)
+# Pick the password manager: honour an explicit override, otherwise prefer
+# gopass when it is installed and fall back to pass.
+pass_cmd="${VAULT_PASS_CMD:-}"
+if [ -z "$pass_cmd" ]; then
+    if command -v gopass >/dev/null 2>&1; then
+        pass_cmd="gopass"
+    else
+        pass_cmd="pass"
+    fi
+fi
+
+if [ "$pass_cmd" = "gopass" ]; then
+    # The secret lives in a gopass substore, addressed by prefixing its
+    # mount name to the path. gopass prints only the secret with `show -o`.
+    gopass_store="${VAULT_GOPASS_STORE:-galaxy}"
+    pass=$(gopass show -o "${gopass_store}/${password_path}")
+else
+    pass=$($pass_cmd "$password_path" | head -1)
+fi
 
 if [ $? -ne 0 ]; then
     echo -n 'VAULT Password: ' >&2
