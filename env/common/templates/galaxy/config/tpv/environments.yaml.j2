@@ -892,7 +892,7 @@ destinations:
     params:
       # $GALAXY_SLOTS is forced to 48 to avoid wastage
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=skx"
-      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=skx --ntasks=48"
+      submit_native_specification: "--account=TG-MCB140147 --nodes=1 --time={time or default_time} --partition=skx --ntasks=48"
       jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
     env:
     #- name: GALAXY_SLOTS
@@ -931,7 +931,7 @@ destinations:
     params:
       # $GALAXY_SLOTS is forced to 64 to avoid wastage
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=icx"
-      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=icx"
+      submit_native_specification: "--account=TG-MCB140147 --nodes=1 --time={time or default_time} --partition=icx"
       jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
     env:
     - name: GALAXY_SLOTS
@@ -965,7 +965,7 @@ destinations:
     params:
       # $GALAXY_SLOTS is forced to 112 to avoid wastage
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=icx"
-      submit_native_specification: "--nodes=1 --time={time or default_time} --partition=spr"
+      submit_native_specification: "--account=TG-MCB140147 --nodes=1 --time={time or default_time} --partition=spr"
       jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
     env:
     - name: GALAXY_SLOTS
