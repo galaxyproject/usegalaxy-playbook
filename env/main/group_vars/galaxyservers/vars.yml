@@ -4,6 +4,7 @@
 #
 # used by: galaxyproject.galaxy (templating job_conf.yml)
 galaxy_job_conf_amqp_url: "amqp://{{ pulsar_amqp_credentials }}@{{ amqp_server }}:5671//main_pulsar?ssl=1"
+pulsar_relay_password: "{{ vault_pulsar_relay_password }}"
 
 # used by: oidc backends config template
 galaxy_google_client_id: "{{ vault_galaxy_google_client_id }}"
@@ -100,6 +101,13 @@ galaxy_job_conf_runners:
   stampede3:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: stampede3
+  vista:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: main_vista
+    relay_url: https://relay.usegalaxy.org
+    relay_username: pulsar
+    relay_password: "{{ pulsar_relay_password }}"
+    #relay_topic_prefix: "{{ galaxy_instance_codename }}"
   frontera:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: frontera
@@ -206,6 +214,15 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/vgp.galaxyproject.org:ro"
     - "/tmp:/tmp:rw"
     - "/tmp:/var/tmp:rw"
+  vista:
+    - "$job_directory:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
+    - "$job_directory/home:rw"
+    - "$working_directory:rw"
+    - "/tmp:/tmp:rw"
+    - "/tmp:/var/tmp:rw"
+
 
 # TODO: this is the contents of wraptar, needs to be deployed somehow:
 #
