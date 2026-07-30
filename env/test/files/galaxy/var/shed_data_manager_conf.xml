@@ -1074,4 +1074,25 @@
         </data_table>
     </data_manager>
 
+<data_manager id="samestr_db" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_samestr/data_manager/samestr_db/0.0.1" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_samestr/f444a2898944/data_manager_samestr/data_manager/samestr_db.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_samestr/samestr_db/1.2025.111+galaxy3"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_samestr</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>f444a2898944</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_samestr/samestr_db/1.2025.111+galaxy3</id><version>1.2025.111+galaxy3</version></tool><data_table name="samestr_db">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <source>${path}</source>
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">samestr_db/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/samestr_db/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+                <column name="version_file" output_ref="out_file">
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/samestr_db/${value}/${version_file}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+                <column name="samestr_version"/>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
