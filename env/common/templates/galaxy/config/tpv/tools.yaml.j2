@@ -131,11 +131,6 @@ tools:
     cores: 96
     mem: 240
     time: "48:00:00"
-    params:
-      container_override:
-      - type: singularity
-        shell: /bin/bash
-        identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.6.0--0
     env:
     - name: APPTAINER_BINDPATH
       value: /scratch/projects/BRC_analytics/logan_index_data:/scratch/projects/BRC_analytics/logan_index_data:ro
@@ -143,21 +138,44 @@ tools:
       require:
       - vista
 
-  toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/.*:
-    cores: 96
-    mem: 240
-    time: "48:00:00"
+  toolshed.g2.bx.psu.edu/repos/iuc/kmindex/kmindex_query/0\.6\.0.*:
     params:
       container_override:
       - type: singularity
         shell: /bin/bash
-        identifier: /work/03166/xcgalaxy/vista/images/lexicmap-0.8.1--0
+        identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.6.0--0
+
+  toolshed.g2.bx.psu.edu/repos/iuc/kmindex/kmindex_query/0\.6\.1.*:
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.6.1--0
+
+  toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/.*:
+    cores: 96
+    mem: 240
+    time: "48:00:00"
     env:
     - name: APPTAINER_BINDPATH
       value: /scratch/projects/BRC_analytics/lexicmap_index_data:/scratch/projects/BRC_analytics/lexicmap_index_data:ro
     scheduling:
       require:
       - vista
+
+  toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/0\.8\.1.*:
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/lexicmap-0.8.1--0
+
+  toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/0\.9\.0.*:
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/lexicmap-0.9.0--0
 
   #echo: {scheduling: {require: [jetstream2]}}
 
