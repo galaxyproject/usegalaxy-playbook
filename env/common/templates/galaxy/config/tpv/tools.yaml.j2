@@ -1035,7 +1035,7 @@ tools:
       mult = 1.0
       if reference.ext.endswith(".gz") or reference.ext.endswith(".bz2"):
           mult = 3.3
-      min(max(ref_size * mult * 30, 7.6), max_scaled_mem)
+      min(max(ref_size * mult * 30, 14), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/checkm2/checkm2/.*:
     cores: 8
