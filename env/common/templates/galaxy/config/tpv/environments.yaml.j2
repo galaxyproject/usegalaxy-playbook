@@ -286,8 +286,8 @@ destinations:
       - vgl
       prefer:
       - jetstream2
-    #  reject:
-    #  - offline
+      reject:
+      - offline
 
   jetstream2_lm:
     inherits: _jetstream2
@@ -306,7 +306,7 @@ destinations:
       prefer:
       - jetstream2-lm
       reject:
-      #- offline
+      - offline
       - vgl
 
   jetstream2_gpu:
@@ -363,15 +363,17 @@ destinations:
       - training
       require:
       - gpu
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   jetstream2_gpu_user_defined:
     inherits: jetstream2_gpu
     scheduling:
       require:
-        - tool_type_user_defined
-        - gpu
+      - tool_type_user_defined
+      - gpu
+      reject:
+      - offline
 
   jetstream2_resize_shm:
     inherits: _jetstream2
@@ -393,8 +395,8 @@ destinations:
       require:
       - resize-shm
       - jetstream2
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   # User-defined tools (created via the Galaxy tool builder UI). Mandatory
   # containerization; only matched via the `tool_type_user_defined` tag set
@@ -415,6 +417,8 @@ destinations:
       - tool_type_user_defined
       - pulsar
       - singularity
+      reject:
+      - offline
 
   jetstream2_gxit:
     runner: jetstream2
@@ -459,8 +463,8 @@ destinations:
       - training
       require:
       - gxit
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   jetstream2_training:
     inherits: jetstream2
@@ -471,8 +475,8 @@ destinations:
     scheduling:
       require:
       - training
-      #reject:
-      #- offline
+      reject:
+      - offline
 
   #
   # hpc
@@ -483,13 +487,13 @@ destinations:
     runner: bridges2
     min_accepted_cores: 16
     min_accepted_mem: 32
-    #max_accepted_cores: 256
-    #max_accepted_mem: 4096
-    #max_cores: 128
-    #max_mem: 250
+    max_accepted_cores: 128
+    max_accepted_mem: 512
+    max_cores: 128
+    max_mem: 500
     # Force large jobs to Stampede3 to preserve credits on shared resources
-    max_accepted_cores: 64
-    max_accepted_mem: 128
+    #max_accepted_cores: 64
+    #max_accepted_mem: 128
     context:
       time: 36:00:00
     params:
@@ -514,9 +518,12 @@ destinations:
       - type: mulled_singularity
       require_container: true
     rules:
-    - if: mem >= 128
+    - if: mem >= 128 and mem < 256
       params:
-        submit_native_specification: "--partition=RM --time={time or default_time} --nodes=1 --ntasks={int(mem/2)}"
+        submit_native_specification: "--partition=RM --time={time or default_time} --nodes=1 --ntasks=128"
+    - if: mem >= 256
+      params:
+        submit_native_specification: "--partition=RM-512 --time={time or default_time} --nodes=1 --ntasks=128"
     env:
     - name: PATH
       value: /usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
@@ -560,16 +567,22 @@ destinations:
       require:
       - pulsar
       # data transfer issues 2026-05
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   expanse:
     inherits: _pulsar
     runner: expanse
-    min_accepted_cores: 8
-    min_accepted_mem: 16
-    max_accepted_cores: 64
-    max_accepted_mem: 128
+    #min_accepted_cores: 8
+    #min_accepted_mem: 16
+    #max_accepted_cores: 64
+    #max_accepted_mem: 128
+    min_accepted_cores: 1
+    min_accepted_mem: 7
+    max_accepted_cores: 128
+    max_accepted_mem: 256
+    max_cores: 128
+    max_mem: 250
     context:
       time: 36:00:00
     params:
@@ -884,7 +897,7 @@ destinations:
     inherits: _stampede3
     runner: stampede3
     min_accepted_cores: 16
-    min_accepted_mem: 128
+    min_accepted_mem: 120
     max_accepted_cores: 64
     max_accepted_mem: 190
     max_cores: 48
