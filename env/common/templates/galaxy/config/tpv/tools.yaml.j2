@@ -127,6 +127,11 @@ tools:
 
   # test tools
 
+  #toolshed.g2.bx.psu.edu/repos/iuc/deseq2/deseq2/.*:
+  #  # TEST TEST TEST
+  #  cores: 1
+  #  mem: 28
+
   toolshed.g2.bx.psu.edu/repos/iuc/kmindex/kmindex_query/.*:
     cores: 96
     mem: 240
@@ -1424,6 +1429,10 @@ tools:
     cores: 8
     mem: 28
 
+  toolshed.g2.bx.psu.edu/repos/iuc/mmseqs2_taxonomy_assignment/mmseqs2_taxonomy_assignment/.*:
+    cores: 16
+    mem: 58
+
   toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/.*:
     # python multiprocessing does not react well to $TMPDIR on NFS:
     # OSError: [Errno 39] Directory not empty: '/corral4/main/jobs/074/255/74255543/tmp/pymp-vpemx3ef'
@@ -1873,6 +1882,10 @@ tools:
       # OSError: [Errno 28] No space left on device
       # I think it's maybe open file handles though. Works on Anvil.
       - bridges2
+
+  toolshed.g2.bx.psu.edu/repos/ufz/iphop_predict/iphop_predict/.*:
+    cores: 4
+    mem: 14
 
   toolshed.g2.bx.psu.edu/repos/ufz/vibrant/vibrant/.*:
     cores: 16
