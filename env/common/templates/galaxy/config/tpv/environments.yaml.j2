@@ -286,8 +286,8 @@ destinations:
       - vgl
       prefer:
       - jetstream2
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_lm:
     inherits: _jetstream2
@@ -306,7 +306,7 @@ destinations:
       prefer:
       - jetstream2-lm
       reject:
-      - offline
+      #- offline
       - vgl
 
   jetstream2_gpu:
@@ -363,8 +363,8 @@ destinations:
       - training
       require:
       - gpu
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_gpu_user_defined:
     inherits: jetstream2_gpu
@@ -372,8 +372,8 @@ destinations:
       require:
       - tool_type_user_defined
       - gpu
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_resize_shm:
     inherits: _jetstream2
@@ -395,8 +395,8 @@ destinations:
       require:
       - resize-shm
       - jetstream2
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   # User-defined tools (created via the Galaxy tool builder UI). Mandatory
   # containerization; only matched via the `tool_type_user_defined` tag set
@@ -417,8 +417,8 @@ destinations:
       - tool_type_user_defined
       - pulsar
       - singularity
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_gxit:
     runner: jetstream2
@@ -463,8 +463,8 @@ destinations:
       - training
       require:
       - gxit
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   jetstream2_training:
     inherits: jetstream2
@@ -475,8 +475,8 @@ destinations:
     scheduling:
       require:
       - training
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   #
   # hpc
