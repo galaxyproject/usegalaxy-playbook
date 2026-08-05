@@ -74,6 +74,9 @@ base_app_main: &BASE_APP_MAIN
       celery.utils.functional:
         level: INFO
         qualname: celery.utils.functional
+      galaxy.workflow.scheduling_manager:
+        level: INFO
+        qualname: galaxy.workflow.scheduling_manager
       gunicorn.access:
         handlers:
         - console
