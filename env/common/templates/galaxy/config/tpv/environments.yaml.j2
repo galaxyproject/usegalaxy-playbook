@@ -115,6 +115,8 @@ destinations:
       value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_cache
     - name: SINGULARITY_TMPDIR
       value: /jetstream2/scratch/{{ galaxy_instance_codename }}/singularity_tmp
+    # Ensure all/ catalog is loaded so we do not hit apptainer mount timeout
+    - execute: ls /cvmfs/singularity.galaxyproject.org/all/python:3.8.3 >/dev/null
     scheduling:
       accept:
       - general
