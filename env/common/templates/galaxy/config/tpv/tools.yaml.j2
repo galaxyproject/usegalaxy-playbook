@@ -1264,6 +1264,10 @@ tools:
       require:
       - cvmfs
 
+  toolshed.g2.bx.psu.edu/repos/iuc/liftoff/liftoff/.*:
+    cores: 8
+    mem: 28
+
   toolshed.g2.bx.psu.edu/repos/iuc/lofreq_call/lofreq_call/2\.1\.5.*:
     # https://github.com/bioconda/bioconda-recipes/pull/51672
     params:
@@ -1874,6 +1878,12 @@ tools:
       - name: SINGULARITYENV_GALAXY_FILE_LIMIT
         value: "250"
 
+  toolshed.g2.bx.psu.edu/repos/rnateam/targetfinder/targetfinder/.*:
+    context:
+      force_cores: true
+    cores: 64
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/ufz/genomad_end_to_end/genomad_end_to_end/.*:
     cores: 32
     mem: 120
@@ -1882,6 +1892,8 @@ tools:
       # OSError: [Errno 28] No space left on device
       # I think it's maybe open file handles though. Works on Anvil.
       - bridges2
+      # OSError: [Errno 12] Cannot allocate memory (on os.fork())
+      - stampede3
 
   toolshed.g2.bx.psu.edu/repos/ufz/iphop_predict/iphop_predict/.*:
     cores: 4
