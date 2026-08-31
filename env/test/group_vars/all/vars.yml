@@ -29,6 +29,8 @@ galaxy_additional_venv_packages:
   - "redis>=4.5.2,<6.0.0,!=4.5.5"
   - weasyprint
   - fs.googledrivefs
+  # TODO: remove after pin is > 3.2.1
+  - git+https://github.com/galaxyproject/total-perspective-vortex.git@fafd32e8e2553e69a9f20105e528b6c06c991454
 amqp_server: mq.galaxyproject.org
 
 gravity_venv_dir: "/srv/galaxy/{{ galaxy_instance_codename }}/gravity"
