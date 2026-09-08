@@ -568,9 +568,9 @@ destinations:
       - bridges2
       require:
       - pulsar
-      # data transfer issues 2026-05
-      #reject:
-      #- offline
+      # vm030 offline sept 07
+      reject:
+      - offline
 
   expanse:
     inherits: _pulsar
