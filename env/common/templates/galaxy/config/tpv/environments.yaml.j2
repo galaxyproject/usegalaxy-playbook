@@ -371,6 +371,9 @@ destinations:
   jetstream2_gpu_user_defined:
     inherits: jetstream2_gpu
     scheduling:
+      accept:
+      - vgp
+      - vgl
       require:
       - tool_type_user_defined
       - gpu
@@ -415,6 +418,9 @@ destinations:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
       require_container: true
     scheduling:
+      accept:
+      - vgp
+      - vgl
       require:
       - tool_type_user_defined
       - pulsar
