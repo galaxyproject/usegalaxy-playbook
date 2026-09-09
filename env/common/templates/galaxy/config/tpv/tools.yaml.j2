@@ -697,6 +697,12 @@ tools:
   toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/[^/]*/5\..*:
     mem: 5.7
 
+  "toolshed.g2.bx.psu.edu/repos/devteam/emboss_5/EMBOSS: polydot77/.*":
+    rules:
+    - id: tpvdb_EMBOSS_large_input_rule
+      if: input_size > 0.6
+      fail: Too much data, polydot77 only works with small files
+
   toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/fasta_compute_length/.*:
     # TODO: just a guess, increased for VGP, check later
     mem: 14
@@ -922,20 +928,13 @@ tools:
     - name: SINGULARITYENV_TAR_OPTIONS
       value: -m
 
+  toolshed.g2.bx.psu.edu/repos/iuc/dexseq/dexseq/.*:
+    cores: 8
+    mem: 28
+
   toolshed.g2.bx.psu.edu/repos/iuc/teloscope/teloscope/.*:
     cores: 16
-    mem: |
-      options = job.get_param_values(app)
-      input_sequence = options["input_sequence"]
-      if hasattr(input_sequence, "first_dataset_instance"):
-          input_sequence = input_sequence.first_dataset_instance()
-      elif hasattr(input_sequence, "dataset_instances"):
-          input_sequence = input_sequence.dataset_instances[0]
-      mult = 1.0
-      if input_sequence.ext.endswith(".gz") or input_sequence.ext.endswith(".bz2"):
-          mult = 3.3
-      input_sequence_size = float(input_sequence.get_size())/1024**3
-      min(max(input_sequence_size * mult + 12, 14), max_scaled_mem)
+    mem: min(max(int(helpers.get_input_size(job, "input_sequence") * 12), 28), 240)
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     # should allow scheduling on JS2, hpc-shared, and hpc-whole node
@@ -1071,6 +1070,10 @@ tools:
     mem: 58
     #context:
     #  force_cores: true
+
+  toolshed.g2.bx.psu.edu/repos/iuc/checkm_tree/checkm_tree/.*:
+    cores: 8
+    mem: 58
 
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/.*:
     # was 16 in the job router but let's try this
