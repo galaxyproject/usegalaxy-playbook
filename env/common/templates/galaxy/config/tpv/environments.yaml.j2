@@ -132,9 +132,6 @@ destinations:
   _tacc_hpc:
     abstract: true
     inherits: _pulsar
-    context:
-      # override for max allowed time at TACC
-      time: 24:00:00
     params:
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging
       singularity_enabled: true
@@ -1013,10 +1010,8 @@ destinations:
     runner: vista
     min_accepted_cores: 1
     min_accepted_mem: 0
-    context:
-      time: 48:00:00
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time} --partition=gg"
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=gg"
       jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.vista | join(',') }}"
     env:
@@ -1057,7 +1052,7 @@ destinations:
     context:
       time: 48:00:00
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time} --partition=normal"
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=normal"
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time=00:20:00 --partition=development"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging
       singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
