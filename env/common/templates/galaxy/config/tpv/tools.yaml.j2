@@ -536,15 +536,7 @@ tools:
       if: input_size > 0.5
       cores: 16
       # 95th is 9x, 99th is 37x
-      mem: |
-        total_size = 0
-        for da in job.input_datasets:
-            input = da.dataset
-            mult = 1.0
-            if input.extension.endswith((".gz", ".bz2")):
-                mult = 3.4
-            total_size += helpers.get_dataset_size(input.dataset) * mult
-        min(max(int(total_size * 12), 28), 240)
+      mem: min(max(int(helpers.get_input_size(job) * 12), 28), 240)
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
@@ -572,16 +564,29 @@ tools:
       - training-large
     rules:
     - id: hifiasm_small_input_rule
-      if: 0.07 <= input_size < 9.4
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        input_size = helpers.get_input_size(job)
+        (input_size < 3.5 and ont) or (input_size < 9.4 and not ont)
       cores: 8
       mem: 28
-    - id: hifiasm_scalable_input_rule
-      if: input_size >= 9.4
-      # cores will be dynamically set based on mem and dest but 16 ensures it can match HPC dests
+    - id: hifiasm_scalable_input_rule_ont
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        input_size = helpers.get_input_size(job)
+        input_size >= 3.5 and input_size < 120 and ont
       cores: 16
-      # 99th is 6x for fastqsanger, 8x for fastqsanger.gz
-      # this is appears to be way overallocated, decreased to 5x
-      mem: min(max(int(input_size * 5), 28), max_scaled_mem)
+      mem: min(max(int(input_size * 8), 28), max_scaled_mem)
+    - id: hifiasm_scalable_input_rule
+      if: |
+        options = job.get_param_values(app)
+        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+        input_size = helpers.get_input_size(job)
+        input_size >= 9.4 and input_size < 240 and not ont
+      cores: 16
+      mem: min(max(int(input_size * 4), 28), max_scaled_mem)
 
   # the image exists, it just takes a long time to convert
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/3\+galaxy0:
