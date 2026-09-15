@@ -1,0 +1,62 @@
+---
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+#
+# Job runner plugin configuration
+#
+runners:
+{% for runner_id, params in (galaxy_job_conf_relay_runners | default({})).items() %}
+  {{ runner_id }}:
+{% for k, v in (params | default({})).items() %}
+    {{ k }}: {{ v }}
+{% endfor %}
+{% endfor %}
+
+#
+# Job handler configuration
+#
+handling:
+  assign:
+    - db-skip-locked
+  max_grab: 16
+  ready_window_size: 32
+
+#
+# Job execution configuration
+#
+execution:
+  default: {{ galaxy_job_conf_default_environment | default('tpv_dispatcher') }}
+  environments:
+    tpv_dispatcher:
+      runner: dynamic
+      type: python
+      function: map_tool_to_destination
+      rules_module: tpv.rules
+      tpv_config_files:
+{% for conf in galaxy_job_conf_tpv_config_files %}
+{% if '://' in conf %}
+        - {{ conf }}
+{% else %}
+        - {{ tpv_config_dir }}/{{ conf }}
+{% endif %}
+{% endfor %}
+
+#
+# Job mapping configuration
+#
+
+tools:
+  - id: kmindex_query
+    handler: relay
+  - id: lexicmap_search
+    handler: relay
+
+#
+# Job limits configuration
+#
+limits:
+{% for limit in galaxy_job_conf_limits | default([]) %}
+  - {{ limit | to_yaml | trim }}
+{% endfor %}
