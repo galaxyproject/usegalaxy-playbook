@@ -2103,15 +2103,11 @@ tools:
         raise JobNotReadyException()
 
   toolshed.g2.bx.psu.edu/repos/iuc/colabfold_alphafold/colabfold_alphafold/.*:
-    #gpus: 1
-    gpus: 0.25
-    #cores: 12
+    cores: 16
+    mem: 58
+    #gpus: 0.25
+    gpus: 0.5
     ## mem uses --mem-per-cpu=4G so this isn't actually used, we just set it for min_accepted_mem
-    #mem: 48
-    #cores: 16
-    #mem: 120
-    cores: 8
-    mem: 28
     context:
       time: "06:00:00"
       #js2_gpu_partition: gpu-medium
