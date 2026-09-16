@@ -542,9 +542,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/bgruening/gfastats/gfastats/.*:
     cores: 4
-    mem: |
-      scale_factor = 3.4 if any(da.dataset and da.dataset.extension.endswith(".gz") for da in job.input_datasets) else 1
-      3.06 + 1.809 * input_size * scale_factor
+    mem: 3.06 + 1.809 * helpers.get_input_size(job)
 
   toolshed.g2.bx.psu.edu/repos/crs4/prokka/prokka/.*:
     context:
@@ -944,103 +942,26 @@ tools:
     mem: min(max(int(helpers.get_input_size(job, "input_sequence") * 12), 28), 240)
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
-    # should allow scheduling on JS2, hpc-shared, and hpc-whole node
-    #cores: 32
-    # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference to index
-    # however that failed on the hellbender genomes
-    #mem: |
-    # cores and mem need separate maxes but then that would affect mem if you just multiplied it by cores, so we must duplicate
+    # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference to index, however that failed on the hellbender genomes.
+    # cores and mem need separate maxes but then that would affect mem if you just multiplied it by cores, so we must duplicate.
     cores: |
-      options = job.get_param_values(app)
       ref_size = 0
       ref_index_mem = 0
       if helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}}):
-          ref_file = options["reference_source"]["ref_file"]
-          if hasattr(ref_file, "first_dataset_instance"):
-              ref_file = ref_file.first_dataset_instance()
-          elif hasattr(ref_file, "dataset_instances"):
-              ref_file = ref_file.dataset_instances[0]
-          ref_size = float(ref_file.get_size())/1024**3
-          if ref_file.ext != "bwa_mem2_index":
-              mult = 1.0
-              if ref_file.ext.endswith(".gz") or ref_file.ext.endswith(".bz2"):
-                  mult = 3.3
-              ref_index_mem = ref_size * 30 * mult
-      input1 = options["fastq_input"]["fastq_input1"]
-      if hasattr(input1, "first_dataset_instance"):
-          input1 = input1.first_dataset_instance()
-      elif hasattr(input1, "dataset_instances"):
-          input1 = input1.dataset_instances[0]
-      mult = 1.0
-      if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
-          mult = 3.3
-      min(round(min(max(ref_index_mem, (input_size - ref_size + 2) * 2.3 * mult, 7.6), max_scaled_mem) / 4), 128)
+          ref_size = helpers.get_input_size(job, "reference_source|ref_file")
+          ref_file = helpers.get_input_dataset(job, "reference_source|ref_file")
+          if ref_file.extension != "bwa_mem2_index":
+              ref_index_mem = ref_size * 30
+      min(round(min(max(ref_index_mem, (helpers.get_input_size(job) - ref_size + 2) * 2.3, 7.6), max_scaled_mem) / 4), 128)
     mem: |
-      options = job.get_param_values(app)
       ref_size = 0
       ref_index_mem = 0
       if helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}}):
-          ref_file = options["reference_source"]["ref_file"]
-          if hasattr(ref_file, "first_dataset_instance"):
-              ref_file = ref_file.first_dataset_instance()
-          elif hasattr(ref_file, "dataset_instances"):
-              ref_file = ref_file.dataset_instances[0]
-          ref_size = float(ref_file.get_size())/1024**3
-          if ref_file.ext != "bwa_mem2_index":
-              mult = 1.0
-              if ref_file.ext.endswith(".gz") or ref_file.ext.endswith(".bz2"):
-                  mult = 3.3
-              ref_index_mem = ref_size * 30 * mult
-      input1 = options["fastq_input"]["fastq_input1"]
-      if hasattr(input1, "first_dataset_instance"):
-          input1 = input1.first_dataset_instance()
-      elif hasattr(input1, "dataset_instances"):
-          input1 = input1.dataset_instances[0]
-      mult = 1.0
-      if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
-          mult = 3.3
-      round(min(max(ref_index_mem, (input_size - ref_size + 2) * 2.3 * mult, 7.6), max_scaled_mem))
-      #round(cores * 3.9)
-    #rules:
-    # TODO: make input rules for cached reference compression-aware
-    # TODO: does paired use 2x single?
-    #- id: bwa_mem2_small_input_rule
-    #  if: input_size < 0.25
-    #  cores: 2
-    #  mem: 7.6
-    #- id: bwa_mem2_medium_input_rule
-    #  if: 0.25 <= input_size < 16
-    #  cores: 8
-    #  mem: 28
-    #- id: bwa_mem2_large_input_rule
-    #  if: 16 <= input_size < 32
-    #  cores: 16
-    #  mem: 58
-    #- id: bwa_mem2_xlarge_input_rule
-    #  if: 32 <= input_size < 64
-    #  cores: 24
-    #  mem: 120
-    #- id: bwa_mem2_history_reference_rule
-    #  if: |
-    #    helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}})
-    #  # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference
-    #  mem: |
-    #    options = job.get_param_values(app)
-    #    ref_file = options["reference_source"]["ref_file"]
-    #    if hasattr(ref_file, "first_dataset_instance"):
-    #        ref_file = ref_file.first_dataset_instance()
-    #    elif hasattr(ref_file, "dataset_instances"):
-    #        ref_file = ref_file.dataset_instances[0]
-    #    ref_size = float(ref_file.get_size())/1024**3
-    #    input1 = options["fastq_input"]["fastq_input1"]
-    #    if hasattr(input1, "first_dataset_instance"):
-    #        input1 = input1.first_dataset_instance()
-    #    elif hasattr(input1, "dataset_instances"):
-    #        input1 = input1.dataset_instances[0]
-    #    mult = 1.0
-    #    if input1.ext.endswith(".gz") or input1.ext.endswith(".bz2"):
-    #        mult = 3.3
-    #    min(max(ref_size * 28, (input_size - ref_size) * 2 * mult, 7.6), max_scaled_mem)
+          ref_size = helpers.get_input_size(job, "reference_source|ref_file")
+          ref_file = helpers.get_input_dataset(job, "reference_source|ref_file")
+          if ref_file.extension != "bwa_mem2_index":
+              ref_index_mem = ref_size * 30
+      round(min(max(ref_index_mem, (helpers.get_input_size(job) - ref_size + 2) * 2.3, 7.6), max_scaled_mem))
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/2\.2\.1\+galaxy3:
     env:
@@ -1053,18 +974,7 @@ tools:
       raw: "true"
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2_idx/.*:
-    mem: |
-      options = job.get_param_values(app)
-      reference = options["reference"]
-      if hasattr(reference, "first_dataset_instance"):
-          reference = reference.first_dataset_instance()
-      elif hasattr(reference, "dataset_instances"):
-          reference = reference.dataset_instances[0]
-      ref_size = float(reference.get_size())/1024**3
-      mult = 1.0
-      if reference.ext.endswith(".gz") or reference.ext.endswith(".bz2"):
-          mult = 3.3
-      min(max(ref_size * mult * 30, 14), max_scaled_mem)
+    mem: min(max(helpers.get_input_size(job) * 30, 14), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/checkm2/checkm2/.*:
     cores: 8
@@ -1089,17 +999,7 @@ tools:
   # busco under the hood?
   toolshed.g2.bx.psu.edu/repos/iuc/compleasm/compleasm/.*:
     cores: 16
-    mem: |
-      options = job.get_param_values(app)
-      input = options["input"]
-      if hasattr(input, "first_dataset_instance"):
-          input = input.first_dataset_instance()
-      elif hasattr(input, "dataset_instances"):
-          input = input.dataset_instances[0]
-      mult = 1.0
-      if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
-          mult = 3.3
-      14 + 16 * mult * input_size
+    mem: 14 + 16 * helpers.get_input_size(job)
 
   toolshed.g2.bx.psu.edu/repos/iuc/crossmap_bed/crossmap_bed/.*:
     cores: 1
@@ -1285,18 +1185,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/metamdbg_asm/metamdbg_asm/.*:
     cores: 16
-    mem: |
-      options = job.get_param_values(app)
-      # FIXME: doesn't handle mixed types
-      input = options["inputs"]["reads"][0]
-      if hasattr(input, "first_dataset_instance"):
-          input = input.first_dataset_instance()
-      elif hasattr(input, "dataset_instances"):
-          input = input.dataset_instances[0]
-      mult = 1.0
-      if input.ext.endswith(".gz") or input.ext.endswith(".bz2"):
-          mult = 3.3
-      min(max(input_size * 2 * mult, 7), max_scaled_mem)
+    mem: min(max(helpers.get_input_size(job) * 2, 7), max_scaled_mem)
 
   toolshed.g2.bx.psu.edu/repos/iuc/metasbt_index/metasbt_index/0.1.5+galaxy1:
     cores: 8
