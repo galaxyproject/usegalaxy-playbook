@@ -262,6 +262,8 @@ galaxy_job_conf_tools:
     handler: relay
   - id: lexicmap_search
     handler: relay
+  - id: logan_protein_search_database
+    handler: relay
 
 galaxy_job_conf_limits:
   # this is a failsafe more than anything - actual limits are enforced on the environments
@@ -445,6 +447,8 @@ galaxy_config_files:
     dest: "{{ galaxy_config_dir }}/location/kmindex.loc"
   - src: files/galaxy/config/location/lexicmap_index.loc
     dest: "{{ galaxy_config_dir }}/location/lexicmap_index.loc"
+  - src: files/galaxy/config/location/usearch_database.loc
+    dest: "{{ galaxy_config_dir }}/location/usearch_database.loc"
   # HACK
   - src: files/galaxy/tools/qupath.png
     dest: "{{ galaxy_local_tools_dir }}"
