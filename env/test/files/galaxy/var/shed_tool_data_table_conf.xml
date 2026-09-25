@@ -3812,4 +3812,332 @@
         <columns>value, version, name, path</columns>
         <file path="/galaxy/server/config/mutable/shed/motus_db_versioned.loc"/>
     </table>
+    <table name="fasta_indexes" comment_char="#">
+        <columns>value, dbkey, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/fasta_indexes.loc"/>
+    </table>
+    <table name="amrfinderplus_versioned_database" comment_char="#">
+        <columns>value, name, db_version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/amrfinderplus_versioned.loc"/>
+    </table>
+    <table name="all_fasta" comment_char="#">
+        <columns>value, dbkey, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/all_fasta.loc"/>
+    </table>
+    <table name="bmtagger" comment_char="#">
+        <columns>value, dbkey, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/bmtagger.loc"/>
+    </table>
+    <table name="checkm2" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, dbkey, name, version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/checkm2.loc"/>
+    </table>
+    <table name="bakta_database" comment_char="#">
+        <columns>value, dbkey, bakta_version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/bakta_database.loc.sample"/>
+    </table>
+    <table name="coreprofiler_versioned_scheme" comment_char="#">
+        <columns>value, name, tool_version, database, path, db_path, scheme_path</columns>
+        <file path="/galaxy/server/config/mutable/shed/coreprofiler_versioned_scheme.loc"/>
+    </table>
+    <table name="kma_index" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/kma_index.loc"/>
+    </table>
+    <table name="kraken_databases" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/kraken_databases.loc"/>
+    </table>
+    <table name="staramr_database" comment_char="#">
+        <columns>value, name, path, resfinder_commit, pointfinder_commit, plasmidfinder_commit</columns>
+        <file path="/galaxy/server/config/mutable/shed/staramr_database.loc"/>
+    </table>
+    <table name="bwa_mem2_indexes" comment_char="#">
+        <columns>value, dbkey, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/bwa_mem2_index.loc"/>
+    </table>
+    <table name="bwameth_indexes" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, dbkey, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/bwameth_indexes.loc"/>
+    </table>
+    <table name="cat_database" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, name, database_folder, taxonomy_folder</columns>
+        <file path="/galaxy/server/config/mutable/shed/cat_database.loc"/>
+    </table>
+    <table name="celltypist_models" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, name, date, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/celltypist_models.loc"/>
+    </table>
+    <table name="clair3_models" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, platform, sha256, path, source</columns>
+        <file path="/galaxy/server/config/mutable/shed/clair3_models.loc"/>
+    </table>
+    <table name="deeparg" comment_char="#">
+        <columns>value, name, path, db_version</columns>
+        <file path="/galaxy/server/config/mutable/shed/deeparg.loc"/>
+    </table>
+    <table name="dram_databases" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/dram_databases.loc"/>
+    </table>
+    <table name="eggnog_mapper_db_versioned" comment_char="#" allow_duplicate_entries="False">
+        <columns>value,name,path,version</columns>
+        <file path="/galaxy/server/config/mutable/shed/eggnog_mapper_db_versioned.loc"/>
+    </table>
+    <table name="busco_database" comment_char="#">
+        <columns>value, name, version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/busco_database.loc"/>
+    </table>
+    <table name="busco_database_options" comment_char="#">
+        <columns>value, name, db_value</columns>
+        <file path="/galaxy/server/config/mutable/shed/busco_database_options.loc"/>
+    </table>
+    <table name="gff_gene_annotations" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/gene_annotation.loc"/>
+    </table>
+    <table name="plasmidfinder_database" comment_char="#">
+        <columns>value, name, date, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/plasmidfinder_database.loc"/>
+    </table>
+    <table name="funannotate" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, description, format_version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/funannotate.loc"/>
+    </table>
+    <table name="funannotate_options" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, name, select, db_value</columns>
+        <file path="/galaxy/server/config/mutable/shed/funannotate_options.loc"/>
+    </table>
+    <table name="genomic_super_signature_ravmodels" comment_char="#">
+        <columns>value, dbkey, version, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/genomic_super_signature_ravmodels.loc"/>
+    </table>
+    <table name="groot_database" comment_char="#">
+        <columns>value, name, path, version</columns>
+        <file path="/galaxy/server/config/mutable/shed/groot_database.loc"/>
+    </table>
+    <table name="gtdbtk_database_versioned" comment_char="#">
+        <columns>value, name, version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/gtdbtk_database_versioned.loc"/>
+    </table>
+    <table name="gtdbtk_database_metadata_versioned" comment_char="#">
+        <columns>value, name, version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/gtdbtk_database_metadata_versioned.loc"/>
+    </table>
+    <table name="homer_preparse" comment_char="#">
+        <columns>value, dbkey, mask, size, name, path, path_fasta, version</columns>
+        <file path="/galaxy/server/config/mutable/shed/homer_preparse.loc"/>
+    </table>
+    <table name="homer_promoters" comment_char="#">
+        <columns>value, dbkey, organism, path, organism_version, promoter_version</columns>
+        <file path="/galaxy/server/config/mutable/shed/homer_promoters.loc"/>
+    </table>
+    <table name="humann2_nucleotide_database" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/humann2_nucleotide_database.loc"/>
+    </table>
+    <table name="humann2_protein_database" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/humann2_protein_database.loc"/>
+    </table>
+    <table name="humann_nucleotide_database" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/humann_nucleotide_database.loc"/>
+    </table>
+    <table name="humann_protein_database" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/humann_protein_database.loc"/>
+    </table>
+    <table name="humann_utility_mapping" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/humann_utility_mapping.loc"/>
+    </table>
+    <table name="interproscan" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, description, interproscan_version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/interproscan.loc"/>
+    </table>
+    <table name="kaiju" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, name, path, version</columns>
+        <file path="/galaxy/server/config/mutable/shed/kaiju.loc"/>
+    </table>
+    <table name="liana_resources" comment_char="#">
+        <columns>value, name, description, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/liana_resources.loc"/>
+    </table>
+    <table name="malt_indices" comment_char="#">
+        <columns>value, dbkey, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/malt_indices.loc"/>
+    </table>
+    <table name="mash_sketches" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/mash_sketches.loc"/>
+    </table>
+    <table name="minibwa_indexes" comment_char="#">
+        <columns>value, dbkey, name, path, version</columns>
+        <file path="/galaxy/server/config/mutable/shed/minibwa_index.loc"/>
+    </table>
+    <table name="mitos" comment_char="#">
+        <columns>value, name, type, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/mitos.loc"/>
+    </table>
+    <table name="mmseqs2_databases" comment_char="#">
+        <columns>value, name, type, taxonomy, path, version</columns>
+        <file path="/galaxy/server/config/mutable/shed/mmseqs2_databases.loc"/>
+    </table>
+    <table name="mothur_aligndb" comment_char="#" allow_duplicate_entries="False">
+        <columns>name, value</columns>
+        <file path="/galaxy/server/config/mutable/shed/mothur_aligndb.loc"/>
+    </table>
+    <table name="mothur_lookup" comment_char="#" allow_duplicate_entries="False">
+        <columns>name, value</columns>
+        <file path="/galaxy/server/config/mutable/shed/mothur_lookup.loc"/>
+    </table>
+    <table name="mothur_map" comment_char="#" allow_duplicate_entries="False">
+        <columns>name, value</columns>
+        <file path="/galaxy/server/config/mutable/shed/mothur_map.loc"/>
+    </table>
+    <table name="mothur_taxonomy" comment_char="#" allow_duplicate_entries="False">
+        <columns>name, value</columns>
+        <file path="/galaxy/server/config/mutable/shed/mothur_taxonomy.loc"/>
+    </table>
+    <table name="ncbi_fcs_gx_databases_ext" comment_char="#">
+        <columns>value, name, source_manifest, use_source_manifest, phone_home, phone_home_label, local_manifest</columns>
+        <file path="/galaxy/server/config/mutable/shed/ncbi_fcs_gx_databases_ext.loc"/>
+    </table>
+    <table name="ncbi_fcs_gx_divisions" comment_char="#">
+        <columns>value, tag, name</columns>
+        <file path="/galaxy/server/config/mutable/shed/ncbi_fcs_gx_divisions.tsv"/>
+    </table>
+    <table name="ncbi_taxonomy" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/ncbi_taxonomy.loc"/>
+    </table>
+    <table name="ncbi_taxonomy_sqlite" comment_char="#">
+        <columns>value, description, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/ncbi_taxonomy_sqlite.loc"/>
+    </table>
+    <table name="nextclade" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, database_name, description, min_nextclade_version, date, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/nextclade.loc"/>
+    </table>
+    <table name="omamer" comment_char="#">
+        <columns>value, name, version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/omamer.loc"/>
+    </table>
+    <table name="packaged_annotation_data" comment_char="#">
+        <columns>value, dbkey, data_name, data_id, data_format, package_id, package_name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/packaged_annotation_data.loc"/>
+    </table>
+    <table name="__dbkeys__" comment_char="#">
+        <columns>value, name, len_path</columns>
+        <file path="/galaxy/server/config/mutable/shed/dbkeys.loc"/>
+    </table>
+    <table name="pangolin_data" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, description, min_pangolin_version, date, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/pangolin_data.loc"/>
+    </table>
+    <table name="pangolin_constellations" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, description, min_scorpio_version, date, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/pangolin_constellations.loc"/>
+    </table>
+    <table name="pangolin_assignment" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, description, min_pangolin_version, date, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/pangolin_assignment.loc"/>
+    </table>
+    <table name="pharokka_db_versioned" comment_char="#">
+        <columns>value, dbkey, version, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/pharokka_db_versioned.loc"/>
+    </table>
+    <table name="primer_scheme_bedfiles" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, description, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/primer_scheme_bedfiles.loc"/>
+    </table>
+    <table name="qiime_rep_set" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/qiime_rep_set.loc"/>
+    </table>
+    <table name="qiime_rep_set_aligned" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/qiime_rep_set_aligned.loc"/>
+    </table>
+    <table name="qiime_taxonomy" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/qiime_taxonomy.loc"/>
+    </table>
+    <table name="qiime_trees" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/qiime_trees.loc"/>
+    </table>
+    <table name="repeatmasker_famdb" comment_char="#">
+        <columns>value, name, version, components, engines, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/repeatmasker_famdb.loc"/>
+    </table>
+    <table name="salmon_indexes_versioned" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, dbkey, name, path, version</columns>
+        <file path="/galaxy/server/config/mutable/shed/salmon_indexes_versioned.loc"/>
+    </table>
+    <table name="transcriptomes" comment_char="#">
+        <columns>value, dbkey, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/transcriptomes.loc"/>
+    </table>
+    <table name="gtdb" comment_char="#">
+        <columns>value, name, dbkey, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/gtdb.loc"/>
+    </table>
+    <table name="snpsift_dbnsfps" comment_char="#" allow_duplicate_entries="False">
+        <columns>key, build, name, value, annotations</columns>
+        <file path="/galaxy/server/config/mutable/shed/snpsift_dbnsfps.loc"/>
+    </table>
+    <table name="rRNA_databases" comment_char="#">
+        <columns>value, name, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/rRNA_databases.loc"/>
+    </table>
+    <table name="stanza_models" comment_char="#">
+        <columns>value, name, lang, package, stanza_version, resources_version, models_path</columns>
+        <file path="/galaxy/server/config/mutable/shed/stanza_models.loc"/>
+    </table>
+    <table name="sylph_databases" comment_char="#">
+        <columns>value, name, path, clade, sylph_tax_identifier, version</columns>
+        <file path="/galaxy/server/config/mutable/shed/sylph_databases.loc"/>
+    </table>
+    <table name="sylph_tax_database" comment_char="#">
+        <columns>value, name, path, version</columns>
+        <file path="/galaxy/server/config/mutable/shed/sylph_tax_database.loc"/>
+    </table>
+    <table name="transvar_annotations" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, dbkey, refversion, name, sources, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/transvar_annotations.loc"/>
+    </table>
+    <table name="vep_versioned_annotation_cache" comment_char="#">
+        <columns>value, dbkey, version, cachetype, name, species, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/vep_versioned_annotation_cache.loc"/>
+    </table>
+    <table name="vsnp_dnaprints" comment_char="#">
+        <columns>value, name, path, description</columns>
+        <file path="/galaxy/server/config/mutable/shed/vsnp_dnaprints.loc"/>
+    </table>
+    <table name="vsnp_excel" comment_char="#">
+        <columns>value, name, path, description</columns>
+        <file path="/galaxy/server/config/mutable/shed/vsnp_excel.loc"/>
+    </table>
+    <table name="vsnp_genbank" comment_char="#">
+        <columns>value, name, path, description</columns>
+        <file path="/galaxy/server/config/mutable/shed/vsnp_genbank.loc"/>
+    </table>
+    <table name="deacon" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, dbkey, name, version, path, format_version, note</columns>
+        <file path="/galaxy/server/config/mutable/shed/deacon.loc"/>
+    </table>
+    <table name="kmetashot" comment_char="#" allow_duplicate_entries="False">
+        <columns>value, dbkey, name, version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/kmetashot.loc"/>
+    </table>
+    <table name="mirge3_libraries" comment_char="#">
+        <columns>value, path, organism, version</columns>
+        <file path="/galaxy/server/config/mutable/shed/mirge3_libraries.loc"/>
+    </table>
+    <table name="virsorter" comment_char="#">
+        <columns>value, name, virsorter_version, path</columns>
+        <file path="/galaxy/server/config/mutable/shed/virsorter.loc"/>
+    </table>
 </tables>
