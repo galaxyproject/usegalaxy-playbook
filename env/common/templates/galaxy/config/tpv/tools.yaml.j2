@@ -165,6 +165,22 @@ tools:
         shell: /bin/bash
         identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.7.0--0
 
+  toolshed.g2.bx.psu.edu/repos/bgruening/logan_protein_search_database/logan_protein_search_database/3\.2\.0.*:
+    context:
+      time: "06:00:00"
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/logan-protein-3.2.0--0
+    env:
+    - name: APPTAINER_BINDPATH
+      value: /scratch/projects/BRC_analytics/usearch:/scratch/projects/BRC_analytics/usearch:ro
+    scheduling:
+      require:
+      - vista
+      - gpu
+
   toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/.*:
     cores: 96
     mem: 240

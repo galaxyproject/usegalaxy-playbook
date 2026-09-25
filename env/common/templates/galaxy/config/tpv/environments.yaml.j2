@@ -1003,22 +1003,28 @@ destinations:
       reject:
       - offline
 
-  vista:
+  _vista:
+    abstract: true
     inherits: _tacc_hpc
     runner: vista
     min_accepted_cores: 1
     min_accepted_mem: 0
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=gg"
       jobs_directory: /scratch/03166/xcgalaxy/jobs/{{ galaxy_instance_codename }}
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.vista | join(',') }}"
     env:
-    - name: GALAXY_MEMORY_MB
-      value: "240000"
     - name: APPTAINER_CACHEDIR
       value: /work/03166/xcgalaxy/apptainer_cache
     - name: APPTAINER_PYTHREADS
       value: "9"
+
+  vista:
+    inherits: _vista
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=gg"
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "240000"
     scheduling:
       accept:
       - hpc
@@ -1031,6 +1037,29 @@ destinations:
       - vista
       #reject:
       #- offline
+
+  vista_gpu:
+    inherits: _vista
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=gh"
+      singularity_run_extra_arguments: --nv
+    env:
+    - name: GALAXY_MEMORY_MB
+      value: "110000"
+    scheduling:
+      accept:
+      - hpc
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
+      require:
+      - pulsar
+      - vista
+      - gpu
+      #reject:
+      #- offline
+
 {% if galaxy_instance_codename == 'test' %}
 
   #delta:
