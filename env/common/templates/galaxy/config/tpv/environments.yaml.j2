@@ -425,6 +425,22 @@ destinations:
       #reject:
       #- offline
 
+  # High-throughput twins of jetstream2 and jetstream2_user_defined: the same resources, reachable only
+  # by jobs carrying the `high_throughput` tag, which only the vgp-only users_vgp.yaml.j2 adds, per user.
+  # They exist so galaxy_job_conf_limits can give those users a larger per-destination concurrency
+  # limit: Galaxy's registered_user_concurrent_jobs is one global value with no per-user or per-role form. Nothing on usegalaxy.org carries the tag, so they never match there.
+  jetstream2_ht:
+    inherits: jetstream2
+    scheduling:
+      require:
+      - high_throughput
+
+  jetstream2_user_defined_ht:
+    inherits: jetstream2_user_defined
+    scheduling:
+      require:
+      - high_throughput
+
   jetstream2_gxit:
     runner: jetstream2
     min_accepted_cores: 1

@@ -1,0 +1,13 @@
+---
+
+# vgp-only user entities (listed in galaxy_job_conf_tpv_config_files for galaxy-vgp only). A user entity
+# merges on top of whichever role matched (TPV applies only the FIRST of a user's roles that has an entity,
+# so a second role would compete with VGP-instance instead of adding to it).
+
+users:
+  # High-throughput: may also use the jetstream2_ht / jetstream2_user_defined_ht twins, which carry a
+  # higher per-user concurrency limit (vgp_high_throughput_user_concurrent_jobs in host_vars).
+  richard.burhans@gmail.com:
+    scheduling:
+      prefer:
+      - high_throughput

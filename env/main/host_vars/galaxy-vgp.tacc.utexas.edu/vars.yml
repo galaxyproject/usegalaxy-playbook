@@ -46,6 +46,7 @@ galaxy_job_conf_tpv_config_files:
   - tools.yaml
   - tools_vgp.yaml
   - users.yaml
+  - users_vgp.yaml
   #- roles.yaml ?
   - roles_vgp.yaml
 
@@ -330,8 +331,70 @@ galaxy_config_hash:
     # doesn't work for some reason...
     logo_src: https://images.squarespace-cdn.com/content/v1/5963d1fa9de4bb12177a7f48/1526309972322-4IFPGMUU4CF8Y2LLQFM7/VGP_Tag_RGB_newLogo_72dpi_Dots_EDIT.png?format=200w
 
+# Per-user job limits. Every user may run vgp_user_concurrent_jobs on each vgp destination; users
+# listed in users_vgp.yaml.j2 (prefer: high_throughput) may also run
+# vgp_high_throughput_user_concurrent_jobs on each of the two twin destinations (jetstream2_ht,
+# jetstream2_user_defined_ht). registered_user_concurrent_jobs is checked before any of these and has
+# no per-user form, so it is the failsafe on a user's TOTAL: the normal allowance plus the twins'.
+vgp_user_concurrent_jobs: 40
+vgp_high_throughput_user_concurrent_jobs: 120
+
 galaxy_job_conf_limits:
   - type: registered_user_concurrent_jobs
-    value: 40
+    value: "{{ vgp_user_concurrent_jobs + vgp_high_throughput_user_concurrent_jobs }}"
   - type: anonymous_user_concurrent_jobs
     value: 1
+  - type: environment_user_concurrent_jobs
+    id: cyclone_conda_direct
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: cyclone
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: cyclone_small
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: cyclone_mem
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: cyclone_training
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: cyclone_small_training
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_lm
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_gpu
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_gpu_user_defined
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_resize_shm
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_user_defined
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_training
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_vgp
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: bridges2_em
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: stampede3_nvdimm
+    value: "{{ vgp_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_ht
+    value: "{{ vgp_high_throughput_user_concurrent_jobs }}"
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_user_defined_ht
+    value: "{{ vgp_high_throughput_user_concurrent_jobs }}"
