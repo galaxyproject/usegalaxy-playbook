@@ -3,3 +3,7 @@
 galaxy_repo_owner: galaxyproject
 cvmfs_force_publish: false
 cvmfs_tag_random: "{{ cvmfs_force_publish | ternary('_' ~ (32768 | random | md5 | truncate(8, True, '')), '') }}"
+
+# Build the client with source maps. They are published next to the JS, where Sentry fetches them to resolve stack
+# traces. Browsers only download them with the developer tools open.
+usegalaxy_cvmfs_client_sourcemaps: true

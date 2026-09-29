@@ -9,6 +9,7 @@
     - name: Build client
       import_role:
         name: galaxyproject.galaxy
+      environment: "{{ usegalaxy_cvmfs_client_sourcemaps | bool | ternary({'GXY_BUILD_SOURCEMAPS': '1'}, {}) }}"
       vars:
         #galaxy_config_dir: null
         #galaxy_shed_tools_dir: null
