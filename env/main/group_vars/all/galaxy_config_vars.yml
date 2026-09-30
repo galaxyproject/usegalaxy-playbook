@@ -341,6 +341,7 @@ base_app_main: &BASE_APP_MAIN
     task_routes:
       galaxy.fetch_data: disabled
       galaxy.write_history_to: galaxy.archiver
+  vault_token_renewal_interval: 1800  # 30 min
 
   expose_dataset_path: true
   expose_potentially_sensitive_job_metrics: true
