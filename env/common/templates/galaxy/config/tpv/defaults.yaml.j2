@@ -155,6 +155,23 @@ tools:
         - training
         reject:
         - hpc
+{% if galaxy_instance_codename == 'test' %}
+    # Admin-only destination probes: jobs in a history tagged `tpv_probe:<tag>` go to the destination carrying that
+    # scheduling tag (e.g. to verify CVMFS mounts after a change), using that destination's minimum accepted resources
+{% for tag, cores, mem in [('cyclone', 1, 3.7), ('jetstream2', 1, 3.7), ('stampede3-skx', 16, 120), ('ls6', 1, 3.7), ('expanse', 8, 16)] %}
+    - id: tpv_probe_{{ tag | replace('-', '_') }}_rule
+      if: |
+        tags = job.history and job.history.tags or []
+        user is not None and app.config.is_admin_user(user) and any([(hta.user_tname == 'tpv_probe' and hta.user_value == '{{ tag }}') for hta in tags])
+      cores: {{ cores }}
+      mem: {{ mem }}
+      context:
+        time: "02:00:00"
+      scheduling:
+        require:
+        - {{ tag }}
+{% endfor %}
+{% endif %}
     # logs for every loop iteration for every concurrency limited job
     #- id: log
     #  if: true
