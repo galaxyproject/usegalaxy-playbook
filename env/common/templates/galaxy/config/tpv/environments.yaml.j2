@@ -163,7 +163,7 @@ destinations:
     abstract: true
     inherits: _tacc_hpc
     params:
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_cmd: $CVMFSEXEC_PATH -N {{ galaxy_job_conf_cvmfs_data_repos | join(' ') }} singularity.galaxyproject.org -- apptainer
     env:
     {# FIXME: why is this not set in jobs? is it not being read from system profile or something? also, pretty sure it worked fine once without this in job 1464700 but not again? -#}
     - name: SCRATCH
@@ -553,9 +553,9 @@ destinations:
     # run once to extract
     - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
     - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
-    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
-    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo brc.galaxyproject.org
-    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo vgp.galaxyproject.org
+{% for repo in galaxy_job_conf_cvmfs_data_repos %}
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo {{ repo }}
+{% endfor %}
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /ocean/projects/mcb140028p/xcgalaxy/singularity_cache
@@ -640,9 +640,9 @@ destinations:
     # run once to extract
     - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
     - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
-    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
-    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo brc.galaxyproject.org
-    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo vgp.galaxyproject.org
+{% for repo in galaxy_job_conf_cvmfs_data_repos %}
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo {{ repo }}
+{% endfor %}
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /expanse/lustre/scratch/xgalaxy/temp_project/singularity_cache
@@ -673,7 +673,7 @@ destinations:
       submit_native_specification: "--partition=shared --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048} --time={time or default_time}"
       jobs_directory: /anvil/scratch/x-xcgalaxy/jobs/{{ galaxy_instance_codename }}
       metadata_strategy: directory_celery
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_cmd: $CVMFSEXEC_PATH -N {{ galaxy_job_conf_cvmfs_data_repos | join(' ') }} singularity.galaxyproject.org -- apptainer
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.anvil | join(',') }}"
       singularity_no_mount: null
@@ -828,7 +828,7 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --ntasks-per-node={int(cores)} --time={time or default_time} --partition=small"
       jobs_directory: /scratch1/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging/
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_cmd: $CVMFSEXEC_PATH -N {{ galaxy_job_conf_cvmfs_data_repos | join(' ') }} singularity.galaxyproject.org -- apptainer
     env:
     - name: GALAXY_MEMORY_MB
       value: "190000"
@@ -1082,7 +1082,7 @@ destinations:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=normal"
       #submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time=00:20:00 --partition=development"
       jobs_directory: /scratch/03166/xcgalaxy/{{ galaxy_instance_codename }}/staging
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_cmd: $CVMFSEXEC_PATH -N {{ galaxy_job_conf_cvmfs_data_repos | join(' ') }} singularity.galaxyproject.org -- apptainer
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.ls6 | join(',') }}"
     env:
     - name: GALAXY_MEMORY_MB

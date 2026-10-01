@@ -148,6 +148,14 @@ galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/p
 galaxy_job_conf_pulsar_jobs_dirs: {}
 #  expanse: /expanse/lustre/scratch/xgalaxy/temp_project/main/staging
 
+# CVMFS data repos mounted by cvmfsexec destinations (see environments.yaml.j2); each needs a matching bind in the
+# cvmfsexec volume lists below. local/jetstream use host autofs instead.
+galaxy_job_conf_cvmfs_data_repos:
+  - data.galaxyproject.org
+  - brc.galaxyproject.org
+  - vgp.galaxyproject.org
+  - idc.galaxyproject.org
+
 galaxy_job_conf_singularity_volumes:
   local:
     - "$galaxy_root:ro"
@@ -164,6 +172,7 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/cvmfs/idc.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
   jetstream:
     - "$galaxy_root:ro"
@@ -173,6 +182,7 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/cvmfs/idc.galaxyproject.org:ro"
     - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
     - "/dev/shm:rw"
     - "/tmp/slurm_job_$SLURM_JOB_ID:rw"
@@ -183,6 +193,7 @@ galaxy_job_conf_singularity_volumes:
     - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/data.galaxyproject.org:/cvmfs/data.galaxyproject.org:ro"
     - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/brc.galaxyproject.org:/cvmfs/brc.galaxyproject.org:ro"
     - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/vgp.galaxyproject.org:/cvmfs/vgp.galaxyproject.org:ro"
+    - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/idc.galaxyproject.org:/cvmfs/idc.galaxyproject.org:ro"
     - "/local:rw"
   expanse:
     - "$tool_directory:ro"
@@ -191,6 +202,7 @@ galaxy_job_conf_singularity_volumes:
     - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/data.galaxyproject.org:/cvmfs/data.galaxyproject.org:ro"
     - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/brc.galaxyproject.org:/cvmfs/brc.galaxyproject.org:ro"
     - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/vgp.galaxyproject.org:/cvmfs/vgp.galaxyproject.org:ro"
+    - "$CVMFSEXEC_DIR/.cvmfsexec/dist/cvmfs/idc.galaxyproject.org:/cvmfs/idc.galaxyproject.org:ro"
     - "/scratch:rw"
   anvil:
     - "$tool_directory:ro"
@@ -199,6 +211,7 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/cvmfs/idc.galaxyproject.org:ro"
     - "/tmp:rw"
   rockfish:
     - "$tool_directory:ro"
@@ -222,6 +235,7 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/cvmfs/idc.galaxyproject.org:ro"
     - "/tmp:/tmp:rw"
     - "/tmp:/var/tmp:rw"
   vista:
