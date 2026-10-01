@@ -1,4 +1,6 @@
 ---
+{# CVMFS data repos mounted via cvmfsexec (in addition to singularity.galaxyproject.org) -#}
+{% set cvmfs_data_repos = galaxy_job_conf_cvmfs_data_repos | default(['data.galaxyproject.org', 'brc.galaxyproject.org', 'vgp.galaxyproject.org']) %}
 
 destinations:
 
@@ -164,9 +166,9 @@ destinations:
     # run once to extract
     - execute: $CVMFSEXEC_DIR/cvmfsexec -v >/dev/null
     - execute: trap "$CVMFSEXEC_DIR/.cvmfsexec/umountrepo -a" EXIT
-    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo data.galaxyproject.org
-    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo brc.galaxyproject.org
-    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo vgp.galaxyproject.org
+{% for repo in cvmfs_data_repos %}
+    - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo {{ repo }}
+{% endfor %}
     - execute: $CVMFSEXEC_DIR/.cvmfsexec/mountrepo singularity.galaxyproject.org
     - name: SINGULARITY_CACHEDIR
       value: /ocean/projects/mcb140028p/xcgalaxy/singularity_cache
@@ -210,7 +212,7 @@ destinations:
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.tacc_hpc | join(',') }}"
       singularity_no_mount: null
-      singularity_cmd: $CVMFSEXEC_PATH -N data.galaxyproject.org brc.galaxyproject.org vgp.galaxyproject.org singularity.galaxyproject.org -- apptainer
+      singularity_cmd: $CVMFSEXEC_PATH -N {{ cvmfs_data_repos | join(' ') }} singularity.galaxyproject.org -- apptainer
       container_resolvers:
       - type: cached_explicit_singularity
         cache_directory: /cvmfs/singularity.galaxyproject.org/all
