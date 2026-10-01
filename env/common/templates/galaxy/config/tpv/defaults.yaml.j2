@@ -162,7 +162,8 @@ tools:
     - id: tpv_probe_{{ tag | replace('-', '_') }}_rule
       if: |
         tags = job.history and job.history.tags or []
-        user is not None and app.config.is_admin_user(user) and any([(hta.user_tname == 'tpv_probe' and hta.user_value == '{{ tag }}') for hta in tags])
+        local_tool = tool.id.startswith("__") or tool.tool_type in ("data_source", "expression") or tool.requires_galaxy_python_environment
+        not local_tool and user is not None and app.config.is_admin_user(user) and any([(hta.user_tname == 'tpv_probe' and hta.user_value == '{{ tag }}') for hta in tags])
       cores: {{ cores }}
       mem: {{ mem }}
       context:
