@@ -148,6 +148,13 @@ galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/p
 galaxy_job_conf_pulsar_jobs_dirs: {}
 #  expanse: /expanse/lustre/scratch/xgalaxy/temp_project/main/staging
 
+# CVMFS data repos mounted by cvmfsexec destinations (see environments.yaml.j2); each needs a matching bind in the
+# cvmfsexec volume lists below. local/jetstream use host autofs instead.
+galaxy_job_conf_cvmfs_data_repos:
+  - data.galaxyproject.org
+  - brc.galaxyproject.org
+  - vgp.galaxyproject.org
+
 galaxy_job_conf_singularity_volumes:
   local:
     - "$galaxy_root:ro"
