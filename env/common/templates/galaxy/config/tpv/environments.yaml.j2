@@ -659,8 +659,9 @@ destinations:
       - expanse
       require:
       - pulsar
-      #reject:
-      #- offline
+      # exhausted 2026-09-28
+      reject:
+      - offline
 
   anvil:
     inherits: _pulsar
