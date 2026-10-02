@@ -164,6 +164,32 @@ tools:
       - type: singularity
         shell: /bin/bash
         identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.7.0--0
+    rules:
+      - id: kmindex_scalable_walltime_rule
+        if: true
+        execute: |
+          import math
+          from galaxy.util.compression_utils import get_fileobj
+
+          READ_LIMIT = 100 * 1024
+          MAX_MINUTES = 24 * 60
+
+          ds = helpers.get_input_dataset(job, "fastx")
+          is_fastq = ds.extension.startswith("fastq")
+          size = helpers.get_input_size(job, "fastx") * 1024**3
+          if size <= READ_LIMIT:
+              with get_fileobj(ds.get_file_name()) as fh:
+                  if is_fastq:
+                      bases = sum(len(line.strip()) for i, line in enumerate(fh) if i % 4 == 1)
+                  else:
+                      bases = sum(len(line.strip()) for line in fh if not line.startswith(">"))
+          else:
+              bases = size
+              if is_fastq:
+                  bases /= 2
+
+          minutes = min(math.ceil(5 + 5 * bases / 1000), MAX_MINUTES)
+          entity.context["time"] = f"{minutes // 60:02d}:{minutes % 60:02d}:00"
 
   toolshed.g2.bx.psu.edu/repos/bgruening/logan_protein_search_database/logan_protein_search_database/3\.2\.0.*:
     context:
