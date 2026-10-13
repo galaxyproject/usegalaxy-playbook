@@ -233,6 +233,19 @@ tools:
         shell: /bin/bash
         identifier: /work/03166/xcgalaxy/vista/images/lexicmap-0.9.0--0
 
+  toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/0\.10\.0.*:
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/lexicmap-0.10.0--0
+
+  toolshed.g2.bx.psu.edu/repos/d-callan/lexicmap_memcap/lexicmap_search_memcap/.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/.*
+
+  toolshed.g2.bx.psu.edu/repos/d-callan/lexicmap_memcap/lexicmap_search_memcap/0\.10\.0.*:
+    inherits: toolshed.g2.bx.psu.edu/repos/iuc/lexicmap/lexicmap_search/0\.10\.0.*
+
   #echo: {scheduling: {require: [jetstream2]}}
 
   #secure_hash_message_digest:
@@ -644,38 +657,18 @@ tools:
     mem: 28
 
   toolshed.g2.bx.psu.edu/repos/bgruening/hifiasm/hifiasm/.*:
-    cores: 4
-    mem: 14
+    cores: 16
+    mem: |
+      options = job.get_param_values(app)
+      ont = options.get("mode", {}).get("mode_selector", None) == "ont"
+      factor = 8 if ont else 4
+      input_size = helpers.get_input_size(job)
+      min(max(int(input_size * factor), 28), max_scaled_mem)
     context:
       time: 48:00:00
     scheduling:
       accept:
       - training-large
-    rules:
-    - id: hifiasm_small_input_rule
-      if: |
-        options = job.get_param_values(app)
-        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
-        input_size = helpers.get_input_size(job)
-        (input_size < 3.5 and ont) or (input_size < 9.4 and not ont)
-      cores: 8
-      mem: 28
-    - id: hifiasm_scalable_input_rule_ont
-      if: |
-        options = job.get_param_values(app)
-        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
-        input_size = helpers.get_input_size(job)
-        input_size >= 3.5 and input_size < 120 and ont
-      cores: 16
-      mem: min(max(int(input_size * 8), 28), max_scaled_mem)
-    - id: hifiasm_scalable_input_rule
-      if: |
-        options = job.get_param_values(app)
-        ont = options.get("mode", {}).get("mode_selector", None) == "ont"
-        input_size = helpers.get_input_size(job)
-        input_size >= 9.4 and input_size < 240 and not ont
-      cores: 16
-      mem: min(max(int(input_size * 4), 28), max_scaled_mem)
 
   # the image exists, it just takes a long time to convert
   toolshed.g2.bx.psu.edu/repos/bgruening/mitohifi/mitohifi/3\+galaxy0:
@@ -1870,6 +1863,10 @@ tools:
     context:
       force_cores: true
     cores: 64
+    mem: 14
+
+  toolshed.g2.bx.psu.edu/repos/ufz/checkv_end_to_end/checkv_end_to_end/.*:
+    cores: 4
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/ufz/genomad_end_to_end/genomad_end_to_end/.*:
