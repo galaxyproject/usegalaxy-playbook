@@ -217,7 +217,7 @@ destinations:
     max_accepted_cores: 2
     max_accepted_mem: 16
     params:
-      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_small_partition}{' -w ' + cyclone_node if cyclone_node else ''}"
+      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_small_partition}{' -w ' + cyclone_node if cyclone_node else ''}{' --reservation=' + cyclone_reservation if cyclone_reservation else ''}"
 
   # this is only for pulsar-incompatible large jobs, so requires an explicit tag
   cyclone_mem:
@@ -571,7 +571,7 @@ destinations:
       - bridges2
       require:
       - pulsar
-      # vm030 offline sept 07
+      # TODO: update to 0.15.16 and native cvmfsexec support first
       reject:
       - offline
 
@@ -659,7 +659,7 @@ destinations:
       - expanse
       require:
       - pulsar
-      # exhausted 2026-09-28
+      # TODO: update to 0.15.16 and native cvmfsexec support first
       reject:
       - offline
 
@@ -718,7 +718,7 @@ destinations:
       - anvil
       require:
       - pulsar
-      # exhausted 2026-06-08
+      # TODO: update to 0.15.16 and native cvmfsexec support first
       reject:
       - offline
 
@@ -1022,7 +1022,7 @@ destinations:
   vista:
     inherits: _vista
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=gg"
+      submit_native_specification: "-A MCB24094 --nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=gg{' --reservation=' + vista_reservation if vista_reservation else ''}"
     env:
     - name: GALAXY_MEMORY_MB
       value: "240000"
@@ -1042,7 +1042,7 @@ destinations:
   vista_gpu:
     inherits: _vista
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=gh"
+      submit_native_specification: "-A MCB24094 --nodes=1 --ntasks={int(cores)} --time={time or default_time} --partition=gh{' --reservation=' + vista_reservation if vista_reservation else ''}"
       singularity_run_extra_arguments: --nv
     env:
     - name: GALAXY_MEMORY_MB
