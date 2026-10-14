@@ -380,9 +380,9 @@ tools:
   #
   # STAR genomeGenerate needs roughly 10-11 bytes of RAM per genome base (~32 GB for human) and was OOM-killed at the
   # generic DM rule's 28 GB building hg38canon (test job d3322022a0f9fe3c). Request 14x the reference FASTA size
-  # (~41 GB for hg38) plus 4x the input datasets (the optional GTF, for sjdb insertion). The genome is never a plain
-  # input dataset, so input_size alone can't size this: it's either a served all_fasta entry or, in a DM bundle chain,
-  # a file in the extra files of the upstream DM's bundle dataset.
+  # (~41 GB for hg38, which built fine in test job 99b9fe1079bf9efa) plus 4x the input datasets (the optional GTF, for
+  # sjdb insertion). The genome is never a plain input dataset, so input_size alone can't size this: it's either a
+  # served all_fasta entry or, in a DM bundle chain, a file in the extra files of the upstream DM's bundle dataset.
   toolshed.g2.bx.psu.edu/repos/iuc/data_manager_star_index_builder/rna_star_index_builder_data_manager/.*:
     cores: 8
     mem: |
@@ -402,11 +402,6 @@ tools:
       except Exception as e:
           log.warning("Failed to get size of STAR DM genome '%s', defaulting to %s GB: %s", path, mem, e)
       mem
-    env:
-    # The DM sets --limitGenomeGenerateRAM to $GALAXY_MEMORY_MB, STAR sizes its buffers to fill that and the 28 GB job
-    # still overshot it, so only offer STAR 80% of the allocation (~11 bytes/base) and keep the rest as real headroom
-    - name: GALAXY_MEMORY_MB
-      value: "{int(mem * 1024 * 0.8)}"
     scheduling:
       accept:
       - pulsar
