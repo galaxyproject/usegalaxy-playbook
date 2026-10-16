@@ -190,13 +190,6 @@ tools:
 
           minutes = min(math.ceil(5 + 5 * bases / 1000), MAX_MINUTES)
           entity.context["time"] = f"{minutes // 60:02d}:{minutes % 60:02d}:00"
-      - id: kmindex_brc_analytics_tut_reservation_rule
-        if: true
-        execute: |
-          from datetime import datetime
-
-          if datetime(2026, 10, 16, 1, 0) <= datetime.now() < datetime(2026, 10, 16, 7, 0):
-              entity.context["vista_reservation"] = "brc-analytics-tut"
 
   toolshed.g2.bx.psu.edu/repos/bgruening/logan_protein_search_database/logan_protein_search_database/3\.2\.0.*:
     context:
