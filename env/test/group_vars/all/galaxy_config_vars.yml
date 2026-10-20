@@ -261,6 +261,8 @@ base_app_main: &BASE_APP_MAIN
   cloudlaunch_default_ami: ami-a7dbf6ce
   nginx_x_accel_redirect_base: /_x_accel_redirect
   #upstream_mod_zip: true
+  # Store rather than deflate zip archives, as on Main: deflating in the web worker caps archive downloads at ~1 MB/s
+  upstream_gzip: true
   log_events: false
   log_actions: false
   debug: false
