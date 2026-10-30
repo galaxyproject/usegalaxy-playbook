@@ -1141,7 +1141,7 @@ tools:
 
   toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/.*:
     cores: 4
-    mem: min(max(int(input_size * 6), 7), 58)
+    mem: min(max(int(helpers.get_input_size(job) * 6), 12), 58)
 
   toolshed.g2.bx.psu.edu/repos/iuc/sra_tools/fastq_dump/3.1.1+galaxy0:
     # Shared DB is 20 but it's single core, this allows it to run on cyclone_small
