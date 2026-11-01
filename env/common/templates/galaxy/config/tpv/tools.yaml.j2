@@ -472,6 +472,24 @@ tools:
     params:
       docker_run_extra_arguments: "-e GROQ_API_KEY_u={{ groq_api_key }}"
 
+  # BARS blinded review: fetches papers from Europe PMC and calls the Google Gemini API, so it must run on an online
+  # destination. Limited to members of the "BARS Access" role, who get the shared key below; a member's own key stored
+  # as a Galaxy credential (BARS_USER_GEMINI_API_KEY, from the vault) takes precedence over it.
+  toolshed.g2.bx.psu.edu/repos/nekrut/bars_review/bars_review/.*:
+    inherits: _conda_local
+    rules:
+    - id: bars_review_shared_key_rule
+      if: |
+        user and 'BARS Access' in [role.name for role in user.all_roles() if not role.deleted]
+      env:
+      - name: BARS_GEMINI_API_KEY
+        value: "{{ bars_gemini_api_key }}"
+    - id: bars_review_deny_rule
+      if: |
+        not user or 'BARS Access' not in [role.name for role in user.all_roles() if not role.deleted]
+      fail: |
+        BARS blinded review is currently limited to members of the BARS project. Your account does not have the "BARS Access" role.
+
   toolshed.g2.bx.psu.edu/repos/goeckslab/pycaret_[^/]*/pycaret_[^/]*/3.3.2.*:
     params:
       container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/galaxy-pycaret:3.3.2--0"}]

@@ -37,6 +37,9 @@ galaxy_sandbox_secret_access_key: "{{ vault_galaxy_sandbox_secret_access_key }}"
 # used by interactive_tool_chat_analysis
 groq_api_key: "{{ vault_groq_api_key }}"
 
+# used by bars_review: shared Gemini key for the "BARS Access" role (unset = members must use their own key)
+bars_gemini_api_key: "{{ vault_bars_gemini_api_key | default('') }}"
+
 # Hashicorp Vault token
 galaxy_vault_token: "{{ vault_galaxy_vault_token }}"
 
