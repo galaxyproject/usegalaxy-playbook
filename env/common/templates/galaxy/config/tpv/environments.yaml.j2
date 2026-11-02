@@ -369,7 +369,7 @@ destinations:
     inherits: jetstream2_gpu
     params:
       # See jetstream2_user_defined
-      singularity_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,$working_directory:rw"
+      singularity_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,$job_directory/tmp:rw,$working_directory:rw"
       require_container: true
     scheduling:
       accept:
@@ -421,8 +421,9 @@ destinations:
       # Only mount what the tool needs. The Pulsar job directory itself also holds the job script,
       # the metadata scripts run outside the container and launch_config with the job's Galaxy
       # callback credentials. User-defined tools don't support reference data, so no CVMFS data
-      # repositories, and no shared /dev/shm.
-      singularity_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,$working_directory:rw"
+      # repositories, and no shared /dev/shm. tmp/ is needed because TMPDIR points there (tmp_dir: true)
+      # and --contain hides the host path otherwise.
+      singularity_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,$job_directory/tmp:rw,$working_directory:rw"
     scheduling:
       accept:
       - vgp
