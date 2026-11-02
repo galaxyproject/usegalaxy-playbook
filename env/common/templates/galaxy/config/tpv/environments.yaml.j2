@@ -451,6 +451,12 @@ destinations:
       docker_enabled: true
       docker_set_user: null
       docker_memory: "{mem}G"
+      # Only mount what the tool needs, as for jetstream2_user_defined. Without this, Galaxy's
+      # default for Pulsar jobs mounts $job_directory:ro, so the interactive user can read the job
+      # script and launch_config with the job's Galaxy callback credentials. $tool_directory is
+      # $job_directory/tool_files on Pulsar, so it is not listed again. TMPDIR and HOME are not
+      # passed into Docker, so no tmp/ or home/.
+      docker_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,$working_directory:rw"
       container_resolvers:
       - type: explicit
       require_container: True
