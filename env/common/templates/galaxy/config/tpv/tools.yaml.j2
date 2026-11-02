@@ -720,52 +720,114 @@ tools:
     cores: 46
     mem: 28
 
+  _cached_index_aligner:
+    abstract: true
+    # A built-in (cached) index is not an input dataset, so input_size misses it. The aligner holds the index in RAM and
+    # samtools sort runs in the same job, so jobs with small reads against e.g. hg38 (bwa index 5.2 GB) were OOM-killed
+    # at the 5.6 GB read-size bucket (bwa_mem job bbd44e69cb8906b5d76e7d15d2d0b19b). For a cached reference, request at
+    # least 1.5x the on-disk index size + 2 GB; the 1.5x covers per-core overhead, since cores are scaled from mem at
+    # ~3.5 GB/core. A history reference is already counted in input_size.
+    #
+    # Inheriting tools set in context:
+    #   read_mem: mem for the read input size. Rules set this, not mem, because a rule's mem would replace this expression
+    #   index_source: the conditional value that selects a cached index, as passed to helpers.job_args_match
+    #   index_param: "|"-separated path to the index select param
+    #   index_table: the data table that select is built from
+    #   index_files: globs, relative to the table's path column, of the files the aligner loads
+    mem: |
+      import glob
+      import math
+      import os
+      mem = read_mem
+      try:
+          if helpers.job_args_match(job, app, index_source):
+              value = job.get_param_values(app)
+              for key in index_param.split("|"):
+                  value = value[key]
+              path = app.tool_data_tables.get(index_table).get_entry("value", value, "path")
+              files = [f for pattern in index_files for f in glob.glob(glob.escape(path) + pattern)] if path else []
+              if files:
+                  index_size = sum(os.path.getsize(f) for f in files) / 1024**3
+                  mem = max(mem, min(math.ceil(index_size * 1.5 + 2), max_scaled_mem))
+              else:
+                  log.warning("No '%s' index files found for '%s' at: %s", index_table, value, path)
+      except Exception:
+          log.exception("Failed to size cached index for tool: %s", tool.id)
+      mem
+
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
+    inherits: _cached_index_aligner
     cores: 8
-    mem: 28
+    context:
+      read_mem: 28
+      index_source: {reference_genome: {source: indexed}}
+      index_param: reference_genome|index
+      index_table: bowtie2_indexes
+      index_files: [".*.bt2", ".*.bt2l"]
     rules:
     - id: bowtie2_small_input_rule
       if: input_size < 0.1
       cores: 2
-      mem: 5.6
+      context:
+        read_mem: 5.6
     - id: bowtie2_medium_input_rule
       if: 0.1 <= input_size < 2
       cores: 4
-      mem: 14
+      context:
+        read_mem: 14
+
+  _bwa_cached_index:
+    abstract: true
+    inherits: _cached_index_aligner
+    context:
+      index_source: {reference_source: {reference_source_selector: cached}}
+      index_param: reference_source|ref_file
+      index_table: bwa_mem_indexes
+      index_files: [".bwt", ".sa", ".pac"]
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa/.*:
+    inherits: _bwa_cached_index
     cores: 8
-    mem: 28
+    context:
+      read_mem: 28
     rules:
     - id: bwa_small_input_rule
       if: input_size < 0.25
       cores: 2
-      mem: 5.6
+      context:
+        read_mem: 5.6
     - id: bwa_medium_input_rule
       if: 0.25 <= input_size < 1
       cores: 4
-      mem: 14
+      context:
+        read_mem: 14
 
   toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/.*:
+    inherits: _bwa_cached_index
     cores: 32
-    mem: 240
+    context:
+      read_mem: 240
     rules:
     - id: bwa_mem_small_input_rule
       if: input_size < 0.1
       cores: 2
-      mem: 5.6
+      context:
+        read_mem: 5.6
     - id: bwa_mem_medium_input_rule
       if: 0.1 <= input_size < 1
       cores: 4
-      mem: 14
+      context:
+        read_mem: 14
     - id: bwa_mem_large_input_rule
       if: 1 <= input_size < 20
       cores: 8
-      mem: 28
+      context:
+        read_mem: 28
     - id: bwa_mem_pretty_large_input_rule
       if: 20 <= input_size < 100
       cores: 32
-      mem: 120
+      context:
+        read_mem: 120
 
   toolshed.g2.bx.psu.edu/repos/devteam/cd_hit_dup/cd_hit_dup/.*:
     mem: 5.7
@@ -1179,21 +1241,30 @@ tools:
     mem: 14
 
   toolshed.g2.bx.psu.edu/repos/iuc/hisat2/hisat2/.*:
+    inherits: _cached_index_aligner
     cores: 32
-    mem: 120
+    context:
+      read_mem: 120
+      index_source: {reference_genome: {source: indexed}}
+      index_param: reference_genome|index
+      index_table: hisat2_indexes
+      index_files: [".*.ht2", ".*.ht2l"]
     rules:
     - id: hisat2_small_input_rule
       if: input_size < 0.5
       cores: 2
-      mem: 5.6
+      context:
+        read_mem: 5.6
     - id: hisat2_medium_input_rule
       if: 0.5 <= input_size < 15
       cores: 8
-      mem: 28
+      context:
+        read_mem: 28
     - id: hisat2_large_input_rule
       if: 15 <= input_size < 30
       cores: 16
-      mem: 58
+      context:
+        read_mem: 58
     scheduling:
       reject:
       # even small jobs can run long, classes and workshops can consume the entire local cluster so it's best to push
