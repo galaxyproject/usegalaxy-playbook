@@ -5,6 +5,7 @@
 # used by: galaxyproject.galaxy (templating job_conf.yml)
 galaxy_job_conf_amqp_url: "amqp://{{ pulsar_amqp_credentials }}@{{ amqp_server }}:5671//main_pulsar?ssl=1"
 pulsar_relay_password: "{{ vault_pulsar_relay_password }}"
+pulsar_relay_password_udt: "{{ vault_pulsar_relay_password_udt }}"
 
 # used by: oidc backends config template
 galaxy_google_client_id: "{{ vault_galaxy_google_client_id }}"
@@ -72,6 +73,7 @@ galaxy_admin_email_to: galaxy-lab@bx.psu.edu
 galaxy_job_conf_pulsar_galaxy_url: "https://staging.usegalaxy.org"
 galaxy_job_conf_persistence_directory: "/corral4/{{ galaxy_instance_codename }}/pulsar_amqp_ack"
 galaxy_job_conf_jetstream2_jobs_directory: "/jetstream2/scratch/{{ galaxy_instance_codename }}/jobs"
+galaxy_job_conf_jetstream2_udt_jobs_directory: "/jetstream2/udt-scratch/{{ galaxy_instance_codename }}/jobs"
 
 galaxy_systemd_memory_limit:
   # FIXME: this shouldn't be mule anymore. also "G" is hardcoded, but % would be nice.
@@ -98,6 +100,12 @@ galaxy_job_conf_runners:
   jetstream2:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: jetstream2
+  jetstream2_udt:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: "{{ galaxy_instance_codename }}_jetstream2_udt"
+    relay_url: https://relay.usegalaxy.org
+    relay_username: pulsar-udt
+    relay_password: "{{ pulsar_relay_password_udt }}"
   stampede3:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: stampede3

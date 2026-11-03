@@ -406,24 +406,41 @@ destinations:
 
   # User-defined tools (created via the Galaxy tool builder UI). Mandatory
   # containerization; only matched via the `tool_type_user_defined` tag set
-  # on the user_defined-.* tool rule. Note: apptainer's `--network none`
-  # requires root/setuid, so we do not attempt in-container network
-  # isolation here — rely on container + host network policy.
+  # on the user_defined-.* tool rule. Runs on the dedicated UDT node pool
+  # (own image, Manila share, and egress-only security group) via a separate
+  # Pulsar manager. Network isolation is the security group's job: apptainer's
+  # `--network none` requires root/setuid.
   jetstream2_user_defined:
     inherits: _jetstream2
+    runner: jetstream2_udt
     min_accepted_cores: 1
     min_accepted_mem: 0
-    max_accepted_cores: 32
-    max_accepted_mem: 120
+    max_accepted_cores: 8
+    max_accepted_mem: 29
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition=udt"
       require_container: true
+      # only BioContainers already published to CVMFS, nothing is pulled and there is no fallback
+      container_resolvers:
+      - type: cached_explicit_singularity
+        cache_directory: /cvmfs/singularity.galaxyproject.org/all
+        namespace: biocontainers
+        cache_directory_cacher_type: dir_mtime
+      singularity_default_container_id: null
+      jobs_directory: {{ galaxy_job_conf_jetstream2_udt_jobs_directory }}
       # Only mount what the tool needs. The Pulsar job directory itself also holds the job script,
       # the metadata scripts run outside the container and launch_config with the job's Galaxy
       # callback credentials. User-defined tools don't support reference data, so no CVMFS data
-      # repositories, and no shared /dev/shm. tmp/ is needed because TMPDIR points there (tmp_dir: true)
-      # and --contain hides the host path otherwise.
-      singularity_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,$job_directory/tmp:rw,$working_directory:rw"
+      # repositories, and no shared /dev/shm. TMPDIR is the node-local per-job dir (the UDT Pulsar
+      # managers set tmp_dir), created by the prolog and removed by the epilog, and --contain hides
+      # the host path otherwise.
+      singularity_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,/tmp/slurm_job_$SLURM_JOB_ID:rw,$working_directory:rw"
+    env:
+    # the main scratch share is not mounted on UDT nodes
+    - name: SINGULARITY_CACHEDIR
+      value: /tmp/slurm_job_$SLURM_JOB_ID/singularity_cache
+    - name: SINGULARITY_TMPDIR
+      value: /tmp/slurm_job_$SLURM_JOB_ID/singularity_tmp
     scheduling:
       accept:
       - vgp
