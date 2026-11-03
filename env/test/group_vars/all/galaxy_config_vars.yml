@@ -339,6 +339,17 @@ base_app_main: &BASE_APP_MAIN
   enable_mcp_server: true
   enable_sse_updates: true
 
+  # tool source cache
+  use_cached_toolbox: true
+  cached_toolbox_cache_size: 1000
+  tool_source_database_connection: sqlite:////srv/galaxy/test/var/tool_sources.sqlite
+  tool_source_stores:
+    cvmfs_main:
+      external_store_directory: /cvmfs/main.galaxyproject.org/config/tool_source_store
+    cvmfs_test:
+      external_store_directory: /cvmfs/test.galaxyproject.org/config/tool_source_store
+
+
   # stats
   statsd_host: "127.0.0.1"
   statsd_port: "8125"
