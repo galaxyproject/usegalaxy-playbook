@@ -367,6 +367,10 @@ destinations:
 
   jetstream2_gpu_user_defined:
     inherits: jetstream2_gpu
+    params:
+      # See jetstream2_user_defined
+      singularity_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,$job_directory/tmp:rw,$working_directory:rw"
+      require_container: true
     scheduling:
       accept:
       - vgp
@@ -414,6 +418,12 @@ destinations:
     params:
       submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={int(mem*1024)} --time={time or default_time} --partition={js2_partition}"
       require_container: true
+      # Only mount what the tool needs. The Pulsar job directory itself also holds the job script,
+      # the metadata scripts run outside the container and launch_config with the job's Galaxy
+      # callback credentials. User-defined tools don't support reference data, so no CVMFS data
+      # repositories, and no shared /dev/shm. tmp/ is needed because TMPDIR points there (tmp_dir: true)
+      # and --contain hides the host path otherwise.
+      singularity_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,$job_directory/tmp:rw,$working_directory:rw"
     scheduling:
       accept:
       - vgp
@@ -441,6 +451,12 @@ destinations:
       docker_enabled: true
       docker_set_user: null
       docker_memory: "{mem}G"
+      # Only mount what the tool needs, as for jetstream2_user_defined. Without this, Galaxy's
+      # default for Pulsar jobs mounts $job_directory:ro, so the interactive user can read the job
+      # script and launch_config with the job's Galaxy callback credentials. $tool_directory is
+      # $job_directory/tool_files on Pulsar, so it is not listed again. TMPDIR and HOME are not
+      # passed into Docker, so no tmp/ or home/.
+      docker_volumes: "$job_directory/tool_script.sh:ro,$job_directory/inputs:ro,$job_directory/configs:ro,$job_directory/tool_files:ro,$job_directory/outputs:rw,$working_directory:rw"
       container_resolvers:
       - type: explicit
       require_container: True
