@@ -100,12 +100,6 @@ galaxy_job_conf_runners:
   jetstream2:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: jetstream2
-  jetstream2_udt:
-    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
-    manager: "{{ galaxy_instance_codename }}_jetstream2_udt"
-    relay_url: https://relay.usegalaxy.org
-    relay_username: pulsar-udt
-    relay_password: "{{ pulsar_relay_password_udt }}"
   stampede3:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: stampede3
@@ -141,6 +135,12 @@ galaxy_job_conf_relay_runners:
     relay_url: https://relay.usegalaxy.org
     relay_username: pulsar
     relay_password: "{{ pulsar_relay_password }}"
+  jetstream2_udt:
+    load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
+    manager: "{{ galaxy_instance_codename }}_jetstream2_udt"
+    relay_url: https://relay.usegalaxy.org
+    relay_username: pulsar-udt
+    relay_password: "{{ pulsar_relay_password_udt }}"
 
 galaxy_job_conf_tpv_config_files:
   - tools_pre_shared.yaml
@@ -285,6 +285,8 @@ galaxy_job_conf_tools:
   - id: lexicmap_search
     handler: relay
   - id: logan_protein_search_database
+    handler: relay
+  - class: user_defined
     handler: relay
 
 galaxy_job_conf_limits:

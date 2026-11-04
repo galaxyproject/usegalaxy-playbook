@@ -48,10 +48,9 @@ execution:
 #
 
 tools:
-  - id: kmindex_query
-    handler: relay
-  - id: lexicmap_search
-    handler: relay
+{% for tool in galaxy_job_conf_tools | default([]) %}
+  - {{ tool | to_yaml | trim }}
+{% endfor %}
 
 #
 # Job limits configuration
