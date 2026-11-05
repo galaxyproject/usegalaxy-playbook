@@ -48,6 +48,11 @@
         state: absent
       loop: "{{ __galaxy_node_modules_dirs_result.files }}"
 
+    - name: Abort if requested
+      fail:
+        msg: "Aborting as requested"
+      when: cvmfs_force_abort | bool
+
     - name: Publish CVMFS transaction
       command: /usr/bin/cvmfs_server publish -a "galaxy_{{ galaxy_version }}_{{ galaxy_commit | truncate(7, True, '') }}.client_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}" -m "Rebuild Galaxy client at commit {{ galaxy_commit }} via Ansible" {{ galaxy_cvmfs_repo }}
 

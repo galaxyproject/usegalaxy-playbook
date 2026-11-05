@@ -123,6 +123,11 @@
       set_fact:
         galaxy_commit: "{{ galaxy_commit_out.stdout }}"
 
+    - name: Abort if requested
+      fail:
+        msg: "Aborting as requested"
+      when: cvmfs_force_abort | bool
+
     - name: Store updated version information
       local_action:
         module: copy
