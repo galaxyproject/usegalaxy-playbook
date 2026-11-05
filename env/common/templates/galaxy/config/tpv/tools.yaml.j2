@@ -159,12 +159,7 @@ tools:
         shell: /bin/bash
         identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.6.1--0
 
-  toolshed.g2.bx.psu.edu/repos/iuc/kmindex/kmindex_query/0\.7\.0.*:
-    params:
-      container_override:
-      - type: singularity
-        shell: /bin/bash
-        identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.7.0--0
+  toolshed.g2.bx.psu.edu/repos/iuc/kmindex/kmindex_query/0\.7\.*:
     rules:
       - id: kmindex_scalable_walltime_rule
         if: true
@@ -191,6 +186,20 @@ tools:
 
           minutes = min(math.ceil(5 + 5 * bases / 1000), MAX_MINUTES)
           entity.context["time"] = f"{minutes // 60:02d}:{minutes % 60:02d}:00"
+
+  toolshed.g2.bx.psu.edu/repos/iuc/kmindex/kmindex_query/0\.7\.0.*:
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.7.0--0
+
+  toolshed.g2.bx.psu.edu/repos/iuc/kmindex/kmindex_query/0\.7\.1.*:
+    params:
+      container_override:
+      - type: singularity
+        shell: /bin/bash
+        identifier: /work/03166/xcgalaxy/vista/images/kmindex-0.7.1--0
 
   toolshed.g2.bx.psu.edu/repos/bgruening/logan_protein_search_database/logan_protein_search_database/3\.2\.0.*:
     context:
