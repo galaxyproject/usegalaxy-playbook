@@ -138,6 +138,7 @@ galaxy_job_conf_relay_runners:
   jetstream2_udt:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: "{{ galaxy_instance_codename }}_jetstream2_udt"
+    galaxy_url: https://staging.usegalaxy.org
     relay_url: https://relay.usegalaxy.org
     relay_username: pulsar-udt
     relay_password: "{{ pulsar_relay_password_udt }}"
@@ -306,6 +307,9 @@ galaxy_job_conf_limits:
   - type: environment_user_concurrent_jobs
     id: jetstream2_gxit
     value: 1
+  - type: environment_user_concurrent_jobs
+    id: jetstream2_user_defined
+    value: 4
 
   # tpv per-environment user limits
   - type: environment_user_concurrent_jobs
