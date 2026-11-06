@@ -164,6 +164,7 @@ galaxy_job_conf_default_container_id: /cvmfs/singularity.galaxyproject.org/all/p
 
 # CVMFS data repos mounted by cvmfsexec destinations (see environments.yaml.j2); each needs a matching bind in the
 # cvmfsexec volume lists below (bridges2, expanse, anvil, tacc_hpc, ls6). local/jetstream use host autofs instead.
+# TODO: remove when Pulsars are using native cvfmsexec mode
 galaxy_job_conf_cvmfs_data_repos:
   - data.galaxyproject.org
   - brc.galaxyproject.org
