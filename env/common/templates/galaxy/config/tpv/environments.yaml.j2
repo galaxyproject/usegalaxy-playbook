@@ -707,7 +707,6 @@ destinations:
       submit_native_specification: "--partition=shared --nodes=1 --ntasks={int(mem/2)} --mem={int(mem/2)*2048} --time={time or default_time}"
       jobs_directory: /anvil/scratch/x-xcgalaxy/jobs/{{ galaxy_instance_codename }}
       metadata_strategy: directory_celery
-      singularity_cmd: $CVMFSEXEC_PATH -N {{ galaxy_job_conf_cvmfs_data_repos | join(' ') }} singularity.galaxyproject.org -- apptainer
       singularity_enabled: true
       singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.anvil | join(',') }}"
       singularity_no_mount: null
@@ -723,8 +722,6 @@ destinations:
       - type: mulled_singularity
       require_container: true
     env:
-    #- file: /etc/profile.d/z01_lmod.sh
-    - execute: module --force purge
     - name: GALAXY_SLOTS
       value: "$SLURM_NTASKS"
     - name: TRINITY_SCRATCH_DIR
@@ -733,9 +730,6 @@ destinations:
       value: $TRINITY_SCRATCH_DIR
     - name: GALAXY_MEMORY_MB
       value: "{int(mem*1024)}"
-    - name: CVMFSEXEC_PATH
-      value: $(readlink -f $_GALAXY_JOB_DIR/../cvmfsexec)
-    - execute: cp "$HOME/bin/cvmfsexec" "$CVMFSEXEC_PATH"
     - name: APPTAINER_CACHEDIR
       value: /anvil/scratch/x-xcgalaxy/apptainer_cache
     - name: APPTAINER_PYTHREADS
@@ -751,9 +745,8 @@ destinations:
       - anvil
       require:
       - pulsar
-      # TODO: update to 0.15.16 and native cvmfsexec support first
-      reject:
-      - offline
+      #reject:
+      #- offline
 
   # could just dual-purpose devgalaxy Pulsar for a100 access
   #rockfish_gpu:
