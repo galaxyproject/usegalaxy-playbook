@@ -30,6 +30,9 @@ elementbio_aws_access_key_id: "{{ vault_elementbio_aws_access_key_id }}"
 # used by interactive_tool_chat_analysis
 groq_api_key: "{{ vault_groq_api_key }}"
 
+# used by bars_review: shared Gemini key for the "BARS Access" role (unset = members must use their own key)
+bars_gemini_api_key: "{{ vault_bars_gemini_api_key | default('') }}"
+
 # Hashicorp Vault token
 galaxy_vault_token: "{{ vault_galaxy_vault_token }}"
 
