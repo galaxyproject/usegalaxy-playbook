@@ -722,38 +722,17 @@ tools:
 
   _cached_index_aligner:
     abstract: true
-    # A built-in (cached) index is not an input dataset, so input_size misses it. The aligner holds the index in RAM and
-    # samtools sort runs in the same job, so jobs with small reads against e.g. hg38 (bwa index 5.2 GB) were OOM-killed
-    # at the 5.6 GB read-size bucket (bwa_mem job bbd44e69cb8906b5d76e7d15d2d0b19b). For a cached reference, request at
-    # least 1.5x the on-disk index size + 2 GB; the 1.5x covers per-core overhead, since cores are scaled from mem at
-    # ~3.5 GB/core. A history reference is already counted in input_size.
+    # A built-in (cached) index is not an input dataset, so input_size misses it: bwa_mem jobs with small reads against
+    # hg38 (bwa index 5.2 GB) were OOM-killed at the 5.6 GB read-size bucket (job bbd44e69cb8906b5d76e7d15d2d0b19b).
+    # For a cached reference, request at least what cached_index_mem() (files/galaxy/config/tpv/cached_index.py) says.
+    # A history reference is already counted in input_size.
     #
     # Inheriting tools set in context:
     #   read_mem: mem for the read input size. Rules set this, not mem, because a rule's mem would replace this expression
-    #   index_source: the conditional value that selects a cached index, as passed to helpers.job_args_match
-    #   index_param: "|"-separated path to the index select param
-    #   index_table: the data table that select is built from
-    #   index_files: globs, relative to the table's path column, of the files the aligner loads
+    #   index_source, index_param, index_table, index_files: see cached_index_mem()
     mem: |
-      import glob
-      import math
-      import os
-      mem = read_mem
-      try:
-          if helpers.job_args_match(job, app, index_source):
-              value = job.get_param_values(app)
-              for key in index_param.split("|"):
-                  value = value[key]
-              path = app.tool_data_tables.get(index_table).get_entry("value", value, "path")
-              files = [f for pattern in index_files for f in glob.glob(glob.escape(path) + pattern)] if path else []
-              if files:
-                  index_size = sum(os.path.getsize(f) for f in files) / 1024**3
-                  mem = max(mem, min(math.ceil(index_size * 1.5 + 2), max_scaled_mem))
-              else:
-                  log.warning("No '%s' index files found for '%s' at: %s", index_table, value, path)
-      except Exception:
-          log.exception("Failed to size cached index for tool: %s", tool.id)
-      mem
+      {{ tpv_python_blobs['cached_index'] | indent(width=6) }}
+      max(read_mem, min(cached_index_mem(job, app, tool, index_source, index_param, index_table, index_files), max_scaled_mem))
 
   toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/.*:
     inherits: _cached_index_aligner
@@ -1083,23 +1062,37 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/.*:
     # per https://github.com/bwa-mem2/bwa-mem2/issues/41 it's 28 * reference to index, however that failed on the hellbender genomes.
     # cores and mem need separate maxes but then that would affect mem if you just multiplied it by cores, so we must duplicate.
+    # A prebuilt index (cached, or a bwa_mem2_index dataset) is loaded into RAM: mm39's is 14 GB. See cached_index_mem().
+    context:
+      index_source: {reference_source: {reference_source_selector: cached}}
+      index_param: reference_source|ref_file
+      index_table: bwa_mem2_indexes
+      index_files: [".0123", ".bwt.2bit.64", ".pac"]
     cores: |
+      {{ tpv_python_blobs['cached_index'] | indent(width=6) }}
       ref_size = 0
-      ref_index_mem = 0
+      ref_index_mem = cached_index_mem(job, app, tool, index_source, index_param, index_table, index_files)
       if helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}}):
           ref_size = helpers.get_input_size(job, "reference_source|ref_file")
           ref_file = helpers.get_input_dataset(job, "reference_source|ref_file")
           if ref_file.extension != "bwa_mem2_index":
               ref_index_mem = ref_size * 30
+          else:
+              # input_size only counts the primary file of the composite index dataset, total_size includes the index
+              ref_index_mem = (ref_file.dataset.total_size or 0) / 1024**3 * 1.5 + 2
       min(round(min(max(ref_index_mem, (helpers.get_input_size(job) - ref_size + 2) * 2.3, 7.6), max_scaled_mem) / 4), 128)
     mem: |
+      {{ tpv_python_blobs['cached_index'] | indent(width=6) }}
       ref_size = 0
-      ref_index_mem = 0
+      ref_index_mem = cached_index_mem(job, app, tool, index_source, index_param, index_table, index_files)
       if helpers.job_args_match(job, app, {"reference_source": {"reference_source_selector": "history"}}):
           ref_size = helpers.get_input_size(job, "reference_source|ref_file")
           ref_file = helpers.get_input_dataset(job, "reference_source|ref_file")
           if ref_file.extension != "bwa_mem2_index":
               ref_index_mem = ref_size * 30
+          else:
+              # input_size only counts the primary file of the composite index dataset, total_size includes the index
+              ref_index_mem = (ref_file.dataset.total_size or 0) / 1024**3 * 1.5 + 2
       round(min(max(ref_index_mem, (helpers.get_input_size(job) - ref_size + 2) * 2.3, 7.6), max_scaled_mem))
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/2\.2\.1\+galaxy3:
