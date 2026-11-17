@@ -3138,4 +3138,34 @@ $GALAXY_DATA_MANAGER_DATA_PATH/ncbi_fcs_gx_databases_ext/$value/$manifest_filena
             </output>
         </data_table>
     </data_manager>
+<data_manager id="gtdbtk_database_installer" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_gtdbtk_database_installer/data_manager/gtdbtk_database_installer/0.0.1" shed_conf_file="/cvmfs/test.galaxyproject.org/config/shed_tool_conf.xml">
+        <tool file="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_gtdbtk_database_installer/e83290ce69ad/data_manager_gtdbtk_database_installer/data_manager/gtdbtk_database_installer.xml" guid="toolshed.g2.bx.psu.edu/repos/iuc/data_manager_gtdbtk_database_installer/gtdbtk_database_installer/232+galaxy1"><tool_shed>toolshed.g2.bx.psu.edu</tool_shed><repository_name>data_manager_gtdbtk_database_installer</repository_name><repository_owner>iuc</repository_owner><installed_changeset_revision>e83290ce69ad</installed_changeset_revision><id>toolshed.g2.bx.psu.edu/repos/iuc/data_manager_gtdbtk_database_installer/gtdbtk_database_installer/232+galaxy1</id><version>232+galaxy1</version></tool><data_table name="gtdbtk_database_versioned">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="version"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">gtdbtk_database_versioned/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/gtdbtk_database_versioned/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+        <data_table name="gtdbtk_database_metadata_versioned">
+            <output>
+                <column name="value"/>
+                <column name="name"/>
+                <column name="version"/>
+                <column name="path" output_ref="out_file">
+                    <move type="directory" relativize_symlinks="True">
+                        <target base="${GALAXY_DATA_MANAGER_DATA_PATH}">gtdbtk_database_metadata_versioned/${value}</target>
+                    </move>
+                    <value_translation>${GALAXY_DATA_MANAGER_DATA_PATH}/gtdbtk_database_metadata_versioned/${value}</value_translation>
+                    <value_translation type="function">abspath</value_translation>
+                </column>
+            </output>
+        </data_table>
+    </data_manager>
 </data_managers>
