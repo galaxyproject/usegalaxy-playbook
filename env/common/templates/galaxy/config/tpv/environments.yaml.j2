@@ -1054,6 +1054,9 @@ destinations:
     params:
       native_specification: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}{' -w ' + cyclone_node if cyclone_node else ''}"
     scheduling:
+      # cyclone-mem: to compare the tools that require cyclone_mem
+      accept:
+      - cyclone-mem
       require:
       - cyclone-slurm
 
