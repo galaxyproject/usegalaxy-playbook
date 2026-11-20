@@ -1,0 +1,17 @@
+---
+
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# File actions of the cyclone_pulsar runner (file_action_config of the _cyclone_container environment in
+# environments.yaml). Inputs and their metadata files (e.g. BAM indexes) under Corral are hardlinked into the Pulsar job
+# directory instead of copied: same filesystem as the staging directory, so no data moves. Pulsar doesn't fall back to
+# copying when a link fails, so anything outside Corral (e.g. a user's object store) uses the destination's
+# default_file_action (copy), as do the outputs, so finished datasets don't share an inode with the job directory.
+#
+# A hardlink keeps a purged dataset's space in use until its job directory is removed.
+paths:
+  - path: /corral4/{{ galaxy_instance_codename }}
+    path_types: input,metadata
+    action: hardlink

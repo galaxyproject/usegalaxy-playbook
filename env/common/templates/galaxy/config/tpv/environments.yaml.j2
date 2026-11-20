@@ -67,20 +67,48 @@ destinations:
     env:
     - name: SINGULARITYENV_XDG_DATA_HOME
       value: $XDG_DATA_HOME
-{% if galaxy_instance_codename == 'test' %}
-    rules:
-    # Expression tools (e.g. pick_value) write their script and inputs to the job directory itself, which the local
-    # volumes no longer mount. Drop this rule once Test runs a Galaxy that writes them to configs/.
-    - id: cyclone_expression_tool_rule
-      if: tool.tool_type == "expression"
-      params:
-        singularity_volumes: "$job_directory:ro,{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
-{% endif %}
     scheduling:
       accept:
       - singularity
       # for TPV shared DB
       - docker
+{% if galaxy_instance_codename == 'test' %}
+
+  # Test: Cyclone container destinations inherit this instead of _cyclone_singularity. Pulsar embedded in the Galaxy
+  # job handlers submits them to Cyclone's Slurm (see pulsar_cyclone_app.yml). Each job gets its own directory on Corral
+  # with hardlinks to its inputs (see pulsar_cyclone_file_actions.yml), so the container mounts that directory instead
+  # of Galaxy's object store. Pulsar's Slurm manager takes the Slurm options as submit_native_specification.
+{% set cyclone_container = '_cyclone_container' %}
+{% set cyclone_native_specification = 'submit_native_specification' %}
+  _cyclone_container:
+    abstract: true
+    inherits: _cyclone
+    runner: cyclone_pulsar
+    params:
+      outputs_to_working_directory: false
+      metadata_strategy: directory
+      # Metadata is set on the node, from the files in the job directory
+      remote_metadata: true
+      rewrite_parameters: true
+      default_file_action: copy
+      file_action_config: "{{ galaxy_config_dir }}/pulsar_cyclone_file_actions.yml"
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.cyclone_pulsar | join(',') }}"
+      singularity_no_mount: null
+      singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
+      require_container: true
+    env:
+    - name: SINGULARITYENV_XDG_DATA_HOME
+      value: $XDG_DATA_HOME
+    scheduling:
+      accept:
+      - singularity
+      # for TPV shared DB
+      - docker
+{% else %}
+{% set cyclone_container = '_cyclone_singularity' %}
+{% set cyclone_native_specification = 'native_specification' %}
+{% endif %}
 
   # CHANGES HERE MUST BE REFLECTED IN environments_vgp.yaml.j2
   _jetstream2:
@@ -211,26 +239,26 @@ destinations:
       - conda
 
   cyclone:
-    inherits: _cyclone_singularity
+    inherits: {{ cyclone_container }}
     min_accepted_cores: 3
     min_accepted_mem: 0
     max_accepted_cores: 12
     max_accepted_mem: 48
     params:
-      native_specification: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}{' -w ' + cyclone_node if cyclone_node else ''}"
+      {{ cyclone_native_specification }}: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}{' -w ' + cyclone_node if cyclone_node else ''}"
 
   cyclone_small:
-    inherits: _cyclone_singularity
+    inherits: {{ cyclone_container }}
     min_accepted_cores: 1
     min_accepted_mem: 0
     max_accepted_cores: 2
     max_accepted_mem: 16
     params:
-      native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_small_partition}{' -w ' + cyclone_node if cyclone_node else ''}{' --reservation=' + cyclone_reservation if cyclone_reservation else ''}"
+      {{ cyclone_native_specification }}: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_small_partition}{' -w ' + cyclone_node if cyclone_node else ''}{' --reservation=' + cyclone_reservation if cyclone_reservation else ''}"
 
   # this is only for pulsar-incompatible large jobs, so requires an explicit tag
   cyclone_mem:
-    inherits: _cyclone_singularity
+    inherits: {{ cyclone_container }}
     min_accepted_cores: 1
     min_accepted_mem: 1
     max_accepted_cores: 32
@@ -238,7 +266,7 @@ destinations:
     max_cores: 8
     max_mem: 96
     params:
-      native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 20), 1)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}"
+      {{ cyclone_native_specification }}: "--nodes=1 --ntasks={max(min(int(mem/4), 20), 1)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}"
     scheduling:
       require:
       - cyclone-mem
@@ -1012,45 +1040,21 @@ destinations:
 
 {% if galaxy_instance_codename == 'test' %}
 
-  # Draft: Cyclone through Pulsar embedded in the Galaxy job handlers, as Galaxy recommends for interactive and
-  # user-defined tools. Pulsar gives each job its own directory and copies the inputs into it, so the container gets
-  # those instead of Galaxy's object store (see the cyclone_pulsar volumes). Only jobs that require the cyclone-pulsar
-  # tag land here, e.g. through the admin-only tpv_probe:cyclone-pulsar history tag.
-  cyclone_pulsar:
-    inherits: _default_environment
-    runner: cyclone_pulsar
+  # Cyclone through Galaxy's own Slurm runner, with Galaxy's object store mounted in the container, as all Cyclone
+  # container jobs ran before they went through Pulsar (_cyclone_container). Only jobs that require the cyclone-slurm
+  # tag land here: tools that need Galaxy's paths (__IMPORT_HISTORY__), and the admin-only tpv_probe:cyclone-slurm
+  # history tag for comparisons.
+  cyclone_slurm:
+    inherits: _cyclone_singularity
     min_accepted_cores: 1
     min_accepted_mem: 0
-    max_accepted_cores: 2
-    max_accepted_mem: 16
+    max_accepted_cores: 12
+    max_accepted_mem: 48
     params:
-      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_small_partition}"
-      tmp_dir: true
-      outputs_to_working_directory: false
-      # The handler copies the inputs into the job directory and the outputs back to the object store
-      default_file_action: copy
-      rewrite_parameters: true
-      # Metadata is set on the node, from the copies in the job directory
-      remote_metadata: true
-      singularity_enabled: true
-      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.cyclone_pulsar | join(',') }}"
-      singularity_no_mount: null
-      singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
-      require_container: true
-    env:
-    - name: XDG_DATA_HOME
-      value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
-    - name: SINGULARITYENV_XDG_DATA_HOME
-      value: $XDG_DATA_HOME
+      native_specification: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}{' -w ' + cyclone_node if cyclone_node else ''}"
     scheduling:
-      accept:
-      - general
-      - cvmfs
-      - singularity
-      # for TPV shared DB
-      - docker
       require:
-      - cyclone-pulsar
+      - cyclone-slurm
 
   #delta:
   #  inherits: _pulsar
