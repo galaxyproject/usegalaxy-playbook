@@ -1012,6 +1012,46 @@ destinations:
 
 {% if galaxy_instance_codename == 'test' %}
 
+  # Draft: Cyclone through Pulsar embedded in the Galaxy job handlers, as Galaxy recommends for interactive and
+  # user-defined tools. Pulsar gives each job its own directory and copies the inputs into it, so the container gets
+  # those instead of Galaxy's object store (see the cyclone_pulsar volumes). Only jobs that require the cyclone-pulsar
+  # tag land here, e.g. through the admin-only tpv_probe:cyclone-pulsar history tag.
+  cyclone_pulsar:
+    inherits: _default_environment
+    runner: cyclone_pulsar
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    max_accepted_cores: 2
+    max_accepted_mem: 16
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={int(cores)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_small_partition}"
+      tmp_dir: true
+      outputs_to_working_directory: false
+      # The handler copies the inputs into the job directory and the outputs back to the object store
+      default_file_action: copy
+      rewrite_parameters: true
+      # Metadata is set on the node, from the copies in the job directory
+      remote_metadata: true
+      singularity_enabled: true
+      singularity_volumes: "{{ galaxy_job_conf_singularity_volumes.cyclone_pulsar | join(',') }}"
+      singularity_no_mount: null
+      singularity_default_container_id: "{{ galaxy_job_conf_default_container_id }}"
+      require_container: true
+    env:
+    - name: XDG_DATA_HOME
+      value: /cvmfs/{{ galaxy_cvmfs_repo }}/xdg/data
+    - name: SINGULARITYENV_XDG_DATA_HOME
+      value: $XDG_DATA_HOME
+    scheduling:
+      accept:
+      - general
+      - cvmfs
+      - singularity
+      # for TPV shared DB
+      - docker
+      require:
+      - cyclone-pulsar
+
   #delta:
   #  inherits: _pulsar
   #  runner: delta

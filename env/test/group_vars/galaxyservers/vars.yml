@@ -150,6 +150,10 @@ galaxy_job_conf_runners:
   rockfish_devgalaxy:
     load: galaxy.jobs.runners.pulsar:PulsarMQJobRunner
     manager: rockfish_devgalaxy
+  # Draft: Pulsar inside the job handlers, submitting to Cyclone's Slurm. See the cyclone_pulsar environment.
+  cyclone_pulsar:
+    load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
+    pulsar_config: "{{ galaxy_config_dir }}/pulsar_cyclone_app.yml"
     # FIXME: this doesn't work because status updates/finish go back to Main
     #amqp_url: "{{ galaxy_job_conf_main_amqp_url }}"
   #anton:
@@ -263,6 +267,22 @@ galaxy_job_conf_singularity_volumes:
     - "/cvmfs/vgp.galaxyproject.org:ro"
     - "/cvmfs/idc.galaxyproject.org:ro"
     - "/tmp:rw"
+  # Pulsar job directory of the cyclone_pulsar environment. No object store: Pulsar copies the inputs into inputs/.
+  cyclone_pulsar:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:rw"
+    - "$job_directory/unstructured:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/brc.galaxyproject.org:ro"
+    - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/cvmfs/idc.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
   rockfish:
     - "$tool_directory:ro"
     - "$working_directory:rw"
@@ -509,6 +529,8 @@ galaxy_config_templates:
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_backends_config_file'] }}"
   - src: templates/galaxy/config/tacc_k8s_pulsar_app_config.yml.j2
     dest: "{{ galaxy_config_dir }}/tacc_k8s_pulsar_app_config.yml"
+  - src: templates/galaxy/config/pulsar_cyclone_app.yml.j2
+    dest: "{{ galaxy_config_dir }}/pulsar_cyclone_app.yml"
   - src: templates/galaxy/config/file_sources_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
   - src: templates/galaxy/config/vault_conf.yml.j2
