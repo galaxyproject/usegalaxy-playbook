@@ -67,6 +67,15 @@ destinations:
     env:
     - name: SINGULARITYENV_XDG_DATA_HOME
       value: $XDG_DATA_HOME
+{% if galaxy_instance_codename == 'test' %}
+    rules:
+    # Expression tools (e.g. pick_value) write their script and inputs to the job directory itself, which the local
+    # volumes no longer mount. Drop this rule once Test runs a Galaxy that writes them to configs/.
+    - id: cyclone_expression_tool_rule
+      if: tool.tool_type == "expression"
+      params:
+        singularity_volumes: "$job_directory:ro,{{ galaxy_job_conf_singularity_volumes.local | join(',') }}"
+{% endif %}
     scheduling:
       accept:
       - singularity
