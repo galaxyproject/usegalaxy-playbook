@@ -129,6 +129,20 @@ base_app_main: &BASE_APP_MAIN
   galaxy_data_manager_data_path: /corral4/manageddata/data
   tool_cache_data_dir: "{{ galaxy_tool_cache_data_dir }}"
   tool_search_index_dir: "{{ galaxy_tool_search_index_dir }}"
+  # Load the tool panel from the pre-parsed tool source stores that usegalaxy-tools publishes next to each shed tool
+  # conf (see "Tool source store" in the usegalaxy-tools README) instead of parsing every tool XML on CVMFS at
+  # startup. Every `store=` name referenced by a loaded shed tool conf must be declared under tool_source_stores or
+  # Galaxy fails to start. A bundle built by a Galaxy with a different tool index schema is skipped with a warning and
+  # that conf is parsed eagerly until the next tool install on the toolset rebuilds it, so after updating Galaxy here
+  # expect slow startups until the next usegalaxy-tools deploy to each repo.
+  use_cached_toolbox: true
+  cached_toolbox_cache_size: 1000
+  tool_source_database_connection: "sqlite:////srv/galaxy/{{ galaxy_instance_codename }}/var/tool_sources.sqlite"
+  tool_source_stores:
+    cvmfs_test:
+      external_store_directory: /cvmfs/test.galaxyproject.org/config/tool_source_store
+    cvmfs_main:
+      external_store_directory: /cvmfs/main.galaxyproject.org/config/tool_source_store
   short_term_storage_dir: /corral4/test/short_term_web_storage
   webhooks_dir: "{{ galaxy_config_dir }}/webhooks"
   panel_views_dir: "{{ galaxy_config_dir }}/panel_views"
