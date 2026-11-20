@@ -84,6 +84,12 @@ tools:
       scheduling:
         reject:
         - pulsar
+{% if galaxy_instance_codename == 'test' %}
+        # Galaxy reads load_contents inputs from the job's input paths before Pulsar has staged them, so the Pulsar
+        # destinations on Cyclone (_cyclone_container) fail these jobs
+        require:
+        - cyclone-slurm
+{% endif %}
     - id: tool_requires_galaxy
       if: tool.tool_type not in ("data_source", "expression") and tool.requires_galaxy_python_environment
       #inherits: _galaxy_lib

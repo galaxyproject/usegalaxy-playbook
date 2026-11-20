@@ -1042,8 +1042,9 @@ destinations:
 
   # Cyclone through Galaxy's own Slurm runner, with Galaxy's object store mounted in the container, as all Cyclone
   # container jobs ran before they went through Pulsar (_cyclone_container). Only jobs that require the cyclone-slurm
-  # tag land here: tools that need Galaxy's paths (__IMPORT_HISTORY__), and the admin-only tpv_probe:cyclone-slurm
-  # history tag for comparisons.
+  # tag land here: tools that need Galaxy's paths (__IMPORT_HISTORY__), expression tools (see the
+  # tool_requires_local_galaxy rule in defaults.yaml), and the admin-only tpv_probe:cyclone-slurm history tag for
+  # comparisons.
   cyclone_slurm:
     inherits: _cyclone_singularity
     min_accepted_cores: 1
