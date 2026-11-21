@@ -86,13 +86,12 @@ destinations:
     runner: cyclone_pulsar
     params:
       outputs_to_working_directory: false
-      metadata_strategy: directory
-      # Metadata is set on the node, from the files in the job directory
+      # Metadata is set on the node, which also writes the outputs (including from_work_dir ones) to the object store,
+      # so Galaxy only collects the job's model store. Galaxy servers can't rely on seeing files the nodes just created
+      # in the job's working directory: on Test they stayed invisible to galaxy-test for minutes.
+      metadata_strategy: extended
       remote_metadata: true
       rewrite_parameters: true
-      # galaxy-test's NFS client can hide files the compute node just wrote for 30-60 s (attribute cache), so keep
-      # retrying from_work_dir outputs for up to 80 s (2 s apart) before giving up on them
-      output_collection_retries: 40
       # Galaxy resolves requirements, as for cyclone_slurm: the legacy environment container activates a Conda env
       # from /cvmfs/{{ galaxy_cvmfs_repo }}/deps inside the container. The embedded Pulsar app has no resolvers.
       dependency_resolution: local
