@@ -37,6 +37,11 @@ galaxy_job_conf_runners:
 
 galaxy_job_conf_default_handler: vgp
 
+# VGP shares Main's TPV templates and galaxyservers group_vars, but its galaxy_job_conf_runners and
+# galaxy_config_templates above have no cyclone_pulsar runner or Pulsar app config, so its Cyclone jobs stay on Galaxy's
+# Slurm runner whatever Main uses
+cyclone_embedded_pulsar: "disabled"
+
 galaxy_job_conf_tpv_config_files:
   - tools_pre_shared.yaml
   - https://raw.githubusercontent.com/galaxyproject/tpv-shared-database/fa63512571c1e4fbe54f62a5ffc03fae3f01df7c/tools.yml

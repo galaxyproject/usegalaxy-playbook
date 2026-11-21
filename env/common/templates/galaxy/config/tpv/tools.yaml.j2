@@ -301,7 +301,7 @@ tools:
     scheduling:
       require:
       - cyclone
-{% if galaxy_instance_codename == 'test' %}
+{% if galaxy_instance_codename == 'test' or cyclone_embedded_pulsar | default('disabled') == 'enabled' %}
       # Reads the archive from and writes to Galaxy's paths, which the Pulsar job directory of the other Cyclone
       # destinations doesn't have
       - cyclone-slurm

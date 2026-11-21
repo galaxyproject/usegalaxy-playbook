@@ -72,14 +72,25 @@ destinations:
       - singularity
       # for TPV shared DB
       - docker
-{% if galaxy_instance_codename == 'test' %}
+{#
+  Embedded Pulsar for Cyclone container jobs. On Test it is the default. On Main, cyclone_embedded_pulsar (Main's
+  galaxyservers group_vars) picks the mode: `disabled` renders nothing; `probe` adds _cyclone_container and the admin-only
+  cyclone_pulsar_probe destination; `enabled` also makes cyclone, cyclone_small and cyclone_mem (and their training
+  variants) inherit _cyclone_container, and adds cyclone_slurm for the tools that can't run on Pulsar, as on Test.
+#}
+{% if galaxy_instance_codename == 'test' or cyclone_embedded_pulsar | default('disabled') in ('probe', 'enabled') %}
 
+{% if galaxy_instance_codename == 'test' %}
   # Test: Cyclone container destinations inherit this instead of _cyclone_singularity. Pulsar embedded in the Galaxy
   # job handlers submits them to Cyclone's Slurm (see pulsar_cyclone_app.yml). Each job gets its own directory on Corral
   # with hardlinks to its inputs (see pulsar_cyclone_file_actions.yml), so the container mounts that directory instead
   # of Galaxy's object store. Pulsar's Slurm manager takes the Slurm options as submit_native_specification.
-{% set cyclone_container = '_cyclone_container' %}
-{% set cyclone_native_specification = 'submit_native_specification' %}
+{% else %}
+  # Main (cyclone_embedded_pulsar in group_vars): Pulsar embedded in the Galaxy job handlers submits these jobs to
+  # Cyclone's Slurm (see pulsar_cyclone_app.yml). Each job gets its own directory on Corral with hardlinks to, or copies
+  # of, its inputs (see pulsar_cyclone_file_actions.yml), so the container mounts that directory instead of Galaxy's
+  # object store. Pulsar's Slurm manager takes the Slurm options as submit_native_specification.
+{% endif %}
   _cyclone_container:
     abstract: true
     inherits: _cyclone
@@ -113,6 +124,10 @@ destinations:
       - singularity
       # for TPV shared DB
       - docker
+{% endif %}
+{% if galaxy_instance_codename == 'test' or cyclone_embedded_pulsar | default('disabled') == 'enabled' %}
+{% set cyclone_container = '_cyclone_container' %}
+{% set cyclone_native_specification = 'submit_native_specification' %}
 {% else %}
 {% set cyclone_container = '_cyclone_singularity' %}
 {% set cyclone_native_specification = 'native_specification' %}
@@ -297,6 +312,22 @@ destinations:
     scheduling:
       require:
       - training
+{% if galaxy_instance_codename != 'test' and cyclone_embedded_pulsar | default('disabled') in ('probe', 'enabled') %}
+
+  # Main: embedded Pulsar for admin probes only (the tpv_probe:cyclone-pulsar history tag, see defaults.yaml), so tools
+  # can be tested on it before cyclone_embedded_pulsar is `enabled`, and compared with cyclone_slurm afterwards
+  cyclone_pulsar_probe:
+    inherits: _cyclone_container
+    min_accepted_cores: 1
+    min_accepted_mem: 0
+    max_accepted_cores: 12
+    max_accepted_mem: 48
+    params:
+      submit_native_specification: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}"
+    scheduling:
+      require:
+      - cyclone-pulsar
+{% endif %}
 
   #
   # jetstream2
@@ -1046,7 +1077,7 @@ destinations:
       #reject:
       #- offline
 
-{% if galaxy_instance_codename == 'test' %}
+{% if galaxy_instance_codename == 'test' or cyclone_embedded_pulsar | default('disabled') == 'enabled' %}
 
   # Cyclone through Galaxy's own Slurm runner, with Galaxy's object store mounted in the container, as all Cyclone
   # container jobs ran before they went through Pulsar (_cyclone_container). Only jobs that require the cyclone-slurm
@@ -1069,6 +1100,8 @@ destinations:
       - cyclone-mem
       require:
       - cyclone-slurm
+{% endif %}
+{% if galaxy_instance_codename == 'test' %}
 
   #delta:
   #  inherits: _pulsar
