@@ -101,6 +101,9 @@ destinations:
     - name: SINGULARITYENV_XDG_DATA_HOME
       value: $XDG_DATA_HOME
     scheduling:
+      # Tools that reject pulsar (tools.yaml) go to cyclone_slurm instead
+      require:
+      - pulsar
       accept:
       - singularity
       # for TPV shared DB
@@ -1042,19 +1045,21 @@ destinations:
 
   # Cyclone through Galaxy's own Slurm runner, with Galaxy's object store mounted in the container, as all Cyclone
   # container jobs ran before they went through Pulsar (_cyclone_container). Only jobs that require the cyclone-slurm
-  # tag land here: tools that need Galaxy's paths (__IMPORT_HISTORY__), expression tools (see the
-  # tool_requires_local_galaxy rule in defaults.yaml), and the admin-only tpv_probe:cyclone-slurm history tag for
-  # comparisons.
+  # tag land here: the tools that tools.yaml keeps off Pulsar or sends to cyclone_mem (the
+  # cyclone_slurm_pulsar_incompatible rule in defaults.yaml, hence cyclone_mem's limits), tools that need Galaxy's
+  # paths (__IMPORT_HISTORY__), expression tools (the tool_requires_local_galaxy rule), and the admin-only
+  # tpv_probe:cyclone-slurm history tag for comparisons.
   cyclone_slurm:
     inherits: _cyclone_singularity
     min_accepted_cores: 1
     min_accepted_mem: 0
-    max_accepted_cores: 12
-    max_accepted_mem: 48
+    max_accepted_cores: 32
+    max_accepted_mem: 256
+    max_cores: 8
+    max_mem: 96
     params:
-      native_specification: "--nodes=1 --ntasks={max(int(mem/4), 2)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}{' -w ' + cyclone_node if cyclone_node else ''}"
+      native_specification: "--nodes=1 --ntasks={max(min(int(mem/4), 20), 1)} --mem={round(mem*1024)} --time={time or default_time} --partition={cyclone_large_partition}{' -w ' + cyclone_node if cyclone_node else ''}"
     scheduling:
-      # cyclone-mem: to compare the tools that require cyclone_mem
       accept:
       - cyclone-mem
       require:

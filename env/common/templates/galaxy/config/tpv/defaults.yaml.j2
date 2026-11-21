@@ -164,6 +164,20 @@ tools:
         reject:
         - hpc
 {% if galaxy_instance_codename == 'test' %}
+    # The Cyclone container destinations on Test are embedded Pulsar (_cyclone_container in environments.yaml), so
+    # tools that tools.yaml keeps off Pulsar, or sends to cyclone_mem ("only for pulsar-incompatible large jobs"), go to
+    # cyclone_slurm (Galaxy's Slurm runner) instead. Not the local conda tools (they reject singularity), and not in
+    # admin probe histories, which pick their destination with the rules below.
+    - id: cyclone_slurm_pulsar_incompatible
+      if: |
+        tags = job.history and job.history.tags or []
+        probe = user is not None and app.config.is_admin_user(user) and any(hta.user_tname == 'tpv_probe' for hta in tags)
+        rejected = entity.tpv_tags.reject or []
+        required = entity.tpv_tags.require or []
+        not probe and (("pulsar" in rejected and "singularity" not in rejected) or "cyclone-mem" in required)
+      scheduling:
+        require:
+        - cyclone-slurm
     # Admin-only destination probes: jobs in a history tagged `tpv_probe:<tag>` go to the destination carrying that
     # scheduling tag (e.g. to verify CVMFS mounts after a change), using that destination's minimum accepted resources.
     # The Cyclone probes run tool tests, so they get what the tests had on GitHub's runners (2 cores, about 8 GB).
@@ -180,6 +194,11 @@ tools:
       scheduling:
         require:
         - {{ tag }}
+{% if tag == 'cyclone' %}
+        # also tools that tools.yaml keeps off Pulsar, to test them on the embedded Pulsar destinations
+        accept:
+        - pulsar
+{% endif %}
 {% endfor %}
 {% endif %}
     # logs for every loop iteration for every concurrency limited job
