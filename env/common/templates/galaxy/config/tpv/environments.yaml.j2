@@ -90,6 +90,9 @@ destinations:
       # Metadata is set on the node, from the files in the job directory
       remote_metadata: true
       rewrite_parameters: true
+      # galaxy-test's NFS client can hide files the compute node just wrote for 30-60 s (attribute cache), so keep
+      # retrying from_work_dir outputs for up to 80 s (2 s apart) before giving up on them
+      output_collection_retries: 40
       default_file_action: copy
       file_action_config: "{{ galaxy_config_dir }}/pulsar_cyclone_file_actions.yml"
       singularity_enabled: true
