@@ -164,6 +164,28 @@ tools:
         reject:
         - hpc
 {% if galaxy_instance_codename == 'test' %}
+{#- Tools whose command template reads an input or config file while Galaxy builds the command, before Pulsar has
+    staged it ("Error occurred while building command line"). Prefixes of tool ids, versioned where only some
+    versions are known to need it. #}
+{% set cyclone_remote_eval_tools = [
+    'toolshed.g2.bx.psu.edu/repos/devteam/column_maker/Add_a_column1/1.',
+    'toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.8+galaxy0',
+    'toolshed.g2.bx.psu.edu/repos/iuc/mothur_remove_seqs/mothur_remove_seqs/',
+] %}
+    # Only these tools build their command in the job (tool_evaluation_strategy: remote), on the embedded Pulsar
+    # destinations, after Pulsar has staged the files the template reads. Everything else is evaluated by Galaxy.
+    # Admin probe histories for other destinations (e.g. tpv_probe:cyclone-slurm) evaluate them in Galaxy as before.
+    - id: cyclone_remote_tool_evaluation
+      if: |
+        tags = job.history and job.history.tags or []
+        other_probe = user is not None and app.config.is_admin_user(user) and any(hta.user_tname == 'tpv_probe' and hta.user_value != 'cyclone' for hta in tags)
+        not other_probe and tool.id.startswith(tuple({{ cyclone_remote_eval_tools | tojson }}))
+      params:
+        tool_evaluation_strategy: remote
+      scheduling:
+        require:
+        - pulsar
+        - cyclone
     # The Cyclone container destinations on Test are embedded Pulsar (_cyclone_container in environments.yaml), so
     # tools that tools.yaml keeps off Pulsar, or sends to cyclone_mem ("only for pulsar-incompatible large jobs"), go to
     # cyclone_slurm (Galaxy's Slurm runner) instead. Not the local conda tools (they reject singularity), and not in
@@ -174,7 +196,8 @@ tools:
         probe = user is not None and app.config.is_admin_user(user) and any(hta.user_tname == 'tpv_probe' for hta in tags)
         rejected = entity.tpv_tags.reject or []
         required = entity.tpv_tags.require or []
-        not probe and (("pulsar" in rejected and "singularity" not in rejected) or "cyclone-mem" in required)
+        remote_eval = tool.id.startswith(tuple({{ cyclone_remote_eval_tools | tojson }}))
+        not probe and not remote_eval and (("pulsar" in rejected and "singularity" not in rejected) or "cyclone-mem" in required)
       scheduling:
         require:
         - cyclone-slurm
