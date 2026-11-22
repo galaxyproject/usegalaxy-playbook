@@ -327,6 +327,9 @@ destinations:
     scheduling:
       require:
       - cyclone-pulsar
+      # tools that tools.yaml sends to cyclone_mem (mothur, maker, snpEff_build_gb), which on Test the probe also reaches
+      accept:
+      - cyclone-mem
 {% endif %}
 
   #
