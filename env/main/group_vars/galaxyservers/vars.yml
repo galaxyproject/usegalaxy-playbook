@@ -166,12 +166,26 @@ galaxy_job_conf_cvmfs_data_repos:
   - vgp.galaxyproject.org
   - idc.galaxyproject.org
 
+# Tool containers get the tool working directory and only the job directory subdirectories the tool uses, not the job
+# directory itself. That also holds the job script, the metadata files (metadata/set.py, params.json) that run outside
+# the container after the tool and, for Pulsar, launch_config with the job's Galaxy callback credentials. The
+# subdirectories are those of Galaxy's own $defaults (galaxyproject/galaxy#24561), plus tmp/ because TMPDIR points there
+# (tmp_dir: true) and --contain hides the host path otherwise. Galaxy binds HOME itself with --home. configs/ stays rw
+# where the job directory was rw, for tools older than profile 20.01 that move their config files; nothing outside the
+# container reads it after the tool. Every source must exist: Galaxy and Pulsar create these with the job directory
+# (Galaxy creates unstructured/ for Pulsar jobs before the container starts), and the job script creates tmp/.
+# tacc_hpc (Stampede3) still mounts the whole job directory: the tacc-apptainer module adds its own binds there, which
+# Test's list relies on instead, so restricting this list alone may not hide anything.
 galaxy_job_conf_singularity_volumes:
   local:
     - "$galaxy_root:ro"
     - "$tool_directory:ro"
     - "$working_directory:rw"
-    - "$job_directory:rw"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:rw"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
     - "{{ galaxy_object_store_cache_path }}:ro"
     # what was this needed for?
     #- "{{ galaxy_new_file_path }}:ro"
@@ -188,7 +202,12 @@ galaxy_job_conf_singularity_volumes:
     - "$galaxy_root:ro"
     - "$tool_directory:ro"
     - "$working_directory:rw"
-    - "$job_directory:rw"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:rw"
+    - "$job_directory/unstructured:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
@@ -199,7 +218,12 @@ galaxy_job_conf_singularity_volumes:
   bridges2:
     - "$tool_directory:ro"
     - "$working_directory:rw"
-    - "$job_directory:rw"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:rw"
+    - "$job_directory/unstructured:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
     - "__PULSAR_JOB_DIRECTORY__/.cvmfsexec/dist/cvmfs/data.galaxyproject.org:/cvmfs/data.galaxyproject.org:ro"
     - "__PULSAR_JOB_DIRECTORY__/.cvmfsexec/dist/cvmfs/brc.galaxyproject.org:/cvmfs/brc.galaxyproject.org:ro"
     - "__PULSAR_JOB_DIRECTORY__/.cvmfsexec/dist/cvmfs/vgp.galaxyproject.org:/cvmfs/vgp.galaxyproject.org:ro"
@@ -208,7 +232,12 @@ galaxy_job_conf_singularity_volumes:
   expanse:
     - "$tool_directory:ro"
     - "$working_directory:rw"
-    - "$job_directory:rw"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:rw"
+    - "$job_directory/unstructured:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
     - "__PULSAR_JOB_DIRECTORY__/.cvmfsexec/dist/cvmfs/data.galaxyproject.org:/cvmfs/data.galaxyproject.org:ro"
     - "__PULSAR_JOB_DIRECTORY__/.cvmfsexec/dist/cvmfs/brc.galaxyproject.org:/cvmfs/brc.galaxyproject.org:ro"
     - "__PULSAR_JOB_DIRECTORY__/.cvmfsexec/dist/cvmfs/vgp.galaxyproject.org:/cvmfs/vgp.galaxyproject.org:ro"
@@ -217,7 +246,12 @@ galaxy_job_conf_singularity_volumes:
   anvil:
     - "$tool_directory:ro"
     - "$working_directory:rw"
-    - "$job_directory:rw"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:rw"
+    - "$job_directory/unstructured:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
@@ -226,7 +260,12 @@ galaxy_job_conf_singularity_volumes:
   rockfish:
     - "$tool_directory:ro"
     - "$working_directory:rw"
-    - "$job_directory:rw"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:rw"
+    - "$job_directory/unstructured:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
     - "/cvmfs/data.galaxyproject.org:ro"
     - "/cvmfs/brc.galaxyproject.org:ro"
     - "/cvmfs/vgp.galaxyproject.org:ro"
@@ -234,7 +273,12 @@ galaxy_job_conf_singularity_volumes:
   rockfish_devgalaxy:
     - "$tool_directory:ro"
     - "$working_directory:rw"
-    - "$job_directory:rw"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:rw"
+    - "$job_directory/unstructured:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
     - "/tmp:rw"
   # the tacc-apptainer module mostly automatically sets up mounts, but we need to ensure that /tmp inside the container
   # is always the host /tmp (e.g. in trinity containers it is /var/tmp)
@@ -249,7 +293,10 @@ galaxy_job_conf_singularity_volumes:
     - "/tmp:/tmp:rw"
     - "/tmp:/var/tmp:rw"
   vista:
-    - "$job_directory:ro"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:ro"
+    - "$job_directory/unstructured:ro"
     - "$job_directory/outputs:rw"
     - "$job_directory/tmp:rw"
     - "$job_directory/home:rw"
