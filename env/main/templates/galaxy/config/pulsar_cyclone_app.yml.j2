@@ -1,0 +1,35 @@
+---
+
+##
+## This file is maintained by Ansible - CHANGES WILL BE OVERWRITTEN
+##
+
+# Pulsar app embedded in the Galaxy job handlers for the cyclone_pulsar runner (see the _cyclone_container environment
+# in environments.yaml and cyclone_embedded_pulsar in group_vars). Each job gets its own directory here, with hardlinks
+# to (or copies of) its inputs (see pulsar_cyclone_file_actions.yml), so the tool container only gets those, not
+# Galaxy's object store. Cyclone nodes and the Galaxy servers both mount Corral.
+staging_directory: /corral4/{{ galaxy_instance_codename }}/pulsar_jobs
+
+# Running jobs, recovered when a handler restarts. Each handler process runs its own embedded Pulsar app, and the
+# app's monitor thread acts on every job listed here, so the handler processes must not share this directory. Main runs
+# several (gravity handlers in infrastructure-playbook's galaxy_main_handler_servers group_vars). Galaxy replaces
+# {server_name} with the handler's server name (galaxyproject/galaxy#25022, in Main's usegalaxy_26.2 branch). On Corral,
+# so a handler keeps its jobs if it moves to another host.
+persistence_directory: /corral4/{{ galaxy_instance_codename }}/pulsar_cyclone_persisted_data/{server_name}
+
+# Containers only, no Conda
+tool_dependency_dir: none
+conda_auto_init: false
+conda_auto_install: false
+
+managers:
+  _default_:
+    # DRMAA (sharing the handler's DRMAA session and DRMAA_LIBRARY_PATH with the slurm runner), plus scontrol/sacct to
+    # tell Galaxy why a job failed (e.g. memory_limit_reached for OOM kills). Needs pulsar-galaxy-lib >= 0.16.1, which
+    # Main's usegalaxy_26.2 branch pins (0.16.3.dev0).
+    type: queued_slurm
+    # For remote_metadata: set_metadata runs on the node, after the tool, in the Pulsar job directory. Pulsar doesn't
+    # pass these down from the top level to the managers.
+    galaxy_home: {{ galaxy_server_dir }}
+    galaxy_virtual_env: /cvmfs/{{ galaxy_cvmfs_repo }}/venv
+    galaxy_datatypes_config_file: {{ galaxy_server_dir }}/config/datatypes_conf.xml.sample

@@ -90,7 +90,30 @@ galaxy_job_conf_pulsar_runner_params:
   amqp_publish_retry: "true"
   amqp_publish_retry_max_retries: "60"
 
-galaxy_job_conf_runners:
+# Embedded Pulsar for Cyclone container jobs, as on Test (see _cyclone_container in the TPV environments.yaml.j2):
+#   disabled: no cyclone_pulsar runner; TPV renders as before
+#   probe:    the cyclone_pulsar runner, plus the admin-only TPV destination cyclone_pulsar_probe (history tag
+#             tpv_probe:cyclone-pulsar); everything else stays on Galaxy's Slurm runner
+#   enabled:  cyclone, cyclone_small and cyclone_mem run through embedded Pulsar; the tools TPV keeps off Pulsar go to
+#             cyclone_slurm
+# Roll back from enabled to probe, not to disabled: the runner must stay loaded until the jobs already running through
+# it have finished. Likewise the slurm runner stays defined in every mode: jobs that were already running on it when
+# their destination moved to embedded Pulsar keep job_runner_name slurm and are recovered by it.
+# Quoted strings, because YAML reads a bare off/on as a boolean.
+# Prerequisites before leaving disabled: Main's Galaxy built from the usegalaxy_26.2 branch that carries the embedded
+# Pulsar changes (per-handler persistence directories, the pulsar-galaxy-lib pin); see the rollout plan.
+cyclone_embedded_pulsar: "disabled"
+
+galaxy_job_conf_runners: "{{ galaxy_job_conf_base_runners | combine(galaxy_job_conf_cyclone_pulsar_runner if cyclone_embedded_pulsar != 'disabled' else {}) }}"
+
+# Pulsar inside the job handlers, submitting to Cyclone's Slurm with the slurm runner's DRMAA library, so it is added
+# after slurm. See the _cyclone_container environment.
+galaxy_job_conf_cyclone_pulsar_runner:
+  cyclone_pulsar:
+    load: galaxy.jobs.runners.pulsar:PulsarEmbeddedJobRunner
+    pulsar_config: "{{ galaxy_config_dir }}/pulsar_cyclone_app.yml"
+
+galaxy_job_conf_base_runners:
   slurm:
     load: galaxy.jobs.runners.slurm:SlurmJobRunner
     workers: 4
@@ -303,6 +326,26 @@ galaxy_job_conf_singularity_volumes:
     - "$working_directory:rw"
     - "/tmp:/tmp:rw"
     - "/tmp:/var/tmp:rw"
+  # Pulsar job directory of the _cyclone_container environment, as on Test. No object store: Pulsar hardlinks or copies
+  # the inputs into inputs/. Only the job directory subdirectories the tool uses, not the job directory itself, which
+  # also holds the job script, the metadata files and launch_config. /corral4/data holds the data of some Main .loc
+  # files (tool_data_table_conf.xml).
+  cyclone_pulsar:
+    - "$galaxy_root:ro"
+    - "$tool_directory:ro"
+    - "$working_directory:rw"
+    - "$job_directory/tool_script.sh:ro"
+    - "$job_directory/inputs:ro"
+    - "$job_directory/configs:rw"
+    - "$job_directory/unstructured:ro"
+    - "$job_directory/outputs:rw"
+    - "$job_directory/tmp:rw"
+    - "/corral4/data:ro"
+    - "/cvmfs/data.galaxyproject.org:ro"
+    - "/cvmfs/brc.galaxyproject.org:ro"
+    - "/cvmfs/vgp.galaxyproject.org:ro"
+    - "/cvmfs/idc.galaxyproject.org:ro"
+    - "/cvmfs/{{ galaxy_instance_codename }}.galaxyproject.org:ro"
 
 
 # TODO: this is the contents of wraptar, needs to be deployed somehow:
@@ -372,6 +415,10 @@ galaxy_job_conf_limits:
   - type: environment_user_concurrent_jobs
     id: cyclone_mem
     value: 1
+  # with cyclone_embedded_pulsar: enabled, the tools TPV keeps off Pulsar, including those that required cyclone_mem
+  - type: environment_user_concurrent_jobs
+    id: cyclone_slurm
+    value: 4
   - type: environment_user_concurrent_jobs
     id: jetstream2
     value: 4
@@ -553,6 +600,10 @@ galaxy_config_templates:
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_config_file'] }}"
   - src: templates/galaxy/config/oidc_backends_config.xml.j2
     dest: "{{ galaxy_config[galaxy_app_config_section]['oidc_backends_config_file'] }}"
+  - src: templates/galaxy/config/pulsar_cyclone_app.yml.j2
+    dest: "{{ galaxy_config_dir }}/pulsar_cyclone_app.yml"
+  - src: templates/galaxy/config/pulsar_cyclone_file_actions.yml.j2
+    dest: "{{ galaxy_config_dir }}/pulsar_cyclone_file_actions.yml"
   - src: templates/galaxy/config/file_sources_conf.yml.j2
     dest: "{{ galaxy_config_dir }}/file_sources_conf.yml"
   - src: templates/galaxy/config/vault_conf.yml.j2
