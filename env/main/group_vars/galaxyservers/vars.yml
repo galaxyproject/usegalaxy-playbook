@@ -102,7 +102,7 @@ galaxy_job_conf_pulsar_runner_params:
 # Quoted strings, because YAML reads a bare off/on as a boolean.
 # Prerequisites before leaving disabled: Main's Galaxy built from the usegalaxy_26.2 branch that carries the embedded
 # Pulsar changes (per-handler persistence directories, the pulsar-galaxy-lib pin); see the rollout plan.
-cyclone_embedded_pulsar: "disabled"
+cyclone_embedded_pulsar: "probe"
 
 galaxy_job_conf_runners: "{{ galaxy_job_conf_base_runners | combine(galaxy_job_conf_cyclone_pulsar_runner if cyclone_embedded_pulsar != 'disabled' else {}) }}"
 
