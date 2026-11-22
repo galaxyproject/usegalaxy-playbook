@@ -84,6 +84,12 @@ tools:
       scheduling:
         reject:
         - pulsar
+{% if galaxy_instance_codename == 'test' %}
+        # Galaxy reads load_contents inputs from the job's input paths before Pulsar has staged them, so the Pulsar
+        # destinations on Cyclone (_cyclone_container) fail these jobs
+        require:
+        - cyclone-slurm
+{% endif %}
     - id: tool_requires_galaxy
       if: tool.tool_type not in ("data_source", "expression") and tool.requires_galaxy_python_environment
       #inherits: _galaxy_lib
@@ -158,9 +164,47 @@ tools:
         reject:
         - hpc
 {% if galaxy_instance_codename == 'test' %}
+{#- Tools whose command template reads an input or config file while Galaxy builds the command, before Pulsar has
+    staged it ("Error occurred while building command line"). Prefixes of tool ids, versioned where only some
+    versions are known to need it. #}
+{% set cyclone_remote_eval_tools = [
+    'toolshed.g2.bx.psu.edu/repos/devteam/column_maker/Add_a_column1/1.',
+    'toolshed.g2.bx.psu.edu/repos/iuc/datamash_transpose/datamash_transpose/1.8+galaxy0',
+    'toolshed.g2.bx.psu.edu/repos/iuc/mothur_remove_seqs/mothur_remove_seqs/',
+] %}
+    # Only these tools build their command in the job (tool_evaluation_strategy: remote), on the embedded Pulsar
+    # destinations, after Pulsar has staged the files the template reads. Everything else is evaluated by Galaxy.
+    # Admin probe histories for other destinations (e.g. tpv_probe:cyclone-slurm) evaluate them in Galaxy as before.
+    - id: cyclone_remote_tool_evaluation
+      if: |
+        tags = job.history and job.history.tags or []
+        other_probe = user is not None and app.config.is_admin_user(user) and any(hta.user_tname == 'tpv_probe' and hta.user_value != 'cyclone' for hta in tags)
+        not other_probe and tool.id.startswith(tuple({{ cyclone_remote_eval_tools | tojson }}))
+      params:
+        tool_evaluation_strategy: remote
+      scheduling:
+        require:
+        - pulsar
+        - cyclone
+    # The Cyclone container destinations on Test are embedded Pulsar (_cyclone_container in environments.yaml), so
+    # tools that tools.yaml keeps off Pulsar, or sends to cyclone_mem ("only for pulsar-incompatible large jobs"), go to
+    # cyclone_slurm (Galaxy's Slurm runner) instead. Not the local conda tools (they reject singularity), and not in
+    # admin probe histories, which pick their destination with the rules below.
+    - id: cyclone_slurm_pulsar_incompatible
+      if: |
+        tags = job.history and job.history.tags or []
+        probe = user is not None and app.config.is_admin_user(user) and any(hta.user_tname == 'tpv_probe' for hta in tags)
+        rejected = entity.tpv_tags.reject or []
+        required = entity.tpv_tags.require or []
+        remote_eval = tool.id.startswith(tuple({{ cyclone_remote_eval_tools | tojson }}))
+        not probe and not remote_eval and (("pulsar" in rejected and "singularity" not in rejected) or "cyclone-mem" in required)
+      scheduling:
+        require:
+        - cyclone-slurm
     # Admin-only destination probes: jobs in a history tagged `tpv_probe:<tag>` go to the destination carrying that
-    # scheduling tag (e.g. to verify CVMFS mounts after a change), using that destination's minimum accepted resources
-{% for tag, cores, mem in [('cyclone', 1, 3.7), ('jetstream2', 1, 3.7), ('stampede3-skx', 16, 120), ('ls6', 1, 3.7), ('expanse', 8, 16)] %}
+    # scheduling tag (e.g. to verify CVMFS mounts after a change), using that destination's minimum accepted resources.
+    # The Cyclone probes run tool tests, so they get what the tests had on GitHub's runners (2 cores, about 8 GB).
+{% for tag, cores, mem in [('cyclone', 2, 8), ('cyclone-slurm', 2, 8), ('jetstream2', 1, 3.7), ('stampede3-skx', 16, 120), ('ls6', 1, 3.7), ('expanse', 8, 16)] %}
     - id: tpv_probe_{{ tag | replace('-', '_') }}_rule
       if: |
         tags = job.history and job.history.tags or []
@@ -173,6 +217,11 @@ tools:
       scheduling:
         require:
         - {{ tag }}
+{% if tag == 'cyclone' %}
+        # also tools that tools.yaml keeps off Pulsar, to test them on the embedded Pulsar destinations
+        accept:
+        - pulsar
+{% endif %}
 {% endfor %}
 {% endif %}
     # logs for every loop iteration for every concurrency limited job

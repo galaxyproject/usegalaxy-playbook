@@ -301,6 +301,11 @@ tools:
     scheduling:
       require:
       - cyclone
+{% if galaxy_instance_codename == 'test' %}
+      # Reads the archive from and writes to Galaxy's paths, which the Pulsar job directory of the other Cyclone
+      # destinations doesn't have
+      - cyclone-slurm
+{% endif %}
 
   # galaxy lib tools in singularity
 
