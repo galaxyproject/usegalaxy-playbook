@@ -9,10 +9,9 @@ galaxy-test.tacc.utexas.edu
 galaxy-test.tacc.utexas.edu
 
 [pulsarservers]
-# Bridges-2, Expanse, Anvil, Stampede3 and the Jetstream2 Pulsars are deployed from
-# galaxyproject/infrastructure-playbook
+# Frontera is retired (queues closed). Bridges-2, Expanse, Anvil, Stampede3 and the
+# Jetstream2 Pulsars are deployed from galaxyproject/infrastructure-playbook.
 login2.ls6.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executable=./.ssh-keyboard-interactive
-login4.frontera.tacc.utexas.edu ansible_ssh_user=xcgalaxy ansible_ssh_executable=./.ssh-keyboard-interactive
 
 [cvmfsstratum0servers]
 cvmfs0-psu1.galaxyproject.org ansible_ssh_common_args="-oHostKeyAlias=cvmfs0-psu1.galaxyproject.org" ansible_host="cvmfs0-psu1.tail7d262.ts.net"
