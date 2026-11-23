@@ -1109,7 +1109,7 @@ tools:
               ref_index_mem = ref_size * 30
           else:
               # input_size only counts the primary file of the composite index dataset, total_size includes the index
-              ref_index_mem = (ref_file.dataset.total_size or 0) / 1024**3 * 1.5 + 2
+              ref_index_mem = float(ref_file.dataset.total_size or 0) / 1024**3 * 1.5 + 2
       round(min(max(ref_index_mem, (helpers.get_input_size(job) - ref_size + 2) * 2.3, 7.6), max_scaled_mem))
 
   toolshed.g2.bx.psu.edu/repos/iuc/bwa_mem2/bwa_mem2/2\.2\.1\+galaxy3:
