@@ -1802,6 +1802,26 @@ tools:
       if: 0.2 <= input_size < 10
       mem: 20
 
+  toolshed.g2.bx.psu.edu/repos/nekrut/focaloop_[^/]*/focaloop_[^/]*/0\.4\.0.*:
+    params:
+      container_override: [{type: singularity, shell: '/bin/sh', identifier: "/cvmfs/main.galaxyproject.org/singularity/focaloop:0.4.0--0"}]
+
+  toolshed.g2.bx.psu.edu/repos/nekrut/focaloop_expressionloop/focaloop_expressionloop/.*:
+    cores: 16
+    mem: 58
+
+  toolshed.g2.bx.psu.edu/repos/nekrut/focaloop_variationloop/focaloop_variationloop/.*:
+    cores: 16
+    mem: 58
+
+  toolshed.g2.bx.psu.edu/repos/nekrut/focaloop_geneloop/focaloop_geneloop/.*:
+    cores: 12
+    mem: 48
+
+  toolshed.g2.bx.psu.edu/repos/nekrut/focaloop_query/focaloop_query/.*:
+    cores: 4
+    mem: 14
+
   toolshed.g2.bx.psu.edu/repos/nick/dunovo/align_families/.*:
     cores: 8
     mem: 28
