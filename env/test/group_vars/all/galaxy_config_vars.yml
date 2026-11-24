@@ -284,6 +284,8 @@ base_app_main: &BASE_APP_MAIN
   allow_user_dataset_purge: true
   enable_openid: true
   enable_oidc: true
+  allowed_login_redirect_hosts:
+    - dev.brc-analytics.org
   enable_quotas: true
   track_jobs_in_database: true
   retry_metadata_internally: false
