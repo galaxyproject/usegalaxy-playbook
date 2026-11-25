@@ -609,6 +609,16 @@ tools:
       #value: /cvmfs/data.galaxyproject.org/byhand/staramr/*
       value: '*'
 
+  toolshed.g2.bx.psu.edu/repos/iuc/plasmidfinder/plasmidfinder/3\..*:
+    env:
+    # GitPython reads the version of the database checkout on CVMFS, which git refuses as owned by another user
+    - name: SINGULARITYENV_GIT_CONFIG_COUNT
+      value: "1"
+    - name: SINGULARITYENV_GIT_CONFIG_KEY_0
+      value: safe.directory
+    - name: SINGULARITYENV_GIT_CONFIG_VALUE_0
+      value: '*'
+
   toolshed.g2.bx.psu.edu/repos/devteam/ncbi_blast_plus/ncbi_dustmasker_wrapper/.*:
     mem: 14
 
@@ -926,6 +936,10 @@ tools:
   toolshed.g2.bx.psu.edu/repos/genouest/helixer/helixer/.*:
     cores: 1
     mem: 28
+    params:
+      # fetch_helixer_models.py always downloads the models into $XDG_DATA_HOME/Helixer, which is read-only CVMFS on
+      # our destinations. The destination env wins over a tool's, but --env wins over SINGULARITYENV_XDG_DATA_HOME.
+      singularity_run_extra_arguments: --env XDG_DATA_HOME=$_GALAXY_JOB_TMP_DIR
 
   toolshed.g2.bx.psu.edu/repos/greg/plant_tribes_kaks_analysis/plant_tribes_kaks_analysis/.*:
     mem: 5.6
@@ -1505,6 +1519,15 @@ tools:
     cores: 16
     mem: 58
 
+  # mummerplot's gnuplot run exits 129 (SIGHUP) under apptainer --pid, after writing the plot
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer_mummer/mummer_mummer/.*:
+    params:
+      singularity_pid: false
+
+  toolshed.g2.bx.psu.edu/repos/iuc/mummer_mummerplot/mummer_mummerplot/.*:
+    params:
+      singularity_pid: false
+
   toolshed.g2.bx.psu.edu/repos/iuc/ncbi_fcs_gx/ncbi_fcs_gx/.*:
     rules:
       - id: ncbi_fcs_gx_resize_shm_rule
@@ -1710,8 +1733,9 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy/.*:
     mem: int(min(max(input_size * 14, 14), 240))
     env:
+    # MB, 2 GB below the allocation; Galaxy's job script keeps a preset value, Pulsar's overwrites it
     - name: GALAXY_MEMORY_MB
-      value: "{int(min(max(input_size * 14, 14), 240)) - 2}"
+      value: "{int((mem - 2) * 1024)}"
 
   toolshed.g2.bx.psu.edu/repos/iuc/snippy/snippy_core/.*:
     mem: 7
@@ -2405,7 +2429,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/bcftools_stats/1.9\+galaxy1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/4.1.[24]: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.0.0\+galaxy0: {inherits: _legacy}
-  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos[^/]*/0.69.8\+galaxy1: {inherits: _legacy}
+  # TPV prefix-matches tool ids, so without the $ this also caught galaxy10 and galaxy12
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos[^/]*/0.69.8\+galaxy1$: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circgraph/0.9-RC2: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/cwpair2/cwpair2/1.0.0: {inherits: _legacy}
