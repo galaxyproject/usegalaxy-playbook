@@ -2420,7 +2420,8 @@ tools:
   toolshed.g2.bx.psu.edu/repos/iuc/bcftools_stats/bcftools_stats/1.9\+galaxy1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/4.1.[24]: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/busco/busco/5.0.0\+galaxy0: {inherits: _legacy}
-  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos[^/]*/0.69.8\+galaxy1: {inherits: _legacy}
+  # TPV prefix-matches tool ids, so without the $ this also caught galaxy10 and galaxy12
+  toolshed.g2.bx.psu.edu/repos/iuc/circos/circos[^/]*/0.69.8\+galaxy1$: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/circos/circgraph/0.9-RC2: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/collection_column_join/collection_column_join/0.0.1: {inherits: _legacy}
   toolshed.g2.bx.psu.edu/repos/iuc/cwpair2/cwpair2/1.0.0: {inherits: _legacy}
