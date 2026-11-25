@@ -1096,7 +1096,7 @@ tools:
               ref_index_mem = ref_size * 30
           else:
               # input_size only counts the primary file of the composite index dataset, total_size includes the index
-              ref_index_mem = (ref_file.dataset.total_size or 0) / 1024**3 * 1.5 + 2
+              ref_index_mem = float(ref_file.dataset.total_size or 0) / 1024**3 * 1.5 + 2
       min(round(min(max(ref_index_mem, (helpers.get_input_size(job) - ref_size + 2) * 2.3, 7.6), max_scaled_mem) / 4), 128)
     mem: |
       {{ tpv_python_blobs['cached_index'] | indent(width=6) }}
